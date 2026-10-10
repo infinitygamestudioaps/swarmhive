@@ -35,3 +35,15 @@
 .leaflet-bar a { font-size: var(--fs-page) !important; }
 /* consistent spacing between the stacked boxes of a page */
 main > section > .box + .box, main > section > .box + details.box, main > section > details.box + .box { margin-top: 10px; }
+
+/* 2026-10-10 (user, iPhone: "the font is too big for mobile"): the party heading line ("Party X · 9/9 online · lvl …") and the level-ETA
+   line under it were heading-sized and ran off the screen. On phones: a smaller heading, the details as one small wrapping caption line. */
+@media (max-width: 760px) {
+  .win > .whead h2 { font-size: var(--fs-body); line-height: 1.3; min-width: 0; flex: 1 1 100%; }
+  .win > .whead h2 > .muted, .win > .whead h2 > .muted * { display: inline; font-size: var(--fs-cap); font-weight: 400; white-space: normal; overflow-wrap: anywhere; }
+  .win > .whead h2 > .muted { display: block; margin-top: 2px; }
+}
+
+/* 2026-10-10: iPhone Safari enlarges text by itself in wide lines ("text autosizing"): the party heading and the level-ETA line showed
+   huge on the phone while the rest stayed normal. Keep the sizes we set. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }

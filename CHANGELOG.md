@@ -2,6 +2,11 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.5 (2026-10-10)
+
+- Phones: text no longer too big. iPhone Safari enlarged some lines by itself (text autosizing: the party heading and the level-ETA line showed huge and ran off the screen)
+- the dashboard now keeps its own font sizes, and on phones the party heading is smaller with the details as one wrapping caption line
+
 ## v1.3.4 (2026-10-10)
 
 - Parties tab: a calm raidhunt strip, one fixed line per hunting party (party, boss, step, Watch, Stop) instead of the big hunt box and live raid panel that made the whole page jump up and down
