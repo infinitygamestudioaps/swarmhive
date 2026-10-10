@@ -109,12 +109,17 @@ const bossOf = (nm) => RB.find(b => b.name === nm);
     check(r.result === 'alive' && r.looked >= 1 && r.lookouts.length === 4, `Orfen: checks her spawn spots until she is in sight (looked at ${r.looked} of 4)`);
     const near = r.lookouts.map(L => Math.min(...orf.points.search.map(p => Math.hypot(p[0] - L.x, p[1] - L.y))));
     check(near.every(d => d >= 1000 + 300 - 1), 'Orfen: every look-out stays out of her aggro range (1000) + 300'); }
-  // d) attacked on the way: no fight, no status, back to town
+  // d) attacked on the way (user 2026-10-10: "the scout should just run as fast as it can"): a hit at good HP does NOT end the trip - it
+  //    keeps going and looks; only real danger (HP < 50 % or 3+ monsters close) sends it back: no fight, no status, back to town
   { const b = RB.find(x => x.type === 'raid' && x.level > 30 && x.nearestTeleport);
     const w = world({ mobs: [{ Name: b.name, X: b.x, Y: b.y, Z: b.z }], hitOnTeleport: true });
     const r = await w.H.scoutRun(b.name, { picked: true, seq: 1 });
-    check(r.result === 'unknown' && !w.status.length && w.esc.length === 1, 'attacked on the way -> unknown, nothing written to raid_status, back to town');
-    check(w.notes.some(m => /attacked/.test(m)), 'says why (attacked, no fighting)'); }
+    check(r.result === 'alive', 'hit once at full HP -> keeps running, reaches the look-out and sees the boss'); }
+  { const b = RB.find(x => x.type === 'raid' && x.level > 30 && x.nearestTeleport);
+    const w = world({ mobs: [{ Name: b.name, X: b.x, Y: b.y, Z: b.z }], hitOnTeleport: true, me: { HpPercent: 40 } });
+    const r = await w.H.scoutRun(b.name, { picked: true, seq: 1 });
+    check(r.result === 'unknown' && !w.status.length && w.esc.length === 1, 'hit at low HP (40 %) -> unknown, nothing written to raid_status, back to town');
+    check(w.notes.some(m => /in danger/.test(m)), 'says why (in danger, no fighting)'); }
   // e) Core: the route (Hanna via the floors, solo) + the two links, look from the room landing
   { const w = world({ mobs: [{ Name: 'Core', X: 17726, Y: 108915, Z: -6480 }] });
     const r = await w.H.scoutRun('Core', { picked: true, seq: 1 });

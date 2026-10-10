@@ -2,6 +2,10 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.5.1 (2026-10-10)
+
+- Scout keeps running when it gets hit (it used to turn back at the first hit): it only turns back in real danger (HP below 50 % or 3+ monsters close), never fights
+
 ## v1.5.0 (2026-10-10)
 
 - Scout: !scout <boss> [character] and a 'Scout: is it up?' button on every boss page - one character travels alone to a safe look-out, checks whether the boss is up, records it (boss page, raid hunt, respawn timers) and goes back to town

@@ -11821,7 +11821,16 @@ async function scoutRun(text, o) {
   if (!al.ok || scoutCtl.on) { const why = scoutCtl.on ? `already scouting ${scoutCtl.boss}` : al.why; SayToParty(`[scout] ${b.name}: not going — ${why}`); note(`scout ${b.name}: refused — ${why}`, true); return { result: 'unknown', why }; }
   const t = epicFor(b), S = (t && t.scout) || {}, view = num(S.viewRange) || SCOUTP.viewRange, dwell = num(S.dwellMs) || SCOUTP.dwellMs;
   Object.assign(scoutCtl, { on: true, boss: b.name, since: now(), attackedAt: 0 });
-  const hit = () => { if (!scoutCtl.attackedAt && now() - lastAttackerOnMe.at < 2500) { scoutCtl.attackedAt = now(); note(`scout: attacked on the way to ${b.name} — no fighting, back to town`, true); } return scoutCtl.attackedAt > 0; };
+  // 2026-10-10 (user: "the scout should just run as fast as it can to the destination"; Dagger1 turned back at the first hit in Cruma floor 2):
+  // a hit no longer ends the trip - the scout keeps running (Silent Move / speed skills, never fighting); it only turns back when it is really
+  // in danger: HP below 50 % or 3+ monsters close around it
+  const hit = () => {
+    if (!scoutCtl.attackedAt && now() - lastAttackerOnMe.at < 2500) {
+      let close = 0; try { close = dangerMobs().filter(d => Math.hypot(d.x - Me.X, d.y - Me.Y) < 250).length; } catch (e) { }
+      if (num(Me.HpPercent) < 50 || close >= 3) { scoutCtl.attackedAt = now(); note(`scout: in danger on the way to ${b.name} (HP ${Math.round(num(Me.HpPercent))} %, ${close} monsters close) — no fighting, back to town`, true); }
+    }
+    return scoutCtl.attackedAt > 0;
+  };
   const abort = () => !state.running || Me.IsDead || (o.seq !== undefined && orderState.seq !== o.seq) || hit();   // a hit ends the trip: never fight, back to town
   if (isLeader() && teamNames().length) SayToParty(`[scout] ${Me.Name} (party leader) scouts ${b.name} — the server may take the party along on my teleports (Follow Party Leader's Dialog)`);
   else SayToParty(`[scout] ${Me.Name}: going to look whether ${b.name} is up (alone, back by .town)`);
