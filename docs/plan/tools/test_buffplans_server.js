@@ -161,6 +161,23 @@ const CTX = { DIR: API_DIR, DATA: path.join(ROOT, 'Scripts', 'data'), LOGS: MLOG
     assert.strictEqual(API.post(CTX, { rev: 'deadbeef', action: 'unapprove', leader: 'Lead', names: ['Pro'] }).code, 409);
     assert.ok(fs.readdirSync(path.join(path.dirname(MFILE), 'history')).some(x => /^buff_plans_.*\.json$/.test(x)), 'history');
   });
+  await t('mock: Board buffs switch (2026-10-10): needs confirm, OFF/ON per party wins over swarm.config.json, null goes back, clear keeps the switch', () => {
+    const lead = (g) => g.parties.find(p => p.leader === 'Lead');
+    const before = lead(G()).board;
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: false }).code, 400, 'confirm needed');
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: 'yes', confirm: true }).code, 400, 'bad value');
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: false, confirm: true }).code, 200);
+    let g = G(); assert.strictEqual(lead(g).board, false); assert.strictEqual(lead(g).boardFrom, 'switch');
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: true, confirm: true }).code, 200);
+    g = G(); assert.strictEqual(lead(g).board, true); assert.strictEqual(lead(g).boardFrom, 'switch');
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: null, confirm: true }).code, 200);
+    g = G(); assert.strictEqual(lead(g).board, before, 'back to the swarm.config.json value'); assert.notStrictEqual(lead(g).boardFrom, 'switch');
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: false, confirm: true }).code, 200);
+    const BL = require(path.join(ROOT, 'Dashboard', 'bufflogic.js'));
+    const plans = JSON.parse(fs.readFileSync(MFILE, 'utf8'));
+    assert.strictEqual(BL.rkBoardBuffs({ boardBuffs: true, accounts: [{ character: 'Lead', boardBuffs: true }] }, 'Lead', plans), false, 'the bots honour the switch over the config');
+    assert.strictEqual(P({ action: 'board', leader: 'Lead', value: null, confirm: true }).code, 200);
+  });
   await t('mock: settings: bad values -> 400 (slots 99, expired 0, MP wait -1), good ones saved (slots 12, cycleExpiredPct 70)', () => {
     assert.strictEqual(P({ action: 'settings', settings: { songDanceMax: 99 } }).code, 400);
     assert.strictEqual(P({ action: 'settings', settings: { cycleExpiredPct: 0 } }).code, 400);

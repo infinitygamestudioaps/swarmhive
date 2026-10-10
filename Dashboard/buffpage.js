@@ -137,7 +137,7 @@
     const tpls = BP.data.templates || [];
     const ov = p.overlaps || [];
     return `<div class="box cpl-pbox">
-      <h3><span>Party ${h(p.leader)}</span><span class="bpl-board ${p.board ? 'on' : 'off'}" title="swarm.config.json boardBuffs (top level or on the leader's account)">${p.board ? 'Board buffs ON' : 'Board buffs OFF — own buffers'}</span>
+      <h3><span>Party ${h(p.leader)}</span><button class="bpl-board ${p.board ? 'on' : 'off'}" data-bpact="board" aria-pressed="${p.board ? 'true' : 'false'}" title="Tap to switch. ${p.boardFrom === 'switch' ? 'Set here on the page' : p.boardFrom === 'leader' ? 'From the leader in swarm.config.json' : p.boardFrom === 'config' ? 'From swarm.config.json' : 'Default'}">${p.board ? 'Board buffs ON' : 'Board buffs OFF — own buffers'} <span aria-hidden="true">⇄</span></button>
         <span class="muted">· ${bufs.length} buffer${bufs.length === 1 ? '' : 's'} · ${p.counts.warn ? `<b class="cpwarn">${p.counts.warn} not reviewed</b>` : bufs.length ? 'every buffer has a reviewed plan' : 'no buffer characters'}</span></h3>
       <div class="cpl-bulk">
         <label class="cpl-inl">Template <select id="bpTplSel" aria-label="template to apply">${tpls.map(t => `<option value="${h(t.id)}">${h(t.name)}${t.example ? ' (example)' : ''}</option>`).join('')}</select></label>
@@ -292,6 +292,17 @@
       return;
     }
     if (act === 'approve' && m) { if (!await approveDialog(m.name, p.leader, m.entry, p.board)) return; await post({ action: 'approve', leader: p.leader, names: [m.name], confirm: true }, `${m.name}: buff plan APPROVED.`); return; }
+    if (act === 'board') {   // 2026-10-10: Board buffs ON / OFF per party (Scripts/data/buff_plans.json, the bots read it live)
+      const to = !p.board;
+      const body = to
+        ? [uiP(`Party ${p.leader} gets its buffs from the server's Community Board again.`), uiList(['Buffers only add what the board does not give', 'They never overwrite a stronger buff', 'The rebuff turns at the board come back'])]
+        : [uiP(`Party ${p.leader} plays old school: no Community Board buffs at all.`), uiList(['The party\'s own buffers keep every buff of their plan up', 'Rebuff after deaths and before pulls', 'Buffing comes before their own damage', 'Self-buffs, toggles and cubics are allowed']), uiNote('Buffers without a reviewed plan run the suggestion from their own skills.')];
+      body.push(uiNote('The bots pick it up within about 20 seconds, no restart needed.'));
+      if (p.boardFrom === 'switch') body.push(uiNote('Set on this page before (it overrides swarm.config.json).'));
+      if (!await uiConfirm({ title: `Board buffs ${to ? 'ON' : 'OFF'} for party ${p.leader}?`, body, confirmText: to ? 'Switch ON' : 'Switch OFF', cancelText: 'Cancel' })) return;
+      await post({ action: 'board', leader: p.leader, value: to, confirm: true }, `Board buffs ${to ? 'ON' : 'OFF'} for party ${p.leader}`);
+      return;
+    }
     if (act === 'unapprove' && m) { if (!await uiConfirm({ title: `Unapprove ${m.name}'s buff plan?`, body: `The plan is kept as "not reviewed"; ${m.name} then runs it only as the settings allow for a suggestion.`, confirmText: 'Unapprove' })) return; await post({ action: 'unapprove', leader: p.leader, names: [m.name] }, `${m.name}: buff plan unapproved.`); return; }
     if (act === 'clear' && m) { if (!await uiConfirm({ title: `Remove ${m.name}'s buff plan?`, body: `Without a plan ${m.name} runs the suggestion from its skills (if the settings allow it).`, confirmText: 'Remove plan', danger: true })) return; await post({ action: 'clear', leader: p.leader, names: [m.name] }, `${m.name}: buff plan removed.`); return; }
     if (act === 'saveTpl' && p) {

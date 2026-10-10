@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.2 (2026-10-10)
+
+- Board buffs ON/OFF is now a switch per party on the dashboard Buffs page (tap the badge next to the party name, a dialog explains what changes)
+- the bots pick it up within about 20 seconds, no restart
+- the switch wins over swarm.config.json (boardBuffs still works as the default)
+
 ## v1.3.1 (2026-10-10)
 
 - New dashboard page Buffs (#/buffs): per party and per buffer character choose which of its own buffs it casts and on whom (whole party, fighters, mages, itself, servitors, named characters), the song/dance cycle order, templates (save a party, apply to another), overlaps between two buffers shown

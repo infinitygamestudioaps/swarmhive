@@ -88,7 +88,9 @@ function info(ctx) {
   const out = { file: path.basename(plansFile(ctx)), exists: !!P.exists, rev: P.rev, broken: P.broken || null, settings, defaults: BL.BUFFPLAN.settings,
     targetWords: BL.BUFFPLAN.targetWords, parties: [], counts: { warn: 0, buffers: 0, ok: 0, total: 0 } };
   parties(ctx).forEach(({ leader, names }) => {
-    const board = BL.rkBoardBuffs(cfg, leader);
+    const board = BL.rkBoardBuffs(cfg, leader, plans);
+    const sw = plans.parties && plans.parties[leader] ? plans.parties[leader].boardBuffs : undefined;
+    const boardFrom = typeof sw === 'boolean' ? 'switch' : ((cfg.accounts || []).some(a => a && a.character === leader && typeof a.boardBuffs === 'boolean') ? 'leader' : typeof cfg.boardBuffs === 'boolean' ? 'config' : 'default');
     const ms = partyMembers(ctx, T, cfg, states, names);
     const tmembers = ms.map(m => ({ name: m.name, caster: m.caster, tank: m.tank }));
     const pc = { warn: 0, buffers: 0, ok: 0 };
@@ -115,7 +117,7 @@ function info(ctx) {
       return { name: m.name, kind: dances * 2 >= list.length && dances ? 'dance' : 'song', list }; });
     const cycle = BL.bpCycleSeq(casters);
     const ov = BL.bpOwners(offers).overlaps.map(o => Object.assign({}, o, { skills: o.by.map(b => abName[b + '|' + o.ab] || o.ab) }));
-    out.parties.push({ leader, board, members, overlaps: ov, cycle, counts: pc });
+    out.parties.push({ leader, board, boardFrom, members, overlaps: ov, cycle, counts: pc });
     out.counts.warn += pc.warn; out.counts.buffers += pc.buffers; out.counts.ok += pc.ok; out.counts.total += members.length;
   });
   const ex = exampleTemplates(ctx);
@@ -216,8 +218,21 @@ function post(ctx, b) {
     if (!names.length) return bad(400, 'names missing');
     return write(ctx, b, 'clear', (data) => {
       const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { delete C[n]; });
-      if (!Object.keys(C).length) delete data.parties[leader];
+      if (!Object.keys(C).length && typeof data.parties[leader].boardBuffs !== 'boolean') delete data.parties[leader];
       return { names: done, log: `${leader}: removed ${done.join(',')}` };
+    });
+  }
+  if (a === 'board') {   // 2026-10-10: Board buffs ON / OFF per party from the page (true | false | null = back to swarm.config.json)
+    if (!leader) return bad(400, 'leader missing');
+    const v = b.value === true || b.value === false ? b.value : b.value === null ? null : undefined;
+    if (v === undefined) return bad(400, 'value must be true, false or null');
+    if (b.confirm !== true) return bad(400, 'switching board buffs needs confirm: true (the page asks you first)');
+    const m = memberCtx(ctx, leader); if (m.err) return m.err;
+    return write(ctx, b, 'board', (data) => {
+      data.parties[leader] = data.parties[leader] || { chars: {} };
+      if (v === null) delete data.parties[leader].boardBuffs; else data.parties[leader].boardBuffs = v;
+      if (v === null && !Object.keys(data.parties[leader].chars || {}).length) delete data.parties[leader];
+      return { leader, boardBuffs: v, log: `${leader}: board buffs ${v === null ? 'back to swarm.config.json' : v ? 'ON' : 'OFF'} by ${by}` };
     });
   }
   if (a === 'settings') {
@@ -271,7 +286,7 @@ function post(ctx, b) {
       return { applied: done, assign, log: `template ${id} -> party ${leader}: ${done.join(',')} (not approved)` };
     });
   }
-  return bad(400, 'unknown action (set | approve | unapprove | clear | settings | saveTemplate | deleteTemplate | applyTemplate)');
+  return bad(400, 'unknown action (set | approve | unapprove | clear | board | settings | saveTemplate | deleteTemplate | applyTemplate)');
 }
 
 async function handle(req, res, url, ctx) {

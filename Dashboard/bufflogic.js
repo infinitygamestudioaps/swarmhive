@@ -333,8 +333,11 @@ function rkArcherStep(o) {
 // BOARD BUFFS OPTIONAL (public kit user 2026-10-10: "old school playstyle, all needed chars in party, NOT relying on community buffs"):
 // swarm.config.json "boardBuffs": true | false (default true = L2Toggle Community Board buffs, today's behaviour) and per party on the party
 // LEADER's account entry ("boardBuffs": false on the leader = the whole party). Party = the leader's character name.
-function rkBoardBuffs(cfg, party) {
+function rkBoardBuffs(cfg, party, plans) {
   const c = cfg || {}, p = String(party || '');
+  // 2026-10-10: the dashboard Buffs page switch (Scripts/data/buff_plans.json parties[<leader>].boardBuffs, read live) wins over swarm.config.json
+  const sw = plans && plans.parties && plans.parties[p] ? plans.parties[p].boardBuffs : undefined;
+  if (typeof sw === 'boolean') return sw;
   const acc = (c.accounts || []).find(a => a && String(a.character || '') === p && typeof a.boardBuffs === 'boolean');
   if (acc) return acc.boardBuffs;
   return typeof c.boardBuffs === 'boolean' ? c.boardBuffs : true;
