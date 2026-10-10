@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.2.1 (2026-10-10)
+
+- The PDF user manual is now in the repository (docs/guide/L2Swarm_User_Manual.pdf) and linked at the top of the README
+- every release also attaches it as its own download
+- the PDF no longer contains links to local files
+
 ## v1.2.0 (2026-10-10)
 
 - First public release (MIT): no L2Swarm files in the repository any more (no patched binaries, vendor hashes, IL tools, API dumps or client data
