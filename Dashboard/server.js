@@ -1623,6 +1623,19 @@ function viewersMark(url) {
 }
 setInterval(viewersWrite, 5000);
 
+// RAIDHUNT PER PARTY (2026-10-10, user: "I enable raid hunt for multiple parties, I only see one party's progress"): swarm.js writes
+// Logs/raidhunt_party_<leader>.json per leader; the old shared Logs/raidhunt.json (older scripts) still counts for the leader it names
+function raidHuntAll() {
+  const hunts = {};
+  const mark = (d) => Object.assign({}, d, { stale: (Date.now() - Date.parse(d.updatedAt || 0)) / 1000 > 20 });
+  try { for (const f of fs.readdirSync(LOGS)) { const m = /^raidhunt_party_(.+)\.json$/.exec(f); if (!m) continue; const d = readJson(path.join(LOGS, f), null); if (d && d.leader) hunts[d.leader] = mark(d); } } catch (e) { }
+  const old = readJson(path.join(LOGS, 'raidhunt.json'), null);
+  if (old && old.leader && (!hunts[old.leader] || Date.parse(old.updatedAt || 0) > Date.parse(hunts[old.leader].updatedAt || 0))) hunts[old.leader] = mark(old);
+  const on = Object.values(hunts).filter(h => h.active && !h.stale).sort((a, b) => Date.parse(b.updatedAt || 0) - Date.parse(a.updatedAt || 0));
+  const first = on[0] || Object.values(hunts).sort((a, b) => Date.parse(b.updatedAt || 0) - Date.parse(a.updatedAt || 0))[0] || { active: false, stale: true, history: [] };
+  return Object.assign({}, first, { hunts, activeLeaders: on.map(h => h.leader) });   // top level = the newest active hunt (older pages keep working)
+}
+function raidHuntOf(leader) { const a = raidHuntAll(); return (a.hunts || {})[leader] || {}; }
 http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
@@ -2010,7 +2023,7 @@ http.createServer(async (req, res) => {
     // ===== POLYEDIT (2026-10-08): GET/POST /api/polyedit — shape editor for rooms / zones / spots / field areas (Dashboard/polyedit_api.js) =====
     if (url.pathname === '/api/polyedit') { const r = POLYEDIT.handle(req.method, url.searchParams, req.method === 'POST' ? await body(req) : null); return json(res, r.code, r.body); }
     if (url.pathname === '/api/siegelive') return json(res, 200, SIEGES.live());
-    if (url.pathname === '/api/raidhunt') { const d = readJson(path.join(LOGS, 'raidhunt.json'), null); return json(res, 200, d ? { ...d, stale: (Date.now() - Date.parse(d.updatedAt || 0)) / 1000 > 20 } : { active: false, stale: true, history: [] }); }
+    if (url.pathname === '/api/raidhunt') return json(res, 200, raidHuntAll());
     if (url.pathname === '/api/raidreports') return json(res, 200, raidReports());
     // --- Daily dungeons on/off per party (swarm.js reads Logs/daily_enabled.json live) ---
     if (url.pathname === '/api/daily') {
@@ -2390,7 +2403,7 @@ http.createServer(async (req, res) => {
       // so the map can show where it should be even when nobody sees it (the client only sees monsters within ~3400)
       const db = readJson(path.join(DATA, 'raidbosses_h5.json'), { bosses: [] });
       const bosses = {}; (db.bosses || db || []).forEach(b => { bosses[b.name] = b; });
-      const rh = readJson(path.join(LOGS, 'raidhunt.json'), {});
+      const rh = raidHuntOf(name);   // 2026-10-10: this leader's own hunt (was the one shared raidhunt.json)
       const live = (() => { const a = raidLive(name); return a.boss ? a : raidLive(''); })();   // LIVE PER PARTY 2026-10-09: this leader's raid (was the one shared raid_live.json)
       const tname = (rh.active && rh.current && rh.current.name) || (live.boss && live.boss.name) || '';
       const tb = tname && bosses[tname];

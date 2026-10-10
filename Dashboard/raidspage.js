@@ -93,7 +93,7 @@
   function selParty() {
     const ps = parties();
     if (P.party && ps.includes(P.party)) return P.party;
-    const h = RP.hunt; if (h && h.active && !h.stale && ps.includes(h.leader)) return h.leader;
+    const h = RP.hunt; const on = (h && h.activeLeaders) || (h && h.active && !h.stale ? [h.leader] : []); const p0 = on.find(x => ps.includes(x)); if (p0) return p0;
     return ps[0] || '';
   }
   /** what raidhunt would take next for a party (lowest level first, then nearest) */
@@ -280,11 +280,14 @@
         ${gauge('hp', hp || 0, hp != null ? 'boss ' + hp + '%' : 'boss HP ?')}</div>
         <div class="b"><button type="button" data-rpgo="#/live">Watch</button>${L.leader ? `<button type="button" data-rpgo="#/live/${encodeURIComponent(L.leader)}">Party view</button>` : ''}</div></a>`);
     }
-    const h = RP.hunt || {}, hOn = h.active && !h.stale;
+    const H = RP.hunt || {};
+    // 2026-10-10: one hunt per party (H.hunts[leader]); older servers sent only the newest one at the top level
+    const huntOf = (p) => { const x = (H.hunts || {})[p] || (H.leader === p ? H : null); return x && x.active && !x.stale ? x : null; };
+    const hunting = parties().filter(p => huntOf(p));
     const rows = parties().map(p => {
       const t = teamOf(p); if (!t) return '';
-      const mine = hOn && h.leader === p;
-      if (mine) {
+      const h = huntOf(p);
+      if (h) {
         const c = h.current || {}, ph = huntPhase(h), pi = HUNT_PHASES.indexOf(ph);
         const steps = HUNT_PHASES.map((x, i) => `<span class="${i < pi ? 'past' : i === pi ? 'cur' : ''}">${x}</span>`).join('');
         const q = (h.queue || []).slice(0, 4).map(x => `<a href="#/raid/${x.id}">${esc(x.name)}</a> <span class="muted">${x.level}</span>`).join(' · ');
@@ -299,7 +302,7 @@
         <button type="button" data-rphunt="start" data-party="${esc(p)}" title="the party takes the bosses that fit, one after the other">Raidhunt</button>
         <div class="q"><span class="ql">Next if it hunts:</span> ${nx || '<span class="muted">no boss up that fits</span>'}</div></div>`;
     }).join('');
-    const sumTxt = hOn ? `party ${esc(h.leader)} hunts ${esc((h.current || {}).name || '…')}` : 'nobody hunts right now';
+    const sumTxt = hunting.length ? hunting.map(p => `party ${esc(p)} hunts ${esc((huntOf(p).current || {}).name || '…')}`).join(' · ') : 'nobody hunts right now';
     out.push(`<details class="rp-hunts"${pref('raids.open.hunts', true) ? ' open' : ''} data-sec="hunts"><summary><b>Raidhunt</b><span class="muted">${sumTxt} · per party: the next bosses</span></summary>${rows || '<div class="rp-hrow"><span class="muted">no party is reporting</span></div>'}</details>`);
     patch(el, out.join(''));
   }

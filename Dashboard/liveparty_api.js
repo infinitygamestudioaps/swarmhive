@@ -80,7 +80,9 @@ async function live(party, ctx) {
   // the raid target (if this party hunts one), like /api/partymobs
   let target = null;
   try {
-    const rh = ctx.readJson(path.join(ctx.LOGS, 'raidhunt.json'), {});
+    // 2026-10-10: this party's own hunt file (Logs/raidhunt_party_<leader>.json), the old shared one as a fallback
+    const own = ctx.readJson(path.join(ctx.LOGS, 'raidhunt_party_' + P + '.json'), null), shared = ctx.readJson(path.join(ctx.LOGS, 'raidhunt.json'), {});
+    const rh = own && own.leader ? own : shared;
     if (rh.active && rh.current && rh.current.name && (!rh.leader || rh.leader === P)) {
       const db = ctx.readJson(path.join(ctx.DATA, 'raidbosses_h5.json'), { bosses: [] });
       const b = (db.bosses || db || []).find(x => x.name === rh.current.name);

@@ -17714,7 +17714,10 @@ setInterval(() => {
     const out = { active: raidHunt.active, leader: Me.Name, startedAt: raidHunt.startedAt ? new Date(raidHunt.startedAt).toISOString() : null,
       current: raidHunt.current, step: raidHunt.active ? String(state.task || '') : '', mode: state.mode,
       queue: raidHunt.queue, history: raidHunt.history.slice(-20), updatedAt: new Date().toISOString() };
-    if (raidHunt.active || raidHunt.history.length) File.WriteAllText(SWARM_ROOT + '\\Logs\\raidhunt.json', JSON.stringify(out));
+    // 2026-10-10 (user: "raidhunt for multiple parties, I only see one party's progress"): one file PER LEADER (every hunting leader used to
+    // overwrite the one shared file); the shared file is only written while hunting (a stopped leader's history overwrote the others too)
+    if (raidHunt.active || raidHunt.history.length) File.WriteAllText(SWARM_ROOT + '\\Logs\\raidhunt_party_' + Me.Name + '.json', JSON.stringify(out));
+    if (raidHunt.active) File.WriteAllText(SWARM_ROOT + '\\Logs\\raidhunt.json', JSON.stringify(out));
   } catch (e) { }
 }, 2000);
 const UNREACHF = SWARM_ROOT + '\\Logs\\raid_unreachable.json';

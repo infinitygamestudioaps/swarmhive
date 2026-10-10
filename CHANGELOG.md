@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.3 (2026-10-10)
+
+- Raidhunt with several parties: every party's progress is shown (each leader writes its own Logs/raidhunt_party_<leader>.json
+- before, all leaders overwrote one shared file, so only one party showed)
+- the Raids page, the Parties tab (one box per hunting party, each Stop button stops its own party), the live party view and the party map all use the party's own hunt
+
 ## v1.3.2 (2026-10-10)
 
 - Board buffs ON/OFF is now a switch per party on the dashboard Buffs page (tap the badge next to the party name, a dialog explains what changes)

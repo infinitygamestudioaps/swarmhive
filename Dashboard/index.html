@@ -2429,7 +2429,13 @@ function huntPhase(h) {
 const huntBadge = (o) => `<span class="fit ${o === 'killed' ? 'good' : /wiped|timeout/.test(o) ? 'hard' : 'low'}">${esc(o || '?')}</span>`;
 const huntAgo = (iso) => { const s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000)); return s < 90 ? s + ' s' : s < 5400 ? Math.round(s / 60) + ' min' : Math.round(s / 3600 * 10) / 10 + ' h'; };
 function huntHtml() {
-  const h = HUNT || {};
+  // 2026-10-10: one box per hunting party (HUNT.hunts[leader]); the top-level fields are the newest hunt (older servers)
+  const all = HUNT && HUNT.hunts ? Object.values(HUNT.hunts).filter(x => x && x.active && !x.stale) : [];
+  if (all.length > 1) return all.map(x => huntOne(x)).join('');
+  return huntOne(all[0] || HUNT || {});
+}
+function huntOne(hh) {
+  const h = hh || {};
   const hist = (h.history || []).slice().reverse();
   const histHtml = hist.map(x => `<div class="hhist"><a class="rlink" href="#/raid/${x.id}">${esc(x.name)}</a> <span class="muted">lvl ${x.level}</span> ${huntBadge(x.outcome)} <span class="muted">${x.at ? new Date(x.at).toLocaleTimeString() : ''}</span></div>`).join('');
   if (!h.active || h.stale) {
@@ -2441,8 +2447,8 @@ function huntHtml() {
   const ph = huntPhase(h), pi = HUNT_PHASES.indexOf(ph);
   const steps = HUNT_PHASES.map((p, i) => `<span class="hstep ${i < pi ? 'past' : i === pi ? 'cur' : ''}">${p}</span>`).join('<span class="hsep">→</span>');
   const queue = (h.queue || []).map(q => `<a class="rlink" href="#/raid/${q.id}">${esc(q.name)}</a> <span class="muted">${q.level}</span>`).join(' · ');
-  const fight = ph === 'Fight' && LIVE && LIVE.running ? liveHtml() : '';
-  return `<div class="hunt"><div class="whead"><h2>Hunting: ${c.id ? `<a class="rlink" href="#/raid/${c.id}">${esc(c.name || '?')}</a>` : esc(c.name || '?')} <span class="muted">(lvl ${c.level || '?'})</span></h2><button data-hunt="stop">Stop raidhunt</button></div>
+  const fight = ph === 'Fight' && LIVE && LIVE.running && (!LIVE.leader || LIVE.leader === h.leader) ? liveHtml() : '';
+  return `<div class="hunt"><div class="whead"><h2>${h.leader ? `Party ${esc(h.leader)} hunting: ` : "Hunting: "}${c.id ? `<a class="rlink" href="#/raid/${c.id}">${esc(c.name || '?')}</a>` : esc(c.name || '?')} <span class="muted">(lvl ${c.level || '?'})</span></h2><button data-hunt="stop" data-party="${esc(h.leader || '')}">Stop raidhunt</button></div>
     <div class="muted">${esc(c.route || '')}${c.zone ? ' · ' + esc(c.zone) : ''}${c.since ? ' · on this boss for ' + huntAgo(c.since) : ''} · leader ${esc(h.leader || '')}</div>
     <div class="hsteps">${steps}</div><div class="hraw">${esc(h.step || '')}</div>
     ${queue ? `<div class="hq"><b>Next:</b> ${queue}</div>` : ''}
@@ -2462,7 +2468,7 @@ setInterval(pollHunt, 2000);
 document.addEventListener('click', async (e) => {
   const b = e.target.closest('[data-hunt]'); if (!b) return;
   e.stopPropagation();
-  const p = ($('rbParty') && $('rbParty').value) || mainLeader();
+  const p = b.dataset.party || ($('rbParty') && $('rbParty').value) || mainLeader();   // 2026-10-10: each hunt box stops ITS party
   const cmd = b.dataset.hunt === 'stop' ? '!raidhunt stop' : '!raidhunt';
   if (await confirmOrder('party:' + p, cmd, b.dataset.hunt === 'stop' ? 'Stop raidhunt' : 'Raidhunt: take the bosses that fit, one after the other')) send('party:' + p, null, cmd);
 });
