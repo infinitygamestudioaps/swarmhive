@@ -12,7 +12,7 @@
 # What it KEEPS (never overwritten):
 #   swarm.config.json, Settings\ (your accounts; Settings\templates you changed), Logs\, Dashboard\key.txt, the generated images,
 #   your data files Scripts\data\custom_zones.json, party_spots.json, party_tactics.json, gear_prefs.json, soul_prefs.json, sell_list.json,
-#   siege_plans.json, dye_plan.json, roster_extra.json, clan_quests.json, giran_routes.json, class_plans.json (the package only ships *.example.json of them),
+#   siege_plans.json, dye_plan.json, roster_extra.json, clan_quests.json, giran_routes.json, class_plans.json, buff_plans.json (the package only ships *.example.json of them),
 #   recorded/locked routes (Scripts\data\routes\) and live gatekeeper menus (gk_live\) you changed, and every room / spot / area / zone you
 #   edited in the dashboard shape editor (manual: true - merged into the new data with docs\plan\tools\manual_guard.js).
 # What it REPLACES: the code (Scripts_dev\swarm.js, Dashboard, tools, SETUP, patches\universal, docs). A changed code file is saved first to

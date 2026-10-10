@@ -424,6 +424,8 @@ const CONFIG = {
   raidDelays: {
     sk: 0, necromancer: 2500, nuker: 2500, shilliensaint: 2500, doomcryer: 500,
     inspector: 4000, doombringer: 5000, destroyer: 0, bishop: 0,
+    // ROLE KINDS (2026-10-10): the generic tokens (ROLEKIND.raidDelay)
+    tank: 0, melee: 5000, meleebuffer: 4000, archer: 3000, buffer: 500, summoner: 2500,
   },
 
   items: {
@@ -448,6 +450,13 @@ const CONFIG = {
       spoiler:       ['Warrior'],
       healer:        ['Mystic'],
       dagger:        ['Warrior'],     // 2026-10-07: Dagger1 had no scheme -> every rebuff failed, he hunted unbuffed and kept dying
+      // ROLE KINDS (2026-10-10): the generic tokens (= ROLEKIND.scheme)
+      tank:          ['Defender'],
+      melee:         ['Warrior'],
+      meleebuffer:   ['Warrior'],     // Swordsinger / Bladedancer / Sword Muse / Spectral Dancer / Inspector / Judicator
+      archer:        ['Warrior'],
+      buffer:        ['Mystic'],      // Prophet / Hierophant / Orc Shaman / Overlord / Warcryer / Dominator / Doomcryer (by kind)
+      summoner:      ['Mystic'],
     },
     checkEveryMs: 10000,           // hvor tit hvert vindue tjekker egne buffs
     warnBelowSec: 300,             // "ved at miste buffs": under 5 min tilbage
@@ -465,13 +474,14 @@ const CONFIG = {
     raidModes: ['raid', 'prep'],
     raidPartyRole: 'doomcryer',
     raidPartyScheme: 'Warrior',
-    raidCasterRoles: ['bishop', 'necromancer', 'nuker', 'doomcryer', 'shilliensaint'],
+    raidCasterRoles: ['bishop', 'necromancer', 'nuker', 'doomcryer', 'shilliensaint', 'buffer', 'summoner'],   // + ROLE KINDS mystic buffer / summoner
     raidCasterScheme: 'Mystic',
     raidWaveCooldownMs: 60000,     // max én bølge pr. minut
     raidPartyTimeoutMs: 20000,     // doomcryer færdig inden da, ellers buffer alle selv
     selfBuffAfterMs: 120000,       // ingen leder-svar så længe -> buff selv (fallback)
     protectRoles: ['sk', 'destroyer', 'doombringer', 'inspector', 'necromancer', 'nuker',
-                   'doomcryer', 'shilliensaint'],   // bishop bliver ved at heale
+                   'doomcryer', 'shilliensaint',
+                   'tank', 'melee', 'meleebuffer', 'archer', 'buffer', 'summoner'],   // bishop bliver ved at heale (+ ROLE KINDS tokens)
     logFile: SWARM_ROOT + '\\Logs\\swarm_buffs.log',
   },
 
@@ -505,7 +515,9 @@ const CONFIG = {
     neverCast: /Defense Aura|Ultimate Defense|Ultimate Evasion|Frenzy|Zealot|Guts|Fake Death|Silent Move|Hide|Final Fortress|Summon|Resurrect|Craft|Escape|Return|Sweeper|Spoil|Seed|Fishing|Pumping|Reeling|Expand|Create|Transform/i,
     selfBuffMinGapSec: 60,         // samme selv-buff højst én gang pr. minut (ingen cast-løkke)
     // class party buffs the Community Board does not give: kept up even while board buffs are on
-    partyBuffs: { inspector: [1443, 1444] },   // Soul Breaker: Dark Weapon (46), Pride of Kamael (49)
+    // ROLE KINDS (2026-10-10): by skill NAME, no ids (same skills as before: Dark Weapon 1443, Pride of Kamael 1444); generic buffers keep
+    // every party buff they know up by skill data instead (ROLEKIND HOST buffer upkeep)
+    partyBuffs: { inspector: ['Dark Weapon', 'Pride of Kamael'] },   // Soul Breaker: Dark Weapon (46), Pride of Kamael (49)
   },
 
   // SEVEN SIGNS (user 2026-10-08 07:00/07:05/07:06): every character signs up once per competition period — ALWAYS with the Lords of Dawn
@@ -756,6 +768,985 @@ if (SWARM_CFG) {
     if (SWARM_CFG.teamRoutes && typeof SWARM_CFG.teamRoutes === 'object') Object.assign(CONFIG.teamRoutes, SWARM_CFG.teamRoutes);
   } catch (e) { }
 }
+
+// ---------------------------------------------------------------------------
+// ROLE KINDS (user 2026-10-10: "sws/bd/prophet are missing", "are we missing classes?" — it must work for EVERY class, never hardcoded)
+// Every character gets a role KIND: tank, healer, buffer, melee, archer, dagger, nuker, summoner, spoiler, crafter.
+//  * the 13 LEGACY role names of our own teams (sk, bishop, destroyer, doombringer, necromancer, inspector, doomcryer, shilliensaint, crafter,
+//    spoiler, healer, nuker, dagger) stay the role token (state.role) UNCHANGED, so their special routines (destroyer drain/Frenzy, SK aggro,
+//    inspector debuffs, doomcryer chants, crafter golem, spoiler spoil, ...) behave exactly as before; ROLEKIND.legacy only names their kind;
+//  * a kind written in swarm.config.json (role: "tank" / "buffer" / "archer" / "summoner" / "melee") is the token itself; a buffer of a FIGHTER
+//    class (Swordsinger, Bladedancer, Sword Muse, Spectral Dancer, Inspector, Judicator) gets the token 'meleebuffer' (assists in melee),
+//    a mystic buffer (Prophet, Hierophant, Orc Shaman, Overlord, Warcryer, Dominator, Doomcryer) keeps 'buffer' (caster spacing, never melee);
+//  * role "auto" (or an unknown word) = the kind of the character's CURRENT class (Scripts/data/class_tree.json `role`; a base class:
+//    fighter -> melee, mystic -> nuker), re-checked after every class change.
+// The generic behaviour per kind finds its skills in the character's OWN learned skills (client data on L2Skill: TargetType, AffectScope,
+// AbnormalType, AbnormalTime, IsDebuff, MagicLvl, ...) — never skill ids. Host side: ROLEKIND HOST (tank aggro / emergency, buffer upkeep,
+// summoner servitor, archer spacing, raid routine per kind) right after the BUFFPLAN-PURE block.
+// ROLEKIND-PURE-BEGIN (no host calls in here: docs/plan/tools/test_role_kinds.js runs this block in node)
+const ROLEKIND = {
+  kinds: ['tank', 'healer', 'buffer', 'melee', 'archer', 'dagger', 'nuker', 'summoner', 'spoiler', 'crafter'],
+  legacy: { sk: 'tank', bishop: 'healer', shilliensaint: 'healer', healer: 'healer', destroyer: 'melee', doombringer: 'melee',
+            necromancer: 'nuker', nuker: 'nuker', inspector: 'buffer', doomcryer: 'buffer', crafter: 'crafter', spoiler: 'spoiler', dagger: 'dagger' },
+  tokens: { meleebuffer: 'buffer' },          // internal token: a buffer of a fighter class
+  auto: /^(auto|class)$/i,
+  // board scheme / raid delay / gear rule for the NEW tokens (legacy names keep theirs in CONFIG / GEAR_ROLE_OF)
+  scheme: { tank: 'Defender', melee: 'Warrior', meleebuffer: 'Warrior', archer: 'Warrior', buffer: 'Mystic', summoner: 'Mystic' },
+  raidDelay: { tank: 0, melee: 5000, meleebuffer: 4000, archer: 3000, buffer: 500, summoner: 2500 },
+  gear: { tank: 'tank', melee: 'melee', meleebuffer: 'melee', archer: 'archer', buffer: 'mage', summoner: 'mage' },
+  buff: { refreshSec: 30, minTime: 60, minGapMs: 20000, failMax: 3, failBlockMs: 600000, songDanceMax: 14, range: 900, partyRange: 1000,
+          reportMaxAgeMs: 12000, minMpPct: 15, reportMax: 48 },
+  archer: { tooClose: 220, want: 520, gapMs: 2500 },
+  // summoner: resummon gap, min MP, servitor attack resend gap, consumable stock (resummons summons + upkeep margin, low below lowSummons),
+  // servitor care thresholds, own nukes only as filler above fillerMinMpPct (fillerNukes false = never)
+  summon: { gapMs: 20000, minMpPct: 30, attackGapMs: 3000, resummons: 10, upkeepMargin: 20, lowSummons: 3, petHealBelow: 70, petMpBelow: 40, selfDangerHp: 35,
+            fillerNukes: true, fillerMinMpPct: 60, careGapMs: 1500 },
+  tankStances: /^(Guard Stance|Fortitude|Final Fortress)$/i,   // tank toggles the keeper may switch on in a fight for a generic tank
+};
+// role regexes (the old literals plus the new tokens; every legacy name gives the same answer as before — test_role_kinds.js proves it)
+const ROLE_RE = {
+  caster: /necromancer|nuker|doomcryer|bishop|shilliensaint|healer|mage|wizard|^buffer$|^summoner$/,
+  noMelee: /doomcryer|^buffer$|^summoner$/,
+  meleeOnly: /^(destroyer|doombringer|sk|crafter|spoiler|dagger|tank|melee|meleebuffer|archer)$/,
+  phys: /^(sk|tank|destroyer|doombringer|dagger|crafter|spoiler|archer|warrior|gladiator|warlord|titan|melee|meleebuffer)$/,
+  meleeDD: /destroyer|doombringer|inspector|^melee$|^meleebuffer$/,
+  pairDealers: /^(destroyer|doombringer|inspector|necromancer|nuker|dagger|mage|wizard|archer|melee|meleebuffer|summoner)$/,
+  pairBuffers: /^(doomcryer|warcryer|buffer)$/,
+  debuffers: /^(sk|necromancer|inspector|doombringer|shilliensaint|doomcryer|tank)$/,
+  tank: /^(sk|tank)$/,
+  healer: /healer|bishop|shilliensaint/,
+  generic: /^(tank|buffer|meleebuffer|melee|archer|summoner)$/,   // tokens with generic kind behaviour (never a legacy name)
+  bufferUp: /^(buffer|meleebuffer)$/,
+};
+function rkNum(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
+function rkClassRow(tree, id) {
+  const c = tree && tree.classes; if (!c || id === null || id === undefined || id === '') return null;
+  const n = Number(id); if (!isFinite(n)) return null;
+  return (Array.isArray(c) ? c.find(x => Number(x.id) === n) : c[String(n)]) || null;
+}
+/** the kind of a class (class_tree.json role; base / unknown role: fighter -> melee, mystic -> nuker); '' = unknown class */
+function rkKindOfClass(tree, id) {
+  const r = rkClassRow(tree, id); if (!r) return '';
+  const k = String(r.role || '');
+  if (ROLEKIND.kinds.includes(k)) return k;
+  return String(r.type || '') === 'mystic' ? 'nuker' : 'melee';
+}
+function rkStyleOfClass(tree, id) { const r = rkClassRow(tree, id); return !r ? '' : String(r.type || '') === 'mystic' ? 'caster' : 'melee'; }
+/** the kind behind a role token ('' = unknown) */
+function rkKindOf(token) { const t = String(token || ''); return ROLEKIND.legacy[t] || ROLEKIND.tokens[t] || (ROLEKIND.kinds.includes(t) ? t : ''); }
+function rkTokenFor(kind, style) { return kind === 'buffer' && style === 'melee' ? 'meleebuffer' : kind; }
+function rkIsLegacy(role) { return Object.prototype.hasOwnProperty.call(ROLEKIND.legacy, String(role || '')); }
+/** swarm.config.json role + current class -> { role: the token for state.role, kind, legacy, source, style }. role '' (no role) = not controlled. */
+function rkResolve(role, classId, tree) {
+  const raw = String(role === null || role === undefined ? '' : role).trim(), r = raw.toLowerCase();
+  if (!r) return { role: '', kind: '', legacy: false, source: 'none', style: '' };
+  if (rkIsLegacy(raw)) return { role: raw, kind: ROLEKIND.legacy[raw], legacy: true, source: 'legacy', style: '' };   // exact spelling: unchanged
+  if (rkIsLegacy(r)) return { role: r, kind: ROLEKIND.legacy[r], legacy: true, source: 'legacy', style: '' };
+  if (r === 'meleebuffer') return { role: r, kind: 'buffer', legacy: false, source: 'kind', style: 'melee' };
+  if (ROLEKIND.kinds.includes(r)) {
+    const style = r === 'buffer' ? (rkStyleOfClass(tree, classId) || 'caster') : '';
+    return { role: rkTokenFor(r, style), kind: r, legacy: false, source: 'kind', style };
+  }
+  const k = rkKindOfClass(tree, classId);
+  if (!k) return { role: '', kind: '', legacy: false, source: ROLEKIND.auto.test(r) ? 'class unknown' : 'unknown role ' + r, style: '' };
+  const style = rkStyleOfClass(tree, classId);
+  return { role: rkTokenFor(k, style), kind: k, legacy: false, source: ROLEKIND.auto.test(r) ? 'class' : 'class (unknown role ' + r + ')', style };
+}
+/** which raid routine a NEW token runs (legacy names have their own cases in runRaidSequence: '' here) */
+function rkRaidRoutine(token) {
+  const t = String(token || '');
+  if (rkIsLegacy(t)) return '';
+  if (t === 'tank') return 'tank';
+  if (/^(melee|meleebuffer|archer|buffer|summoner)$/.test(t)) return 'dealer';
+  return '';
+}
+/** what a token does (for the tests and the kind table) */
+function rkBehaviour(token) {
+  const t = String(token || ''), kind = rkKindOf(t);
+  return { token: t, kind, legacy: rkIsLegacy(t), healer: ROLE_RE.healer.test(t), caster: ROLE_RE.caster.test(t), noMelee: ROLE_RE.noMelee.test(t),
+    meleeOnly: ROLE_RE.meleeOnly.test(t), meleeDD: ROLE_RE.meleeDD.test(t), tank: ROLE_RE.tank.test(t), genericTank: t === 'tank',
+    bufferUpkeep: ROLE_RE.bufferUp.test(t), summoner: t === 'summoner', archerSpacing: t === 'archer', raid: rkRaidRoutine(t),
+    scheme: ROLEKIND.scheme[t] || '', gear: ROLEKIND.gear[t] || '' };
+}
+/** plain skill info from an L2Skill (host object or snapshot copy) */
+function rkSkill(s) {
+  const lv = rkNum(s.Level);
+  return { id: rkNum(s.Id), level: lv, name: String(s.Name || ''), active: s.IsActive !== false, toggle: !!s.IsToggle, debuff: !!s.IsDebuff,
+    target: String(s.TargetType || '').toUpperCase(), scope: String(s.AffectScope || '').toUpperCase(), ab: String(s.AbnormalType || '').toUpperCase(),
+    abLvl: s.AbnormalLevel === null || s.AbnormalLevel === undefined ? lv : rkNum(s.AbnormalLevel), time: rkNum(s.AbnormalTime),
+    range: rkNum(s.CastRange), mp: rkNum(s.MP), hit: rkNum(s.HitTime), mlvl: rkNum(s.MagicLvl), ready: s.IsReady !== false,
+    itemId: rkNum(s.ItemConsumeId), itemCount: rkNum(s.ItemConsumeCount) };
+}
+const RK_PARTY_SCOPE = /^(PARTY|PLEDGE|PARTY_PLEDGE)$/;     // party songs / dances / chants: TargetType SELF + this scope (datapack affectObject FRIEND)
+const RK_ALLY_TARGET = /^(TARGET|ONE|OTHERS)$/;             // single-target buffs (Might, Haste, Prophecy ...): cast on a party member
+const RK_FIGHTER_TYPES = /^(PA_UP|ATTACK_TIME_DOWN|CRITICAL_PROB_UP|CRITICAL_DMG_UP|HIT_UP|BERSERKER)$/;   // single-target: only on physical fighters
+const RK_MAGE_TYPES = /^(MA_UP|CASTING_TIME_DOWN|MAGIC_CRITICAL_UP|CANCEL_PROB_DOWN|MAX_MP_UP)$/;            // single-target: only on casters / healers
+/** my buffs for others, from my learned skills: { party: [...], target: [...] } — never a debuff, never an enemy-target skill */
+function rkClassifyBuffs(list, neverRe) {
+  const party = [], target = [];
+  (list || []).forEach(s0 => {
+    const s = rkSkill(s0);
+    if (!s.id || !s.active || s.toggle || s.debuff || !s.ab || s.time <= 0 || s.ab === 'TARGET_LOCK') return;
+    if (neverRe && neverRe.test(s.name)) return;
+    if (s.target === 'SELF') { if (RK_PARTY_SCOPE.test(s.scope)) party.push(s); return; }   // self-only buffs = the skill plan's self buffs (board-buff rule)
+    if (RK_ALLY_TARGET.test(s.target) && (s.scope === 'SINGLE' || s.scope === '')) target.push(s);
+  });
+  const best = (a) => { const by = {}; a.forEach(s => { const o = by[s.ab]; if (!o || s.abLvl > o.abLvl || (s.abLvl === o.abLvl && s.mlvl > o.mlvl)) by[s.ab] = s; }); return Object.keys(by).map(k => by[k]); };
+  return { party: best(party), target: best(target) };     // one skill per abnormal type (the strongest I know)
+}
+function rkIsSongDance(s) { return /^(SONG|DANCE)_/.test(String(s.ab || '')) || /^(Song|Dance) of /i.test(String(s.name || '')); }
+function rkSongDanceCount(buffs) { return Object.keys(buffs || {}).filter(t => /^(SONG|DANCE)_/.test(t)).length; }
+/** does member m need my buff s? 'missing' | 'expiring' | '' (no). m.buffs = { ABNORMAL_TYPE: { remain: s, level } } */
+function rkBuffNeed(s, m, cfg) {
+  const c = cfg || ROLEKIND.buff, b = (m.buffs || {})[s.ab];
+  if (!b) return rkIsSongDance(s) && rkSongDanceCount(m.buffs) >= c.songDanceMax ? '' : 'missing';   // L2Toggle: 14 songs / dances at most
+  if (rkNum(b.level) > s.abLvl) return '';                   // a stronger one (board / another buffer) is never overwritten
+  const rem = rkNum(b.remain);
+  if (rem <= 0 || rem > c.refreshSec) return '';             // still running (a 12 h board buff of the same type counts) / no timer
+  return 'expiring';
+}
+/** the next buff to cast: { skill, target (member | null = the party buff on myself), why, key } | null.
+ *  o: { skills: { party, target }, members: [{ name, me, dist, dead, known, caster, tank, leader, buffs }], now, last: { key: at }, fails: { key: { n, until } },
+ *       mp, have(itemId) -> count, cfg } */
+function rkBufferPick(o) {
+  const cfg = Object.assign({}, ROLEKIND.buff, (o && o.cfg) || {}), t = rkNum(o && o.now), last = (o && o.last) || {}, fails = (o && o.fails) || {};
+  const mates = ((o && o.members) || []).filter(m => m && !m.dead && m.known !== false);
+  const sk = (o && o.skills) || {};
+  const free = (key) => { const f = fails[key]; if (f && rkNum(f.until) > t) return false; return !(last[key] && t - last[key] < cfg.minGapMs); };
+  const afford = (s) => s.ready !== false && (o.mp === undefined || o.mp === null || s.mp <= rkNum(o.mp)) &&
+    (!s.itemId || !o.have || rkNum(o.have(s.itemId)) >= Math.max(1, s.itemCount));
+  // BUFF PLANS: s.who = the members the plan gives it to (else everyone / the fighter-mage rule), o.owner(member, ab) = the buffer that owns
+  // that buff on that member (OVERLAP: only one casts), s.priority = the plan order (lower first)
+  const mine = (s, m) => (!s.who || s.who.includes(m.name)) && (!o.owner || !o.me || (o.owner(m.name, s.ab) || o.me) === o.me);
+  const pri = (s) => rkNum(s.priority);
+  let best = null;
+  (sk.party || []).forEach(s => {
+    const key = s.id + '@party';
+    if (s.time < cfg.minTime || !afford(s) || !free(key)) return;
+    const near = mates.filter(m => (m.me || rkNum(m.dist) <= cfg.partyRange) && mine(s, m));
+    const need = near.map(m => ({ m, n: rkBuffNeed(s, m, cfg) })).filter(x => x.n);
+    if (!need.length) return;
+    const score = need.length * 10 + need.filter(x => x.n === 'missing').length * 3 + (rkIsSongDance(s) ? 0 : 1);
+    if (!best || pri(s) < pri(best.skill) || (pri(s) === pri(best.skill) && score > best.score)) best = { skill: s, target: null, key, score, why: `${s.name} (${s.ab}): ${need.map(x => x.m.name + ' ' + x.n).join(', ')}` };
+  });
+  if (best) return best;
+  const order = mates.slice().sort((a, b) => (b.tank ? 1 : 0) - (a.tank ? 1 : 0) || (b.leader ? 1 : 0) - (a.leader ? 1 : 0) || String(a.name).localeCompare(String(b.name)));
+  for (const m of order) {
+    if (!m.me && rkNum(m.dist) > cfg.range) continue;
+    for (const s of sk.target || []) {
+      if (!s.who && RK_FIGHTER_TYPES.test(s.ab) && m.caster) continue;
+      if (!s.who && RK_MAGE_TYPES.test(s.ab) && !m.caster) continue;
+      if (!mine(s, m)) continue;
+      const key = s.id + '@' + m.name;
+      if (s.time < cfg.minTime || !afford(s) || !free(key)) continue;
+      const n = rkBuffNeed(s, m, cfg);
+      if (n) return { skill: s, target: m, key, score: 1, why: `${s.name} (${s.ab}) on ${m.name}: ${n}` };
+    }
+  }
+  return null;
+}
+/** after a cast: did the buff show up? pend: { key, ab, names: [who], at }, seen(name) -> buffs map | null. Returns 'ok' | 'fail' | 'wait' */
+function rkBufferVerify(pend, seen, t, fails, cfg) {
+  const c = Object.assign({}, ROLEKIND.buff, cfg || {});
+  if (!pend) return 'ok';
+  if (t - pend.at < 2500) return 'wait';
+  const ok = (pend.names || []).some(n => { const b = seen(n); return !!(b && b[pend.ab]); });
+  if (ok) { delete fails[pend.key]; return 'ok'; }
+  if (t - pend.at < 8000) return 'wait';
+  const f = fails[pend.key] = fails[pend.key] || { n: 0, until: 0 };
+  f.n++; if (f.n >= c.failMax) { f.until = t + c.failBlockMs; f.n = 0; }
+  return 'fail';
+}
+/** compact buff report for teammates' buffers: { TYPE: [remainSec, level] } (debuffs left out; at most reportMax types) */
+function rkBuffReport(list) {
+  const out = {}; let n = 0;
+  (list || []).forEach(b => { if (!b || b.IsDebuff || n >= ROLEKIND.buff.reportMax) return; const ab = String(b.AbnormalType || '').toUpperCase(); if (!ab || out[ab]) return;
+    out[ab] = [Math.round(rkNum(b.RemainTime)), b.AbnormalLevel === null || b.AbnormalLevel === undefined ? rkNum(b.Level) : rkNum(b.AbnormalLevel)]; n++; });
+  return out;
+}
+function rkBuffsFromReport(r) { const out = {}; Object.keys(r || {}).forEach(k => { const v = r[k] || []; out[k] = { remain: rkNum(v[0]), level: rkNum(v[1]) }; }); return out; }
+/** does a team (role tokens / raw roster roles) contain a generic buffer that needs our buff reports? */
+function rkTeamNeedsBuffReport(roles) { return (roles || []).some(r => ROLE_RE.bufferUp.test(String(r || ''))); }
+const RK_SAVE_TYPES = /^(PD_UP_SPECIAL|AVOID_UP_SPECIAL|INVINCIBILITY)$/;   // Ultimate Defense / Ultimate Evasion / Vengeance type: the tank's emergency
+/** a generic tank's skills by data: { single: [ids], area: [ids], save: [ids] } (strongest first). TARGET_LOCK = the Aggression / Aura of Hate type */
+function rkTankPick(list) {
+  const single = [], area = [], save = [];
+  (list || []).forEach(s0 => {
+    const s = rkSkill(s0);
+    if (!s.id || !s.active || s.toggle) return;
+    if (s.ab === 'TARGET_LOCK') {
+      if (/^(ENEMY|ENEMY_ONLY|TARGET|)$/.test(s.target) && (s.scope === 'SINGLE' || s.scope === '')) single.push(s);
+      else area.push(s);
+      return;
+    }
+    if (s.target === 'SELF' && !s.debuff && RK_SAVE_TYPES.test(s.ab) && s.time > 0 && s.time <= 120) save.push(s);
+  });
+  const ord = (a) => a.sort((x, y) => y.mlvl - x.mlvl || y.level - x.level || x.mp - y.mp).map(s => s.id);
+  return { single: ord(single), area: ord(area), save: ord(save) };
+}
+const RK_SUMMON_NOT = /cubic|friend|party|clan|golem|cannon|big boom|siege|treasure|corrupted|cursed|mechanic|wyvern|pet|signet|merchant/i;
+/** SUMMONERS (user 2026-10-10: "summoners need to use their summon for attacks or they are useless ... summon and assist their summon"):
+ *  Warlock / Arcana Lord, Elemental Summoner / Elemental Master, Phantom Summoner / Spectral Master (class_tree role 'summoner').
+ *  The best servitor I can summon now: my learned 'Summon ...' servitor skills (no cubics / golems / Summon Friend), highest magic level, then
+ *  skill level; prefer = the user's choice (plan field `summon`: a name part like 'Kat', 'Unicorn', 'Shadow') wins when I know + can afford it.
+ *  The consumable it eats (Spirit Ore / crystals) comes from the skill data (L2Skill.ItemConsumeId / ItemConsumeCount). */
+function rkSummonPick(list, have, prefer) {
+  let best = null, pref = null;
+  const want = String(prefer || '').trim().toLowerCase();
+  (list || []).forEach(s0 => {
+    const s = rkSkill(s0);
+    if (!s.id || !s.active || s.toggle || !/^Summon /i.test(s.name) || RK_SUMMON_NOT.test(s.name)) return;
+    if (s.target && s.target !== 'SELF' && s.target !== 'NONE') return;
+    if (s.itemId && have && rkNum(have(s.itemId)) < Math.max(1, s.itemCount)) return;
+    if (want && s.name.toLowerCase().includes(want) && (!pref || s.mlvl > pref.mlvl)) pref = s;
+    if (!best || s.mlvl > best.mlvl || (s.mlvl === best.mlvl && (s.level > best.level || (s.level === best.level && s.mp > best.mp)))) best = s;
+  });
+  return pref || best;
+}
+/** every servitor summon I know (also the ones I cannot afford now): for the consumable need */
+function rkSummonSkills(list) { return (list || []).map(rkSkill).filter(s => s.id && s.active && !s.toggle && /^Summon /i.test(s.name) && !RK_SUMMON_NOT.test(s.name) && (!s.target || s.target === 'SELF' || s.target === 'NONE')); }
+/** the consumable my best summon needs: { id, perSummon, want, below } | null (want = enough for summon.resummons summons + the upkeep margin) */
+function rkSummonConsumable(list, cfg) {
+  const c = Object.assign({}, ROLEKIND.summon, cfg || {});
+  const all = rkSummonSkills(list).filter(s => s.itemId);
+  if (!all.length) return null;
+  const s = all.sort((a, b) => b.mlvl - a.mlvl || b.level - a.level)[0], per = Math.max(1, s.itemCount);
+  return { id: s.itemId, skill: s.name, perSummon: per, want: per * c.resummons + c.upkeepMargin, below: per * c.lowSummons + Math.ceil(c.upkeepMargin / 2) };
+}
+const RK_SERVITOR_TT = /^(SUMMON|PET|SERVITOR)$/;
+/** my skills FOR the servitor (TargetType SUMMON, or the 'Servitor ...' names): { heal: [], recharge: [], cure: [], buffs: [] } */
+function rkServitorSkills(list) {
+  const out = { heal: [], recharge: [], cure: [], buffs: [] };
+  (list || []).forEach(s0 => {
+    const s = rkSkill(s0);
+    if (!s.id || !s.active || s.toggle || s.debuff) return;
+    if (!(RK_SERVITOR_TT.test(s.target) || /\bservitor\b/i.test(s.name))) return;
+    if (/^Summon /i.test(s.name) || /golem/i.test(s.name)) return;
+    if (/recharge/i.test(s.name)) out.recharge.push(s);
+    else if (/\bheal\b|healing/i.test(s.name)) out.heal.push(s);
+    else if (/cure|purify|cleanse/i.test(s.name)) out.cure.push(s);
+    else if (s.ab && s.time > 0) out.buffs.push(s);
+  });
+  const ord = (a) => a.sort((x, y) => y.mlvl - x.mlvl || y.level - x.level);
+  Object.keys(out).forEach(k => ord(out[k]));
+  return out;
+}
+/** what the summoner does for its servitor now: { skill, why } | null. pet: { hp, mp, dead, buffs: { AB: {remain, level} }, debuffed }, me: { hp }.
+ *  Order: servitor heal below petHealBelow (before my own heal unless I am in danger: me.hp < selfDangerHp), recharge below petMpBelow,
+ *  cure when debuffed, missing servitor buffs (same rules as party buffs: never over a stronger one). */
+function rkServitorCare(sk, pet, me, cfg) {
+  const c = Object.assign({}, ROLEKIND.summon, cfg || {}), S = sk || {}; me = me || {};
+  if (!pet || pet.dead) return null;
+  if (me && rkNum(me.hp) > 0 && rkNum(me.hp) < c.selfDangerHp) return null;   // I am in danger: my own heal / potion first
+  const ready = (a) => (a || []).find(s => s.ready !== false && (me.mp === undefined || s.mp <= rkNum(me.mp)));
+  if (rkNum(pet.hp) < c.petHealBelow) { const k = ready(S.heal); if (k) return { skill: k, why: `servitor HP ${Math.round(rkNum(pet.hp))}%` }; }
+  if (pet.mp !== undefined && rkNum(pet.mp) < c.petMpBelow) { const k = ready(S.recharge); if (k) return { skill: k, why: `servitor MP ${Math.round(rkNum(pet.mp))}%` }; }
+  if (pet.debuffed) { const k = ready(S.cure); if (k) return { skill: k, why: 'servitor debuffed' }; }
+  for (const k of S.buffs || []) { if (k.ready === false || (me.mp !== undefined && k.mp > rkNum(me.mp))) continue; const n = rkBuffNeed(k, { buffs: pet.buffs || {} }); if (n) return { skill: k, why: `servitor buff ${k.name} ${n}` }; }
+  return null;
+}
+/** whom the servitor attacks: an objId, 'stop' (call it back: regroup / teleport / escape / flee) or 0 (nothing: it never pulls on its own).
+ *  o: { retreat, raid, raidPulled, raidFocus, instFocus, onHealer, leaderTarget, onMe, onPet } */
+function rkServitorTarget(o) {
+  const c = o || {};
+  if (c.retreat) return 'stop';
+  if (c.raid) return c.raidPulled ? (rkNum(c.raidFocus) || rkNum(c.onHealer) || rkNum(c.onPet) || rkNum(c.onMe) || 0) : (rkNum(c.onPet) || rkNum(c.onMe) || 0);   // raid rules: nothing before the pull but self-defence
+  return rkNum(c.instFocus) || rkNum(c.onHealer) || rkNum(c.leaderTarget) || rkNum(c.onPet) || rkNum(c.onMe) || 0;
+}
+/** THE SERVITOR'S OWN SKILLS: L2Swarm can read them (L2PartyPet.Skills) but has no cast packet for them; the client casts them with
+ *  RequestActionUse(action) and the server maps action -> skill (Scripts/data/servitor_actions.json from L2J RequestActionUse.java).
+ *  table: [{ action, servitor, skill, owner, pet }], petSkills: the servitor's L2Skill list -> [{ action, s (rkSkill), use: 'attack'|'aoe'|
+ *  'debuff'|'buff'|'heal'|'recharge', owner }] — only actions whose skill the servitor really has now (it learns them with its level). */
+function rkServitorActions(table, petName, petSkills) {
+  const sk = (petSkills || []).map(rkSkill).filter(s => s.id && s.active !== false && !s.toggle);
+  const pn = String(petName || '').trim().toLowerCase(), out = [], low = (x) => String(x || '').toLowerCase();
+  const nameFits = (a) => !pn || !a.servitor || pn.includes(low(a.servitor)) || low(a.servitor).includes(pn);
+  sk.forEach(s => {
+    const rows = (table || []).filter(a => a && !a.pet && low(a.skill) === low(s.name));   // pets (wolves, striders) are not servitors
+    if (!rows.length) return;
+    const a = rows.find(nameFits) || (rows.length === 1 ? rows[0] : null);   // the same skill name on several servitors: the servitor's name decides
+    if (!a) return;
+    const enemy = /^(ENEMY|ENEMY_ONLY|TARGET|)$/.test(s.target) && !a.owner;
+    const use = /recharge/i.test(s.name) ? 'recharge' : (/heal|sacrifice/i.test(s.name) && !enemy) ? 'heal'
+      : (!enemy || a.owner) ? ((s.ab && s.time > 0) ? 'buff' : 'heal')
+      : s.debuff && s.ab && s.time > 0 && !/stun|hold|blow|strike|slash|bang|wave|kaboom|death/i.test(s.name) ? 'debuff'
+      : (s.scope && s.scope !== 'SINGLE') ? 'aoe' : 'attack';
+    out.push({ action: Number(a.action), s, use, owner: !!a.owner });
+  });
+  return out;
+}
+/** which servitor skill to use now: { action, why } | null. o: { acts (rkServitorActions + .ready), fighting (the servitor attacks a live focus),
+ *  mobsAtTarget, worth (raid boss / long fight: debuffs), owner: { hp, mp, buffs }, last: { action: at }, now, gapMs } */
+function rkServitorSkillPick(o) {
+  const c = o || {}, t = rkNum(c.now), gap = rkNum(c.gapMs) || 3000, own = c.owner || {};
+  const free = (a) => a.ready !== false && !(c.last && c.last[a.action] && t - c.last[a.action] < gap);
+  const acts = (c.acts || []).filter(free);
+  const f = (use) => acts.filter(a => a.use === use).sort((x, y) => y.s.mlvl - x.s.mlvl || y.s.level - x.s.level)[0];
+  let a = null;
+  if (rkNum(own.hp) > 0 && rkNum(own.hp) < 60 && (a = f('heal'))) return { action: a.action, why: `${a.s.name}: summoner HP ${Math.round(rkNum(own.hp))}%` };
+  if (own.mp !== undefined && rkNum(own.mp) < 40 && (a = f('recharge'))) return { action: a.action, why: `${a.s.name}: summoner MP ${Math.round(rkNum(own.mp))}%` };
+  for (const b of acts.filter(x => x.use === 'buff')) if (rkBuffNeed(b.s, { buffs: own.buffs || {} })) return { action: b.action, why: `${b.s.name}: buff on the summoner` };
+  if (!c.fighting) return null;
+  if (rkNum(c.mobsAtTarget) >= 3 && (a = f('aoe'))) return { action: a.action, why: `${a.s.name}: ${rkNum(c.mobsAtTarget)} monsters` };
+  if (c.worth && (a = f('debuff'))) return { action: a.action, why: `${a.s.name}: debuff on the target` };
+  if ((a = f('attack'))) return { action: a.action, why: `${a.s.name}: attack` };
+  return null;
+}
+/** archer spacing: a monster close to me that a TEAMMATE holds -> step back to `want` from it. o: { me: {x,y}, mobs: [{ x, y, on: 'me'|'mate'|'none' }], cfg }
+ *  null = stay (nothing close, or it fights ME: stepping back does not help, the tank takes it) */
+function rkArcherStep(o) {
+  const c = Object.assign({}, ROLEKIND.archer, (o && o.cfg) || {}), me = (o && o.me) || { x: 0, y: 0 };
+  const d = (m) => Math.hypot(m.x - me.x, m.y - me.y);
+  const close = ((o && o.mobs) || []).filter(m => d(m) < c.tooClose);
+  if (!close.length || close.some(m => m.on === 'me')) return null;
+  const held = close.filter(m => m.on === 'mate'); if (!held.length) return null;
+  const cx = held.reduce((a, m) => a + m.x, 0) / held.length, cy = held.reduce((a, m) => a + m.y, 0) / held.length;
+  let dx = me.x - cx, dy = me.y - cy, L = Math.hypot(dx, dy); if (L < 1) { dx = 1; dy = 0; L = 1; }
+  return { x: Math.round(cx + dx / L * c.want), y: Math.round(cy + dy / L * c.want), why: `${held.length} monster(s) held by a teammate within ${Math.round(Math.min(...held.map(d)))}` };
+}
+// BOARD BUFFS OPTIONAL (public kit user 2026-10-10: "old school playstyle, all needed chars in party, NOT relying on community buffs"):
+// swarm.config.json "boardBuffs": true | false (default true = L2Toggle Community Board buffs, today's behaviour) and per party on the party
+// LEADER's account entry ("boardBuffs": false on the leader = the whole party). Party = the leader's character name.
+function rkBoardBuffs(cfg, party) {
+  const c = cfg || {}, p = String(party || '');
+  const acc = (c.accounts || []).find(a => a && String(a.character || '') === p && typeof a.boardBuffs === 'boolean');
+  if (acc) return acc.boardBuffs;
+  return typeof c.boardBuffs === 'boolean' ? c.boardBuffs : true;
+}
+/** who keeps party buffs up: 'fill' = a generic buffer next to the board (only what the board lacks) | 'primary' = no board buffs: the party's own
+ *  buffers are the buff source (priority over damage, mana potions, before pulls) | 'healer-idle' = no board: a healer buffs when nobody is hurt | '' */
+function rkUpkeepRole(token, board) {
+  const t = String(token || ''), k = rkKindOf(t);
+  if (ROLE_RE.bufferUp.test(t)) return board ? 'fill' : 'primary';
+  if (board) return '';                                       // board buffs on: legacy roles exactly as before (no upkeep)
+  if (k === 'buffer') return 'primary';                       // doomcryer / inspector without board buffs
+  if (k === 'healer') return 'healer-idle';                   // Bishop / Elder / Shillien Elder buffs between heals
+  return '';
+}
+/** self buffs / toggles allowed? (CLAUDE.md rule: not over board buffs — only when the board is used for this party) */
+function rkSelfBuffsAllowed(board, needsBoardBuff) { return !board || !!needsBoardBuff; }
+// ROLEKIND-PURE-END
+// BUFF PLANS (user 2026-10-10: a friend "runs every single class" and uses NO community buffer): per party (= leader name) and per buffer
+// character the user picks WHICH of its own buffs it casts and ON WHOM (dashboard #/buffs, Scripts/data/buff_plans.json); Bladedancer dances +
+// Swordsinger songs INTERLEAVE (one dance, one song, ...) through a turn token between the windows. No plan = a SUGGESTION from the
+// character's own skills (ROLEKIND rkClassifyBuffs), shown as "not reviewed"; an approved plan always wins. Dashboard/bufflogic.js carries
+// this block + ROLEKIND-PURE text for text (docs/plan/tools/buff_logic_sync.js; test_buff_plans.js fails when they differ).
+// File format: { version, settings: { songDanceMax, gatherPct, rotGapMs, rotTakeoverMs }, parties: { <leader>: { chars: { <name>: { approved,
+//   savedAt, buffs: [{ skill, id, targets: ['party'|'fighters'|'mages'|'self'|'tank'|<name>...], priority, keep }], rotation: [skill names] } } } },
+//   templates: { <name>: { desc, classes: { <class name>: { buffs, rotation } } } } }
+// BUFFPLAN-PURE-BEGIN (no host calls in here: docs/plan/tools/test_buff_plans.js runs this block in node; Dashboard/bufflogic.js = text copy)
+const BUFFPLAN = {
+  targetWords: ['party', 'fighters', 'mages', 'self', 'tank', 'servitors'],   // servitors = the summoners' servitors (pseudo members '<owner>:pet')
+  // songDanceMax: the server's song/dance slots (L2Toggle 14); gather*: songs / dances only with the party near; rot*: cycle step timing;
+  // cycleExpiredPct: a new full song/dance cycle starts when this share of the set has expired on most gathered members; cycleMp*: MP estimate
+  // for a cycle (+ step % per song/dance already up, + margin), cycleMpWaitMs: max wait for MP before starting with what we have
+  settings: { songDanceMax: 14, gatherPct: 60, gatherRange: 1000, rotGapMs: 1500, rotTakeoverMs: 7000, rotMinMpPct: 20,
+              cycleExpiredPct: 60, cycleMpStepPct: 10, cycleMpMarginPct: 10, cycleMpWaitMs: 60000 },
+  status: ['ok', 'suggested', 'missing', 'invalid', 'none'],
+};
+function bpNorm(s) { return String(s || '').trim().toLowerCase().replace(/[’`]/g, "'").replace(/\s+/g, ' '); }
+function bpSettings(file) { return Object.assign({}, BUFFPLAN.settings, (file && file.settings) || {}); }
+/** the plan entry of one character: { entry, party } | null */
+function bpEntry(file, party, name) {
+  const p = file && file.parties && file.parties[party];
+  const e = p && p.chars && p.chars[name];
+  return e && typeof e === 'object' ? e : null;
+}
+/** which members a target list means. members: [{ name, caster, tank, me }] -> [names] */
+function bpTargets(targets, members, me) {
+  const out = [], add = (n) => { if (n && !out.includes(n)) out.push(n); };
+  const list = Array.isArray(targets) && targets.length ? targets : ['party'];
+  list.forEach(t0 => {
+    const t = bpNorm(t0);
+    (members || []).forEach(m => {
+      if (m.pet) { if (t === 'servitors' || bpNorm(m.name) === t) add(m.name); return; }   // a servitor only by 'servitors' or its own name
+      if (t === 'party') add(m.name);
+      else if (t === 'fighters' && !m.caster) add(m.name);
+      else if (t === 'mages' && m.caster) add(m.name);
+      else if (t === 'self' && (m.me || m.name === me)) add(m.name);
+      else if (t === 'tank' && m.tank) add(m.name);
+      else if (bpNorm(m.name) === t) add(m.name);
+    });
+  });
+  return out;
+}
+/** checks one plan entry against the character's known buff skills (classified: { party, target } from rkClassifyBuffs) */
+function bpValidate(entry, skills, memberNames) {
+  const errors = [], warnings = [];
+  if (!entry || typeof entry !== 'object') return { ok: false, errors: ['no plan'], warnings };
+  const known = [].concat((skills && skills.party) || [], (skills && skills.target) || []);
+  const have = (b) => known.find(s => (b.id && Number(b.id) === s.id) || bpNorm(b.skill) === bpNorm(s.name));
+  const seen = {};
+  (entry.buffs || []).forEach((b, i) => {
+    if (!b || (!b.skill && !b.id)) { errors.push(`buff ${i + 1}: no skill`); return; }
+    const k = bpNorm(b.skill || b.id); if (seen[k]) warnings.push(`${b.skill || b.id}: listed twice`); seen[k] = true;
+    if (known.length && !have(b)) warnings.push(`${b.skill || b.id}: not learned (yet) — skipped until it is`);
+    (Array.isArray(b.targets) ? b.targets : []).forEach(t => {
+      const w = bpNorm(t);
+      if (!BUFFPLAN.targetWords.includes(w) && memberNames && !memberNames.some(n => bpNorm(n) === w)) warnings.push(`${b.skill || b.id}: target '${t}' is not in this party`);
+    });
+  });
+  bpRotEntries(entry.rotation).forEach(r => { if (known.length && !known.some(s => bpNorm(s.name) === bpNorm(r.name))) warnings.push(`rotation: ${r.name} not learned (yet)`); });
+  return { ok: !errors.length, errors, warnings };
+}
+const BP_FIGHTER = /^(PA_UP|ATTACK_TIME_DOWN|CRITICAL_PROB_UP|CRITICAL_DMG_UP|HIT_UP|BERSERKER|VAMPIRIC_ATTACK|DANCE_OF_FURY|DANCE_OF_WARRIOR|DANCE_OF_FIRE|DANCE_OF_VAMPIRE)$/;
+const BP_MAGE = /^(MA_UP|CASTING_TIME_DOWN|MAGIC_CRITICAL_UP|CANCEL_PROB_DOWN|MAX_MP_UP|MP_REGEN_UP|DANCE_OF_MYSTIC|DANCE_OF_CONCENTRATION|DANCE_OF_SIREN)$/;
+/** who benefits from a buff type: 'fighters' | 'mages' | 'party' */
+function bpBenefit(ab) { const a = String(ab || '').toUpperCase(); return BP_FIGHTER.test(a) ? 'fighters' : BP_MAGE.test(a) ? 'mages' : 'party'; }
+/** a SUGGESTED plan from the character's own skills (never approved by itself) */
+function bpSuggest(skills) {
+  const buffs = [], rotation = [];
+  ((skills && skills.party) || []).forEach(s => { if (rkIsSongDance(s)) rotation.push(s.name); else buffs.push({ skill: s.name, id: s.id, targets: ['party'], priority: 2, keep: true }); });
+  ((skills && skills.target) || []).forEach(s => buffs.push({ skill: s.name, id: s.id, targets: [bpBenefit(s.ab)], priority: 3, keep: true }));
+  return { buffs, rotation, suggested: true };
+}
+/** the plan that runs: { status: 'ok'|'suggested'|'invalid'|'none', plan, why }. A saved plan needs approved: true; a saved plan that is not
+ *  approved yet does not run (status 'suggested' with the suggestion running, like no plan). */
+function bpEffective(entry, skills, memberNames) {
+  if (entry && entry.approved) {
+    const v = bpValidate(entry, skills, memberNames);
+    if (!v.ok) return { status: 'invalid', plan: bpSuggest(skills), why: v.errors.join('; '), warnings: v.warnings };
+    return { status: 'ok', plan: { buffs: (entry.buffs || []).slice(), rotation: (entry.rotation || []).slice() }, why: 'approved plan', warnings: v.warnings };
+  }
+  const s = bpSuggest(skills);
+  if (!s.buffs.length && !s.rotation.length) return { status: 'none', plan: s, why: 'no party buffs learned', warnings: [] };
+  return { status: 'suggested', plan: s, why: entry ? 'saved but not approved: the suggestion runs' : 'no plan: the suggestion runs (not reviewed)', warnings: [] };
+}
+/** HOW the plan runs (user decision 2026-10-10): 'full' | 'fill' | ''.
+ *  - a SAVED + approved plan always wins: 'full' (its buffs + its song/dance cycles; a stronger buff of the same type is never overwritten);
+ *  - NO plan (or saved but not approved / invalid) = the SUGGESTION from the character's own skills, status 'suggested' (dashboard: animated
+ *    "buff plan not reviewed" badge): with boardBuffs FALSE for the party it runs right away ('full'); with boardBuffs TRUE it only fills what
+ *    the board lacks ('fill': missing types only, no song/dance cycles) = the behaviour before buff plans;
+ *  - nothing learned: ''. */
+function bpRuns(eff, board) {
+  if (!eff || eff.status === 'none') return '';
+  if (eff.status === 'ok') return 'full';
+  return board ? 'fill' : 'full';
+}
+/** my skills that the plan allows, each with .who = [member names] and .priority (lower first); rotation skills are left out (the cycle) */
+function bpPlanSkills(plan, skills, members, me) {
+  const known = [].concat(((skills && skills.party) || []).map(s => Object.assign({ kind: 'party' }, s)), ((skills && skills.target) || []).map(s => Object.assign({ kind: 'target' }, s)));
+  const rot = bpRotEntries(plan && plan.rotation).filter(r => !r.keepAlways).map(r => bpNorm(r.name));   // keepAlways songs / dances: per-buff upkeep
+  const out = { party: [], target: [] };
+  ((plan && plan.buffs) || []).forEach((b, i) => {
+    if (b && b.keep === false) return;
+    const s = known.find(k => (b.id && Number(b.id) === k.id) || bpNorm(b.skill) === bpNorm(k.name));
+    if (!s || rot.includes(bpNorm(s.name))) return;
+    const x = Object.assign({}, s, { who: bpTargets(b.targets, members, me), priority: Number(b.priority) || (i + 1) });
+    (s.kind === 'party' ? out.party : out.target).push(x);
+  });
+  // a song / dance marked keepAlways is kept up on its own between cycles (per-buff upkeep, like a party buff)
+  bpRotEntries(plan && plan.rotation).filter(r => r.keepAlways).forEach((r, i) => { const s = known.find(k => k.kind === 'party' && bpNorm(k.name) === bpNorm(r.name)); if (s) out.party.push(Object.assign({}, s, { who: bpTargets(['party'], members, me), priority: 50 + i, keepAlways: true })); });
+  out.party.sort((a, b) => a.priority - b.priority); out.target.sort((a, b) => a.priority - b.priority);
+  return out;
+}
+/** OVERLAP: several buffers put the same abnormal type on the same member -> one owner (the higher abnormal level, then the higher magic level,
+ *  then the name). offers: [{ by, ab, abLvl, mlvl, who: [names] }] -> { owner: { 'member|AB': by }, overlaps: [{ member, ab, by: [...], winner }] } */
+function bpOwners(offers) {
+  const owner = {}, cand = {};
+  (offers || []).forEach(o => (o.who || []).forEach(m => { const k = m + '|' + String(o.ab || '').toUpperCase(); (cand[k] = cand[k] || []).push(o); }));
+  const overlaps = [];
+  Object.keys(cand).forEach(k => {
+    const list = cand[k].slice().sort((a, b) => (Number(b.abLvl) || 0) - (Number(a.abLvl) || 0) || (Number(b.mlvl) || 0) - (Number(a.mlvl) || 0) || String(a.by).localeCompare(String(b.by)));
+    owner[k] = list[0].by;
+    const bys = Array.from(new Set(list.map(x => x.by)));
+    if (bys.length > 1) { const [member, ab] = k.split('|'); overlaps.push({ member, ab, by: bys, winner: list[0].by }); }
+  });
+  return { owner, overlaps };
+}
+/** is the party gathered for a song / dance (it reaches only who is near): enough alive members within range of me */
+function bpGathered(members, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {});
+  const alive = (members || []).filter(m => !m.dead);
+  if (alive.length <= 1) return true;
+  const near = alive.filter(m => m.me || (Number(m.dist) || 0) <= c.gatherRange).length;
+  return near * 100 >= alive.length * c.gatherPct;
+}
+/** SONG / DANCE CYCLES (user 2026-10-10: "songs and dances cost more and more the more you have up, so normally you cast them all; as soon as
+ *  they run out you start dancing and singing again"). NOT a per-song top-up: a FULL CYCLE = the whole planned set back to back (dance, song,
+ *  dance, song ... when the party has dancers and singers), then WAIT while they run, and the next full cycle once most of the set expired
+ *  (settings.cycleExpiredPct). A song / dance marked keepAlways in the plan is the only one kept up on its own (per-buff upkeep).
+ *  Rotation entries: 'Dance of Fire' or { skill: 'Dance of Fire', keepAlways: true }. */
+function bpRotName(r) { return typeof r === 'string' ? r : String((r && (r.skill || r.name)) || ''); }
+function bpRotEntries(rotation) { return (rotation || []).map(r => ({ name: bpRotName(r), keepAlways: !!(r && typeof r === 'object' && r.keepAlways) })).filter(r => r.name); }
+/** the cycle order. casters: [{ name, kind: 'dance'|'song', list: [skill names in the user's order] }] -> [{ by, skill }]
+ *  inside each kind round robin over the casters (dancer A step 1, dancer B step 1, A step 2 ...); both kinds: dance, song, dance, song ... */
+function bpCycleSeq(casters) {
+  const rr = (cs) => { const out = [], n = Math.max(0, ...cs.map(c => (c.list || []).length)); for (let i = 0; i < n; i++) cs.forEach(c => { if ((c.list || [])[i]) out.push({ by: c.name, skill: c.list[i] }); }); return out; };
+  const by = (k) => (casters || []).filter(c => c.kind === k).slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
+  const D = rr(by('dance')), S = rr(by('song')), seq = [];
+  for (let i = 0; i < Math.max(D.length, S.length); i++) { if (D[i]) seq.push(D[i]); if (S[i]) seq.push(S[i]); }
+  return seq;
+}
+/** is a new cycle due? types = the abnormal types of the whole set; members = gathered members with buffs. A type counts as expired when it is
+ *  gone / about to run out on most of the gathered members. due = expired share >= cycleExpiredPct. -> { due, expired, total } */
+function bpCycleDue(types, members, cfg) {
+  const c = Object.assign({}, ROLEKIND.buff, BUFFPLAN.settings, cfg || {});
+  const near = (members || []).filter(m => !m.dead && m.known !== false && (m.me || (Number(m.dist) || 0) <= c.gatherRange));
+  const list = Array.from(new Set((types || []).map(t => String(t || '').toUpperCase()).filter(Boolean)));
+  if (!list.length || !near.length) return { due: false, expired: 0, total: list.length };
+  let expired = 0;
+  list.forEach(t => {
+    const gone = near.filter(m => { const b = (m.buffs || {})[t]; return !b || (rkNum(b.remain) > 0 && rkNum(b.remain) <= c.refreshSec); }).length;
+    if (gone * 2 > near.length) expired++;
+  });
+  return { due: expired * 100 >= list.length * c.cycleExpiredPct, expired, total: list.length };
+}
+/** MP for my part of a cycle: each song / dance costs more the more are already up (estimate: + cycleMpStepPct % of its base cost per song /
+ *  dance already running; the client data has no exact number) plus cycleMpMarginPct. mps = my steps' base MP in cycle order, upBefore = how
+ *  many of the whole cycle are up before each of my steps (array, same length; default = its position in my list) */
+function bpCycleMp(mps, upBefore, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {});
+  let sum = 0; (mps || []).forEach((mp, i) => { const up = upBefore && upBefore[i] !== undefined ? Number(upBefore[i]) : i; sum += (Number(mp) || 0) * (1 + up * c.cycleMpStepPct / 100); });
+  return Math.ceil(sum * (1 + c.cycleMpMarginPct / 100));
+}
+/** what I do now in the cycle. token: { cycle, step, at, phase: 'run'|'done' } (shared by App events), seq = bpCycleSeq(...),
+ *  casters: [{ name, ok (alive, gathered), mpOk (MP for my part) }], due = bpCycleDue(...).due, waitedMs = how long the start already waits for MP.
+ *  -> { act: 'start'|'cast'|'skip'|'wait'|'idle', step, skill, why } */
+function bpCycleStep(token, seq, casters, now, me, due, waitedMs, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {}), t = token || {}, n = (seq || []).length;
+  const info = (name) => (casters || []).find(x => x.name === name) || { ok: false, mpOk: false };
+  if (!n) return { act: 'idle', why: 'no songs / dances planned' };
+  const running = t.phase === 'run' && Number(t.step) < n;
+  if (!running) {
+    if (!due) return { act: 'idle', why: 'the set is still running (no partial recasts)' };
+    const order = Array.from(new Set(seq.map(s => s.by)));
+    const starter = order.find(nm => info(nm).ok);
+    if (starter !== me) return { act: 'idle', why: `cycle due: ${starter || 'nobody'} starts it` };
+    const allMp = order.every(nm => !info(nm).ok || info(nm).mpOk);
+    if (!allMp && (Number(waitedMs) || 0) < c.cycleMpWaitMs) return { act: 'wait', why: 'cycle due: waiting for MP (mana potion / rest) first' };
+    return { act: 'start', step: 0, skill: seq[0].by === me ? seq[0].skill : '', why: allMp ? 'cycle due: starting' : 'cycle due: starting with the MP we have' };
+  }
+  const st = seq[Number(t.step)], age = (Number(now) || 0) - (Number(t.at) || 0);
+  if (st.by === me) {
+    if (age < c.rotGapMs) return { act: 'wait', step: Number(t.step), why: 'next step soon' };
+    return { act: 'cast', step: Number(t.step), skill: st.skill, why: `cycle step ${Number(t.step) + 1}/${n}` };
+  }
+  if (age > c.rotTakeoverMs || !info(st.by).ok) {             // its caster cannot (dead / far / no MP) or took too long: the next caster skips it
+    const nxt = seq.slice(Number(t.step) + 1).find(s => info(s.by).ok);
+    if (nxt && nxt.by === me) return { act: 'skip', step: Number(t.step), why: `${st.by} did not cast ${st.skill}: skipping it` };
+  }
+  return { act: 'idle', step: Number(t.step), why: `${st.by}'s turn (${st.skill})` };
+}
+/** the status line for the dashboard: { status, missing: { member: [ab...] } } from the plan's skills and the members' buffs */
+function bpMissing(planSkills, members) {
+  const out = {};
+  [].concat((planSkills && planSkills.party) || [], (planSkills && planSkills.target) || []).forEach(s => (members || []).forEach(m => {
+    if (m.dead || (s.who && !s.who.includes(m.name))) return;
+    if (rkBuffNeed(s, m) === 'missing') (out[m.name] = out[m.name] || []).push(s.name);
+  }));
+  return out;
+}
+/** a party as a template (by class name) and a template applied to a party (only characters whose class has an entry; others untouched).
+ *  chars: [{ name, cls }] ; entries: { name: entry } */
+function bpTemplateFromParty(chars, entries) {
+  const classes = {};
+  (chars || []).forEach(c => { const e = entries && entries[c.name]; if (e && c.cls && !classes[c.cls]) classes[c.cls] = { buffs: (e.buffs || []).map(b => Object.assign({}, b, { targets: (b.targets || []).filter(t => BUFFPLAN.targetWords.includes(bpNorm(t))) })), rotation: (e.rotation || []).slice() }; });
+  return { classes };
+}
+function bpTemplateApply(tpl, chars) {
+  const out = {};
+  (chars || []).forEach(c => { const e = tpl && tpl.classes && (tpl.classes[c.cls] || tpl.classes[Object.keys(tpl.classes).find(k => bpNorm(k) === bpNorm(c.cls))]); if (e) out[c.name] = { approved: false, buffs: (e.buffs || []).map(b => Object.assign({}, b)), rotation: (e.rotation || []).slice() }; });
+  return out;
+}
+// BUFFPLAN-PURE-END
+// ROLEKIND-HOST-BEGIN
+// ---------------------------------------------------------------------------
+// ROLEKIND HOST (2026-10-10; pure part: ROLEKIND-PURE + BUFFPLAN-PURE near the top). Everything below is gated so the LEGACY roles of a
+// party WITH board buffs behave exactly as before: no upkeep, no buff reports, no new loops (test_role_kinds.js proves the gates).
+//  * role tokens: rkApplyRole (start + every class change for kind / auto roles), rkRosterLearn (teammates' tokens from swarm.pos)
+//  * board buffs per party: boardOn() = swarm.config.json boardBuffs (top level / the party leader's account entry), default on
+//  * tank: tankReady('single'|'area'|'save') = the old name lists, for the generic tank also the TARGET_LOCK / PD_UP_SPECIAL skills by data
+//  * buffer upkeep (+ BUFF PLANS + song/dance CYCLES), summoners (servitor, its care, its own skills, consumables), archer spacing, the pre-pull wait
+// ---------------------------------------------------------------------------
+const RKH = { cls: -1, src: '', boardAt: 0, board: true, skillKey: '', skillAt: 0, skills: null, tank: null, tankKey: '', planAt: 0, planStamp: '', plans: null,
+  reportAt: 0, report: false, said: {} };
+function rkSay(key, msg, everyMs) { if (now() - (RKH.said[key] || 0) < (everyMs || 60000)) return; RKH.said[key] = now(); note(msg); }
+function rkApplyRole(why) {
+  const raw = CONFIG.roster[Me.Name];
+  if (raw === undefined || raw === null || raw === '') { state.role = raw; return; }        // not in the roster: as before (follows nobody)
+  let r = null; try { r = rkResolve(raw, num(Me.ClassId), classTree()); } catch (e) { r = null; }
+  if (!r || !r.role) {                                                                        // class not in class_tree.json: fall back by fighter / mystic
+    let mystic = false; try { mystic = /MAGE|SUPPORT|^0$|^2$/i.test(String(Me.ClassType)); } catch (e) { }
+    r = { role: mystic ? 'nuker' : 'melee', kind: mystic ? 'nuker' : 'melee', legacy: false, source: 'fallback (class unknown)', style: mystic ? 'caster' : 'melee' };
+  }
+  const was = state.role;
+  state.role = r.role; state.roleKind = r.kind; state.roleStyle = r.style || ''; RKH.src = r.source; RKH.cls = num(Me.ClassId);
+  if (!r.legacy && was !== r.role) note(`role: ${raw} -> ${r.role} (kind ${r.kind}${r.style ? ', ' + r.style : ''}, from ${r.source}; ${why})`, true);
+}
+setInterval(() => {
+  try {
+    if (!state.role || rkIsLegacy(CONFIG.roster[Me.Name]) || !IsCharacterReady()) return;
+    if (num(Me.ClassId) !== RKH.cls) rkApplyRole('class change');
+  } catch (e) { }
+}, 30000);
+function rkRosterLearn(name, role) {
+  try {
+    if (!name || name === Me.Name || !role) return;
+    const cur = CONFIG.roster[name];
+    if (cur && !rkIsLegacy(cur) && cur !== role && rkKindOf(role)) CONFIG.roster[name] = String(role);
+  } catch (e) { }
+}
+function boardOn() {
+  if (now() - RKH.boardAt > 30000) { RKH.boardAt = now(); try { RKH.board = rkBoardBuffs(SWARM_CFG, teamOf(Me.Name)); } catch (e) { RKH.board = true; } }
+  return RKH.board;
+}
+/** my learned skills as a plain list (snapshot), cached on the skill count (re-read every 20 s anyway) */
+function rkSkillList() {
+  let key = ''; try { key = String(num(SkillsList.Count)); } catch (e) { }
+  if (RKH.skills && key === RKH.skillKey && now() - RKH.skillAt < 20000) return RKH.skills;
+  const a = []; try { (hostSnap.skills() || SkillsList).forEach(s => a.push(s)); } catch (e) { }
+  RKH.skills = a; RKH.skillKey = key; RKH.skillAt = now(); RKH.tank = null; BUFFUP.cls = null;
+  return a;
+}
+function rkLive(id) { let k = null; try { k = SkillsList.GetItemByID(Number(id)); } catch (e) { k = null; } return k; }
+/** the tank's skills: the old name lists first (sk: exactly as before), the generic tank also by data (rkTankPick) */
+function tankReady(which) {
+  const names = which === 'area' ? TANK_AREA : which === 'save' ? TANK_SAVE : TANK_SINGLE;
+  const k = readySkill(names);
+  if (k || state.role !== 'tank') return k;
+  if (!RKH.tank) RKH.tank = rkTankPick(rkSkillList());
+  for (const id of RKH.tank[which] || []) { const s = rkLive(id); if (s && s.IsReady && num(Me.MP) >= num(s.MP)) return s; }
+  return null;
+}
+
+// --- buffer upkeep + BUFF PLANS --------------------------------------------------------------------------------------------------------
+const BUFFUP = { busy: false, last: {}, fails: {}, pend: null, want: null, wantAt: 0, lastPot: 0, need: 0, mode: '', cls: null, eff: null, runs: false,
+  offers: {}, offerAt: 0, ownerAt: 0, owner: null, overlaps: [], rotme: {}, rotToken: { cycle: 0, step: 0, phase: '', at: 0, by: '' }, rotMeAt: 0, missing: {}, cycle: null, cycWaitSince: 0, owed: [] };
+function buffPlansFile() {
+  if (RKH.plans && now() - RKH.planAt < 10000) return RKH.plans;
+  RKH.planAt = now();
+  try {
+    const f = `${__SCRIPTS__}\\data\\buff_plans.json`, st = fileStamp(f);
+    if (!st) { RKH.plans = { parties: {}, settings: {} }; RKH.planStamp = ''; return RKH.plans; }
+    if (RKH.plans && st === RKH.planStamp) return RKH.plans;
+    const j = JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, ''));
+    RKH.plans = j && typeof j === 'object' ? j : { parties: {} }; RKH.planStamp = st;
+  } catch (e) { if (!RKH.plans) RKH.plans = { parties: {}, settings: {} }; }
+  return RKH.plans;
+}
+function rkMyBuffSkills() { rkSkillList(); if (!BUFFUP.cls) BUFFUP.cls = rkClassifyBuffs(RKH.skills, CONFIG.autoSkills.neverCast); return BUFFUP.cls; }
+function rkMyBuffsMap() { const a = []; try { (hostSnap.buffs() || BuffsList).forEach(b => a.push(b)); } catch (e) { } return rkBuffsFromReport(rkBuffReport(a)); }
+function rkMemberBuffs(name) {
+  if (name === Me.Name) return rkMyBuffsMap();
+  const lp = livePos[name]; if (!lp || !lp.ab || now() - (lp.at || 0) > ROLEKIND.buff.reportMaxAgeMs) return null;
+  return rkBuffsFromReport(lp.ab);
+}
+function rkRoleOf(n) { return n === Me.Name ? (state.role || '') : ((livePos[n] || {}).role || CONFIG.roster[n] || ''); }
+function rkMembers() {
+  const mk = (n, extra) => { const role = rkRoleOf(n); return Object.assign({ name: n, caster: ROLE_RE.caster.test(role) || ROLE_RE.healer.test(role), tank: ROLE_RE.tank.test(role) || n === (raidCtl.tank || ''), leader: n === CONFIG.leader }, extra); };
+  const out = [mk(Me.Name, { me: true, dist: 0, hp: num(Me.HpPercent), dead: !!Me.IsDead, known: true, buffs: rkMyBuffsMap(), objId: num(Me.objId) })];
+  try { (hostSnap.party() || PartyList).forEach(m => {
+    if (!m || m.Name === Me.Name) return;
+    const b = rkMemberBuffs(m.Name);
+    out.push(mk(m.Name, { me: false, objId: num(m.objId), hp: num(m.HpPercent), dist: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), dead: !!m.IsDead || (num(m.HP) <= 0 && num(m.MaxHP) > 0), known: !!b, buffs: b || {} }));
+  }); } catch (e) { }
+  // servitors as pseudo members '<owner>:pet' (plan target 'servitors'; summoners report them in swarm.pos)
+  try {
+    const mine = teamOf(Me.Name);
+    if (state.role === 'summoner') { const p = rkPetInfo(); if (p && !p.dead) out.push({ name: Me.Name + ':pet', pet: true, objId: p.oid, me: false, dist: Math.hypot(p.x - num(Me.X), p.y - num(Me.Y)), hp: p.hp, dead: false, known: true, buffs: rkBuffsFromReport(p.ab) }); }
+    Object.keys(livePos).forEach(n => { const lp = livePos[n], p = lp && lp.pet; if (!p || !p.oid || p.dead || n === Me.Name || teamOf(n) !== mine || now() - (lp.at || 0) > 8000) return; out.push({ name: n + ':pet', pet: true, objId: num(p.oid), me: false, dist: Math.hypot(num(lp.X) - num(Me.X), num(lp.Y) - num(Me.Y)), hp: num(p.hp), dead: false, known: !!p.ab, buffs: rkBuffsFromReport(p.ab) }); });
+  } catch (e) { }
+  return out;
+}
+/** the upkeep mode of this window now: '' (nothing — legacy roles with board buffs and no approved plan), 'fill', 'primary', 'healer-idle', 'plan' */
+function rkUpkeepMode() {
+  const board = boardOn(); let m = rkUpkeepRole(state.role, board);
+  const e = bpEntry(buffPlansFile(), teamOf(Me.Name), Me.Name);
+  if (!m && e && e.approved) m = 'plan';                     // the user approved a plan for this character: it runs (any role)
+  return m;
+}
+function rkBuffBusy() { return BUFFUP.mode === 'primary' && !!BUFFUP.want && now() - BUFFUP.wantAt < 2500; }
+/** the members' buff reports go out only when someone in my party uses them (generic buffer, a party without board buffs, a buffer plan) */
+function rkWantReports() {
+  if (now() - RKH.reportAt < 10000) return RKH.report;
+  RKH.reportAt = now();
+  let v = false;
+  try {
+    const mine = teamOf(Me.Name);
+    v = !boardOn() || BUFFUP.mode !== '' || state.role === 'summoner' || rkTeamNeedsBuffReport(Object.keys(CONFIG.roster).filter(n => teamOf(n) === mine).map(rkRoleOf)) ||
+      Object.keys(BUFFUP.offers).some(n => teamOf(n) === mine && now() - BUFFUP.offers[n].at < 60000);
+  } catch (e) { v = false; }
+  RKH.report = v; return v;
+}
+function rkWithBuffs(d) {
+  try { if (rkWantReports()) { const a = []; (hostSnap.buffs() || BuffsList).forEach(b => a.push(b)); d.ab = rkBuffReport(a); d.bufNeed = BUFFUP.mode ? BUFFUP.need : 0; } } catch (e) { }
+  // summoners: my servitor (healers heal it, buffers may buff it), 'no servitor out yet' counts as not ready for a pull, the consumable 'low'
+  try {
+    if (state.role === 'summoner') {
+      const p = rkPetInfo(); d.pet = p ? { oid: p.oid, name: p.name, hp: Math.round(p.hp), mp: Math.round(p.mp), dead: p.dead, ab: p.ab } : null;
+      if ((!p || p.dead) && SUMM.canSummon) d.bufNeed = (num(d.bufNeed) || 0) + 1;
+      if (SUMM.low) d.low = (d.low ? d.low + ', ' : '') + SUMM.low;
+    }
+  } catch (e) { }
+  return d;
+}
+function rkEmitTeam(ev, data) {
+  try {
+    const mine = teamOf(Me.Name), ids = Object.keys(posAcct).filter(n => n !== Me.Name && teamOf(n) === mine).map(n => posAcct[n]);
+    if (ids.length && typeof App.emitTo === 'function') { ids.forEach(id => { try { App.emitTo(id, ev, data); } catch (e) { } }); return; }
+    App.emit(ev, data);
+  } catch (e) { }
+}
+App.on('swarm.buffoffer', (e) => { try { const n = e.source.characterName; if (n && n !== Me.Name && teamOf(n) === teamOf(Me.Name)) BUFFUP.offers[n] = { items: (e.data && e.data.items) || [], at: now() }; } catch (er) { } });
+App.on('swarm.rotme', (e) => { try { const n = e.source.characterName; if (n && n !== Me.Name && teamOf(n) === teamOf(Me.Name)) BUFFUP.rotme[n] = Object.assign({ name: n, at: now() }, e.data || {}); } catch (er) { } });
+function rkOwner() {
+  if (BUFFUP.owner && now() - BUFFUP.ownerAt < 5000) return BUFFUP.owner;
+  BUFFUP.ownerAt = now();
+  const offers = [];
+  Object.keys(BUFFUP.offers).forEach(n => { const o = BUFFUP.offers[n]; if (now() - o.at < 60000) (o.items || []).forEach(x => offers.push(Object.assign({ by: n }, x))); });
+  (BUFFUP.myItems || []).forEach(x => offers.push(Object.assign({ by: Me.Name }, x)));
+  const r = bpOwners(offers); BUFFUP.overlaps = r.overlaps; BUFFUP.owner = r.owner;
+  return r.owner;
+}
+/** the report for swarm_state (dashboard Buffs page) */
+function rkStateReport() {
+  try {
+    const cls = rkMyBuffSkills(), sk = [].concat(cls.party.map(s => ['party', s]), cls.target.map(s => ['target', s]));
+    if (!sk.length && !BUFFUP.mode) return null;
+    const e = BUFFUP.eff || {};
+    return { status: e.status || '', why: e.why || '', mode: BUFFUP.mode, board: boardOn(), runs: BUFFUP.runs || '',
+      skills: sk.map(([k, s]) => ({ id: s.id, name: s.name, ab: s.ab, abLvl: s.abLvl, mlvl: s.mlvl, kind: k, song: rkIsSongDance(s), time: s.time })),
+      rotation: ((e.plan && e.plan.rotation) || []).slice(), missing: BUFFUP.missing || {}, overlaps: (BUFFUP.overlaps || []).slice(0, 20), cycle: BUFFUP.cycle || null, at: now() };
+  } catch (e) { return null; }
+}
+async function rkCastBuff(skill, target) {
+  const prev = (() => { try { return Target ? num(Target.objId) : 0; } catch (e) { return 0; } })();
+  if (target && target.objId && !target.me) { try { Send.Action(target.objId); } catch (e) { } await sleep(200); }
+  else if (target && target.me) { try { Send.Action(num(Me.objId)); } catch (e) { } await sleep(150); }
+  try { Send.RequestMagicSkillUse(num(skill.id)); } catch (e) { }
+  await sleep(Math.max(num(skill.hit), 500) + 250);
+  if (prev && target && prev !== num(Me.objId) && prev !== num(target.objId) && mobById(prev)) { try { Send.Action(prev); } catch (e) { } }   // select my monster again (one Action = select)
+}
+// --- SONG / DANCE CYCLES (user 2026-10-10): the whole planned set back to back, interleaved dance / song between the party's dancers and
+// singers (swarm.rotme = who sings / dances what, swarm.rot = the shared cycle token { cycle, step, phase }), then WAIT while it runs, next
+// full cycle when most of it expired (BUFFPLAN.settings.cycleExpiredPct). MP for the whole part first (mana potion / up to cycleMpWaitMs),
+// a step I cannot afford is skipped and cast after the cycle ("owed"), never trickle recasts of the rest.
+App.on('swarm.rot', (e) => {
+  try {
+    const n = e.source.characterName, d = e.data || {}, cur = BUFFUP.rotToken;
+    if (!n || n === Me.Name || teamOf(n) !== teamOf(Me.Name)) return;
+    if (num(d.cycle) > num(cur.cycle) || (num(d.cycle) === num(cur.cycle) && num(d.step) >= num(cur.step))) BUFFUP.rotToken = { cycle: num(d.cycle), step: num(d.step), phase: String(d.phase || 'run'), at: now(), by: n };
+  } catch (er) { }
+});
+function rkRotSet(tok) { BUFFUP.rotToken = Object.assign({ at: now(), by: Me.Name }, tok); rkEmitTeam('swarm.rot', { cycle: tok.cycle, step: tok.step, phase: tok.phase }); }
+/** my part of the song / dance cycle: { pick, info } (pick = { skill, target: null, key, why, cycle: { next token } }) */
+function rkCycleTick(rot, people, S) {
+  const kind = rot.filter(s => /^DANCE_/.test(s.ab) || /^Dance /i.test(s.name)).length * 2 >= rot.length ? 'dance' : 'song';
+  const gathered = bpGathered(people, S), alive = !Me.IsDead;
+  const mine = { name: Me.Name, kind, list: rot.map(s => s.name), types: rot.map(s => s.ab) };
+  const others = Object.keys(BUFFUP.rotme).map(n => BUFFUP.rotme[n]).filter(r => now() - r.at < 15000 && !(livePos[r.name] || {}).IsDead);
+  const seq = bpCycleSeq([mine].concat(others));
+  const myIdx = []; seq.forEach((st, i) => { if (st.by === Me.Name) myIdx.push(i); });
+  const mpNeed = bpCycleMp(myIdx.map(i => (rot.find(s => s.name === seq[i].skill) || {}).mp || 0), myIdx, S);
+  const ok = alive && gathered && num(Me.MpPercent) >= S.rotMinMpPct, mpOk = num(Me.MP) >= mpNeed;
+  if (now() - BUFFUP.rotMeAt > 5000) { BUFFUP.rotMeAt = now(); rkEmitTeam('swarm.rotme', { kind, list: mine.list, types: mine.types, ok, mpOk }); }
+  const casters = [Object.assign({ ok, mpOk }, mine)].concat(others);
+  const types = [].concat(...casters.map(c => c.types || []));
+  const due = bpCycleDue(types, people, S);
+  const tok = BUFFUP.rotToken || {};
+  const running = tok.phase === 'run' && num(tok.step) < seq.length;
+  if (due.due && !running) { if (!BUFFUP.cycWaitSince) BUFFUP.cycWaitSince = now(); } else if (!due.due) BUFFUP.cycWaitSince = 0;
+  const st = bpCycleStep(tok, seq, casters, now(), Me.Name, due.due, BUFFUP.cycWaitSince ? now() - BUFFUP.cycWaitSince : 0, S);
+  BUFFUP.cycle = { phase: running ? 'run' : due.due ? 'due' : 'wait', step: running ? num(tok.step) : 0, total: seq.length, due: due.due, expired: due.expired, of: due.total, mpNeed, act: st.act, why: st.why };
+  if (st.act === 'wait' && !mpOk && now() - BUFFUP.lastPot > 3000 && itemCount(728) > 0) { BUFFUP.lastPot = now(); try { UseItem(728); } catch (e) { } }   // MP for the cycle first
+  const cyc = st.act === 'start' ? now() : num(tok.cycle), step = st.act === 'start' ? 0 : num(st.step);
+  const next = (i) => ({ cycle: cyc, step: i + 1, phase: i + 1 >= seq.length ? 'done' : 'run' });
+  if (st.act === 'skip') { rkRotSet(next(step)); return null; }
+  if (st.act === 'start' && seq[0].by !== Me.Name) { rkRotSet({ cycle: cyc, step: 0, phase: 'run' }); return null; }   // I start it, the first step is someone else's
+  if (st.act !== 'start' && st.act !== 'cast') {
+    // after a cycle: what I owed (skipped for MP), one at a time, only those
+    if ((BUFFUP.owed || []).length && !running && num(Me.MpPercent) >= S.rotMinMpPct) {
+      const s = rot.find(x => x.name === BUFFUP.owed[0] && x.ready !== false && x.mp <= num(Me.MP));
+      if (s) { BUFFUP.owed.shift(); return { skill: s, target: null, key: s.id + '@party', why: `cycle: ${s.name} (owed from the last cycle)` }; }
+    }
+    return null;
+  }
+  const name = seq[step].skill, s = rot.find(x => x.name === name);
+  if (!s || s.ready === false || s.mp > num(Me.MP)) { if (s && s.mp > num(Me.MP)) (BUFFUP.owed = BUFFUP.owed || []).push(name); rkRotSet(next(step)); return null; }   // no MP: owed, the cycle goes on
+  if (st.act === 'start') BUFFUP.owed = [];
+  return { skill: s, target: null, key: s.id + '@party', why: `cycle ${step + 1}/${seq.length}: ${s.name}`, cycle: next(step) };
+}
+setInterval(() => {
+  if (BUFFUP.busy) return;
+  try {
+    const mode = BUFFUP.mode = (state.role && state.running && IsCharacterReady()) ? rkUpkeepMode() : '';
+    if (!mode) { BUFFUP.want = null; BUFFUP.need = 0; BUFFUP.runs = ''; return; }
+    if (Me.IsDead || state.escaping || state.gkBusy || tradeState || state.buffTurn || state.buffing || state.portPrep || Me.IsSitting || rest.sitting || ESC.on || Me.IsCasting) return;
+    const file = buffPlansFile(), S = bpSettings(file), board = boardOn(), skills = rkMyBuffSkills();
+    const members = rkMembers(), people = members.filter(m => !m.pet), names = people.map(m => m.name);
+    const eff = BUFFUP.eff = bpEffective(bpEntry(file, teamOf(Me.Name), Me.Name), skills, names);
+    const runs = BUFFUP.runs = bpRuns(eff, board);
+    if (!runs) { BUFFUP.want = null; BUFFUP.need = 0; return; }
+    if (mode === 'healer-idle' && (inRaid() || inst.on || people.some(m => !m.dead && m.hp > 0 && m.hp < 80))) { BUFFUP.want = null; return; }   // heals first
+    // verify the last cast (3 misses = that skill on that target rests 10 min: no cast loop)
+    if (BUFFUP.pend) { const v = rkBufferVerify(BUFFUP.pend, rkMemberBuffs, now(), BUFFUP.fails); if (v === 'wait') return; if (v === 'fail') rkSay('fail' + BUFFUP.pend.key, `buffer: ${BUFFUP.pend.name} did not show up on ${BUFFUP.pend.names.join(', ')}`); BUFFUP.pend = null; }
+    // 'fill' (board buffs on, no reviewed plan): only what the board lacks — songs / dances count as ordinary buffs, no cycles
+    const plan = runs === 'fill' ? { buffs: (eff.plan.buffs || []).concat(bpRotEntries(eff.plan.rotation).map(r => ({ skill: r.name, targets: ['party'], priority: 9 }))), rotation: [] } : eff.plan;
+    const ps = bpPlanSkills(plan, skills, members, Me.Name);
+    [].concat(ps.party, ps.target).forEach(s => { const k = rkLive(s.id); s.ready = !!(k && k.IsReady); s.mp = k ? num(k.MP) : s.mp; });
+    BUFFUP.myItems = [].concat(ps.party, ps.target).map(s => ({ ab: s.ab, abLvl: s.abLvl, mlvl: s.mlvl, who: s.who || names }));   // OVERLAP: my offer
+    if (now() - BUFFUP.offerAt > 20000) { BUFFUP.offerAt = now(); rkEmitTeam('swarm.buffoffer', { items: BUFFUP.myItems }); }
+    const owners = rkOwner(), owner = (m, ab) => owners[m + '|' + String(ab || '').toUpperCase()] || '';
+    BUFFUP.missing = bpMissing(ps, members);
+    if (mode === 'primary' && num(Me.MpPercent) < 50 && now() - BUFFUP.lastPot > 3000 && itemCount(728) > 0) { BUFFUP.lastPot = now(); try { UseItem(728); } catch (e) { } }   // the healers' Recharge also sees buffer roles
+    if (num(Me.MpPercent) < ROLEKIND.buff.minMpPct) { BUFFUP.want = null; return; }
+    let pick = null;
+    const rot = runs === 'full' ? bpRotEntries(plan.rotation).filter(r => !r.keepAlways).map(r => skills.party.find(s => bpNorm(s.name) === bpNorm(r.name))).filter(Boolean)
+      .map(s => { const k = rkLive(s.id); return Object.assign({}, s, { ready: !!(k && k.IsReady), mp: k ? num(k.MP) : s.mp }); }) : [];
+    if (rot.length) pick = rkCycleTick(rot, people.filter(m => m.known !== false), S); else BUFFUP.cycle = null;
+    if (!pick) pick = rkBufferPick({ skills: ps, members: members.filter(m => m.known !== false), now: now(), last: BUFFUP.last, fails: BUFFUP.fails, mp: num(Me.MP), have: itemCount,
+      cfg: { songDanceMax: S.songDanceMax }, owner, me: Me.Name });
+    BUFFUP.need = pick || (BUFFUP.cycle && (BUFFUP.cycle.phase === 'run' || BUFFUP.cycle.phase === 'due')) ? 1 : 0; BUFFUP.want = pick; BUFFUP.wantAt = now();
+    if (!pick) return;
+    BUFFUP.busy = true;
+    (async () => {
+      try {
+        BUFFUP.last[pick.key] = now();
+        log(`buffer (${mode}/${runs}): ${pick.why}`);
+        rkSay('cast', `buffer: ${pick.why}`, 60000);
+        await rkCastBuff(pick.skill, pick.target);
+        if (pick.cycle) rkRotSet(pick.cycle);                     // pass the cycle token on
+        else BUFFUP.pend = { key: pick.key, ab: pick.skill.ab, name: pick.skill.name, names: pick.target ? [pick.target.name] : [Me.Name], at: now() };
+      } catch (e) { logError('buffer upkeep', e); } finally { BUFFUP.busy = false; }
+    })();
+  } catch (e) { logError('buffer upkeep', e); }
+}, 1000);
+/** before a pull (raidCountdown): wait (max ms) until no buffer of the team still has buffs to cast / a cycle to finish and every summoner has
+ *  its servitor out. Teams without such characters: no wait (nobody reports bufNeed). */
+async function rkWaitTeamBuffers(runId, ms) {
+  const t0 = now(); let said = false;
+  while (regroupAlive(runId) && now() - t0 < ms) {
+    const busy = teamNames().filter(n => { const lp = livePos[n]; return lp && !lp.IsDead && num(lp.bufNeed) > 0 && now() - (lp.at || 0) < 8000; });
+    if ((BUFFUP.mode && BUFFUP.need) || (state.role === 'summoner' && SUMM.canSummon && !rkPet())) busy.push(Me.Name);
+    if (!busy.length) return;
+    if (!said) { said = true; SayToParty(`[raid] buffers / servitors first: ${busy.join(', ')} (max ${Math.round(ms / 1000)} s)`); raidEvent(`pull waits for the buffers / servitors: ${busy.join(', ')}`); }
+    await sleep(1000);
+  }
+}
+
+// --- SUMMONERS (user 2026-10-10): keep the best servitor out, it attacks the fight's focus, the summoner keeps it alive -------------------
+const SUMM = { lastSummon: 0, lastTarget: 0, lastAttack: 0, careAt: 0, busy: false, recalled: false, canSummon: false, low: '', lowAt: 0, sk: null, skKey: '' };
+function rkPet() { let p = null; try { if (num(PetList.Count) > 0) PetList.forEach(x => { if (!p && x) p = x; }); } catch (e) { p = null; } return p; }
+function rkPetInfo() {
+  const p = rkPet(); if (!p) return null;
+  const a = []; let deb = false;
+  try { if (p.Buffs) p.Buffs.forEach(b => { a.push(b); if (b.IsDebuff) deb = true; }); } catch (e) { }
+  let name = ''; try { name = String(p.DisplayName || p.Name || ''); } catch (e) { }
+  return { oid: num(p.objId), name, hp: num(p.HpPercent), mp: num(p.MpPercent), dead: !!p.IsDead, x: num(p.X), y: num(p.Y), ab: rkBuffReport(a), debuffed: deb };
+}
+function rkPlanSummon() { try { return String((bpEntry(buffPlansFile(), teamOf(Me.Name), Me.Name) || {}).summon || ''); } catch (e) { return ''; } }
+/** the summoner's servitor report for swarm_state (dashboard rows) */
+function rkServitorReport() { if (state.role !== 'summoner') return undefined; const p = rkPetInfo(); return p ? { name: p.name, hp: Math.round(p.hp), mp: Math.round(p.mp), dead: p.dead } : null; }
+/** monsters hitting a healer teammate / my servitor (their TargetObjId) — the servitor's targets besides the leader's */
+function rkMobOn(ids) {
+  let best = 0, bd = 1e9;
+  try { const me = meSnap(); snapMobs().forEach(m => { if (m.IsDead || ignoredMob(m)) return; let t = 0; try { t = num((m.ref || m).TargetObjId); } catch (e) { } if (!t || !ids.has(t)) return; const d = Math.hypot(num(m.X) - num(me.X), num(m.Y) - num(me.Y)); if (d < 1800 && d < bd) { bd = d; best = num(m.objId); } }); } catch (e) { }
+  return best;
+}
+setInterval(() => {
+  try {
+    if (state.role !== 'summoner' || !IsCharacterReady() || Me.IsDead || state.gkBusy || tradeState) return;
+    const list = rkSkillList(), pet = rkPetInfo(), town = !!currentTownKey();
+    // consumables (Spirit Ore / crystals from the summon skill's own data): 'low' for the supply run, every 30 s
+    if (now() - SUMM.lowAt > 30000) { SUMM.lowAt = now(); const c = rkSummonConsumable(list); SUMM.cons = c; SUMM.low = c && itemCount(c.id) < c.below ? `summon item ${c.id} (${c.skill}) ${itemCount(c.id)}` : ''; }
+    if (!pet || pet.dead) {
+      const s = rkSummonPick(list, (id) => itemCount(id), rkPlanSummon());
+      SUMM.canSummon = !!s && !town; SUMM.recalled = false;
+      if (town || ESC.on || state.escaping || now() - SUMM.lastSummon < ROLEKIND.summon.gapMs || num(Me.MpPercent) < ROLEKIND.summon.minMpPct || Me.IsCasting || Me.IsSitting) return;   // after a login / teleport / death outside a town: at once
+      if (!s) { rkSay('nosummon', 'summoner: no servitor skill I can use now (not learned yet / its items missing)', 600000); return; }
+      SUMM.lastSummon = now(); note(`summoner: summoning ${s.name}`);
+      Send.RequestMagicSkillUse(s.id);
+      return;
+    }
+    SUMM.canSummon = false;
+    // keep it alive and strong first (its heal before mine unless I am in danger)
+    if (!SUMM.busy && !Me.IsCasting && now() - SUMM.careAt > ROLEKIND.summon.careGapMs) {
+      if (SUMM.skKey !== RKH.skillKey || !SUMM.sk) { SUMM.sk = rkServitorSkills(list); SUMM.skKey = RKH.skillKey; }
+      const sk = SUMM.sk; Object.keys(sk).forEach(k => sk[k].forEach(s => { const L = rkLive(s.id); s.ready = !!(L && L.IsReady); s.mp = L ? num(L.MP) : s.mp; }));
+      const care = rkServitorCare(sk, { hp: pet.hp, mp: pet.mp, dead: pet.dead, buffs: rkBuffsFromReport(pet.ab), debuffed: pet.debuffed }, { hp: num(Me.HpPercent), mp: num(Me.MP) });
+      if (care) { SUMM.careAt = now(); SUMM.busy = true; log(`summoner: ${care.skill.name} (${care.why})`); try { Send.RequestMagicSkillUse(care.skill.id); } catch (e) { } setTimeout(() => { SUMM.busy = false; }, Math.max(num(care.skill.hit), 500) + 200); return; }
+    }
+    // whom it attacks: the fight's focus, never a new monster on its own; called back on regroup / teleport / escape
+    const retreat = town || !!state.portPrep || !!state.escaping || ESC.on || now() < (state.fleeUntil || 0) || now() < (state.disengageUntil || 0);
+    const healers = new Set(Object.keys(livePos).filter(n => livePos[n].healer && teamOf(n) === teamOf(Me.Name) && num(livePos[n].objId)).map(n => num(livePos[n].objId)));
+    let lt = 0; try { const f = leaderFightTarget(); lt = f ? num(f.id) : 0; } catch (e) { }
+    const tid = rkServitorTarget({ retreat, raid: inRaid(), raidPulled: !!raidCtl.aggroAt, raidFocus: raidCtl.focus, instFocus: inst.on ? inst.focus : 0,
+      onHealer: healers.size ? rkMobOn(healers) : 0, leaderTarget: lt, onPet: rkMobOn(new Set([pet.oid])), onMe: now() - lastAttackerOnMe.at < 4000 && !lastAttackerOnMe.for ? num(lastAttackerOnMe.id) : 0 });
+    if (tid === 'stop') { if (!SUMM.recalled) { SUMM.recalled = true; SUMM.lastTarget = 0; try { Send.RequestActionUse(23, false, false); } catch (e) { } log('summoner: servitor called back (regroup / teleport / escape)'); } return; }   // servitor action 23 = stop (it follows me again)
+    SUMM.recalled = false;
+    const m = tid ? mobById(tid) : null;
+    if (!m || m.IsDead || ignoredMob(m)) { rkServitorSkillTick(pet, 0); return; }   // no fight: its buffs / heals for me only
+    let cur = 0; try { cur = Target ? num(Target.objId) : 0; } catch (e) { }
+    if (cur !== tid) { try { Send.Action(tid); } catch (e) { } SUMM.lastTarget = 0; return; }   // select once (a second Action would walk me in); the next tick sends it
+    if (tid !== SUMM.lastTarget || now() - SUMM.lastAttack >= ROLEKIND.summon.attackGapMs) {
+      SUMM.lastTarget = tid; SUMM.lastAttack = now();
+      try { Send.RequestActionUse(22, false, false); } catch (e) { }                              // servitor action 22 = attack my target (= the crafter's golem)
+    }
+    rkServitorSkillTick(pet, tid);
+  } catch (e) { logError('summoner', e); }
+}, 1000);
+// the servitor's OWN skills (rkServitorActions / rkServitorSkillPick): read from L2PartyPet.Skills, cast with RequestActionUse(action) by the
+// L2J action table Scripts/data/servitor_actions.json (L2Swarm has no other servitor skill packet). Unknown servitor / no table: plain attacks.
+const SRVSK = { table: null, last: {}, at: 0 };
+function rkServitorTable() { if (SRVSK.table) return SRVSK.table; try { SRVSK.table = (JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\servitor_actions.json`)).replace(/^﻿/, '')).actions) || []; } catch (e) { SRVSK.table = []; } return SRVSK.table; }
+function rkServitorSkillTick(petInfo, tid) {
+  try {
+    if (now() - SRVSK.at < 1200) return; SRVSK.at = now();
+    const p = rkPet(); if (!p) return;
+    const sk = []; try { if (p.Skills) p.Skills.forEach(s => sk.push(s)); } catch (e) { }
+    if (!sk.length) return;
+    const acts = rkServitorActions(rkServitorTable(), petInfo && petInfo.name, sk);
+    if (!acts.length) return;
+    acts.forEach(a => { try { const L = p.Skills.GetItemByID ? p.Skills.GetItemByID(a.s.id) : null; if (L) a.ready = !!L.IsReady; } catch (e) { } });
+    const m = tid ? mobById(tid) : null;
+    const pick = rkServitorSkillPick({ acts, fighting: !!(m && !m.IsDead), mobsAtTarget: m ? countMobsNear(m.X, m.Y, CONFIG.autoSkills.aoeRadius) : 0, worth: !!(inRaid() && m && isRaidBossMob(m)),
+      owner: { hp: num(Me.HpPercent), mp: num(Me.MpPercent), buffs: rkMyBuffsMap() }, last: SRVSK.last, now: now(), gapMs: 3000 });
+    if (!pick) return;
+    SRVSK.last[pick.action] = now();
+    try { Send.RequestActionUse(pick.action, false, false); } catch (e) { }
+    log(`summoner: servitor skill ${pick.why} (action ${pick.action})`);
+  } catch (e) { }
+}
+/** a summoner's servitor as a heal target for the healers (lower priority than every party member; summoner tokens report it) */
+function rkPetToHeal(team) {
+  try {
+    if ((team || []).some(t => t.hp < 80)) return null;
+    const mine = teamOf(Me.Name);
+    for (const n of Object.keys(livePos)) {
+      const lp = livePos[n], p = lp && lp.pet;
+      if (!p || !p.oid || p.dead || teamOf(n) !== mine || now() - (lp.at || 0) > 8000 || num(p.hp) <= 0 || num(p.hp) >= 50) continue;
+      if (Math.hypot(num(lp.X) - num(Me.X), num(lp.Y) - num(Me.Y)) > HEAL.range) continue;
+      return { name: n + ':pet', objId: num(p.oid), hp: num(p.hp), mp: 100, deb: [], role: 'servitor', x: lp.X, y: lp.Y };
+    }
+  } catch (e) { }
+  return null;
+}
+
+// --- archer: keep range — step back from a monster a teammate holds ----------------------------------------------------------------
+const ARCH = { at: 0 };
+setInterval(() => {
+  try {
+    if (state.role !== 'archer' || !IsCharacterReady() || Me.IsDead || state.escaping || state.gkBusy || tradeState || Me.IsSitting || ESC.on) return;
+    if (now() - ARCH.at < ROLEKIND.archer.gapMs || currentTownKey()) return;
+    const me = meSnap(), mx = num(me.X), my = num(me.Y), mz = num(me.Z), mobs = [];
+    snapMobs().forEach(m => {
+      if (m.IsDead || Math.abs((m.Z || mz) - mz) > 300 || Math.hypot(m.X - mx, m.Y - my) > ROLEKIND.archer.tooClose) return;
+      let on = 'none'; try { const w = posMobTarget(m.ref || m); on = w.who === 'me' ? 'me' : w.who === 'mate' ? 'mate' : 'none'; } catch (e) { }
+      mobs.push({ x: num(m.X), y: num(m.Y), on });
+    });
+    const st = rkArcherStep({ me: { x: mx, y: my }, mobs });
+    if (!st) return;
+    ARCH.at = now();
+    try { Send.MoveBackwardToLocation(st.x, st.y, Math.round(mz)); } catch (e) { }
+    rkSay('archer', `archer: stepping back to keep range — ${st.why}`, 30000);
+    let tid = 0; try { tid = Target ? num(Target.objId) : 0; } catch (e) { }
+    if (tid) setTimeout(() => { try { if (mobById(tid)) Send.Attack(tid); } catch (e) { } }, 1300);   // shoot again from the new spot
+  } catch (e) { logError('archer spacing', e); }
+}, 700);
+// ROLEKIND-HOST-END
+
+
 
 // ---------------------------------------------------------------------------
 // SKILL-ID'ER  (Interlude/High Five defaults — VERIFICÉR med !dumpskills!)
@@ -1115,7 +2106,8 @@ function buffSecondsLeft() {
   return times.length >= CONFIG.buffs.minLongBuffs ? times[CONFIG.buffs.minLongBuffs - 1] : 0;
 }
 
-function needsBuff() { return longBuffCount() < CONFIG.buffs.minLongBuffs; }
+// BOARD BUFFS OPTIONAL (2026-10-10): a party without board buffs never "needs a board buff" (no turn, no rotation, no waits for it)
+function needsBuff() { if (!boardOn()) return false; return longBuffCount() < CONFIG.buffs.minLongBuffs; }
 
 function fmtTime(sec) {
   const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = Math.floor(sec % 60);
@@ -1141,6 +2133,7 @@ function note(msg, say) {
 
 /** Klik _bbshome -> Buffs -> scheme -> button ("Buff Me" eller "Buff Party"). */
 async function bbsApplyScheme(scheme, button) {
+  if (!boardOn()) throw new Error('board buffs are off for this party (swarm.config.json boardBuffs)');   // BOARD BUFFS OPTIONAL: never _bbshome
   // ÉN dialog ad gangen: vent til NPC/butik/gatekeeper er færdig (de deler dialog-vinduet med Community Board)
   const t0 = now();
   while ((state.gkBusy || state.npcBusy || tradeState) && now() - t0 < 180000) await sleep(1000);
@@ -1183,7 +2176,7 @@ async function bbsApplySchemeInner(scheme, button) {
 
 async function buffSelf(reason, quiet, schemeOverride) {
   const schemes = schemeOverride ? [schemeOverride] : (CONFIG.buffs.schemes[state.role] || []);
-  if (!schemes.length || state.buffing) return false;
+  if (!schemes.length || state.buffing || !boardOn()) return false;   // BOARD BUFFS OPTIONAL
   state.buffing = true;
   try {
     for (const scheme of schemes) await bbsApplyScheme(scheme, 'Buff Me');
@@ -1371,6 +2364,7 @@ let raidWaveTimer = null;
 let raidWaveFails = 0;
 function leaderStartRaidWave(why) {
   const b = CONFIG.buffs;
+  if (!boardOn()) return;                       // BOARD BUFFS OPTIONAL: the party's own buffers rebuff in the raid (ROLEKIND HOST)
   if (now() - lastRaidWave < b.raidWaveCooldownMs) return;
   // the Community Board does not buff in combat (verified 2026-10-05 01:07: every wave FAILED during the Crowl fight). After 2 failed waves
   // in a row, wait until the fight is over (the normal rebuff queue does it then) instead of a new wave every minute.
@@ -1408,7 +2402,7 @@ async function raidCasterOverwrite() {
 
 App.on('swarm.buff.raidwave', (event) => {
   if (event.source.characterName !== CONFIG.leader) return;
-  if (state.role !== CONFIG.buffs.raidPartyRole || Me.IsDead) return;
+  if (state.role !== CONFIG.buffs.raidPartyRole || Me.IsDead || !boardOn()) return;
   (async () => {
     state.buffing = true;
     let ok = false;
@@ -1515,7 +2509,7 @@ let healerMode = false;
 function isHealerRole() { return !!state.role && CONFIG.healer.roles.includes(state.role); }
 // NO MELEE (user 2026-10-05 22:12: "Chanter1 should NEVER hit with melee, he should keep distance"): the Doomcryer never auto-attacks, never
 // assists (FollowAtk) and never starts L2Swarm's own combat (his XML had auto-attack); he chants/buffs and stays at distance like a caster
-const NO_MELEE_ROLES = /doomcryer/;
+const NO_MELEE_ROLES = ROLE_RE.noMelee;   // was /doomcryer/ — ROLE KINDS 2026-10-10: + mystic buffer, summoner (the servitor fights)
 const noMelee = () => !!state.role && NO_MELEE_ROLES.test(state.role);
 // keep it that way even if a config or another loop turns assist / L2Swarm's own combat back on
 setInterval(() => {
@@ -1661,8 +2655,10 @@ async function healTick() {
   }
   // 4) normal heal on the most hurt (the slow Heal only on someone fairly healthy while nobody is low; in a raid always the fast one)
   if (hurt) { const k = readySkill(inRaid() || hurt.hp < HEAL.slowHealAbove ? fastList : HEAL.normal); if (k) { await castOnMate(hurt, k); return; } }
+  // 4b) ROLE KINDS: a summoner's servitor below 50 % (reported in swarm.pos) — only when no party member is below 80 %
+  { const pt = rkPetToHeal(team); if (pt) { const k = readySkill(HEAL.normalFast); if (k) { await castOnMate(pt, k); return; } } }
   // 5) Recharge casters that run dry
-  const dry = team.filter(t => !t.me && /bishop|necro|doomcryer|saint|healer|mage/i.test(t.role) && t.mp < HEAL.rechargeBelow).sort((a, b) => a.mp - b.mp)[0];
+  const dry = team.filter(t => !t.me && /bishop|necro|doomcryer|saint|healer|mage|buffer|summoner/i.test(t.role) && t.mp < HEAL.rechargeBelow).sort((a, b) => a.mp - b.mp)[0];
   if (dry) { const k = readySkill(HEAL.recharge); if (k) { await castOnMate(dry, k); return; } }
   await sleep(250);
 }
@@ -1671,7 +2667,7 @@ setInterval(() => {
   const h = CONFIG.healer;
   if (!state.role || !h.roles.includes(state.role) || !IsCharacterReady()) return;
 
-  const isHealerClass = h.classIds.includes(Me.ClassId);
+  const isHealerClass = h.classIds.includes(Me.ClassId) || rkKindOfClass(classTree(), num(Me.ClassId)) === 'healer';   // ROLE KINDS: every healer class of class_tree.json (the same 9 + Elven Mystic 25 from the list)
   if (isHealerClass && !healerMode) {
     healerMode = true;
     Options.FollowAtk = false;                  // stop med at skyde, følg stadig lederen
@@ -1745,7 +2741,7 @@ function num(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
 // Wild Sweep (polearm), Iron Punch (fists) and NOT Hammer Crush (550, flagged as a debuff because it stuns). Now: sorted by the real power in
 // the skill text, skills my equipped weapon cannot use are left out, melee roles drop magic attacks (low M.Atk) and no-damage skills,
 // damaging "debuff" skills (power >= 100) count as attacks.
-const MELEE_ONLY = /^(destroyer|doombringer|sk|crafter|spoiler|dagger)$/;      // never magic attacks; the inspector keeps them after the physical ones
+const MELEE_ONLY = ROLE_RE.meleeOnly;   // was /^(destroyer|doombringer|sk|crafter|spoiler|dagger)$/ — ROLE KINDS: + tank, melee, meleebuffer, archer      // never magic attacks; the inspector keeps them after the physical ones
 function skillDesc(k) { try { return String(k.Description || k.Desc || ''); } catch (e) { return ''; } }
 /** Weapon types a skill text allows ("Requires a sword, blunt weapon, or ancient sword.") — null = no requirement. */
 function skillWeapons(desc) {
@@ -1890,7 +2886,7 @@ function attackOrderText(order) { return 'attack order: ' + (order.length ? orde
 // highest skill level, then the name (every window computes the same). Healers never. No dominant element = no Surrender.
 const TEAM_SURRENDER = { minShare: 0.5, minCasters: 2, minLiveSec: 10, minHpPct: 60, dpsPerLevel: 6, recastLeadSec: 2,
   kindWeight: { nuker: 1, hybrid: 0.6, base: 0.5, summoner: 0.3, healer: 0, buffer: 0 } };
-const PHYS_ROLES = /^(sk|tank|destroyer|doombringer|dagger|crafter|spoiler|archer|warrior|gladiator|warlord|titan)$/;
+const PHYS_ROLES = /^(sk|tank|destroyer|doombringer|dagger|crafter|spoiler|archer|warrior|gladiator|warlord|titan|melee|meleebuffer)$/;   // ROLE KINDS: the old list + melee, meleebuffer (a literal: the CASTPRIO block is pure; = ROLE_RE.phys, test_role_kinds.js checks it)
 /** members: [{ name, cls, lvl, role, healer, sur: { wind: skillLvl, ... }, alive }], meta = caster_primary.json._meta */
 function teamElementProfile(members, meta) {
   const T = TEAM_SURRENDER, magic = {}, count = {}, who = {};
@@ -2654,7 +3650,7 @@ setInterval(() => {
       const name = String(k.Name || ''), id = num(k.Id);
       if (k.IsToggle) {
         // ON only in a fight outside towns (the wanted ones), OFF in towns / ~12 s after the fight (every running toggle)
-        const act = toggleDecide({ name, running: toggleActive(id, name, () => { try { const o = SkillsList.GetItemByID(id); return !!(o && o.IsRunning); } catch (e) { return false; } }), wanted: KEEP_TOGGLES.includes(name) || (!TOGGLE_NOT_IN_FIGHT.test(name) && !(CONFIG.autoSkills && CONFIG.autoSkills.neverCast && CONFIG.autoSkills.neverCast.test(name)))   /* ALL toggles: on in a fight, off after (user 2026-10-09) */, lastCastAt: keeper.last[id] || 0 }, tc);
+        const act = toggleDecide({ name, running: toggleActive(id, name, () => { try { const o = SkillsList.GetItemByID(id); return !!(o && o.IsRunning); } catch (e) { return false; } }), wanted: KEEP_TOGGLES.includes(name) || (state.role === 'tank' && ROLEKIND.tankStances.test(name)) || (!TOGGLE_NOT_IN_FIGHT.test(name) && !(CONFIG.autoSkills && CONFIG.autoSkills.neverCast && CONFIG.autoSkills.neverCast.test(name)))   /* ALL toggles: on in a fight, off after (user 2026-10-09) */, lastCastAt: keeper.last[id] || 0 }, tc);
         if (act === 'off' && k.IsReady) todo = { id, name, off: true };
         else if (act === 'on' && k.IsReady && mp >= num(k.MP)) todo = { id, name };
         return;
@@ -2894,7 +3890,7 @@ async function autoSkillTick() {
 
   // 1) Toggles og selv-buffs — KUN når vi ikke har serverens buffs
   //    (Community Board-buffs er bedre og må ikke overskrives).
-  const hasServerBuffs = !needsBuff();
+  const hasServerBuffs = !rkSelfBuffsAllowed(boardOn(), needsBuff());   // BOARD BUFFS OPTIONAL: without board buffs self buffs are always allowed
   // toggles: ONLY the keeper switches them (on in fights, off in towns / after the fight — user 2026-10-08 21:25); casting one here could
   // switch a running toggle off or on again outside a fight
   for (const b of hasServerBuffs ? [] : plan.selfBuffs) {
@@ -2909,8 +3905,9 @@ async function autoSkillTick() {
   }
 
   // 1b) Party buffs from the class itself that the board does not give (always allowed, CONFIG.autoSkills.partyBuffs)
-  for (const id of (a.partyBuffs && a.partyBuffs[state.role]) || []) {
-    const k = SkillsList.GetItemByID(id);
+  for (const pb of (a.partyBuffs && a.partyBuffs[state.role]) || []) {
+    const k = typeof pb === 'number' ? SkillsList.GetItemByID(pb) : skillNamed(String(pb));   // by name (ROLE KINDS 2026-10-10)
+    const id = k ? num(k.Id) : 0;
     if (!k || !k.IsReady || Me.MP < num(k.MP) || Me.MpPercent < 30) continue;
     if (now() - (selfBuffLastCast[id] || 0) < a.selfBuffMinGapSec * 1000 || !BuffLow(id, a.selfBuffRefreshSec)) continue;
     selfBuffLastCast[id] = now();
@@ -2921,6 +3918,8 @@ async function autoSkillTick() {
 
   // 2) Angreb: kun når vi slås mod en mob
   if (isHealerRole()) return;                                           // healers ONLY heal (user 2026-10-04 20:20)
+  // SUMMONERS (2026-10-10): the servitor fights; my own nukes are filler only (MP kept for the servitor's heals / buffs)
+  if (state.role === 'summoner' && (!ROLEKIND.summon.fillerNukes || num(Me.MpPercent) < ROLEKIND.summon.fillerMinMpPct)) return;
   // CAST LOOP: a script-driven caster selects its own target (L2Swarm's assist casts nothing without its combat skills)
   const own = casterOwnsAttacks();
   const sel = own ? casterTarget() : null;
@@ -2944,7 +3943,7 @@ async function autoSkillTick() {
   // for the tank to take aggro and attack from distance — it kills them all"); this loop cast at anything in combat
   if (inst.on && !isLeader() && !tankHasAggro(T)) return;
 
-  if (plan.lock && state.role === 'sk' && now() - lastLockCast > a.tankLockEverySec * 1000 &&
+  if (plan.lock && ROLE_RE.tank.test(state.role || '') && now() - lastLockCast > a.tankLockEverySec * 1000 &&
       dist <= plan.lock.range + 60 && ready(plan.lock)) {
     lastLockCast = now();
     await castInfo(plan.lock);
@@ -3005,7 +4004,7 @@ async function castLoopRun() {
   let next = 400;
   try {
     if (CONFIG.autoSkills.enabled && !skillBusy && state.role && state.running && IsCharacterReady() && !Me.IsDead && !healerMode && !state.buffTurn && !state.escaping
-        && !['raid', 'prep'].includes(state.mode)) {                   // raid-rutinerne styrer skills selv
+        && !['raid', 'prep'].includes(state.mode) && !rkBuffBusy()) {                   // raid-rutinerne styrer skills selv
       skillBusy = true;
       try { const r = await autoSkillTick(); if (r && typeof r.next === 'number') next = r.next; }
       finally { skillBusy = false; }
@@ -7914,9 +8913,16 @@ const ROLE_RULES = {
                   weapon: w => w.t === 'DAGGER' && !w.mw },
   mage:         { armor: ['MAGIC'],          shield: false, stat: 'ma', shots: 'mage',
                   weapon: w => w.mw && !['RAPIER', 'ANCIENTSWORD'].includes(w.t) },
+  // ROLE KINDS (2026-10-10): generic melee (Gladiator duals, Tyrant fists, Warlord poles, Swordsinger / Bladedancer ...) = armor upgrades
+  // only, the weapon is never replaced by the planner (its type differs per class; gear_prefs.json / the dashboard Gear tab can still pick one)
+  melee:        { armor: ['HEAVY', 'LIGHT'], shield: false, stat: 'pa', shots: 'fighter',
+                  weapon: () => false },
+  archer:       { armor: ['LIGHT'],          shield: false, stat: 'pa', shots: 'fighter',
+                  weapon: w => (w.t === 'BOW' || w.t === 'CROSSBOW') && !w.mw },
 };
 // gear role from the swarm role and race from the class (user 2026-10-06: no names, so a new team works as soon as it is in the roster)
-const GEAR_ROLE_OF = { sk: 'tank', crafter: 'tank', spoiler: 'tank', destroyer: 'fighter2h', doombringer: 'kamaelAS', inspector: 'kamaelRapier', dagger: 'dagger' };
+// ROLE KINDS (2026-10-10): + the generic tokens (ROLEKIND.gear: tank -> tank, melee / meleebuffer -> melee, archer -> archer, buffer / summoner -> mage)
+const GEAR_ROLE_OF = Object.assign({ sk: 'tank', crafter: 'tank', spoiler: 'tank', destroyer: 'fighter2h', doombringer: 'kamaelAS', inspector: 'kamaelRapier', dagger: 'dagger' }, ROLEKIND.gear);
 const gearRole = () => GEAR_ROLE_OF[state.role] || (state.role ? 'mage' : CONFIG.gear.roles[Me.Name]);   // healers, casters, doomcryer = mage
 function raceOfClass(id) {
   id = num(id);
@@ -9879,6 +10885,7 @@ async function raidCountdown(b, runId) {
   // the dead first (outside the fight a scroll is fine) — max 60 s
   const t0 = now();
   while (regroupAlive(runId) && now() - t0 < 60000 && teamNames().some(n => { const lp = livePos[n]; return lp && lp.IsDead; })) await sleep(2000);
+  await rkWaitTeamBuffers(runId, 30000);                   // ROLE KINDS: the party's own buffers first (only parties that have generic buffers / no board buffs)
   const N = CONFIG.mission.countdownS;
   raidEvent(`COUNTDOWN ${N} s`);
   for (let i = N; i > 0; i--) {
@@ -10097,7 +11104,7 @@ function kamaHallConfig() {
   }
   return kamaHallLive.v;
 }
-function kamaRoles() { return { healer: (CONFIG.healer && CONFIG.healer.roles) || [], tank: KAMAHALL.tankRoles }; }
+function kamaRoles() { return { healer: (CONFIG.healer && CONFIG.healer.roles) || [], tank: KAMAHALL.tankRoles.concat(['tank']) }; }   // ROLE KINDS: + the generic tank
 /** me + everyone in my party (teamNames), level from PartyList, else their own report, else mine (as dailyDue always did) */
 function kamaMates() {
   const lvlOf = (n) => { const p = partyMember(n), lp = livePos[n] || {}; return num(p && p.Level) || num(lp.lvl) || num(Me.Level); };
@@ -15604,8 +16611,8 @@ async function pairsTravel(why, fn) {
 }
 const TACT_DEFAULT = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false,
   maxAdds: 6, expRange: 1400, hpAvgMin: 70, noDeathMin: 10, cooldownMin: 2, helpHp: 55 };
-const PAIR_DEALERS = /^(destroyer|doombringer|inspector|necromancer|nuker|dagger|mage|wizard|archer)$/;
-const PAIR_BUFFERS = /^(doomcryer|warcryer|buffer)$/;
+const PAIR_DEALERS = ROLE_RE.pairDealers;   // ROLE KINDS: the old list + melee, meleebuffer, summoner
+const PAIR_BUFFERS = ROLE_RE.pairBuffers;   // unchanged: /^(doomcryer|warcryer|buffer)$/
 const tactFile = { at: 0, all: {} };
 /** My party's tactics (key = party leader name), defaults filled in and clamped. */
 function partyTactics(leader) {
@@ -15693,7 +16700,7 @@ function pairsDecide(cfg, team) {
 }
 /** Damage dealers -> groups of pairSize (melee first, then casters, by name); leftovers keep assisting the leader. */
 function formPairs(cfg, dealers) {
-  const kind = (r) => CASTER_ROLES.test(r) ? 1 : 0;
+  const kind = (r) => (CASTER_ROLES.test(r) || r === 'archer') ? 1 : 0;
   const s = dealers.slice().sort((a, b) => kind(a.role) - kind(b.role) || a.name.localeCompare(b.name));
   const out = [];
   for (let i = 0; i + cfg.pairSize <= s.length && out.length < cfg.maxPairs; i += cfg.pairSize) out.push(s.slice(i, i + cfg.pairSize).map(m => m.name));
@@ -15973,7 +16980,7 @@ App.on('swarm.ihold', (e) => { if (e.source.characterName !== CONFIG.leader || i
 const FORMATION = { melee: { r: 80, step: 0.6 }, caster: { r: 600, step: 0.25 }, healer: { r: 480, step: 0.35 } };
 function formationGroup(n) {
   const role = n === Me.Name ? state.role : ((livePos[n] || {}).role || '');
-  return HEALER_ROLES.test(role || '') || (n === Me.Name && isHealerRole()) ? 'healer' : CASTER_ROLES.test(role || '') ? 'caster' : 'melee';
+  return HEALER_ROLES.test(role || '') || (n === Me.Name && isHealerRole()) ? 'healer' : (CASTER_ROLES.test(role || '') || role === 'archer') ? 'caster' : 'melee';   // ROLE KINDS: archers keep caster spacing
 }
 /** My place in my group: offset from the middle (… -1, 0, +1 …). */
 function formationOffset() {
@@ -16182,9 +17189,9 @@ async function instTankGoesIn(p, A, bossName) {
   const t1 = now();
   while (now() - t1 < 15000 && !Me.IsDead) {
     let around = 0; try { snapMobs().forEach(m => { if (!m.IsDead && Math.hypot(m.X - meSnap().X, m.Y - meSnap().Y) < 400) around++; }); } catch (e) { }
-    const area = around >= 2 ? readySkill(TANK_AREA) : null;
+    const area = around >= 2 ? tankReady('area') : null;
     if (area) { Send.RequestMagicSkillUse(num(area.Id)); await sleep(Math.max(num(area.HitTime), 300) + 150); }
-    const single = readySkill(TANK_SINGLE);
+    const single = tankReady('single');
     const notMine = grp.find(m => !m.IsDead && fullAgg.off.includes(String(m.Name))) || (lastAttackerOnMe.at > t0 ? null : head);
     if (single && notMine) { Send.Action(notMine.objId); await sleep(150); Send.RequestMagicSkillUse(num(single.Id)); await sleep(Math.max(num(single.HitTime), 300) + 150); }
     if (!area && !single && lastAttackerOnMe.at < t0) { Send.Action(head.objId); await sleep(150); Send.Attack(head.objId); }
@@ -16286,7 +17293,7 @@ async function instanceFight(bossName, ms) {
           setTask(`instance: fighting ${focus.Name} (${eng.length} on us)`);
           // tank: pull anything that hits a teammate onto me
           const onMate = eng.find(m => { const a = inst.attackers[m.objId]; return a && now() - a.at < 3000 && a.on !== Me.Name; });
-          if (onMate) { const ag = readySkill(TANK_SINGLE); if (ag) { Send.Action(onMate.objId); await sleep(150); Send.RequestMagicSkillUse(num(ag.Id)); await sleep(Math.max(num(ag.HitTime), 300) + 100); } }
+          if (onMate) { const ag = tankReady('single'); if (ag) { Send.Action(onMate.objId); await sleep(150); Send.RequestMagicSkillUse(num(ag.Id)); await sleep(Math.max(num(ag.HitTime), 300) + 100); } }
           if (!Target || Target.objId !== focus.objId) { Send.Action(focus.objId); await sleep(150); }
           Send.Attack(focus.objId);
           // never chase beyond the leash: the monster comes to the team, not the tank to the monster
@@ -18018,7 +19025,7 @@ setInterval(() => {
 // dør en holdkammerat, genopliver én levende i nærheden (fast rækkefølge = ingen dobbelt-scrolls) med skill eller
 // Scroll of Resurrection; den døde venter på hjælp før den går til byen.
 // ---------------------------------------------------------------------------
-const HEALER_ROLES = /healer|bishop|shilliensaint/;
+const HEALER_ROLES = ROLE_RE.healer;   // unchanged: /healer|bishop|shilliensaint/
 App.on('swarm.attacked', (event) => {
   const d = event.data;
   if (!state.role || d.name === Me.Name || Me.IsDead || teamOf(d.name) !== teamOf(Me.Name)) return;
@@ -18450,7 +19457,7 @@ setInterval(() => {
       SW.heavy = h; SW.heavyAt = now();
     }
     const st = swT('fast', () => ({
-      name: mv('Name'), role: state.role, gearRole: gearRole(), cls: mv('ClassName'), classId: num(mv('ClassId')),
+      name: mv('Name'), role: state.role, roleKind: state.roleKind || rkKindOf(state.role), roleStyle: state.roleStyle || '', buffPlan: rkStateReport(), servitor: rkServitorReport(), gearRole: gearRole(), cls: mv('ClassName'), classId: num(mv('ClassId')),
       level: num(mv('Level')), exp: Math.round(num(mv('ExpPercent') || 0) * 10) / 10,
       hp: Math.round(num(mv('HpPercent'))), mp: Math.round(num(mv('MpPercent'))), dead: !!mv('IsDead'),
       x: Math.round(num(mv('X'))), y: Math.round(num(mv('Y'))), z: Math.round(num(mv('Z'))),
@@ -18834,7 +19841,7 @@ function emitPos(data) {
 }
 setInterval(() => {
   if (!state.role || !IsCharacterReady()) return;
-  emitPos({ name: Me.Name, oid: num(Me.objId), x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), dead: !!Me.IsDead, adena: itemCount(57),   // z: floors of a tower lie on top of each other (spot claims 2026-10-08)   // adena: for cross-team funding (2026-10-07: without it everyone counted as poor)
+  emitPos(rkWithBuffs({ name: Me.Name, oid: num(Me.objId), x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), dead: !!Me.IsDead, adena: itemCount(57),   // z: floors of a tower lie on top of each other (spot claims 2026-10-08)   // adena: for cross-team funding (2026-10-07: without it everyone counted as poor)
     shots: (() => { try { const id = shotIdQuick(); return id ? { n: itemCount(id), on: shotsOn === id } : null; } catch (e) { return null; } })(),   // report only: id cached 10 s (CPU audit 2026-10-09)
     resSkill: !!(typeof resSkillId === 'function' && resSkillId()), healer: HEALER_ROLES.test(state.role || ''), scrolls: itemCount(737),
     low: supplyLow.what || '',
@@ -18847,13 +19854,14 @@ setInterval(() => {
     withLeader: (() => { let w = false; try { (hostSnap.party() || PartyList).forEach(p => { if (p.Name === CONFIG.leader) w = true; }); } catch (e) { } return w || isLeader(); })(),   // my own view: am I in my leader's party?
     fight: !!(now() - lastAttackerOnMe.at < 6000 || Me.IsInCombat || Me.IsAttacking || now() - hpWatch.dropAt < 6000),
     // PAIRSGATE (2026-10-09 17:55): REALLY in a fight = a monster hits ME / my HP drops (a teleport hold counts only these, never a fresh pull)
-    hit: !!((now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) || now() - hpWatch.dropAt < 6000) });   // the leader never ports while someone fights or takes damage
+    hit: !!((now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) || now() - hpWatch.dropAt < 6000) }));   // the leader never ports while someone fights or takes damage
 }, 3000);
 App.on('swarm.pos', (event) => {
   const d = event.data;
   if (!d || !d.name) return;
   try { const src = event.source; if (src && src.accountId) posAcct[d.name] = String(src.accountId); } catch (e) { }
-  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, withLeader: !!d.withLeader, low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, sur: d.sur || null };
+  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, withLeader: !!d.withLeader, low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
+  rkRosterLearn(d.name, d.role);                // ROLE KINDS: a teammate's kind / auto role -> its token
   if (!!d.draining !== drainingNow(d.name)) drainState[d.name] = { on: !!d.draining, at: d.draining && drainState[d.name] && drainState[d.name].on ? drainState[d.name].at : now() };
 });
 
@@ -19677,6 +20685,8 @@ function supplyWants() {
   const dp = deathPenaltyLevel();
   // always carry 2 (user 2026-10-04 23:58: you can get it from one death) + one per current penalty level
   { const r = recoveryScroll(); out.push({ id: r.id, name: r.name, want: 2 + dp, below: dp > 0 ? 2 + dp : 1 }); }
+  // SUMMONERS (2026-10-10): the item my best servitor summon eats (from the skill data: ItemConsumeId / ItemConsumeCount), e.g. Spirit Ore
+  if (state.role === 'summoner') { try { const c = rkSummonConsumable(rkSkillList()); if (c && !out.some(o => o.id === c.id)) out.push({ id: c.id, name: `summon item ${c.id} (${c.skill})`, want: c.want, below: c.below }); } catch (e) { } }
   return out;
 }
 /** Death Penalty level from my buff list (0 = none). */
@@ -21657,6 +22667,11 @@ async function runRaidSequence() {
     case 'destroyer':     await raidDealer(boss); break;
     case 'bishop':
       break;                                     // the healer brain (healTick) heals in raids too
+    default: {                                   // ROLE KINDS (2026-10-10): generic tokens; legacy names without a case (crafter, spoiler, dagger, healer) do nothing as before
+      const rr = rkRaidRoutine(state.role);
+      if (rr === 'tank') await raidSK(boss);    // the SK opener generalised: aggro by skill data (tankReady), emergency by AbnormalType
+      else if (rr === 'dealer') await raidDealer(boss);   // melee / melee buffer behind the boss, archer + mystic buffer + summoner from range; buffer upkeep + servitor run beside it
+    }
   }
   } finally { if (raidSeq.runs === myRun) raidSeq.running = false; }
 }
@@ -21677,7 +22692,7 @@ App.on('swarm.aggro', (e) => { if (e.source.characterName === CONFIG.leader) rai
 const raidPrep = { ready: {}, ddStartAt: 0 };
 App.on('swarm.dready', (e) => { raidPrep.ready[e.source.characterName] = now(); });
 App.on('swarm.ddstart', () => { if (!raidPrep.ddStartAt) raidPrep.ddStartAt = now(); });
-const DEBUFFERS = /^(sk|necromancer|inspector|doombringer|shilliensaint|doomcryer)$/;
+const DEBUFFERS = ROLE_RE.debuffers;   // ROLE KINDS: the old list + tank
 // ONE CASTER PER DEBUFF TYPE (user 2026-10-06 23:20): debuffs of the same type (abnormalType) cannot sit on a boss together — the strongest
 // caster of each type casts it, nobody else spends MP on it. By ROLE (works for every team). Never on raid bosses: slows, weak poisons,
 // sleep / root / fear / silence. Damage skills with a debuff part (Hammer Crush, Stun Attack, Burning Chop: power >= 100) stay attacks.
@@ -21796,7 +22811,7 @@ setInterval(() => {
   // CPU AUDIT 2026-10-09 (sched_top: ~17 ms per run live): nothing to cast -> no monster scan at all (Aggression / the area aggro are on
   // cooldown most ticks); the scan works on the snapshot entries (plain data, <= 250 ms old; only objIds are handed to the server), my position
   // and my target are read once.
-  if (!readySkill(TANK_AREA) && !readySkill(TANK_SINGLE)) return;
+  if (!tankReady('area') && !tankReady('single')) return;
   if (!inst.on && currentTownKey()) return;
   // raid set-up (staging, area clear, countdown): the boss and everything within 2500 of it are off limits until the tank's own pull
   let bossNear = null;
@@ -21820,8 +22835,8 @@ setInterval(() => {
   if (!tgt) return;
   if (aggroSpamHold({ now: now(), castLock: state.raidCastLock, onMate: !!onMate })) return;   // a debuff cast is pending: a new Aggression request replaced the queued Sting (RAIDROLE 2026-10-09)                                           // outside an instance: only monsters already in our fight
   // mass aggro first whenever 2+ monsters of the fight are around me (user 2026-10-05 21:35), the single one when it is on cooldown
-  const area = near.filter(m => Math.hypot(m.X - mx, m.Y - my) < 400 && (inst.on || hitsUs(m) || m === mine)).length >= 2 ? readySkill(TANK_AREA) : null;
-  const single = area ? null : readySkill(TANK_SINGLE);
+  const area = near.filter(m => Math.hypot(m.X - mx, m.Y - my) < 400 && (inst.on || hitsUs(m) || m === mine)).length >= 2 ? tankReady('area') : null;
+  const single = area ? null : tankReady('single');
   const sk = area || single; if (!sk) return;
   instAggroBusy = true;
   (async () => {
@@ -21838,7 +22853,7 @@ const TANK_SAVE = ['Ultimate Defense'];
 const tankHp = []; let udLastTry = 0;
 setInterval(() => {
   // raids AND Kamaloka rooms (user 2026-10-05 22:20: "the tank should get all aggro, maybe Ultimate Defense to avoid getting destroyed")
-  if (state.role !== 'sk' || (state.mode !== 'raid' && !inst.on) || !IsCharacterReady() || Me.IsDead) { tankHp.length = 0; return; }
+  if (!ROLE_RE.tank.test(state.role || '') || (state.mode !== 'raid' && !inst.on) || !IsCharacterReady() || Me.IsDead) { tankHp.length = 0; return; }   // ROLE KINDS: + the generic tank
   const hp = num(Me.HpPercent), t = now();
   tankHp.push({ t, hp }); while (tankHp.length && t - tankHp[0].t > 3000) tankHp.shift();
   if (!raidCtl.aggroAt && !inst.on) return;                              // not pulled yet
@@ -21846,12 +22861,12 @@ setInterval(() => {
   // HP < 40 %, 20+ points lost in 3 s, or 4+ monsters on me with HP under 65 %
   if (!(hp < 40 || peak - hp >= 20 || (fullAgg.onMe >= 4 && hp < 65))) return;
   if (now() - udLastTry < 10000) return;                              // the skill shows ready for a moment after the cast (sent 3x in 1 s)
-  const k = readySkill(TANK_SAVE);
+  const k = tankReady('save');
   if (!k) return;
   udLastTry = now();
   Send.RequestMagicSkillUse(num(k.Id));
-  note(`raid: Ultimate Defense (HP ${Math.round(hp)}%, lost ${Math.round(peak - hp)} points in 3 s)`, true);
-  raidEvent(`${Me.Name}: Ultimate Defense at ${Math.round(hp)}% HP`);
+  note(`raid: ${k.Name} (HP ${Math.round(hp)}%, lost ${Math.round(peak - hp)} points in 3 s)`, true);
+  raidEvent(`${Me.Name}: ${k.Name} at ${Math.round(hp)}% HP`);
 }, 300);
 // only the boss's REAL minions (names from raidbosses_h5.json 'minions': ['Ferkel's Warrior x2', ...]); ordinary monsters near the boss are not
 // minions (2026-10-04 23:40: Ferkel's list showed Dungeon Skeletons/Dread Soldiers and the team focused them). Unknown boss = old rule.
@@ -21874,7 +22889,7 @@ function bossMinions(boss, r) {
 function findMobByName(name, r) { let best = null, bd = 1e9; const boss = !!raidBossEntries(name) || EPIC_BOSS_RE.test(String(name || '')); try { snapMobs().forEach(m => { if (m.IsDead || m.Name !== name) return; if (boss && !isRaidBossMob(m)) return; const d = Math.hypot(m.X - meSnap().X, m.Y - meSnap().Y); if (d < (r || 3000) && d < bd) { bd = d; best = m.ref; } }); } catch (e) { } return best; }
 // CASTER SPACING (2026-10-05 Remmel: Necro1 stood 210 from the boss, following the tank, and died twice in 20 s): in a raid, casters and
 // healers stop following and keep 650-900 away from the boss (still in cast range, out of its melee/AoE). Follow comes back after the raid.
-const CASTER_ROLES = /necromancer|nuker|doomcryer|bishop|shilliensaint|healer|mage|wizard/;
+const CASTER_ROLES = ROLE_RE.caster;   // was /necromancer|nuker|doomcryer|bishop|shilliensaint|healer|mage|wizard/ — ROLE KINDS: + mystic buffer, summoner
 const spacing = { on: false, lastMove: 0 };
 setInterval(() => {
   try {
@@ -22290,7 +23305,7 @@ setInterval(() => {
     File.WriteAllText(SWARM_ROOT + '\\Logs\\raid_live_' + liveFileName() + '.json', JSON.stringify(out));   // LIVE PER PARTY 2026-10-09: one file per leader (two parties can raid at once)
   } catch (e) { }
 }, 1000);
-const MELEE_DD = /destroyer|doombringer|inspector/;
+const MELEE_DD = ROLE_RE.meleeDD;   // was /destroyer|doombringer|inspector/ — ROLE KINDS: + melee, meleebuffer
 /** Damage dealers in a raid: wait for the tank, kill the focus target, stand behind the boss (melee), use every attack skill. */
 // RAID TEAM TEMPLATES (user 2026-10-07: "Queen Ant is weak to fire: sorcerers with fire attacks and a tank that takes all minions"):
 // Scripts/data/raid_templates.json (docs/plan/tools/raid_templates.js, datapack attribute defences) per boss: weakTo / avoidElement / tactics.
@@ -22339,6 +23354,7 @@ async function raidDealer(boss) {
   }
   let lastPos = 0;
   while (state.mode === 'raid' && state.running && !Me.IsDead) {
+    if (rkBuffBusy()) { await sleep(300); continue; }   // BOARD BUFFS OPTIONAL: a primary buffer's rebuff comes before its own damage
     // destroyers: the BOSS first, minions only when the boss is gone; everyone else: the leader's focus (minions first)
     const bossId = raidCtl.bossId || (boss && boss.objId);
     const bossObj = bossId ? mobById(bossId) : null;
@@ -22441,16 +23457,16 @@ async function raidSK(boss) {
   let told = false;
   while ((state.mode === 'raid') && !boss.IsDead && state.running && !Me.IsDead) {
     const mins = bossMinions(boss, 600).filter(m => Math.hypot(m.X - Me.X, m.Y - Me.Y) < 900);
-    const area = mins.length >= (tankMinionsJob() ? 1 : 2) ? readySkill(TANK_AREA) : null;   // template: the tank's job is the minions
+    const area = mins.length >= (tankMinionsJob() ? 1 : 2) ? tankReady('area') : null;   // template: the tank's job is the minions
     if (area) { Send.RequestMagicSkillUse(num(area.Id)); await sleep(Math.max(num(area.HitTime), 400) + 150); }
     // ALL the aggro (user 2026-10-05 22:20): a minion that is not on me (full-aggro check) gets Aggression now
     if (fullAgg.off.length) {
       const loose = bossMinions(boss, 1500).filter(m => fullAgg.off.includes(String(m.Name))).sort((a, b) => Math.hypot(a.X - Me.X, a.Y - Me.Y) - Math.hypot(b.X - Me.X, b.Y - Me.Y))[0];
-      const ag = loose && readySkill(TANK_SINGLE);
+      const ag = loose && tankReady('single');
       if (ag) { Send.Action(loose.objId); await sleep(150); Send.RequestMagicSkillUse(num(ag.Id)); await sleep(Math.max(num(ag.HitTime), 300) + 100); }
     }
     // TANK HOLDS AGGRO (user 2026-10-05): the boss is on someone else -> Aggression on it right now, and stay in its face
-    if (now() - bossOnOther.at < 3000) { const ag = readySkill(TANK_SINGLE); if (ag) { Send.Action(boss.objId); await sleep(150); Send.RequestMagicSkillUse(num(ag.Id)); note(`raid: boss is on ${bossOnOther.who} — Aggression`); await sleep(Math.max(num(ag.HitTime), 300) + 100); } if (Distance(boss) > 120) { try { Send.MoveBackwardToLocation(Math.round(boss.X), Math.round(boss.Y), Math.round(boss.Z)); } catch (e) { } } }
+    if (now() - bossOnOther.at < 3000) { const ag = tankReady('single'); if (ag) { Send.Action(boss.objId); await sleep(150); Send.RequestMagicSkillUse(num(ag.Id)); note(`raid: boss is on ${bossOnOther.who} — Aggression`); await sleep(Math.max(num(ag.HitTime), 300) + 100); } if (Distance(boss) > 120) { try { Send.MoveBackwardToLocation(Math.round(boss.X), Math.round(boss.Y), Math.round(boss.Z)); } catch (e) { } } }
     // RAID FIGHT AREA: the boss outside the area -> walk to a point inside it (the boss follows the one it hits); no attack meanwhile (an attack
     // would walk me back out to it). Gives up after 45 s (a boss that walks home / does not follow): fight where it is.
     if (raA && told) {
@@ -22465,7 +23481,7 @@ async function raidSK(boss) {
     }
     // arrows hurt (archer minions): Deflect Arrow up while any are alive
     if (bossMinions(boss, 1500).some(m => /archer|shooter|bow/i.test(String(m.Name)))) { const da = readySkill(['Deflect Arrow']); if (da && BuffLow(num(da.Id), 10)) { Send.RequestMagicSkillUse(num(da.Id)); await sleep(600); } }
-    const single = readySkill(TANK_SINGLE);
+    const single = tankReady('single');
     if (single) { Send.Action(boss.objId); await sleep(200); Send.RequestMagicSkillUse(num(single.Id)); await sleep(Math.max(num(single.HitTime), 400) + 150); if (!told) { told = true; App.emit('swarm.aggro', { boss: boss.objId }); raidCtl.aggroAt = now(); } }
     if (!told && Distance(boss) < 200) { told = true; App.emit('swarm.aggro', { boss: boss.objId }); raidCtl.aggroAt = now(); }   // no aggro skill: hitting it counts
     await raidDebuffStep(boss);                                        // Hex / Power Break & co. once the destroyers hit
@@ -22721,7 +23737,7 @@ async function bishopLoop() {
     CONFIG.leader = CONFIG.teams[Me.Name];
     CONFIG.regroup.auto = false;
   }
-  state.role = CONFIG.roster[Me.Name];
+  rkApplyRole('start');                        // ROLE KINDS (2026-10-10): legacy names unchanged; kinds / auto -> the token for my class
   try {
     File.WriteAllText(`${SWARM_ROOT}\\Logs\\swarm_alive_${Me.Name}.txt`,
       `${new Date().toISOString()} role=${state.role} class=${Me.ClassName} lvl=${Me.Level}\r\n`);

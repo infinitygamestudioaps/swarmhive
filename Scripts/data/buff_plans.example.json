@@ -1,0 +1,2152 @@
+{
+ "_about": "BUFF PLANS - EXAMPLE file (shipped with the kit). The LIVE file is Scripts/data/buff_plans.json (not shipped, never overwritten by an update). Until the dashboard Buffs page ships, edit it by hand: copy this file to buff_plans.json and put entries under parties.<leader name>.chars.<character> = { approved: true, buffs: [{ skill, targets: [party|fighters|mages|self|tank|servitors|<name>], priority, keep }], rotation: [song/dance names or { skill, keepAlways: true }], summon: <optional name part, e.g. Kat> }. Only approved: true plans run as written; a character without one runs the SUGGESTION from its own skills: in a party WITHOUT board buffs (swarm.config.json boardBuffs false) right away, WITH board buffs it only fills what the board lacks. swarm.js re-reads the file within 10 s (no deploy). templates = examples per class name (class_tree.json names). Songs/dances run in full CYCLES (the whole set back to back, interleaved dance/song when a party has a Bladedancer and a Swordsinger), the next cycle once settings.cycleExpiredPct % of the set expired.",
+ "version": 1,
+ "settings": {
+  "songDanceMax": 14,
+  "gatherPct": 60,
+  "gatherRange": 1000,
+  "rotGapMs": 1500,
+  "rotTakeoverMs": 7000,
+  "rotMinMpPct": 20,
+  "cycleExpiredPct": 60,
+  "cycleMpStepPct": 10,
+  "cycleMpMarginPct": 10,
+  "cycleMpWaitMs": 60000
+ },
+ "parties": {
+  "ExampleLeader": {
+   "chars": {
+    "ExampleProphet": {
+     "approved": true,
+     "buffs": [
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "ExampleBladedancer": {
+     "approved": true,
+     "buffs": [],
+     "rotation": [
+      "Dance of Fury",
+      "Dance of the Warrior",
+      {
+       "skill": "Dance of the Vampire",
+       "keepAlways": true
+      }
+     ]
+    }
+   }
+  }
+ },
+ "templates": {
+  "example-prophet": {
+   "name": "Prophet / Hierophant",
+   "desc": "fighter buffs on fighters, caster buffs on mages, the rest on everyone",
+   "classes": {
+    "Prophet": {
+     "buffs": [
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Concentration",
+       "targets": [
+        "mages"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 14,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 15,
+       "keep": true
+      },
+      {
+       "skill": "Berserker Spirit",
+       "targets": [
+        "party"
+       ],
+       "priority": 16,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Hierophant": {
+     "buffs": [
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Concentration",
+       "targets": [
+        "mages"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 14,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 15,
+       "keep": true
+      },
+      {
+       "skill": "Berserker Spirit",
+       "targets": [
+        "party"
+       ],
+       "priority": 16,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    }
+   }
+  },
+  "example-warcryer": {
+   "name": "Warcryer / Doomcryer chants",
+   "desc": "every party chant",
+   "classes": {
+    "Warcryer": {
+     "buffs": [
+      {
+       "skill": "Chant of Battle",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Shielding",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fire",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Flame Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fury",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Evasion",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Predator",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Vampire",
+       "targets": [
+        "party"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "War Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Earth Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Revenge",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Doomcryer": {
+     "buffs": [
+      {
+       "skill": "Chant of Battle",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Shielding",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fire",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Flame Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fury",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Evasion",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Predator",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Vampire",
+       "targets": [
+        "party"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "War Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Earth Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Revenge",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    }
+   }
+  },
+  "example-overlord": {
+   "name": "Overlord / Dominator",
+   "desc": "the party / clan Pa'agrio buffs",
+   "classes": {
+    "Overlord": {
+     "buffs": [
+      {
+       "skill": "Pa'agrio's Blessing",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Glory",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Haste",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Fist",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Tact",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Honor",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Dominator": {
+     "buffs": [
+      {
+       "skill": "Pa'agrio's Blessing",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Glory",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Haste",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Fist",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Tact",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Honor",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    }
+   }
+  },
+  "example-elders": {
+   "name": "Elven Elder + Shillien Elder buffs",
+   "desc": "the healers buff between heals (when nobody is hurt)",
+   "classes": {
+    "Elven Elder": {
+     "buffs": [
+      {
+       "skill": "Blessed Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Blessed Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Agility",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Bless Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Elemental Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Divine Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Eva's Saint": {
+     "buffs": [
+      {
+       "skill": "Blessed Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Blessed Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Agility",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Bless Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Elemental Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Divine Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Shillien Elder": {
+     "buffs": [
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Vampiric Rage",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Shillien Saint": {
+     "buffs": [
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Vampiric Rage",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    }
+   }
+  },
+  "example-swordsinger": {
+   "name": "Swordsinger songs",
+   "desc": "song rotation (2 min songs, 14 song/dance slots on L2Toggle)",
+   "classes": {
+    "Swordsinger": {
+     "buffs": [],
+     "rotation": [
+      "Song of Warding",
+      "Song of Earth",
+      "Song of Wind",
+      "Song of Vitality",
+      "Song of Hunter",
+      "Song of Life",
+      "Song of Water",
+      "Song of Vengeance",
+      "Song of Flame Guard",
+      "Song of Storm Guard",
+      "Song of Invocation",
+      "Song of Meditation",
+      "Song of Renewal",
+      "Song of Champion"
+     ]
+    },
+    "Sword Muse": {
+     "buffs": [],
+     "rotation": [
+      "Song of Warding",
+      "Song of Earth",
+      "Song of Wind",
+      "Song of Vitality",
+      "Song of Hunter",
+      "Song of Life",
+      "Song of Water",
+      "Song of Vengeance",
+      "Song of Flame Guard",
+      "Song of Storm Guard",
+      "Song of Invocation",
+      "Song of Meditation",
+      "Song of Renewal",
+      "Song of Champion"
+     ]
+    }
+   }
+  },
+  "example-bladedancer": {
+   "name": "Bladedancer dances",
+   "desc": "dance rotation (2 min dances)",
+   "classes": {
+    "Bladedancer": {
+     "buffs": [],
+     "rotation": [
+      "Dance of Fury",
+      "Dance of Fire",
+      "Dance of the Warrior",
+      "Dance of Inspiration",
+      "Dance of Concentration",
+      "Dance of the Mystic",
+      "Dance of Light",
+      "Dance of Vampire",
+      "Dance of Aqua Guard",
+      "Dance of Earth Guard",
+      "Dance of Protection",
+      "Dance of Siren",
+      "Dance of Shadow",
+      "Dance of Alignment"
+     ]
+    },
+    "Spectral Dancer": {
+     "buffs": [],
+     "rotation": [
+      "Dance of Fury",
+      "Dance of Fire",
+      "Dance of the Warrior",
+      "Dance of Inspiration",
+      "Dance of Concentration",
+      "Dance of the Mystic",
+      "Dance of Light",
+      "Dance of Vampire",
+      "Dance of Aqua Guard",
+      "Dance of Earth Guard",
+      "Dance of Protection",
+      "Dance of Siren",
+      "Dance of Shadow",
+      "Dance of Alignment"
+     ]
+    }
+   }
+  },
+  "example-oldschool": {
+   "name": "Full old-school party",
+   "desc": "no community-board buffs: Prophet + Warcryer + Overlord + Elders + Swordsinger + Bladedancer, every class above",
+   "classes": {
+    "Prophet": {
+     "buffs": [
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Concentration",
+       "targets": [
+        "mages"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 14,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 15,
+       "keep": true
+      },
+      {
+       "skill": "Berserker Spirit",
+       "targets": [
+        "party"
+       ],
+       "priority": 16,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Hierophant": {
+     "buffs": [
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Concentration",
+       "targets": [
+        "mages"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Bless the Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 14,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 15,
+       "keep": true
+      },
+      {
+       "skill": "Berserker Spirit",
+       "targets": [
+        "party"
+       ],
+       "priority": 16,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Warcryer": {
+     "buffs": [
+      {
+       "skill": "Chant of Battle",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Shielding",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fire",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Flame Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fury",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Evasion",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Predator",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Vampire",
+       "targets": [
+        "party"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "War Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Earth Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Revenge",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Doomcryer": {
+     "buffs": [
+      {
+       "skill": "Chant of Battle",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Shielding",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fire",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Flame Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Fury",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Evasion",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Predator",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Vampire",
+       "targets": [
+        "party"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "War Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Earth Chant",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Chant of Revenge",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Overlord": {
+     "buffs": [
+      {
+       "skill": "Pa'agrio's Blessing",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Glory",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Haste",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Fist",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Tact",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Honor",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Dominator": {
+     "buffs": [
+      {
+       "skill": "Pa'agrio's Blessing",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Glory",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Haste",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Fist",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Tact",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Rage",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Pa'agrio's Honor",
+       "targets": [
+        "party"
+       ],
+       "priority": 8,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Elven Elder": {
+     "buffs": [
+      {
+       "skill": "Blessed Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Blessed Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Agility",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Bless Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Elemental Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Divine Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Eva's Saint": {
+     "buffs": [
+      {
+       "skill": "Blessed Body",
+       "targets": [
+        "party"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Blessed Soul",
+       "targets": [
+        "party"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Agility",
+       "targets": [
+        "party"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Wisdom",
+       "targets": [
+        "party"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Bless Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Elemental Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Divine Protection",
+       "targets": [
+        "party"
+       ],
+       "priority": 7,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Shillien Elder": {
+     "buffs": [
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Vampiric Rage",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Shillien Saint": {
+     "buffs": [
+      {
+       "skill": "Empower",
+       "targets": [
+        "mages"
+       ],
+       "priority": 1,
+       "keep": true
+      },
+      {
+       "skill": "Acumen",
+       "targets": [
+        "mages"
+       ],
+       "priority": 2,
+       "keep": true
+      },
+      {
+       "skill": "Wild Magic",
+       "targets": [
+        "mages"
+       ],
+       "priority": 3,
+       "keep": true
+      },
+      {
+       "skill": "Might",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 4,
+       "keep": true
+      },
+      {
+       "skill": "Haste",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 5,
+       "keep": true
+      },
+      {
+       "skill": "Focus",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 6,
+       "keep": true
+      },
+      {
+       "skill": "Guidance",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 7,
+       "keep": true
+      },
+      {
+       "skill": "Death Whisper",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 8,
+       "keep": true
+      },
+      {
+       "skill": "Vampiric Rage",
+       "targets": [
+        "fighters"
+       ],
+       "priority": 9,
+       "keep": true
+      },
+      {
+       "skill": "Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 10,
+       "keep": true
+      },
+      {
+       "skill": "Wind Walk",
+       "targets": [
+        "party"
+       ],
+       "priority": 11,
+       "keep": true
+      },
+      {
+       "skill": "Magic Barrier",
+       "targets": [
+        "party"
+       ],
+       "priority": 12,
+       "keep": true
+      },
+      {
+       "skill": "Mental Shield",
+       "targets": [
+        "party"
+       ],
+       "priority": 13,
+       "keep": true
+      }
+     ],
+     "rotation": []
+    },
+    "Swordsinger": {
+     "buffs": [],
+     "rotation": [
+      "Song of Warding",
+      "Song of Earth",
+      "Song of Wind",
+      "Song of Vitality",
+      "Song of Hunter",
+      "Song of Life",
+      "Song of Water",
+      "Song of Vengeance",
+      "Song of Flame Guard",
+      "Song of Storm Guard",
+      "Song of Invocation",
+      "Song of Meditation",
+      "Song of Renewal",
+      "Song of Champion"
+     ]
+    },
+    "Sword Muse": {
+     "buffs": [],
+     "rotation": [
+      "Song of Warding",
+      "Song of Earth",
+      "Song of Wind",
+      "Song of Vitality",
+      "Song of Hunter",
+      "Song of Life",
+      "Song of Water",
+      "Song of Vengeance",
+      "Song of Flame Guard",
+      "Song of Storm Guard",
+      "Song of Invocation",
+      "Song of Meditation",
+      "Song of Renewal",
+      "Song of Champion"
+     ]
+    },
+    "Bladedancer": {
+     "buffs": [],
+     "rotation": [
+      "Dance of Fury",
+      "Dance of Fire",
+      "Dance of the Warrior",
+      "Dance of Inspiration",
+      "Dance of Concentration",
+      "Dance of the Mystic",
+      "Dance of Light",
+      "Dance of Vampire",
+      "Dance of Aqua Guard",
+      "Dance of Earth Guard",
+      "Dance of Protection",
+      "Dance of Siren",
+      "Dance of Shadow",
+      "Dance of Alignment"
+     ]
+    },
+    "Spectral Dancer": {
+     "buffs": [],
+     "rotation": [
+      "Dance of Fury",
+      "Dance of Fire",
+      "Dance of the Warrior",
+      "Dance of Inspiration",
+      "Dance of Concentration",
+      "Dance of the Mystic",
+      "Dance of Light",
+      "Dance of Vampire",
+      "Dance of Aqua Guard",
+      "Dance of Earth Guard",
+      "Dance of Protection",
+      "Dance of Siren",
+      "Dance of Shadow",
+      "Dance of Alignment"
+     ]
+    }
+   }
+  }
+ }
+}

@@ -4,12 +4,12 @@
 
 *Lead the swarm.* A swarm kit for L2Swarm.
 
-![version](https://img.shields.io/badge/version-1.2.2-blue)
+![version](https://img.shields.io/badge/version-1.3.0-blue)
 ![L2Swarm](https://img.shields.io/badge/L2Swarm-3.8.14%2B-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 ![platform](https://img.shields.io/badge/Windows-10%20%7C%2011-lightgrey)
 
-**Version 1.2.2 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
+**Version 1.3.0 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
 
 This kit runs a **whole swarm of Lineage 2 characters with L2Swarm**: up to 40 accounts in several parties that level,
 restock, gear up, run Kamaloka and hunt raid bosses on their own, with one leader per party making the decisions. It
@@ -277,7 +277,28 @@ One L2Swarm account = one login. A login can hold several characters; `<Selected
 node docs\plan\tools\import_l2swarm.js --role mylogin3=nuker --party mylogin5=Tankname --write
 ```
 
-Roles: `sk, bishop, destroyer, doombringer, necromancer, inspector, doomcryer, shilliensaint, crafter, spoiler, healer, nuker, dagger`.
+Roles work for **every class**. Give a **kind**: `tank, healer, buffer, melee, archer, dagger, nuker, summoner, spoiler, crafter`,
+or `auto` (the kind of the character's current class, re-checked after every class change). The script finds the skills in the
+character's own learned skills, so there are no skill ids to maintain:
+- **tank** (Paladin, Dark Avenger, Temple Knight, Shillien Knight and their 3rd classes): holds aggro (single and area aggro skills), uses its emergency defence skill and opens raids.
+- **buffer** (Prophet, Swordsinger, Bladedancer, Overlord, Warcryer, Hierophant, Sword Muse, Spectral Dancer, Dominator, Doomcryer):
+  keeps party buffs up. It never overwrites a stronger buff and respects the song/dance limit. Songs and dances run in full cycles, and a
+  Bladedancer and a Swordsinger take turns (dance, song, dance ...). Fighter buffers assist in melee; mystic buffers stay back.
+- **archer**: assists from range and steps back from a monster the tank holds.
+- **summoner** (Warlock, Elemental Summoner, Phantom Summoner and their 3rd classes): keeps its best servitor out and sends it at the
+  party's target. It heals, recharges and buffs the servitor, and uses the servitor's own skills. The item the summon eats goes on the supply list.
+- **melee / nuker / dagger / healer / spoiler / crafter**: assist, nuke, heal, spoil or craft as before.
+
+The older named roles keep their special routines: `sk, bishop, shilliensaint, destroyer, doombringer, necromancer, inspector, doomcryer`
+(`crafter, spoiler, healer, nuker, dagger` are kinds and named roles at the same time).
+
+**Board buffs:** `"boardBuffs": true` (the default) uses the Community Board buffs of L2Toggle-style servers, and your buffers only fill
+what the board lacks. Set `"boardBuffs": false` for an old-school party that has its own buffers. This is a top-level setting; put it on
+a party leader's account entry to set it for that party only. With it off, no board buff runs at all: the buffers are the buff source
+and self buffs are allowed. Which buffer casts what on whom is set in `Scripts\data\buff_plans.json` (see `buff_plans.example.json`).
+Without a plan, a buffer casts the buffs its own skills suggest. With board buffs off it does so straight away; with board buffs on it
+only fills what the board lacks.
+
 An account without a role is not controlled by the script (SETUP warns). Class changes are never automatic until you
 approve a plan per character on the dashboard (**Classes** page). `--party` takes the leader's **character** name.
 

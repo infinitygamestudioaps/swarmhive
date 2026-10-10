@@ -69,7 +69,9 @@ const SETTINGS = path.join(ROOT, 'Settings');
 const LOGS = path.join(ROOT, 'Logs');
 const CFG_FILE = path.resolve(opt.config || path.join(ROOT, 'swarm.config.json'));
 const EXAMPLE = [path.join(ROOT, 'swarm.config.example.json'), path.join(__dirname, '..', '..', '..', 'swarm.config.example.json')].find(f => fs.existsSync(f));
-const ROLES = ['sk', 'bishop', 'destroyer', 'doombringer', 'necromancer', 'inspector', 'doomcryer', 'shilliensaint', 'crafter', 'spoiler', 'healer', 'nuker', 'dagger'];
+// ROLE KINDS (2026-10-10): the named roles with special routines + the kinds that work for EVERY class (swarm.js ROLEKIND-PURE) + auto (= the class kind)
+const ROLES = ['sk', 'bishop', 'destroyer', 'doombringer', 'necromancer', 'inspector', 'doomcryer', 'shilliensaint', 'crafter', 'spoiler', 'healer', 'nuker', 'dagger',
+  'tank', 'buffer', 'melee', 'archer', 'summoner', 'auto'];
 for (const [l, r] of Object.entries(opt.role)) if (r && !ROLES.includes(r)) die(`--role ${l}=${r}: unknown role (roles: ${ROLES.join(', ')})`);
 if (!fs.existsSync(SETTINGS)) die(`no Settings folder in ${ROOT} - is this an L2Swarm folder? (use --root <folder>)`);
 
@@ -306,7 +308,12 @@ function classPlanFor(id, role) {
   if (chain.length !== 4) return null;
   return chain.slice(1).map(k => CLASSES[k][0]);
 }
-const classRole = (id) => (CLASSES[id] ? CLASSES[id][2] : '');
+// a class without a named role (Prophet, Swordsinger, Hawkeye, Warlock, ... and base classes): its KIND from Scripts/data/class_tree.json (role;
+// base class: fighter -> melee, mystic -> nuker), so every class gets a role (ROLE KINDS 2026-10-10)
+let KIND_TREE = null; try { KIND_TREE = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'class_tree.json'), 'utf8').replace(/^﻿/, '')); } catch (e) { KIND_TREE = null; }
+const KINDS = ['tank', 'healer', 'buffer', 'melee', 'archer', 'dagger', 'nuker', 'summoner', 'spoiler', 'crafter'];
+function classKind(id) { const c = KIND_TREE && KIND_TREE.classes && KIND_TREE.classes[String(id)]; if (!c) return ''; return KINDS.includes(c.role) ? c.role : (c.type === 'mystic' ? 'nuker' : 'melee'); }
+const classRole = (id) => (CLASSES[id] && CLASSES[id][2]) || classKind(id);
 const className = (id) => (CLASSES[id] ? CLASSES[id][0] : '');
 
 // skills in the L2Swarm XML lists -> a role guess (weak: configs are often copies of another account)

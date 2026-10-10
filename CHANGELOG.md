@@ -2,6 +2,18 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.0 (2026-10-10)
+
+- Roles for EVERY class: tank, healer, buffer, melee, archer, dagger, nuker, summoner, spoiler, crafter or auto (from the character's class)
+- skills come from each character's own skill data, no skill ids
+- Community Board buffs are optional (boardBuffs true/false, per party on the leader's entry) - old-school parties buff themselves
+- buffers (Prophet, Warcryer, Overlord, SwS, BD and their 3rd classes) keep the party buffed, fighter buffs on fighters and mage buffs on mages
+- Bladedancer + Swordsinger cast songs and dances in full cycles (dance, song, dance...) and recast when the set has run out
+- summoners keep their best servitor out, the servitor attacks the party's target, the summoner heals/recharges/buffs it and uses the servitor's own skills
+- buff plans per party in Scripts/data/buff_plans.json (example file with templates), suggested buffs run when board buffs are off
+- the importer assigns a role to every class
+- NOT yet tried in game: servitor action ids and the song/dance timing between two windows - please report how it goes
+
 ## v1.2.2 (2026-10-10)
 
 - Fix: L2Swarm 3.8.14 refused account files made from our templates ("The account options XML does not match the internal schema ... /Option/LastLoadedUtc ... is not a valid DateTime"). The templates now carry a valid date, and SETUP repairs existing account files with an empty LastLoadedUtc (run SETUP.cmd -Apply once).

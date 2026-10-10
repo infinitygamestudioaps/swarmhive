@@ -252,8 +252,8 @@ function Set-AccountXml([string]$file, $a, [bool]$write) {
     $nameNode = $o.SelectSingleNode('Name')
     if (-not $nameNode -or $nameNode.InnerText.ToLower() -ne $a.login) { & $set 'Name' $a.login $false }
     if ($a.character) { & $set 'SelectedCharacter' $a.character $false }
-    # 2026-10-10: L2Swarm 3.8.14 validates the account file ("does not match the internal schema ... /Option/LastLoadedUtc ... not a valid
-    # DateTime"); older SETUP / release templates left this element EMPTY -> give it a valid date
+    # 2026-10-10 (Mr.P on L2Swarm 3.8.14: "account options XML does not match the internal schema ... /Option/LastLoadedUtc ... '' is not a
+    # valid DateTime"): older SETUP / release templates left this element EMPTY; 3.8.14 validates the file -> give it a valid date
     $ll = $o.SelectSingleNode('LastLoadedUtc'); if ($ll -and -not $ll.InnerText.Trim()) { & $set 'LastLoadedUtc' '2000-01-01T00:00:00Z' $false }
     & $set 'Group' (GroupOf $a) $true
     if ($loginIp) { & $set 'LoginServerIP' $loginIp $false }
