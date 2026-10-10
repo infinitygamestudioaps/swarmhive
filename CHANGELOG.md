@@ -2,6 +2,13 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.1 (2026-10-10)
+
+- New dashboard page Buffs (#/buffs): per party and per buffer character choose which of its own buffs it casts and on whom (whole party, fighters, mages, itself, servitors, named characters), the song/dance cycle order, templates (save a party, apply to another), overlaps between two buffers shown
+- buffers without a reviewed plan get an animated warning badge
+- Board buffs ON/OFF shown per party
+- works on the phone
+
 ## v1.3.0 (2026-10-10)
 
 - Roles for EVERY class: tank, healer, buffer, melee, archer, dagger, nuker, summoner, spoiler, crafter or auto (from the character's class)

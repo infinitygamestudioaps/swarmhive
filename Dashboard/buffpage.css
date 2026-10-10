@@ -1,0 +1,44 @@
+/* BUFFS page #/buffs (BUFF PLANS 2026-10-10, Dashboard/buffpage.js). Reuses the Classes page layout (.cpl-* in classpage.css); only the
+   buff-specific pieces are here. L2 skin tokens from index.html. */
+.bpcount { display: inline-block; min-width: 16px; margin-left: 4px; padding: 0 4px; border-radius: 8px; background: #8f6a14; color: #fff;
+  font: 700 var(--fs-mini)/15px Tahoma, sans-serif; text-align: center; animation: cpPulse 2.2s ease-in-out infinite; }
+.bpbadge { display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border-radius: 9px; font: 700 var(--fs-mini)/1.5 Tahoma, Verdana, sans-serif;
+  text-decoration: none; color: #ffe08a; background: #4a3a10; border: 1px solid #8f7424; animation: cpPulse 2.2s ease-in-out infinite; white-space: nowrap; }
+.bpbadge i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: cpDot 2.2s ease-out infinite; }
+.bpbanner { background: linear-gradient(90deg, rgba(140, 100, 20, .55), rgba(60, 40, 10, .4)); border-color: #8f7424; }
+.bpbanner .pulse { background: #ffc23a; }
+.bpl-board { font: 700 var(--fs-mini)/1.6 Tahoma, sans-serif; padding: 0 7px; border-radius: 9px; border: 1px solid var(--line2); white-space: nowrap; }
+.bpl-board.on { color: #9fd9b0; background: rgba(23, 58, 34, .55); }
+.bpl-board.off { color: #ffd9a0; background: rgba(90, 60, 10, .55); border-color: #8f7424; }
+.bpl-mrow { grid-template-columns: minmax(150px, 1fr) minmax(110px, .8fr) minmax(220px, 2.2fr) minmax(130px, 1fr) minmax(130px, auto); }
+.bpl-sum { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
+.bpl-b { display: inline-flex; gap: 3px; align-items: baseline; padding: 0 5px; border: 1px solid var(--line2); border-radius: 3px; background: rgba(0, 0, 0, .35); white-space: nowrap; font-size: var(--fs-cap); }
+.bpl-b em { color: var(--muted); font-style: normal; font-size: var(--fs-mini); }
+.bpl-rot { flex-basis: 100%; color: #c8b3ff; font-size: var(--fs-cap); }
+.bpl-ov { margin-top: 8px; padding: 6px 8px; border: 1px solid #8f7424; border-radius: 3px; background: rgba(74, 58, 16, .35); font-size: var(--fs-cap); }
+.bpl-ov h4 { margin: 0 0 4px; } .bpl-ovr .ok { color: var(--ok); }
+.bpl-rest { margin-top: 6px; }
+.bpl-list { display: grid; gap: 3px; margin-bottom: 8px; }
+.bpl-row { display: grid; grid-template-columns: minmax(150px, 1.4fr) minmax(120px, 1fr) minmax(130px, 1fr) auto; gap: 4px 8px; align-items: center; padding: 4px 6px;
+  border: 1px solid var(--line); border-radius: 3px; background: rgba(0, 0, 0, .25); font-size: var(--fs-cap); }
+.bpl-row.off { opacity: .55; }
+.bpl-row.on { border-left: 3px solid var(--ok); }
+.bpl-k { display: flex; gap: 6px; align-items: center; color: var(--ink); }
+.bpl-mv { display: inline-flex; gap: 2px; } .bpl-mv button { min-width: 30px; }
+.bpl-add { display: flex; gap: 6px; margin: 4px 0 10px; } .bpl-add input { flex: 1 1 auto; min-width: 0; }
+.bpl-setf { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: end; font-size: var(--fs-cap); }
+.bpl-setf label { display: grid; gap: 2px; color: var(--ink); } .bpl-setf input { width: 90px; } .bpl-setf select { max-width: 100%; }
+@media (max-width: 760px) {
+  .bpl-mrow { grid-template-columns: minmax(0, 1fr) auto; }
+  /* 2026-10-10: the long status text ("No saved plan — board buffs ON …") sat next to the name and ran over it on phones:
+     status gets its own full-width line under the name */
+  .bpl-mrow.cpl-mrow { grid-template-areas: "who who" "st st" "now now" "path path" "btns btns"; }
+  .bpl-mrow .cpl-st { text-align: left; }
+  .bpl-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .bpl-row .bpl-meta, .bpl-row .bpl-t, .bpl-row select { grid-column: 1 / -1; }
+  .bpl-setf label, .bpl-setf select { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .bpcount, .bpbadge, .bpbadge i { animation: none !important; } }
+.bpl-ka { display: inline-flex; gap: 4px; align-items: center; color: var(--muted); font-size: var(--fs-mini); }
+.bpl-cyc { margin-top: 8px; } .bpl-cyc h4 { margin: 0 0 4px; }
+.bpl-runs { color: #ffe08a; }

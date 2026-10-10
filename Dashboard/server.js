@@ -1736,6 +1736,9 @@ http.createServer(async (req, res) => {
     // CLASS PLANS 2026-10-10 (Dashboard/classpage_api.js): /classpage.js|css, /classlogic.js (public) + GET /api/classtree, GET/POST /api/classplans   (before the key check, like gearpage/kamapage: the page files are public, the API checks the key itself; 2026-10-10 the tab failed on phones = 401 on classpage.js)
     // (key checked inside): per party + character the class plan (Scripts/data/class_plans.json), its status, approval, templates
     if (await require('./classpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // BUFF PLANS 2026-10-10 (Dashboard/buffpage_api.js): /buffpage.js|css, /bufflogic.js (public) + GET/POST /api/buffplans (key checked inside):
+    // per party + buffer character which own buffs it casts on whom (Scripts/data/buff_plans.json), song/dance order, templates, overlaps
+    if (await require('./buffpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     if (!allowed(req, url)) return send(res, 401,'text/plain; charset=utf-8', 'Access denied: open the link with ?key=... (see Dashboard\\key.txt on the PC)');
     if (url.pathname === '/' || url.pathname === '/index.html') {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');   // phones kept an old page

@@ -558,6 +558,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="rooms"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Rooms</button>
       <button data-tab="gear"><img class="gi" src="/icons/icon/armor_t53_u_i00.png" alt=""> Gear</button>
       <button data-tab="classes"><img class="gi" src="/icons/class/class_106.png" alt=""> Classes</button>
+      <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
       <button data-tab="accounts"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Character.png" alt=""> Accounts</button>
       <button data-tab="plan"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Plan</button>
       <button data-tab="pc"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_SystemMenu.png" alt=""> PC</button>
@@ -1031,6 +1032,7 @@ function route() {
   if (window.GearPage && GearPage.route(kind, arg)) return;     // GEAR PLANNER 2026-10-09: #/gear[/<classId>/<grade>] (Dashboard/gearpage.js); closes itself on other pages
   if (window.KamaPage && KamaPage.route(kind, arg)) return;     // KAMALOKA PAGE 2026-10-09: #/kamaloka[/<id>|/live] v2, every party (Dashboard/kamapage.js); closes itself on other pages
   if (window.ClassPage && ClassPage.route(kind, arg)) return;   // CLASS PLANS 2026-10-10: #/classes[/<leader>] (Dashboard/classpage.js); closes itself on other pages
+  if (window.BuffPage && BuffPage.route(kind, arg)) return;     // BUFF PLANS 2026-10-10: #/buffs[/<leader>] (Dashboard/buffpage.js); closes itself on other pages
   if (kind === 'char' && arg) { showCharPage(decodeURIComponent(arg)); return; }
   if (kind === 'raid' && arg) { showRaidPage(decodeURIComponent(arg)); return; }
   if (kind === 'live') { showLivePage(); return; }
@@ -4548,5 +4550,11 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/classlogic.js"></script>
 <script src="/classpage.js"></script>
 <script>if (window.ClassPage && /^#\/classes(\/|$)/.test(location.hash)) route();</script>
+<!-- BUFF PLANS 2026-10-10: #/buffs (per party + buffer character: which own buffs it casts on whom, song/dance order, overlaps, templates).
+     Data: /api/buffplans (Dashboard/buffpage_api.js); logic = Dashboard/bufflogic.js (text copy of the swarm.js ROLEKIND + BUFFPLAN blocks). -->
+<link rel="stylesheet" href="/buffpage.css">
+<script src="/bufflogic.js"></script>
+<script src="/buffpage.js"></script>
+<script>if (window.BuffPage && /^#\/buffs(\/|$)/.test(location.hash)) route();</script>
 </body>
 </html>
