@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.4 (2026-10-10)
+
+- Parties tab: a calm raidhunt strip, one fixed line per hunting party (party, boss, step, Watch, Stop) instead of the big hunt box and live raid panel that made the whole page jump up and down
+- the live raid view stays on the Raids tab and #/live
+- several hunting parties are shown in a stable order and do not replace each other, also with older scripts (the dashboard remembers each leader's last progress)
+
 ## v1.3.3 (2026-10-10)
 
 - Raidhunt with several parties: every party's progress is shown (each leader writes its own Logs/raidhunt_party_<leader>.json

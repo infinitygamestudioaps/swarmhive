@@ -1625,13 +1625,21 @@ setInterval(viewersWrite, 5000);
 
 // RAIDHUNT PER PARTY (2026-10-10, user: "I enable raid hunt for multiple parties, I only see one party's progress"): swarm.js writes
 // Logs/raidhunt_party_<leader>.json per leader; the old shared Logs/raidhunt.json (older scripts) still counts for the leader it names
+const HUNT_SEEN = {};   // leader -> last raidhunt.json copy (older scripts share one file)
+const HUNT_SEEN_POLL = setInterval(() => { try { const d = readJson(path.join(LOGS, 'raidhunt.json'), null); if (d && d.leader) HUNT_SEEN[d.leader] = d; } catch (e) { } }, 700);   // catch every leader's 2 s write
 function raidHuntAll() {
   const hunts = {};
   const mark = (d) => Object.assign({}, d, { stale: (Date.now() - Date.parse(d.updatedAt || 0)) / 1000 > 20 });
   try { for (const f of fs.readdirSync(LOGS)) { const m = /^raidhunt_party_(.+)\.json$/.exec(f); if (!m) continue; const d = readJson(path.join(LOGS, f), null); if (d && d.leader) hunts[d.leader] = mark(d); } } catch (e) { }
   const old = readJson(path.join(LOGS, 'raidhunt.json'), null);
-  if (old && old.leader && (!hunts[old.leader] || Date.parse(old.updatedAt || 0) > Date.parse(hunts[old.leader].updatedAt || 0))) hunts[old.leader] = mark(old);
-  const on = Object.values(hunts).filter(h => h.active && !h.stale).sort((a, b) => Date.parse(b.updatedAt || 0) - Date.parse(a.updatedAt || 0));
+  // older scripts: every hunting leader overwrites the ONE shared file every 2 s -> remember each leader's last copy here, so every party
+  // stays visible (the page jumped between parties) until the bots write their own files (2026-10-10)
+  if (old && old.leader) HUNT_SEEN[old.leader] = old;
+  for (const [l, d] of Object.entries(HUNT_SEEN)) {
+    if ((Date.now() - Date.parse(d.updatedAt || 0)) / 1000 > 600) { delete HUNT_SEEN[l]; continue; }
+    if (!hunts[l] || Date.parse(d.updatedAt || 0) > Date.parse(hunts[l].updatedAt || 0)) hunts[l] = mark(d);
+  }
+  const on = Object.values(hunts).filter(h => h.active && !h.stale).sort((a, b) => String(a.leader).localeCompare(String(b.leader)));   // a STABLE order (newest-first made the page jump)
   const first = on[0] || Object.values(hunts).sort((a, b) => Date.parse(b.updatedAt || 0) - Date.parse(a.updatedAt || 0))[0] || { active: false, stale: true, history: [] };
   return Object.assign({}, first, { hunts, activeLeaders: on.map(h => h.leader) });   // top level = the newest active hunt (older pages keep working)
 }

@@ -146,6 +146,16 @@ tr.nextpick td { background: rgba(200, 160, 40, .12); }
 .rl2-dmg { display: grid; gap: 3px; font-size: var(--fs-cap); } .rl2-dt { display: grid; grid-template-columns: 80px minmax(40px, 1fr) auto auto; gap: 6px; align-items: center; } .rl2-dt .bar { height: 8px; background: #2a2418; border-radius: 4px; overflow: hidden; } .rl2-dt .bar i { display: block; height: 100%; background: linear-gradient(90deg, #b8862e, #ffcf6a); } .rl2-dt .v { font-variant-numeric: tabular-nums; white-space: nowrap; } .rl2-dt .tk { font-size: var(--fs-mini); white-space: nowrap; }
 .rl2-logs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; } @media (max-width: 700px) { .rl2-logs { grid-template-columns: minmax(0, 1fr); } } .rl2 .rlev .dl b { color: #ffcf9a; } .rl2 .rlev .dt b { color: #ff8a8a; }
 .rlwrap { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; } .rlwrap .rg { flex: 1 1 260px; min-width: 0; }
+.hstrip { display: grid; gap: 4px; margin-bottom: 10px; }
+.hsrow { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto auto auto; gap: 8px; align-items: center; height: 40px; padding: 0 8px;
+  border: 1px solid #6b5a2a; border-radius: 6px; background: rgba(40, 30, 5, .35); font-size: var(--fs-cap); overflow: hidden; }
+.hsrow .hsp { color: #f3d58a; white-space: nowrap; }
+.hsrow .hsb { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hsrow .hsd { display: inline-flex; gap: 3px; } .hsrow .hsd i { width: 8px; height: 8px; border-radius: 50%; background: #3a3220; }
+.hsrow .hsd i.past { background: #8a7a4a; } .hsrow .hsd i.cur { background: #ffd65a; box-shadow: 0 0 6px #ffd65a; }
+.hsrow .hsph { color: var(--muted); white-space: nowrap; min-width: 56px; }
+.hsrow .hsgo { white-space: nowrap; } .hsrow button { min-height: 30px; }
+@media (max-width: 520px) { .hsrow { grid-template-columns: auto minmax(0, 1fr) auto auto auto; gap: 6px; padding: 0 6px; } .hsrow .hsd { display: none; } .hsrow .hsph { min-width: 0; } .hsrow button { padding: 0 8px; } }
 .hunt { border: 1px solid #6b5a2a; border-radius: 6px; padding: 8px; margin-bottom: 10px; background: rgba(40, 30, 5, .35); }
 .hunt.off { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 6px 8px; font-size: var(--fs-cap); }
 .hsteps { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 6px 0 2px; font-size: var(--fs-cap); }
@@ -2031,7 +2041,7 @@ document.addEventListener('input', (e) => {
 function renderParties() {
   const parties = {};
   STATE.chars.forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
-  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + (HUNT && HUNT.active && !HUNT.stale ? huntHtml() : huntHtml() + liveHtml()) + (liveRuns(KLIVE).length > 1 ? kamaBannerHtml(true) : KLIVE.running ? kamaLiveHtml() : '') + Object.entries(parties).map(([leader, list]) => {
+  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip() + (liveRuns(KLIVE).length > 1 ? kamaBannerHtml(true) : KLIVE.running ? kamaLiveHtml() : '') + Object.entries(parties).map(([leader, list]) => {
     list.sort((a, b) => (b.name === leader) - (a.name === leader) || a.name.localeCompare(b.name));
     const lv = list.map(c => c.level);
     const live = list.filter(c => c.ageSec <= 30).length;
@@ -2430,9 +2440,26 @@ const huntBadge = (o) => `<span class="fit ${o === 'killed' ? 'good' : /wiped|ti
 const huntAgo = (iso) => { const s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000)); return s < 90 ? s + ' s' : s < 5400 ? Math.round(s / 60) + ' min' : Math.round(s / 3600 * 10) / 10 + ' h'; };
 function huntHtml() {
   // 2026-10-10: one box per hunting party (HUNT.hunts[leader]); the top-level fields are the newest hunt (older servers)
-  const all = HUNT && HUNT.hunts ? Object.values(HUNT.hunts).filter(x => x && x.active && !x.stale) : [];
+  const all = HUNT && HUNT.hunts ? Object.values(HUNT.hunts).filter(x => x && x.active && !x.stale).sort((a, b) => String(a.leader).localeCompare(String(b.leader))) : [];   // stable order
   if (all.length > 1) return all.map(x => huntOne(x)).join('');
   return huntOne(all[0] || HUNT || {});
+}
+/** Parties tab (2026-10-10, user: "the raid view jumps up on under parties, the entire page gets bumped up and down again and again"):
+ *  ONE fixed line per hunting party (party · boss · step · Watch / Stop), no live raid panel here (that is on the Raids tab / #/live);
+ *  the height only changes when a party starts or stops hunting. */
+function huntStrip() {
+  const all = HUNT && HUNT.hunts ? Object.values(HUNT.hunts).filter(x => x && x.active && !x.stale).sort((a, b) => String(a.leader).localeCompare(String(b.leader)))
+    : (HUNT && HUNT.active && !HUNT.stale ? [HUNT] : []);
+  if (!all.length) return '';
+  return '<div class="hstrip" role="list" aria-label="raid hunts">' + all.map(h => {
+    const c = h.current || {}, ph = huntPhase(h), pi = HUNT_PHASES.indexOf(ph);
+    const dots = HUNT_PHASES.map((p, i) => `<i class="${i < pi ? 'past' : i === pi ? 'cur' : ''}" title="${p}"></i>`).join('');
+    return `<div class="hsrow" role="listitem"><b class="hsp">${esc(h.leader || '?')}</b>
+      <span class="hsb">${c.id ? `<a class="rlink" href="#/raid/${c.id}">${esc(c.name || '?')}</a>` : esc(c.name || '…')}</span>
+      <span class="hsd" aria-label="step: ${ph}">${dots}</span><span class="hsph">${ph}</span>
+      <a class="hsgo" href="#/live/${encodeURIComponent(h.leader || '')}">Watch</a>
+      <button data-hunt="stop" data-party="${esc(h.leader || '')}">Stop</button></div>`;
+  }).join('') + '</div>';
 }
 function huntOne(hh) {
   const h = hh || {};
@@ -2465,6 +2492,7 @@ async function pollHunt() {
   renderHunt();
 }
 setInterval(pollHunt, 2000);
+setTimeout(() => pollHunt(), 300);   // at once on load: the hunt strip should not pop in 2 s later and push the page down (2026-10-10)
 document.addEventListener('click', async (e) => {
   const b = e.target.closest('[data-hunt]'); if (!b) return;
   e.stopPropagation();
