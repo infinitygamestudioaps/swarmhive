@@ -13,9 +13,9 @@ How a command travels (server.js `commandPlan`):
 - **@login / @logout**: MCP open_account (the character's config) / close_account.
 - Passwords are never read or set (any / command naming a password is refused); `/config save` never takes a file name (it would re-point the account).
 
-Counts: 134 catalog entries — 92 swarm (67 distinct !words = every !command swarm.js handles except the internal !ready),
+Counts: 135 catalog entries — 93 swarm (68 distinct !words = every !command swarm.js handles except the internal !ready),
 34 L2Swarm chat-box (32 distinct /words), 8 dashboard actions.
-Safety: 21 safe, 99 confirm, 14 destructive.
+Safety: 21 safe, 100 confirm, 14 destructive.
 
 ## Move / Travel
 
@@ -123,6 +123,7 @@ Safety: 21 safe, 99 confirm, 14 destructive.
 | Command | Args | Who acts | Target scope | Safety | Where in the UI | What it does |
 |---|---|---|---|---|---|---|
 | `!mission raid {boss}` | <boss>: boss | party leader acts, party follows | party | needs confirm | palette · party sheet | Raid a boss: Travel, clear the area, countdown, pull. Never escapes: fights to the end. |
+| `!scout {boss}[ {name}]` | <boss>: boss, [name]: char | each character for itself ([name] = only that one) | party | needs confirm | palette · party sheet | Scout: is the boss up?: ONE character travels alone to a safe look-out (epics: the guide route, Core = Cruma floors + the Cubic; else teleport near + walk), looks for the boss, writes Logs/raid_status.json (alive / not there; the boss page badge + the raid hunt use it) and Logs/scout_<name>.json, reports in party chat and goes back with .townname — never fights. No name = the leader picks the most expendable free member; never the leader of a busy party. |
 | `!mission kamaloka[ {lvl}]` | [lvl]: kamaloka | party leader acts, party follows | party | needs confirm | palette · party sheet | Kamaloka: Run a Kamaloka (empty = the one that fits). |
 | `!mission stop` | — | party leader acts, party follows | party, all parties, clan | needs confirm | palette · party sheet | Stop mission: Abort the running mission trip. |
 | `!raidhunt[ {min} {max}]` | [min]: number, [max]: number | party leader acts, party follows | party | needs confirm | palette · party sheet | Raid hunter: Take the bosses that fit, lowest first, until a wipe/timeout. Optional level range. |

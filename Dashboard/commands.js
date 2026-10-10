@@ -177,6 +177,9 @@
     // ---------------- Raids / Kamaloka ----------------
     { id: 'raid', cat: 'raid', kind: 'swarm', title: 'Raid a boss', tpl: '!mission raid {boss}', handler: 'leader', targets: ['party'], def: 'party', safety: 'confirm',
       desc: 'Travel, clear the area, countdown, pull. Never escapes: fights to the end.', args: [{ key: 'boss', label: 'Raid boss', type: 'boss' }], kw: 'mission boss kill' },
+    { id: 'scout', cat: 'raid', kind: 'swarm', title: 'Scout: is the boss up?', tpl: '!scout {boss}[ {name}]', handler: 'self', targets: ['party'], def: 'party', safety: 'confirm',
+      desc: 'ONE character travels alone to a safe look-out (epics: the guide route, Core = Cruma floors + the Cubic; else teleport near + walk), looks for the boss, writes Logs/raid_status.json (alive / not there; the boss page badge + the raid hunt use it) and Logs/scout_<name>.json, reports in party chat and goes back with .townname — never fights. No name = the leader picks the most expendable free member; never the leader of a busy party.',
+      args: [{ key: 'boss', label: 'Raid boss (name or id)', type: 'boss' }, { key: 'name', label: 'Character (empty = the leader picks one)', type: 'char', optional: true }], kw: 'scout look check up alive epic core orfen queen ant' },
     { id: 'kamaloka', cat: 'raid', kind: 'swarm', title: 'Kamaloka', tpl: '!mission kamaloka[ {lvl}]', handler: 'leader', targets: ['party'], def: 'party', safety: 'confirm',
       desc: 'Run a Kamaloka (empty = the one that fits).', args: [{ key: 'lvl', label: 'Kamaloka', type: 'kamaloka', optional: true }], kw: 'instance hall labyrinth' },
     { id: 'missionstop', cat: 'raid', kind: 'swarm', title: 'Stop mission', tpl: '!mission stop', handler: 'leader', targets: ['party', 'all', 'clan'], def: 'party', safety: 'confirm', desc: 'Abort the running mission trip.' },

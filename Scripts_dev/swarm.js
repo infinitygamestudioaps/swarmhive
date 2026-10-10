@@ -10809,7 +10809,11 @@ function epicZoneCount(t, chars, partyNames) {
 /**
  * The requirement check of a tactic for a party. party: [{ name, level, role }] (online members incl. the leader).
  * ctx: { liveLevel, others (our characters already in the zone, not in this party) }.
- * -> { ok (every hard item passes), level, levelSource, counts, items: [{ key, label, ok, hard, have, need, note }], refuse: 'why' }
+ * -> { ok (every HARD item passes), level, levelSource, counts, items: [{ key, label, ok, hard, have, need, note }], refuse: 'why', advice: [labels] }
+ * USER 2026-10-10 ("It should allow melee fighters as well, of course mages will be better. Please allow the team that we want."): the party
+ * composition is ADVICE (amber), never a refusal — members, tank, healers, casters, damage dealers (melee count), "melee useless", levels vs the
+ * guide. Hard by default only what the SERVER enforces: max clients per IP in the zone, a known zone level cap, the raid curse. Every item's
+ * hard flag comes from epic_tactics.json requirements.<key>.hard (the user can switch any of them).
  */
 function epicCheck(J, t, party, ctx) {
   ctx = ctx || {}; party = party || [];
@@ -10818,23 +10822,28 @@ function epicCheck(J, t, party, ctx) {
   const lvls = party.map(m => epNum(m.level)).filter(x => x > 0), lo = lvls.length ? Math.min.apply(null, lvls) : 0, hi = lvls.length ? Math.max.apply(null, lvls) : 0;
   const add = (key, label, ok, hard, have, need, note) => items.push({ key, label, ok: !!ok, hard: !!hard, have, need, note: note || '' });
   const req = (k) => R[k] && typeof R[k] === 'object' ? R[k] : null, hardOf = (k, d) => { const r = req(k); return r && r.hard !== undefined ? !!r.hard : d; };
-  if (req('minMembers')) add('members', `${party.length} in the party (need ${R.minMembers.value})`, party.length >= epNum(R.minMembers.value), hardOf('minMembers', true), party.length, epNum(R.minMembers.value), R.minMembers.guide);
+  const noteOf = (k) => { const r = req(k); return r ? (r.guide || r.note || '') : ''; };
+  // server rules (hard unless the file says otherwise)
   const maxC = epNum(Z.maxClientsPerIp) || epNum(J && J.server && J.server.maxClientsPerIp) || 0, others = epNum(ctx.others);
-  if (maxC) add('clients', `${party.length + others} of our characters in the zone (max ${maxC} per IP${others ? `; ${others} of ours already there` : ''})`, party.length + others <= maxC, true, party.length + others, maxC, 'all our accounts share one IP');
-  if (req('minLevelOverBoss') && L) { const need = L + epNum(R.minLevelOverBoss.value); add('minLevel', `lowest level ${lo || '?'} (need ${need}: boss ${L}${epNum(R.minLevelOverBoss.value) ? ' + ' + epNum(R.minLevelOverBoss.value) : ''})`, lo >= need, hardOf('minLevelOverBoss', true), lo, need, R.minLevelOverBoss.note); }
-  if (req('suggestedOverBoss') && L) { const need = L + epNum(R.suggestedOverBoss.value); add('suggested', `guide level ${need} (lowest ${lo || '?'})`, lo >= need, hardOf('suggestedOverBoss', false), lo, need, R.suggestedOverBoss.guide); }
-  if (L) { const cap = L + 8; add('curse', `highest level ${hi || '?'} (raid curse above ${cap})`, hi <= cap, true, hi, cap, 'a member more than 8 levels above the boss is cursed'); }
-  if (epNum(Z.levelCap) > 0) add('levelCap', `highest level ${hi || '?'} (zone cap ${epNum(Z.levelCap)})`, hi <= epNum(Z.levelCap), true, hi, epNum(Z.levelCap), Z.levelCapSource);
-  else if (Z.levelCap === null || Z.levelCap === undefined) add('levelCap', 'zone level cap unknown', true, false, hi, null, Z.levelCapSource || 'unknown — characters above it get ported out');
-  if (req('tank')) add('tank', `${cnt.tank} tank (need ${R.tank.value})`, cnt.tank >= epNum(R.tank.value), hardOf('tank', true), cnt.tank, epNum(R.tank.value), R.tank.guide);
-  if (req('healers')) add('healers', `${cnt.healer} healer${cnt.healer === 1 ? '' : 's'} (need ${R.healers.value})`, cnt.healer >= epNum(R.healers.value), hardOf('healers', true), cnt.healer, epNum(R.healers.value), R.healers.guide);
+  if (maxC) add('clients', `${party.length + others} of our characters in the zone (max ${maxC} per IP${others ? `; ${others} of ours already there` : ''})`, party.length + others <= maxC, hardOf('clients', true), party.length + others, maxC, noteOf('clients') || 'all our accounts share one IP');
+  if (epNum(Z.levelCap) > 0) add('levelCap', `highest level ${hi || '?'} (zone cap ${epNum(Z.levelCap)})`, hi <= epNum(Z.levelCap), hardOf('levelCap', true), hi, epNum(Z.levelCap), Z.levelCapSource);
+  else add('levelCap', 'zone level cap unknown', true, false, hi, null, Z.levelCapSource || 'unknown — characters above it get ported out');
+  if (L) { const cap = L + 8; add('curse', `highest level ${hi || '?'} (raid curse above ${cap})`, hi <= cap, hardOf('curse', true), hi, cap, noteOf('curse') || 'a member more than 8 levels above the boss is cursed'); }
+  // composition + levels (advice unless the file says hard)
+  if (req('minMembers')) add('members', `${party.length} in the party (guide: ${R.minMembers.value}+)`, party.length >= epNum(R.minMembers.value), hardOf('minMembers', false), party.length, epNum(R.minMembers.value), noteOf('minMembers'));
+  if (req('minLevelOverBoss') && L) { const need = L + epNum(R.minLevelOverBoss.value); add('minLevel', `lowest level ${lo || '?'} (boss ${L}${epNum(R.minLevelOverBoss.value) ? ' + ' + epNum(R.minLevelOverBoss.value) : ''} = ${need})`, lo >= need, hardOf('minLevelOverBoss', false), lo, need, noteOf('minLevelOverBoss')); }
+  if (req('suggestedOverBoss') && L) { const need = L + epNum(R.suggestedOverBoss.value); add('suggested', `guide level ${need} (lowest ${lo || '?'})`, lo >= need, hardOf('suggestedOverBoss', false), lo, need, noteOf('suggestedOverBoss')); }
+  if (req('tank')) add('tank', `${cnt.tank} tank (guide: ${R.tank.value})${cnt.tank ? '' : ' — the toughest melee / the leader takes the tank part'}`, cnt.tank >= epNum(R.tank.value), hardOf('tank', false), cnt.tank, epNum(R.tank.value), noteOf('tank'));
+  if (req('healers')) add('healers', `${cnt.healer} healer${cnt.healer === 1 ? '' : 's'} (guide: ${R.healers.value})`, cnt.healer >= epNum(R.healers.value), hardOf('healers', false), cnt.healer, epNum(R.healers.value), noteOf('healers'));
+  const dealers = cnt.caster + cnt.melee;
+  if (req('dealers')) add('dealers', `${dealers} damage dealers (${cnt.caster} caster${cnt.caster === 1 ? '' : 's'} + ${cnt.melee} melee; guide: ${R.dealers.value}+)`, dealers >= epNum(R.dealers.value), hardOf('dealers', false), dealers, epNum(R.dealers.value), noteOf('dealers'));
   if (req('casters')) {
-    if (epNum(R.casters.value) > 0) add('casters', `${cnt.caster} damage caster${cnt.caster === 1 ? '' : 's'} (need ${R.casters.value})`, cnt.caster >= epNum(R.casters.value), hardOf('casters', true), cnt.caster, epNum(R.casters.value), R.casters.guide);
-    if (epNum(R.casters.recommended) > 0) add('castersRec', `${cnt.caster} casters (guide: ${R.casters.recommended})`, cnt.caster >= epNum(R.casters.recommended), false, cnt.caster, epNum(R.casters.recommended), R.casters.guide);
+    const need = epNum(R.casters.recommended) || epNum(R.casters.value);
+    if (need > 0) add('casters', `${cnt.caster} damage caster${cnt.caster === 1 ? '' : 's'} (guide: ${need} — mages AoE better)`, cnt.caster >= need, hardOf('casters', false), cnt.caster, need, noteOf('casters'));
   }
-  if (R.meleeUseless) add('melee', `${cnt.melee} melee damage dealer${cnt.melee === 1 ? '' : 's'} (the guide: melee is useless here)`, cnt.melee <= 2, false, cnt.melee, 2, 'melee classes are worthless here');
-  const bad = items.filter(i => i.hard && !i.ok);
-  return { ok: !bad.length, level: L, levelSource: lv.source, counts: cnt, items, lo, hi, refuse: bad.map(i => i.label).join('; ') };
+  if (R.meleeUseless) add('melee', `${cnt.melee} melee damage dealer${cnt.melee === 1 ? '' : 's'} (the guide prefers mages here; melee fight the focus target)`, cnt.melee <= 2, !!(req('melee') && req('melee').hard), cnt.melee, 2, 'guide: "melee classes are worthless here"');
+  const bad = items.filter(i => i.hard && !i.ok), adv = items.filter(i => !i.hard && !i.ok);
+  return { ok: !bad.length, level: L, levelSource: lv.source, counts: cnt, items, lo, hi, refuse: bad.map(i => i.label).join('; '), advice: adv.map(i => i.label) };
 }
 /** phase state: { phase, i, since, flags: { name: ms }, hist: [{ id, at }] } */
 function epicPhaseInit(t, nowMs) { const P = (t && t.phases) || []; return { phase: P.length ? P[0].id : '', i: 0, since: nowMs, flags: {}, hist: P.length ? [{ id: P[0].id, at: nowMs }] : [] }; }
@@ -10952,9 +10961,10 @@ function epicGuideText(J, t) {
   const need = [];
   if (R.tank) need.push(`${R.tank.value} tank`);
   if (R.healers) need.push(`${R.healers.value} healer${R.healers.value > 1 ? 's' : ''}`);
-  if (R.casters && (R.casters.value || R.casters.recommended)) need.push(`${R.casters.value || 0}+ damage casters${R.casters.recommended ? ' (guide ' + R.casters.recommended + ')' : ''}`);
+  if (R.dealers) need.push(`${R.dealers.value}+ damage dealers (melee count)`);
+  if (R.casters && (R.casters.value || R.casters.recommended)) need.push(`mages preferred (guide ${R.casters.recommended || R.casters.value})`);
   if (R.minMembers) need.push(`${R.minMembers.value}+ members`);
-  out.push({ h: 'Party', lines: [need.join(' · ') + (R.meleeUseless ? ' · melee is useless here' : ''), R.gear ? 'Gear: ' + R.gear : ''].filter(Boolean) });
+  out.push({ h: 'Party (advice — any team may go)', lines: [need.join(' · ') + (R.meleeUseless ? ' · the guide calls melee useless here (they still fight)' : ''), R.gear ? 'Gear: ' + R.gear : ''].filter(Boolean) });
   out.push({ h: 'Server rules', lines: [`max ${Z.maxClientsPerIp || (J && J.server && J.server.maxClientsPerIp) || 10} clients per IP in ${Z.name || 'the zone'} — all our accounts share one IP, so one party at a time`,
     Z.levelCap ? `level cap ${Z.levelCap} at the entrance (${Z.levelCapSource || ''})` : `level cap: unknown${Z.levelCapSource ? ' — ' + Z.levelCapSource : ''}`, Z.noTransform ? 'no transformations' : '', Z.pvp ? 'PvP zone' : '',
     `raid curse above level ${lv.level + 8} (boss ${lv.level}, ${lv.source})`].filter(Boolean) });
@@ -10981,6 +10991,60 @@ function epicValidate(J) {
   });
   return bad;
 }
+// ---- SCOUT (user 2026-10-10: "It should be possible to send a char to an epic raid to see if it's up") — any raid boss, epics first ----
+var SCOUTP = { lookDist: 2200, viewRange: 3500, dwellMs: 6000, maxMs: 1800000,
+  kindRank: { melee: 0, other: 1, buffer: 2, caster: 3, healer: 5, tank: 6 } };
+/** may this character scout now? c = { name, online, dead, leader, partyInRaid, partyBusy }, o = { picked (the user named it) } -> { ok, why } */
+function scoutAllowed(c, o) {
+  o = o || {};
+  if (!c || !c.name) return { ok: false, why: 'no character' };
+  if (c.online === false) return { ok: false, why: `${c.name} is not online` };
+  if (c.dead) return { ok: false, why: `${c.name} is dead` };
+  if (c.partyInRaid) return { ok: false, why: `${c.name}'s party is in a raid` };
+  if (c.leader && !(o.picked && !c.partyBusy)) return { ok: false, why: c.leader && !o.picked ? `${c.name} leads the party (pick it by name, only while the party is idle)` : `${c.name} leads a busy party` };
+  return { ok: true, why: '' };
+}
+/** the most expendable allowed character: melee before buffers before casters, healers / tanks last; then the lowest level; then the name.
+ *  cands = [{ name, level, role, online, dead, leader, partyInRaid, partyBusy }] -> { name, why, ranked } */
+function scoutPick(cands, o) {
+  o = o || {}; const J = o.J || null;
+  const ok = (cands || []).filter(c => scoutAllowed(c, {}).ok && (!o.minLevel || epNum(c.level) >= epNum(o.minLevel)));
+  const rk = (c) => { const k = epicRoleKind(c.role, J); const r = SCOUTP.kindRank[k]; return r === undefined ? 4 : r; };
+  const ranked = ok.slice().sort((a, b) => rk(a) - rk(b) || epNum(a.level) - epNum(b.level) || String(a.name).localeCompare(String(b.name)));
+  if (!ranked.length) return { name: '', why: (cands || []).length ? 'nobody free (leaders, dead, offline or in a raid)' : 'no characters', ranked };
+  const c = ranked[0];
+  return { name: c.name, why: `${epicRoleKind(c.role, J)}, level ${epNum(c.level)}`, ranked: ranked.map(x => x.name) };
+}
+/**
+ * The safe look-out point(s) for a boss: the tactic's scout.lookout (Core: the room landing), else for every search spot (Orfen) / the boss
+ * spot: lookDist from it toward me, at least the biggest aggro range of its known aggressive monsters + 300, never farther than the view range.
+ * o = { aggro (max aggro range near the boss), stage ({x,y,z}: a raid fight area's stage point) } -> [{ x, y, z, of: {x,y,z}, how }]
+ */
+function scoutLookouts(t, boss, me, o) {
+  o = o || {};
+  const S = (t && t.scout) || {}, view = epNum(S.viewRange) || SCOUTP.viewRange;
+  if (S.lookout) { const p = epPt(S.lookout); if (p) return [Object.assign(p, { of: epPt(S.of) || (boss ? { x: boss.x, y: boss.y, z: boss.z } : p), how: 'tactic look-out' })]; }
+  const spots = (t && t.points && Array.isArray(t.points.search) && t.points.search.length ? t.points.search.map(epPt) : [boss ? { x: boss.x, y: boss.y, z: boss.z } : null]).filter(Boolean);
+  const want = Math.min(view - 300, Math.max(epNum(S.lookDist) || SCOUTP.lookDist, epNum(o.aggro) + 300));
+  return spots.map(sp => {
+    if (o.stage && spots.length === 1 && Math.hypot(o.stage.x - sp.x, o.stage.y - sp.y) <= view - 300 && Math.hypot(o.stage.x - sp.x, o.stage.y - sp.y) >= epNum(o.aggro) + 200)
+      return { x: Math.round(o.stage.x), y: Math.round(o.stage.y), z: o.stage.z || sp.z, of: sp, how: 'raid fight area stage point' };
+    const m = me || { x: sp.x + 1, y: sp.y }, L = Math.hypot(m.x - sp.x, m.y - sp.y) || 1;
+    if (L <= want) return { x: Math.round(m.x), y: Math.round(m.y), z: m.z || sp.z, of: sp, how: 'already within view' };
+    return { x: Math.round(sp.x + (m.x - sp.x) / L * want), y: Math.round(sp.y + (m.y - sp.y) / L * want), z: sp.z, of: sp, how: `${Math.round(want)} from the spawn toward me` };
+  });
+}
+/** what the scout saw. o = { reached (at a look-out), seen (the boss in sight, alive), seenDead, attacked, spotsLooked, spots } -> { result, alive, why } */
+function scoutVerdict(o) {
+  if (o.seen) return { result: 'alive', alive: true, why: 'in sight' };
+  if (o.seenDead) return { result: 'not-there', alive: false, why: 'seen dead' };
+  if (!o.reached) return { result: 'unknown', alive: null, why: o.attacked ? 'attacked on the way — went back' : 'did not reach the look-out' };
+  if (o.attacked && epNum(o.spotsLooked) < epNum(o.spots || 1)) return { result: 'unknown', alive: null, why: 'attacked before every spot was checked' };
+  return { result: 'not-there', alive: false, why: `not in sight from ${epNum(o.spotsLooked) || 1} look-out${epNum(o.spotsLooked) > 1 ? 's' : ''}` };
+}
+/** the raid_status 'src' text of a scout result (the boss page badge reads it back: /^scouted by (\S+): (ALIVE|not there)/) */
+function scoutSrc(name, v) { return `scouted by ${name}: ${v.result === 'alive' ? 'ALIVE' : 'not there'}`; }
+function scoutSrcParse(src) { const m = /^scouted by (\S+): (ALIVE|not there)/.exec(String(src || '')); return m ? { by: m[1], alive: m[2] === 'ALIVE' } : null; }
 // EPIC-PURE-END
 // RAID FIGHT AREA loader: Scripts/data/raid_areas.json, re-read when its write time changes (checked at most every 10 s); by npc id or boss name
 let RAREAS = null, rareasAt = 0, rareasStamp = '', rareasMemo = {};
@@ -11428,10 +11492,15 @@ async function epicMission(b, t, runId) {
     epicLiveWrite('done');
   }
 }
+/** who does the tank part: the tank; without one (user 2026-10-10: "allow the team that we want") the highest-level melee, else the leader */
 function epicTankName() {
   if (ROLE_RE.tank.test(state.role || '')) return Me.Name;
-  let n = ''; try { teamNames().some(x => { const lp = livePos[x]; if (lp && ROLE_RE.tank.test(lp.role || '')) { n = x; return true; } return false; }); } catch (e) { }
-  return n || Me.Name;
+  let n = '', mel = '', ml = -1;
+  try { teamNames().forEach(x => { const lp = livePos[x]; if (!lp || now() - lp.at > 120000 || lp.IsDead) return; if (!n && ROLE_RE.tank.test(lp.role || '')) n = x;
+    if (epicRoleKind(lp.role, epicData()) === 'melee' && num(lp.lvl) > ml) { ml = num(lp.lvl); mel = x; } }); } catch (e) { }
+  if (n) return n;
+  if (epicRoleKind(state.role, epicData()) === 'melee' && num(Me.Level) >= ml) return Me.Name;
+  return mel || Me.Name;
 }
 /** live positions: the boss, the larva (Queen Ant), the tank */
 function epicLivePts(t) {
@@ -11549,7 +11618,8 @@ async function epicRunMine(bossName) {
   const myRun = raidSeq.runs = (raidSeq.runs || 0) + 1; raidSeq.running = true;
   try {
     const rr = (() => { try { return rkRaidRoutine(state.role); } catch (e) { return ''; } })();
-    if (ROLE_RE.tank.test(state.role || '') || rr === 'tank') { await epicTank(); return; }
+    const rx = epicRx();
+    if (ROLE_RE.tank.test(state.role || '') || rr === 'tank' || (rx && rx.tank === Me.Name)) { await epicTank(); return; }   // no tank in the party: the chosen stand-in
     if (isHealerRole() || HEALER_ROLES.test(state.role || '')) return;   // the healer brain (healTick) heals in raids
     if (state.role === 'doomcryer') { await raidDoomcryer(); return; }
     let boss = null; try { boss = findMobByName(bossName, epicDef().searchRange); } catch (e) { }
@@ -11664,6 +11734,165 @@ function epicHuntOk(b, lo, hi) {
     const L = epicLevel(t, 0).level; if (!(L >= lo && L <= hi)) return false;
     return epicPreCheck(t, b).ok;
   } catch (e) { return false; }
+}
+
+// ===== SCOUT (user 2026-10-10: "It should be possible to send a char to an epic raid to see if it's up"; pure part: EPIC-PURE scout*) =====
+// !scout <boss> [character] (party chat / dashboard boss page "Scout: is it up?"): ONE character travels alone with the normal travel code
+// (the tactic's route for epics: Core = Cruma floors + the Cubic; else teleport near + walk), stops at a SAFE look-out (the tactic's
+// scout.lookout / its search spots / lookDist from the spawn, out of the known aggro ranges), looks for the boss (in sight within the view
+// range), writes Logs/raid_status.json (raidStatusSet: alive / "not there" with the time, the boss page + raidhunt read it) and
+// Logs/scout_<name>.json, says it in party chat + the intent log, and goes back with .townname (useEscape: attacked = never fight, run + .town).
+// Away = benched() for its party (no split watchdog / left-behind regroup / stuck-follow / L2Swarm follow), back to normal at the end.
+var scoutCtl = { on: false, boss: '', since: 0, attackedAt: 0, away: {} };
+function scoutAwayIs(n) { const u = scoutCtl.away[n || Me.Name]; return !!u && now() < u; }
+App.on('swarm.scoutaway', (e) => { try { const d = e.data || {}; if (d.name) scoutCtl.away[d.name] = num(d.until) || 0; } catch (er) { } });
+function scoutAway(on) {
+  const until = on ? now() + SCOUTP.maxMs : 0;
+  scoutCtl.away[Me.Name] = until;
+  try { App.emit('swarm.scoutaway', { name: Me.Name, until }); } catch (e) { }
+}
+function scoutWrite(o) {
+  try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\scout_${liveFileName()}.json`, JSON.stringify(Object.assign({ name: Me.Name, at: new Date().toISOString() }, o))); } catch (e) { }
+}
+/** party chat: the named character scouts, or (no name) the leader picks the most expendable free one and names it */
+function scoutCommand(parts) {
+  let q = parts.slice(1), who = null;
+  if (q.length > 1 && CONFIG.roster[q[q.length - 1]]) who = q.pop();
+  const text = q.join(' ').trim();
+  if (!text) return;
+  if (!who) {
+    if (!isLeader()) return;
+    const b = findBoss(text); if (!b) { SayToParty(`[scout] unknown raid boss '${text}'`); return; }
+    const inRaidNow = state.mode === 'raid' || !!(missionBoss.until > now() && regroupRun);
+    const cands = teamNames().filter(n => n !== Me.Name).map(n => { const lp = livePos[n] || {}; return { name: n, level: num(lp.lvl), role: lp.role || '', online: !!lp.at && now() - lp.at < 60000, dead: !!lp.IsDead, leader: false, partyInRaid: inRaidNow }; });
+    const pk = scoutPick(cands, { J: epicData() });
+    if (!pk.name) { SayToParty(`[scout] ${b.name}: ${pk.why} — name a character: !scout ${b.name} <name>`); return; }
+    SayToParty(`!scout ${b.id} ${pk.name}`);                            // the named character acts on it
+    note(`scout: ${b.name} -> ${pk.name} (${pk.why})`, true);
+    return;
+  }
+  if (who !== Me.Name) return;
+  const seq = orderState.seq;
+  (async () => {
+    if (!(await orderWaitControl('!scout', seq))) return;
+    try { await scoutRun(text, { picked: true, seq }); } finally { orderRelease('!scout', seq); }
+  })().catch(e => logError('!scout', e));
+}
+function scoutPartyBusy() { return !!(regroupRun || autoLvl.active || raidHunt.active || state.mode === 'raid' || state.mode === 'mission'); }
+// SCOUT SPEED (user 2026-10-10: "the scout should just move as fast as possible. Dagger1 has Silent Move which lets him bypass monsters - use
+// it. The scout should just run as fast as it can to the destination"): during a scout trip, every 1.2 s: run mode; the character's OWN speed
+// skills (self buffs named / typed like Dash, Sprint, Wind Walk) whenever ready and not up; its stealth toggle (Silent Move and the like, found by
+// name / AbnormalType) ON while aggressive monsters are near (their aggro range + 700) and OFF again after 8 s without any (stealth slows you down).
+const SCOUT_SPEED = { speedRe: /^(dash|sprint|wind walk|quick step|swift step|spirit of the wind|haste)$/i, speedType: /SPEED_UP|RUN_SPEED/i,
+  stealthRe: /^(silent move|hide|shadow hide|stealth)$/i, stealthType: /SILENT|HIDE|STEALTH|INVISIBLE/i, nearPad: 700, offAfterMs: 8000, lastCast: {}, calmSince: 0, ran: false };
+function scoutSpeedTick() {
+  try {
+    if (!scoutCtl.on || Me.IsDead || currentTownKey()) return;
+    if (!SCOUT_SPEED.ran) { SCOUT_SPEED.ran = true; try { RunCommand('/run'); } catch (e) { } }
+    const skills = []; try { (hostSnap.skills() || SkillsList).forEach(k => skills.push(k)); } catch (e) { }
+    const nm = (k) => String(k.Name || ''), ab = (k) => String(k.AbnormalType || '');
+    const castOk = (k) => k && k.IsReady && num(Me.MP) >= num(k.MP) && now() - (SCOUT_SPEED.lastCast[num(k.Id)] || 0) > 2500;
+    const cast = (k, why) => { SCOUT_SPEED.lastCast[num(k.Id)] = now(); try { Send.RequestMagicSkillUse(num(k.Id)); } catch (e) { } note(`scout: ${nm(k)} (${why})`); };
+    // stealth toggle: on near aggressive monsters, off when it is calm again
+    const stealth = skills.find(k => k.IsToggle && (SCOUT_SPEED.stealthRe.test(nm(k)) || SCOUT_SPEED.stealthType.test(ab(k))));
+    if (stealth) {
+      let near = false; try { near = dangerMobs().some(d => Math.hypot(d.x - Me.X, d.y - Me.Y) < num(d.r) + SCOUT_SPEED.nearPad); } catch (e) { }
+      const on = toggleActive(num(stealth.Id), nm(stealth), false);
+      if (near) { SCOUT_SPEED.calmSince = 0; if (!on && castOk(stealth)) cast(stealth, 'aggressive monsters near - sneaking past'); }
+      else { if (!SCOUT_SPEED.calmSince) SCOUT_SPEED.calmSince = now(); if (on && now() - SCOUT_SPEED.calmSince > SCOUT_SPEED.offAfterMs && castOk(stealth)) cast(stealth, 'clear again - full speed'); }
+    }
+    // speed buffs on myself (not while sneaking: a cast can break stealth on some servers)
+    if (stealth && toggleActive(num(stealth.Id), nm(stealth), false)) return;
+    for (const k of skills) {
+      if (k.IsToggle || !k.IsActive) continue;
+      const tt = String(k.TargetType || '').toUpperCase();
+      if (!(SCOUT_SPEED.speedRe.test(nm(k)) || (SCOUT_SPEED.speedType.test(ab(k)) && (tt === 'SELF' || tt === '')))) continue;
+      if (!castOk(k)) continue;
+      let low = true; try { low = BuffLow(num(k.Id), 3); } catch (e) { }
+      if (low) { cast(k, 'run faster'); break; }
+    }
+  } catch (e) { }
+}
+async function scoutRun(text, o) {
+  o = o || {};
+  const b = findBoss(text);
+  if (!b) { SayToParty(`[scout] unknown raid boss '${text}'`); return { result: 'unknown', why: 'unknown boss' }; }
+  const al = scoutAllowed({ name: Me.Name, online: true, dead: !!Me.IsDead, leader: isLeader() && teamNames().length > 0, partyInRaid: inRaid() || state.mode === 'raid', partyBusy: isLeader() && scoutPartyBusy() }, { picked: !!o.picked });
+  if (!al.ok || scoutCtl.on) { const why = scoutCtl.on ? `already scouting ${scoutCtl.boss}` : al.why; SayToParty(`[scout] ${b.name}: not going — ${why}`); note(`scout ${b.name}: refused — ${why}`, true); return { result: 'unknown', why }; }
+  const t = epicFor(b), S = (t && t.scout) || {}, view = num(S.viewRange) || SCOUTP.viewRange, dwell = num(S.dwellMs) || SCOUTP.dwellMs;
+  Object.assign(scoutCtl, { on: true, boss: b.name, since: now(), attackedAt: 0 });
+  const hit = () => { if (!scoutCtl.attackedAt && now() - lastAttackerOnMe.at < 2500) { scoutCtl.attackedAt = now(); note(`scout: attacked on the way to ${b.name} — no fighting, back to town`, true); } return scoutCtl.attackedAt > 0; };
+  const abort = () => !state.running || Me.IsDead || (o.seq !== undefined && orderState.seq !== o.seq) || hit();   // a hit ends the trip: never fight, back to town
+  if (isLeader() && teamNames().length) SayToParty(`[scout] ${Me.Name} (party leader) scouts ${b.name} — the server may take the party along on my teleports (Follow Party Leader's Dialog)`);
+  else SayToParty(`[scout] ${Me.Name}: going to look whether ${b.name} is up (alone, back by .town)`);
+  intent('scout', `${b.name}: travelling alone to a safe look-out`, { x: b.x, y: b.y, z: b.z });
+  scoutAway(true); followHold(SCOUTP.maxMs); stopCombatG();
+  SCOUT_SPEED.ran = false; SCOUT_SPEED.calmSince = 0; const speedTimer = setInterval(scoutSpeedTick, 1200);   // run, speed skills, Silent Move near monsters
+  // never fight on a scout trip (self-defence off: state.fleeUntil); a hit = the trip is over, back to town
+  const holdFlee = setInterval(() => { try { state.fleeUntil = now() + 60000; hit(); } catch (e) { } }, 1000);
+  let res = null;
+  try {
+    scoutWrite({ boss: b.name, bossId: b.id, phase: 'travel' });
+    // aggro of the known aggressive monsters near the boss (the tactic's minions / its raid minions)
+    let ag = 0; try { ((t && t.minions) || []).forEach(m => { ag = Math.max(ag, num(aggroRange(m.name))); }); (minionNames(b.name) || []).forEach(n => { ag = Math.max(ag, num(aggroRange(n))); }); } catch (e) { }
+    let stage = null; try { const A = raidAreaOf(b); if (A && A.stage) stage = { x: A.stage[0], y: A.stage[1], z: A.stage[2] }; } catch (e) { }
+    const lookNow = () => scoutLookouts(t, { x: b.x, y: b.y, z: b.z }, { x: Me.X, y: Me.Y, z: Me.Z }, { aggro: ag, stage });
+    let looks = lookNow();
+    // the way there: the tactic's route steps (Core: Cruma floors + the Cubic) for epics, else teleport near the first look-out + walk
+    const rr = await orderRetry(`!scout ${b.name}`, { what: `the trip to the look-out of ${b.name}`, max: 3, control: '!scout', abort: () => scoutCtl.attackedAt > 0,
+      done: () => looks.some(L => Math.hypot(L.x - Me.X, L.y - Me.Y) <= 700),
+      attempt: async () => {
+        gkFail = '';
+        const steps = (S.route || (t && t.route && t.route.steps) || []).filter(s => s.do === 'npctrip' || s.do === 'link');
+        if (steps.length) {
+          for (const s of steps) {
+            if (abort()) return { ok: false, why: 'stopped / attacked' };
+            if (s.do === 'npctrip') { const r = await goToNpc(s.query, { noTalk: true, solo: true, abort }); if (!r.ok) return { ok: false, why: r.why }; }
+            else if (!(await epicClickLink(s.npc, s.link, s.land))) return { ok: false, why: gkFail || s.link };
+          }
+          looks = lookNow();
+        } else {
+          const L0 = looks[0];
+          if (L0 && Math.hypot(L0.x - Me.X, L0.y - Me.Y) > 3000) { try { await teleportNear(L0.x, L0.y, `scout ${b.name}`); } catch (e) { logError('scout teleportNear', e); } }
+          looks = lookNow();
+          const L = looks.slice().sort((p, q) => Math.hypot(p.x - Me.X, p.y - Me.Y) - Math.hypot(q.x - Me.X, q.y - Me.Y))[0];
+          if (L && Math.hypot(L.x - Me.X, L.y - Me.Y) > 300) await walkTo(L.x, L.y, L.z, 250, 600000, abort);
+        }
+        const d = Math.min(...looks.map(L => Math.hypot(L.x - Me.X, L.y - Me.Y)));
+        return { ok: d <= 700, why: d <= 700 ? '' : `${Math.round(d)} from the look-out${gkFail ? ' — ' + String(gkFail).slice(0, 100) : ''}` };
+      } });
+    // look: every look-out (Orfen: her spawn spots, nearest first), dwell, the boss in sight?
+    let seen = null, seenDead = false, looked = 0;
+    const reached = !!rr.ok;
+    const scan = () => { let alive = null, dead = false; try { snapMobs().forEach(m => { if (String(m.Name) !== b.name || Math.hypot(m.X - Me.X, m.Y - Me.Y) > view) return; if (m.IsDead) dead = true; else if (!alive) alive = { x: Math.round(m.X), y: Math.round(m.Y), z: Math.round(m.Z), hp: num(m.HpPercent), lvl: num(m.Level) }; }); } catch (e) { } return { alive, dead }; };
+    if (reached) {
+      const order = looks.slice().sort((p, q) => Math.hypot(p.x - Me.X, p.y - Me.Y) - Math.hypot(q.x - Me.X, q.y - Me.Y));
+      for (let i = 0; i < order.length && !seen && !abort(); i++) {
+        const L = order[i];
+        if (i > 0) { setTask(`scout: next look-out of ${b.name} (${i + 1}/${order.length})`); await walkTo(L.x, L.y, L.z, 250, 300000, abort); if (Math.hypot(L.x - Me.X, L.y - Me.Y) > 700) continue; }
+        try { Send.StopMove(); } catch (e) { }
+        looked++; setTask(`scout: looking for ${b.name} (${looked}/${order.length})`); scoutWrite({ boss: b.name, bossId: b.id, phase: 'look', at: P(Me.X, Me.Y, Me.Z) });
+        const t0 = now(); while (now() - t0 < dwell && !abort()) { const sc = scan(); if (sc.alive) { seen = sc.alive; break; } if (sc.dead) seenDead = true; await sleep(500); }
+      }
+    }
+    const v = scoutVerdict({ reached, seen: !!seen, seenDead, attacked: !!scoutCtl.attackedAt, spotsLooked: looked, spots: looks.length });
+    if (v.alive !== null) raidStatusSet(b.name, v.alive, scoutSrc(Me.Name, v));
+    const txt = v.result === 'alive' ? `ALIVE${seen ? ' at ' + P(seen.x, seen.y, seen.z) + (seen.lvl ? ', level ' + seen.lvl : '') : ''}` : v.result === 'not-there' ? `NOT THERE (${v.why})` : `unknown — ${v.why}${!reached && rr.why ? ': ' + String(rr.why).slice(0, 120) : ''}`;
+    SayToParty(`[scout] ${b.name}: ${txt}`);
+    note(`scout ${b.name}: ${txt}`, true);
+    intentDone('scout', v.result !== 'unknown', `${b.name}: ${txt}`);
+    res = { boss: b.name, bossId: b.id, result: v.result, alive: v.alive, why: v.why, seen, looked, lookouts: looks.map(L => ({ x: L.x, y: L.y, z: L.z, how: L.how })), phase: 'done' };
+    scoutWrite(res);
+    try { App.emit('swarm.scoutresult', res); } catch (e) { }
+  } catch (e) { logError('scout', e); res = { boss: b.name, result: 'unknown', why: String(e.message || e) }; scoutWrite(Object.assign({ phase: 'error' }, res)); }
+  finally {
+    // back to town (never a fight; useEscape runs out of a fight first, then .townname)
+    try { if (!currentTownKey() && !Me.IsDead) { setTask(`scout: back to town after ${b.name}`); await useEscape(null, `scout ${b.name}: back to town`); } } catch (e) { logError('scout return', e); }
+    clearInterval(holdFlee); clearInterval(speedTimer); state.fleeUntil = 0;
+    scoutCtl.on = false; scoutAway(false); state.followHoldUntil = 0;
+    scoutWrite(Object.assign({}, res || {}, { phase: 'back', town: currentTownKey() || '' }));
+  }
+  return res;
 }
 
 // LOOT RECORD (user 2026-10-04 22:55: "write down what we got per raid boss"): every window snapshots its bag when the raid starts and,
@@ -19468,14 +19697,16 @@ setInterval(() => {
 // town, and come back into the party afterwards. Benched windows: no follow, no left-behind reports, no stuck-follow; the leader's invite
 // loop skips them until the bench ends.
 const bench = { until: 0, names: [] };
-function benched(n) { return now() < bench.until && bench.names.includes(n || Me.Name); }
+function benchedHall(n) { return now() < bench.until && bench.names.includes(n || Me.Name); }
+// SCOUT (2026-10-10): a character away on a scout trip counts as benched for its party (no split watchdog / left-behind regroup / stuck follow)
+function benched(n) { return benchedHall(n) || (typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs(n || Me.Name)); }
 App.on('swarm.bench', (e) => {
   // only MY party leader's bench counts (HALL TEAM PER PARTY 2026-10-09: two parties can run Halls at the same time; another leader's
   // bench used to land in every leader window too and its "until 0" ended my party's bench)
   if (e.source.characterName !== CONFIG.leader && !(isLeader() && e.source.characterName === Me.Name)) return;
   Object.assign(bench, { until: e.data.until || 0, names: e.data.names || [], town: e.data.town || '', why: e.data.why || '', team: e.data.team || [] });
   if (!isLeader()) {
-    if (benched()) {
+    if (benchedHall()) {
       note(`bench: not in the Hall team for ${e.data.why || 'a 6-man Hall'} (${(e.data.team || []).join(', ')}) — leaving the party, waiting in ${e.data.town || 'town'}`, true); try { Options.ActiveFollow = false; Send.StopMove(); } catch (er) { } stopCombatG();
       setTask(benchTask());
       benchGoToTown().catch(er => logError('bench town', er));
@@ -19496,16 +19727,16 @@ async function benchGoToTown() {
   const key = bench.town ? (townKeyFor(bench.town) || bench.town) : '';
   if (!key) return;
   const t0 = now();
-  while (benched() && !Me.IsDead && now() - t0 < 60000 && (IsInCombat || now() - lastAttackerOnMe.at < 6000)) { stopCombatG(); await sleep(2000); }
+  while (benchedHall() && !Me.IsDead && now() - t0 < 60000 && (IsInCombat || now() - lastAttackerOnMe.at < 6000)) { stopCombatG(); await sleep(2000); }
   await sleep(3000);                                                   // out of the party first (the leader's .town must not take me along)
-  if (!benched() || Me.IsDead || currentTownKey() === key) return;
+  if (!benchedHall() || Me.IsDead || currentTownKey() === key) return;
   lastTownCmd = 0;
   const ok = await townCommand(`bench: ${benchTask()}`, key);
   note(`bench: ${ok ? 'in ' + bench.town + ' — waiting for the Hall team' : 'could not .town to ' + bench.town + ' — waiting here'}`, true);
-  if (benched()) setTask(ok ? benchTask() : `waiting here — not in the Hall team${bench.why ? ' (' + bench.why + ')' : ''}`);
+  if (benchedHall()) setTask(ok ? benchTask() : `waiting here — not in the Hall team${bench.why ? ' (' + bench.why + ')' : ''}`);
 }
 // keep the task line while benched (other loops set their own tasks)
-setInterval(() => { try { if (!isLeader() && benched() && !/^waiting (in|here)/.test(state.task || '')) setTask(benchTask()); } catch (e) { } }, 10000);
+setInterval(() => { try { if (!isLeader() && benchedHall() && !/^waiting (in|here)/.test(state.task || '')) setTask(benchTask()); } catch (e) { } }, 10000);
 const leftBehind = new Set();
 App.on('swarm.leftbehind', (event) => { if (isLeader() && teamOf(event.data.name) === teamOf(Me.Name)) leftBehind.add(event.data.name); });
 // a left-behind report is stale once that teammate stands next to me again (2026-10-05 08:35: Chanter1's report stayed in the set during
@@ -23182,6 +23413,10 @@ function handleSay(charName, text, messageType) {
         break;
       }
       gotoPlace(parts.slice(1).join(' ')).catch(e => logError('!goto', e));
+      break;
+
+    case '!scout':                              // !scout <boss> [character] — one character looks whether a raid boss is up (SCOUT 2026-10-10)
+      try { scoutCommand(parts); } catch (e) { logError('!scout', e); }
       break;
 
     case '!mark':                               // lederen gemmer sin position: !mark Gludin torv

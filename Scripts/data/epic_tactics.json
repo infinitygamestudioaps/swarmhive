@@ -1,8 +1,8 @@
 {
   "_readme": [
     "EPIC BOSS TACTICS (user 2026-10-10): the L2Toggle community guides for Core, Queen Ant and Orfen as data. swarm.js reads this file live (re-read when it changes) when a raid mission targets one of these bosses (!mission raid Core) and runs the boss's tactic instead of the generic raid routine. The dashboard boss page shows it as the 'Guide' box (Dashboard/raidspage.js carries a generated copy: node docs/plan/tools/epic_sync.js after every edit; --check in the tests).",
-    "Guide texts: docs/plan/epic_guides.md. Code: swarm.js EPIC-PURE (pure, tested by docs/plan/tools/test_epic_tactics.js) + EPIC HOST blocks.",
-    "level: live (seen in the game) > user > datapack > guide. requirements.*.hard = the leader refuses the raid when it fails (never start an unwinnable epic); soft = a warning only.",
+    "Guide texts: docs/plan/epic_guides.md. Code: swarm.js EPIC-PURE (pure, tested by docs/plan/tools/test_epic_tactics.js) + EPIC HOST blocks. Scout: !scout <boss> [character] (SCOUT host block) uses bosses.<id>.scout (lookout / dwellMs / viewRange / lookDist).",
+    "level: live (seen in the game) > user > datapack > guide. requirements.<key>.hard: true = the leader refuses the raid when it fails, false = ADVICE (amber on the Guide box, said once in party chat). User 2026-10-10: 'Please allow the team that we want' — the party composition is advice; hard are only what the server enforces: clients (max per IP in the zone), levelCap (a known zone cap), curse (the raid curse).",
     "phases: the fight runs through them in order; each phase has rules (what the bots do) and next[] (when to go on: every key of 'when' must hold; 'any' = one of a list). Keys: after (ms in this phase), flag (pulled | tankAt | bossTeleported | bossSeen | tankAggro | bossNearAnchor | bossFound), minionsAtMost, minionsAtLeast, waveAtLeast, bossHpBelow, bossHpAbove.",
     "rules: tank hold|pull|rush|lure|goto|boss|minions · team stay|follow|goto · focus none|minions|minions-then-boss|boss|larva|boss-larva · bossOffLimits · tankSpam (single aggro on minions) · areaAggro hold|free|now · ud hold|free|afterArea · aoeMinMobs · anchor hold|pull|larva|boss|nestEntrance|tank · formation {caster, healer, melee} = distance BEHIND the tank (or the anchor when the team stays), away from the enemy.",
     "enabledInRaidhunt: false = raidhunt never picks these (EPIC_BOSS_RE); a manual 'Raid it' / !mission raid <boss> still runs the tactic."
@@ -32,214 +32,931 @@
     "formationTol": 120
   },
   "bosses": {
-    "29006": {
-      "id": 29006,
-      "name": "Core",
-      "source": { "url": "https://community.lineage2toggle.com/index.php?/topic/477-how-to-core-raid-guide/", "title": "How to: Core raid guide", "fetched": "2026-10-10" },
-      "level": { "user": 50, "guide": 40, "datapack": 50, "note": "user 2026-10-10: Core is level 50 on our server (the guide says 40)" },
-      "aggressive": false,
-      "danger": "very high — 'by far the hardest boss currently on L2Toggle'; the guide's author wipes now and then with +10 armour / +12 weapons. Your characters WILL die.",
-      "summary": "About 80 aggressive minions. The tank splits them into two waves, the mages AoE them down behind the tank, the boss only after the minions.",
-      "minions": [
-        { "id": 29007, "name": "Death Knight" }, { "id": 29008, "name": "Doom Wraith" }, { "id": 29011, "name": "Susceptor" },
-        { "id": 29009, "name": "Dicor" }, { "id": 29010, "name": "Validus" }, { "id": 29012, "name": "Perum" }, { "id": 29013, "name": "Premo" }
-      ],
-      "minionNote": "guide: ~80 minions lvl 42-44, all aggressive, respawn until Core dies. Datapack: Death Knight 50, Doom Wraith 55, Susceptor 49, Dicor 47, Validus 46, Perum 48, Premo 45 (aggro ranges 1300-2100).",
-      "zone": {
-        "name": "Core room (Cruma Tower, top)", "center": [17726, 110300, -6500], "radius": 4500, "z": [-7000, -6200],
-        "maxClientsPerIp": 10, "levelCap": 55, "levelCapSource": "Mozella (Cruma Tower entrance) refuses level > 55 (datapack ai/CrumaTower; the guide only says 'level cap')",
-        "noTransform": true
-      },
-      "requirements": {
-        "minMembers": { "value": 7, "hard": true, "guide": "tank + 2 bishops + 6-7 mages" },
-        "minLevelOverBoss": { "value": 0, "hard": true, "note": "nobody below the boss level (50)" },
-        "suggestedOverBoss": { "value": 3, "hard": false, "guide": "suggested level 43 for a level-40 Core = boss + 3" },
-        "tank": { "value": 1, "hard": true },
-        "healers": { "value": 2, "hard": true, "guide": "2 Bishops with noble and blessed blood" },
-        "casters": { "value": 4, "hard": true, "recommended": 6, "guide": "6-7 mages (Sorcerer or Spellhowler). Melee classes are worthless here." },
-        "meleeUseless": true,
-        "gear": "C-grade, +6 or more on everything (more on the tank and the bishops)"
-      },
-      "route": {
-        "text": "Dion -> Cruma Tower (gatekeeper) -> Mozella 'Teleport into the Tower.' -> Penelope 'Teleport to the 2nd floor.' -> run down the ramp (left or right) to Hanna at the south end -> 'Go to the 3rd floor.' -> Teleportation Cubic 'Teleport into The Core room.'",
-        "steps": [
-          { "do": "npctrip", "query": "30486", "say": "Dion, Cruma Tower, Mozella, Penelope, then room by room down the 2nd floor ramp to Hanna" },
-          { "do": "link", "npc": { "id": 30486, "name": "Hanna", "x": 17722, "y": 119749, "z": -9068 }, "link": "Go to the 3rd floor.", "land": [17719, 115590, -6584], "say": "Hanna: to the 3rd floor" },
-          { "do": "link", "npc": { "id": 31843, "name": "Teleportation Cubic", "x": 17719, "y": 115430, "z": -6582 }, "link": "Teleport into The Core room.", "land": [17691, 111726, -6583], "say": "Teleportation Cubic: into the Core room" }
-        ]
-      },
-      "points": {
-        "hold": [17691, 111726, -6583],
-        "holdNote": "the safe wall position = the Core room landing (estimate; move it here when the real wall is known)",
-        "pull": [17700, 110300, -6500],
-        "pullNote": "about half way to Core: far enough to pull ~half of the minions, not the boss",
-        "boss": [17726, 108915, -6480]
-      },
-      "setup": [
-        "Take Berserker Spirit / Zerk dance off the tank (P.Def).",
-        "Mages close behind the tank (guide: 70 attack range), healers at the back (120+), inside the mages' AoE range.",
-        "Healers resurrect everyone (bishops first); everyone accepts at once."
-      ],
-      "formation": { "caster": 220, "healer": 480, "melee": 80, "note": "guide: tank front, mages middle, healers rear — EXTREMELY IMPORTANT" },
-      "phases": [
-        { "id": "stage", "label": "Ready at the wall", "say": "everyone at the wall: tank in front, mages behind him, healers at the back — nobody touches Core",
-          "rules": { "tank": "hold", "team": "stay", "anchor": "hold", "focus": "none", "bossOffLimits": true, "tankSpam": false, "areaAggro": "hold", "ud": "hold" },
-          "next": [{ "when": { "after": 4000 }, "to": "pull" }] },
-        { "id": "pull", "label": "Tank pulls half the room", "say": "the tank pulls about half of the minions round the corner and runs back to the wall — nobody attacks",
-          "rules": { "tank": "pull", "pullSize": 40, "team": "stay", "anchor": "hold", "focus": "none", "bossOffLimits": true, "tankSpam": false, "areaAggro": "hold", "ud": "hold" },
-          "next": [{ "when": { "flag": "pulled" }, "to": "wave1" }, { "when": { "after": 45000 }, "to": "wave1" }] },
-        { "id": "wave1", "label": "Wave 1: mages AoE", "say": "first wave on the tank: mages AoE, healers keep each other alive first",
-          "rules": { "tank": "minions", "team": "stay", "anchor": "hold", "focus": "minions", "bossOffLimits": true, "tankSpam": true, "areaAggro": "hold", "ud": "hold", "aoeMinMobs": 2 },
-          "next": [{ "when": { "waveAtLeast": 5, "after": 3000 }, "to": "wave2" }, { "when": { "minionsAtMost": 2, "after": 15000 }, "to": "clear" }] },
-        { "id": "wave2", "label": "Wave 2: hate aura + Ultimate Defense", "say": "second wave round the corner: hate aura NOW, then Ultimate Defense",
-          "rules": { "tank": "minions", "team": "stay", "anchor": "hold", "focus": "minions", "bossOffLimits": true, "tankSpam": true, "areaAggro": "now", "ud": "afterArea", "aoeMinMobs": 2 },
-          "next": [{ "when": { "minionsAtMost": 2, "after": 10000 }, "to": "clear" }] },
-        { "id": "clear", "label": "Clear the rest, raise the dead", "say": "last minions down, the dead get raised — still nobody on Core",
-          "rules": { "tank": "minions", "team": "stay", "anchor": "hold", "focus": "minions", "bossOffLimits": true, "tankSpam": true, "areaAggro": "free", "ud": "free", "aoeMinMobs": 2 },
-          "next": [{ "when": { "minionsAtMost": 0, "after": 12000 }, "to": "boss" }] },
-        { "id": "boss", "label": "Core: spread out, all on the boss", "say": "Core: tank away from the mages, mages away from the healers; respawning minions die first",
-          "rules": { "tank": "boss", "team": "stay", "anchor": "tank", "focus": "minions-then-boss", "bossOffLimits": false, "tankSpam": true, "areaAggro": "free", "ud": "free", "aoeMinMobs": 3,
-            "formation": { "caster": 600, "healer": 950, "melee": 80 } },
-          "next": [] }
-      ],
-      "notes": [
-        "Minions respawn until Core dies (they come back depending on when they died).",
-        "Core's main threat is an AoE nuke: keep the spread in the boss phase.",
-        "Hate aura in the boss phase only when it goes wrong — Ultimate Defense is spent."
-      ]
-    },
     "29001": {
       "id": 29001,
       "name": "Queen Ant",
-      "source": { "url": "https://community.lineage2toggle.com/index.php?/topic/476-how-to-ant-queen-raid-guide/", "title": "How to: Ant Queen raid guide", "fetched": "2026-10-10" },
-      "level": { "user": null, "guide": 40, "datapack": 40 },
+      "source": {
+        "url": "https://community.lineage2toggle.com/index.php?/topic/476-how-to-ant-queen-raid-guide/",
+        "title": "How to: Ant Queen raid guide",
+        "fetched": "2026-10-10"
+      },
+      "level": {
+        "user": null,
+        "guide": 40,
+        "datapack": 40
+      },
       "aggressive": false,
       "danger": "high — hits very hard and fast; Guard Ants are social with a big aggro range; PvP over Queen Ant is likely.",
       "summary": "Rush past everything to the larva. AoE on the larva so the nurses heal the larva and not the Queen, the tank holds the Queen.",
       "minions": [
-        { "id": 29002, "name": "Queen Ant Larva", "role": "larva" }, { "id": 29003, "name": "Nurse Ant", "role": "healer" },
-        { "id": 29004, "name": "Guard Ant" }, { "id": 29005, "name": "Court Guard Ant", "guideName": "Royal Court Ant" }
+        {
+          "id": 29002,
+          "name": "Queen Ant Larva",
+          "role": "larva"
+        },
+        {
+          "id": 29003,
+          "name": "Nurse Ant",
+          "role": "healer"
+        },
+        {
+          "id": 29004,
+          "name": "Guard Ant"
+        },
+        {
+          "id": 29005,
+          "name": "Court Guard Ant",
+          "guideName": "Royal Court Ant"
+        }
       ],
       "minionNote": "guide: minions 35-38. Larva: does not attack/move, cannot die. Nurses heal Queen + Larva ~5 % (larva first), almost instant respawn. Guard Ants ~10x HP, social, the only aggressive monster in the room.",
       "zone": {
-        "name": "Queen Ant's chamber (Ant Nest)", "center": [-21610, 180800, -5800], "radius": 4500, "z": [-6300, -5300],
-        "maxClientsPerIp": 10, "levelCap": null, "levelCapSource": "the guide says 'with level cap' but not the value — unknown, check live",
+        "name": "Queen Ant's chamber (Ant Nest)",
+        "center": [
+          -21610,
+          180800,
+          -5800
+        ],
+        "radius": 4500,
+        "z": [
+          -6300,
+          -5300
+        ],
+        "maxClientsPerIp": 10,
+        "levelCap": null,
+        "levelCapSource": "the guide says 'with level cap' but not the value — unknown, check live",
         "noTransform": true
       },
       "requirements": {
-        "minMembers": { "value": 7, "hard": true, "guide": "tank + 2 bishops + 6-7 mages" },
-        "minLevelOverBoss": { "value": 0, "hard": true },
-        "suggestedOverBoss": { "value": 3, "hard": false, "guide": "suggested level 43 for a level-40 Queen Ant" },
-        "tank": { "value": 1, "hard": true },
-        "healers": { "value": 2, "hard": true, "guide": "2 Bishops" },
-        "casters": { "value": 4, "hard": true, "recommended": 6, "guide": "6-7 mages; the only melee that stands half a chance is a Gladiator spamming AoE" },
+        "minMembers": {
+          "value": 7,
+          "hard": false,
+          "guide": "tank + 2 bishops + 6-7 mages"
+        },
+        "minLevelOverBoss": {
+          "value": 0,
+          "hard": false
+        },
+        "suggestedOverBoss": {
+          "value": 3,
+          "hard": false,
+          "guide": "suggested level 43 for a level-40 Queen Ant"
+        },
+        "tank": {
+          "value": 1,
+          "hard": false
+        },
+        "healers": {
+          "value": 2,
+          "hard": false,
+          "guide": "2 Bishops"
+        },
+        "casters": {
+          "value": 4,
+          "hard": false,
+          "recommended": 6,
+          "guide": "6-7 mages; the only melee that stands half a chance is a Gladiator spamming AoE"
+        },
         "meleeUseless": true,
-        "gear": "C-grade, +6 or more on weapons and armour"
+        "gear": "C-grade, +6 or more on weapons and armour",
+        "dealers": {
+          "value": 6,
+          "hard": false,
+          "guide": "damage dealers = casters + melee (user 2026-10-10: melee fighters may go too, mages are better)"
+        },
+        "clients": {
+          "hard": true,
+          "note": "server rule: max 10 clients per IP in the zone; all our accounts share one IP"
+        },
+        "levelCap": {
+          "hard": true,
+          "note": "server rule: characters above the cap are ported out (only checked when the cap is known)"
+        },
+        "curse": {
+          "hard": true,
+          "note": "L2J H5 (L2Character / L2Attackable): a player more than 8 levels above a raid or grand boss gets the Raid Curse (paralysis / silence) when he hits it — every swing is wasted; the user saw it on L2Toggle (2026-10-05). Switch to false only if the server has it off."
+        },
+        "melee": {
+          "hard": false
+        }
       },
       "route": {
         "text": "Gludio -> Ant Cave (gatekeeper), run down into the cave; hug the RIGHT wall (safest, you can't get lost); a giant bridge = right way.",
         "steps": [
-          { "do": "travel", "say": "Gludio -> Ant Cave, then the walk down into the nest (route memory / geodata path); guide: hug the right wall, past the giant bridge" }
+          {
+            "do": "travel",
+            "say": "Gludio -> Ant Cave, then the walk down into the nest (route memory / geodata path); guide: hug the right wall, past the giant bridge"
+          }
         ],
         "walkHint": "hug the right wall"
       },
       "points": {
-        "larva": [-21600, 179482, -5846],
+        "larva": [
+          -21600,
+          179482,
+          -5846
+        ],
         "larvaNote": "datapack AI QueenAnt.java spawn of the larva; the live larva wins when it is in sight",
-        "boss": [-21610, 181594, -5734],
-        "stage": { "of": "larva", "dist": 1800, "from": "arrival" }
+        "boss": [
+          -21610,
+          181594,
+          -5734
+        ],
+        "stage": {
+          "of": "larva",
+          "dist": 1800,
+          "from": "arrival"
+        }
       },
       "setup": [
         "Mages follow at 70, healers at 120 (guide).",
         "At the larva take Zerk / Zerk dance off the tank (P.Def).",
         "Mages AoE first, main nuke second."
       ],
-      "formation": { "caster": 150, "healer": 380, "melee": 80, "note": "mages on top of the boss but inside AoE range of the larva" },
+      "formation": {
+        "caster": 150,
+        "healer": 380,
+        "melee": 80,
+        "note": "mages on top of the boss but inside AoE range of the larva"
+      },
       "phases": [
-        { "id": "stage", "label": "Ready outside the chamber", "say": "everyone together outside the chamber — then we run straight to the larva",
-          "rules": { "tank": "hold", "team": "stay", "anchor": "hold", "focus": "none", "bossOffLimits": true, "tankSpam": false, "areaAggro": "hold", "ud": "hold" },
-          "next": [{ "when": { "after": 3000 }, "to": "rush" }] },
-        { "id": "rush", "label": "Rush to the larva", "say": "run past the guards, the nurses and the Queen straight to the larva — mages 70 behind the tank, healers 120",
-          "rules": { "tank": "rush", "rushTo": "larva", "team": "follow", "anchor": "tank", "focus": "none", "bossOffLimits": true, "tankSpam": false, "areaAggro": "free", "ud": "hold",
-            "formation": { "caster": 90, "healer": 160, "melee": 60 } },
-          "next": [{ "when": { "flag": "tankAt" }, "to": "larva" }, { "when": { "after": 60000 }, "to": "larva" }] },
-        { "id": "larva", "label": "AoE the larva", "say": "target the larva: AoE so the nurses heal the larva, not the Queen; the tank takes the Queen",
-          "rules": { "tank": "boss", "team": "stay", "anchor": "larva", "focus": "larva", "bossOffLimits": false, "tankSpam": true, "areaAggro": "free", "ud": "free", "aoeMinMobs": 1 },
-          "next": [{ "when": { "flag": "tankAggro", "after": 8000 }, "to": "boss" }, { "when": { "after": 30000 }, "to": "boss" }] },
-        { "id": "boss", "label": "All on the Queen (AoE at the larva)", "say": "all damage on the Queen while the tank holds her; AoE keeps hitting the larva",
-          "rules": { "tank": "boss", "team": "stay", "anchor": "larva", "focus": "boss-larva", "bossOffLimits": false, "tankSpam": true, "areaAggro": "free", "ud": "free", "aoeMinMobs": 1, "aoeRange": 400 },
-          "next": [] }
+        {
+          "id": "stage",
+          "label": "Ready outside the chamber",
+          "say": "everyone together outside the chamber — then we run straight to the larva",
+          "rules": {
+            "tank": "hold",
+            "team": "stay",
+            "anchor": "hold",
+            "focus": "none",
+            "bossOffLimits": true,
+            "tankSpam": false,
+            "areaAggro": "hold",
+            "ud": "hold"
+          },
+          "next": [
+            {
+              "when": {
+                "after": 3000
+              },
+              "to": "rush"
+            }
+          ]
+        },
+        {
+          "id": "rush",
+          "label": "Rush to the larva",
+          "say": "run past the guards, the nurses and the Queen straight to the larva — mages 70 behind the tank, healers 120",
+          "rules": {
+            "tank": "rush",
+            "rushTo": "larva",
+            "team": "follow",
+            "anchor": "tank",
+            "focus": "none",
+            "bossOffLimits": true,
+            "tankSpam": false,
+            "areaAggro": "free",
+            "ud": "hold",
+            "formation": {
+              "caster": 90,
+              "healer": 160,
+              "melee": 60
+            }
+          },
+          "next": [
+            {
+              "when": {
+                "flag": "tankAt"
+              },
+              "to": "larva"
+            },
+            {
+              "when": {
+                "after": 60000
+              },
+              "to": "larva"
+            }
+          ]
+        },
+        {
+          "id": "larva",
+          "label": "AoE the larva",
+          "say": "target the larva: AoE so the nurses heal the larva, not the Queen; the tank takes the Queen",
+          "rules": {
+            "tank": "boss",
+            "team": "stay",
+            "anchor": "larva",
+            "focus": "larva",
+            "bossOffLimits": false,
+            "tankSpam": true,
+            "areaAggro": "free",
+            "ud": "free",
+            "aoeMinMobs": 1
+          },
+          "next": [
+            {
+              "when": {
+                "flag": "tankAggro",
+                "after": 8000
+              },
+              "to": "boss"
+            },
+            {
+              "when": {
+                "after": 30000
+              },
+              "to": "boss"
+            }
+          ]
+        },
+        {
+          "id": "boss",
+          "label": "All on the Queen (AoE at the larva)",
+          "say": "all damage on the Queen while the tank holds her; AoE keeps hitting the larva",
+          "rules": {
+            "tank": "boss",
+            "team": "stay",
+            "anchor": "larva",
+            "focus": "boss-larva",
+            "bossOffLimits": false,
+            "tankSpam": true,
+            "areaAggro": "free",
+            "ud": "free",
+            "aoeMinMobs": 1,
+            "aoeRange": 400
+          },
+          "next": []
+        }
       ],
       "notes": [
         "Royal (Court Guard) Ants rushing = hate aura ready, the Queen is not far behind.",
         "Nurse Ants respawn almost at once: killing them is wasted; the AoE on the larva wins the race."
-      ]
+      ],
+      "scout": {
+        "lookDist": 2800,
+        "dwellMs": 6000,
+        "viewRange": 3600,
+        "note": "2800 from the Queen toward the way in (Guard Ants aggro 1000 around her chamber). UNVERIFIED live: the chamber walls may hide her."
+      }
+    },
+    "29006": {
+      "id": 29006,
+      "name": "Core",
+      "source": {
+        "url": "https://community.lineage2toggle.com/index.php?/topic/477-how-to-core-raid-guide/",
+        "title": "How to: Core raid guide",
+        "fetched": "2026-10-10"
+      },
+      "level": {
+        "user": 50,
+        "guide": 40,
+        "datapack": 50,
+        "note": "user 2026-10-10: Core is level 50 on our server (the guide says 40)"
+      },
+      "aggressive": false,
+      "danger": "very high — 'by far the hardest boss currently on L2Toggle'; the guide's author wipes now and then with +10 armour / +12 weapons. Your characters WILL die.",
+      "summary": "About 80 aggressive minions. The tank splits them into two waves, the mages AoE them down behind the tank, the boss only after the minions.",
+      "minions": [
+        {
+          "id": 29007,
+          "name": "Death Knight"
+        },
+        {
+          "id": 29008,
+          "name": "Doom Wraith"
+        },
+        {
+          "id": 29011,
+          "name": "Susceptor"
+        },
+        {
+          "id": 29009,
+          "name": "Dicor"
+        },
+        {
+          "id": 29010,
+          "name": "Validus"
+        },
+        {
+          "id": 29012,
+          "name": "Perum"
+        },
+        {
+          "id": 29013,
+          "name": "Premo"
+        }
+      ],
+      "minionNote": "guide: ~80 minions lvl 42-44, all aggressive, respawn until Core dies. Datapack: Death Knight 50, Doom Wraith 55, Susceptor 49, Dicor 47, Validus 46, Perum 48, Premo 45 (aggro ranges 1300-2100).",
+      "zone": {
+        "name": "Core room (Cruma Tower, top)",
+        "center": [
+          17726,
+          110300,
+          -6500
+        ],
+        "radius": 4500,
+        "z": [
+          -7000,
+          -6200
+        ],
+        "maxClientsPerIp": 10,
+        "levelCap": 55,
+        "levelCapSource": "Mozella (Cruma Tower entrance) refuses level > 55 (datapack ai/CrumaTower; the guide only says 'level cap')",
+        "noTransform": true
+      },
+      "requirements": {
+        "minMembers": {
+          "value": 7,
+          "hard": false,
+          "guide": "tank + 2 bishops + 6-7 mages"
+        },
+        "minLevelOverBoss": {
+          "value": 0,
+          "hard": false,
+          "note": "nobody below the boss level (50)"
+        },
+        "suggestedOverBoss": {
+          "value": 3,
+          "hard": false,
+          "guide": "suggested level 43 for a level-40 Core = boss + 3"
+        },
+        "tank": {
+          "value": 1,
+          "hard": false
+        },
+        "healers": {
+          "value": 2,
+          "hard": false,
+          "guide": "2 Bishops with noble and blessed blood"
+        },
+        "casters": {
+          "value": 4,
+          "hard": false,
+          "recommended": 6,
+          "guide": "6-7 mages (Sorcerer or Spellhowler). Melee classes are worthless here."
+        },
+        "meleeUseless": true,
+        "gear": "C-grade, +6 or more on everything (more on the tank and the bishops)",
+        "dealers": {
+          "value": 6,
+          "hard": false,
+          "guide": "damage dealers = casters + melee (user 2026-10-10: melee fighters may go too, mages are better)"
+        },
+        "clients": {
+          "hard": true,
+          "note": "server rule: max 10 clients per IP in the zone; all our accounts share one IP"
+        },
+        "levelCap": {
+          "hard": true,
+          "note": "server rule: characters above the cap are ported out (only checked when the cap is known)"
+        },
+        "curse": {
+          "hard": true,
+          "note": "L2J H5 (L2Character / L2Attackable): a player more than 8 levels above a raid or grand boss gets the Raid Curse (paralysis / silence) when he hits it — every swing is wasted; the user saw it on L2Toggle (2026-10-05). Switch to false only if the server has it off."
+        },
+        "melee": {
+          "hard": false
+        }
+      },
+      "route": {
+        "text": "Dion -> Cruma Tower (gatekeeper) -> Mozella 'Teleport into the Tower.' -> Penelope 'Teleport to the 2nd floor.' -> run down the ramp (left or right) to Hanna at the south end -> 'Go to the 3rd floor.' -> Teleportation Cubic 'Teleport into The Core room.'",
+        "steps": [
+          {
+            "do": "npctrip",
+            "query": "30486",
+            "say": "Dion, Cruma Tower, Mozella, Penelope, then room by room down the 2nd floor ramp to Hanna"
+          },
+          {
+            "do": "link",
+            "npc": {
+              "id": 30486,
+              "name": "Hanna",
+              "x": 17722,
+              "y": 119749,
+              "z": -9068
+            },
+            "link": "Go to the 3rd floor.",
+            "land": [
+              17719,
+              115590,
+              -6584
+            ],
+            "say": "Hanna: to the 3rd floor"
+          },
+          {
+            "do": "link",
+            "npc": {
+              "id": 31843,
+              "name": "Teleportation Cubic",
+              "x": 17719,
+              "y": 115430,
+              "z": -6582
+            },
+            "link": "Teleport into The Core room.",
+            "land": [
+              17691,
+              111726,
+              -6583
+            ],
+            "say": "Teleportation Cubic: into the Core room"
+          }
+        ]
+      },
+      "points": {
+        "hold": [
+          17691,
+          111726,
+          -6583
+        ],
+        "holdNote": "the safe wall position = the Core room landing (estimate; move it here when the real wall is known)",
+        "pull": [
+          17700,
+          110300,
+          -6500
+        ],
+        "pullNote": "about half way to Core: far enough to pull ~half of the minions, not the boss",
+        "boss": [
+          17726,
+          108915,
+          -6480
+        ]
+      },
+      "setup": [
+        "Take Berserker Spirit / Zerk dance off the tank (P.Def).",
+        "Mages close behind the tank (guide: 70 attack range), healers at the back (120+), inside the mages' AoE range.",
+        "Healers resurrect everyone (bishops first); everyone accepts at once."
+      ],
+      "formation": {
+        "caster": 220,
+        "healer": 480,
+        "melee": 80,
+        "note": "guide: tank front, mages middle, healers rear — EXTREMELY IMPORTANT"
+      },
+      "phases": [
+        {
+          "id": "stage",
+          "label": "Ready at the wall",
+          "say": "everyone at the wall: tank in front, mages behind him, healers at the back — nobody touches Core",
+          "rules": {
+            "tank": "hold",
+            "team": "stay",
+            "anchor": "hold",
+            "focus": "none",
+            "bossOffLimits": true,
+            "tankSpam": false,
+            "areaAggro": "hold",
+            "ud": "hold"
+          },
+          "next": [
+            {
+              "when": {
+                "after": 4000
+              },
+              "to": "pull"
+            }
+          ]
+        },
+        {
+          "id": "pull",
+          "label": "Tank pulls half the room",
+          "say": "the tank pulls about half of the minions round the corner and runs back to the wall — nobody attacks",
+          "rules": {
+            "tank": "pull",
+            "pullSize": 40,
+            "team": "stay",
+            "anchor": "hold",
+            "focus": "none",
+            "bossOffLimits": true,
+            "tankSpam": false,
+            "areaAggro": "hold",
+            "ud": "hold"
+          },
+          "next": [
+            {
+              "when": {
+                "flag": "pulled"
+              },
+              "to": "wave1"
+            },
+            {
+              "when": {
+                "after": 45000
+              },
+              "to": "wave1"
+            }
+          ]
+        },
+        {
+          "id": "wave1",
+          "label": "Wave 1: mages AoE",
+          "say": "first wave on the tank: mages AoE, healers keep each other alive first",
+          "rules": {
+            "tank": "minions",
+            "team": "stay",
+            "anchor": "hold",
+            "focus": "minions",
+            "bossOffLimits": true,
+            "tankSpam": true,
+            "areaAggro": "hold",
+            "ud": "hold",
+            "aoeMinMobs": 2
+          },
+          "next": [
+            {
+              "when": {
+                "waveAtLeast": 5,
+                "after": 3000
+              },
+              "to": "wave2"
+            },
+            {
+              "when": {
+                "minionsAtMost": 2,
+                "after": 15000
+              },
+              "to": "clear"
+            }
+          ]
+        },
+        {
+          "id": "wave2",
+          "label": "Wave 2: hate aura + Ultimate Defense",
+          "say": "second wave round the corner: hate aura NOW, then Ultimate Defense",
+          "rules": {
+            "tank": "minions",
+            "team": "stay",
+            "anchor": "hold",
+            "focus": "minions",
+            "bossOffLimits": true,
+            "tankSpam": true,
+            "areaAggro": "now",
+            "ud": "afterArea",
+            "aoeMinMobs": 2
+          },
+          "next": [
+            {
+              "when": {
+                "minionsAtMost": 2,
+                "after": 10000
+              },
+              "to": "clear"
+            }
+          ]
+        },
+        {
+          "id": "clear",
+          "label": "Clear the rest, raise the dead",
+          "say": "last minions down, the dead get raised — still nobody on Core",
+          "rules": {
+            "tank": "minions",
+            "team": "stay",
+            "anchor": "hold",
+            "focus": "minions",
+            "bossOffLimits": true,
+            "tankSpam": true,
+            "areaAggro": "free",
+            "ud": "free",
+            "aoeMinMobs": 2
+          },
+          "next": [
+            {
+              "when": {
+                "minionsAtMost": 0,
+                "after": 12000
+              },
+              "to": "boss"
+            }
+          ]
+        },
+        {
+          "id": "boss",
+          "label": "Core: spread out, all on the boss",
+          "say": "Core: tank away from the mages, mages away from the healers; respawning minions die first",
+          "rules": {
+            "tank": "boss",
+            "team": "stay",
+            "anchor": "tank",
+            "focus": "minions-then-boss",
+            "bossOffLimits": false,
+            "tankSpam": true,
+            "areaAggro": "free",
+            "ud": "free",
+            "aoeMinMobs": 3,
+            "formation": {
+              "caster": 600,
+              "healer": 950,
+              "melee": 80
+            }
+          },
+          "next": []
+        }
+      ],
+      "notes": [
+        "Minions respawn until Core dies (they come back depending on when they died).",
+        "Core's main threat is an AoE nuke: keep the spread in the boss phase.",
+        "Hate aura in the boss phase only when it goes wrong — Ultimate Defense is spent."
+      ],
+      "scout": {
+        "lookout": [
+          17691,
+          111726,
+          -6583
+        ],
+        "of": [
+          17726,
+          108915,
+          -6480
+        ],
+        "dwellMs": 4000,
+        "viewRange": 3600,
+        "note": "Core can only be seen from inside the Core room: the scout takes the tactic's route (Cruma floors, Hanna, the Teleportation Cubic), lands at the room landing (~2800 from Core), looks 4 s and leaves with .dion. Minion aggro ranges are 1900-2100: the landing may get aggro — UNVERIFIED live."
+      }
     },
     "29014": {
       "id": 29014,
       "name": "Orfen",
-      "source": { "url": "https://community.lineage2toggle.com/index.php?/topic/475-how-to-orfen-raid-guide/", "title": "How to: Orfen raid guide", "fetched": "2026-10-10" },
-      "level": { "user": null, "guide": 60, "datapack": 50, "note": "the guide says 60, our datapack 50 — the live level wins once she is seen" },
+      "source": {
+        "url": "https://community.lineage2toggle.com/index.php?/topic/475-how-to-orfen-raid-guide/",
+        "title": "How to: Orfen raid guide",
+        "fetched": "2026-10-10"
+      },
+      "level": {
+        "user": null,
+        "guide": 60,
+        "datapack": 50,
+        "note": "the guide says 60, our datapack 50 — the live level wins once she is seen"
+      },
       "aggressive": true,
       "danger": "medium — 'not that hard as far as skill required'; the nest is a PvP zone with more minions that respawn.",
       "summary": "Find her in the Sea of Spores, fight in the open (no Ultimate Defense yet); at 50 % she ports to her nest: the tank lures her to the nest entrance, hate aura + Ultimate Defense when the adds rush.",
       "minions": [
-        { "id": 29015, "name": "Raikel" }, { "id": 29016, "name": "Raikel Leos" }, { "id": 29017, "name": "Riba" }, { "id": 29018, "name": "Riba Iren" }
+        {
+          "id": 29015,
+          "name": "Raikel"
+        },
+        {
+          "id": 29016,
+          "name": "Raikel Leos"
+        },
+        {
+          "id": 29017,
+          "name": "Riba"
+        },
+        {
+          "id": 29018,
+          "name": "Riba Iren"
+        }
       ],
       "minionNote": "guide: minions 58-59, more in the nest, respawning. Datapack: Raikel 48, Raikel Leos 49, Riba 48, Riba Iren 49.",
       "zone": {
-        "name": "Orfen's nest (Sea of Spores)", "center": [43900, 17200, -4390], "radius": 3000, "z": [-4900, -3900],
-        "maxClientsPerIp": 10, "levelCap": null, "levelCapSource": "unknown (the guide gives none) — check live", "pvp": true,
+        "name": "Orfen's nest (Sea of Spores)",
+        "center": [
+          43900,
+          17200,
+          -4390
+        ],
+        "radius": 3000,
+        "z": [
+          -4900,
+          -3900
+        ],
+        "maxClientsPerIp": 10,
+        "levelCap": null,
+        "levelCapSource": "unknown (the guide gives none) — check live",
+        "pvp": true,
         "stage1Unlimited": true,
         "noTransform": true
       },
       "requirements": {
-        "minMembers": { "value": 5, "hard": true, "guide": "tank + bishop for sure; 1-2 parties" },
-        "minLevelOverBoss": { "value": 0, "hard": true },
-        "suggestedOverBoss": { "value": 1, "hard": false, "guide": "suggested level 61 for a level-60 Orfen" },
-        "tank": { "value": 1, "hard": true },
-        "healers": { "value": 1, "hard": true, "guide": "Bishop for sure" },
-        "casters": { "value": 0, "hard": false, "recommended": 3, "guide": "mages do a much better job AoEing; melee with poles survive the minions" },
+        "minMembers": {
+          "value": 5,
+          "hard": false,
+          "guide": "tank + bishop for sure; 1-2 parties"
+        },
+        "minLevelOverBoss": {
+          "value": 0,
+          "hard": false
+        },
+        "suggestedOverBoss": {
+          "value": 1,
+          "hard": false,
+          "guide": "suggested level 61 for a level-60 Orfen"
+        },
+        "tank": {
+          "value": 1,
+          "hard": false
+        },
+        "healers": {
+          "value": 1,
+          "hard": false,
+          "guide": "Bishop for sure"
+        },
+        "casters": {
+          "value": 0,
+          "hard": false,
+          "recommended": 3,
+          "guide": "mages do a much better job AoEing; melee with poles survive the minions"
+        },
         "meleeUseless": false,
-        "gear": "A-grade, +0 works"
+        "gear": "A-grade, +0 works",
+        "dealers": {
+          "value": 3,
+          "hard": false,
+          "guide": "damage dealers = casters + melee (user 2026-10-10: melee fighters may go too, mages are better)"
+        },
+        "clients": {
+          "hard": true,
+          "note": "server rule: max 10 clients per IP in the zone; all our accounts share one IP"
+        },
+        "levelCap": {
+          "hard": true,
+          "note": "server rule: characters above the cap are ported out (only checked when the cap is known)"
+        },
+        "curse": {
+          "hard": true,
+          "note": "L2J H5 (L2Character / L2Attackable): a player more than 8 levels above a raid or grand boss gets the Raid Curse (paralysis / silence) when he hits it — every swing is wasted; the user saw it on L2Toggle (2026-10-05). Switch to false only if the server has it off."
+        },
+        "melee": {
+          "hard": false
+        }
       },
       "route": {
         "text": "Oren -> Sea of Spores (gatekeeper), run into the Sea of Spores; find her with /target Orfen or by looking for a giant.",
         "steps": [
-          { "do": "travel", "say": "Oren -> Sea of Spores, then into the Sea of Spores" },
-          { "do": "search", "say": "look for Orfen at her spawn spots (she spawns at a random one)" }
+          {
+            "do": "travel",
+            "say": "Oren -> Sea of Spores, then into the Sea of Spores"
+          },
+          {
+            "do": "search",
+            "say": "look for Orfen at her spawn spots (she spawns at a random one)"
+          }
         ]
       },
       "points": {
-        "search": [[55024, 17368, -5412], [53504, 21248, -5486], [53248, 24576, -5262], [43728, 17220, -4342]],
+        "search": [
+          [
+            55024,
+            17368,
+            -5412
+          ],
+          [
+            53504,
+            21248,
+            -5486
+          ],
+          [
+            53248,
+            24576,
+            -5262
+          ],
+          [
+            43728,
+            17220,
+            -4342
+          ]
+        ],
         "searchNote": "her 4 spawn points (L2J Orfen AI); the first three are in the open, the last is the nest",
-        "nest": [43728, 17220, -4342],
-        "nestEntrance": [46000, 17300, -4392],
+        "nest": [
+          43728,
+          17220,
+          -4342
+        ],
+        "nestEntrance": [
+          46000,
+          17300,
+          -4392
+        ],
         "nestEntranceNote": "ESTIMATE (east side of the nest, from the datapack minion spawns): verify live and correct it here"
       },
       "setup": [
         "No Ultimate Defense in stage 1 — it is needed in the nest.",
         "Tank + bishop are essential; mages AoE better than melee."
       ],
-      "formation": { "caster": 450, "healer": 750, "melee": 80 },
+      "formation": {
+        "caster": 450,
+        "healer": 750,
+        "melee": 80
+      },
       "phases": [
-        { "id": "stage1", "label": "Stage 1: open field", "say": "Orfen in the open: the tank takes her, AoE on her minions — NO Ultimate Defense yet",
-          "rules": { "tank": "boss", "team": "stay", "anchor": "tank", "focus": "minions-then-boss", "bossOffLimits": false, "tankSpam": true, "areaAggro": "free", "ud": "hold", "aoeMinMobs": 3 },
-          "next": [{ "when": { "flag": "bossTeleported" }, "to": "follow" }] },
-        { "id": "follow", "label": "Orfen ported to her nest — follow", "say": "she ported to her nest at 50 %: everyone to the nest entrance",
-          "rules": { "tank": "goto", "goto": "nestEntrance", "team": "goto", "anchor": "nestEntrance", "focus": "none", "bossOffLimits": true, "tankSpam": false, "areaAggro": "hold", "ud": "hold" },
-          "next": [{ "when": { "flag": "tankAt", "after": 3000 }, "to": "lure" }, { "when": { "after": 240000 }, "to": "lure" }] },
-        { "id": "lure", "label": "Nest: tank lures Orfen to the entrance", "say": "the tank runs in WITHOUT hitting anything until Orfen takes him, then back to the entrance",
-          "rules": { "tank": "lure", "team": "stay", "anchor": "nestEntrance", "focus": "none", "bossOffLimits": true, "tankSpam": false, "areaAggro": "hold", "ud": "hold" },
-          "next": [{ "when": { "flag": "pulled" }, "to": "stage2" }, { "when": { "flag": "bossNearAnchor" }, "to": "stage2" }, { "when": { "after": 60000 }, "to": "stage2" }] },
-        { "id": "stage2", "label": "Stage 2: hate aura, Ultimate Defense, all on Orfen", "say": "the adds rush: hate aura, then Ultimate Defense; damage on Orfen, mages AoE the adds",
-          "rules": { "tank": "boss", "team": "stay", "anchor": "nestEntrance", "focus": "boss", "bossOffLimits": false, "tankSpam": true, "areaAggro": "now", "ud": "afterArea", "aoeMinMobs": 2 },
-          "next": [] }
+        {
+          "id": "stage1",
+          "label": "Stage 1: open field",
+          "say": "Orfen in the open: the tank takes her, AoE on her minions — NO Ultimate Defense yet",
+          "rules": {
+            "tank": "boss",
+            "team": "stay",
+            "anchor": "tank",
+            "focus": "minions-then-boss",
+            "bossOffLimits": false,
+            "tankSpam": true,
+            "areaAggro": "free",
+            "ud": "hold",
+            "aoeMinMobs": 3
+          },
+          "next": [
+            {
+              "when": {
+                "flag": "bossTeleported"
+              },
+              "to": "follow"
+            }
+          ]
+        },
+        {
+          "id": "follow",
+          "label": "Orfen ported to her nest — follow",
+          "say": "she ported to her nest at 50 %: everyone to the nest entrance",
+          "rules": {
+            "tank": "goto",
+            "goto": "nestEntrance",
+            "team": "goto",
+            "anchor": "nestEntrance",
+            "focus": "none",
+            "bossOffLimits": true,
+            "tankSpam": false,
+            "areaAggro": "hold",
+            "ud": "hold"
+          },
+          "next": [
+            {
+              "when": {
+                "flag": "tankAt",
+                "after": 3000
+              },
+              "to": "lure"
+            },
+            {
+              "when": {
+                "after": 240000
+              },
+              "to": "lure"
+            }
+          ]
+        },
+        {
+          "id": "lure",
+          "label": "Nest: tank lures Orfen to the entrance",
+          "say": "the tank runs in WITHOUT hitting anything until Orfen takes him, then back to the entrance",
+          "rules": {
+            "tank": "lure",
+            "team": "stay",
+            "anchor": "nestEntrance",
+            "focus": "none",
+            "bossOffLimits": true,
+            "tankSpam": false,
+            "areaAggro": "hold",
+            "ud": "hold"
+          },
+          "next": [
+            {
+              "when": {
+                "flag": "pulled"
+              },
+              "to": "stage2"
+            },
+            {
+              "when": {
+                "flag": "bossNearAnchor"
+              },
+              "to": "stage2"
+            },
+            {
+              "when": {
+                "after": 60000
+              },
+              "to": "stage2"
+            }
+          ]
+        },
+        {
+          "id": "stage2",
+          "label": "Stage 2: hate aura, Ultimate Defense, all on Orfen",
+          "say": "the adds rush: hate aura, then Ultimate Defense; damage on Orfen, mages AoE the adds",
+          "rules": {
+            "tank": "boss",
+            "team": "stay",
+            "anchor": "nestEntrance",
+            "focus": "boss",
+            "bossOffLimits": false,
+            "tankSpam": true,
+            "areaAggro": "now",
+            "ud": "afterArea",
+            "aoeMinMobs": 2
+          },
+          "next": []
+        }
       ],
       "notes": [
         "Stage 2 (the nest) is a PvP zone, max 10 clients per IP.",
         "Minions respawn a number of times; later waves are smaller when the positions hold."
-      ]
+      ],
+      "scout": {
+        "lookDist": 2200,
+        "dwellMs": 5000,
+        "viewRange": 3600,
+        "note": "Orfen spawns at one of 4 spots (points.search): the scout checks each from 2200 away (her aggro range is 1000), nearest first; 'not there' only after all four."
+      }
     }
   }
 }

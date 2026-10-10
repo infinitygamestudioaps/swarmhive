@@ -2,6 +2,13 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.5.0 (2026-10-10)
+
+- Scout: !scout <boss> [character] and a 'Scout: is it up?' button on every boss page - one character travels alone to a safe look-out, checks whether the boss is up, records it (boss page, raid hunt, respawn timers) and goes back to town
+- never fights
+- moves as fast as it can: run mode, its own speed skills (Dash and the like) whenever ready, and its stealth toggle (Silent Move and the like) ON while aggressive monsters are near, OFF again when it is clear
+- epic bosses (Core, Queen Ant, Orfen): your team is allowed - party composition (melee, few mages, no tank, few healers) is advice only, the only hard stops are the 10-clients-per-IP zone rule, a known zone level cap and the raid curse, each switchable in epic_tactics.json
+
 ## v1.4.1 (2026-10-10)
 
 - Route editor: picking another teleport moves point 1 to that teleport's landing and re-fits the map (178 live destinations have known coordinates

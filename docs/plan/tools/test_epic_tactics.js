@@ -53,7 +53,7 @@ check(fs.existsSync(path.join(ROOT, 'docs', 'plan', 'epic_guides.md')) && /topic
 const mk = (spec) => spec.split(' ').map(s => { const [nm, lv, role] = s.split(':'); return { name: nm, level: +lv, role }; });
 const P1 = mk('Tank1:55:sk Bishop1:55:bishop Destroyer1:55:destroyer Destroyer2:55:destroyer Doombringer1:55:doombringer Necro1:55:necromancer Inspector1:55:inspector Chanter1:55:doomcryer Saint1:55:shilliensaint');
 let c = M.epicCheck(J, core, P1, {});
-check(!c.ok && /damage caster/.test(c.refuse) && c.items.find(i => i.key === 'curse').ok && c.items.find(i => i.key === 'levelCap').ok, `Core vs party Tank1 (55, 1 caster): REFUSED — ${c.refuse}`);
+check(c.ok && c.items.find(i => i.key === 'casters' && !i.ok && !i.hard) && c.items.find(i => i.key === 'melee' && !i.ok && !i.hard) && c.items.find(i => i.key === 'curse').ok && c.items.find(i => i.key === 'levelCap').ok, `Core vs party Tank1 (55, 1 caster, 6 melee): ALLOWED — composition is advice: ${c.advice.join('; ')}`);
 c = M.epicCheck(J, qa, P1, {});
 check(!c.ok && /raid curse above 48/.test(c.refuse), `Queen Ant vs party Tank1 (55): REFUSED (curse) — ${c.refuse}`);
 c = M.epicCheck(J, orf, P1, {});
@@ -64,7 +64,7 @@ check(c.ok && c.items.every(i => i.ok), 'Core vs the guide party (tank + 2 heale
 c = M.epicCheck(J, core, MAGE(56), {});
 check(!c.ok && /zone cap 55/.test(c.refuse), `Core with level 56: refused by the Cruma level cap — ${c.refuse}`);
 c = M.epicCheck(J, core, MAGE(45), {});
-check(!c.ok && /need 50/.test(c.refuse), `Core with level 45: refused (below the boss) — ${c.refuse}`);
+check(c.ok && c.items.find(i => i.key === 'minLevel' && !i.ok && !i.hard), 'Core with level 45: allowed — below the boss level is ADVICE (amber), not a refusal');
 c = M.epicCheck(J, core, MAGE(50), {});
 check(c.ok && c.items.find(i => i.key === 'suggested').ok === false, 'Core with level 50: allowed, the guide level (53) shows as a warning');
 c = M.epicCheck(J, qa, MAGE(42), {});
@@ -72,9 +72,19 @@ check(c.ok, 'Queen Ant vs a level-42 mage party: allowed');
 c = M.epicCheck(J, qa, MAGE(49), {});
 check(!c.ok && /curse/.test(c.refuse), 'Queen Ant at level 49: refused (raid curse above 48)');
 c = M.epicCheck(J, core, MAGE(53).filter(m => m.role !== 'bishop'), {});
-check(!c.ok && /1 healer/.test(c.refuse), 'Core with one healer: refused (needs 2)');
+check(c.ok && c.advice.some(a => /1 healer/.test(a)), 'Core with one healer: allowed, advice "1 healer (guide: 2)"');
 c = M.epicCheck(J, core, MAGE(53).filter(m => m.role !== 'sk'), {});
-check(!c.ok && /0 tank/.test(c.refuse), 'Core without a tank: refused');
+check(c.ok && c.advice.some(a => /0 tank/.test(a)), 'Core without a tank: allowed, advice (the toughest melee / the leader takes the tank part)');
+{ const MEL = mk('Leader:55:destroyer A:54:destroyer B:54:doombringer C:53:inspector D:53:destroyer E:55:dagger H:54:bishop');
+  const r = M.epicCheck(J, core, MEL, {}), d = r.items.find(i => i.key === 'dealers');
+  check(r.ok && d && d.have === 6 && d.ok, `an all-melee party may raid Core: 6 damage dealers count (melee too); advice: ${r.advice.join('; ')}`);
+  check(r.items.filter(i => i.hard).map(i => i.key).sort().join() === 'clients,curse,levelCap', 'only the server rules are hard: clients per IP, the known zone cap, the raid curse');
+  const J2 = JSON.parse(JSON.stringify(J)); J2.bosses['29006'].requirements.healers.hard = true;
+  const r2 = M.epicCheck(J2, M.epicTacticOf(J2, 'Core'), MEL.filter(m => m.role !== 'bishop'), {});
+  check(!r2.ok && /0 healers/.test(r2.refuse), 'the hard flag per requirement comes from epic_tactics.json (healers switched to hard -> refused)');
+  const J3 = JSON.parse(JSON.stringify(J)); J3.bosses['29001'].requirements.curse.hard = false;
+  const r3 = M.epicCheck(J3, M.epicTacticOf(J3, 'Queen Ant'), P1, {});
+  check(r3.ok && r3.advice.some(a => /curse/.test(a)), 'the raid curse can be switched to advice in the file (curse.hard false)'); }
 check(M.epicRoleKind('shilliensaint', J) === 'healer' && M.epicRoleKind('nuker', J) === 'caster' && M.epicRoleKind('doomcryer', J) === 'buffer' && M.epicRoleKind('destroyer', J) === 'melee' && M.epicRoleKind('sk', J) === 'tank' && M.epicRoleKind('crafter', J) === 'melee', 'role kinds by token (healer / caster / buffer / melee / tank)');
 // the live roster (read only)
 {
@@ -84,7 +94,7 @@ check(M.epicRoleKind('shilliensaint', J) === 'healer' && M.epicRoleKind('nuker',
   const parties = {}; states.forEach(s => { const p = partyOf[s.name] || (s.leader === true ? s.name : typeof s.leader === 'string' ? s.leader : '?'); (parties[p] = parties[p] || []).push({ name: s.name, level: +s.level || 0, role: s.role || '' }); });
   const keys = Object.keys(parties);
   console.log(`     live roster: ${states.length} characters in ${keys.length} parties`);
-  keys.forEach(p => { const row = [core, qa, orf].map(t => { const r = M.epicCheck(J, t, parties[p], {}); return `${t.name} ${r.ok ? 'OK' : 'refused (' + r.refuse.slice(0, 70) + ')'}`; }).join(' | ');
+  keys.forEach(p => { const row = [core, qa, orf].map(t => { const r = M.epicCheck(J, t, parties[p], {}); return `${t.name} ${r.ok ? 'MAY GO' + (r.advice.length ? ' (' + r.advice.length + ' advice)' : '') : 'refused (' + r.refuse.slice(0, 90) + ')'}`; }).join(' | ');
     console.log(`     party ${p} (${parties[p].length}, lvl ${Math.min(...parties[p].map(m => m.level))}-${Math.max(...parties[p].map(m => m.level))}): ${row}`); });
   check(keys.every(p => [core, qa, orf].every(t => typeof M.epicCheck(J, t, parties[p], {}).ok === 'boolean')), 'live roster: the check runs for every party (no throw)');
 }
@@ -203,9 +213,9 @@ has(/async function waitBossDead\(b, runId, ms, opt\)/, 'waitBossDead: options (
 has(/epicLiveExtras\(out\)/, 'raid_live: epic phase extras');
 has(/const epre = !rcl && state\.mode !== 'raid' && epicPreLive\(\);/, 'raid_live: before the fight too (travel / search / stage)');
 check((src.match(/epicOwnsMove\(\)/g) || []).length >= 7, 'raid spacing / caster spacing / dealer follow moves stand aside for the epic formation');
-check(!/scroll of resurrection|UseItem\(\s*737/i.test(src.slice(src.indexOf('// ===== EPIC HOST'), src.indexOf('// LOOT RECORD'))), 'the epic code never uses a resurrection scroll (raid rule)');
-check(!/useEscape|townCommand|Scroll of Escape/.test(src.slice(src.indexOf('// ===== EPIC HOST'), src.indexOf('// LOOT RECORD'))), 'the epic code never escapes (raid rule)');
-check(!/new Map\(/.test(src.slice(src.indexOf('// ===== EPIC HOST'), src.indexOf('// LOOT RECORD'))), 'host block: no new Map()');
+check(!/scroll of resurrection|UseItem\(\s*737/i.test(src.slice(src.indexOf('// ===== EPIC HOST'), src.indexOf('// ===== SCOUT'))), 'the epic code never uses a resurrection scroll (raid rule)');
+check(!/useEscape|townCommand|Scroll of Escape/.test(src.slice(src.indexOf('// ===== EPIC HOST'), src.indexOf('// ===== SCOUT'))), 'the epic code never escapes (raid rule)');
+check(!/new Map\(/.test(src.slice(src.indexOf('// ===== EPIC HOST'), src.indexOf('// ===== SCOUT'))), 'host block: no new Map()');
 ['ORDERSTICK', 'CLASSPLAN', 'ROLEKIND', 'BUFFPLAN', 'RAIDAREA'].forEach(k => check(src.includes(`// ${k}-PURE-BEGIN`) && src.includes(`// ${k}-PURE-END`), `${k}-PURE block intact`));
 try { cp.execFileSync(process.execPath, ['--check', SRC], { stdio: 'pipe' }); check(true, 'node --check Scripts_dev/swarm.js'); } catch (e) { check(false, 'node --check Scripts_dev/swarm.js: ' + String(e.stderr || e.message).slice(0, 300)); }
 { let ok = true, out = ''; try { out = cp.execFileSync(process.execPath, [path.join(__dirname, 'epic_sync.js'), '--check'], { encoding: 'utf8', stdio: 'pipe' }); } catch (e) { ok = false; out = String(e.stdout || e.message); }
