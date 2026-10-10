@@ -17721,6 +17721,20 @@ setInterval(() => {
   } catch (e) { }
 }, 2000);
 const UNREACHF = SWARM_ROOT + '\\Logs\\raid_unreachable.json';
+// USER-EXCLUDED RAID BOSSES (user 2026-10-10: "it should be possible to disable raid bosses from the raid hunt - some are down in dungeons where
+// I have to swim with the team"): Scripts/data/raid_excluded.json { bosses: { "<npc id>": { name, at, by } } } set on the dashboard Raids page,
+// re-read on change; raidhunt never picks them (a manual "Raid it" order still works)
+const RAIDEXCL = { at: 0, stamp: '', ids: {} };
+function raidExcluded(b) {
+  if (now() - RAIDEXCL.at > 10000) {
+    RAIDEXCL.at = now();
+    try { const f = `${__SCRIPTS__}\\data\\raid_excluded.json`, st = fileStamp(f);
+      if (!st) { RAIDEXCL.ids = {}; RAIDEXCL.stamp = ''; }
+      else if (st !== RAIDEXCL.stamp) { const j = JSON.parse(String(File.ReadAllText(f)).replace(/^\uFEFF/, '')); RAIDEXCL.ids = (j && j.bosses) || {}; RAIDEXCL.stamp = st; }
+    } catch (e) { }
+  }
+  return !!(b && (RAIDEXCL.ids[String(b.id)] || Object.values(RAIDEXCL.ids).some(x => x && x.name === b.name)));
+}
 function raidUnreachable(name) {
   try { let o = {}; try { o = JSON.parse(File.ReadAllText(UNREACHF)); } catch (e) { } const e = o[name] || { count: 0 }; e.count++; e.at = new Date().toISOString(); e.from = `${Math.round(Me.X)},${Math.round(Me.Y)},${Math.round(Me.Z)}`; o[name] = e; File.WriteAllText(UNREACHF, JSON.stringify(o, null, 1));
     note(`raid ${name}: could not get within 3000 (${e.count}x)${e.count >= 2 ? ' — raidhunt skips it for good (Logs/raid_unreachable.json)' : ''}`, true); } catch (er) { }
@@ -17759,7 +17773,7 @@ async function raidHuntLoop(minL, maxL) {
       // and never a boss whose way there passes monsters far above us (Skyla 32 = an 18 km walk through level-85 Dragon Valley, 2026-10-05)
       // reachable === false: no walkable route from any town landing (docs/plan/tools/raid_verify.js, geodata path finder)
       const routeOk = (b) => b.reachable !== false && num(b.routeMaxMobLevel) <= Math.max(tMax, teamMaxLevel()) + CONFIG.danger.margin;
-      const cands = raidDb().filter(b => b.type === 'raid' && !EPIC_BOSS_RE.test(String(b.name)) && num(b.curseLevel || b.level) >= lo && b.level <= hi && b.recommendedFor9Man !== false && !raidHunt.skip[b.name] && !b.skipHunt && !inDungeon(b) && routeOk(b))
+      const cands = raidDb().filter(b => b.type === 'raid' && !EPIC_BOSS_RE.test(String(b.name)) && num(b.curseLevel || b.level) >= lo && b.level <= hi && b.recommendedFor9Man !== false && !raidHunt.skip[b.name] && !b.skipHunt && !raidExcluded(b) && !inDungeon(b) && routeOk(b))
         .filter(b => { const s = status[String(b.id)]; return !(s && s.alive === false && now() - Date.parse(s.at) < (b.respawnMinH || 12) * 3600e3); })
         .sort((a, b) => (clanQuestBoss(b.name) - clanQuestBoss(a.name)) || (a.level - b.level) || (Math.hypot(a.x - Me.X, a.y - Me.Y) - Math.hypot(b.x - Me.X, b.y - Me.Y)));
       // no boss up right now (all killed / respawning / skipped): LEVEL meanwhile and look again every 15 min (2026-10-06 02:31: the team

@@ -335,8 +335,10 @@ function deathInfo(b, bs, s) {
   if (bs && bs.lastRespawnH) { out.measuredH = bs.lastRespawnH; out.measuredExact = !!bs.lastRespawnExact; }
   return out;
 }
+const RAIDEXCL_FILE = path.join(DATA, 'raid_excluded.json');   // 2026-10-10: bosses the user took out of the raid hunt (Raids page)
 function raids() {
   const db = readJson(path.join(DATA, 'raidbosses_h5.json'), { bosses: [] });
+  const excl = (readJson(RAIDEXCL_FILE, { bosses: {} }).bosses) || {};
   const seen = {};
   for (const line of tail(path.join(LOGS, 'raid_seen.log'), 2000)) {
     const [at, id, name, outcome] = line.split('\t');
@@ -376,6 +378,7 @@ function raids() {
       // RAIDS PAGE 2026-10-09 (Dashboard/raidspage.js): curse level (lowest of boss + minions), height, danger on the way, reachability
       z: b.z, curseLevel: b.curseLevel || b.level, minionLevelMin: b.minionLevelMin || null, routeMaxMobLevel: b.routeMaxMobLevel || null,
       reachable: b.reachable !== false, recLevel: b.recommendedPartyLevel || null,
+      excluded: !!excl[String(b.id)], excludedAt: excl[String(b.id)] ? excl[String(b.id)].at : null,
       ...deathInfo(b, bs, s),
     };
   });
@@ -2021,6 +2024,17 @@ http.createServer(async (req, res) => {
       return json(res, 200, { ok: true, msg: b.action === 'delete' ? `route '${p}' deleted` : `route '${p}' saved — the bots use it within a minute`, ...view(b.action === 'delete' ? '' : p) });
     }
     if (url.pathname === '/api/raids') return json(res, 200, { raids: raids(), teams: raidTeams() });
+    if (url.pathname === '/api/raidexclude' && req.method === 'POST') {   // 2026-10-10: take a boss out of / back into the raid hunt (all parties)
+      const b = await body(req); const id = String(b.id || '');
+      const boss = ((readJson(path.join(DATA, 'raidbosses_h5.json'), { bosses: [] }).bosses) || []).find(x => String(x.id) === id);
+      if (!boss) return json(res, 400, { error: 'unknown boss id ' + id });
+      if (b.confirm !== true) return json(res, 400, { error: 'needs confirm: true (the page asks you first)' });
+      const cur = readJson(RAIDEXCL_FILE, { bosses: {} }); cur.bosses = cur.bosses || {};
+      if (b.exclude) cur.bosses[id] = { name: boss.name, level: boss.level, at: new Date().toISOString(), note: String(b.note || '').slice(0, 200) }; else delete cur.bosses[id];
+      const tmp = RAIDEXCL_FILE + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(cur, null, 1)); fs.renameSync(tmp, RAIDEXCL_FILE);
+      try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), `${new Date().toISOString()} raidhunt ${b.exclude ? 'EXCLUDE' : 'include'} ${boss.name} (${id})\n`); } catch (e) { }
+      return json(res, 200, { ok: true, id, excluded: !!b.exclude, count: Object.keys(cur.bosses).length });
+    }
     if (url.pathname.startsWith('/api/raid/')) { const d = raidDetail(decodeURIComponent(url.pathname.slice(10)), url.searchParams.get('party')); return d ? json(res, 200, d) : json(res, 404, { error: 'unknown boss' }); }
     if (url.pathname === '/api/raidlive') return json(res, 200, require('./raidlive_api').enrich(raidLive(url.searchParams.get('leader') || ''), 'raid', { LOGS, DATA, readJson }));   // RAIDLIVE HUD 2026-10-09
     if (url.pathname === '/api/override') return json(res, 200, require('./raidlive_api').overrideInfo(url.searchParams.get('name') || '', { LOGS, readJson, readStates, partyOf }));   // USER OVERRIDE 2026-10-09: menu data + last result (Dashboard/override.js)

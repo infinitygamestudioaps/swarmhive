@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.3.6 (2026-10-10)
+
+- Raid hunt: exclude bosses you do not want (e.g. ones you have to swim to): boss page -> Exclude from raid hunt (and Include again), for every party
+- the list shows an 'excluded' badge
+- the bots read it live (Scripts/data/raid_excluded.json), a manual Raid it order still works
+
 ## v1.3.5 (2026-10-10)
 
 - Phones: text no longer too big. iPhone Safari enlarged some lines by itself (text autosizing: the party heading and the level-ETA line showed huge and ran off the screen)

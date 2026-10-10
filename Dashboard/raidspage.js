@@ -52,7 +52,8 @@
   const dungeon = (r) => /dungeon|tower|floor|temple|crypt|catacomb|labyrinth|tomb|ant cave|cave of/i.test(String(r.zone || '').replace(/necropolis[^/]*/i, '')) || (r.z != null && r.z < -4500);
   const epic = (r) => r.type !== 'raid' || EPIC.test(String(r.name || ''));
   /** raidhunt's own rules (swarm.js raidHuntLoop): raid type, no epic, 9-man ok, reachable, no dungeon */
-  const huntable = (r) => !epic(r) && r.party9 !== false && r.reachable !== false && !dungeon(r);
+  const huntable = (r) => !epic(r) && r.party9 !== false && r.reachable !== false && !dungeon(r) && !r.excluded;   // excluded = taken out by the user (2026-10-10)
+  const skipWhy = (r) => r.excluded ? 'you excluded it' : epic(r) ? 'epic' : r.reachable === false ? 'no walkable way' : dungeon(r) ? 'inside a dungeon' : 'not for 9';
   function teamOf(p) { const t = RP.teams[p]; return t && isFinite(t.min) && isFinite(t.max) ? t : null; }
   /** fit for a party = raidhunt's rule: no curse (boss and minions >= its highest member - 8), boss <= its lowest member + 3 */
   function fitFor(r, t) {
@@ -249,7 +250,7 @@
     if (area) badges.push(`<span class="rp-b area" title="fight area set on the dashboard${area.enabled === false ? ' (switched off)' : ''}">area</span>`);
     if (rt) badges.push(`<span class="rp-b route ${rt.manual ? 'locked' : ''}${rt.fails ? ' bad' : ''}" title="${rt.manual ? 'locked route: the bots walk exactly this' : 'learned route: recorded by a party after a successful trip'}${rt.fails ? ' · failed ' + rt.fails + 'x' : ''}">route${rt.manual ? ' ✓' : ''}${rt.fails ? ' !' : ''}</span>`);
     if (epic(r)) badges.push(`<span class="rp-b epic">${esc(r.type === 'raid' ? 'epic' : r.type)}</span>`);
-    else if (!huntable(r)) badges.push(`<span class="rp-b skip" title="raidhunt skips it (${r.reachable === false ? 'no walkable way' : dungeon(r) ? 'inside a dungeon' : 'not for 9'}); a manual raid order still works">no hunt</span>`);
+    else if (!huntable(r)) badges.push(r.excluded ? `<span class="rp-b skip" title="you took it out of the raid hunt (boss page: Include again); a manual raid order still works">excluded</span>` : `<span class="rp-b skip" title="raidhunt skips it (${skipWhy(r)}); a manual raid order still works">no hunt</span>`);
     const reg = regionOf(r), mins = (r.minions || []).length;
     const safe = (r.curseLevel != null ? r.curseLevel : r.level) + 8;
     const sub = `${esc(shortZone(r.zone))}${reg ? ' · near ' + reg : ''}${mins ? ` · ${mins} minion${mins > 1 ? 's' : ''}` : ''} · safe ≤ ${safe}`;
@@ -417,7 +418,7 @@
       <span>Parties</span><span><div class="rp-fit">${fits || '<span class="muted">no party reporting</span>'}</div></span>
       <span>Minions</span><span>${esc((b.minions || []).join(', ') || 'none')}</span>
       <span>Way there</span><span>${esc(tp.desc || '?')}${tp.walkDist ? ' + ' + km(tp.walkDist) + ' walk' : ''}${b.routeMaxMobLevel ? ` · monsters up to lvl ${b.routeMaxMobLevel} on the way` : ''}</span>
-      <span>Raidhunt</span><span>${huntable(r) ? 'takes it when it fits' : `skips it (${epic(r) ? 'epic' : r.reachable === false ? 'no walkable way' : dungeon(r) ? 'inside a dungeon' : 'not for 9'}) — a manual raid order still works`}</span>
+      <span>Raidhunt</span><span>${huntable(r) ? 'takes it when it fits' : `skips it (${skipWhy(r)}) — a manual raid order still works`} <button type="button" id="rpbExcl" data-excl="${r.excluded ? '0' : '1'}">${r.excluded ? 'Include in raid hunt again' : 'Exclude from raid hunt'}</button></span>
       <span>Spawn</span><span><code>${b.x}, ${b.y}, ${b.z}</code></span>
       <span>Raid points</span><span>${b.raidPoints || 0}</span>
       ${b.dangerNotes ? `<span>Danger</span><span>${esc(b.dangerNotes)}</span>` : ''}</div>`);
@@ -425,6 +426,24 @@
     if (lb) { lb.hidden = !live; if (live) { try { patch($id('rpbLive'), liveHtml()); } catch (e) { } } }
     tick();
   }
+  // EXCLUDE FROM RAIDHUNT (2026-10-10): the switch on the boss page, for every party (Scripts/data/raid_excluded.json, the bots read it live)
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('#rpbExcl'); if (!btn || !RP.detail) return;
+    const b = RP.detail.boss, ex = btn.dataset.excl === '1';
+    const ok = await uiConfirm({ title: ex ? `Exclude ${b.name} from the raid hunt?` : `Include ${b.name} in the raid hunt again?`,
+      body: ex ? [uiP('No party picks this boss in the raid hunt any more (e.g. a boss you have to swim to).'), uiNote('A manual "Raid it" order still works. Undo any time on this page.')]
+               : [uiP('Every party takes this boss again in its raid hunt when it fits their level.')],
+      confirmText: ex ? 'Exclude' : 'Include again', cancelText: 'Cancel' });
+    if (!ok) return;
+    btn.disabled = true;
+    try {
+      const r = await fetch('/api/raidexclude' + location.search, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: b.id, exclude: ex, confirm: true }) }).then(x => x.json());
+      if (r.error) { await uiAlert({ title: 'Not saved', body: r.error, kind: 'error' }); return; }
+      const row = RP.raids.find(x => String(x.id) === String(b.id)); if (row) row.excluded = ex;
+      renderBossStatus();
+    } catch (er) { await uiAlert({ title: 'Not saved', body: er.message, kind: 'error' }); }
+    finally { btn.disabled = false; }
+  });
   function renderBossReports() {
     if (RP.mode !== 'boss' || !RP.detail) return;
     const el = $id('rpbReports'); if (!el) return;
