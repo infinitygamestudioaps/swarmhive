@@ -1255,7 +1255,8 @@ function routeApi(b, qid) {
   const file = path.join(ROUTES, id + '.json'), cur = readJson(file, null);
   const tp = boss.nearestTeleport || {};
   const info = { id, boss: { id, name: boss.name, level: boss.level, x: boss.x, y: boss.y, z: boss.z }, landingDefault: tp.desc ? { desc: tp.desc, x: tp.x, y: tp.y, z: tp.z } : null,
-    towns: TOWN_LANDINGS, layers: mapLayers(), gkStarts: gkStartList() };
+    towns: TOWN_LANDINGS, layers: mapLayers(), gkStarts: gkStartList(),
+    gkLand: Object.fromEntries((landings().gk || []).map(g => [g.desc, [g.x, g.y, g.z]])) };   // 2026-10-10: picking a teleport moves point 1 to its landing
   if (!b) return { ...info, route: cur };
   fs.mkdirSync(path.join(ROUTES, 'history'), { recursive: true });
   const keep = () => { if (cur) fs.copyFileSync(file, path.join(ROUTES, 'history', `${id}_${Date.now()}.json`)); };   // every change keeps the old version

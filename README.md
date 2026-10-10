@@ -4,12 +4,12 @@
 
 *Lead the swarm.* A swarm kit for L2Swarm.
 
-![version](https://img.shields.io/badge/version-1.4.0-blue)
+![version](https://img.shields.io/badge/version-1.4.1-blue)
 ![L2Swarm](https://img.shields.io/badge/L2Swarm-3.8.14%2B-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 ![platform](https://img.shields.io/badge/Windows-10%20%7C%2011-lightgrey)
 
-**Version 1.4.0 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
+**Version 1.4.1 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
 
 This kit runs a **whole swarm of Lineage 2 characters with L2Swarm**: up to 40 accounts in several parties that level,
 restock, gear up, run Kamaloka and hunt raid bosses on their own, with one leader per party making the decisions. It

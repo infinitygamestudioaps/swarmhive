@@ -3027,7 +3027,7 @@ async function routeEditor(b) {
   // no saved route yet: start a draft from the landing to the boss spawn (nothing is saved until "Save")
   const pts = r ? r.points.map(p => (p.layer ? { x: p.x, y: p.y, z: p.z, layer: p.layer } : { x: p.x, y: p.y, z: p.z })) : (L ? [{ x: L.x, y: L.y, z: L.z }, { x: d.boss.x, y: d.boss.y, z: d.boss.z }] : []);
   if (RED && RED.rec) { clearInterval(RED.rec.timer); }
-  RED = { id: d.id, boss: d.boss, L, route: r, landing: (r && r.landing) || (L && L.desc) || '', start: (r && r.start) || (!r && L && /->/.test(L.desc || '') ? { kind: 'gk', desc: L.desc } : null), gkStarts: d.gkStarts || [], towns: d.towns || {}, layers: d.layers || {}, layer: 0, pts, sel: pts.length ? pts.length - 1 : -1, dirty: !r, msg: r ? '' : 'No saved route yet — this is a draft from the landing to the spawn. Add points and press Save.' };
+  RED = { gkLand: d.gkLand || {}, id: d.id, boss: d.boss, L, route: r, landing: (r && r.landing) || (L && L.desc) || '', start: (r && r.start) || (!r && L && /->/.test(L.desc || '') ? { kind: 'gk', desc: L.desc } : null), gkStarts: d.gkStarts || [], towns: d.towns || {}, layers: d.layers || {}, layer: 0, pts, sel: pts.length ? pts.length - 1 : -1, dirty: !r, msg: r ? '' : 'No saved route yet — this is a draft from the landing to the spawn. Add points and press Save.' };
   renderRouteEd();
 }
 /** The view that shows the whole route + landing + boss. */
@@ -3129,7 +3129,17 @@ function renderRouteEd() {
   box.querySelectorAll('.redDn').forEach(el => el.onclick = () => { const i = +el.dataset.i; if (i < P.length - 1) set(() => { [P[i + 1], P[i]] = [P[i], P[i + 1]]; RED.sel = i + 1; }); });
   box.querySelectorAll('.redX').forEach(el => el.onclick = () => { const i = +el.dataset.i; set(() => { P.splice(i, 1); RED.sel = Math.min(i, P.length - 1); }); });
   box.querySelectorAll('.redIns').forEach(el => el.onclick = () => { const i = +el.dataset.i, a = P[i], b = P[i + 1] || a; set(() => { P.splice(i + 1, 0, { x: Math.round((a.x + b.x) / 2) + (b === a ? 200 : 0), y: Math.round((a.y + b.y) / 2), z: Math.round((a.z + b.z) / 2) }); RED.sel = i + 1; }); });
-  if ($('redLanding')) $('redLanding').onchange = () => { RED.landing = $('redLanding').value.trim(); if (!town) RED.start = RED.landing.includes('->') ? { kind: 'gk', desc: RED.landing } : null; RED.dirty = true; };
+  if ($('redLanding')) $('redLanding').onchange = () => {
+    RED.landing = $('redLanding').value.trim(); if (!town) RED.start = RED.landing.includes('->') ? { kind: 'gk', desc: RED.landing } : null; RED.dirty = true;
+    // 2026-10-10 (user: "when I change the teleport the map does not update"): point 1 moves to the new landing and the map re-fits
+    const xyz = (RED.gkLand || {})[RED.landing];
+    if (xyz && RED.pts && RED.pts.length) {
+      RED.pts[0] = { x: xyz[0], y: xyz[1], z: xyz[2] }; RED.sel = 0; RED.L = { desc: RED.landing, x: xyz[0], y: xyz[1], z: xyz[2] };
+      RED.view = redFitView();
+      RED.msg = 'point 1 moved to the landing of ' + RED.landing + ' — check the walk from there to the boss (add or move points), then Save';
+    } else if (RED.landing) RED.msg = 'no landing coordinates known for ' + RED.landing + ' — set point 1 by hand (tap the map or "+ its current position")';
+    renderRouteEd();
+  };
   if ($('redStartKind')) $('redStartKind').onchange = () => set(() => { RED.start = $('redStartKind').value === 'town' ? { kind: 'town', town: (RED.start && RED.start.town) || 'Heine' } : (RED.landing.includes('->') ? { kind: 'gk', desc: RED.landing } : null); });
   if ($('redTown')) $('redTown').onchange = () => set(() => { RED.start = { kind: 'town', town: $('redTown').value }; });
   if ($('redUseTown')) $('redUseTown').onclick = () => { const T = RED.towns[RED.start.town]; if (T) set(() => { P.unshift({ x: T[0], y: T[1], z: T[2] }); RED.sel = 0; RED.msg = '.' + RED.start.town.toLowerCase() + ' landing added as point 1'; }); };

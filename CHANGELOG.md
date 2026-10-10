@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.4.1 (2026-10-10)
+
+- Route editor: picking another teleport moves point 1 to that teleport's landing and re-fits the map (178 live destinations have known coordinates
+- for the others the editor says so and you set point 1 by hand)
+- nothing is saved until Save
+
 ## v1.4.0 (2026-10-10)
 
 - Epic bosses Core, Queen Ant and Orfen follow the L2Toggle community guides (Scripts/data/epic_tactics.json, docs/plan/epic_guides.md, guide box with green/red requirements on the boss page
