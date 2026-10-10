@@ -2,6 +2,11 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.2.2 (2026-10-10)
+
+- Fix: L2Swarm 3.8.14 refused account files made from our templates ("The account options XML does not match the internal schema ... /Option/LastLoadedUtc ... is not a valid DateTime"). The templates now carry a valid date, and SETUP repairs existing account files with an empty LastLoadedUtc (run SETUP.cmd -Apply once).
+- Fix: SETUP found no account when swarm.config.json had exactly ONE account.
+
 ## v1.2.1 (2026-10-10)
 
 - The PDF user manual is now in the repository (docs/guide/L2Swarm_User_Manual.pdf) and linked at the top of the README

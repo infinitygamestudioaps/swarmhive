@@ -73,7 +73,9 @@ function Val($obj, [string]$path, $default) {
         $prop = $cur.PSObject.Properties[$p]; if (-not $prop) { return $default }
         $cur = $prop.Value
     }
-    if ($null -eq $cur -or "$cur" -eq '') { return $default }
+    # only an empty STRING counts as missing: "$cur" of a one-element array of objects is '' in PowerShell 5.1, which dropped a config
+    # with exactly ONE account (2026-10-10)
+    if ($null -eq $cur -or ($cur -is [string] -and $cur -eq '')) { return $default }
     return $cur
 }
 
@@ -212,7 +214,9 @@ function New-Template([string]$src, [string]$dst) {
     New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
     $x = New-Object Xml.XmlDocument; $x.PreserveWhitespace = $true; $x.LoadXml((Get-TextEnc $src).Text)
     $o = $x.DocumentElement
-    foreach ($k in 'Name', 'Password', 'IngamePassword', 'SelectedCharacter', 'FollowName', 'NamePl', 'LastLoadedUtc') { $n = $o.SelectSingleNode($k); if ($n) { $n.InnerText = '' } }
+    foreach ($k in 'Name', 'Password', 'IngamePassword', 'SelectedCharacter', 'FollowName', 'NamePl') { $n = $o.SelectSingleNode($k); if ($n) { $n.InnerText = '' } }
+    # LastLoadedUtc must stay a valid xs:dateTime (L2Swarm 3.8.14 validates the file; an empty value fails), 2026-10-10
+    $n = $o.SelectSingleNode('LastLoadedUtc'); if ($n) { $n.InnerText = '2000-01-01T00:00:00Z' }
     $n = $o.SelectSingleNode('ActiveFollow'); if ($n) { $n.InnerText = 'false' }
     if ($x.FirstChild -is [Xml.XmlDeclaration]) { $x.FirstChild.Encoding = 'utf-8' }   # written as UTF-8 below
     WriteText $dst $x.OuterXml $false
@@ -248,6 +252,9 @@ function Set-AccountXml([string]$file, $a, [bool]$write) {
     $nameNode = $o.SelectSingleNode('Name')
     if (-not $nameNode -or $nameNode.InnerText.ToLower() -ne $a.login) { & $set 'Name' $a.login $false }
     if ($a.character) { & $set 'SelectedCharacter' $a.character $false }
+    # 2026-10-10: L2Swarm 3.8.14 validates the account file ("does not match the internal schema ... /Option/LastLoadedUtc ... not a valid
+    # DateTime"); older SETUP / release templates left this element EMPTY -> give it a valid date
+    $ll = $o.SelectSingleNode('LastLoadedUtc'); if ($ll -and -not $ll.InnerText.Trim()) { & $set 'LastLoadedUtc' '2000-01-01T00:00:00Z' $false }
     & $set 'Group' (GroupOf $a) $true
     if ($loginIp) { & $set 'LoginServerIP' $loginIp $false }
     if ($loginPort) { & $set 'LoginServerPort' $loginPort $false }
