@@ -48,11 +48,13 @@
       <div class="gp-layout">
         <aside class="gp-side" id="gpSide"><input id="gpClsQ" type="search" placeholder="find a class…" aria-label="find a class"><div id="gpClsList" class="gp-clslist"></div></aside>
         <div class="gp-main">
+          <div class="box gp-auto" id="gpAutoBox"><h3><span>Auto gear upgrades</span><span class="gp-sp"></span><span class="muted" id="gpAutoSum"></span></h3><div id="gpAuto"><div class="muted">Loading…</div></div></div>
           <div class="box gp-plan"><h3><span id="gpPlanT">Plan</span><span class="gp-sp"></span><span id="gpPlanAct" class="gp-act"></span></h3><div id="gpPlan"></div></div>
           <div class="box gp-ours"><h3><span>Our characters</span><span class="gp-sp"></span><span class="gp-key"><i class="has"></i>has it <i class="buy"></i>will buy <i class="man"></i>manual <i class="non"></i>no choice</span></h3><div id="gpOurs"></div></div>
           <details class="box gp-help"><summary><h3>How it works</h3></summary><div class="gp-helpbody">
             <p>Pick a class and a grade, then tap a slot to choose the item they should wear. Every item of that grade is listed, also the ones no shop in Giran sells: the bots buy what Giran sells (the cheap <b>Common</b> twin when there is one, a caster's armor as the real set piece) and report <b>manual</b> for the rest (drop, craft, exchange) in <code>!gearplan</code>.</p>
             <p>A class without a choice for a slot uses its <b>parent class</b> (e.g. Shillien Templar uses Shillien Knight), then the old per-role choice, then the <b>recommended</b> item (teal: the best weapon / set / jewellery for the class's role, preferring what Giran sells; the reason is shown under it), then the bots' automatic pick. <b>Reset … to recommended</b> removes your own choices. Alternatives are tried in order when the first item cannot be bought.</p>
+            <p><b>Auto gear upgrades</b> (box above): whether the bots buy and put on better gear by themselves in the supply runs. A new install starts with it <b>OFF</b> for everyone. Even when it is on they never change the weapon <b>type</b> (a spear stays a spear, a bow a bow), never take a lower grade, never put a shield next to a two-handed weapon, and (unless you allow it) never swap an item for one of the same grade or another armor type — your own plan here always wins. <b>Lock</b> = nothing is bought, put on or swapped for that character.</p>
             <p>Colours under "Our characters": <span class="ok">green</span> wears the planned item (or its Common twin), <span class="warn">gold</span> the bots will buy it on the next supply run, grey = manual (not sold in Giran, or a belt / bracelet / talisman / cloak the bots do not buy).</p>
           </div></details>
         </div>
@@ -88,6 +90,7 @@
     if (!was) window.scrollTo(0, 0);
     if (!GP.timer) GP.timer = setInterval(() => { if (GP.open && !document.hidden && !GP.pick) load(false); }, 30000);
     loadMeta().then(() => { if (GP.cls == null) GP.cls = defaultClass(); load(true); });
+    loadAuto();
   }
   function close() {
     if (!GP.open) return;
@@ -103,6 +106,35 @@
   }
 
   // =========================================================================================== data
+  // ---- AUTO GEAR UPGRADES (Mr.P 2026-10-10): /api/gearauto (Dashboard/gearauto_api.js -> Scripts/data/gear_auto.json) ----
+  async function loadAuto() {
+    try { GP.auto = await api('/api/gearauto'); } catch (e) { GP.auto = null; }
+    renderAuto();
+  }
+  function renderAuto() {
+    const el = $id('gpAuto'), A = GP.auto; if (!el) return;
+    if (!A || A.error) { el.innerHTML = '<div class="muted">Not available (restart the dashboard server once after the update).</div>'; return; }
+    const sw = (on, attrs, txt) => `<button class="gp-sw ${on ? 'on' : 'off'}" ${attrs} aria-pressed="${on ? 'true' : 'false'}">${txt}</button>`;
+    const nOn = A.parties.reduce((n, p) => n + p.members.filter(m => m.eff && !m.lock).length, 0), nAll = A.parties.reduce((n, p) => n + p.members.length, 0);
+    const sum = $id('gpAutoSum'); if (sum) sum.textContent = `${nOn} of ${nAll} buy upgrades by themselves`;
+    el.innerHTML = `<div class="gp-autotop">${sw(A.default, 'data-gpauto="default"', 'Everyone: ' + (A.default ? 'ON' : 'OFF'))}
+        <label class="gp-autoopt"><input type="checkbox" data-gpautopol="sameGradeSwap" ${A.sameGradeSwap ? 'checked' : ''}> swap items of the same grade</label>
+        <label class="gp-autoopt"><input type="checkbox" data-gpautopol="keepArmorType" ${A.keepArmorType ? 'checked' : ''}> keep the armor type (heavy / light / robe)</label>
+        ${A.exists ? '' : '<span class="muted">no gear_auto.json yet: OFF for everyone</span>'}</div>
+      ${A.parties.map(p => `<div class="gp-autop"><div class="gp-autoph"><b>Party ${esc(p.leader)}</b>
+          <select data-gpautoparty="${esc(p.leader)}" aria-label="party ${esc(p.leader)} auto upgrades"><option value="" ${p.auto === null ? 'selected' : ''}>as everyone</option><option value="on" ${p.auto === true ? 'selected' : ''}>ON</option><option value="off" ${p.auto === false ? 'selected' : ''}>OFF</option></select></div>
+        <div class="gp-autom">${p.members.map(m => `<div class="gp-autor ${m.lock ? 'lock' : m.eff ? 'on' : 'off'}"><b>${esc(m.name)}</b>
+            <select data-gpautochar="${esc(m.name)}" aria-label="${esc(m.name)} auto upgrades"><option value="" ${m.auto === null ? 'selected' : ''}>as party (${m.eff ? 'on' : 'off'})</option><option value="on" ${m.auto === true ? 'selected' : ''}>ON</option><option value="off" ${m.auto === false ? 'selected' : ''}>OFF</option></select>
+            <label title="nothing is bought, put on or swapped"><input type="checkbox" data-gpautolock="${esc(m.name)}" ${m.lock ? 'checked' : ''}> lock what is equipped</label></div>`).join('')}</div></div>`).join('')}`;
+  }
+  async function saveAuto(body, okText, askOn) {
+    if (askOn && !await uiConfirm({ title: 'Turn auto gear upgrades ON?', body: [uiP(askOn), uiList(['They buy better gear in Giran in every supply run, with their own adena', 'Never another weapon type, never a lower grade, never a shield next to a two-handed weapon', 'Your choices on this page always win']), uiNote('Lock a character to keep exactly what it wears.')], confirmText: 'Turn ON', cancelText: 'Cancel' })) { renderAuto(); return; }
+    try {
+      const r = await api('/api/gearauto', { method: 'POST', body: JSON.stringify(Object.assign({ confirm: !!askOn }, body)) });
+      if (!r || r.error) { flash((r && r.error) || 'not saved', true); await loadAuto(); return; }
+      GP.auto = r; renderAuto(); flash(okText + ' · the bots read it within 20 s.');
+    } catch (e) { flash('Not saved: ' + e.message, true); }
+  }
   async function loadMeta() {
     if (GP.meta && Date.now() - GP.metaAt < 60000) return;
     try { GP.meta = await api('/api/gearplanner/classes'); GP.metaAt = Date.now(); } catch (e) { flash('Could not load the class list: ' + e.message, true); }
@@ -380,6 +412,7 @@
   // =========================================================================================== events
   async function onClick(e) {   // async: the dialogs (UIDIALOG 2026-10-10) return Promises
     const t = e.target;
+    const ga = t.closest('[data-gpauto]'); if (ga) { const to = !(GP.auto && GP.auto.default); await saveAuto({ scope: 'default', auto: to }, 'Auto gear upgrades for everyone: ' + (to ? 'ON' : 'OFF'), to ? 'Every character without its own choice buys gear upgrades by itself.' : ''); return; }
     if (t.closest('#gpClsBtn')) { GP.drawer = !GP.drawer; renderHead(); if (GP.drawer) { const q = $id('gpClsQ'); if (q && window.matchMedia('(pointer: fine)').matches) q.focus({ preventScroll: true }); } return; }
     const cl = t.closest('[data-gpcls]'); if (cl) { GP.cls = +cl.dataset.gpcls; GP.drawer = false; GP.data = null; closePick(); load(true); return; }
     const gr = t.closest('[data-gpgrade]'); if (gr) { GP.grade = gr.dataset.gpgrade; closePick(); load(true); return; }
@@ -440,6 +473,11 @@
     if (e.target.id === 'gpQ') { GP.q = e.target.value; renderPick(); }
   }
   function onChange(e) {
+    const d = e.target.dataset || {};
+    if (d.gpautoparty !== undefined || d.gpautochar !== undefined) { const v = e.target.value === 'on' ? true : e.target.value === 'off' ? false : null; const char = d.gpautochar !== undefined; const nm = char ? d.gpautochar : d.gpautoparty;
+      saveAuto({ scope: char ? 'char' : 'party', name: nm, auto: v }, (char ? nm : 'party ' + nm) + ': auto gear upgrades ' + (v === null ? 'as ' + (char ? 'its party' : 'everyone') : v ? 'ON' : 'OFF'), v === true ? (char ? nm + ' buys gear upgrades by itself.' : 'Every member of party ' + nm + ' without its own choice buys gear upgrades by itself.') : ''); return; }
+    if (d.gpautolock !== undefined) { saveAuto({ scope: 'char', name: d.gpautolock, lock: e.target.checked }, d.gpautolock + ': ' + (e.target.checked ? 'equipment LOCKED (nothing is bought or swapped)' : 'lock removed'), ''); return; }
+    if (d.gpautopol) { saveAuto({ scope: 'policy', [d.gpautopol]: e.target.checked }, 'saved', ''); return; }
     if (e.target.id === 'gpSort') { GP.sort = e.target.value; renderPick(); }
     if (e.target.id === 'gpBuy') {
       GP.buy = e.target.value;

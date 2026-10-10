@@ -137,8 +137,8 @@ const CTX = { DIR: API_DIR, DATA: path.join(ROOT, 'Scripts', 'data'), LOGS: MLOG
     const pp = BL.bpEffective(null, { party: [], target: [{ id: 1068, name: 'Might', ab: 'PA_UP', abLvl: 1, time: 1200 }] }, []);
     assert.strictEqual(BL.bpRuns(pp, false), 'full', 'no plan + board OFF = the suggestion runs at once (full)'); assert.strictEqual(BL.bpRuns(pp, true), 'fill');
   });
-  await t('mock: set without buffs -> 400; unknown member -> 400; approve without confirm -> 400; nothing written', () => {
-    assert.strictEqual(P({ action: 'set', leader: 'Lead', name: 'Pro', buffs: [], rotation: [] }).code, 400);
+  await t('mock: empty plan approve without confirm -> 400; unknown member -> 400; approve without confirm -> 400; nothing written', () => {
+    assert.strictEqual(P({ action: 'set', leader: 'Lead', name: 'Pro', buffs: [], rotation: [], approve: true }).code, 400);
     assert.strictEqual(P({ action: 'set', leader: 'Lead', name: 'Nobody', buffs: [{ skill: 'Might' }] }).code, 400);
     assert.strictEqual(P({ action: 'set', leader: 'Lead', name: 'Pro', buffs: [{ skill: 'Might' }], approve: true }).code, 400);
     assert.ok(!fs.existsSync(MFILE));
@@ -189,7 +189,52 @@ const CTX = { DIR: API_DIR, DATA: path.join(ROOT, 'Scripts', 'data'), LOGS: MLOG
     const r = P({ action: 'set', leader: 'Lead', name: 'Bd', buffs: [], rotation: ['Dance of Fury', { skill: 'Dance of Fire', keepAlways: true }] }); assert.strictEqual(r.code, 200, JSON.stringify(r));
     const e = JSON.parse(fs.readFileSync(MFILE, 'utf8')).parties.Lead.chars.Bd; assert.deepStrictEqual(e.rotation, ['Dance of Fury', { skill: 'Dance of Fire', keepAlways: true }]);
     const lp = G().parties.find(p => p.leader === 'Lead');
-    assert.deepStrictEqual(lp.cycle.slice(0, 4).map(x => x.by), ['Bd', 'Sws', 'Bd', 'Sws'], JSON.stringify(lp.cycle));
+    assert.deepStrictEqual(lp.cycle.slice(0, 4).map(x => x.by), ['Sws', 'Bd', 'Sws', 'Bd'], JSON.stringify(lp.cycle));   // MR.P 2026-10-10: the Swordsinger opens
+  });
+  // ===== MR.P FEEDBACK 2026-10-10 =====
+  await t('mock: first song / dance caster setting bd -> the Bladedancer opens; bad value -> 400; new settings saved', () => {
+    assert.strictEqual(P({ action: 'settings', settings: { firstCycleCaster: 'x' } }).code, 400);
+    assert.strictEqual(P({ action: 'settings', settings: { firstCycleCaster: 'bd', buffMax: 28, cycleMinGapMs: 90000, cycleMpReservePct: 15, buffGroupRule: 'stat' } }).code, 200);
+    const g = G(), lp = g.parties.find(p => p.leader === 'Lead');
+    assert.strictEqual(lp.cycle[0].by, 'Bd'); assert.strictEqual(g.settings.buffMax, 28); assert.strictEqual(g.settings.buffGroupRule, 'stat');
+    assert.strictEqual(P({ action: 'settings', settings: { firstCycleCaster: 'sws', buffGroupRule: 'server' } }).code, 200);
+  });
+  await t('mock: an EMPTY approved plan saves (buffing off by plan) and casts nothing; the page count treats it as reviewed', () => {
+    const r = P({ action: 'set', leader: 'Lead', name: 'Pro2', buffs: [], rotation: [], approve: true, confirm: true }); assert.strictEqual(r.code, 200, JSON.stringify(r));
+    const m = mem(G(), 'Lead', 'Pro2'); assert.strictEqual(m.status, 'ok'); assert.strictEqual(m.plan.buffs.length, 0); assert.strictEqual(m.plan.rotation.length, 0);
+  });
+  await t('mock: switches — Buffing OFF per character (status off, nothing runs), no songs / dances per character and per party', () => {
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', noBuffs: true }).code, 400, 'buffing off needs a name');
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', name: 'Pro', noBuffs: true }).code, 200);
+    let m = mem(G(), 'Lead', 'Pro'); assert.strictEqual(m.status, 'off'); assert.strictEqual(m.runs, ''); assert.strictEqual(m.noBuffs, true);
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', name: 'Pro', noBuffs: false }).code, 200);
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', name: 'Sws', noSongs: true }).code, 200);
+    let lp = G().parties.find(p => p.leader === 'Lead'); assert.ok(!lp.cycle.some(x => x.by === 'Sws'), 'Sws sings nothing'); assert.ok(lp.cycle.some(x => x.by === 'Bd'));
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', noSongs: true }).code, 200);
+    lp = G().parties.find(p => p.leader === 'Lead'); assert.strictEqual(lp.noSongs, true); assert.strictEqual(lp.cycle.length, 0, 'party switch: no songs / dances at all');
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', noSongs: false }).code, 200);
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', name: 'Sws', noSongs: false }).code, 200);
+  });
+  await t('mock: a re-save keeps the switches + never-keep list; a multi-target buff is saved as a list', () => {
+    assert.strictEqual(P({ action: 'remove', leader: 'Lead', name: 'Pro', remove: ['Chant of Blood Awakening', 'War Chant'] }).code, 200);
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', name: 'Pro', noSongs: true }).code, 200);
+    const r = P({ action: 'set', leader: 'Lead', name: 'Pro', buffs: [{ skill: 'Might', targets: ['Dd', 'Lead'] }] }); assert.strictEqual(r.code, 200, JSON.stringify(r));
+    const e = JSON.parse(fs.readFileSync(MFILE, 'utf8')).parties.Lead.chars.Pro;
+    assert.deepStrictEqual(e.buffs[0].targets, ['Dd', 'Lead']); assert.deepStrictEqual(e.remove, ['Chant of Blood Awakening', 'War Chant']); assert.strictEqual(e.noSongs, true);
+    const m = mem(G(), 'Lead', 'Pro'); assert.deepStrictEqual(m.remove, ['Chant of Blood Awakening', 'War Chant']);
+    assert.strictEqual(P({ action: 'switches', leader: 'Lead', name: 'Pro', noSongs: false }).code, 200);
+  });
+  await t('mock: never-keep list for a NON-buffer (the destroyer) is saved; unknown member -> 400; clear keeps it', () => {
+    assert.strictEqual(P({ action: 'remove', leader: 'Lead', name: 'Nobody', remove: ['X'] }).code, 400);
+    assert.strictEqual(P({ action: 'remove', leader: 'Lead', name: 'Dd', remove: ['Chant of Blood Awakening'] }).code, 200);
+    assert.deepStrictEqual(mem(G(), 'Lead', 'Dd').remove, ['Chant of Blood Awakening']);
+    assert.strictEqual(P({ action: 'clear', leader: 'Lead', names: ['Dd'] }).code, 200);
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(MFILE, 'utf8')).parties.Lead.chars.Dd.remove, ['Chant of Blood Awakening'], 'the never-keep list is not the plan');
+  });
+  await t('mock: Embroider — every reported buff of a Warsmith is learned (two skills of one type)', () => {
+    const ws = API.reportedSkills({ skills: [sk(828, 'Case Harden', 'DWARF_DEFENCE_BUFF', 'target'), sk(830, 'Embroider', 'DWARF_DEFENCE_BUFF', 'target')] });
+    assert.strictEqual(BL.bpValidate({ buffs: [{ skill: 'Embroider' }] }, ws, []).warnings.length, 0);
+    assert.strictEqual(BL.bpSuggest(ws).buffs.length, 1, 'the suggestion casts one of them');
   });
   let tid = null;
   await t('mock: save party as template (by class) -> template with Prophet; apply to party Old (dry run, then not reviewed)', () => {
@@ -208,7 +253,7 @@ const CTX = { DIR: API_DIR, DATA: path.join(ROOT, 'Scripts', 'data'), LOGS: MLOG
   });
   await t('mock: unapprove + clear', () => {
     assert.strictEqual(P({ action: 'unapprove', leader: 'Lead', names: ['Pro'] }).code, 200); assert.strictEqual(mem(G(), 'Lead', 'Pro').status, 'suggested');
-    assert.strictEqual(P({ action: 'clear', leader: 'Lead', names: ['Pro'] }).code, 200); assert.strictEqual(mem(G(), 'Lead', 'Pro').entry, null);
+    assert.strictEqual(P({ action: 'clear', leader: 'Lead', names: ['Pro'] }).code, 200); { const e = mem(G(), 'Lead', 'Pro').entry; assert.ok(!e || (!e.buffs && !e.rotation), 'the plan is gone (the never-keep list stays)'); }
   });
   await t('every write logged one dashboard_commands.log line (buffplans)', () => { assert.ok(LOGW.filter(l => /\tbuffplans\t/.test(l)).length >= 8, LOGW.length + ' lines'); });
   await t('example file: every template class exists in class_tree.json and validates', () => {

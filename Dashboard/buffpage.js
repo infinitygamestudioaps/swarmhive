@@ -17,9 +17,11 @@
   const store = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('swarm.bp.' + k)); localStorage.setItem('swarm.bp.' + k, JSON.stringify(v)); } catch (e) { return null; } return null; };
   const SETNUM = [['cycleExpiredPct', 'New song / dance cycle when this % expired', 1, 100], ['rotMinMpPct', 'Min MP % to cast a song / dance', 0, 100],
     ['cycleMpStepPct', 'MP estimate + % per song / dance', 0, 50], ['cycleMpMarginPct', 'MP margin %', 0, 50], ['cycleMpWaitMs', 'Wait for MP before a cycle (ms)', 0, 600000],
-    ['rotGapMs', 'Pause between two (ms)', 0, 10000], ['rotTakeoverMs', 'Turn take-over after (ms)', 1000, 60000]];
+    ['rotGapMs', 'Pause between two (ms)', 0, 10000], ['rotTakeoverMs', 'Turn take-over after (ms)', 1000, 60000],
+    ['cycleMinGapMs', 'Min time between two cycles (ms)', 0, 600000], ['cycleMpReservePct', 'Keep this MP % after a song / dance', 0, 90], ['buffMax', 'Normal buff slots (0 = no check; + Divine Inspiration)', 0, 60]];
   const TARGET_TXT = { party: 'whole party', fighters: 'fighters', mages: 'mages / healers', self: 'only me', tank: 'the tank' };
-  const STATUS = { ok: ['ok', 'Plan ✓'], suggested: ['warn', 'Buff plan not reviewed'], invalid: ['bad', 'Plan broken'], none: ['unk', 'No buffs'] };
+  const STATUS = { ok: ['ok', 'Plan ✓'], suggested: ['warn', 'Buff plan not reviewed'], invalid: ['bad', 'Plan broken'], none: ['unk', 'No buffs'], off: ['unk', 'Buffing OFF'] };
+  const hasPlan = (e) => !!e && (Array.isArray(e.buffs) || Array.isArray(e.rotation));   // an entry may only hold the never-keep list / switches
   // USER DECISION 2026-10-10 (bpRuns): no reviewed plan + board OFF = the suggestion runs now (full); board ON = it only fills what the board lacks
   const unreviewedTxt = (board) => board ? 'No saved plan — board buffs ON: it only fills what the board lacks. Save and approve a plan to decide yourself.'
     : 'No saved plan — board buffs OFF: the suggestion below runs now. Save and approve a plan to decide yourself.';
@@ -67,6 +69,8 @@
         <p><b>Board buffs on</b> (L2Toggle Community Board, swarm.config.json <code>boardBuffs</code>): buffers only add what the board does not give and never overwrite a stronger buff. <b>Board buffs off</b> (old-school parties): the party's own buffers are the buff source — they keep every buff of their plan up, rebuff after deaths and before pulls, and buffing comes before their own damage.</p>
         <p><b>Targets</b>: whole party, fighters, mages / healers, only me, the tank, or a named member. Party songs, dances and chants reach everyone near the caster; single-target buffs (Might, Haste, Acumen ...) are cast on each chosen member.</p>
         <p><b>Songs and dances</b> (Swordsinger, Bladedancer): they run out after about 2 minutes. They are cast as one full <b>cycle</b> in the order of the rotation list; with a singer and a dancer in one party they take turns (one dance, one song, ...). A new cycle starts when most of the set has expired; <b>keep always</b> keeps one up on its own between cycles. The server's song / dance slot limit is respected (settings).</p>
+        <p><b>Buff groups</b>: buffs that cannot stack (from the game data: Improved Magic blocks Empower, Magic Barrier and Chant of Fire; Improved Combat blocks Might, Shield, Chant of Battle / Shielding ...) — a buffer never casts a buff whose group the member already has, and casts the improved / combined one first. A buff that does not land on a member is skipped on that member for 10 minutes (shown in the row), never cast until out of MP. <b>Buff slots</b>: a member whose normal buff slots are full only gets its buffs refreshed, never a new one that would push another out.</p>
+        <p><b>Never keep</b>: per character, buffs it cancels itself (e.g. a healer drops Chant of Blood Awakening); buffers never cast them on it. <b>Buffing OFF</b> / <b>No songs / dances</b>: switches per character (and no songs / dances per party).</p>
         <p><b>Overlap</b>: two buffers with the same buff type on the same member — only one casts it (the stronger level wins); the page lists it under the party.</p>
         <p>Saving stores the plan as <b>not reviewed</b>; <b>Approve</b> makes it the reviewed plan, which always runs. Without a reviewed plan: board buffs OFF = the suggestion runs at once; board buffs ON = it only fills what the board lacks. Bots re-read the file within a minute, no restart.</p>
       </div></details>
@@ -138,6 +142,7 @@
     const ov = p.overlaps || [];
     return `<div class="box cpl-pbox">
       <h3><span>Party ${h(p.leader)}</span><button class="bpl-board ${p.board ? 'on' : 'off'}" data-bpact="board" aria-pressed="${p.board ? 'true' : 'false'}" title="Tap to switch. ${p.boardFrom === 'switch' ? 'Set here on the page' : p.boardFrom === 'leader' ? 'From the leader in swarm.config.json' : p.boardFrom === 'config' ? 'From swarm.config.json' : 'Default'}">${p.board ? 'Board buffs ON' : 'Board buffs OFF — own buffers'} <span aria-hidden="true">⇄</span></button>
+        <button class="bpl-board ${p.noSongs ? 'off' : 'on'}" data-bpact="partySongs" aria-pressed="${p.noSongs ? 'true' : 'false'}" title="Songs / dances for the whole party (tap to switch)">${p.noSongs ? 'Songs / dances OFF' : 'Songs / dances ON'} <span aria-hidden="true">⇄</span></button>
         <span class="muted">· ${bufs.length} buffer${bufs.length === 1 ? '' : 's'} · ${p.counts.warn ? `<b class="cpwarn">${p.counts.warn} not reviewed</b>` : bufs.length ? 'every buffer has a reviewed plan' : 'no buffer characters'}</span></h3>
       <div class="cpl-bulk">
         <label class="cpl-inl">Template <select id="bpTplSel" aria-label="template to apply">${tpls.map(t => `<option value="${h(t.id)}">${h(t.name)}${t.example ? ' (example)' : ''}</option>`).join('')}</select></label>
@@ -150,7 +155,7 @@
       </div>
       ${ov.length ? `<div class="bpl-ov"><h4>Overlaps (only one casts)</h4>${ov.map(o => `<div class="bpl-ovr"><b>${h(o.ab)}</b> on <b>${h(o.member)}</b>: ${o.by.map((b, i) => `${h(b)} (${h(o.skills[i] || '')})`).join(' and ')} — <span class="ok">${h(o.winner)} casts it</span></div>`).join('')}</div>` : ''}
       ${(p.cycle || []).length ? `<div class="bpl-cyc"><h4>Song / dance cycle (one full set, interleaved)</h4><div class="bpl-sum">${p.cycle.map((x, i) => `<span class="bpl-b">${i + 1}. ${h(x.skill)}<em>${h(x.by)}</em></span>`).join('')}</div></div>` : ''}
-      ${rest.length ? `<div class="muted bpl-rest">Not buffers: ${rest.map(m => h(m.name)).join(', ')}</div>` : ''}
+      ${rest.length ? `<div class="bpl-rest"><span class="muted">Not buffers:</span> ${rest.map(m => `<span class="bpl-restm"><b>${h(m.name)}</b>${(m.remove || []).length ? ` <em class="muted" title="cancels these buffs itself">never keep: ${h(m.remove.join(', '))}</em>` : ''} <button data-bpact="remove" data-bpn="${h(m.name)}" title="Buffs ${h(m.name)} cancels itself (and buffers never cast on it)">Never keep…</button></span>`).join(' ')}</div>` : ''}
     </div>`;
   }
   function rowHtml(p, m) {
@@ -165,12 +170,17 @@
         <div class="muted cpl-why bpl-runs">${m.status === 'ok' ? 'the approved plan runs' : m.status === 'none' ? h(m.why || '') : unreviewedTxt(p.board)}</div>${m.why && m.status !== 'ok' && m.status !== 'none' ? `<div class="muted">${h(m.why)}</div>` : ''}
         ${rep && rep.cycle ? `<div class="muted" title="song / dance cycle as the bot reports it">cycle: ${h(rep.cycle.phase || '')} ${rep.cycle.step != null ? h(rep.cycle.step) + '/' + h(rep.cycle.total) : ''}${rep.cycle.expired != null ? ' · ' + h(rep.cycle.expired) + '% expired' : ''}</div>` : ''}
         ${(m.warnings || []).length ? `<div class="muted">${h(m.warnings.slice(0, 3).join('; '))}</div>` : ''}
-        ${miss.length ? `<div class="muted" title="${h(miss.map(n => n + ': ' + rep.missing[n].join(', ')).join(' | '))}">missing now on ${h(miss.join(', '))}</div>` : ''}</span>
+        ${miss.length ? `<div class="muted" title="${h(miss.map(n => n + ': ' + rep.missing[n].join(', ')).join(' | '))}">missing now on ${h(miss.join(', '))}</div>` : ''}
+        ${m.slots ? `<div class="muted" title="normal buff slots used / max (songs and dances apart)">buff slots ${h(m.slots.used)}/${h(m.slots.max)}</div>` : ''}
+        ${(m.skipped || []).length ? `<div class="muted" title="did not land: skipped for 10 min, never cast in a loop">skipped: ${h(m.skipped.slice(0, 4).map(x => x.skill + ' on ' + x.member).join(', '))}</div>` : ''}
+        ${(m.remove || []).length ? `<div class="muted">never keep: ${h(m.remove.join(', '))}</div>` : ''}${m.noSongs ? '<div class="muted">no songs / dances</div>' : ''}</span>
       <span class="cpl-btns" role="cell">
         <button data-bpact="edit" data-bpn="${h(m.name)}">Plan…</button>
-        ${m.entry && !m.approved ? `<button data-bpact="approve" data-bpn="${h(m.name)}">Approve…</button>` : ''}
-        ${m.entry && m.approved ? `<button data-bpact="unapprove" data-bpn="${h(m.name)}">Unapprove</button>` : ''}
-        ${m.entry ? `<button data-bpact="clear" data-bpn="${h(m.name)}">Remove</button>` : ''}
+        ${hasPlan(m.entry) && !m.approved ? `<button data-bpact="approve" data-bpn="${h(m.name)}">Approve…</button>` : ''}
+        ${hasPlan(m.entry) && m.approved ? `<button data-bpact="unapprove" data-bpn="${h(m.name)}">Unapprove</button>` : ''}
+        ${hasPlan(m.entry) ? `<button data-bpact="clear" data-bpn="${h(m.name)}">Remove</button>` : ''}
+        <button data-bpact="noBuffs" data-bpn="${h(m.name)}" aria-pressed="${m.noBuffs ? 'true' : 'false'}" title="Switch all buffing of ${h(m.name)} on / off">${m.noBuffs ? 'Buffing ON…' : 'Buffing OFF…'}</button>
+        <button data-bpact="remove" data-bpn="${h(m.name)}" title="Buffs ${h(m.name)} cancels itself">Never keep…</button>
       </span></div>`;
   }
   function tplsHtml() {
@@ -188,6 +198,8 @@
       <label>Song / dance slots <input type="number" id="bpSetSd" min="1" max="40" value="${h(s.songDanceMax)}"></label>
       <label>Party gathered for songs / dances (%) <input type="number" id="bpSetGp" min="0" max="100" value="${h(s.gatherPct)}"></label>
       <label>Gather range <input type="number" id="bpSetGr" min="200" max="3000" step="50" value="${h(s.gatherRange)}"></label>
+      <label>First in the song / dance cycle <select id="bpSetFc"><option value="sws" ${s.firstCycleCaster !== 'bd' ? 'selected' : ''}>Swordsinger (song, dance, song …)</option><option value="bd" ${s.firstCycleCaster === 'bd' ? 'selected' : ''}>Bladedancer (dance, song, dance …)</option></select></label>
+      <label>Buff groups <select id="bpSetGrp"><option value="server" ${s.buffGroupRule !== 'stat' ? 'selected' : ''}>as the game stacks them (Improved Magic blocks Magic Barrier …)</option><option value="stat" ${s.buffGroupRule === 'stat' ? 'selected' : ''}>strict: one buff per stat (P.Def, M.Def, P.Atk …)</option></select></label>
       ${SETNUM.map(([k, t, mn, mx]) => `<label>${h(t)} <input type="number" data-bpset="${k}" min="${mn}" max="${mx}" value="${h(s[k])}"></label>`).join('')}
       <button data-bpact="saveSet">Save settings</button></div>`;
   }
@@ -203,19 +215,21 @@
     // rows: the plan's buffs in order (known or typed), then the learned ones not in the plan (off)
     const rows = [];
     (src.buffs || []).forEach(b => { const k = plain.find(s => (b.id && Number(b.id) === s.id) || L().bpNorm(b.skill) === L().bpNorm(s.name)); if (k && L().rkIsSongDance(k)) return;
-      rows.push({ skill: k ? k.name : (b.skill || String(b.id)), id: k ? k.id : (b.id || 0), ab: k ? k.ab : '', kind: k ? k.kind : '?', target: (b.targets || ['party'])[0] || 'party', keep: b.keep !== false, known: !!k }); });
-    plain.forEach(s => { if (!rows.some(r => L().bpNorm(r.skill) === L().bpNorm(s.name))) rows.push({ skill: s.name, id: s.id, ab: s.ab, kind: s.kind, target: s.kind === 'party' ? 'party' : L().bpBenefit(s.ab), keep: false, known: true }); });
+      rows.push({ skill: k ? k.name : (b.skill || String(b.id)), id: k ? k.id : (b.id || 0), ab: k ? k.ab : '', kind: k ? k.kind : '?', targets: (b.targets && b.targets.length ? b.targets : ['party']).slice(), keep: b.keep !== false, known: !!k }); });
+    plain.forEach(s => { if (!rows.some(r => L().bpNorm(r.skill) === L().bpNorm(s.name))) rows.push({ skill: s.name, id: s.id, ab: s.ab, kind: s.kind, targets: [s.kind === 'party' ? 'party' : L().bpBenefit(s.ab)], keep: false, known: true }); });
     const rot = [];
     L().bpRotEntries(src.rotation).forEach(r => rot.push({ name: r.name, on: true, keepAlways: r.keepAlways, known: songs.some(s => L().bpNorm(s.name) === L().bpNorm(r.name)) }));
     songs.forEach(s => { if (!rot.some(r => L().bpNorm(r.name) === L().bpNorm(s.name))) rot.push({ name: s.name, on: false, keepAlways: false, known: true }); });
-    BP.ed = { name, leader: p.leader, rows, rot, members: p.members.map(x => x.name), fromSugg: !!useSugg || !m.entry, approved: m.approved, m };
+    BP.ed = { name, leader: p.leader, rows, rot, members: p.members.map(x => x.name), fromSugg: !!useSugg || !hasPlan(m.entry), approved: m.approved, m, noSongs: !!m.noSongs, noBuffs: !!m.noBuffs };
     renderEditor();
     $id('bpSheet').hidden = false; document.documentElement.classList.add('cpl-modal');
   }
   function closeSheet() { BP.ed = null; const sh = $id('bpSheet'); if (sh) sh.hidden = true; const pn = $id('bpPanel'); if (pn) { pn.innerHTML = ''; pn._last = null; } document.documentElement.classList.remove('cpl-modal'); if (BP.open) render(); }
+  // MR.P 2026-10-10: a single-target buff can go to SEVERAL members (and groups): a tick list, saved as the targets list
   function tgtSelect(i, v) {
     const opts = Object.keys(TARGET_TXT).map(k => [k, TARGET_TXT[k]]).concat(BP.ed.members.map(n => [n, n]));
-    return `<select data-bptgt="${i}" aria-label="target">${opts.map(([k, t]) => `<option value="${h(k)}" ${k === v ? 'selected' : ''}>${h(t)}</option>`).join('')}</select>`;
+    const cur = Array.isArray(v) ? v : [v];
+    return `<details class="bpl-tg"${BP.ed.openTg === i ? ' open' : ''}><summary data-bptgs="${i}" title="who gets it (tick several)">${h(cur.map(t => TARGET_TXT[t] || t).join(', ') || 'whole party')}</summary><div class="bpl-tgl">${opts.map(([k, t]) => `<label><input type="checkbox" data-bptgt="${i}" value="${h(k)}" ${cur.includes(k) ? 'checked' : ''}> ${h(t)}</label>`).join('')}</div></details>`;
   }
   function renderEditor() {
     const E = BP.ed, m = E.m;
@@ -223,11 +237,13 @@
         <button class="cpl-x" data-bpact="close" aria-label="close">✕</button></div>
       ${E.fromSugg ? '<div class="muted cpl-suggline">Pre-filled from the suggestion (the buffer\'s own skills). Nothing is saved until you tap Save.</div>' : ''}
       ${!m.known ? '<div class="cpl-msg bad">No skill report from this character yet (log in once with the kit): type the skill names below.</div>' : ''}
+      <div class="bpl-sw"><label><input type="checkbox" data-bpsw="noBuffs" ${E.noBuffs ? 'checked' : ''}> <b>Buffing OFF</b> <span class="muted">— ${h(E.name)} casts nothing (no plan, no suggestion)</span></label>
+        <label><input type="checkbox" data-bpsw="noSongs" ${E.noSongs ? 'checked' : ''}> <b>No songs / dances</b> <span class="muted">— the rest of the plan runs</span></label></div>
       <h4>Buffs (top = first)</h4>
       <div class="bpl-list">${E.rows.map((r, i) => `<div class="bpl-row ${r.keep ? 'on' : 'off'}">
           <label class="bpl-k"><input type="checkbox" data-bpkeep="${i}" ${r.keep ? 'checked' : ''}> <b>${h(r.skill)}</b></label>
           <span class="muted bpl-meta">${r.kind === 'party' ? 'party buff' : r.kind === 'target' ? 'single target' : 'not learned'}${r.ab ? ' · ' + h(r.ab) : ''}</span>
-          ${r.kind === 'party' ? '<span class="muted bpl-t">reaches the whole party</span>' : tgtSelect(i, r.target)}
+          ${r.kind === 'party' ? '<span class="muted bpl-t">reaches the whole party</span>' : tgtSelect(i, r.targets)}
           <span class="bpl-mv"><button data-bpup="${i}" aria-label="up" ${i ? '' : 'disabled'}>▲</button><button data-bpdn="${i}" aria-label="down" ${i < E.rows.length - 1 ? '' : 'disabled'}>▼</button></span></div>`).join('') || '<div class="muted">No buffs learned (yet).</div>'}</div>
       <div class="bpl-add"><input id="bpAddName" placeholder="add a buff by skill name" aria-label="skill name"><button data-bpact="addBuff">Add</button></div>
       ${E.rot.length ? `<h4>Songs / dances rotation (cast in this order; with a singer and a dancer they take turns)</h4>
@@ -242,8 +258,8 @@
   }
   function editorEntry() {
     const E = BP.ed;
-    return { buffs: E.rows.filter(r => r.keep).map((r, i) => Object.assign({ skill: r.skill, targets: [r.kind === 'party' ? 'party' : r.target], priority: i + 1, keep: true }, r.id ? { id: r.id } : {})),
-      rotation: E.rot.filter(r => r.on).map(r => r.keepAlways ? { skill: r.name, keepAlways: true } : r.name) };
+    return { buffs: E.rows.filter(r => r.keep).map((r, i) => Object.assign({ skill: r.skill, targets: r.kind === 'party' ? ['party'] : (r.targets && r.targets.length ? r.targets.slice() : ['party']), priority: i + 1, keep: true }, r.id ? { id: r.id } : {})),
+      rotation: E.rot.filter(r => r.on).map(r => r.keepAlways ? { skill: r.name, keepAlways: true } : r.name), noSongs: !!E.noSongs, noBuffs: !!E.noBuffs };
   }
   function approveDialog(name, leader, entry, board) {
     const items = (entry.buffs || []).map(b => [uiEm(b.skill), ' → ', (b.targets || ['party']).map(t => TARGET_TXT[t] || t).join(', ')]);
@@ -284,7 +300,12 @@
     if (act === 'useSugg' && E) { const nm = E.name; closeSheet(); openEditor(nm, true); return; }
     if ((act === 'savePlan' || act === 'saveApprove') && E) {
       const entry = editorEntry();
-      if (!entry.buffs.length && !entry.rotation.length) { flash('tick at least one buff or song / dance (Remove clears the plan)', true); return; }
+      if (!entry.buffs.length && !entry.rotation.length && !entry.noBuffs) {   // MR.P 2026-10-10: an empty plan = this character casts nothing
+        if (!await uiConfirm({ title: `No buffs for ${E.name}?`, body: [uiP('Nothing is ticked. Save an ', uiEm('empty'), ` plan for ${E.name}?`), uiList([`${E.name} casts no buffs and no songs / dances`, 'Not even the suggestion from its skills']), uiNote('Tick buffs again any time, or use "Buffing OFF".')], confirmText: 'Save: no buffs', cancelText: 'Cancel' })) return;
+        const r0 = await post(Object.assign({ action: 'set', leader: E.leader, name: E.name, approve: true, confirm: true }, entry), `${E.name}: empty plan saved — it casts nothing.`);
+        if (r0) closeSheet();
+        return;
+      }
       const approve = act === 'saveApprove';
       if (approve && !await approveDialog(E.name, E.leader, entry, party(E.leader).board)) return;
       const r = await post(Object.assign({ action: 'set', leader: E.leader, name: E.name, approve, confirm: approve }, entry), approve ? `${E.name}: buff plan saved and APPROVED.` : `${E.name}: buff plan saved (not reviewed).`);
@@ -302,6 +323,24 @@
       if (!await uiConfirm({ title: `Board buffs ${to ? 'ON' : 'OFF'} for party ${p.leader}?`, body, confirmText: to ? 'Switch ON' : 'Switch OFF', cancelText: 'Cancel' })) return;
       await post({ action: 'board', leader: p.leader, value: to, confirm: true }, `Board buffs ${to ? 'ON' : 'OFF'} for party ${p.leader}`);
       return;
+    }
+    if (act === 'partySongs' && p) {   // MR.P 2026-10-10: no songs / dances for the whole party
+      const to = !p.noSongs;
+      if (!await uiConfirm({ title: `Songs / dances ${to ? 'OFF' : 'ON'} for party ${p.leader}?`, body: to ? [uiP(`Nobody in party ${p.leader} sings or dances any more.`), uiNote('The other buffs keep running.')] : [uiP(`Swordsingers and Bladedancers of party ${p.leader} run their song / dance cycle again.`)], confirmText: to ? 'Songs / dances OFF' : 'Songs / dances ON', cancelText: 'Cancel' })) return;
+      await post({ action: 'switches', leader: p.leader, noSongs: to }, `party ${p.leader}: songs / dances ${to ? 'OFF' : 'ON'}`); return;
+    }
+    if (act === 'noBuffs' && n) {
+      const mm = p.members.find(x => x.name === n), to = !(mm && mm.noBuffs);
+      if (!await uiConfirm({ title: `Buffing ${to ? 'OFF' : 'ON'} for ${n}?`, body: to ? [uiP(`${n} casts no buffs at all: no plan, no suggestion, no songs / dances.`), uiNote('Its saved plan is kept; switch it on again any time.')] : [uiP(`${n} buffs again (its approved plan, or the suggestion as the settings allow).`)], confirmText: to ? 'Buffing OFF' : 'Buffing ON', cancelText: 'Cancel' })) return;
+      await post({ action: 'switches', leader: p.leader, name: n, noBuffs: to }, `${n}: buffing ${to ? 'OFF' : 'ON'}`); return;
+    }
+    if (act === 'remove' && n) {   // MR.P 2026-10-10: the buffs this character cancels itself (and buffers never cast on it)
+      const mm = p.members.find(x => x.name === n), cur = (mm && mm.remove) || [];
+      const v = await uiPrompt({ title: `${n}: never keep these buffs`, body: [uiP(`${n} cancels these buffs itself as soon as they appear, and the party's buffers never cast them on ${n}.`), uiNote('Skill names or buff types, separated by commas (e.g. Chant of Blood Awakening, War Chant). Empty = keep everything.')],
+        label: 'Buffs to cancel', value: cur.join(', '), confirmText: 'Save', validate: (x) => x.length > 600 ? 'Too long' : '' });
+      if (v === null || v === undefined || v === false) return;
+      const list = String(v).split(',').map(x => x.trim()).filter(Boolean);
+      await post({ action: 'remove', leader: p.leader, name: n, remove: list }, list.length ? `${n} cancels: ${list.join(', ')}` : `${n}: keeps every buff`); return;
     }
     if (act === 'unapprove' && m) { if (!await uiConfirm({ title: `Unapprove ${m.name}'s buff plan?`, body: `The plan is kept as "not reviewed"; ${m.name} then runs it only as the settings allow for a suggestion.`, confirmText: 'Unapprove' })) return; await post({ action: 'unapprove', leader: p.leader, names: [m.name] }, `${m.name}: buff plan unapproved.`); return; }
     if (act === 'clear' && m) { if (!await uiConfirm({ title: `Remove ${m.name}'s buff plan?`, body: `Without a plan ${m.name} runs the suggestion from its skills (if the settings allow it).`, confirmText: 'Remove plan', danger: true })) return; await post({ action: 'clear', leader: p.leader, names: [m.name] }, `${m.name}: buff plan removed.`); return; }
@@ -322,7 +361,7 @@
     }
     if (act === 'delTpl') { if (!await uiConfirm({ title: 'Delete this template?', body: 'Plans already applied to parties stay.', confirmText: 'Delete template', danger: true })) return; await post({ action: 'deleteTemplate', id: t.dataset.bpt }, 'template deleted.'); return; }
     if (act === 'saveSet') {
-      const settings = { songDanceMax: +$id('bpSetSd').value, gatherPct: +$id('bpSetGp').value, gatherRange: +$id('bpSetGr').value };
+      const settings = { songDanceMax: +$id('bpSetSd').value, gatherPct: +$id('bpSetGp').value, gatherRange: +$id('bpSetGr').value, firstCycleCaster: $id('bpSetFc').value, buffGroupRule: $id('bpSetGrp').value };
       $id('bpSet').querySelectorAll('input[data-bpset]').forEach(i => { settings[i.dataset.bpset] = +i.value; });
       await post({ action: 'settings', settings }, 'settings saved.'); return;
     }
@@ -330,7 +369,8 @@
   function onChange(e) {
     const E = BP.ed, x = e.target; if (!E || !x || !x.dataset) return;
     if (x.dataset.bpkeep !== undefined) { E.rows[+x.dataset.bpkeep].keep = x.checked; renderEditor(); }
-    else if (x.dataset.bptgt !== undefined) E.rows[+x.dataset.bptgt].target = x.value;
+    else if (x.dataset.bptgt !== undefined) { const r = E.rows[+x.dataset.bptgt]; const set = new Set(r.targets || []); if (x.checked) set.add(x.value); else set.delete(x.value); r.targets = [...set]; if (!r.targets.length) r.targets = ['party']; E.openTg = +x.dataset.bptgt; renderEditor(); }
+    else if (x.dataset.bpsw) { E[x.dataset.bpsw] = x.checked; }
     else if (x.dataset.bprot !== undefined) { E.rot[+x.dataset.bprot].on = x.checked; renderEditor(); }
     else if (x.dataset.bpka !== undefined) { E.rot[+x.dataset.bpka].keepAlways = x.checked; }
   }

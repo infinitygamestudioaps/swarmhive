@@ -14,7 +14,8 @@ const src = fs.readFileSync(SRC, 'utf8');
 const blk = (n) => { const a = src.indexOf(`// ${n}-BEGIN`), b = src.indexOf(`// ${n}-END`); if (a < 0 || b < a) { console.error(n + ' block not found'); process.exit(1); } return src.slice(a, b); };
 const M = new Function(blk('ROLEKIND-PURE') + blk('BUFFPLAN-PURE') + `
 return { ROLEKIND, BUFFPLAN, rkClassifyBuffs, rkBufferPick, rkBuffNeed, bpTargets, bpValidate, bpSuggest, bpEffective, bpRuns, bpPlanSkills, bpOwners,
-  bpGathered, bpCycleSeq, bpCycleDue, bpCycleMp, bpCycleStep, bpRotEntries, bpMissing, bpTemplateFromParty, bpTemplateApply, bpSettings, bpBenefit };`)();
+  bpGathered, bpCycleSeq, bpCycleDue, bpCycleMp, bpCycleStep, bpRotEntries, bpMissing, bpTemplateFromParty, bpTemplateApply, bpSettings, bpBenefit,
+  rkGroupBlock, rkSlotReport, rkBufferVerify, rkBefore, rkNoBuff, rkAllBuffs, bpGroups, bpRemoveList, bpToRemove, bpApplySwitches };`)();
 const D = require('./dp_skills');
 let fails = 0, oks = 0;
 const check = (ok, what) => { if (ok) oks++; else fails++; if (!ok || process.env.VERBOSE) console.log((ok ? 'ok   ' : 'FAIL ') + what); };
@@ -69,8 +70,8 @@ const song = SWS.party[0], many = {}; for (let i = 0; i < 14; i++) many['DANCE_X
 check(M.rkBuffNeed(song, mk('A', many), { songDanceMax: 14, refreshSec: 30 }) === '' && M.rkBuffNeed(song, mk('A', many), { songDanceMax: 16, refreshSec: 30 }) === 'missing', 'slot limit is a config value (14 full, 16 room)');
 // ---- song / dance CYCLE ----
 const casters = [{ name: 'Sws', kind: 'song', list: ['Song of Wind', 'Song of Earth', 'Song of Hunter'] }, { name: 'Bd', kind: 'dance', list: ['Dance of Fury', 'Dance of Fire'] }];
-const seq = M.bpCycleSeq(casters);
-check(seq.map(s => s.by[0]).join('') === 'BSBSS' && seq[0].skill === 'Dance of Fury' && seq[1].skill === 'Song of Wind', `interleaved: ${seq.map(s => s.skill).join(' > ')}`);
+const seq = M.bpCycleSeq(casters, { firstCycleCaster: 'bd' });   // the older checks below run with the Bladedancer first (setting 'bd')
+check(seq.map(s => s.by[0]).join('') === 'BSBSS' && seq[0].skill === 'Dance of Fury' && seq[1].skill === 'Song of Wind', `interleaved (bd first): ${seq.map(s => s.skill).join(' > ')}`);
 check(M.bpCycleSeq([casters[0]]).map(s => s.skill).join(',') === 'Song of Wind,Song of Earth,Song of Hunter', 'a solo Swordsinger cycles its own list');
 check(M.bpCycleSeq([{ name: 'A', kind: 'dance', list: ['D1', 'D2'] }, { name: 'B', kind: 'dance', list: ['D3'] }]).map(s => s.skill).join(',') === 'D1,D3,D2', 'two dancers: round robin');
 const S = M.bpSettings({});
@@ -120,6 +121,92 @@ check(ap.NewProphet && ap.NewProphet.approved === false && !ap.Z, 'apply a templ
   const bad = []; Object.keys(ex.templates || {}).forEach(k => Object.keys((ex.templates[k] || {}).classes || {}).forEach(c => { if (!names.has(c)) bad.push(c); }));
   check(!bad.length && Object.keys(ex.templates || {}).length >= 5, `example templates: ${Object.keys(ex.templates || {}).length}, class names valid ${bad.join(',')}`);
   check(!fs.existsSync(path.join(ROOT, 'Scripts', 'data', 'buff_plans.json')) || true, 'the live buff_plans.json is never created by the kit'); }
+// ==== MR.P FEEDBACK 2026-10-10 ====
+const GF = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'buff_groups.json'), 'utf8')), GR = M.bpGroups(GF);
+check(GR.covers.IMPROVE_MA_MD_UP.includes('MD_UP') && GR.covers.IMPROVE_MA_MD_UP.includes('MA_UP') && GR.covers.IMPROVE_PA_PD_UP.includes('PD_UP') && GR.covers.IMPROVE_VAMPIRIC_HASTE.includes('ATTACK_TIME_DOWN'), 'buff_groups.json: Improved Magic covers MA_UP + MD_UP, Improved Combat PD_UP, Blood Awakening Haste (datapack BlockBuffSlot)');
+check(GF.types.MD_UP.names.includes('Chant of Fire') || GF.types.MD_UP.more > 0, 'MD_UP group lists Chant of Fire / Magic Barrier');
+{ const r = require('./buff_groups.js').build(); check(!r || JSON.stringify(r.types.IMPROVE_MA_MD_UP.covers) === JSON.stringify(GF.types.IMPROVE_MA_MD_UP.covers), 'buff_groups.json matches the tool output'); }
+// (3a) groups: Chant of Fire on a member with Improved Magic = no; Magic Barrier too; a member without = yes
+const WC = { party: [{ id: 1006, name: 'Chant of Fire', ab: 'MD_UP', abLvl: 3, mlvl: 40, time: 1200, mp: 50, ready: true }], target: [] };
+const cfgG = { groups: GR, buffMax: 24, refreshSec: 30, songDanceMax: 14, minTime: 60, minGapMs: 20000, range: 900, partyRange: 1000 };
+check(M.rkBuffNeed(WC.party[0], mk('A', { IMPROVE_MA_MD_UP: { remain: 2000, level: 1 } }), cfgG) === '', 'Chant of Fire is NOT needed on a member with Improved Magic (group covered)');
+check(M.rkBuffNeed(WC.party[0], mk('A', {}), cfgG) === 'missing', 'Chant of Fire needed on a member without any M.Def buff');
+check(M.rkBuffNeed(WC.party[0], mk('A', { MD_UP: { remain: 900, level: 3 } }), cfgG) === '', 'Magic Barrier (same MD_UP type, same level, running) -> no');
+check(M.rkGroupBlock('PD_UP', { PA_PD_UP: { remain: 900 } }, GR, 'server') === '' && /family P\.Def/.test(M.rkGroupBlock('PD_UP', { PA_PD_UP: { remain: 900 } }, GR, 'stat')), "War Chant + Shield stack in the game ('server'); the strict 'stat' rule keeps one P.Def buff");
+{ let p = M.rkBufferPick({ skills: WC, members: [mk('Wc', {}, { me: true, dist: 0 }), mk('Mage', { IMPROVE_MA_MD_UP: { remain: 2000, level: 1 } })], now: 1e6, mp: 999, me: 'Wc', cfg: cfgG });
+  check(p && JSON.stringify(p.names) === '["Wc"]', `party chant: only the members that need it (not the Improved Magic one): ${p && p.names}`);
+  p = M.rkBufferPick({ skills: WC, members: [mk('Mage', { IMPROVE_MA_MD_UP: { remain: 2000, level: 1 } }), mk('Wc', { MD_UP: { remain: 900, level: 3 } }, { me: true, dist: 0 })], now: 1e6, mp: 999, me: 'Wc', cfg: cfgG });
+  check(!p, 'nobody needs Chant of Fire -> nothing cast (no MP spent)'); }
+// (3b) improved first: a buffer with Improved Magic + Empower casts Improved Magic first
+{ const sk2 = { party: [], target: [{ id: 1059, name: 'Empower', ab: 'MA_UP', abLvl: 3, mlvl: 40, time: 1200, mp: 30, priority: 1 }, { id: 1500, name: 'Improved Magic', ab: 'IMPROVE_MA_MD_UP', abLvl: 1, mlvl: 74, time: 2400, mp: 28, priority: 5 }] };
+  const p = M.rkBufferPick({ skills: sk2, members: [mk('Mage', {}, { caster: true })], now: 1e6, mp: 999, me: 'Pro', cfg: cfgG });
+  check(p && p.skill.name === 'Improved Magic', `improved / combined first even when the plan lists Empower first: ${p && p.skill.name}`);
+  const sg = M.bpSuggest({ party: [], target: sk2.target }, GR); check(sg.buffs[0].skill === 'Improved Magic', 'the suggestion puts the improved buff first'); }
+// (3c) a cast that did not land = that member skipped for 10 min, no loop
+{ const fails = {}, pend = { key: '1006@party', skillId: 1006, ab: 'MD_UP', names: ['Wc', 'Mage'], before: { Wc: -1, Mage: -1 }, at: 1000 };
+  const seen = (n) => n === 'Wc' ? { MD_UP: { remain: 1199, level: 3 } } : {};
+  check(M.rkBufferVerify(pend, seen, 3000, fails) === 'wait', 'verify waits (the report needs a few seconds)');
+  check(M.rkBufferVerify(pend, seen, 9000, fails) === 'partial' && fails['1006@Mage'] && fails['1006@Mage'].until === 9000 + 600000 && !fails['1006@Wc'], 'landed on Wc, not on Mage -> Mage skipped 10 min');
+  const p = M.rkBufferPick({ skills: WC, members: [mk('Mage', {})], now: 20000, mp: 999, me: 'Wc', cfg: cfgG, fails });
+  check(!p, 'the skipped member is not buffed again (no cast until out of MP)');
+  const p2 = M.rkBufferPick({ skills: WC, members: [mk('Mage', {})], now: 9000 + 600001, mp: 999, me: 'Wc', cfg: cfgG, fails });
+  check(!!p2, 'after 10 min it is tried again (once)');
+  const f2 = {}, pend2 = { key: '1006@party', skillId: 1006, ab: 'MD_UP', names: ['Mage'], before: { Mage: 20 }, at: 0 };
+  M.rkBufferVerify(pend2, () => ({ MD_UP: { remain: 12, level: 3 } }), 9000, f2);
+  check(f2['1006@Mage'], 'a refresh that did not change the timer counts as not landed'); }
+// (4) slots
+{ const full = {}; for (let i = 0; i < 24; i++) full['T' + i] = { remain: 900, level: 1 };
+  check(M.rkBuffNeed(WC.party[0], mk('A', full), cfgG) === '', '24 normal buffs = full: no NEW buff (it would push one out)');
+  const exp = Object.assign({}, full); delete exp.T0; exp.MD_UP = { remain: 10, level: 3 };
+  check(M.rkBuffNeed(WC.party[0], mk('A', exp), cfgG) === 'expiring', 'full, but its own buff expiring -> refresh is fine');
+  check(M.rkBuffNeed(WC.party[0], mk('A', full, { slots: { used: 24, max: 28 } }), cfgG) === 'missing', 'Divine Inspiration (max 28 reported) -> room');
+  const imp = { id: 1500, name: 'Improved Magic', ab: 'IMPROVE_MA_MD_UP', abLvl: 1, time: 2400 }, f3 = Object.assign({}, full, { MD_UP: { remain: 900, level: 3 } });
+  check(M.rkBuffNeed(imp, mk('A', f3, { slots: { used: 24, max: 24 } }), cfgG) === 'missing', 'a combined buff that replaces one of the member\'s buffs is allowed when full');
+  const songsOnly = {}; for (let i = 0; i < 10; i++) songsOnly['SONG_X' + i] = { remain: 99 };
+  check(M.rkBuffNeed(WC.party[0], mk('A', songsOnly), cfgG) === 'missing', 'songs / dances do not use normal buff slots');
+  const rep = M.rkSlotReport([{ AbnormalType: 'PA_UP' }, { AbnormalType: 'SONG_OF_WIND' }, { AbnormalType: 'POISON', IsDebuff: true }, { AbnormalType: 'PD_UP' }], 3, { buffMax: 24 });
+  check(rep[0] === 2 && rep[1] === 27, `slot report: 2 used (no songs / debuffs), max 24 + Divine Inspiration 3 = ${rep[1]}`); }
+// (5) remove list
+{ check(M.rkNoBuff(['Chant of Blood Awakening', 'pa_pd_up'], { name: 'War Chant', ab: 'PA_PD_UP' }) && M.rkNoBuff(['chant of blood awakening'], { name: 'Chant of Blood Awakening', ab: 'X' }) && !M.rkNoBuff(['War Chant'], { name: 'Might', ab: 'PA_UP' }), 'never-keep list matches skill names and buff types (any case)');
+  const hits = M.bpToRemove(['Chant of Blood Awakening', 'War Chant'], [{ Id: 1519, Level: 1, Name: 'Chant of Blood Awakening', AbnormalType: 'IMPROVE_VAMPIRIC_HASTE' }, { Id: 1390, Level: 3, Name: 'War Chant', AbnormalType: 'PA_PD_UP' }, { Id: 1068, Level: 3, Name: 'Might', AbnormalType: 'PA_UP' }, { Id: 9, Level: 1, Name: 'War Chant', IsDebuff: true }]);
+  check(hits.length === 2 && hits[0].id === 1519 && hits[1].level === 3, 'bpToRemove: only listed buffs, never debuffs, never others (Might stays)');
+  check(JSON.stringify(M.bpRemoveList({ remove: [' War Chant ', '', 'X'] })) === '["War Chant","X"]' && !M.bpRemoveList(null).length, 'remove list from the plan entry');
+  const blood = { id: 1519, name: 'Chant of Blood Awakening', ab: 'IMPROVE_VAMPIRIC_HASTE', abLvl: 1, mlvl: 74, time: 2400, mp: 60 };
+  const p = M.rkBufferPick({ skills: { party: [blood], target: [] }, members: [mk('Wc', {}, { me: true, dist: 0, noBuff: ['Chant of Blood Awakening'] }), mk('Heal', {}, { noBuff: ['Chant of Blood Awakening'] })], now: 1e6, mp: 999, me: 'Wc', cfg: cfgG });
+  check(!p, 'buffers never put a listed buff on that member'); }
+// (2) SWS first + strict alternation, cap at the slots
+{ const s2 = M.bpCycleSeq(casters);
+  check(s2.map(x => x.by[0]).join('') === 'SBSBS' && s2[0].skill === 'Song of Wind', `default: the Swordsinger opens, then strictly song / dance: ${s2.map(x => x.skill).join(' > ')}`);
+  const big = [{ name: 'Sws', kind: 'song', list: Array.from({ length: 12 }, (_, i) => 'S' + i) }, { name: 'Bd', kind: 'dance', list: Array.from({ length: 12 }, (_, i) => 'D' + i) }];
+  const s3 = M.bpCycleSeq(big, { songDanceMax: 14 });
+  check(s3.length === 14 && s3.every((x, i) => x.by === (i % 2 ? 'Bd' : 'Sws')), 'a full singer + dancer: capped at the 14 slots, alternating (7 + 7) — no overbuffing');
+  check(M.bpSuggest(SWS).rotation[0] === 'Song of Earth' && !M.bpSuggest(BD).rotation.includes('Dance of Shadows'), 'suggested songs in the usual order; Dance of Shadows never suggested'); }
+// (2) missing song waits for the cycle, min gap, failed types
+{ const b = up(90); delete b.SONG_OF_HUNTER; delete b.DANCE_OF_FIRE;
+  check(!M.bpCycleDue(types, ppl(b), S).due, 'two songs / dances missing while the rest runs -> NO single recasts (wait for the set to fade)');
+  check(!M.bpCycleDue(types, ppl({}), S, { lastStart: 100000, now: 130000 }).due, 'no new cycle within cycleMinGapMs of the last start');
+  check(M.bpCycleDue(types, ppl({}), S, { lastStart: 100000, now: 170000 }).due, 'after the gap: due');
+  const b2 = up(90); ['DANCE_OF_FURY', 'DANCE_OF_FIRE', 'SONG_OF_WIND'].forEach(t => { delete b2[t]; });
+  check(!M.bpCycleDue(types, ppl(b2), S, { skip: ['DANCE_OF_FURY', 'DANCE_OF_FIRE', 'SONG_OF_WIND'] }).due, 'songs / dances that did not land never make a cycle due on their own (no MP drain)'); }
+// Embroider: every learned buff is listed (two skills of one type), the auto pick keeps the strongest
+{ const WS = M.rkClassifyBuffs(D.classSkills(57), NEVER), all = M.rkAllBuffs(WS);
+  check(all.target.some(s => s.name === 'Embroider') && all.target.some(s => s.name === 'Case Harden') && all.target.some(s => s.name === 'Spike'), 'Warsmith: Embroider, Case Harden and Spike are all listed (.all)');
+  check(M.bpValidate({ buffs: [{ skill: 'Embroider', targets: ['tank'] }] }, WS, ['Tank']).warnings.length === 0, 'a plan with Embroider: no "not learned" warning');
+  const ps = M.bpPlanSkills({ buffs: [{ skill: 'Embroider', targets: ['Tank', 'Dd'] }] }, WS, [{ name: 'Tank' }, { name: 'Dd' }, { name: 'Ws', me: true }], 'Ws');
+  check(ps.target.length === 1 && ps.target[0].name === 'Embroider' && JSON.stringify(ps.target[0].who) === '["Tank","Dd"]', 'Embroider on TWO named members (multi-target)');
+  const p1 = M.rkBufferPick({ skills: ps, members: [mk('Tank', {}), mk('Dd', {})], now: 1e6, mp: 999, me: 'Ws' });
+  const p2 = M.rkBufferPick({ skills: ps, members: [mk('Tank', { DWARF_DEFENCE_BUFF: { remain: 1200, level: 1 } }), mk('Dd', {})], now: 1e6, mp: 999, me: 'Ws' });
+  const p3 = M.rkBufferPick({ skills: ps, members: [mk('Tank', {}), mk('Dd', { DWARF_DEFENCE_BUFF: { remain: 1200, level: 1 } })], now: 1e6, mp: 999, me: 'Ws' });
+  check(p1 && ['Tank', 'Dd'].includes(p1.target.name) && p2 && p2.target.name === 'Dd' && p3 && p3.target.name === 'Tank', 'multi-target: cast on each chosen member in turn');
+  check(M.bpSuggest(WS).buffs.filter(b => ['Embroider', 'Case Harden'].includes(b.skill)).length === 1, 'the suggestion keeps one per type (no double cast)'); }
+// switches: no songs / dances, buffing off, empty plan
+{ const e1 = M.bpEffective({ approved: true, buffs: [{ skill: 'Might' }], rotation: [] }, PRO, []);
+  const offE = M.bpApplySwitches(e1, { noBuffs: true }, {}); check(offE.status === 'off' && !offE.plan.buffs.length && M.bpRuns(offE, false) === '', 'Buffing OFF: status off, nothing runs');
+  const sugOff = M.bpApplySwitches(M.bpEffective(null, PRO, []), { noBuffs: true }, {}); check(M.bpRuns(sugOff, false) === '', 'Buffing OFF also stops the suggestion');
+  const swsE = M.bpEffective({ approved: true, buffs: [], rotation: ['Song of Wind'] }, SWS, []);
+  check(M.bpApplySwitches(swsE, { noSongs: true }, {}).plan.rotation.length === 0 && M.bpApplySwitches(swsE, {}, { noSongs: true }).plan.rotation.length === 0 && M.bpApplySwitches(swsE, {}, {}).plan.rotation.length === 1, 'no songs / dances: per character and per party switch');
+  const empty = M.bpEffective({ approved: true, buffs: [], rotation: [] }, PRO, []);
+  check(empty.status === 'ok' && !empty.plan.buffs.length && !M.bpPlanSkills(empty.plan, PRO, members, 'Prophet').target.length, 'an approved EMPTY plan is valid and casts nothing'); }
 // ---- sync ----
 { const s = require('./buff_logic_sync.js'); const want = s.build(src); const out = path.join(ROOT, 'docs', 'plan', 'staging', 'buffpage', 'bufflogic.js'), dash = path.join(ROOT, 'Dashboard', 'bufflogic.js');
   const f = fs.existsSync(dash) ? dash : out; check(fs.existsSync(f) && fs.readFileSync(f, 'utf8') === want, `${path.relative(ROOT, f)} is a text copy of the swarm.js blocks`); }

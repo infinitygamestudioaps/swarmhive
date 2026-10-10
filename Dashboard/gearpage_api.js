@@ -293,6 +293,7 @@ async function handle(req, res, url, ctx) {
     res.writeHead(200, { 'Content-Type': p.endsWith('.js') ? 'text/javascript; charset=utf-8' : 'text/css; charset=utf-8', 'Cache-Control': 'no-cache' });
     res.end(fs.readFileSync(path.join(ctx.DIR, path.basename(p)))); return true;
   }
+  if (p === '/api/gearauto') return require('./gearauto_api').handle(req, res, url, ctx);   // Mr.P 2026-10-10: auto gear upgrades on/off + lock
   if (!/^\/api\/gearplanner(\/|$)/.test(p)) return false;
   if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
   const C = catalog(ctx.DIR);

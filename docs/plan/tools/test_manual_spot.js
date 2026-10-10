@@ -235,7 +235,8 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(F({ town: false, hitAgoMs: 2000 }) === true, 'hit 2 s ago: fight');
   check(F({ town: false, hitAgoMs: 9000, combatStance: true, mobTarget: false }) === false, 'combat stance without a live monster target: no fight (the stance lingers after the fight)');
   check(F({ town: false, hitAgoMs: 60000, attacking: true, mobTarget: true }) === true, 'attacking my live monster target: fight');
-  check(F({ town: false, raid: true, hitAgoMs: 99999 }) === true, 'raid: always a fight (between waves too)');
+  check(F({ town: false, raid: true, raidEngaged: true, hitAgoMs: 99999 }) === true, 'pulled raid boss: a fight (between waves too)');
+  check(F({ town: false, raid: true, raidEngaged: false, hitAgoMs: 99999 }) === false, 'raid walk-in / clearing wait / countdown: NO fight (2026-10-10: toggles drained MP)');
   // a destroyer's day: Giran -> field -> fight -> pause -> fight -> town (Accuracy wanted, plus a non-wanted toggle the user switched on)
   const tg = { acc: { name: 'Accuracy', running: true, wanted: true, lastCastAt: -1e9 }, vs: { name: 'Vicious Stance', running: false, wanted: true, lastCastAt: -1e9 }, other: { name: 'Guard Stance', running: true, wanted: false, lastCastAt: -1e9 } };
   let lastFight = 0; const seen = [];
@@ -252,13 +253,17 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(tg.acc.running && tg.vs.running, 'fight: Accuracy + Vicious Stance ON');
   check(!tg.other.running, 'a toggle that is not wanted is never switched on');
   for (let t = 95000; t <= 100000; t += 5000) step(t, { hit: 1e9 });         // 5-10 s after the fight
-  check(tg.acc.running && tg.vs.running, 'a short pause (< 12 s): stay on (no on/off flapping between two monsters)');
   for (let t = 105000; t <= 125000; t += 5000) step(t, { hit: 1e9 });
-  check(!tg.acc.running && !tg.vs.running, `fight over (>= 12 s): OFF (${seen.slice(-2).join(', ')})`);
+  check(!tg.acc.running && !tg.vs.running, `fight over (>= 8 s): OFF (${seen.slice(-2).join(', ')})`);
   const nOn = seen.filter(s => / on$/.test(s)).length, nOff = seen.filter(s => / off$/.test(s)).length;
   check(nOn === 2 && nOff === 4, `one switch per change, no flapping (${nOn} on, ${nOff} off)`);
   // raid between waves, Fake Death, recast gap, dead
-  check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: false, raid: true }) === '', 'raid between waves: stays on');
+  check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 1e6 - 15000, town: false, raid: true, raidEngaged: true }) === '', 'pulled raid, 15 s between waves: stays on');
+  check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 1e6 - 25000, town: false, raid: true, raidEngaged: true }) === 'off', 'pulled raid, 25 s quiet: OFF');
+  check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: false, raid: true, raidEngaged: false }) === 'off', 'raid not pulled yet (walk-in / countdown): OFF');
+  check(D({ name: 'Accuracy', running: false, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: false, raid: true, raidEngaged: false }) === '', 'raid not pulled yet: never switched ON');
+  { const kp2 = src.slice(src.indexOf('function toggleCtx()'), src.indexOf('async function autoSkillTick'));
+    check(/act === 'on' && !busy/.test(kp2) && !kp2.includes('state.escaping || tradeState || Me.IsSitting || rest.sitting || state.gkBusy) return'), 'trade / gatekeeper / escape: toggles still switched OFF, never ON'); }
   check(D({ name: 'Fake Death', running: true, wanted: false, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === '', 'Fake Death is never switched off by the keeper');
   check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 1e6 - 5000 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === '', `recast gap ${M.TOGGLE_RULE.recastGapMs / 1000} s (IsRunning needs a moment to show)`);
   check(D({ name: 'Accuracy', running: false, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: true, lastFightAt: 1e6, town: false, dead: true }) === '', 'dead: nothing');

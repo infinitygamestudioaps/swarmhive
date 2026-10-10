@@ -6,6 +6,16 @@ The **Gear** tab is the gear planner. For **every class** (base, 1st, 2nd and 3r
 that grade, including the ones no shop in town sells. The bots read your choices live: they use them on their next gear upgrade, with no
 restart and no deploy.
 
+## Auto gear upgrades (box at the top)
+
+Whether the bots buy and put on better gear **by themselves** in the supply runs. A new install has it **OFF** for everyone (no
+`Scripts/data/gear_auto.json` yet). Switch it on for everyone, per party or per character (the character's choice wins).
+**Lock what is equipped** keeps exactly what a character wears: nothing is bought, put on or swapped. Even when it is on the bots
+never change the weapon **type** (a spear stays a spear, a bow a bow, duals stay duals), never take a lower grade and never put a shield
+next to a two-handed weapon, polearm, bow or duals. By default they also keep the armor type (heavy / light / robe) and only replace an
+item with one of a **higher** grade. Both are switches in the box. Your own choices in the planner below always win. `!upgrade` is your
+order and runs even with auto upgrades off (a lock still holds).
+
 > New to the words used here (grade, Common item, S.A., set bonus, supply run)? See the [glossary](../06-glossary.md).
 > The old per-role Gear tab (2026-10-06) is what you see until the dashboard server has been restarted once; its choices keep working
 > (they show up in the planner as "from the old *role* choice").

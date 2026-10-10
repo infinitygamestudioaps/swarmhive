@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.5.2 (2026-10-10)
+
+- Buffers no longer recast buffs that are already up (L2Swarm reports running buff types as a per-level list
+- now parsed). Toggles only in fights (raids too, and off during trades/gatekeepers). Continuous waypoint walking for everyone
+- faster scout (run, speed skills, Silent Move near monsters). Gear upgrades OFF by default with weapon-type/grade/shield guards and per character locks. Song/dance cycles: Swordsinger opens, strict alternation, capped at the slots, no single recasts, MP reserve. Buff groups (improved buffs first, covered buffs skipped), buff slot check, never-keep lists. Buffs page: multi-target buffs, songs/dances off per character or party, buffing off / empty plans, every learned buff selectable (Embroider).
+
 ## v1.5.1 (2026-10-10)
 
 - Scout keeps running when it gets hit (it used to turn back at the first hit): it only turns back in real danger (HP below 50 % or 3+ monsters close), never fights

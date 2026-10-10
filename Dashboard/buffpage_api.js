@@ -32,6 +32,14 @@ function tree(ctx) {
   if (!TREE || st !== treeStamp) { TREE = ctx.readJson(f, null); treeStamp = st; }
   return TREE;
 }
+// BUFF GROUPS (Mr.P 2026-10-10): Scripts/data/buff_groups.json (docs/plan/tools/buff_groups.js) -> the covers index the bots use
+let GROUPS = null, groupsStamp = '';
+function groups(ctx) {
+  const f = path.join(ctx.DATA, 'buff_groups.json');
+  let st = ''; try { st = String(fs.statSync(f).mtimeMs); } catch (e) { }
+  if (!GROUPS || st !== groupsStamp) { GROUPS = BL.bpGroups(ctx.readJson(f, null)); groupsStamp = st; }
+  return GROUPS;
+}
 function readPlans(ctx) {
   const F = plansFile(ctx);
   let raw = ''; try { raw = fs.readFileSync(F, 'utf8'); } catch (e) { }
@@ -95,29 +103,32 @@ function info(ctx) {
     const tmembers = ms.map(m => ({ name: m.name, caster: m.caster, tank: m.tank }));
     const pc = { warn: 0, buffers: 0, ok: 0 };
     const offers = [], abName = {};
+    const pnode = (plans.parties && plans.parties[leader]) || {}, GR = groups(ctx);
     const members = ms.map(m => {
       const skills = reportedSkills(m.report);
       const known = skills.party.length + skills.target.length;
       const entry = BL.bpEntry(plans, leader, m.name);
       const buffer = m.kind === 'buffer' || m.kind === 'healer' || known > 0 || !!entry;
-      const eff = BL.bpEffective(entry, skills, names);
+      let eff = BL.bpEffective(entry, skills, names, GR);
       if (!known && !(entry && entry.approved)) { eff.status = 'suggested'; eff.why = 'no skill report yet (log in once with the kit)'; }
+      eff = BL.bpApplySwitches(eff, entry, pnode);   // MR.P 2026-10-10: buffing OFF / no songs / dances
       const runs = BL.bpRuns(eff, board);   // 'full' | 'fill' | '' (USER DECISION 2026-10-10: approved = full; no reviewed plan: board OFF = full, board ON = fill)
-      if (buffer) { pc.buffers++; if (eff.status === 'ok') pc.ok++; else pc.warn++; }
+      if (buffer) { pc.buffers++; if (eff.status === 'ok' || eff.status === 'off') pc.ok++; else pc.warn++; }
       if (buffer && runs) {
         const ps = BL.bpPlanSkills(eff.plan, skills, tmembers.map(x => Object.assign({ me: x.name === m.name }, x)), m.name);
         [].concat(ps.party, ps.target).forEach(s => { offers.push({ by: m.name, ab: s.ab, abLvl: s.abLvl, mlvl: s.mlvl, who: s.who }); abName[m.name + '|' + s.ab] = s.name; });
       }
       return Object.assign({}, m, { buffer, skills, known, entry, approved: !!(entry && entry.approved), status: buffer ? eff.status : '', why: eff.why, warnings: eff.warnings || [],
-        plan: eff.plan, runs: buffer ? runs : '', suggestion: BL.bpSuggest(skills) });
+        plan: eff.plan, runs: buffer ? runs : '', suggestion: BL.bpSuggest(skills, GR), remove: BL.bpRemoveList(entry), noBuffs: !!(entry && entry.noBuffs), noSongs: !!(entry && entry.noSongs),
+        slots: m.report && m.report.slots ? m.report.slots : null, skipped: (m.report && m.report.skipped) || [] });
     });
     // the interleaved song / dance cycle of this party (kind = the majority of the character's rotation skills)
     const casters = members.filter(m => m.buffer && m.runs && (m.plan.rotation || []).length).map(m => { const list = BL.bpRotEntries(m.plan.rotation).map(r => r.name);
       const known = [].concat(m.skills.party, m.skills.target); const dances = list.filter(n => { const k = known.find(x => BL.bpNorm(x.name) === BL.bpNorm(n)); return k ? /^DANCE_/.test(k.ab) : /^dance /i.test(n); }).length;
       return { name: m.name, kind: dances * 2 >= list.length && dances ? 'dance' : 'song', list }; });
-    const cycle = BL.bpCycleSeq(casters);
+    const cycle = BL.bpCycleSeq(casters, settings);   // MR.P: the Swordsinger opens by default, capped at the song / dance slots
     const ov = BL.bpOwners(offers).overlaps.map(o => Object.assign({}, o, { skills: o.by.map(b => abName[b + '|' + o.ab] || o.ab) }));
-    out.parties.push({ leader, board, boardFrom, members, overlaps: ov, cycle, counts: pc });
+    out.parties.push({ leader, board, boardFrom, members, overlaps: ov, cycle, counts: pc, noSongs: !!pnode.noSongs });
     out.counts.warn += pc.warn; out.counts.buffers += pc.buffers; out.counts.ok += pc.ok; out.counts.total += members.length;
   });
   const ex = exampleTemplates(ctx);
@@ -188,12 +199,16 @@ function post(ctx, b) {
     const name = names[0]; if (!name) return bad(400, 'name missing');
     const m = memberCtx(ctx, leader, name); if (m.err) return m.err;
     const entry = { buffs: cleanBuffs(b.buffs), rotation: cleanRot(b.rotation) };
-    if (!entry.buffs.length && !entry.rotation.length) return bad(400, 'a plan needs at least one buff or one song / dance (Remove clears the plan)');
+    // MR.P 2026-10-10: an EMPTY plan is allowed (approved = this character casts nothing); noBuffs / noSongs switches can come along
     const v = BL.bpValidate(entry, m.skills, m.party.names); if (!v.ok) return bad(400, v.errors.join('; '), { warnings: v.warnings });
     const approve = b.approve === true; if (approve && b.confirm !== true) return needConfirm();
     return write(ctx, b, 'set', (data) => {
       const C = chars(data);
+      const old = C[name] || {};
       C[name] = Object.assign(entry, { approved: approve, savedAt: isoNow() });
+      ['remove', 'noSongs', 'noBuffs', 'summon'].forEach(k => { if (old[k] !== undefined) C[name][k] = old[k]; });   // the switches + never-keep list stay
+      if (typeof b.noSongs === 'boolean') { if (b.noSongs) C[name].noSongs = true; else delete C[name].noSongs; }
+      if (typeof b.noBuffs === 'boolean') { if (b.noBuffs) C[name].noBuffs = true; else delete C[name].noBuffs; }
       if (approve) Object.assign(C[name], { approvedBy: by, approvedAt: isoNow() });
       return { name, entry: C[name], warnings: v.warnings, log: `${leader}/${name} ${entry.buffs.length} buffs, ${entry.rotation.length} songs/dances ${approve ? 'APPROVED by ' + by : 'not approved'}` };
     });
@@ -217,7 +232,7 @@ function post(ctx, b) {
   if (a === 'clear') {
     if (!names.length) return bad(400, 'names missing');
     return write(ctx, b, 'clear', (data) => {
-      const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { delete C[n]; });
+      const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { const keep = {}; ['remove', 'noSongs', 'noBuffs'].forEach(k => { if (C[n][k] !== undefined) keep[k] = C[n][k]; }); if (Object.keys(keep).length) C[n] = keep; else delete C[n]; });   // the never-keep list + switches are not the plan
       if (!Object.keys(C).length && typeof data.parties[leader].boardBuffs !== 'boolean') delete data.parties[leader];
       return { names: done, log: `${leader}: removed ${done.join(',')}` };
     });
@@ -235,6 +250,25 @@ function post(ctx, b) {
       return { leader, boardBuffs: v, log: `${leader}: board buffs ${v === null ? 'back to swarm.config.json' : v ? 'ON' : 'OFF'} by ${by}` };
     });
   }
+  if (a === 'remove') {   // MR.P 2026-10-10: a member's "never keep" list (it cancels those buffs itself; buffers never cast them on it) — any party member
+    const name = names[0]; if (!name) return bad(400, 'name missing');
+    const m = memberCtx(ctx, leader, name); if (m.err) return m.err;
+    const list = (Array.isArray(b.remove) ? b.remove : []).map(x => String(x || '').trim().slice(0, 60)).filter(Boolean).slice(0, 40);
+    return write(ctx, b, 'remove', (data) => { const C = chars(data); C[name] = C[name] || {}; if (list.length) C[name].remove = list; else delete C[name].remove; if (!Object.keys(C[name]).length) delete C[name];
+      return { name, remove: list, log: `${leader}/${name} never keep: ${list.join(', ') || '(none)'}` }; });
+  }
+  if (a === 'switches') {   // MR.P 2026-10-10: { name, noBuffs, noSongs } per character, or { noSongs } for the whole party (no name)
+    const m = memberCtx(ctx, leader, names[0]); if (m.err) return m.err;
+    const sw = {}; ['noBuffs', 'noSongs'].forEach(k => { if (typeof b[k] === 'boolean') sw[k] = b[k]; });
+    if (!Object.keys(sw).length) return bad(400, 'noBuffs / noSongs must be true or false');
+    if (!names[0] && sw.noBuffs !== undefined) return bad(400, 'buffing off is per character (give a name)');
+    return write(ctx, b, 'switches', (data) => {
+      data.parties[leader] = data.parties[leader] || { chars: {} };
+      const node = names[0] ? (chars(data)[names[0]] = chars(data)[names[0]] || {}) : data.parties[leader];
+      Object.keys(sw).forEach(k => { if (sw[k]) node[k] = true; else delete node[k]; });
+      return { name: names[0] || null, switches: sw, log: `${leader}${names[0] ? '/' + names[0] : ' (party)'} ${JSON.stringify(sw)}` };
+    });
+  }
   if (a === 'settings') {
     const s = b.settings || {}, o = {};
     if (s.songDanceMax !== undefined) { const v = Math.round(Number(s.songDanceMax)); if (!(v >= 1 && v <= 40)) return bad(400, 'song / dance slots: 1 to 40'); o.songDanceMax = v; }
@@ -242,6 +276,9 @@ function post(ctx, b) {
     if (s.gatherRange !== undefined) { const v = Math.round(Number(s.gatherRange)); if (!(v >= 200 && v <= 3000)) return bad(400, 'gather range: 200 to 3000'); o.gatherRange = v; }
     const NUM = { rotGapMs: [0, 10000, 'pause between two songs / dances (ms)'], rotTakeoverMs: [1000, 60000, 'turn take-over (ms)'], rotMinMpPct: [0, 100, 'min MP %'],
       cycleExpiredPct: [1, 100, 'new cycle when this % expired'], cycleMpStepPct: [0, 50, 'MP step %'], cycleMpMarginPct: [0, 50, 'MP margin %'], cycleMpWaitMs: [0, 600000, 'MP wait (ms)'] };
+    Object.assign(NUM, { buffMax: [0, 60, 'buff slots (0 = no check)'], cycleMinGapMs: [0, 600000, 'min time between two cycles (ms)'], cycleMpReservePct: [0, 90, 'MP reserve %'] });
+    if (s.firstCycleCaster !== undefined) { const v = String(s.firstCycleCaster).toLowerCase(); if (!['sws', 'bd'].includes(v)) return bad(400, 'first song / dance caster: sws or bd'); o.firstCycleCaster = v; }
+    if (s.buffGroupRule !== undefined) { const v = String(s.buffGroupRule).toLowerCase(); if (!['server', 'stat'].includes(v)) return bad(400, 'buff group rule: server or stat'); o.buffGroupRule = v; }
     for (const k of Object.keys(NUM)) if (s[k] !== undefined) { const v = Math.round(Number(s[k])); if (!(v >= NUM[k][0] && v <= NUM[k][1])) return bad(400, `${NUM[k][2]}: ${NUM[k][0]} to ${NUM[k][1]}`); o[k] = v; }
     if (!Object.keys(o).length) return bad(400, 'nothing to change');
     return write(ctx, b, 'settings', (data) => { data.settings = Object.assign({}, data.settings || {}, o); return { settings: data.settings, log: JSON.stringify(o) }; });
@@ -286,7 +323,7 @@ function post(ctx, b) {
       return { applied: done, assign, log: `template ${id} -> party ${leader}: ${done.join(',')} (not approved)` };
     });
   }
-  return bad(400, 'unknown action (set | approve | unapprove | clear | board | settings | saveTemplate | deleteTemplate | applyTemplate)');
+  return bad(400, 'unknown action (set | approve | unapprove | clear | board | remove | switches | settings | saveTemplate | deleteTemplate | applyTemplate)');
 }
 
 async function handle(req, res, url, ctx) {

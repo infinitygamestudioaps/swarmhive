@@ -21,7 +21,11 @@ const ROLEKIND = {
   raidDelay: { tank: 0, melee: 5000, meleebuffer: 4000, archer: 3000, buffer: 500, summoner: 2500 },
   gear: { tank: 'tank', melee: 'melee', meleebuffer: 'melee', archer: 'archer', buffer: 'mage', summoner: 'mage' },
   buff: { refreshSec: 30, minTime: 60, minGapMs: 20000, failMax: 3, failBlockMs: 600000, songDanceMax: 14, range: 900, partyRange: 1000,
-          reportMaxAgeMs: 12000, minMpPct: 15, reportMax: 48 },
+          reportMaxAgeMs: 12000, minMpPct: 15, reportMax: 48,
+          // MR.P FEEDBACK 2026-10-10: skipMs = a buff that did not land on a member (refused / stacking blocked / out of range) rests 10 min on
+          // that member (logged once, never a cast loop); buffMax = the server's normal buff slots (L2Toggle 24; L2J default 20; Divine
+          // Inspiration skill divineId adds its level), 0 = no slot check
+          skipMs: 600000, buffMax: 24, divineId: 1405 },
   archer: { tooClose: 220, want: 520, gapMs: 2500 },
   // summoner: resummon gap, min MP, servitor attack resend gap, consumable stock (resummons summons + upkeep margin, low below lowSummons),
   // servitor care thresholds, own nukes only as filler above fillerMinMpPct (fillerNukes false = never)
@@ -99,7 +103,7 @@ function rkSkill(s) {
   const lv = rkNum(s.Level);
   return { id: rkNum(s.Id), level: lv, name: String(s.Name || ''), active: s.IsActive !== false, toggle: !!s.IsToggle, debuff: !!s.IsDebuff,
     target: String(s.TargetType || '').toUpperCase(), scope: String(s.AffectScope || '').toUpperCase(), ab: String(s.AbnormalType || '').toUpperCase(),
-    abLvl: s.AbnormalLevel === null || s.AbnormalLevel === undefined ? lv : rkNum(s.AbnormalLevel), time: rkNum(s.AbnormalTime),
+    abLvl: rkNum(s.AbnormalLevel) > 1 ? rkNum(s.AbnormalLevel) : (lv > 100 ? 999 : lv), time: rkNum(s.AbnormalTime),
     range: rkNum(s.CastRange), mp: rkNum(s.MP), hit: rkNum(s.HitTime), mlvl: rkNum(s.MagicLvl), ready: s.IsReady !== false,
     itemId: rkNum(s.ItemConsumeId), itemCount: rkNum(s.ItemConsumeCount) };
 }
@@ -118,13 +122,47 @@ function rkClassifyBuffs(list, neverRe) {
     if (RK_ALLY_TARGET.test(s.target) && (s.scope === 'SINGLE' || s.scope === '')) target.push(s);
   });
   const best = (a) => { const by = {}; a.forEach(s => { const o = by[s.ab]; if (!o || s.abLvl > o.abLvl || (s.abLvl === o.abLvl && s.mlvl > o.mlvl)) by[s.ab] = s; }); return Object.keys(by).map(k => by[k]); };
-  return { party: best(party), target: best(target) };     // one skill per abnormal type (the strongest I know)
+  // one skill per abnormal type (the strongest I know) for the automatic picks; .all = EVERY learned buff (Mr.P 2026-10-10: a Warsmith's
+  // Embroider shares DWARF_DEFENCE_BUFF with Case Harden, so it was dropped and the Buffs page called it "not learned") — the page lists,
+  // the plans pick and the validation checks against .all
+  return { party: best(party), target: best(target), all: { party, target } };
 }
+/** every learned buff skill of a classified list (.all when present) */
+function rkAllBuffs(skills) { const a = (skills && skills.all) || skills || {}; return { party: a.party || [], target: a.target || [] }; }
 function rkIsSongDance(s) { return /^(SONG|DANCE)_/.test(String(s.ab || '')) || /^(Song|Dance) of /i.test(String(s.name || '')); }
 function rkSongDanceCount(buffs) { return Object.keys(buffs || {}).filter(t => /^(SONG|DANCE)_/.test(t)).length; }
-/** does member m need my buff s? 'missing' | 'expiring' | '' (no). m.buffs = { ABNORMAL_TYPE: { remain: s, level } } */
+/** BUFF GROUPS (Mr.P 2026-10-10: "the char has Improved Magic, so the WC casts Chant of Fire until he runs out of MP ... if I have one buff
+ *  from the group then don't buff it"): groups = Scripts/data/buff_groups.json (docs/plan/tools/buff_groups.js, from the datapack's
+ *  BlockBuffSlot effects) -> { covers: { TYPE: [types the server refuses while TYPE is up] }, families: { TYPE: [stat families] } }.
+ *  Is my buff type `ab` blocked on a member that has `buffs`? 'covered by X' | 'family X' (strict rule 'stat' only) | '' */
+function rkGroupBlock(ab, buffs, groups, rule) {
+  const A = String(ab || '').toUpperCase(), G = groups || {}, cov = G.covers || {}, fam = G.families || {};
+  if (!A) return '';
+  for (const t of Object.keys(buffs || {})) {
+    if (t === A) continue;
+    if ((cov[t] || []).includes(A)) return 'covered by ' + t;
+  }
+  if (rule === 'stat' && !/^(SONG|DANCE)_/.test(A)) {
+    const mine = fam[A] || [];
+    for (const t of Object.keys(buffs || {})) { if (t === A || /^(SONG|DANCE)_/.test(t)) continue; const f = (fam[t] || []).find(x => mine.includes(x)); if (f) return 'family ' + f + ' (' + t + ')'; }
+  }
+  return '';
+}
+/** does my combined buff `ab` replace one of the member's buffs (so it frees a slot instead of taking one)? */
+function rkGroupReplaces(ab, buffs, groups) { const c = ((groups || {}).covers || {})[String(ab || '').toUpperCase()] || []; return Object.keys(buffs || {}).some(t => c.includes(t)); }
+/** a member's used / max normal buff slots: m.slots = { used, max } (its own report) or counted from its buffs (songs / dances apart) */
+function rkSlots(m, c) {
+  const s = m && m.slots, max = s && rkNum(s.max) > 0 ? rkNum(s.max) : rkNum(c && c.buffMax);
+  const used = s && s.used !== undefined && s.used !== null ? rkNum(s.used) : Object.keys((m && m.buffs) || {}).filter(t => !/^(SONG|DANCE)_/.test(t)).length;
+  return { used, max };
+}
+/** does member m need my buff s? 'missing' | 'expiring' | '' (no). m.buffs = { ABNORMAL_TYPE: { remain: s, level } }
+ *  cfg.groups / cfg.groupRule = BUFF GROUPS (a covering / combined buff on the member = no), cfg.buffMax + m.slots = BUFF SLOTS (full = only
+ *  refresh what is there: a new type would push an old buff out) */
 function rkBuffNeed(s, m, cfg) {
   const c = cfg || ROLEKIND.buff, b = (m.buffs || {})[s.ab];
+  if (!b && c.groups && rkGroupBlock(s.ab, m.buffs, c.groups, c.groupRule)) return '';   // the group already has a buff on this member
+  if (!b && !rkIsSongDance(s) && rkNum(c.buffMax) > 0 && !rkGroupReplaces(s.ab, m.buffs, c.groups)) { const sl = rkSlots(m, c); if (sl.max > 0 && sl.used >= sl.max) return ''; }
   if (!b) return rkIsSongDance(s) && rkSongDanceCount(m.buffs) >= c.songDanceMax ? '' : 'missing';   // L2Toggle: 14 songs / dances at most
   if (rkNum(b.level) > s.abLvl) return '';                   // a stronger one (board / another buffer) is never overwritten
   const rem = rkNum(b.remain);
@@ -143,17 +181,23 @@ function rkBufferPick(o) {
     (!s.itemId || !o.have || rkNum(o.have(s.itemId)) >= Math.max(1, s.itemCount));
   // BUFF PLANS: s.who = the members the plan gives it to (else everyone / the fighter-mage rule), o.owner(member, ab) = the buffer that owns
   // that buff on that member (OVERLAP: only one casts), s.priority = the plan order (lower first)
-  const mine = (s, m) => (!s.who || s.who.includes(m.name)) && (!o.owner || !o.me || (o.owner(m.name, s.ab) || o.me) === o.me);
+  // MR.P 2026-10-10: m.noBuff = the member's "never keep" list (buff plan remove list: skill names / abnormal types) — never cast on it;
+  // a buff that did not land on a member rests there (fails[id@member]); IMPROVED / COMBINED FIRST: a buff one of my own combined buffs
+  // covers (Improved Magic covers Empower + Magic Barrier + Chant of Fire) waits while that combined one is still to be cast on the member
+  const mine = (s, m) => (!s.who || s.who.includes(m.name)) && (!o.owner || !o.me || (o.owner(m.name, s.ab) || o.me) === o.me) && !rkNoBuff(m.noBuff, s);
   const pri = (s) => rkNum(s.priority);
+  const all = [].concat(sk.party || [], sk.target || []), cov = (cfg.groups && cfg.groups.covers) || {};
+  const coveredByMine = (s, m) => all.some(c => c !== s && (cov[c.ab] || []).includes(s.ab) && mine(c, m) && afford(c) && c.time >= cfg.minTime &&
+    free(c.id + '@' + m.name) && rkBuffNeed(c, m, cfg) === 'missing');
   let best = null;
   (sk.party || []).forEach(s => {
     const key = s.id + '@party';
     if (s.time < cfg.minTime || !afford(s) || !free(key)) return;
-    const near = mates.filter(m => (m.me || rkNum(m.dist) <= cfg.partyRange) && mine(s, m));
+    const near = mates.filter(m => (m.me || rkNum(m.dist) <= cfg.partyRange) && mine(s, m) && free(s.id + '@' + m.name) && !coveredByMine(s, m));
     const need = near.map(m => ({ m, n: rkBuffNeed(s, m, cfg) })).filter(x => x.n);
     if (!need.length) return;
     const score = need.length * 10 + need.filter(x => x.n === 'missing').length * 3 + (rkIsSongDance(s) ? 0 : 1);
-    if (!best || pri(s) < pri(best.skill) || (pri(s) === pri(best.skill) && score > best.score)) best = { skill: s, target: null, key, score, why: `${s.name} (${s.ab}): ${need.map(x => x.m.name + ' ' + x.n).join(', ')}` };
+    if (!best || pri(s) < pri(best.skill) || (pri(s) === pri(best.skill) && score > best.score)) best = { skill: s, target: null, key, score, names: need.map(x => x.m.name), why: `${s.name} (${s.ab}): ${need.map(x => x.m.name + ' ' + x.n).join(', ')}` };
   });
   if (best) return best;
   const order = mates.slice().sort((a, b) => (b.tank ? 1 : 0) - (a.tank ? 1 : 0) || (b.leader ? 1 : 0) - (a.leader ? 1 : 0) || String(a.name).localeCompare(String(b.name)));
@@ -164,33 +208,69 @@ function rkBufferPick(o) {
       if (!s.who && RK_MAGE_TYPES.test(s.ab) && !m.caster) continue;
       if (!mine(s, m)) continue;
       const key = s.id + '@' + m.name;
-      if (s.time < cfg.minTime || !afford(s) || !free(key)) continue;
+      if (s.time < cfg.minTime || !afford(s) || !free(key) || coveredByMine(s, m)) continue;
       const n = rkBuffNeed(s, m, cfg);
-      if (n) return { skill: s, target: m, key, score: 1, why: `${s.name} (${s.ab}) on ${m.name}: ${n}` };
+      if (n) return { skill: s, target: m, key, score: 1, names: [m.name], why: `${s.name} (${s.ab}) on ${m.name}: ${n}` };
     }
   }
   return null;
 }
-/** after a cast: did the buff show up? pend: { key, ab, names: [who], at }, seen(name) -> buffs map | null. Returns 'ok' | 'fail' | 'wait' */
+/** is buff skill s on a member's "never keep" list? list = skill names / abnormal types (any case) */
+function rkNoBuff(list, s) {
+  if (!list || !list.length || !s) return false;
+  const n = String(s.name || '').trim().toLowerCase(), ab = String(s.ab || s.AbnormalType || '').toUpperCase();
+  return list.some(x => { const v = String(x || '').trim(); return !!v && (v.toLowerCase() === n || (!!ab && v.toUpperCase() === ab)); });
+}
+/** the buff the member's remain map had before my cast (for the did-it-land check): { name: remainSec | -1 } */
+function rkBefore(names, seen, ab) { const out = {}; (names || []).forEach(n => { const b = seen(n), x = b && b[ab]; out[n] = x ? rkNum(x.remain) : -1; }); return out; }
+/** after a cast: did the buff land? pend: { key, skillId, ab, names: [who needed it], before: { name: remain | -1 }, at }, seen(name) -> buffs map | null.
+ *  Returns 'ok' | 'partial' | 'fail' | 'wait'. MR.P 2026-10-10 (a WC cast Chant of Fire on an Improved Magic member until out of MP): a member
+ *  whose buffs did NOT change (missing still / the old timer) gets that buff skipped for skipMs (fails[skillId@member], pend.missed = who) —
+ *  logged once by the host, never cast again in a loop; nobody got it = the skill itself rests (fails[key], the old failMax rule). */
 function rkBufferVerify(pend, seen, t, fails, cfg) {
   const c = Object.assign({}, ROLEKIND.buff, cfg || {});
   if (!pend) return 'ok';
   if (t - pend.at < 2500) return 'wait';
-  const ok = (pend.names || []).some(n => { const b = seen(n); return !!(b && b[pend.ab]); });
-  if (ok) { delete fails[pend.key]; return 'ok'; }
+  const landed = (n) => { const b = seen(n), x = b && b[pend.ab]; if (!x) return false; const was = pend.before ? pend.before[n] : undefined;
+    return was === undefined || was === null || was < 0 || rkNum(x.remain) <= 0 || rkNum(x.remain) > rkNum(was) + 3; };
+  const names = pend.names || [], got = names.filter(landed);
+  if (names.length && got.length === names.length) { delete fails[pend.key]; return 'ok'; }
   if (t - pend.at < 8000) return 'wait';
+  pend.missed = names.filter(n => !got.includes(n));
+  if (pend.skillId) pend.missed.forEach(n => { fails[pend.skillId + '@' + n] = { n: 0, until: t + c.skipMs, why: 'did not land' }; });
+  if (got.length) { delete fails[pend.key]; return 'partial'; }
   const f = fails[pend.key] = fails[pend.key] || { n: 0, until: 0 };
   f.n++; if (f.n >= c.failMax) { f.until = t + c.failBlockMs; f.n = 0; }
   return 'fail';
 }
+/** A RUNNING BUFF's abnormal type + level (2026-10-10, Mr.P: "they keep buffing all the time even when the whole party is buffed"; probed
+ *  live on Destroyer1): L2Swarm's L2Buff.AbnormalType is the client's RAW per-level list "PA_PD_UP,1;PA_PD_UP,2;PA_PD_UP,3" and AbnormalLevel
+ *  is always 1, while L2Skill.AbnormalType is the plain "PA_PD_UP". So no buff ever matched its skill: every song / dance / buff looked
+ *  missing and was cast again and again. -> { ab: 'PA_PD_UP', level: the entry of the buff's Level (enchanted 101+ = the last entry) } */
+function rkBuffAb(b) {
+  const raw = String((b && b.AbnormalType) || '').toUpperCase().trim();
+  if (!raw) return { ab: '', level: 0 };
+  const parts = raw.split(';').map(x => x.trim()).filter(Boolean), lv = rkNum(b.Level);
+  const pick = parts.length > 1 ? parts[Math.min(parts.length, Math.max(1, lv)) - 1] : parts[0];
+  const bits = String(pick || '').split(','), ab = bits[0].trim();
+  const lvl = bits.length > 1 && bits[1].trim() !== '' ? rkNum(bits[1]) : (rkNum(b.AbnormalLevel) > 1 ? rkNum(b.AbnormalLevel) : lv);
+  return { ab, level: lvl };
+}
 /** compact buff report for teammates' buffers: { TYPE: [remainSec, level] } (debuffs left out; at most reportMax types) */
 function rkBuffReport(list) {
   const out = {}; let n = 0;
-  (list || []).forEach(b => { if (!b || b.IsDebuff || n >= ROLEKIND.buff.reportMax) return; const ab = String(b.AbnormalType || '').toUpperCase(); if (!ab || out[ab]) return;
-    out[ab] = [Math.round(rkNum(b.RemainTime)), b.AbnormalLevel === null || b.AbnormalLevel === undefined ? rkNum(b.Level) : rkNum(b.AbnormalLevel)]; n++; });
+  (list || []).forEach(b => { if (!b || b.IsDebuff || n >= ROLEKIND.buff.reportMax) return; const A = rkBuffAb(b), ab = A.ab; if (!ab || out[ab]) return;
+    out[ab] = [Math.round(rkNum(b.RemainTime)), A.level]; n++; });
   return out;
 }
 function rkBuffsFromReport(r) { const out = {}; Object.keys(r || {}).forEach(k => { const v = r[k] || []; out[k] = { remain: rkNum(v[0]), level: rkNum(v[1]) }; }); return out; }
+/** BUFF SLOTS (Mr.P 2026-10-10: "check how many buff slots are available on each char, so there won't be overbuffing"): my normal buffs
+ *  (no debuffs, no songs / dances: they have their own slots) and my max = buffMax + my Divine Inspiration level. -> [used, max] */
+function rkSlotReport(list, divineLvl, cfg) {
+  const c = Object.assign({}, ROLEKIND.buff, cfg || {}); let used = 0;
+  (list || []).forEach(b => { if (!b || b.IsDebuff) return; const ab = rkBuffAb(b).ab; if (/^(SONG|DANCE)_/.test(ab) || /^(Song|Dance) of /i.test(String(b.Name || ''))) return; used++; });
+  return [used, rkNum(c.buffMax) > 0 ? rkNum(c.buffMax) + Math.max(0, rkNum(divineLvl)) : 0];
+}
 /** does a team (role tokens / raw roster roles) contain a generic buffer that needs our buff reports? */
 function rkTeamNeedsBuffReport(roles) { return (roles || []).some(r => ROLE_RE.bufferUp.test(String(r || ''))); }
 const RK_SAVE_TYPES = /^(PD_UP_SPECIAL|AVOID_UP_SPECIAL|INVINCIBILITY)$/;   // Ultimate Defense / Ultimate Evasion / Vengeance type: the tank's emergency
@@ -362,10 +442,38 @@ const BUFFPLAN = {
   // songDanceMax: the server's song/dance slots (L2Toggle 14); gather*: songs / dances only with the party near; rot*: cycle step timing;
   // cycleExpiredPct: a new full song/dance cycle starts when this share of the set has expired on most gathered members; cycleMp*: MP estimate
   // for a cycle (+ step % per song/dance already up, + margin), cycleMpWaitMs: max wait for MP before starting with what we have
+  // MR.P 2026-10-10: firstCycleCaster 'sws' | 'bd' (who opens the interleave: "1st SWS, 2nd BD, 3rd SWS ..."), cycleMinGapMs (no new cycle sooner
+  // after the last start: a song that never lands cannot restart the set), cycleMpReservePct (a song / dance only while MP after it stays
+  // above this), buffMax (normal buff slots, L2Toggle 24 + Divine Inspiration), buffGroupRule 'server' (types the server blocks: datapack
+  // BlockBuffSlot) | 'stat' (strict: one buff per stat family, e.g. no Shield when War Chant gives P.Def), suggestSkip (never suggested)
   settings: { songDanceMax: 14, gatherPct: 60, gatherRange: 1000, rotGapMs: 1500, rotTakeoverMs: 7000, rotMinMpPct: 20,
-              cycleExpiredPct: 60, cycleMpStepPct: 10, cycleMpMarginPct: 10, cycleMpWaitMs: 60000 },
-  status: ['ok', 'suggested', 'missing', 'invalid', 'none'],
+              cycleExpiredPct: 60, cycleMpStepPct: 10, cycleMpMarginPct: 10, cycleMpWaitMs: 60000,
+              firstCycleCaster: 'sws', cycleMinGapMs: 60000, cycleMpReservePct: 10, buffMax: 24, buffGroupRule: 'server',
+              suggestSkip: ['Dance of Shadows', 'Dance of Medusa', 'Song of Silence', 'Dance of Blade Storm'] },
+  // the suggested song / dance order (no plan yet; the user's selection on the Buffs page always wins): the usual party set first
+  songOrder: ['Song of Earth', 'Song of Wind', 'Song of Vitality', 'Song of Hunter', 'Song of Renewal', 'Song of Champion', 'Song of Meditation', 'Song of Water',
+    'Song of Warding', 'Song of Invocation', 'Song of Vengeance', 'Song of Flame Guard', 'Song of Storm Guard', 'Song of Life', 'Song of Elemental', 'Song of Purification', 'Song of Wind Storm'],
+  danceOrder: ['Dance of Fury', 'Dance of the Warrior', 'Dance of Fire', 'Dance of Concentration', 'Dance of the Mystic', 'Dance of Inspiration', 'Dance of the Vampire',
+    'Dance of Berserker', 'Dance of Siren', 'Dance of Earth Guard', 'Dance of Aqua Guard', 'Dance of Protection', 'Dance of Light', 'Dance of Alignment'],
+  status: ['ok', 'suggested', 'missing', 'invalid', 'none', 'off'],
 };
+/** the BUFF GROUPS index from Scripts/data/buff_groups.json -> { covers: { TYPE: [...] }, families: { TYPE: [...] } } (null file = none) */
+function bpGroups(file) {
+  const out = { covers: {}, families: {} }, T = (file && file.types) || {};
+  Object.keys(T).forEach(k => { const t = T[k] || {}; if ((t.covers || []).length) out.covers[k] = t.covers.map(x => String(x).toUpperCase()); if ((t.families || []).length) out.families[k] = t.families.slice(); });
+  return out;
+}
+/** REMOVE BUFFS (Mr.P 2026-10-10: "a healer in the group cancels Chant of Blood Awakening or War Chant"): a character's "never keep" list
+ *  (buff_plans.json parties[<leader>].chars[<name>].remove = [skill names / abnormal types]) */
+function bpRemoveList(entry) { return Array.isArray(entry && entry.remove) ? entry.remove.map(x => String(x || '').trim()).filter(Boolean).slice(0, 40) : []; }
+/** my buffs (L2Buff-like { Id, Level, Name, AbnormalType, IsDebuff }) the list says to cancel -> [{ id, level, name, ab }] (never a debuff) */
+function bpToRemove(list, buffs) {
+  const L = (list || []).map(x => String(x || '').trim()).filter(Boolean); if (!L.length) return [];
+  const out = [];
+  (buffs || []).forEach(b => { if (!b || b.IsDebuff) return; const s = { name: String(b.Name || ''), ab: rkBuffAb(b).ab };
+    if (rkNoBuff(L, s)) out.push({ id: rkNum(b.Id), level: rkNum(b.Level) || 1, name: s.name, ab: s.ab }); });
+  return out;
+}
 function bpNorm(s) { return String(s || '').trim().toLowerCase().replace(/[’`]/g, "'").replace(/\s+/g, ' '); }
 function bpSettings(file) { return Object.assign({}, BUFFPLAN.settings, (file && file.settings) || {}); }
 /** the plan entry of one character: { entry, party } | null */
@@ -396,7 +504,7 @@ function bpTargets(targets, members, me) {
 function bpValidate(entry, skills, memberNames) {
   const errors = [], warnings = [];
   if (!entry || typeof entry !== 'object') return { ok: false, errors: ['no plan'], warnings };
-  const known = [].concat((skills && skills.party) || [], (skills && skills.target) || []);
+  const K = rkAllBuffs(skills), known = [].concat(K.party, K.target);
   const have = (b) => known.find(s => (b.id && Number(b.id) === s.id) || bpNorm(b.skill) === bpNorm(s.name));
   const seen = {};
   (entry.buffs || []).forEach((b, i) => {
@@ -416,21 +524,29 @@ const BP_MAGE = /^(MA_UP|CASTING_TIME_DOWN|MAGIC_CRITICAL_UP|CANCEL_PROB_DOWN|MA
 /** who benefits from a buff type: 'fighters' | 'mages' | 'party' */
 function bpBenefit(ab) { const a = String(ab || '').toUpperCase(); return BP_FIGHTER.test(a) ? 'fighters' : BP_MAGE.test(a) ? 'mages' : 'party'; }
 /** a SUGGESTED plan from the character's own skills (never approved by itself) */
-function bpSuggest(skills) {
-  const buffs = [], rotation = [];
-  ((skills && skills.party) || []).forEach(s => { if (rkIsSongDance(s)) rotation.push(s.name); else buffs.push({ skill: s.name, id: s.id, targets: ['party'], priority: 2, keep: true }); });
-  ((skills && skills.target) || []).forEach(s => buffs.push({ skill: s.name, id: s.id, targets: [bpBenefit(s.ab)], priority: 3, keep: true }));
+/** MR.P 2026-10-10: IMPROVED / COMBINED buffs first (they cover several groups: groups = bpGroups(...)), then party buffs, then single-target;
+ *  songs / dances in the usual order (BUFFPLAN.songOrder / danceOrder), never the suggestSkip ones (attack / stealth "songs") */
+function bpSuggest(skills, groups, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {}), cov = (groups && groups.covers) || {}, skip = (c.suggestSkip || []).map(bpNorm);
+  const buffs = [], rot = [];
+  const comb = (s) => (cov[s.ab] || []).length ? 1 : 0;
+  const best = (a) => { const by = {}; (a || []).forEach(s => { const o = by[s.ab]; if (!o || s.abLvl > o.abLvl || (s.abLvl === o.abLvl && s.mlvl > o.mlvl)) by[s.ab] = s; }); return (a || []).filter(s => by[s.ab] === s); };   // one per type: the strongest
+  best((skills && skills.party) || []).forEach(s => { if (skip.includes(bpNorm(s.name))) return; if (rkIsSongDance(s)) rot.push(s.name); else buffs.push({ skill: s.name, id: s.id, targets: ['party'], priority: 2 - comb(s), keep: true }); });
+  best((skills && skills.target) || []).forEach(s => { if (skip.includes(bpNorm(s.name))) return; buffs.push({ skill: s.name, id: s.id, targets: [bpBenefit(s.ab)], priority: 3 - 2 * comb(s), keep: true }); });
+  buffs.sort((a, b) => a.priority - b.priority);
+  const ord = BUFFPLAN.songOrder.concat(BUFFPLAN.danceOrder).map(bpNorm), at = (n) => { const i = ord.indexOf(bpNorm(n)); return i < 0 ? 999 : i; };
+  const rotation = rot.map((n, i) => ({ n, i })).sort((a, b) => at(a.n) - at(b.n) || a.i - b.i).map(x => x.n);
   return { buffs, rotation, suggested: true };
 }
 /** the plan that runs: { status: 'ok'|'suggested'|'invalid'|'none', plan, why }. A saved plan needs approved: true; a saved plan that is not
  *  approved yet does not run (status 'suggested' with the suggestion running, like no plan). */
-function bpEffective(entry, skills, memberNames) {
+function bpEffective(entry, skills, memberNames, groups) {
   if (entry && entry.approved) {
     const v = bpValidate(entry, skills, memberNames);
-    if (!v.ok) return { status: 'invalid', plan: bpSuggest(skills), why: v.errors.join('; '), warnings: v.warnings };
+    if (!v.ok) return { status: 'invalid', plan: bpSuggest(skills, groups), why: v.errors.join('; '), warnings: v.warnings };
     return { status: 'ok', plan: { buffs: (entry.buffs || []).slice(), rotation: (entry.rotation || []).slice() }, why: 'approved plan', warnings: v.warnings };
   }
-  const s = bpSuggest(skills);
+  const s = bpSuggest(skills, groups);
   if (!s.buffs.length && !s.rotation.length) return { status: 'none', plan: s, why: 'no party buffs learned', warnings: [] };
   return { status: 'suggested', plan: s, why: entry ? 'saved but not approved: the suggestion runs' : 'no plan: the suggestion runs (not reviewed)', warnings: [] };
 }
@@ -440,14 +556,25 @@ function bpEffective(entry, skills, memberNames) {
  *    "buff plan not reviewed" badge): with boardBuffs FALSE for the party it runs right away ('full'); with boardBuffs TRUE it only fills what
  *    the board lacks ('fill': missing types only, no song/dance cycles) = the behaviour before buff plans;
  *  - nothing learned: ''. */
+/** MR.P 2026-10-10 SWITCHES (saved plan or not, the user's switch always wins): entry.noBuffs = buffing OFF for this character (it casts nothing
+ *  from any plan or suggestion; status 'off'); entry.noSongs or the party's noSongs (buff_plans.json parties[<leader>].noSongs) = no songs /
+ *  dances at all (the rest of the plan runs). An approved EMPTY plan (no buffs, no songs) also casts nothing. -> the same eff, changed */
+function bpApplySwitches(eff, entry, partyNode) {
+  if (!eff) return eff;
+  const e = entry || {}, p = partyNode || {};
+  if (e.noBuffs) return Object.assign({}, eff, { status: 'off', plan: { buffs: [], rotation: [] }, why: 'buffing switched OFF for this character' });
+  if (e.noSongs || p.noSongs) return Object.assign({}, eff, { plan: Object.assign({}, eff.plan, { rotation: [] }), why: eff.why + (p.noSongs ? ' · no songs / dances (party switch)' : ' · no songs / dances (switch)'), noSongs: true });
+  return eff;
+}
 function bpRuns(eff, board) {
+  if (eff && eff.status === 'off') return '';
   if (!eff || eff.status === 'none') return '';
   if (eff.status === 'ok') return 'full';
   return board ? 'fill' : 'full';
 }
 /** my skills that the plan allows, each with .who = [member names] and .priority (lower first); rotation skills are left out (the cycle) */
 function bpPlanSkills(plan, skills, members, me) {
-  const known = [].concat(((skills && skills.party) || []).map(s => Object.assign({ kind: 'party' }, s)), ((skills && skills.target) || []).map(s => Object.assign({ kind: 'target' }, s)));
+  const K = rkAllBuffs(skills), known = [].concat(K.party.map(s => Object.assign({ kind: 'party' }, s)), K.target.map(s => Object.assign({ kind: 'target' }, s)));
   const rot = bpRotEntries(plan && plan.rotation).filter(r => !r.keepAlways).map(r => bpNorm(r.name));   // keepAlways songs / dances: per-buff upkeep
   const out = { party: [], target: [] };
   ((plan && plan.buffs) || []).forEach((b, i) => {
@@ -493,19 +620,30 @@ function bpRotName(r) { return typeof r === 'string' ? r : String((r && (r.skill
 function bpRotEntries(rotation) { return (rotation || []).map(r => ({ name: bpRotName(r), keepAlways: !!(r && typeof r === 'object' && r.keepAlways) })).filter(r => r.name); }
 /** the cycle order. casters: [{ name, kind: 'dance'|'song', list: [skill names in the user's order] }] -> [{ by, skill }]
  *  inside each kind round robin over the casters (dancer A step 1, dancer B step 1, A step 2 ...); both kinds: dance, song, dance, song ... */
-function bpCycleSeq(casters) {
+//  MR.P 2026-10-10: "songs/dances in turns (1st SWS, 2nd BD, 3rd SWS ...)": the SWORDSINGER opens by default (settings.firstCycleCaster
+//  'sws' | 'bd'), then strictly song, dance, song, dance ...; the longer list's rest follows at the end. The whole set is capped at the
+//  song / dance slots (settings.songDanceMax, L2Toggle 14): with a full singer + dancer the 15th+ would push the first ones out again.
+function bpCycleSeq(casters, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {});
   const rr = (cs) => { const out = [], n = Math.max(0, ...cs.map(c => (c.list || []).length)); for (let i = 0; i < n; i++) cs.forEach(c => { if ((c.list || [])[i]) out.push({ by: c.name, skill: c.list[i] }); }); return out; };
   const by = (k) => (casters || []).filter(c => c.kind === k).slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
   const D = rr(by('dance')), S = rr(by('song')), seq = [];
-  for (let i = 0; i < Math.max(D.length, S.length); i++) { if (D[i]) seq.push(D[i]); if (S[i]) seq.push(S[i]); }
-  return seq;
+  const A = String(c.firstCycleCaster || 'sws').toLowerCase() === 'bd' ? D : S, B = A === D ? S : D;
+  for (let i = 0; i < Math.max(D.length, S.length); i++) { if (A[i]) seq.push(A[i]); if (B[i]) seq.push(B[i]); }
+  const max = Math.round(Number(c.songDanceMax) || 0);
+  return max > 0 && seq.length > max ? seq.slice(0, max) : seq;
 }
 /** is a new cycle due? types = the abnormal types of the whole set; members = gathered members with buffs. A type counts as expired when it is
- *  gone / about to run out on most of the gathered members. due = expired share >= cycleExpiredPct. -> { due, expired, total } */
-function bpCycleDue(types, members, cfg) {
-  const c = Object.assign({}, ROLEKIND.buff, BUFFPLAN.settings, cfg || {});
+ *  gone / about to run out on most of the gathered members. due = expired share >= cycleExpiredPct. -> { due, expired, total }
+ *  opt (MR.P 2026-10-10: "in case a song/dance is missing wait for the other songs/dances to fade away - now SWS/BD run out of mana"):
+ *  { skip: [types that did not land in the last cycle: they never make a cycle due on their own], lastStart, now } — and no new cycle
+ *  sooner than cycleMinGapMs after the last start. */
+function bpCycleDue(types, members, cfg, opt) {
+  const c = Object.assign({}, ROLEKIND.buff, BUFFPLAN.settings, cfg || {}), o = opt || {};
   const near = (members || []).filter(m => !m.dead && m.known !== false && (m.me || (Number(m.dist) || 0) <= c.gatherRange));
-  const list = Array.from(new Set((types || []).map(t => String(t || '').toUpperCase()).filter(Boolean)));
+  const skip = (o.skip || []).map(t => String(t || '').toUpperCase());
+  const list = Array.from(new Set((types || []).map(t => String(t || '').toUpperCase()).filter(Boolean))).filter(t => !skip.includes(t));
+  if (o.lastStart && Number(o.now) - Number(o.lastStart) < Number(c.cycleMinGapMs || 0)) return { due: false, expired: 0, total: list.length, gap: true };
   if (!list.length || !near.length) return { due: false, expired: 0, total: list.length };
   let expired = 0;
   list.forEach(t => {
@@ -576,5 +714,6 @@ function bpTemplateApply(tpl, chars) {
   return { ROLEKIND, ROLE_RE, BUFFPLAN, rkNum, rkClassRow, rkKindOfClass, rkStyleOfClass, rkKindOf, rkResolve, rkIsLegacy, rkBehaviour, rkSkill,
     rkClassifyBuffs, rkIsSongDance, rkBuffNeed, rkBufferPick, rkBoardBuffs, rkUpkeepRole,
     bpNorm, bpSettings, bpEntry, bpTargets, bpValidate, bpBenefit, bpSuggest, bpEffective, bpRuns, bpPlanSkills, bpOwners, bpGathered,
-    bpMissing, bpTemplateFromParty, bpTemplateApply, bpRotName, bpRotEntries, bpCycleSeq, bpCycleDue, bpCycleMp, bpCycleStep };
+    bpMissing, bpTemplateFromParty, bpTemplateApply, bpRotName, bpRotEntries, bpCycleSeq, bpCycleDue, bpCycleMp, bpCycleStep,
+    rkGroupBlock, rkGroupReplaces, rkSlots, rkSlotReport, rkNoBuff, rkBefore, rkBufferVerify, rkAllBuffs, bpGroups, bpRemoveList, bpToRemove, bpApplySwitches };
 });

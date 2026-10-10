@@ -59,7 +59,7 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   await click('[data-bpparty="Tank1"]');
   ok('party Tank1: buffer rows for the Warcryer + the healers (Chanter1, Bishop1, Saint1)', await waitFor(`['Chanter1','Bishop1','Saint1'].every(n => !!document.querySelector('.bpl-mrow[data-bpname="' + n + '"]'))`, 8000));
   ok('board buffs ON chip for party Tank1 (live config)', await ev(`/Board buffs ON/.test(document.querySelector('#bpParty .bpl-board').textContent)`));
-  ok('no skill report yet is said per buffer (states have no buffPlan yet)', await ev(`/no skill report yet/.test(document.querySelector('.bpl-mrow[data-bpname="Chanter1"]').textContent)`));
+  ok('each buffer row says its status (a skill report or "no skill report yet")', await ev(`(() => { const r = document.querySelector('.bpl-mrow[data-bpname="Chanter1"]'); return !!r && (/no skill report yet/.test(r.textContent) || !!r.querySelector('.bpl-b')); })()`));
   ok('no horizontal page scroll (iPhone, Buffs)', await ev(`document.documentElement.scrollWidth <= innerWidth + 1`), await ev(`document.documentElement.scrollWidth + ' / ' + innerWidth`));
   await ev('window.scrollTo(0,0)'); await shot('01_iphone_party');
   // editor: type a buff, save + approve
@@ -67,16 +67,37 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   ok('the plan editor opens as a sheet', await waitFor(`!document.getElementById('bpSheet').hidden && !!document.getElementById('bpAddName')`));
   await ev(`(() => { const i = document.getElementById('bpAddName'); i.value = 'Chant of Victory'; return true; })()`); await click('[data-bpact="addBuff"]');
   await ev(`(() => { const i = document.getElementById('bpAddName'); i.value = 'War Chant'; return true; })()`); await click('[data-bpact="addBuff"]');
-  ok('typed buffs are listed and ticked', await waitFor(`document.querySelectorAll('#bpPanel .bpl-row.on').length === 2`));
-  await ev(`(() => { const s = document.querySelector('#bpPanel select[data-bptgt="1"]'); s.value = 'fighters'; s.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
-  await click('#bpPanel [data-bpdn="0"]'); await sleep(150);
-  ok('▼ moves Chant of Victory below War Chant', await ev(`[...document.querySelectorAll('#bpPanel .bpl-row b')].map(b => b.textContent).join() === 'War Chant,Chant of Victory'`));
+  // the live states may carry a skill report (learned buffs pre-ticked from the suggestion): untick everything first
+  for (let k = 0; k < 40; k++) { const left = await ev(`(() => { const c = document.querySelector('#bpPanel input[data-bpkeep]:checked'); if (!c) return 0; c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); return 1; })()`); if (!left) break; await sleep(60); }
+  await ev(`(() => { const i = document.getElementById('bpAddName'); i.value = 'Chant of Victory'; return true; })()`); await click('[data-bpact="addBuff"]');
+  await ev(`(() => { const i = document.getElementById('bpAddName'); i.value = 'War Chant'; return true; })()`); await click('[data-bpact="addBuff"]');
+  const onNames = `[...document.querySelectorAll('#bpPanel input[data-bpkeep]:checked')].map(c => c.closest('.bpl-row').querySelector('b').textContent).join()`;
+  ok('typed buffs are listed and ticked', await waitFor(`${onNames} === 'Chant of Victory,War Chant'`), await ev(onNames));
+  const idxOf = (n) => ev(`(() => { const c = [...document.querySelectorAll('#bpPanel input[data-bpkeep]:checked')].find(c => c.closest('.bpl-row').querySelector('b').textContent === ${JSON.stringify('X')}.replace('X', '${n}')); return c ? +c.dataset.bpkeep : -1; })()`);
+  // MR.P 2026-10-10: targets are a tick list (several members / groups per buff)
+  const wi = await idxOf('War Chant');
+  const tick = (v, on) => ev(`(() => { const c = document.querySelector('#bpPanel input[data-bptgt="${wi}"][value="${v}"]'); if (!c) return false; c.checked = ${on}; c.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
+  ok('multi-target tick list for a single-target buff', wi >= 0 && await tick('fighters', true) && await tick('party', false) && await tick('Bishop1', true), 'row ' + wi);
+  { const ci = await idxOf('Chant of Victory'); await click(`#bpPanel [data-bpdn="${ci}"]`); await sleep(150); }
+  ok('▼ moves Chant of Victory below War Chant', await ev(`${onNames} === 'War Chant,Chant of Victory'`), await ev(onNames));
   await shot('02_iphone_editor');
   dialogs.length = 0;
   await click('[data-bpact="saveApprove"]');
   ok('Save & approve asks with the shared dialog (buffs + targets listed), no browser dialog', await waitFor(`document.getElementById('bpSheet').hidden`, 8000) && dialogs.length === 1 && /Approve the buff plan of Chanter1/.test(dialogs[0].msg) && /War Chant/.test(dialogs[0].msg) && !browserDialogs.length, (dialogs[0] || {}).msg ? dialogs[0].msg.split('\n').slice(0, 4).join(' / ') : 'no dialog');
   let f = file().parties.Tank1.chars.Chanter1;
-  ok('scratch file: approved, order + targets kept', f && f.approved === true && f.buffs[0].skill === 'War Chant' && f.buffs[0].targets[0] === 'fighters' && f.buffs[1].skill === 'Chant of Victory', JSON.stringify(f));
+  ok('scratch file: approved, order + targets kept', f && f.approved === true && f.buffs[0].skill === 'War Chant' && f.buffs[0].targets[0] === 'fighters' && f.buffs[0].targets.includes('Bishop1') && f.buffs[0].targets.length === 2 && f.buffs[1].skill === 'Chant of Victory', JSON.stringify(f));
+  ok('the row offers Never keep… and Buffing OFF… for every member; the party has a songs / dances switch', await ev(`!!document.querySelector('.bpl-mrow[data-bpname="Chanter1"] [data-bpact="remove"]') && !!document.querySelector('.bpl-mrow[data-bpname="Chanter1"] [data-bpact="noBuffs"]') && !!document.querySelector('[data-bpact="partySongs"]')`));
+  dialogs.length = 0; await click('.bpl-mrow[data-bpname="Bishop1"] [data-bpact="remove"]'); await sleep(1200);
+  ok('Never keep… asks with the shared prompt and saves the list', dialogs.length === 1 && !!(file().parties.Tank1.chars.Bishop1 || {}).remove, JSON.stringify(file().parties.Tank1.chars.Bishop1 || null));
+  dialogs.length = 0; await click('[data-bpact="partySongs"]'); await sleep(1200);
+  ok('party songs / dances OFF (shared dialog) -> parties.Tank1.noSongs', dialogs.length === 1 && file().parties.Tank1.noSongs === true);
+  await click('[data-bpact="partySongs"]'); await sleep(1200);
+  // empty plan: open Saint1's editor, untick all, save -> asks, then an approved empty plan
+  await click('.bpl-mrow[data-bpname="Saint1"] [data-bpact="edit"]'); await waitFor(`!document.getElementById('bpSheet').hidden`, 5000);
+  await ev(`(() => { document.querySelectorAll('#bpPanel input[data-bpkeep]:checked, #bpPanel input[data-bprot]:checked').forEach(c => { c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); }); return true; })()`); await sleep(200);
+  await ev(`(() => { document.querySelectorAll('#bpPanel input[data-bpkeep]:checked, #bpPanel input[data-bprot]:checked').forEach(c => { c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); }); return true; })()`); await sleep(200);
+  dialogs.length = 0; await click('[data-bpact="savePlan"]'); await sleep(1500);
+  { const ts = file().parties.Tank1.chars.Saint1; ok('an EMPTY plan can be saved (asks first) -> approved, no buffs', dialogs.length === 1 && ts && ts.approved === true && !ts.buffs.length && !ts.rotation.length, JSON.stringify(ts)); }
   ok('the row now says "the approved plan runs" (no warning)', await waitFor(`/the approved plan runs/.test(document.querySelector('.bpl-mrow[data-bpname="Chanter1"]').textContent) && !document.querySelector('.bpl-mrow[data-bpname="Chanter1"]').classList.contains('warn')`, 8000));
   ok('Bishop1 (no reviewed plan, board ON): animated "buff plan not reviewed" + "it only fills what the board lacks"', await ev(`(() => { const r = document.querySelector('.bpl-mrow[data-bpname="Bishop1"]'); const b = r.querySelector('.cpbadge'); return !!b && /buff plan not reviewed/.test(b.textContent) && getComputedStyle(b).animationName !== 'none' && /board buffs ON: it only fills what the board lacks/.test(r.textContent); })()`));
   await shot('03_iphone_after_approve');

@@ -47,3 +47,14 @@
 button.bpl-board { cursor: pointer; min-height: 28px; border-image: none; height: auto; margin-left: 6px; }
 button.bpl-board:focus-visible { outline: 2px solid #f2c94c; outline-offset: 2px; }
 button.bpl-board span { opacity: .8; }
+/* MR.P 2026-10-10: multi-target tick list, switches, never-keep list */
+.bpl-tg { position: relative; min-width: 0; }
+.bpl-tg > summary { cursor: pointer; padding: 2px 8px; border: 1px solid var(--line, #555); border-radius: 4px; list-style: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+.bpl-tg > summary::-webkit-details-marker { display: none; }
+.bpl-tgl { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 6px 4px; max-width: 100%; }
+.bpl-tgl label { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; }
+.bpl-sw { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 10px; }
+.bpl-sw label { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-height: 32px; }
+.bpl-rest { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin-top: 8px; }
+.bpl-restm { display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.bpl-setf select { max-width: 100%; }

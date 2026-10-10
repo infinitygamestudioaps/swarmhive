@@ -795,7 +795,11 @@ const ROLEKIND = {
   raidDelay: { tank: 0, melee: 5000, meleebuffer: 4000, archer: 3000, buffer: 500, summoner: 2500 },
   gear: { tank: 'tank', melee: 'melee', meleebuffer: 'melee', archer: 'archer', buffer: 'mage', summoner: 'mage' },
   buff: { refreshSec: 30, minTime: 60, minGapMs: 20000, failMax: 3, failBlockMs: 600000, songDanceMax: 14, range: 900, partyRange: 1000,
-          reportMaxAgeMs: 12000, minMpPct: 15, reportMax: 48 },
+          reportMaxAgeMs: 12000, minMpPct: 15, reportMax: 48,
+          // MR.P FEEDBACK 2026-10-10: skipMs = a buff that did not land on a member (refused / stacking blocked / out of range) rests 10 min on
+          // that member (logged once, never a cast loop); buffMax = the server's normal buff slots (L2Toggle 24; L2J default 20; Divine
+          // Inspiration skill divineId adds its level), 0 = no slot check
+          skipMs: 600000, buffMax: 24, divineId: 1405 },
   archer: { tooClose: 220, want: 520, gapMs: 2500 },
   // summoner: resummon gap, min MP, servitor attack resend gap, consumable stock (resummons summons + upkeep margin, low below lowSummons),
   // servitor care thresholds, own nukes only as filler above fillerMinMpPct (fillerNukes false = never)
@@ -873,7 +877,7 @@ function rkSkill(s) {
   const lv = rkNum(s.Level);
   return { id: rkNum(s.Id), level: lv, name: String(s.Name || ''), active: s.IsActive !== false, toggle: !!s.IsToggle, debuff: !!s.IsDebuff,
     target: String(s.TargetType || '').toUpperCase(), scope: String(s.AffectScope || '').toUpperCase(), ab: String(s.AbnormalType || '').toUpperCase(),
-    abLvl: s.AbnormalLevel === null || s.AbnormalLevel === undefined ? lv : rkNum(s.AbnormalLevel), time: rkNum(s.AbnormalTime),
+    abLvl: rkNum(s.AbnormalLevel) > 1 ? rkNum(s.AbnormalLevel) : (lv > 100 ? 999 : lv), time: rkNum(s.AbnormalTime),
     range: rkNum(s.CastRange), mp: rkNum(s.MP), hit: rkNum(s.HitTime), mlvl: rkNum(s.MagicLvl), ready: s.IsReady !== false,
     itemId: rkNum(s.ItemConsumeId), itemCount: rkNum(s.ItemConsumeCount) };
 }
@@ -892,13 +896,47 @@ function rkClassifyBuffs(list, neverRe) {
     if (RK_ALLY_TARGET.test(s.target) && (s.scope === 'SINGLE' || s.scope === '')) target.push(s);
   });
   const best = (a) => { const by = {}; a.forEach(s => { const o = by[s.ab]; if (!o || s.abLvl > o.abLvl || (s.abLvl === o.abLvl && s.mlvl > o.mlvl)) by[s.ab] = s; }); return Object.keys(by).map(k => by[k]); };
-  return { party: best(party), target: best(target) };     // one skill per abnormal type (the strongest I know)
+  // one skill per abnormal type (the strongest I know) for the automatic picks; .all = EVERY learned buff (Mr.P 2026-10-10: a Warsmith's
+  // Embroider shares DWARF_DEFENCE_BUFF with Case Harden, so it was dropped and the Buffs page called it "not learned") — the page lists,
+  // the plans pick and the validation checks against .all
+  return { party: best(party), target: best(target), all: { party, target } };
 }
+/** every learned buff skill of a classified list (.all when present) */
+function rkAllBuffs(skills) { const a = (skills && skills.all) || skills || {}; return { party: a.party || [], target: a.target || [] }; }
 function rkIsSongDance(s) { return /^(SONG|DANCE)_/.test(String(s.ab || '')) || /^(Song|Dance) of /i.test(String(s.name || '')); }
 function rkSongDanceCount(buffs) { return Object.keys(buffs || {}).filter(t => /^(SONG|DANCE)_/.test(t)).length; }
-/** does member m need my buff s? 'missing' | 'expiring' | '' (no). m.buffs = { ABNORMAL_TYPE: { remain: s, level } } */
+/** BUFF GROUPS (Mr.P 2026-10-10: "the char has Improved Magic, so the WC casts Chant of Fire until he runs out of MP ... if I have one buff
+ *  from the group then don't buff it"): groups = Scripts/data/buff_groups.json (docs/plan/tools/buff_groups.js, from the datapack's
+ *  BlockBuffSlot effects) -> { covers: { TYPE: [types the server refuses while TYPE is up] }, families: { TYPE: [stat families] } }.
+ *  Is my buff type `ab` blocked on a member that has `buffs`? 'covered by X' | 'family X' (strict rule 'stat' only) | '' */
+function rkGroupBlock(ab, buffs, groups, rule) {
+  const A = String(ab || '').toUpperCase(), G = groups || {}, cov = G.covers || {}, fam = G.families || {};
+  if (!A) return '';
+  for (const t of Object.keys(buffs || {})) {
+    if (t === A) continue;
+    if ((cov[t] || []).includes(A)) return 'covered by ' + t;
+  }
+  if (rule === 'stat' && !/^(SONG|DANCE)_/.test(A)) {
+    const mine = fam[A] || [];
+    for (const t of Object.keys(buffs || {})) { if (t === A || /^(SONG|DANCE)_/.test(t)) continue; const f = (fam[t] || []).find(x => mine.includes(x)); if (f) return 'family ' + f + ' (' + t + ')'; }
+  }
+  return '';
+}
+/** does my combined buff `ab` replace one of the member's buffs (so it frees a slot instead of taking one)? */
+function rkGroupReplaces(ab, buffs, groups) { const c = ((groups || {}).covers || {})[String(ab || '').toUpperCase()] || []; return Object.keys(buffs || {}).some(t => c.includes(t)); }
+/** a member's used / max normal buff slots: m.slots = { used, max } (its own report) or counted from its buffs (songs / dances apart) */
+function rkSlots(m, c) {
+  const s = m && m.slots, max = s && rkNum(s.max) > 0 ? rkNum(s.max) : rkNum(c && c.buffMax);
+  const used = s && s.used !== undefined && s.used !== null ? rkNum(s.used) : Object.keys((m && m.buffs) || {}).filter(t => !/^(SONG|DANCE)_/.test(t)).length;
+  return { used, max };
+}
+/** does member m need my buff s? 'missing' | 'expiring' | '' (no). m.buffs = { ABNORMAL_TYPE: { remain: s, level } }
+ *  cfg.groups / cfg.groupRule = BUFF GROUPS (a covering / combined buff on the member = no), cfg.buffMax + m.slots = BUFF SLOTS (full = only
+ *  refresh what is there: a new type would push an old buff out) */
 function rkBuffNeed(s, m, cfg) {
   const c = cfg || ROLEKIND.buff, b = (m.buffs || {})[s.ab];
+  if (!b && c.groups && rkGroupBlock(s.ab, m.buffs, c.groups, c.groupRule)) return '';   // the group already has a buff on this member
+  if (!b && !rkIsSongDance(s) && rkNum(c.buffMax) > 0 && !rkGroupReplaces(s.ab, m.buffs, c.groups)) { const sl = rkSlots(m, c); if (sl.max > 0 && sl.used >= sl.max) return ''; }
   if (!b) return rkIsSongDance(s) && rkSongDanceCount(m.buffs) >= c.songDanceMax ? '' : 'missing';   // L2Toggle: 14 songs / dances at most
   if (rkNum(b.level) > s.abLvl) return '';                   // a stronger one (board / another buffer) is never overwritten
   const rem = rkNum(b.remain);
@@ -917,17 +955,23 @@ function rkBufferPick(o) {
     (!s.itemId || !o.have || rkNum(o.have(s.itemId)) >= Math.max(1, s.itemCount));
   // BUFF PLANS: s.who = the members the plan gives it to (else everyone / the fighter-mage rule), o.owner(member, ab) = the buffer that owns
   // that buff on that member (OVERLAP: only one casts), s.priority = the plan order (lower first)
-  const mine = (s, m) => (!s.who || s.who.includes(m.name)) && (!o.owner || !o.me || (o.owner(m.name, s.ab) || o.me) === o.me);
+  // MR.P 2026-10-10: m.noBuff = the member's "never keep" list (buff plan remove list: skill names / abnormal types) — never cast on it;
+  // a buff that did not land on a member rests there (fails[id@member]); IMPROVED / COMBINED FIRST: a buff one of my own combined buffs
+  // covers (Improved Magic covers Empower + Magic Barrier + Chant of Fire) waits while that combined one is still to be cast on the member
+  const mine = (s, m) => (!s.who || s.who.includes(m.name)) && (!o.owner || !o.me || (o.owner(m.name, s.ab) || o.me) === o.me) && !rkNoBuff(m.noBuff, s);
   const pri = (s) => rkNum(s.priority);
+  const all = [].concat(sk.party || [], sk.target || []), cov = (cfg.groups && cfg.groups.covers) || {};
+  const coveredByMine = (s, m) => all.some(c => c !== s && (cov[c.ab] || []).includes(s.ab) && mine(c, m) && afford(c) && c.time >= cfg.minTime &&
+    free(c.id + '@' + m.name) && rkBuffNeed(c, m, cfg) === 'missing');
   let best = null;
   (sk.party || []).forEach(s => {
     const key = s.id + '@party';
     if (s.time < cfg.minTime || !afford(s) || !free(key)) return;
-    const near = mates.filter(m => (m.me || rkNum(m.dist) <= cfg.partyRange) && mine(s, m));
+    const near = mates.filter(m => (m.me || rkNum(m.dist) <= cfg.partyRange) && mine(s, m) && free(s.id + '@' + m.name) && !coveredByMine(s, m));
     const need = near.map(m => ({ m, n: rkBuffNeed(s, m, cfg) })).filter(x => x.n);
     if (!need.length) return;
     const score = need.length * 10 + need.filter(x => x.n === 'missing').length * 3 + (rkIsSongDance(s) ? 0 : 1);
-    if (!best || pri(s) < pri(best.skill) || (pri(s) === pri(best.skill) && score > best.score)) best = { skill: s, target: null, key, score, why: `${s.name} (${s.ab}): ${need.map(x => x.m.name + ' ' + x.n).join(', ')}` };
+    if (!best || pri(s) < pri(best.skill) || (pri(s) === pri(best.skill) && score > best.score)) best = { skill: s, target: null, key, score, names: need.map(x => x.m.name), why: `${s.name} (${s.ab}): ${need.map(x => x.m.name + ' ' + x.n).join(', ')}` };
   });
   if (best) return best;
   const order = mates.slice().sort((a, b) => (b.tank ? 1 : 0) - (a.tank ? 1 : 0) || (b.leader ? 1 : 0) - (a.leader ? 1 : 0) || String(a.name).localeCompare(String(b.name)));
@@ -938,33 +982,69 @@ function rkBufferPick(o) {
       if (!s.who && RK_MAGE_TYPES.test(s.ab) && !m.caster) continue;
       if (!mine(s, m)) continue;
       const key = s.id + '@' + m.name;
-      if (s.time < cfg.minTime || !afford(s) || !free(key)) continue;
+      if (s.time < cfg.minTime || !afford(s) || !free(key) || coveredByMine(s, m)) continue;
       const n = rkBuffNeed(s, m, cfg);
-      if (n) return { skill: s, target: m, key, score: 1, why: `${s.name} (${s.ab}) on ${m.name}: ${n}` };
+      if (n) return { skill: s, target: m, key, score: 1, names: [m.name], why: `${s.name} (${s.ab}) on ${m.name}: ${n}` };
     }
   }
   return null;
 }
-/** after a cast: did the buff show up? pend: { key, ab, names: [who], at }, seen(name) -> buffs map | null. Returns 'ok' | 'fail' | 'wait' */
+/** is buff skill s on a member's "never keep" list? list = skill names / abnormal types (any case) */
+function rkNoBuff(list, s) {
+  if (!list || !list.length || !s) return false;
+  const n = String(s.name || '').trim().toLowerCase(), ab = String(s.ab || s.AbnormalType || '').toUpperCase();
+  return list.some(x => { const v = String(x || '').trim(); return !!v && (v.toLowerCase() === n || (!!ab && v.toUpperCase() === ab)); });
+}
+/** the buff the member's remain map had before my cast (for the did-it-land check): { name: remainSec | -1 } */
+function rkBefore(names, seen, ab) { const out = {}; (names || []).forEach(n => { const b = seen(n), x = b && b[ab]; out[n] = x ? rkNum(x.remain) : -1; }); return out; }
+/** after a cast: did the buff land? pend: { key, skillId, ab, names: [who needed it], before: { name: remain | -1 }, at }, seen(name) -> buffs map | null.
+ *  Returns 'ok' | 'partial' | 'fail' | 'wait'. MR.P 2026-10-10 (a WC cast Chant of Fire on an Improved Magic member until out of MP): a member
+ *  whose buffs did NOT change (missing still / the old timer) gets that buff skipped for skipMs (fails[skillId@member], pend.missed = who) —
+ *  logged once by the host, never cast again in a loop; nobody got it = the skill itself rests (fails[key], the old failMax rule). */
 function rkBufferVerify(pend, seen, t, fails, cfg) {
   const c = Object.assign({}, ROLEKIND.buff, cfg || {});
   if (!pend) return 'ok';
   if (t - pend.at < 2500) return 'wait';
-  const ok = (pend.names || []).some(n => { const b = seen(n); return !!(b && b[pend.ab]); });
-  if (ok) { delete fails[pend.key]; return 'ok'; }
+  const landed = (n) => { const b = seen(n), x = b && b[pend.ab]; if (!x) return false; const was = pend.before ? pend.before[n] : undefined;
+    return was === undefined || was === null || was < 0 || rkNum(x.remain) <= 0 || rkNum(x.remain) > rkNum(was) + 3; };
+  const names = pend.names || [], got = names.filter(landed);
+  if (names.length && got.length === names.length) { delete fails[pend.key]; return 'ok'; }
   if (t - pend.at < 8000) return 'wait';
+  pend.missed = names.filter(n => !got.includes(n));
+  if (pend.skillId) pend.missed.forEach(n => { fails[pend.skillId + '@' + n] = { n: 0, until: t + c.skipMs, why: 'did not land' }; });
+  if (got.length) { delete fails[pend.key]; return 'partial'; }
   const f = fails[pend.key] = fails[pend.key] || { n: 0, until: 0 };
   f.n++; if (f.n >= c.failMax) { f.until = t + c.failBlockMs; f.n = 0; }
   return 'fail';
 }
+/** A RUNNING BUFF's abnormal type + level (2026-10-10, Mr.P: "they keep buffing all the time even when the whole party is buffed"; probed
+ *  live on Destroyer1): L2Swarm's L2Buff.AbnormalType is the client's RAW per-level list "PA_PD_UP,1;PA_PD_UP,2;PA_PD_UP,3" and AbnormalLevel
+ *  is always 1, while L2Skill.AbnormalType is the plain "PA_PD_UP". So no buff ever matched its skill: every song / dance / buff looked
+ *  missing and was cast again and again. -> { ab: 'PA_PD_UP', level: the entry of the buff's Level (enchanted 101+ = the last entry) } */
+function rkBuffAb(b) {
+  const raw = String((b && b.AbnormalType) || '').toUpperCase().trim();
+  if (!raw) return { ab: '', level: 0 };
+  const parts = raw.split(';').map(x => x.trim()).filter(Boolean), lv = rkNum(b.Level);
+  const pick = parts.length > 1 ? parts[Math.min(parts.length, Math.max(1, lv)) - 1] : parts[0];
+  const bits = String(pick || '').split(','), ab = bits[0].trim();
+  const lvl = bits.length > 1 && bits[1].trim() !== '' ? rkNum(bits[1]) : (rkNum(b.AbnormalLevel) > 1 ? rkNum(b.AbnormalLevel) : lv);
+  return { ab, level: lvl };
+}
 /** compact buff report for teammates' buffers: { TYPE: [remainSec, level] } (debuffs left out; at most reportMax types) */
 function rkBuffReport(list) {
   const out = {}; let n = 0;
-  (list || []).forEach(b => { if (!b || b.IsDebuff || n >= ROLEKIND.buff.reportMax) return; const ab = String(b.AbnormalType || '').toUpperCase(); if (!ab || out[ab]) return;
-    out[ab] = [Math.round(rkNum(b.RemainTime)), b.AbnormalLevel === null || b.AbnormalLevel === undefined ? rkNum(b.Level) : rkNum(b.AbnormalLevel)]; n++; });
+  (list || []).forEach(b => { if (!b || b.IsDebuff || n >= ROLEKIND.buff.reportMax) return; const A = rkBuffAb(b), ab = A.ab; if (!ab || out[ab]) return;
+    out[ab] = [Math.round(rkNum(b.RemainTime)), A.level]; n++; });
   return out;
 }
 function rkBuffsFromReport(r) { const out = {}; Object.keys(r || {}).forEach(k => { const v = r[k] || []; out[k] = { remain: rkNum(v[0]), level: rkNum(v[1]) }; }); return out; }
+/** BUFF SLOTS (Mr.P 2026-10-10: "check how many buff slots are available on each char, so there won't be overbuffing"): my normal buffs
+ *  (no debuffs, no songs / dances: they have their own slots) and my max = buffMax + my Divine Inspiration level. -> [used, max] */
+function rkSlotReport(list, divineLvl, cfg) {
+  const c = Object.assign({}, ROLEKIND.buff, cfg || {}); let used = 0;
+  (list || []).forEach(b => { if (!b || b.IsDebuff) return; const ab = rkBuffAb(b).ab; if (/^(SONG|DANCE)_/.test(ab) || /^(Song|Dance) of /i.test(String(b.Name || ''))) return; used++; });
+  return [used, rkNum(c.buffMax) > 0 ? rkNum(c.buffMax) + Math.max(0, rkNum(divineLvl)) : 0];
+}
 /** does a team (role tokens / raw roster roles) contain a generic buffer that needs our buff reports? */
 function rkTeamNeedsBuffReport(roles) { return (roles || []).some(r => ROLE_RE.bufferUp.test(String(r || ''))); }
 const RK_SAVE_TYPES = /^(PD_UP_SPECIAL|AVOID_UP_SPECIAL|INVINCIBILITY)$/;   // Ultimate Defense / Ultimate Evasion / Vengeance type: the tank's emergency
@@ -1143,10 +1223,38 @@ const BUFFPLAN = {
   // songDanceMax: the server's song/dance slots (L2Toggle 14); gather*: songs / dances only with the party near; rot*: cycle step timing;
   // cycleExpiredPct: a new full song/dance cycle starts when this share of the set has expired on most gathered members; cycleMp*: MP estimate
   // for a cycle (+ step % per song/dance already up, + margin), cycleMpWaitMs: max wait for MP before starting with what we have
+  // MR.P 2026-10-10: firstCycleCaster 'sws' | 'bd' (who opens the interleave: "1st SWS, 2nd BD, 3rd SWS ..."), cycleMinGapMs (no new cycle sooner
+  // after the last start: a song that never lands cannot restart the set), cycleMpReservePct (a song / dance only while MP after it stays
+  // above this), buffMax (normal buff slots, L2Toggle 24 + Divine Inspiration), buffGroupRule 'server' (types the server blocks: datapack
+  // BlockBuffSlot) | 'stat' (strict: one buff per stat family, e.g. no Shield when War Chant gives P.Def), suggestSkip (never suggested)
   settings: { songDanceMax: 14, gatherPct: 60, gatherRange: 1000, rotGapMs: 1500, rotTakeoverMs: 7000, rotMinMpPct: 20,
-              cycleExpiredPct: 60, cycleMpStepPct: 10, cycleMpMarginPct: 10, cycleMpWaitMs: 60000 },
-  status: ['ok', 'suggested', 'missing', 'invalid', 'none'],
+              cycleExpiredPct: 60, cycleMpStepPct: 10, cycleMpMarginPct: 10, cycleMpWaitMs: 60000,
+              firstCycleCaster: 'sws', cycleMinGapMs: 60000, cycleMpReservePct: 10, buffMax: 24, buffGroupRule: 'server',
+              suggestSkip: ['Dance of Shadows', 'Dance of Medusa', 'Song of Silence', 'Dance of Blade Storm'] },
+  // the suggested song / dance order (no plan yet; the user's selection on the Buffs page always wins): the usual party set first
+  songOrder: ['Song of Earth', 'Song of Wind', 'Song of Vitality', 'Song of Hunter', 'Song of Renewal', 'Song of Champion', 'Song of Meditation', 'Song of Water',
+    'Song of Warding', 'Song of Invocation', 'Song of Vengeance', 'Song of Flame Guard', 'Song of Storm Guard', 'Song of Life', 'Song of Elemental', 'Song of Purification', 'Song of Wind Storm'],
+  danceOrder: ['Dance of Fury', 'Dance of the Warrior', 'Dance of Fire', 'Dance of Concentration', 'Dance of the Mystic', 'Dance of Inspiration', 'Dance of the Vampire',
+    'Dance of Berserker', 'Dance of Siren', 'Dance of Earth Guard', 'Dance of Aqua Guard', 'Dance of Protection', 'Dance of Light', 'Dance of Alignment'],
+  status: ['ok', 'suggested', 'missing', 'invalid', 'none', 'off'],
 };
+/** the BUFF GROUPS index from Scripts/data/buff_groups.json -> { covers: { TYPE: [...] }, families: { TYPE: [...] } } (null file = none) */
+function bpGroups(file) {
+  const out = { covers: {}, families: {} }, T = (file && file.types) || {};
+  Object.keys(T).forEach(k => { const t = T[k] || {}; if ((t.covers || []).length) out.covers[k] = t.covers.map(x => String(x).toUpperCase()); if ((t.families || []).length) out.families[k] = t.families.slice(); });
+  return out;
+}
+/** REMOVE BUFFS (Mr.P 2026-10-10: "a healer in the group cancels Chant of Blood Awakening or War Chant"): a character's "never keep" list
+ *  (buff_plans.json parties[<leader>].chars[<name>].remove = [skill names / abnormal types]) */
+function bpRemoveList(entry) { return Array.isArray(entry && entry.remove) ? entry.remove.map(x => String(x || '').trim()).filter(Boolean).slice(0, 40) : []; }
+/** my buffs (L2Buff-like { Id, Level, Name, AbnormalType, IsDebuff }) the list says to cancel -> [{ id, level, name, ab }] (never a debuff) */
+function bpToRemove(list, buffs) {
+  const L = (list || []).map(x => String(x || '').trim()).filter(Boolean); if (!L.length) return [];
+  const out = [];
+  (buffs || []).forEach(b => { if (!b || b.IsDebuff) return; const s = { name: String(b.Name || ''), ab: rkBuffAb(b).ab };
+    if (rkNoBuff(L, s)) out.push({ id: rkNum(b.Id), level: rkNum(b.Level) || 1, name: s.name, ab: s.ab }); });
+  return out;
+}
 function bpNorm(s) { return String(s || '').trim().toLowerCase().replace(/[’`]/g, "'").replace(/\s+/g, ' '); }
 function bpSettings(file) { return Object.assign({}, BUFFPLAN.settings, (file && file.settings) || {}); }
 /** the plan entry of one character: { entry, party } | null */
@@ -1177,7 +1285,7 @@ function bpTargets(targets, members, me) {
 function bpValidate(entry, skills, memberNames) {
   const errors = [], warnings = [];
   if (!entry || typeof entry !== 'object') return { ok: false, errors: ['no plan'], warnings };
-  const known = [].concat((skills && skills.party) || [], (skills && skills.target) || []);
+  const K = rkAllBuffs(skills), known = [].concat(K.party, K.target);
   const have = (b) => known.find(s => (b.id && Number(b.id) === s.id) || bpNorm(b.skill) === bpNorm(s.name));
   const seen = {};
   (entry.buffs || []).forEach((b, i) => {
@@ -1197,21 +1305,29 @@ const BP_MAGE = /^(MA_UP|CASTING_TIME_DOWN|MAGIC_CRITICAL_UP|CANCEL_PROB_DOWN|MA
 /** who benefits from a buff type: 'fighters' | 'mages' | 'party' */
 function bpBenefit(ab) { const a = String(ab || '').toUpperCase(); return BP_FIGHTER.test(a) ? 'fighters' : BP_MAGE.test(a) ? 'mages' : 'party'; }
 /** a SUGGESTED plan from the character's own skills (never approved by itself) */
-function bpSuggest(skills) {
-  const buffs = [], rotation = [];
-  ((skills && skills.party) || []).forEach(s => { if (rkIsSongDance(s)) rotation.push(s.name); else buffs.push({ skill: s.name, id: s.id, targets: ['party'], priority: 2, keep: true }); });
-  ((skills && skills.target) || []).forEach(s => buffs.push({ skill: s.name, id: s.id, targets: [bpBenefit(s.ab)], priority: 3, keep: true }));
+/** MR.P 2026-10-10: IMPROVED / COMBINED buffs first (they cover several groups: groups = bpGroups(...)), then party buffs, then single-target;
+ *  songs / dances in the usual order (BUFFPLAN.songOrder / danceOrder), never the suggestSkip ones (attack / stealth "songs") */
+function bpSuggest(skills, groups, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {}), cov = (groups && groups.covers) || {}, skip = (c.suggestSkip || []).map(bpNorm);
+  const buffs = [], rot = [];
+  const comb = (s) => (cov[s.ab] || []).length ? 1 : 0;
+  const best = (a) => { const by = {}; (a || []).forEach(s => { const o = by[s.ab]; if (!o || s.abLvl > o.abLvl || (s.abLvl === o.abLvl && s.mlvl > o.mlvl)) by[s.ab] = s; }); return (a || []).filter(s => by[s.ab] === s); };   // one per type: the strongest
+  best((skills && skills.party) || []).forEach(s => { if (skip.includes(bpNorm(s.name))) return; if (rkIsSongDance(s)) rot.push(s.name); else buffs.push({ skill: s.name, id: s.id, targets: ['party'], priority: 2 - comb(s), keep: true }); });
+  best((skills && skills.target) || []).forEach(s => { if (skip.includes(bpNorm(s.name))) return; buffs.push({ skill: s.name, id: s.id, targets: [bpBenefit(s.ab)], priority: 3 - 2 * comb(s), keep: true }); });
+  buffs.sort((a, b) => a.priority - b.priority);
+  const ord = BUFFPLAN.songOrder.concat(BUFFPLAN.danceOrder).map(bpNorm), at = (n) => { const i = ord.indexOf(bpNorm(n)); return i < 0 ? 999 : i; };
+  const rotation = rot.map((n, i) => ({ n, i })).sort((a, b) => at(a.n) - at(b.n) || a.i - b.i).map(x => x.n);
   return { buffs, rotation, suggested: true };
 }
 /** the plan that runs: { status: 'ok'|'suggested'|'invalid'|'none', plan, why }. A saved plan needs approved: true; a saved plan that is not
  *  approved yet does not run (status 'suggested' with the suggestion running, like no plan). */
-function bpEffective(entry, skills, memberNames) {
+function bpEffective(entry, skills, memberNames, groups) {
   if (entry && entry.approved) {
     const v = bpValidate(entry, skills, memberNames);
-    if (!v.ok) return { status: 'invalid', plan: bpSuggest(skills), why: v.errors.join('; '), warnings: v.warnings };
+    if (!v.ok) return { status: 'invalid', plan: bpSuggest(skills, groups), why: v.errors.join('; '), warnings: v.warnings };
     return { status: 'ok', plan: { buffs: (entry.buffs || []).slice(), rotation: (entry.rotation || []).slice() }, why: 'approved plan', warnings: v.warnings };
   }
-  const s = bpSuggest(skills);
+  const s = bpSuggest(skills, groups);
   if (!s.buffs.length && !s.rotation.length) return { status: 'none', plan: s, why: 'no party buffs learned', warnings: [] };
   return { status: 'suggested', plan: s, why: entry ? 'saved but not approved: the suggestion runs' : 'no plan: the suggestion runs (not reviewed)', warnings: [] };
 }
@@ -1221,14 +1337,25 @@ function bpEffective(entry, skills, memberNames) {
  *    "buff plan not reviewed" badge): with boardBuffs FALSE for the party it runs right away ('full'); with boardBuffs TRUE it only fills what
  *    the board lacks ('fill': missing types only, no song/dance cycles) = the behaviour before buff plans;
  *  - nothing learned: ''. */
+/** MR.P 2026-10-10 SWITCHES (saved plan or not, the user's switch always wins): entry.noBuffs = buffing OFF for this character (it casts nothing
+ *  from any plan or suggestion; status 'off'); entry.noSongs or the party's noSongs (buff_plans.json parties[<leader>].noSongs) = no songs /
+ *  dances at all (the rest of the plan runs). An approved EMPTY plan (no buffs, no songs) also casts nothing. -> the same eff, changed */
+function bpApplySwitches(eff, entry, partyNode) {
+  if (!eff) return eff;
+  const e = entry || {}, p = partyNode || {};
+  if (e.noBuffs) return Object.assign({}, eff, { status: 'off', plan: { buffs: [], rotation: [] }, why: 'buffing switched OFF for this character' });
+  if (e.noSongs || p.noSongs) return Object.assign({}, eff, { plan: Object.assign({}, eff.plan, { rotation: [] }), why: eff.why + (p.noSongs ? ' · no songs / dances (party switch)' : ' · no songs / dances (switch)'), noSongs: true });
+  return eff;
+}
 function bpRuns(eff, board) {
+  if (eff && eff.status === 'off') return '';
   if (!eff || eff.status === 'none') return '';
   if (eff.status === 'ok') return 'full';
   return board ? 'fill' : 'full';
 }
 /** my skills that the plan allows, each with .who = [member names] and .priority (lower first); rotation skills are left out (the cycle) */
 function bpPlanSkills(plan, skills, members, me) {
-  const known = [].concat(((skills && skills.party) || []).map(s => Object.assign({ kind: 'party' }, s)), ((skills && skills.target) || []).map(s => Object.assign({ kind: 'target' }, s)));
+  const K = rkAllBuffs(skills), known = [].concat(K.party.map(s => Object.assign({ kind: 'party' }, s)), K.target.map(s => Object.assign({ kind: 'target' }, s)));
   const rot = bpRotEntries(plan && plan.rotation).filter(r => !r.keepAlways).map(r => bpNorm(r.name));   // keepAlways songs / dances: per-buff upkeep
   const out = { party: [], target: [] };
   ((plan && plan.buffs) || []).forEach((b, i) => {
@@ -1274,19 +1401,30 @@ function bpRotName(r) { return typeof r === 'string' ? r : String((r && (r.skill
 function bpRotEntries(rotation) { return (rotation || []).map(r => ({ name: bpRotName(r), keepAlways: !!(r && typeof r === 'object' && r.keepAlways) })).filter(r => r.name); }
 /** the cycle order. casters: [{ name, kind: 'dance'|'song', list: [skill names in the user's order] }] -> [{ by, skill }]
  *  inside each kind round robin over the casters (dancer A step 1, dancer B step 1, A step 2 ...); both kinds: dance, song, dance, song ... */
-function bpCycleSeq(casters) {
+//  MR.P 2026-10-10: "songs/dances in turns (1st SWS, 2nd BD, 3rd SWS ...)": the SWORDSINGER opens by default (settings.firstCycleCaster
+//  'sws' | 'bd'), then strictly song, dance, song, dance ...; the longer list's rest follows at the end. The whole set is capped at the
+//  song / dance slots (settings.songDanceMax, L2Toggle 14): with a full singer + dancer the 15th+ would push the first ones out again.
+function bpCycleSeq(casters, cfg) {
+  const c = Object.assign({}, BUFFPLAN.settings, cfg || {});
   const rr = (cs) => { const out = [], n = Math.max(0, ...cs.map(c => (c.list || []).length)); for (let i = 0; i < n; i++) cs.forEach(c => { if ((c.list || [])[i]) out.push({ by: c.name, skill: c.list[i] }); }); return out; };
   const by = (k) => (casters || []).filter(c => c.kind === k).slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
   const D = rr(by('dance')), S = rr(by('song')), seq = [];
-  for (let i = 0; i < Math.max(D.length, S.length); i++) { if (D[i]) seq.push(D[i]); if (S[i]) seq.push(S[i]); }
-  return seq;
+  const A = String(c.firstCycleCaster || 'sws').toLowerCase() === 'bd' ? D : S, B = A === D ? S : D;
+  for (let i = 0; i < Math.max(D.length, S.length); i++) { if (A[i]) seq.push(A[i]); if (B[i]) seq.push(B[i]); }
+  const max = Math.round(Number(c.songDanceMax) || 0);
+  return max > 0 && seq.length > max ? seq.slice(0, max) : seq;
 }
 /** is a new cycle due? types = the abnormal types of the whole set; members = gathered members with buffs. A type counts as expired when it is
- *  gone / about to run out on most of the gathered members. due = expired share >= cycleExpiredPct. -> { due, expired, total } */
-function bpCycleDue(types, members, cfg) {
-  const c = Object.assign({}, ROLEKIND.buff, BUFFPLAN.settings, cfg || {});
+ *  gone / about to run out on most of the gathered members. due = expired share >= cycleExpiredPct. -> { due, expired, total }
+ *  opt (MR.P 2026-10-10: "in case a song/dance is missing wait for the other songs/dances to fade away - now SWS/BD run out of mana"):
+ *  { skip: [types that did not land in the last cycle: they never make a cycle due on their own], lastStart, now } — and no new cycle
+ *  sooner than cycleMinGapMs after the last start. */
+function bpCycleDue(types, members, cfg, opt) {
+  const c = Object.assign({}, ROLEKIND.buff, BUFFPLAN.settings, cfg || {}), o = opt || {};
   const near = (members || []).filter(m => !m.dead && m.known !== false && (m.me || (Number(m.dist) || 0) <= c.gatherRange));
-  const list = Array.from(new Set((types || []).map(t => String(t || '').toUpperCase()).filter(Boolean)));
+  const skip = (o.skip || []).map(t => String(t || '').toUpperCase());
+  const list = Array.from(new Set((types || []).map(t => String(t || '').toUpperCase()).filter(Boolean))).filter(t => !skip.includes(t));
+  if (o.lastStart && Number(o.now) - Number(o.lastStart) < Number(c.cycleMinGapMs || 0)) return { due: false, expired: 0, total: list.length, gap: true };
   if (!list.length || !near.length) return { due: false, expired: 0, total: list.length };
   let expired = 0;
   list.forEach(t => {
@@ -1415,7 +1553,25 @@ function tankReady(which) {
 
 // --- buffer upkeep + BUFF PLANS --------------------------------------------------------------------------------------------------------
 const BUFFUP = { busy: false, last: {}, fails: {}, pend: null, want: null, wantAt: 0, lastPot: 0, need: 0, mode: '', cls: null, eff: null, runs: false,
-  offers: {}, offerAt: 0, ownerAt: 0, owner: null, overlaps: [], rotme: {}, rotToken: { cycle: 0, step: 0, phase: '', at: 0, by: '' }, rotMeAt: 0, missing: {}, cycle: null, cycWaitSince: 0, owed: [] };
+  offers: {}, offerAt: 0, ownerAt: 0, owner: null, overlaps: [], rotme: {}, rotToken: { cycle: 0, step: 0, phase: '', at: 0, by: '' }, rotMeAt: 0, missing: {}, cycle: null, cycWaitSince: 0, owed: [],
+  cycFail: {}, cycStart: 0, cycPend: null, skipped: {}, groups: null, groupsAt: 0, groupsStamp: '', divAt: 0, div: 0 };
+/** BUFF GROUPS index (Scripts/data/buff_groups.json, docs/plan/tools/buff_groups.js), re-read when the file changes; no file = no groups */
+function buffGroups() {
+  if (BUFFUP.groups && now() - BUFFUP.groupsAt < 60000) return BUFFUP.groups;
+  BUFFUP.groupsAt = now();
+  try {
+    const f = `${__SCRIPTS__}\\data\\buff_groups.json`, st = fileStamp(f);
+    if (!st) { BUFFUP.groups = { covers: {}, families: {} }; return BUFFUP.groups; }
+    if (BUFFUP.groups && st === BUFFUP.groupsStamp) return BUFFUP.groups;
+    BUFFUP.groups = bpGroups(JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, ''))); BUFFUP.groupsStamp = st;
+  } catch (e) { if (!BUFFUP.groups) BUFFUP.groups = { covers: {}, families: {} }; }
+  return BUFFUP.groups;
+}
+/** my Divine Inspiration level (extra buff slots), re-read every minute */
+function rkDivineLvl() { if (now() - BUFFUP.divAt > 60000) { BUFFUP.divAt = now(); let l = 0; try { const k = SkillsList.GetItemByID(ROLEKIND.buff.divineId); l = k ? num(k.Level) : 0; } catch (e) { l = 0; } BUFFUP.div = l; } return BUFFUP.div; }
+function rkMySlots() { const a = []; try { (hostSnap.buffs() || BuffsList).forEach(b => a.push(b)); } catch (e) { } const r = rkSlotReport(a, rkDivineLvl(), { buffMax: bpSettings(buffPlansFile()).buffMax }); return { used: r[0], max: r[1] }; }
+/** a member's "never keep" list from the buff plans (any character, not only buffers) */
+function rkRemoveOf(name) { try { return bpRemoveList(bpEntry(buffPlansFile(), teamOf(name), name)); } catch (e) { return []; } }
 function buffPlansFile() {
   if (RKH.plans && now() - RKH.planAt < 10000) return RKH.plans;
   RKH.planAt = now();
@@ -1435,14 +1591,22 @@ function rkMemberBuffs(name) {
   const lp = livePos[name]; if (!lp || !lp.ab || now() - (lp.at || 0) > ROLEKIND.buff.reportMaxAgeMs) return null;
   return rkBuffsFromReport(lp.ab);
 }
+/** a member's buffs for the did-it-land check (servitors '<owner>:pet' too) */
+function rkSeenBuffs(n) {
+  const s = String(n || '');
+  if (!/:pet$/.test(s)) return rkMemberBuffs(s);
+  try { const o = s.replace(/:pet$/, ''); if (o === Me.Name) { const p = rkPetInfo(); return p ? rkBuffsFromReport(p.ab) : null; } const lp = livePos[o], p = lp && lp.pet; return p && p.ab && now() - (lp.at || 0) < ROLEKIND.buff.reportMaxAgeMs ? rkBuffsFromReport(p.ab) : null; } catch (e) { return null; }
+}
 function rkRoleOf(n) { return n === Me.Name ? (state.role || '') : ((livePos[n] || {}).role || CONFIG.roster[n] || ''); }
 function rkMembers() {
   const mk = (n, extra) => { const role = rkRoleOf(n); return Object.assign({ name: n, caster: ROLE_RE.caster.test(role) || ROLE_RE.healer.test(role), tank: ROLE_RE.tank.test(role) || n === (raidCtl.tank || ''), leader: n === CONFIG.leader }, extra); };
-  const out = [mk(Me.Name, { me: true, dist: 0, hp: num(Me.HpPercent), dead: !!Me.IsDead, known: true, buffs: rkMyBuffsMap(), objId: num(Me.objId) })];
+  const out = [mk(Me.Name, { me: true, dist: 0, hp: num(Me.HpPercent), dead: !!Me.IsDead, known: true, buffs: rkMyBuffsMap(), objId: num(Me.objId), slots: rkMySlots(), noBuff: rkRemoveOf(Me.Name) })];
   try { (hostSnap.party() || PartyList).forEach(m => {
     if (!m || m.Name === Me.Name) return;
     const b = rkMemberBuffs(m.Name);
-    out.push(mk(m.Name, { me: false, objId: num(m.objId), hp: num(m.HpPercent), dist: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), dead: !!m.IsDead || (num(m.HP) <= 0 && num(m.MaxHP) > 0), known: !!b, buffs: b || {} }));
+    const bs = (livePos[m.Name] || {}).bs;   // BUFF SLOTS: the member's own [used, max] report (MR.P 2026-10-10)
+    out.push(mk(m.Name, { me: false, objId: num(m.objId), hp: num(m.HpPercent), dist: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), dead: !!m.IsDead || (num(m.HP) <= 0 && num(m.MaxHP) > 0), known: !!b, buffs: b || {},
+      slots: Array.isArray(bs) ? { used: num(bs[0]), max: num(bs[1]) } : null, noBuff: rkRemoveOf(m.Name) }));
   }); } catch (e) { }
   // servitors as pseudo members '<owner>:pet' (plan target 'servitors'; summoners report them in swarm.pos)
   try {
@@ -1473,7 +1637,7 @@ function rkWantReports() {
   RKH.report = v; return v;
 }
 function rkWithBuffs(d) {
-  try { if (rkWantReports()) { const a = []; (hostSnap.buffs() || BuffsList).forEach(b => a.push(b)); d.ab = rkBuffReport(a); d.bufNeed = BUFFUP.mode ? BUFFUP.need : 0; } } catch (e) { }
+  try { if (rkWantReports()) { const a = []; (hostSnap.buffs() || BuffsList).forEach(b => a.push(b)); d.ab = rkBuffReport(a); d.bs = rkSlotReport(a, rkDivineLvl(), { buffMax: bpSettings(buffPlansFile()).buffMax }); d.bufNeed = BUFFUP.mode ? BUFFUP.need : 0; } } catch (e) { }
   // summoners: my servitor (healers heal it, buffers may buff it), 'no servitor out yet' counts as not ready for a pull, the consumable 'low'
   try {
     if (state.role === 'summoner') {
@@ -1505,12 +1669,14 @@ function rkOwner() {
 /** the report for swarm_state (dashboard Buffs page) */
 function rkStateReport() {
   try {
-    const cls = rkMyBuffSkills(), sk = [].concat(cls.party.map(s => ['party', s]), cls.target.map(s => ['target', s]));
+    const cls = rkAllBuffs(rkMyBuffSkills()), sk = [].concat(cls.party.map(s => ['party', s]), cls.target.map(s => ['target', s]));   // every learned buff (Embroider + Case Harden)
     if (!sk.length && !BUFFUP.mode) return null;
     const e = BUFFUP.eff || {};
     return { status: e.status || '', why: e.why || '', mode: BUFFUP.mode, board: boardOn(), runs: BUFFUP.runs || '',
       skills: sk.map(([k, s]) => ({ id: s.id, name: s.name, ab: s.ab, abLvl: s.abLvl, mlvl: s.mlvl, kind: k, song: rkIsSongDance(s), time: s.time })),
-      rotation: ((e.plan && e.plan.rotation) || []).slice(), missing: BUFFUP.missing || {}, overlaps: (BUFFUP.overlaps || []).slice(0, 20), cycle: BUFFUP.cycle || null, at: now() };
+      rotation: ((e.plan && e.plan.rotation) || []).slice(), missing: BUFFUP.missing || {}, overlaps: (BUFFUP.overlaps || []).slice(0, 20), cycle: BUFFUP.cycle || null,
+      slots: rkMySlots(), skipped: Object.keys(BUFFUP.skipped || {}).filter(k => BUFFUP.skipped[k].until > now()).slice(0, 30).map(k => Object.assign({ key: k }, BUFFUP.skipped[k])),
+      removed: (BUFFRM.done || []).slice(-10), at: now() };
   } catch (e) { return null; }
 }
 async function rkCastBuff(skill, target) {
@@ -1534,40 +1700,52 @@ App.on('swarm.rot', (e) => {
 });
 function rkRotSet(tok) { BUFFUP.rotToken = Object.assign({ at: now(), by: Me.Name }, tok); rkEmitTeam('swarm.rot', { cycle: tok.cycle, step: tok.step, phase: tok.phase }); }
 /** my part of the song / dance cycle: { pick, info } (pick = { skill, target: null, key, why, cycle: { next token } }) */
+// MR.P 2026-10-10 ("songs/dances in turns, 1st SWS, 2nd BD ..." / "in case a song/dance is missing wait for the other songs/dances to fade
+// away - now SWS/BD run out of mana"): the Swordsinger opens (settings.firstCycleCaster), the set is capped at the song / dance slots, a step
+// is cast ONCE per cycle: a song / dance that did not land on me (slots full / resisted / refused) is marked failed (BUFFUP.cycFail, told to
+// the other casters) and never makes a cycle due on its own; a step I cannot afford (MP after it below cycleMpReservePct) is skipped for
+// this cycle — no "owed" single recasts while the rest of the set runs; no new cycle sooner than cycleMinGapMs after the last start.
+function rkCycleFails() { const out = []; Object.keys(BUFFUP.cycFail).forEach(t => { if (BUFFUP.cycFail[t] > now()) out.push(t); else delete BUFFUP.cycFail[t]; }); return out; }
 function rkCycleTick(rot, people, S) {
   const kind = rot.filter(s => /^DANCE_/.test(s.ab) || /^Dance /i.test(s.name)).length * 2 >= rot.length ? 'dance' : 'song';
   const gathered = bpGathered(people, S), alive = !Me.IsDead;
+  // did my last cycle step land on me? (a song / dance always reaches its caster: not on me = slots full / refused)
+  if (BUFFUP.cycPend && now() - BUFFUP.cycPend.at > 3500) {
+    const p = BUFFUP.cycPend, b = rkMyBuffsMap()[p.ab]; BUFFUP.cycPend = null;
+    if (!b || (num(b.remain) > 0 && num(b.remain) < Math.max(30, num(p.time) - 30))) { BUFFUP.cycFail[p.ab] = now() + ROLEKIND.buff.skipMs; rkSay('cycfail' + p.ab, `songs/dances: ${p.name} did not land (slots full / refused) — not cast again this cycle, it does not restart the set`, 600000); }
+  }
+  const fails = rkCycleFails();
   const mine = { name: Me.Name, kind, list: rot.map(s => s.name), types: rot.map(s => s.ab) };
   const others = Object.keys(BUFFUP.rotme).map(n => BUFFUP.rotme[n]).filter(r => now() - r.at < 15000 && !(livePos[r.name] || {}).IsDead);
-  const seq = bpCycleSeq([mine].concat(others));
+  const seq = bpCycleSeq([mine].concat(others), S);
   const myIdx = []; seq.forEach((st, i) => { if (st.by === Me.Name) myIdx.push(i); });
   const mpNeed = bpCycleMp(myIdx.map(i => (rot.find(s => s.name === seq[i].skill) || {}).mp || 0), myIdx, S);
   const ok = alive && gathered && num(Me.MpPercent) >= S.rotMinMpPct, mpOk = num(Me.MP) >= mpNeed;
-  if (now() - BUFFUP.rotMeAt > 5000) { BUFFUP.rotMeAt = now(); rkEmitTeam('swarm.rotme', { kind, list: mine.list, types: mine.types, ok, mpOk }); }
+  if (now() - BUFFUP.rotMeAt > 5000) { BUFFUP.rotMeAt = now(); rkEmitTeam('swarm.rotme', { kind, list: mine.list, types: mine.types, ok, mpOk, fail: fails }); }
   const casters = [Object.assign({ ok, mpOk }, mine)].concat(others);
-  const types = [].concat(...casters.map(c => c.types || []));
-  const due = bpCycleDue(types, people, S);
+  const typeOf = {}; casters.forEach(c => (c.list || []).forEach((n, i) => { typeOf[c.name + '|' + n] = (c.types || [])[i]; }));
+  const types = seq.map(x => typeOf[x.by + '|' + x.skill]).filter(Boolean);               // only the (capped) set that is really cast
+  const skip = fails.concat(...others.map(o => o.fail || []));
   const tok = BUFFUP.rotToken || {};
+  const due = bpCycleDue(types, people, S, { skip, lastStart: num(tok.cycle) || BUFFUP.cycStart, now: now() });
   const running = tok.phase === 'run' && num(tok.step) < seq.length;
   if (due.due && !running) { if (!BUFFUP.cycWaitSince) BUFFUP.cycWaitSince = now(); } else if (!due.due) BUFFUP.cycWaitSince = 0;
   const st = bpCycleStep(tok, seq, casters, now(), Me.Name, due.due, BUFFUP.cycWaitSince ? now() - BUFFUP.cycWaitSince : 0, S);
-  BUFFUP.cycle = { phase: running ? 'run' : due.due ? 'due' : 'wait', step: running ? num(tok.step) : 0, total: seq.length, due: due.due, expired: due.expired, of: due.total, mpNeed, act: st.act, why: st.why };
+  BUFFUP.cycle = { phase: running ? 'run' : due.due ? 'due' : 'wait', step: running ? num(tok.step) : 0, total: seq.length, due: due.due, expired: due.expired, of: due.total, mpNeed, act: st.act, why: st.why,
+    first: String(S.firstCycleCaster || 'sws'), failed: skip.slice(0, 14), order: seq.map(x => x.skill).slice(0, 20) };
   if (st.act === 'wait' && !mpOk && now() - BUFFUP.lastPot > 3000 && itemCount(728) > 0) { BUFFUP.lastPot = now(); try { UseItem(728); } catch (e) { } }   // MP for the cycle first
   const cyc = st.act === 'start' ? now() : num(tok.cycle), step = st.act === 'start' ? 0 : num(st.step);
   const next = (i) => ({ cycle: cyc, step: i + 1, phase: i + 1 >= seq.length ? 'done' : 'run' });
+  if (st.act === 'start') { BUFFUP.cycStart = now(); Object.keys(BUFFUP.cycFail).forEach(t => { delete BUFFUP.cycFail[t]; }); }   // a new cycle: every song / dance gets its chance again
   if (st.act === 'skip') { rkRotSet(next(step)); return null; }
   if (st.act === 'start' && seq[0].by !== Me.Name) { rkRotSet({ cycle: cyc, step: 0, phase: 'run' }); return null; }   // I start it, the first step is someone else's
-  if (st.act !== 'start' && st.act !== 'cast') {
-    // after a cycle: what I owed (skipped for MP), one at a time, only those
-    if ((BUFFUP.owed || []).length && !running && num(Me.MpPercent) >= S.rotMinMpPct) {
-      const s = rot.find(x => x.name === BUFFUP.owed[0] && x.ready !== false && x.mp <= num(Me.MP));
-      if (s) { BUFFUP.owed.shift(); return { skill: s, target: null, key: s.id + '@party', why: `cycle: ${s.name} (owed from the last cycle)` }; }
-    }
-    return null;
-  }
+  if (st.act !== 'start' && st.act !== 'cast') return null;                                 // the set runs / waits: no single recasts
   const name = seq[step].skill, s = rot.find(x => x.name === name);
-  if (!s || s.ready === false || s.mp > num(Me.MP)) { if (s && s.mp > num(Me.MP)) (BUFFUP.owed = BUFFUP.owed || []).push(name); rkRotSet(next(step)); return null; }   // no MP: owed, the cycle goes on
-  if (st.act === 'start') BUFFUP.owed = [];
+  const maxMp = num(Me.MpPercent) > 0 ? num(Me.MP) * 100 / num(Me.MpPercent) : 0, reserve = maxMp * num(S.cycleMpReservePct) / 100;
+  if (!s || s.ready === false || s.mp > num(Me.MP) || (reserve > 0 && num(Me.MP) - s.mp < reserve)) {   // no MP for it: skipped THIS cycle (next cycle again), the cycle goes on
+    if (s && s.ready !== false) rkSay('cycmp' + name, `songs/dances: ${name} skipped this cycle (MP ${Math.round(num(Me.MP))}, reserve ${Math.round(reserve)})`, 300000);
+    rkRotSet(next(step)); return null;
+  }
   return { skill: s, target: null, key: s.id + '@party', why: `cycle ${step + 1}/${seq.length}: ${s.name}`, cycle: next(step) };
 }
 setInterval(() => {
@@ -1578,12 +1756,20 @@ setInterval(() => {
     if (Me.IsDead || state.escaping || state.gkBusy || tradeState || state.buffTurn || state.buffing || state.portPrep || Me.IsSitting || rest.sitting || ESC.on || Me.IsCasting) return;
     const file = buffPlansFile(), S = bpSettings(file), board = boardOn(), skills = rkMyBuffSkills();
     const members = rkMembers(), people = members.filter(m => !m.pet), names = people.map(m => m.name);
-    const eff = BUFFUP.eff = bpEffective(bpEntry(file, teamOf(Me.Name), Me.Name), skills, names);
+    const myEntry = bpEntry(file, teamOf(Me.Name), Me.Name), pNode = (file.parties || {})[teamOf(Me.Name)] || {};
+    const eff = BUFFUP.eff = bpApplySwitches(bpEffective(myEntry, skills, names, buffGroups()), myEntry, pNode);   // MR.P: noBuffs / noSongs switches
     const runs = BUFFUP.runs = bpRuns(eff, board);
     if (!runs) { BUFFUP.want = null; BUFFUP.need = 0; return; }
     if (mode === 'healer-idle' && (inRaid() || inst.on || people.some(m => !m.dead && m.hp > 0 && m.hp < 80))) { BUFFUP.want = null; return; }   // heals first
     // verify the last cast (3 misses = that skill on that target rests 10 min: no cast loop)
-    if (BUFFUP.pend) { const v = rkBufferVerify(BUFFUP.pend, rkMemberBuffs, now(), BUFFUP.fails); if (v === 'wait') return; if (v === 'fail') rkSay('fail' + BUFFUP.pend.key, `buffer: ${BUFFUP.pend.name} did not show up on ${BUFFUP.pend.names.join(', ')}`); BUFFUP.pend = null; }
+    // MR.P 2026-10-10: a member whose buffs did not change rests 10 min for that buff (BUFFUP.skipped for the dashboard, logged once)
+    if (BUFFUP.pend) {
+      const P = BUFFUP.pend, v = rkBufferVerify(P, rkSeenBuffs, now(), BUFFUP.fails); if (v === 'wait') return;
+      (P.missed || []).forEach(n => { const k = P.skillId + '@' + n, was = BUFFUP.skipped[k]; BUFFUP.skipped[k] = { skill: P.name, member: n, until: now() + ROLEKIND.buff.skipMs, why: 'did not land' };
+        if (!was || was.until < now()) note(`buffer: ${P.name} did not land on ${n} (refused / blocked by another buff / out of range) — skipped on ${n} for ${Math.round(ROLEKIND.buff.skipMs / 60000)} min`); });
+      if (v === 'fail') rkSay('fail' + P.key, `buffer: ${P.name} did not show up on ${(P.names || []).join(', ')}`);
+      BUFFUP.pend = null;
+    }
     // 'fill' (board buffs on, no reviewed plan): only what the board lacks — songs / dances count as ordinary buffs, no cycles
     const plan = runs === 'fill' ? { buffs: (eff.plan.buffs || []).concat(bpRotEntries(eff.plan.rotation).map(r => ({ skill: r.name, targets: ['party'], priority: 9 }))), rotation: [] } : eff.plan;
     const ps = bpPlanSkills(plan, skills, members, Me.Name);
@@ -1595,11 +1781,11 @@ setInterval(() => {
     if (mode === 'primary' && num(Me.MpPercent) < 50 && now() - BUFFUP.lastPot > 3000 && itemCount(728) > 0) { BUFFUP.lastPot = now(); try { UseItem(728); } catch (e) { } }   // the healers' Recharge also sees buffer roles
     if (num(Me.MpPercent) < ROLEKIND.buff.minMpPct) { BUFFUP.want = null; return; }
     let pick = null;
-    const rot = runs === 'full' ? bpRotEntries(plan.rotation).filter(r => !r.keepAlways).map(r => skills.party.find(s => bpNorm(s.name) === bpNorm(r.name))).filter(Boolean)
+    const rot = runs === 'full' ? bpRotEntries(plan.rotation).filter(r => !r.keepAlways).map(r => rkAllBuffs(skills).party.find(s => bpNorm(s.name) === bpNorm(r.name))).filter(Boolean)
       .map(s => { const k = rkLive(s.id); return Object.assign({}, s, { ready: !!(k && k.IsReady), mp: k ? num(k.MP) : s.mp }); }) : [];
     if (rot.length) pick = rkCycleTick(rot, people.filter(m => m.known !== false), S); else BUFFUP.cycle = null;
     if (!pick) pick = rkBufferPick({ skills: ps, members: members.filter(m => m.known !== false), now: now(), last: BUFFUP.last, fails: BUFFUP.fails, mp: num(Me.MP), have: itemCount,
-      cfg: { songDanceMax: S.songDanceMax }, owner, me: Me.Name });
+      cfg: { songDanceMax: S.songDanceMax, buffMax: S.buffMax, groups: buffGroups(), groupRule: S.buffGroupRule }, owner, me: Me.Name });   // MR.P: groups + slots
     BUFFUP.need = pick || (BUFFUP.cycle && (BUFFUP.cycle.phase === 'run' || BUFFUP.cycle.phase === 'due')) ? 1 : 0; BUFFUP.want = pick; BUFFUP.wantAt = now();
     if (!pick) return;
     BUFFUP.busy = true;
@@ -1608,13 +1794,39 @@ setInterval(() => {
         BUFFUP.last[pick.key] = now();
         log(`buffer (${mode}/${runs}): ${pick.why}`);
         rkSay('cast', `buffer: ${pick.why}`, 60000);
+        const who = pick.names && pick.names.length ? pick.names : pick.target ? [pick.target.name] : [Me.Name];
+        const before = rkBefore(who, rkSeenBuffs, pick.skill.ab);
         await rkCastBuff(pick.skill, pick.target);
-        if (pick.cycle) rkRotSet(pick.cycle);                     // pass the cycle token on
-        else BUFFUP.pend = { key: pick.key, ab: pick.skill.ab, name: pick.skill.name, names: pick.target ? [pick.target.name] : [Me.Name], at: now() };
+        if (pick.cycle) { rkRotSet(pick.cycle); BUFFUP.cycPend = { ab: pick.skill.ab, name: pick.skill.name, time: pick.skill.time, at: now() }; }   // pass the cycle token on; landed? next ticks
+        else BUFFUP.pend = { key: pick.key, skillId: pick.skill.id, ab: pick.skill.ab, name: pick.skill.name, names: who, before, at: now() };
       } catch (e) { logError('buffer upkeep', e); } finally { BUFFUP.busy = false; }
     })();
   } catch (e) { logError('buffer upkeep', e); }
 }, 1000);
+// --- REMOVE BUFFS (Mr.P 2026-10-10: "option for a char to delete unneeded buffs, e.g. for a healer in the group cancel Chant of Blood
+// Awakening or War Chant"): every character with a "never keep" list in its buff plan (buff_plans.json parties[<leader>].chars[<name>].remove,
+// Buffs page) cancels those buffs itself when they appear: client packet RequestDispel (Data/base.db PacketsGSClient "D04B00=RequestDispel=
+// d(PlayerOID)d(skillID)d(SkillLvl)"; L2J H5 RequestDispel: own buffs only, never debuffs; songs / dances only with DanceCancelBuff=True).
+// Only listed buffs, never anything else (board buffs stay). A buff the server keeps after 3 tries rests 10 min. Characters without a list:
+// nothing runs. Buffers never cast a listed buff on that member (rkBufferPick m.noBuff).
+const BUFFRM = { last: {}, tries: {}, done: [] };
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || Me.IsDead) return;
+    const list = rkRemoveOf(Me.Name); if (!list.length) return;
+    const a = []; (hostSnap.buffs() || BuffsList).forEach(b => a.push(b));
+    bpToRemove(list, a).forEach(h => {
+      const k = h.id + ':' + h.level, T = BUFFRM.tries[k] = BUFFRM.tries[k] || { n: 0, until: 0, first: now() };
+      if (T.until > now() || now() - (BUFFRM.last[k] || 0) < 4000) return;
+      if (now() - T.first > 120000) { T.n = 0; T.first = now(); }
+      if (++T.n > 3) { T.until = now() + 600000; T.n = 0; rkSay('rmfail' + h.id, `buffs: the server keeps ${h.name} (cancel refused) — trying again in 10 min`, 600000); return; }
+      BUFFRM.last[k] = now();
+      try { Send.SendHex('D04B00' + leHex(num(Me.objId), 4) + leHex(h.id, 4) + leHex(h.level, 4)); } catch (e) { logError('RequestDispel', e); return; }
+      BUFFRM.done.push({ name: h.name, at: now() }); if (BUFFRM.done.length > 20) BUFFRM.done.shift();
+      rkSay('rm' + h.id, `buffs: cancelled ${h.name} (on my "never keep" list)`, 600000);
+    });
+  } catch (e) { }
+}, 3000);
 /** before a pull (raidCountdown): wait (max ms) until no buffer of the team still has buffs to cast / a cycle to finish and every summoner has
  *  its servitor out. Teams without such characters: no wait (nobody reports bufNeed). */
 async function rkWaitTeamBuffers(runId, ms) {
@@ -2568,7 +2780,7 @@ const skillNamed = (() => { let key = '', map = {}; return (name) => {
   if (k !== key) { key = k; map = {}; try { SkillsList.forEach(sk => { map[String(sk.Name).toLowerCase()] = sk; }); } catch (e) { } }
   return map[name.toLowerCase()] || null; }; })();
 function readySkill(names) { for (const n of names) { const k = skillNamed(n); if (k && k.IsReady && Me.MP >= num(k.MP)) return k; } return null; }
-function myDebuffs() { const out = []; try { (hostSnap.buffs() || BuffsList).forEach(b => { if (b.IsDebuff) out.push(String(b.AbnormalType || b.Name || '')); }); } catch (e) { } return out.slice(0, 8); }
+function myDebuffs() { const out = []; try { (hostSnap.buffs() || BuffsList).forEach(b => { if (b.IsDebuff) out.push(rkBuffAb(b).ab || String(b.Name || '')); }); } catch (e) { } return out.slice(0, 8); }
 /** The team as the healer sees it: party members (live HP) + their own reports (debuffs, role, MP). */
 function healTargets() {
   const out = [{ name: Me.Name, objId: Me.objId, hp: Me.HpPercent, mp: Me.MpPercent, deb: myDebuffs(), role: state.role, x: Me.X, y: Me.Y, me: true }];
@@ -3613,7 +3825,7 @@ function toggleActive(id, name, fallback) {
 /** switches ONE running toggle off (not in a raid / fight); true = one was switched, call again before sitting (user 2026-10-09 13:40) */
 function toggleOffOne(why) {
   try {
-    if (inRaid()) return false;
+    if (inRaid() && (num(raidCtl.aggroAt) > 0 || raidCtl.engaged)) return false;
     let todo = null;
     (hostSnap.skills() || SkillsList).forEach(k => {
       if (todo || !k.IsToggle) return;
@@ -3633,15 +3845,16 @@ function buffUpByName(name) { let up = false; try { (hostSnap.buffs() || BuffsLi
 function toggleCtx() {
   let mobTarget = false;
   try { const t = Target; if (t && !t.IsDead && t.objId) { const m = mobById(num(t.objId)); mobTarget = !!(m && !m.IsDead); } } catch (e) { }
-  const town = !!currentTownKey(), raid = !!inRaid();
-  const fight = toggleFightNow({ town, raid, hitAgoMs: now() - lastAttackerOnMe.at, attacking: !!Me.IsAttacking, combatStance: !!Me.IsInCombat, mobTarget });
+  const town = !!currentTownKey(), raid = !!inRaid(), raidEngaged = raid && (num(raidCtl.aggroAt) > 0 || !!raidCtl.engaged);
+  const fight = toggleFightNow({ town, raid, raidEngaged, hitAgoMs: now() - lastAttackerOnMe.at, attacking: !!Me.IsAttacking, combatStance: !!Me.IsInCombat, mobTarget });
   if (fight) keeper.lastFightAt = now();
-  return { now: now(), fight, lastFightAt: keeper.lastFightAt, town, raid, dead: !!Me.IsDead };
+  return { now: now(), fight, lastFightAt: keeper.lastFightAt, town, raid, raidEngaged, dead: !!Me.IsDead };
 }
 setInterval(() => {
   if (!state.role || !IsCharacterReady()) return;
   if (Me.IsDead) { keeper.cubicAt = 0; return; }
-  if (state.escaping || tradeState || Me.IsSitting || rest.sitting || state.gkBusy) return;
+  if (Me.IsSitting || rest.sitting) return;
+  const busy = !!(state.escaping || tradeState || state.gkBusy);   // 2026-10-10: busy = no casts ON, but running toggles still go OFF
   try {
     let todo = null;
     const tc = toggleCtx();
@@ -3655,10 +3868,10 @@ setInterval(() => {
         // ON only in a fight outside towns (the wanted ones), OFF in towns / ~12 s after the fight (every running toggle)
         const act = toggleDecide({ name, running: toggleActive(id, name, () => { try { const o = SkillsList.GetItemByID(id); return !!(o && o.IsRunning); } catch (e) { return false; } }), wanted: KEEP_TOGGLES.includes(name) || (state.role === 'tank' && ROLEKIND.tankStances.test(name)) || (!TOGGLE_NOT_IN_FIGHT.test(name) && !(CONFIG.autoSkills && CONFIG.autoSkills.neverCast && CONFIG.autoSkills.neverCast.test(name)))   /* ALL toggles: on in a fight, off after (user 2026-10-09) */, lastCastAt: keeper.last[id] || 0 }, tc);
         if (act === 'off' && k.IsReady) todo = { id, name, off: true };
-        else if (act === 'on' && k.IsReady && mp >= num(k.MP)) todo = { id, name };
+        else if (act === 'on' && !busy && k.IsReady && mp >= num(k.MP)) todo = { id, name };
         return;
       }
-      if (!k.IsReady || mp < num(k.MP)) return;
+      if (busy || !k.IsReady || mp < num(k.MP)) return;
       if (KEEP_FIGHT_BUFFS.includes(name) && (IsInCombat || Me.IsInCombat || inRaid()) && !state.draining && BuffLow(id, 3) && now() - (keeper.last[id] || 0) > 80000 && !buffUpByName(name)) todo = { id, name };   // they last 90 s; the buff may show under another id (Doombringer1 recast Furious Soul every 25 s)
       else if (CUBIC_RE.test(name) && !tc.town && now() - keeper.cubicAt > 13 * 60000 && itemCount(3031) > 0) todo = { id, name, cubic: true };
     });
@@ -6991,7 +7204,7 @@ async function routeHop(p, abort, onDetour) {
   const precise0 = state.preciseWalk;
   state.preciseWalk = true;                         // the point must REALLY be reached: no "close enough" at 500-600 (2026-10-06 22:04: Tank1 counted
   try {                                             // point 2 as reached 680 away, and the straight line from there to point 3 ran into the slope)
-    let ok = await walkDirect(p.x, p.y, p.z, 120, 30000, abort, 'route');
+    let ok = await walkDirect(p.x, p.y, p.z, 200, 30000, abort, 'route');   // move on ~200 before each route point (no stop, 2026-10-10)
     // NO side-step (2026-10-06 21:48: a 150 side-step at the ravine edge dropped Saint1 from -3088 to -4960): retry straight only
     if (!ok && Math.hypot(p.x - Me.X, p.y - Me.Y) > 300 && !(abort && abort())) ok = await walkDirect(p.x, p.y, p.z, 120, 30000, abort, 'route');
     // AUTO-FIX (user 2026-10-06 23:35: "if the path is blocked then fix it"): ask our own path finder (geopath.js, a separate process — not
@@ -7477,7 +7690,7 @@ async function geoWalk(x, y, z, dist, timeoutMs, abort, onLeg) {
     if ((abort && abort()) || Me.IsDead) return false;
     const p = r.points[i], last = i === r.points.length - 1, leg = Math.hypot(p.x - Me.X, p.y - Me.Y);
     const legMs = () => Math.max(6000, Math.min(until - now(), Math.hypot(p.x - Me.X, p.y - Me.Y) / 110 * 1000 + 6000));
-    let ok = await walkDirect(p.x, p.y, p.z, last ? dist : 90, legMs(), abort, true);
+    let ok = await walkDirect(p.x, p.y, p.z, last ? dist : 200, legMs(), abort, true);   // intermediate: move on ~200 before the point (no stop, 2026-10-10)
     // WALK AROUND THE OBSTACLE (user 2026-10-06 00:10: "if they get stuck they should walk around the obstacle"):
     //  1) side-steps: 250 / 500 to the left and right of the line, then the waypoint again
     //  2) still stuck: the spot just ahead counts as an obstacle -> a new route from here around it (max 3 times)
@@ -7486,7 +7699,7 @@ async function geoWalk(x, y, z, dist, timeoutMs, abort, onLeg) {
       for (const off of [250, -250, 500, -500]) {
         const sx = Me.X + Math.cos(a + Math.PI / 2) * off + Math.cos(a) * 150, sy = Me.Y + Math.sin(a + Math.PI / 2) * off + Math.sin(a) * 150;
         await walkDirect(sx, sy, Me.Z, 80, 5000, abort, true);
-        ok = await walkDirect(p.x, p.y, p.z, last ? dist : 90, legMs(), abort, true);
+        ok = await walkDirect(p.x, p.y, p.z, last ? dist : 200, legMs(), abort, true);
         if (ok || Math.hypot(p.x - Me.X, p.y - Me.Y) <= 300) { note(`navigation: got past an obstacle with a side-step (${off > 0 ? 'left' : 'right'} ${Math.abs(off)})`); ok = true; break; }
       }
       if (!ok && replans < 3) {
@@ -7660,7 +7873,7 @@ async function walkDirect(x, y, z, dist, timeoutMs, abort, forceDirect) {
       if (stuckCount >= 6) { note(`walking: cannot get further towards ${x},${y} — giving up on this leg`); return false; }
       lastPos = { x: Me.X, y: Me.Y }; stillSince = now(); issue();
     }
-    await sleep(400);
+    await sleep(250);   // 2026-10-10: react faster at each waypoint
   }
   return distTo(x, y) <= dist;
 }
@@ -7932,7 +8145,72 @@ function gearPrefChoose(offers, buy, casterArmor, realWanted) {
   return L.filter(o => !!o.common !== !!casterArmor).sort(byPrice)[0] || L.sort(byPrice)[0] || null;
 }
 // GEARPREF-END
+// GEARGUARD-BEGIN (Mr.P 2026-10-10: "spoiler had Saint Spear equipped, the script started buying C grade equipment (Full Plate, shield) ...
+// sometimes it's faster to powerlevel with a spear"). Pure rules, tested offline by docs/plan/tools/test_gear_guard.js. The automatic gear
+// upgrade NEVER replaces what the user chose:
+//  * auto gear upgrades per character / party switch (Scripts/data/gear_auto.json, dashboard Gear page): default OFF for new installs and
+//    imported accounts (no file = off); "lock what is equipped" per character = nothing is bought, put on or swapped at all;
+//  * never a different weapon TYPE (spear -> sword + shield, bow -> ..., duals -> ...; sword <-> blunt of the same hand count is one family),
+//    never a lower grade, same grade only when the policy allows it (sameGradeSwap), never a shield next to a two-handed weapon / polearm /
+//    bow / duals, the body armor type (heavy / light / robe) stays (keepArmorType) — unless the user's own gear plan (class / role choice on
+//    the Gear page) names that item: the user's choice is the user's.
+//  gear_auto.json: { default: bool, sameGradeSwap: bool, keepArmorType: bool, parties: { <leader>: { auto } }, chars: { <name>: { auto, lock } } }
+const GEARGUARD = { grades: ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'], defaults: { auto: false, sameGradeSwap: false, keepArmorType: true } };
+/** the gear policy for one character: { auto, lock, sameGradeSwap, keepArmorType, from } */
+function ggPolicy(file, name, party) {
+  const F = file && typeof file === 'object' ? file : {}, D = GEARGUARD.defaults;
+  const ch = (F.chars || {})[name] || {}, pa = (F.parties || {})[party] || {};
+  let auto = D.auto, from = 'default (off: no gear_auto.json)';
+  if (typeof F.default === 'boolean') { auto = F.default; from = 'gear_auto.json default'; }
+  if (typeof pa.auto === 'boolean') { auto = pa.auto; from = 'party ' + party; }
+  if (typeof ch.auto === 'boolean') { auto = ch.auto; from = 'character'; }
+  return { auto, lock: ch.lock === true, from,
+    sameGradeSwap: typeof F.sameGradeSwap === 'boolean' ? F.sameGradeSwap : D.sameGradeSwap,
+    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : D.keepArmorType };
+}
+const ggGrade = (g) => GEARGUARD.grades.indexOf(String(g || 'NONE').toUpperCase());
+/** two-handed in the sense "no shield next to it" */
+function ggTwoHanded(w) { return !!w && (!!w.two || /^(BOW|CROSSBOW|POLE|DUAL|DUALFIST|DUALDAGGER|ANCIENTSWORD|FISHINGROD|FLAG)$/.test(String(w.t || ''))); }
+/** the weapon family: sword and blunt of the same hand count are one family, every other type is its own */
+function ggWeaponFamily(w) { if (!w) return ''; const t = String(w.t || ''); return /^(SWORD|BLUNT|RAPIER|ANCIENTSWORD)$/.test(t) ? 'MELEE' + (w.two || t === 'ANCIENTSWORD' ? '2H' : '1H') : t; }   // Kamael rapier / ancient sword = the sword twins of Change Weapon
+/** may the automatic upgrade put `cand` (item info { s, t, g, two, full }) in `slot`? o: { worn: [infos in that slot], weapon: the weapon
+ *  (worn or already planned), chestWorn (legs: the worn chest), explicit (the user's own plan names it), policy }. -> '' = ok | the reason */
+function ggCheck(o) {
+  const P = (o && o.policy) || GEARGUARD.defaults, c = o && o.cand, slot = String((o && o.slot) || (c && c.s) || '');
+  if (!c) return 'unknown item';
+  if (P.lock) return 'equipment locked (Gear page)';
+  const worn = ((o && o.worn) || []).filter(Boolean), ex = !!(o && o.explicit);
+  if (slot === 'shield' && ggTwoHanded(o && o.weapon)) return `no shield: the weapon is two-handed (${(o.weapon && o.weapon.n) || o.weapon.t})`;
+  if (!worn.length) return '';
+  // earrings / rings: two slots — judged against the weaker one that would go
+  const cmp = (slot === 'earring' || slot === 'ring') ? (worn.length < 2 ? null : worn.slice().sort((a, b) => ggGrade(a.g) - ggGrade(b.g))[0]) : worn[0];
+  if (!cmp) return '';
+  if (slot === 'weapon' && !ex && ggWeaponFamily(c) !== ggWeaponFamily(cmp)) return `different weapon type (${cmp.n || cmp.t} -> ${c.t}${c.two ? ' 2h' : ''})`;
+  if ((slot === 'chest' || slot === 'legs') && !ex && P.keepArmorType && cmp.t && c.t && cmp.t !== c.t) return `different armor type (${cmp.t} -> ${c.t})`;
+  if (ex) return '';
+  if (ggGrade(c.g) < ggGrade(cmp.g)) return `lower grade (${cmp.n || ''} ${cmp.g} -> ${c.g})`;
+  if (ggGrade(c.g) === ggGrade(cmp.g) && !P.sameGradeSwap) return `same grade (${cmp.g}): kept`;
+  return '';
+}
+// GEARGUARD-END
 let gearPrefCache = { at: 0, v: null }, gearRecCache = { at: 0, cls: -1, v: null };
+let gearAutoCache = { at: 0, v: null };
+/** my gear policy (Scripts/data/gear_auto.json, read live every 20 s; no file = auto upgrades OFF) */
+function gearPolicy() {
+  try {
+    if (!gearAutoCache.at || now() - gearAutoCache.at > 20000) {
+      const f = `${__SCRIPTS__}\\data\\gear_auto.json`;
+      let v = null; try { v = File.Exists(f) ? JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, '')) : null; } catch (e) { v = gearAutoCache.v; }
+      gearAutoCache = { at: now(), v };
+    }
+    return ggPolicy(gearAutoCache.v, Me.Name, teamOf(Me.Name));
+  } catch (e) { return Object.assign({ lock: false, from: 'error' }, GEARGUARD.defaults); }
+}
+/** host wrapper: may `info` go into `slot` given my gear `g` (myGear(), virtual picks included)? '' = ok */
+function gearGuard(slot, info, g, explicit) {
+  const S = String(slot || (info && info.s) || '').replace(/2$/, ''), w = ((g && g.eq && g.eq.weapon) || [])[0];
+  return ggCheck({ slot: S, cand: info, worn: (((g && g.eq) || {})[S] || []).map(e => e.info), weapon: S === 'shield' ? (w && w.info) : null, explicit, policy: gearPolicy() });
+}
 /** The user's preferred pieces for my class (+ its parent classes) and my role at my grade (dashboard Gear planner #/gear and the old Gear
  *  tab, Scripts/data/gear_prefs.json, read live — at most every 20 s). { slot: entry, _weapon, _fallback } */
 function gearPrefsFor() {
@@ -8009,7 +8287,10 @@ function planUpgrades(budget) {
   const role = gearRole(), R = ROLE_RULES[role];
   if (!R) return { buys: [], skipped: [], why: 'no gear role' };
   if (!Object.keys(idx).length) return { buys: [], skipped: [], why: 'no shop lists (run !shopscan)' };
-  const g = myGear(), picks = [], locked = {}, enchGrade = {};
+  const GP = gearPolicy();
+  if (GP.lock) return { buys: [], skipped: ['equipment locked (Gear page): nothing is bought or swapped'], why: 'equipment locked' };
+  const g = myGear(), picks = [], locked = {}, enchGrade = {}, guardNotes = {};
+  const guard = (slot, info, explicit) => { const r = gearGuard(slot, info, g, explicit); if (r && !guardNotes[slot]) guardNotes[slot] = `${slot} kept: ${r}`; return r; };   // GEARGUARD (Mr.P 2026-10-10)
   const w = (g.eq.weapon || [])[0];
   // an S.A. weapon is never replaced by one of the SAME (or a lower) grade; a higher grade may replace it (user rule, CLAUDE.md §6h;
   // 2026-10-07: before, an S.A. weapon locked the slot for ever, so a destroyer's C Berserker Blade - Focus would never become a B Star Buster)
@@ -8060,6 +8341,7 @@ function planUpgrades(budget) {
       if (kwant && info.t === kwant && info.cw) gearTwins(info.cw).forEach(i => (idx[i] || []).forEach(o => offers.push({ ...o, id: num(i) })));
       const pick = gearPrefChoose(offers, E.buy, casterArmor, realWanted);
       if (!pick) continue;
+      if (wearing < want) { const gj = kwant && info.t !== kwant && info.cw ? items[info.cw] : info, gr = guard(slot, gj, fromClass || E.from === 'role'); if (gr) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = gr; done = true; break; } }
       // a RECOMMENDED piece is only bought when it really beats what I wear (a better crafted / dropped / S.A. piece is never swapped down)
       if (fromRec && wearing < want) {
         const jinfo = kwant && info.t !== kwant && info.cw ? items[info.cw] : info, jid = jinfo === info ? num(ids[0]) : num(info.cw);
@@ -8094,6 +8376,7 @@ function planUpgrades(budget) {
         if (slot === 'chest') locked.legs = locked.legs || 'set';
         if (!info || !canUse(info)) return;
         if ((g.eq[slot] || []).some(e => pc.all.includes(num(e.id)))) return;                    // already wearing this set piece
+        if (guard(slot, info, false)) return;
         if (enchGrade[slot] !== undefined && GEAR_GRADES.indexOf(info.g) <= enchGrade[slot]) return;
         const offer = idx[pc.id].filter(o => !o.common).sort((a, b) => a.price - b.price)[0];
         picks.push({ id: pc.id, info, slot, offer, gain: 0, set: set.name });
@@ -8134,6 +8417,7 @@ function planUpgrades(budget) {
       if (slot !== 'earring' && slot !== 'ring' && picks.some(p => p.id === num(id))) continue;
       const gain = upgradeGain(judgeId, judge, g);
       if (gain < U.minGain) continue;
+      if (guard(slot, judge, false)) continue;
       if (!best || gain > best.gain || (gain === best.gain && offer.price < best.offer.price)) best = { id: num(id), info, slot, offer, gain, change };
     }
     if (best) { picks.push(best); virtualEquip(g, best.change ? { ...best, id: best.change, info: items[best.change] } : best); }
@@ -8144,6 +8428,7 @@ function planUpgrades(budget) {
   picks.forEach(p => { if (spend + p.offer.price <= budget) { buys.push(p); spend += p.offer.price; } else skipped.push(`${p.info.n} (${p.offer.price})`); });
   if (locked.weapon && /^S\.A\./.test(locked.weapon)) skipped.push(`weapon kept: ${locked.weapon}`);
   prefSkipped.forEach(t => skipped.push(t));
+  Object.keys(guardNotes).forEach(k => skipped.push(guardNotes[k]));
   return { buys, skipped, spend, prefs: prefRows, why: buys.length ? '' : 'nothing better in the shops' };
 }
 
@@ -8211,6 +8496,7 @@ async function equipBought(picks) {
  *  Only "Common Item" pieces: the user equips loot himself (2026-10-04). Never the weapon slot when an S.A. weapon is worn. */
 async function equipCommonFromBag() {
   const out = [], keep = new Set(), WRb = weaponRuleFor();
+  const GPb = gearPolicy(); if (GPb.lock || !GPb.auto) return out;                 // GEARGUARD: locked / auto upgrades off = nothing from the bag either
   for (let n = 0; n < 12; n++) {
     const g = myGear(), w = (g.eq.weapon || [])[0];
     let best = null;
@@ -8222,6 +8508,7 @@ async function equipCommonFromBag() {
       const kw = KAMAEL_WEAPON[gearRole()];
       if (b.info.s === 'weapon' && kw && b.info.t !== kw && !(b.info.cw && (gearDb().items[b.info.cw] || {}).t === kw)) continue;
       const gain = upgradeGain(b.id, b.info, g);
+      if (gain >= CONFIG.gear.upgrade.minGain && gearGuard(b.info.s, kw && b.info.t !== kw && b.info.cw ? (gearDb().items[b.info.cw] || b.info) : b.info, g, false)) continue;   // GEARGUARD
       if (gain >= CONFIG.gear.upgrade.minGain && (!best || gain > best.gain)) best = { ...b, gain };
     }
     if (!best) break;
@@ -8237,6 +8524,7 @@ async function equipCommonFromBag() {
 async function gearUpgrade(why) {
   const U = CONFIG.gear.upgrade;
   if (!U.on) return { ok: true, msg: 'upgrades off' };
+  { const GP = gearPolicy(); if (GP.lock) return { ok: true, msg: 'equipment locked (Gear page)' }; if (!GP.auto && !/^!/.test(String(why || ''))) return { ok: true, msg: `auto gear upgrades off (${GP.from})` }; }   // GEARGUARD: a !order still runs
   let fromBag = [];
   try { fromBag = await equipCommonFromBag(); } catch (e) { logError('equipCommonFromBag', e); }
   if (fromBag.length) { note(`[gear] ${why}: ${fromBag.join('; ')}`, true); appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] (${why}) from the bag: ${fromBag.join('; ')}\r\n`); }
@@ -8421,6 +8709,7 @@ async function dyePlanStep() {
 async function gearPlanStep() {
   const U = CONFIG.gear.upgrade;
   if (!U.on) return { ok: true, need: false, msg: 'upgrades off' };
+  { const GP = gearPolicy(); if (GP.lock || !GP.auto) return { ok: true, need: false, msg: GP.lock ? 'upgrades off: equipment locked (Gear page)' : `upgrades off: auto gear upgrades off (${GP.from})` }; }   // GEARGUARD
   let fromBag = []; try { fromBag = await equipCommonFromBag(); } catch (e) { logError('equipCommonFromBag', e); }
   if (fromBag.length) { note(`[gear] supply plan: ${fromBag.join('; ')}`, true); appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] (supply plan) from the bag: ${fromBag.join('; ')}\r\n`); }
   if (currentTownKey() !== 'Giran') return { ok: true, need: false, msg: `not in Giran (${Math.round(Me.X)},${Math.round(Me.Y)}) — skipped` };
@@ -9041,8 +9330,10 @@ async function equipAll(maxItems) {
   for (; n < (maxItems || 8); n++) {
     const g = myGear();
     let best = null;
+    const GPa = gearPolicy(); if (GPa.lock || !GPa.auto) break;                     // GEARGUARD
     for (const b of g.bag) {
       if (badEquip[b.objId] && now() - badEquip[b.objId] < 1800000) continue;
+      if (gearGuard(b.info.s, b.info, g, false)) continue;
       const gain = upgradeGain(b.id, b.info, g);
       if (gain > 0.5 && (!best || gain > best.gain)) best = { ...b, gain };
     }
@@ -12948,6 +13239,7 @@ const pullHold = { on: false, weapon: 0 };
 const POLE_ROLES = /^(destroyer|doombringer|inspector|sk)$/;
 async function polearmSwap(on, force) {
   if (!POLE_ROLES.test(state.role || '') || (isLeader() && !force)) return;
+  try { if (gearPolicy().lock) return; } catch (e) { }                              // GEARGUARD: locked equipment is never swapped
   try {
     const g = myGear();
     if (on) {
@@ -15081,12 +15373,15 @@ function supplyTimer(t0) {
 // switched ON only in a fight outside a town; EVERY running toggle (found by IsToggle, wanted or not) is switched OFF in a town and once
 // nothing has happened for TOGGLE_RULE.offAfterMs (re-casting a running toggle switches it off). Raids keep them on (between waves too).
 // Never switched off: Fake Death / Silent Move (not fight buffs) and Soul Cry (the old whitelist; a buff on this server, not a toggle).
-const TOGGLE_RULE = { offAfterMs: 12000, recastGapMs: 15000, neverOff: /^(Fake Death|Silent Move)$/i };   // Soul Cry removed 2026-10-09 13:45 (user: ALL toggles only in fights)
+// 2026-10-10 (user: "they should ONLY be active during fights, they drain mana constantly ... the same with all toggle skills"): a raid is no
+// longer "always a fight" - only once the boss is pulled (raidEngaged) or I am really fighting; walk-in / clearing waits / countdown = off.
+// Off after 8 s without a fight (was 12), 20 s between the waves of a pulled raid. The keeper also switches OFF during trades / gatekeeper / escapes.
+const TOGGLE_RULE = { offAfterMs: 8000, raidOffAfterMs: 20000, recastGapMs: 15000, neverOff: /^(Fake Death|Silent Move)$/i };   // Soul Cry removed 2026-10-09 13:45 (user: ALL toggles only in fights)
 function tNum(v) { const n = Number(v); return isFinite(n) ? n : 0; }
 /** c = { town, raid, hitAgoMs, attacking, combatStance, mobTarget, hpDropAgoMs } -> a fight right now */
 function toggleFightNow(c) {
   if (!c || c.town) return false;
-  if (c.raid) return true;
+  if (c.raid && c.raidEngaged) return true;                                                         // a pulled raid boss
   if (c.hitAgoMs !== undefined && c.hitAgoMs !== null && tNum(c.hitAgoMs) < 6000) return true;   // a monster hit me
   if (c.mobTarget && (c.attacking || c.combatStance)) return true;                                 // I fight my live monster target
   return false;
@@ -15098,8 +15393,8 @@ function toggleDecide(t, c) {
   if (t.running) {
     if (TOGGLE_RULE.neverOff.test(String(t.name || ''))) return '';
     if (c.town) return 'off';                                                          // never in a town
-    if (c.raid || c.fight) return '';
-    return c.now - tNum(c.lastFightAt) >= TOGGLE_RULE.offAfterMs ? 'off' : '';        // the fight is over
+    if (c.fight) return '';
+    return c.now - tNum(c.lastFightAt) >= (c.raid && c.raidEngaged ? TOGGLE_RULE.raidOffAfterMs : TOGGLE_RULE.offAfterMs) ? 'off' : '';   // the fight is over
   }
   return t.wanted && c.fight && !c.town ? 'on' : '';
 }
@@ -15921,7 +16216,22 @@ async function rgWalk(d, target, o) {
         if (!np.ok) return { ok: false, why: np.why, plan }; plan = np; i = -1; sentAt = -1; continue;
       }
       // walk / stairs: this leg's centreline waypoints, one short straight move each
-      const pts = s.pts && s.pts.length ? s.pts : [{ x: s.x, y: s.y, z: s.z }];
+      let pts = s.pts && s.pts.length ? s.pts : [{ x: s.x, y: s.y, z: s.z }];
+      // FAST SCOUT (user 2026-10-10: "Dagger1 barely moved, the waypoints were way too slow"): a lone scout keeps only the corners of the
+      // centreline (direction change > 20 degrees) + the last point, so it runs long straight legs instead of stopping every ~280 units
+      // 2026-10-10 (user: "moving from waypoint to waypoint should be as fast as possible - when they reach the next waypoint move on, no
+      // waiting"): for EVERY walker now, not only the scout (fastScout kept as the name of the switch)
+      const fastScout = true;
+      if (fastScout && pts.length > 2) {
+        const keep = [pts[0]];
+        for (let k = 1; k < pts.length - 1; k++) {
+          const a = keep[keep.length - 1], p = pts[k], n = pts[k + 1];
+          const a1 = Math.atan2(p.y - a.y, p.x - a.x), a2 = Math.atan2(n.y - p.y, n.x - p.x);
+          let dd = Math.abs(a1 - a2); if (dd > Math.PI) dd = 2 * Math.PI - dd;
+          if (dd > 20 * Math.PI / 180 || Math.abs((n.z || 0) - (p.z || 0)) > 120) keep.push(p);
+        }
+        keep.push(pts[pts.length - 1]); pts = keep;
+      }
       if (team && sentAt !== s.floor) { sentAt = s.floor; try { App.emit('swarm.roomroute', { dungeon: d.name, town: !!d.isTown, floor: s.floor, pts: rgPlanPoints({ steps: plan.steps.slice(i) }, s.floor).slice(0, 300).map(p => [p.x, p.y, p.z]), label: tgt.label }); } catch (e) { } }
       const all = rgPlanPoints({ steps: plan.steps.slice(i) }, s.floor);
       let failed = false;
@@ -15929,7 +16239,7 @@ async function rgWalk(d, target, o) {
         const p = pts[j]; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 90) continue;
         rgRoutePublish(all, j, tgt, { kind: o.team ? 'trip' : 'walk', dungeon: d.name, floor: s.floor, text: prog, replans, stuck: !!stuckSince, stuckSince: stuckSince ? new Date(stuckSince).toISOString() : null });
         const legMs = Math.max(6000, Math.hypot(p.x - Me.X, p.y - Me.Y) * 25);
-        let ok = await walkDirect(p.x, p.y, p.z, 80, legMs, abort, true);
+        let ok = await walkDirect(p.x, p.y, p.z, fastScout && j < pts.length - 1 ? 180 : 80, legMs, abort, true);
         if (!ok && !abort() && Math.hypot(p.x - Me.X, p.y - Me.Y) > 160) ok = await walkDirect(p.x, p.y, p.z, 120, 10000, abort, false);
         if (!ok && Math.hypot(p.x - Me.X, p.y - Me.Y) > 220) { failed = true; break; }
         stuckSince = 0;
@@ -22405,7 +22715,7 @@ async function leadTeamAction(action, data) {
 // Leader: someone is running low -> supply run (goes to Giran, buys, hands out, comes back to leveling)
 setInterval(() => {
   if (!leadMode() || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead || leadPaused()) return;
-  if (leadRunBusy || regroupRun || inRaid() || state.mode === 'mission' || outranked(PRIO.ORDER) || !supplyDue(lastSupplyAtGet(), now())) return;
+  if (leadRunBusy || regroupRun || inRaid() || state.mode === 'mission' || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || outranked(PRIO.ORDER) || !supplyDue(lastSupplyAtGet(), now())) return;   // never during a scout trip (2026-10-10)
   const low = [];
   if (supplyLow.what) low.push(`${Me.Name}: ${supplyLow.what}`);
   teamNames().forEach(n => { const lp = livePos[n]; if (lp && lp.low && now() - lp.at < 10000) low.push(`${n}: ${lp.low}`); });

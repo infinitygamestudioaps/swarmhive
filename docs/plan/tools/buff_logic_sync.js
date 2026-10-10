@@ -23,7 +23,8 @@ const TAIL = `
   return { ROLEKIND, ROLE_RE, BUFFPLAN, rkNum, rkClassRow, rkKindOfClass, rkStyleOfClass, rkKindOf, rkResolve, rkIsLegacy, rkBehaviour, rkSkill,
     rkClassifyBuffs, rkIsSongDance, rkBuffNeed, rkBufferPick, rkBoardBuffs, rkUpkeepRole,
     bpNorm, bpSettings, bpEntry, bpTargets, bpValidate, bpBenefit, bpSuggest, bpEffective, bpRuns, bpPlanSkills, bpOwners, bpGathered,
-    bpMissing, bpTemplateFromParty, bpTemplateApply, bpRotName, bpRotEntries, bpCycleSeq, bpCycleDue, bpCycleMp, bpCycleStep };
+    bpMissing, bpTemplateFromParty, bpTemplateApply, bpRotName, bpRotEntries, bpCycleSeq, bpCycleDue, bpCycleMp, bpCycleStep,
+    rkGroupBlock, rkGroupReplaces, rkSlots, rkSlotReport, rkNoBuff, rkBefore, rkBufferVerify, rkAllBuffs, bpGroups, bpRemoveList, bpToRemove, bpApplySwitches };
 });
 `;
 function build(src) {

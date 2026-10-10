@@ -4,12 +4,12 @@
 
 *Lead the swarm.* A swarm kit for L2Swarm.
 
-![version](https://img.shields.io/badge/version-1.5.1-blue)
+![version](https://img.shields.io/badge/version-1.5.2-blue)
 ![L2Swarm](https://img.shields.io/badge/L2Swarm-3.8.14%2B-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 ![platform](https://img.shields.io/badge/Windows-10%20%7C%2011-lightgrey)
 
-**Version 1.5.1 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
+**Version 1.5.2 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
 
 This kit runs a **whole swarm of Lineage 2 characters with L2Swarm**: up to 40 accounts in several parties that level,
 restock, gear up, run Kamaloka and hunt raid bosses on their own, with one leader per party making the decisions. It
@@ -84,7 +84,10 @@ Details for every feature are in the [user guide](docs/guide/README.md).
 - **Supply runs.** Every character reports what it lacks (Scrolls of Escape/Resurrection, shots, potions, spirit ore);
   the leader buys the total in Giran and trades each member its share. Junk is sold automatically.
 - **Gear upgrades and enchanting.** Buys better weapons/armor/jewelry per class and grade (shop data in `Scripts/data/`),
-  respects your preferences (`gear_prefs.json`), enchants up to a safe limit, converts Kamael weapons.
+  respects your preferences (`gear_prefs.json`), enchants up to a safe limit, converts Kamael weapons. **Off by default**: switch it on per
+  character or party on the dashboard **Gear** page (`Scripts/data/gear_auto.json`), or lock what a character wears. Even when it is on it never
+  changes the weapon type (a spear stays a spear, a bow a bow), never takes a lower grade, never puts a shield next to a two-handed weapon or
+  polearm and keeps the armor type, unless your own gear plan names that item.
 - **Class changes only with your approval.** On the dashboard's **Classes** page you pick and approve a class path per character (every class of every race, from the game data), per party, or apply a group template. Without an approved plan a character **never** changes class; it shows an animated "No class plan" warning instead. Approved changes go through the server's Community Board (Career → Professions) at levels 20 / 40 / 76.
 - **Buffs** from the Community Board (12-hour schemes), one character at a time, with the rest of the party guarding it.
 - **Healer brain.** Healers only heal: fastest heal on the dying, group heals, cures, recharge, mana potions.
@@ -283,7 +286,12 @@ character's own learned skills, so there are no skill ids to maintain:
 - **tank** (Paladin, Dark Avenger, Temple Knight, Shillien Knight and their 3rd classes): holds aggro (single and area aggro skills), uses its emergency defence skill and opens raids.
 - **buffer** (Prophet, Swordsinger, Bladedancer, Overlord, Warcryer, Hierophant, Sword Muse, Spectral Dancer, Dominator, Doomcryer):
   keeps party buffs up. It never overwrites a stronger buff and respects the song/dance limit. Songs and dances run in full cycles, and a
-  Bladedancer and a Swordsinger take turns (dance, song, dance ...). Fighter buffers assist in melee; mystic buffers stay back.
+  Swordsinger and a Bladedancer take turns (song, dance, song ... ; the Bladedancer can open instead). Fighter buffers assist in melee; mystic buffers stay back.
+  **Buff groups:** buffs that do not stack in the game (Improved Magic blocks Empower, Magic Barrier and Chant of Fire; Improved Combat
+  blocks Might and Shield ...) come from `Scripts/data/buff_groups.json` (made from the game data). A buffer casts the improved buff
+  first and never a buff whose group the member already has. A buff that does not land on a member is skipped there for 10 minutes,
+  never recast until the buffer is out of MP. **Buff slots:** a member whose buff slots are full (24, plus Divine Inspiration) only gets its
+  buffs refreshed. **Never keep:** per character a list of buffs it cancels itself (a healer drops Chant of Blood Awakening). Buffers never cast them on it.
 - **archer**: assists from range and steps back from a monster the tank holds.
 - **summoner** (Warlock, Elemental Summoner, Phantom Summoner and their 3rd classes): keeps its best servitor out and sends it at the
   party's target. It heals, recharges and buffs the servitor, and uses the servitor's own skills. The item the summon eats goes on the supply list.
@@ -297,7 +305,10 @@ what the board lacks. Set `"boardBuffs": false` for an old-school party that has
 a party leader's account entry to set it for that party only. With it off, no board buff runs at all: the buffers are the buff source
 and self buffs are allowed. Which buffer casts what on whom is set in `Scripts\data\buff_plans.json` (see `buff_plans.example.json`).
 Without a plan, a buffer casts the buffs its own skills suggest. With board buffs off it does so straight away; with board buffs on it
-only fills what the board lacks.
+only fills what the board lacks. On the dashboard **Buffs** page you tick the songs / dances each singer and dancer casts. The
+suggestion keeps the whole set within the song / dance slots. A song / dance that runs out early is not recast on its own: it waits
+for the next full cycle. You can also give a single-target buff to several members, switch songs / dances off per character or party,
+switch buffing off for a character, or save an empty plan.
 
 An account without a role is not controlled by the script (SETUP warns). Class changes are never automatic until you
 approve a plan per character on the dashboard (**Classes** page). `--party` takes the leader's **character** name.
