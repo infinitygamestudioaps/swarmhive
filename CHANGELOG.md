@@ -2,6 +2,10 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.5.3 (2026-10-10)
+
+- Dashboard fixes: Gear page - the new Auto gear upgrades box no longer pushes the gear plan and its item images off the screen (moved below Our characters, folded by default with a one-line summary). All pages - item/skill icons and names load again by themselves when the game data could not be fetched (e.g. a page open while the dashboard server restarted showed ? icons until a full reload).
+
 ## v1.5.2 (2026-10-10)
 
 - Buffers no longer recast buffs that are already up (L2Swarm reports running buff types as a per-level list

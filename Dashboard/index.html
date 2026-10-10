@@ -928,8 +928,12 @@ function ugLayer(rx, ry, z, x, y) {
 }
 fetch('/api/maplayersz').then(r => r.json()).then(j => { window.MAP_ZMAP = j || {}; }).catch(() => { });
 fetch('/api/maplayers').then(r => r.json()).then(j => { window.MAP_LAYERS = j || {}; }).catch(() => { });
-Promise.all(['items', 'skills', 'classes'].map(n => fetch('/gamedata/' + n + '.json').then(r => r.json()).catch(() => ({}))))
-  .then(([items, skills, classes]) => { GD = { items, skills, classes }; });
+// game data for icons / names; retried until it arrives (2026-10-10: a page open during a server restart kept "?" icons for good)
+(function loadGD(tries) {
+  Promise.all(['items', 'skills', 'classes'].map(n => fetch('/gamedata/' + n + '.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })))
+    .then(([items, skills, classes]) => { GD = { items, skills, classes }; try { window.dispatchEvent(new HashChangeEvent('hashchange')); } catch (e) { } })
+    .catch(() => setTimeout(() => loadGD(tries + 1), Math.min(30000, 2000 * (tries + 1))));
+})(0);
 const iconUrl = (p) => p ? '/icons/' + p + '.png' : '/icons/icon/etc_question_mark_i00.png';
 const itemIcon = (id) => iconUrl((GD.items[id] || [])[1]);
 const skillIcon = (id) => iconUrl((GD.skills[id] || [])[1]);

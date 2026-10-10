@@ -107,8 +107,9 @@
 .gp-s img { width: 24px; height: 24px; display: block; }
 .gp-s i { font-style: normal; font-size: var(--fs-mini); color: #5b5546; }
 .gp-sum { font-size: var(--fs-cap); }
-.gp-help summary { cursor: pointer; list-style: none; } .gp-help summary::-webkit-details-marker { display: none; }
-.gp-help summary h3 { margin: 0; border: 0; padding: 0; }
+.gp-help summary, .gp-auto summary { cursor: pointer; list-style: none; } .gp-help summary::-webkit-details-marker, .gp-auto summary::-webkit-details-marker { display: none; }
+.gp-help summary h3, .gp-auto summary h3 { margin: 0; border: 0; padding: 0; }
+.gp-auto summary h3 > span:first-child::before { content: "▸ "; } .gp-auto[open] summary h3 > span:first-child::before { content: "▾ "; } .gp-auto[open] summary { margin-bottom: 8px; }
 .gp-helpbody { font-size: var(--fs-cap); color: var(--ink); } .gp-helpbody p { margin: 6px 0; }
 
 /* picker: bottom sheet on phones, side panel on wide screens */
