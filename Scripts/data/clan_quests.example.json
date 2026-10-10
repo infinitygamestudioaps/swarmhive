@@ -1,0 +1,385 @@
+{
+ "note": "Clan state + clan quests (user 2026-10-07). Bosses by npc id from the H5 datapack (Q508: Sir Eric Rodemai 30868, clan level 5; Q509: Valdis 31331, clan level 6). activeQuests = quests the clan leader has taken. wantName = the name the clan is founded with. skillFocus = the clan skill to save reputation for. Read live by swarm.js and the dashboard.",
+ "clan": {},
+ "quests": {
+  "508": {
+   "name": "A Clan's Reputation",
+   "npc": "Sir Eric Rodemai",
+   "town": "Aden",
+   "clanLevel": 5,
+   "repeatable": true,
+   "bosses": [
+    "Palibati Queen Themis",
+    "Hekaton Prime",
+    "Gargoyle Lord Tiphon",
+    "Last Lesser Giant Glaki",
+    "Rahha",
+    "Flame Lord Shadar"
+   ],
+   "npcId": 30868,
+   "bossIds": [
+    25252,
+    25478,
+    25255,
+    25245,
+    25051,
+    25524
+   ],
+   "items": {
+    "25051": [
+     8282,
+     558
+    ],
+    "25245": [
+     8281,
+     784
+    ],
+    "25252": [
+     8277,
+     560
+    ],
+    "25255": [
+     8280,
+     602
+    ],
+    "25478": [
+     14883,
+     584
+    ],
+    "25524": [
+     8494,
+     768
+    ]
+   }
+  },
+  "509": {
+   "name": "A Clan's Fame",
+   "npc": "Grand Magister Valdis",
+   "town": "Rune",
+   "clanLevel": 6,
+   "repeatable": true,
+   "bosses": [
+    "Daimon the White-Eyed",
+    "Hestia, Guardian Deity of the Hot Springs",
+    "Plague Golem",
+    "Demon's Agent Falston"
+   ],
+   "npcId": 31331,
+   "bossIds": [
+    25290,
+    25293,
+    25523,
+    25322
+   ],
+   "items": {
+    "25290": [
+     8489,
+     1378
+    ],
+    "25293": [
+     8490,
+     1378
+    ],
+    "25322": [
+     8492,
+     782
+    ],
+    "25523": [
+     8491,
+     1070
+    ]
+   }
+  },
+  "510": {
+   "name": "A Clan's Prestige",
+   "npc": "Grand Magister Valdis",
+   "town": "Rune",
+   "clanLevel": 6,
+   "repeatable": true,
+   "monsters": [
+    "Tyrannosaurus"
+   ],
+   "note": "Primeval Isle, not raid bosses — not part of raid hunt"
+  }
+ },
+ "killRule": "The clan leader kills the boss, or a clan member within 1500 of the clan leader (datapack Q508/Q509). So the clan leader must be AT the raid.",
+ "levelQuestsNote": "Clan level items as step plans (user 2026-10-07 19:20), from the L2J High Five datapack (Shagooh/l2j-server-datapack: quests/Q00501_ProofOfClanAlliance, Q00503_PursuitOfClanAmbition; npcstats 18000-18099 Blood Queen droplist; spawns_h5.json). auto=true: \"!clanquest <id>\" runs it; auto=false: the user / several characters must do it (shown on the Clan tab). Progress: Logs/clanquest_<id>.json. Levels 1 and 2 need no item (SP + adena only) -> !clanlevel.",
+ "levelQuests": {
+  "501": {
+   "name": "Q501 Proof of Clan Alliance (clan level 3 -> 4: Alliance Manifesto 3874)",
+   "item": 3874,
+   "forClanLevel": 4,
+   "clanLevel": 3,
+   "source": "Q00501_ProofOfClanAlliance.java. Clan leader of a clan of EXACTLY level 3. 3 clan members (not the leader) of level 40+. Reward: Alliance Manifesto + 120,000 SP.",
+   "steps": [
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Sir Kristof Rodemai",
+     "npcId": 30756,
+     "town": "Giran",
+     "at": [
+      84521,
+      146372,
+      -3404
+     ],
+     "click": [
+      "quest|proof of clan alliance",
+      "accept|yes|i will|undertake|agree"
+     ],
+     "text": "Clan leader: Sir Kristof Rodemai (Giran) -> start the quest (30756-07)."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Kalis",
+     "npcId": 30759,
+     "at": [
+      95359,
+      22208,
+      -2879
+     ],
+     "click": [
+      "quest|proof of clan alliance",
+      "."
+     ],
+     "text": "Clan leader: Witch Kalis (Forest of Evil, gatekeeper \"Forest of Evil\") -> 30759-03: she asks for 3 Symbols of Loyalty."
+    },
+    {
+     "kind": "manual",
+     "who": "members",
+     "auto": false,
+     "text": "3 clan members (NOT the leader), level 40+: talk to the Statue of Offering next to Kalis (95348,22298). 50 %: a Symbol of Loyalty at once; otherwise the statue kills you (\"Die You Fool\") and you get it when dead (res afterwards). The datapack gives the symbol to the MEMBER while Kalis checks the LEADER for 3 — verify on L2Toggle how the symbols reach the leader."
+    },
+    {
+     "kind": "manual",
+     "who": "leader",
+     "auto": false,
+     "text": "Clan leader at Kalis with 3 Symbols: gets the Antidote Recipe List and is poisoned (Poison of Death, a FATAL timed poison). Everything below must be done before it kills him."
+    },
+    {
+     "kind": "manual",
+     "who": "members",
+     "auto": false,
+     "text": "A clan member at Athrea (Hunters Valley, 102069,103120): the box game — 16 Boxes of Athrea, kill until 4 say \"BINGO\" -> Blood of Eva (retry costs 10,000 adena)."
+    },
+    {
+     "kind": "manual",
+     "who": "party",
+     "auto": false,
+     "text": "Kill for herbs (10 % each, party members with the quest): Oel Mahum Witch Doctor (lvl 55, Outlaw Forest near Oren), Harit Lizardman Shaman (lvl 54, Forest of Mirrors / Hunters), Vanor Silenos Shaman (lvl 49, near Aden)."
+    },
+    {
+     "kind": "manual",
+     "who": "leader",
+     "auto": false,
+     "text": "Clan leader, STILL poisoned, at Kalis with Blood of Eva + the 3 herbs -> Voucher of Faith + Potion of Recovery."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Sir Kristof Rodemai",
+     "npcId": 30756,
+     "town": "Giran",
+     "at": [
+      84521,
+      146372,
+      -3404
+     ],
+     "click": [
+      "quest|proof of clan alliance"
+     ],
+     "expectItem": 3874,
+     "text": "Clan leader: Sir Kristof Rodemai -> Alliance Manifesto + 120,000 SP."
+    },
+    {
+     "kind": "levelup",
+     "who": "leader",
+     "auto": true,
+     "text": "Clan level 3 -> 4 (1,000,000 SP + Alliance Manifesto) with !clanlevel."
+    }
+   ]
+  },
+  "503": {
+   "name": "Q503 Pursuit of Clan Ambition (clan level 4 -> 5: Seal of Aspiration 3870)",
+   "item": 3870,
+   "forClanLevel": 5,
+   "clanLevel": 4,
+   "source": "Q00503_PursuitOfClanAmbition.java. Clan leader of a level-4 clan; members can help (kills count for the leader in a party). Reward: Seal of Aspiration + 250,000 SP. Monsters level 54-65.",
+   "steps": [
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Sir Gustav Athebaldt",
+     "npcId": 30760,
+     "town": "Oren",
+     "at": [
+      80036,
+      56568,
+      -1557
+     ],
+     "click": [
+      "quest|pursuit of clan ambition",
+      "accept|yes|i will|undertake|agree"
+     ],
+     "text": "Clan leader: Sir Gustav Athebaldt (Oren castle town) -> start, Gustav's 1st letter."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Martien",
+     "npcId": 30645,
+     "town": "Giran",
+     "at": [
+      84274,
+      143740,
+      -3403
+     ],
+     "click": [
+      "quest|pursuit of clan ambition",
+      "."
+     ],
+     "text": "Clan leader: Martien (Giran) with the letter."
+    },
+    {
+     "kind": "manual",
+     "who": "party",
+     "auto": false,
+     "text": "Dragon Valley: Corpses of Fritz / Lutz / Kurtz (64819,115911 · 65205,109495 · 64113,103060) give eggs and spawn Blitz Wyrms; kill Drakes (lvl 57) and Thunder Wyrms (lvl 54) for Mist Drake / Drake / Thunder Wyrm eggs (10 each) and Blitz Wyrm eggs (10). Kurtz gives the Brooch of the Magpie. Party level ~55+."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Kusto",
+     "npcId": 30512,
+     "town": "Giran",
+     "at": [
+      77659,
+      148089,
+      -3595
+     ],
+     "click": [
+      "quest|pursuit of clan ambition",
+      "."
+     ],
+     "expectItem": 3871,
+     "text": "Clan leader: Head Blacksmith Kusto (Giran) with the Brooch -> Black Anvil Coin."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Martien",
+     "npcId": 30645,
+     "town": "Giran",
+     "at": [
+      84274,
+      143740,
+      -3403
+     ],
+     "click": [
+      "quest|pursuit of clan ambition"
+     ],
+     "text": "Clan leader: Martien with all eggs."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Sir Gustav Athebaldt",
+     "npcId": 30760,
+     "town": "Oren",
+     "at": [
+      80036,
+      56568,
+      -1557
+     ],
+     "click": [
+      "quest|pursuit of clan ambition",
+      "."
+     ],
+     "text": "Clan leader: Gustav -> 2nd letter."
+    },
+    {
+     "kind": "manual",
+     "who": "party",
+     "auto": false,
+     "text": "Balthazar (117380,75616, near Hunters Village) with the Black Anvil Coin -> Recipe: Spiteful Soul Energy; kill Spiteful Soul Leaders (lvl 65, Necropolis of Disciples area 178231,-25856) for 10 Spiteful Soul Energy -> back to Balthazar."
+    },
+    {
+     "kind": "manual",
+     "who": "leader",
+     "auto": false,
+     "text": "Gustav -> 3rd letter; Sir Eric Rodemai (Aden, 147456,27488); Witch Cleo (160611,21236); Imperial Tomb: Grave Guards (lvl 54) spawn Grave Keymasters -> 6 Imperial Keys; Imperial Gravekeeper (lvl 60); the Imperial Coffer -> Scepter of Judgment."
+    },
+    {
+     "kind": "talk",
+     "who": "leader",
+     "auto": true,
+     "npc": "Sir Gustav Athebaldt",
+     "npcId": 30760,
+     "town": "Oren",
+     "at": [
+      80036,
+      56568,
+      -1557
+     ],
+     "click": [
+      "quest|pursuit of clan ambition",
+      "."
+     ],
+     "expectItem": 3870,
+     "text": "Clan leader: Gustav with the Scepter -> Seal of Aspiration + 250,000 SP."
+    },
+    {
+     "kind": "levelup",
+     "who": "leader",
+     "auto": true,
+     "text": "Clan level 4 -> 5 (2,500,000 SP + Seal of Aspiration) with !clanlevel."
+    }
+   ]
+  },
+  "bloodmark": {
+   "name": "Blood Mark (clan level 2 -> 3)",
+   "item": 1419,
+   "forClanLevel": 3,
+   "clanLevel": null,
+   "source": "Blood Queen (npc 18001, level 60, aggressive, 1933 HP): death drop group 20 % -> Blood Mark 100 % (npcstats/18000-18099.xml). 22 spawns: 11 around Aden -> Seal of Shilen (185766,14106 and 186546,24148), 8 near the Devastated Castle (178328,6640), 3 near Antharas Fortress (81262,106319). No quest, no multisell in the datapack gives it (verify: L2Toggle may sell it in a shop / the Community Board).",
+   "steps": [
+    {
+     "kind": "hunt",
+     "who": "party",
+     "auto": true,
+     "minLevel": 55,
+     "at": [
+      186000,
+      19000,
+      -3200
+     ],
+     "radius": 6000,
+     "item": 1419,
+     "target": "Blood Queen (lvl 60) at Seal of Shilen",
+     "text": "A party whose lowest level is 55+ hunts Blood Queens around Aden -> Seal of Shilen until someone has a Blood Mark (20 % per kill). Send to that PARTY. The danger check refuses the teleport if the monsters there are > team max + 6."
+    },
+    {
+     "kind": "manual",
+     "who": "user",
+     "auto": false,
+     "text": "Trade the Blood Mark to the clan leader (Dagger1). Trades between different parties need your OK."
+    },
+    {
+     "kind": "levelup",
+     "who": "leader",
+     "auto": true,
+     "text": "Clan level 2 -> 3 (350,000 SP + Blood Mark) with !clanlevel. Needs clan level 2 first."
+    }
+   ]
+  }
+ }
+}

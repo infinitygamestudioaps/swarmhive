@@ -1,0 +1,45 @@
+/* PARTY STATUS on the Parties tab (2026-10-09, Dashboard/partystatus.js): the party banner (sentence + step bar + elapsed + warning), the
+   plain-words member activity line (Dashboard/activity.js) and the trade lines on the party map. Type scale tokens only (--fs-*). */
+.psb { margin: 0 0 8px; padding: 6px 9px 7px; border: 1px solid var(--line2); border-left: 3px solid var(--gold); background: linear-gradient(90deg, rgba(227,194,122,.10), rgba(0,0,0,.28)); min-width: 0; }
+.psb.bad { border-left-color: var(--bad); background: linear-gradient(90deg, rgba(236,106,85,.12), rgba(0,0,0,.28)); }
+.psb.warn { border-left-color: var(--warn); background: linear-gradient(90deg, rgba(233,185,73,.16), rgba(0,0,0,.28)); }
+.psb-h { display: flex; align-items: flex-start; gap: 7px; min-width: 0; }
+.psb-h > .gi { flex: none; width: 20px; height: 20px; margin-top: 1px; }
+.psb-t { flex: 1; min-width: 0; font-size: var(--fs-em); line-height: 1.35; color: #f1e7cb; overflow-wrap: anywhere; }
+.psb-t b { color: var(--gold); }
+.psb-age { flex: none; font: 700 var(--fs-cap) Consolas, ui-monospace, monospace; color: var(--muted); padding: 1px 6px; border: 1px solid var(--line); background: rgba(0,0,0,.35); white-space: nowrap; }
+.psb.warn .psb-age { color: #1a1205; background: var(--warn); border-color: var(--warn); }
+.psb-bar { display: flex; gap: 3px; margin: 6px 0 2px 27px; }
+.psb-bar i { flex: 1; height: 5px; min-width: 6px; background: #2b2a24; border: 1px solid #3f3b2f; border-radius: 1px; }
+.psb-bar i.done { background: #8b7442; border-color: #a88d52; }
+.psb-bar i.now { background: var(--gold); border-color: #fff3c8; animation: psb-pulse 1.4s ease-in-out infinite; }
+.psb.warn .psb-bar i.now { background: var(--warn); }
+@keyframes psb-pulse { 50% { opacity: .45; } }
+.psb-meta { margin: 2px 0 0 27px; font-size: var(--fs-cap); color: var(--muted); }
+.psb-sub { margin: 3px 0 0 27px; font-size: var(--fs-cap); line-height: 1.4; color: #e9dfc4; min-width: 0; overflow-wrap: anywhere; }
+.psb-sub .gi { width: 14px; height: 14px; vertical-align: -3px; margin-right: 3px; }
+.psb-sub b { color: #f1e7cb; }
+.psb-why { margin: 5px 0 0 27px; font-size: var(--fs-cap); line-height: 1.4; color: var(--warn); font-weight: 700; overflow-wrap: anywhere; }
+.psb-why .gi { width: 14px; height: 14px; vertical-align: -3px; margin-right: 3px; }
+/* trade progress dots: ask -> window open -> confirm -> done */
+.ps-dots { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 4px; }
+.ps-dots i { width: 7px; height: 7px; border-radius: 50%; background: #3a372d; border: 1px solid #57513f; }
+.ps-dots i.done { background: var(--ok); border-color: var(--ok); }
+.ps-dots i.now { background: var(--gold); border-color: #fff3c8; animation: psb-pulse 1.2s ease-in-out infinite; }
+.ps-dots i.bad { background: var(--bad); border-color: var(--bad); }
+/* member rows: the activity line may use two lines; chips for stuck / no progress */
+.mem2 .task.ps-act { display: flex; align-items: flex-start; gap: 4px; white-space: normal; overflow: visible; line-height: 1.3; }
+.mem2 .task.ps-act > .gi { flex: none; width: 14px; height: 14px; margin-top: 1px; }
+.mem2 .task.ps-act .ps-txt { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.mem2 .task.ps-act b { color: #f1e7cb; }
+.mem2 .task.ps-act.bad .ps-txt { color: #ffb3a6; }
+.mem2 .task.ps-act.trading .ps-txt { color: #ffe9a8; -webkit-line-clamp: 3; }
+.mem2 .task.ps-act .ok { color: var(--ok); } .mem2 .task.ps-act .bad { color: var(--bad); }
+.mem2 .chip.ps-stuck { flex: none; margin-left: 2px; color: #1a1205; background: var(--warn); border-color: var(--warn); font-weight: 700; }
+.mem2 .chip.ps-stuck.hard { color: #fff; background: #a3362a; border-color: #d65a48; }
+.mem2.ps-trade-row { border-color: #6d5a2a; }
+@media (prefers-reduced-motion: reduce) { .psb-bar i.now, .ps-dots i.now { animation: none; } }
+@media (max-width: 520px) {
+  .psb { padding: 5px 7px 6px; }
+  .psb-bar, .psb-meta, .psb-sub, .psb-why { margin-left: 0; }
+}

@@ -1,0 +1,173 @@
+{
+ "generated": "node docs/plan/tools/positional_skills.js (L2J High Five datapack: Scripts/data/dp)",
+ "angles": {
+  "frontHalfDeg": 60,
+  "behindHalfDeg": 60,
+  "note": "L2J isInFrontOf / isBehind: front = within 60 deg of the target heading, behind = within 60 deg of its back, side = between"
+ },
+ "blowPositionMod": {
+  "front": 1,
+  "side": 1.5,
+  "behind": 2
+ },
+ "rules": {
+  "behindOnly": "fails from the front (L2J Backstab handler: not in front); best from behind (blow x2), side x1.5",
+  "behindBonus": "blow land chance x1.5 from the side, x2 from behind (Formulas.calcBlowSuccess)",
+  "turnsTarget": "the target turns its back to the caster (Bluff effect: target heading = my heading)",
+  "stepsBehind": "teleports me 25 units behind the target (TeleportToTarget)",
+  "critPosBuff": "self buff: crit rate / crit damage x0.7 front, x1.3 side, x1.6-1.9 behind while it is up",
+  "frontOnly": "none in the H5 datapack"
+ },
+ "skills": {
+  "16": {
+   "name": "Mortal Blow",
+   "rule": "behindBonus",
+   "also": [],
+   "blowChance": 20,
+   "weapons": [
+    "DAGGER"
+   ],
+   "range": 40,
+   "reuse": 3000
+  },
+  "30": {
+   "name": "Backstab",
+   "rule": "behindOnly",
+   "also": [],
+   "blowChance": 40,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 40,
+   "reuse": 3000
+  },
+  "263": {
+   "name": "Deadly Blow",
+   "rule": "behindBonus",
+   "also": [],
+   "blowChance": 30,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 40,
+   "reuse": 3000
+  },
+  "321": {
+   "name": "Blinding Blow",
+   "rule": "behindBonus",
+   "also": [
+    "turnsTarget"
+   ],
+   "blowChance": 25,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 40,
+   "reuse": 30000
+  },
+  "344": {
+   "name": "Lethal Blow",
+   "rule": "behindBonus",
+   "also": [],
+   "blowChance": 30,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 40,
+   "reuse": 4000
+  },
+  "355": {
+   "name": "Focus Death",
+   "rule": "critPosBuff",
+   "also": [],
+   "blowChance": 0,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 0,
+   "reuse": 30000
+  },
+  "356": {
+   "name": "Focus Chance",
+   "rule": "critPosBuff",
+   "also": [],
+   "blowChance": 0,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 0,
+   "reuse": 30000
+  },
+  "357": {
+   "name": "Focus Power",
+   "rule": "critPosBuff",
+   "also": [],
+   "blowChance": 0,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 0,
+   "reuse": 30000
+  },
+  "358": {
+   "name": "Bluff",
+   "rule": "turnsTarget",
+   "also": [],
+   "blowChance": 0,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 40,
+   "reuse": 8000
+  },
+  "409": {
+   "name": "Critical Blow",
+   "rule": "behindBonus",
+   "also": [],
+   "blowChance": 25,
+   "weapons": [
+    "DAGGER",
+    "DUALDAGGER"
+   ],
+   "range": 40,
+   "reuse": 30000
+  },
+  "505": {
+   "name": "Shining Edge",
+   "rule": "behindBonus",
+   "also": [],
+   "blowChance": 20,
+   "weapons": [
+    "RAPIER"
+   ],
+   "range": 40,
+   "reuse": 3000
+  },
+  "821": {
+   "name": "Shadow Step",
+   "rule": "stepsBehind",
+   "also": [],
+   "blowChance": 0,
+   "weapons": [],
+   "range": 600,
+   "reuse": 75000
+  },
+  "1348": {
+   "name": "Assassin Servitor",
+   "rule": "critPosBuff",
+   "also": [],
+   "blowChance": 0,
+   "weapons": [],
+   "range": 400,
+   "reuse": 60000
+  }
+ }
+}

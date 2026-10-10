@@ -1,0 +1,71 @@
+/* UIDIALOG (2026-10-10) — the ONE dashboard dialog (Dashboard/uidialog.js): confirm / alert / prompt / choice.
+   Same L2 skin as index.html (Windows_DF_Large_Bg window, Button_DF buttons, gold title, --fs-* type tokens). Phone portrait first:
+   bottom sheet with safe-area insets and 44 px tap targets; from 640 px a centred card. The body scrolls, the buttons stay visible. */
+.uid-ov { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(2, 4, 5, .72); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+  animation: uid-fade .16s ease-out; overscroll-behavior: contain; touch-action: none; }
+html.uid-open, html.uid-open body { overflow: hidden; }
+.uid-card { position: relative; width: 100%; max-width: 560px; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px - env(safe-area-inset-top));
+  display: flex; flex-direction: column; min-height: 0; outline: none; touch-action: auto; color: var(--ink, #d9cfb6);
+  border: 14px solid transparent; border-bottom-width: 0; border-image: url('/icons/L2UI_CT1/Windows_DF_Large_Bg.png') 22 22 0 fill / 14px 14px 0 stretch;
+  background: var(--win, rgba(14, 22, 24, .96)); background-clip: padding-box; box-shadow: 0 -10px 34px rgba(0, 0, 0, .75);
+  animation: uid-up .2s cubic-bezier(.2, .8, .3, 1); }
+.uid-head { display: flex; align-items: center; gap: 10px; padding: 2px 4px 10px; border-bottom: 1px solid var(--line2, #575141); box-shadow: 0 1px 0 rgba(0, 0, 0, .6); flex: none; }
+.uid-head h2 { margin: 0; font-size: var(--fs-title, 16px); line-height: 1.3; color: var(--gold, #e3c27a); text-shadow: 0 1px 0 #000; overflow-wrap: anywhere; }
+.uid-ic { flex: none; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  font: 700 var(--fs-em, 14px)/1 Tahoma, Verdana, sans-serif; color: #0b1012; background: var(--run, #7fb6e8); box-shadow: 0 0 0 2px rgba(0, 0, 0, .5), 0 0 10px rgba(127, 182, 232, .35); }
+.uid-ic-error, .uid-ic-danger { background: var(--bad, #ec6a55); box-shadow: 0 0 0 2px rgba(0, 0, 0, .5), 0 0 10px rgba(236, 106, 85, .4); }
+.uid-ic-ok { background: var(--ok, #86cf6e); box-shadow: 0 0 0 2px rgba(0, 0, 0, .5), 0 0 10px rgba(134, 207, 110, .35); }
+.uid-ic-warn { background: var(--warn, #e9b949); }
+.uid-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 10px 4px 6px;
+  font-size: var(--fs-body, 13px); line-height: 1.5; overflow-wrap: anywhere; }
+.uid-body > :first-child { margin-top: 0; }
+.uid-body p { margin: 0 0 9px; }
+.uid-h { margin: 12px 0 4px; font-size: var(--fs-cap, 12px); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--gold, #e3c27a); }
+.uid-list { margin: 0 0 10px; padding-left: 20px; } .uid-list li { margin: 3px 0; } .uid-list li::marker { color: var(--gold, #e3c27a); }
+.uid-em { color: #f6ebcf; font-weight: 700; }
+.uid-code { font: var(--fs-cap, 12px) Consolas, monospace; color: var(--gold, #e3c27a); background: rgba(0, 0, 0, .4); border: 1px solid var(--line, #3b382f); border-radius: 3px; padding: 0 4px; white-space: pre-wrap; }
+.uid-pathp { margin: 2px 0 12px; padding: 8px 10px; border: 1px solid var(--line2, #575141); border-left: 3px solid var(--gold, #e3c27a); border-radius: 3px; background: rgba(227, 194, 122, .07); }
+.uid-path { display: inline; }
+.uid-step { font-weight: 700; color: #f6ebcf; white-space: nowrap; }
+.uid-pathp .uid-step { color: var(--gold, #e3c27a); font-size: var(--fs-em, 14px); }
+.uid-sep { margin: 0 6px; color: var(--muted, #8e8879); }
+.uid-warn { display: flex; gap: 8px; align-items: flex-start; padding: 7px 10px; border: 1px solid rgba(236, 106, 85, .55); border-radius: 3px; background: rgba(236, 106, 85, .1); color: #ffcabf; }
+.uid-wi { flex: none; width: 18px; height: 18px; margin-top: 1px; border-radius: 50%; background: var(--bad, #ec6a55); color: #000; font: 700 var(--fs-cap, 12px)/18px Tahoma, sans-serif; text-align: center; }
+.uid-note { color: var(--muted, #8e8879); font-size: var(--fs-cap, 12px); }
+.uid-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 0 0 10px; } .uid-kv dt { color: var(--muted, #8e8879); } .uid-kv dd { margin: 0; color: #f6ebcf; }
+.uid-det { margin: 4px 0 8px; border: 1px solid var(--line, #3b382f); border-radius: 3px; background: rgba(0, 0, 0, .25); }
+.uid-det > summary { cursor: pointer; padding: 8px 10px; min-height: 40px; display: flex; align-items: center; color: var(--gold, #e3c27a); font-weight: 700; }
+.uid-det > :not(summary) { margin-left: 10px; margin-right: 10px; }
+.uid-field { display: flex; flex-direction: column; gap: 4px; margin: 6px 0 4px; }
+.uid-lbl { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); } .uid-lbl b { color: var(--bad, #ec6a55); letter-spacing: 1px; }
+.uid-in { width: 100%; min-height: 44px; font-size: var(--fs-title, 16px) !important; padding: 6px 10px; }   /* 16 px: iOS does not zoom on focus */
+.uid-in:focus { border-image-source: url('/icons/L2UI_CT1/EditBox_DF_bg.png'); box-shadow: 0 0 0 2px rgba(227, 194, 122, .55); }
+.uid-in[aria-invalid="true"] { box-shadow: 0 0 0 2px rgba(236, 106, 85, .7); }
+.uid-err { min-height: 1.2em; font-size: var(--fs-cap, 12px); color: var(--bad, #ec6a55); }
+.uid-foot { flex: none; display: flex; flex-wrap: wrap-reverse; gap: 8px; justify-content: flex-end; padding: 10px 2px calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line, #3b382f); }
+.uid-btn { min-height: 44px; min-width: 96px; padding: 4px 18px; font-size: var(--fs-body, 13px); flex: 1 1 0; white-space: normal; text-align: center; line-height: 1.25; }
+@media (max-width: 639px) { .uid-foot.uid-many { flex-direction: column; flex-wrap: nowrap; } .uid-foot.uid-many .uid-btn { flex: none; width: 100%; } }
+.uid-btn.uid-primary { color: var(--gold, #e3c27a); font-weight: 700; }
+.uid-btn.uid-red { border-image: none; border: 1px solid #c4543f; border-radius: 3px; color: #fff; background: linear-gradient(#a3321f, #6b170c); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 0 0 1px #000; }
+.uid-btn.uid-red:hover { background: linear-gradient(#bb3d27, #7c1d10); }
+.uid-btn.uid-red:disabled { background: #3a2622; border-color: #5a3a33; color: #8e7570; box-shadow: none; }
+.uid-btn:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: 2px; }
+.uid-danger .uid-card { box-shadow: 0 -10px 34px rgba(0, 0, 0, .75), 0 0 0 1px rgba(236, 106, 85, .35); }
+.uid-nudge { animation: uid-nudge .3s; }
+.uid-out { animation: uid-fade .14s ease-in reverse forwards; } .uid-out .uid-card { animation: uid-up .14s ease-in reverse forwards; }
+@media (min-width: 640px) {
+  .uid-ov { align-items: center; padding: 24px; }
+  .uid-card { border-bottom-width: 14px; border-image: url('/icons/L2UI_CT1/Windows_DF_Large_Bg.png') 22 fill / 14px stretch; max-height: min(84vh, 760px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .75); animation-name: uid-pop; }
+  .uid-foot { padding-bottom: 2px; }
+  .uid-btn { flex: 0 0 auto; min-height: 36px; }
+  .uid-out .uid-card { animation-name: uid-pop; }
+}
+@keyframes uid-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes uid-up { from { transform: translateY(28px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes uid-pop { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes uid-nudge { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (prefers-reduced-motion: reduce) { .uid-ov, .uid-card, .uid-out, .uid-out .uid-card, .uid-nudge { animation: none !important; } }

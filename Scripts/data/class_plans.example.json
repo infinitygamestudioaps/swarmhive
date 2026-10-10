@@ -1,0 +1,81 @@
+{
+ "_about": "CLASS PLANS (user 2026-10-10): which class each character becomes at level 20 / 40 / 76. Edited on the dashboard Classes page (#/classes); read live by every swarm.js window (no restart). A character changes class ONLY when its plan here is approved, valid in Scripts/data/class_tree.json and its next step is a profession of its current class; no plan / not approved = it never changes class. parties.<leader>.members.<character> = { plan: [1st, 2nd, 3rd profession class ids], approved, approvedBy, approvedAt, note }. templates.<id> = { name, desc, example, slots: [{ label, role, from: base class id, plan }] } — a group template is applied to a party on the Classes page (members are matched by their current class and role; the user confirms). The examples below are marked example: true.",
+ "version": 1,
+ "parties": {},
+ "templates": {
+  "example-raid-9": {
+   "name": "Raid team (9): Shillien tank, healers, destroyers, dark damage",
+   "desc": "Example. A Shillien Templar tank, Cardinal + Shillien Saint healing, two Titans, a Doombringer, a Soultaker, a Soul Hound (dark debuffs) and a Doomcryer.",
+   "example": true,
+   "slots": [
+    { "label": "Tank", "role": "sk", "from": 31, "plan": [32, 33, 106] },
+    { "label": "Healer", "role": "bishop", "from": 10, "plan": [15, 16, 97] },
+    { "label": "Healer / buffer", "role": "shilliensaint", "from": 38, "plan": [42, 43, 112] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Kamael melee", "role": "doombringer", "from": 123, "plan": [125, 127, 131] },
+    { "label": "Necromancer", "role": "necromancer", "from": 10, "plan": [11, 13, 95] },
+    { "label": "Soul Hound (male)", "role": "inspector", "from": 123, "plan": [125, 128, 132] },
+    { "label": "Chanter", "role": "doomcryer", "from": 49, "plan": [50, 52, 116] }
+   ]
+  },
+  "example-dwarf-trio": {
+   "name": "Spoil & craft trio",
+   "desc": "Example. A crafter (Maestro), a spoiler (Fortune Seeker) and an Elven healer (Eva's Saint).",
+   "example": true,
+   "slots": [
+    { "label": "Crafter", "role": "crafter", "from": 53, "plan": [56, 57, 118] },
+    { "label": "Spoiler", "role": "spoiler", "from": 53, "plan": [54, 55, 117] },
+    { "label": "Healer", "role": "healer", "from": 25, "plan": [29, 30, 105] }
+   ]
+  },
+  "example-elven-mages": {
+   "name": "Elven mage party",
+   "desc": "Example. Shillien Templar tank, Cardinal, Doomcryer and Elven nukers (Mystic Muse). Unused slots are skipped.",
+   "example": true,
+   "slots": [
+    { "label": "Tank", "role": "sk", "from": 31, "plan": [32, 33, 106] },
+    { "label": "Healer", "role": "bishop", "from": 10, "plan": [15, 16, 97] },
+    { "label": "Chanter", "role": "doomcryer", "from": 49, "plan": [50, 52, 116] },
+    { "label": "Water nuker", "role": "nuker", "from": 25, "plan": [26, 27, 103] },
+    { "label": "Water nuker", "role": "nuker", "from": 25, "plan": [26, 27, 103] },
+    { "label": "Water nuker", "role": "nuker", "from": 25, "plan": [26, 27, 103] },
+    { "label": "Water nuker", "role": "nuker", "from": 25, "plan": [26, 27, 103] },
+    { "label": "Water nuker", "role": "nuker", "from": 25, "plan": [26, 27, 103] },
+    { "label": "Water nuker", "role": "nuker", "from": 25, "plan": [26, 27, 103] }
+   ]
+  },
+  "example-dark-mages": {
+   "name": "Dark Elven mage party",
+   "desc": "Example. Shillien Templar tank, Cardinal, Doomcryer, a Titan and Dark Elven wind nukers (Storm Screamer).",
+   "example": true,
+   "slots": [
+    { "label": "Tank", "role": "sk", "from": 31, "plan": [32, 33, 106] },
+    { "label": "Healer", "role": "bishop", "from": 10, "plan": [15, 16, 97] },
+    { "label": "Chanter", "role": "doomcryer", "from": 49, "plan": [50, 52, 116] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Wind nuker", "role": "nuker", "from": 38, "plan": [39, 40, 110] },
+    { "label": "Wind nuker", "role": "nuker", "from": 38, "plan": [39, 40, 110] },
+    { "label": "Wind nuker", "role": "nuker", "from": 38, "plan": [39, 40, 110] },
+    { "label": "Wind nuker", "role": "nuker", "from": 38, "plan": [39, 40, 110] },
+    { "label": "Wind nuker", "role": "nuker", "from": 38, "plan": [39, 40, 110] }
+   ]
+  },
+  "example-orc-destroyers": {
+   "name": "Orc destroyer party",
+   "desc": "Example. Titans, a Cardinal and a Doomcryer.",
+   "example": true,
+   "slots": [
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Healer", "role": "bishop", "from": 10, "plan": [15, 16, 97] },
+    { "label": "Chanter", "role": "doomcryer", "from": 49, "plan": [50, 52, 116] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] },
+    { "label": "Destroyer", "role": "destroyer", "from": 44, "plan": [45, 46, 113] }
+   ]
+  }
+ }
+}

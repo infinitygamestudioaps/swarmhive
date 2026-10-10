@@ -1,0 +1,37 @@
+/* READABILITY + MAP GUARD (2026-10-09, loaded last by index.html; served by server.js through Dashboard/gearpage_api.js).
+   Only the site's type tokens (--fs-*). Section 1 = map guard (Dashboard/mapguard.js), section 2 = the readability pass over every page. */
+
+/* ---- 1. MAP GUARD: an idle map lets one finger scroll the page (pan-y); a tapped / clicked map is "active" (gold outline) ---- */
+@media (pointer: coarse) {
+  .cp-mapwrap:not(.mg-on), #lpMap:not(.mg-on), .redmap:not(.mg-on), .redmap:not(.mg-on) svg, #zeMap:not(.mg-on), #zeMap:not(.mg-on) svg { touch-action: pan-y !important; }
+}
+.cp-mapwrap.mg-on, #lpMap.mg-on, .redmap.mg-on, #zeMap.mg-on, #map.mg-on { outline: 2px solid rgba(227, 194, 122, .75); outline-offset: -2px; }
+.mg-hint { position: fixed; z-index: 90; transform: translateX(-50%); max-width: min(360px, 90vw); padding: 6px 12px; border-radius: 4px; pointer-events: none;
+  background: rgba(0, 0, 0, .82); color: #fff; font-size: var(--fs-cap); text-align: center; opacity: 0; transition: opacity .2s; }
+.mg-hint.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .mg-hint { transition: none; } }
+
+/* ---- 2. READABILITY PASS (2026-10-09: headless audit of all 19 pages at 390 / 1920 px, docs/plan/mobile_check/read_*_{before,after}.png).
+   The type audit found every text already on the tokens (except Leaflet's zoom +/-); what remained were layout problems: ---- */
+/* box titles with buttons (Zones "Zone editor | Open full screen | + New spot") ran off the box on phones: wrap, smaller buttons */
+.box > h3 { flex-wrap: wrap; row-gap: 4px; }
+.box > h3 button, .whead h2 button { font-size: var(--fs-cap); padding: 0 8px; font-weight: 400; }
+@media (pointer: fine) { .box > h3 button, .whead h2 button { min-height: 28px; } }   /* touch keeps the 38 px tap target */
+@media (max-width: 760px) { .box > h3 button, .whead h2 button { font-size: var(--fs-body); } }
+/* a checkbox inside a flex toolbar grew to 110 px (".act input { flex: 1 1 110px }"): "only spots that fit a party" sat far right of its box */
+.act input[type=checkbox], .act input[type=radio] { flex: none; }
+/* zone editor: "Levels <min> – <max>" broke into three rows (labels are grids); keep each field on one line */
+#zeBox .act > label { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+#zeBox .act > label > input[type=number] { flex: none; }
+/* dense tables on phones: first column wide enough for a name, the level column never splits "18–28", tighter padding */
+@media (max-width: 760px) {
+  table.l2 td, table.l2 th { padding: 5px 6px; }
+  table.l2 td:first-child { min-width: 7.5em; }
+  table.l2 td:nth-child(2), table.l2 th:nth-child(2) { white-space: nowrap; }
+  table.l2 .fit { white-space: nowrap; }
+  .whead > h2 { flex: 1 1 auto; }
+}
+/* Leaflet's zoom buttons were 22 px text: the page-title token */
+.leaflet-bar a { font-size: var(--fs-page) !important; }
+/* consistent spacing between the stacked boxes of a page */
+main > section > .box + .box, main > section > .box + details.box, main > section > details.box + .box { margin-top: 10px; }

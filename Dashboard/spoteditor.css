@@ -1,0 +1,48 @@
+/* Full-screen hunting-spot editor (Dashboard/spoteditor.js, #/spot/<name>) — user 2026-10-07 */
+.sped { position: fixed; inset: 0; z-index: 9000; background: #0b1a12; color: #e8e2cf; font: var(--fs-em)/1.3 system-ui, -apple-system, Segoe UI, sans-serif;
+  touch-action: none; -webkit-user-select: none; user-select: none; overscroll-behavior: none; }
+.sped[hidden] { display: none; }
+.sped svg.spedmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; background: #0d2a1c; }
+.sped svg.spedmap.pan { cursor: grab; }
+.sped .bar { position: absolute; left: 0; right: 0; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; padding: 6px 8px;
+  padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); pointer-events: none; }
+.sped .bar > * { pointer-events: auto; }
+.sped .top { top: 0; padding-top: max(6px, env(safe-area-inset-top)); background: linear-gradient(#000c, #0000); }
+.sped .bottom { bottom: 0; padding-bottom: max(6px, env(safe-area-inset-bottom)); background: linear-gradient(#0000, #000d); flex-direction: column; align-items: stretch; }
+.sped button, .sped select, .sped input { font: inherit; color: #f2ead2; background: #1d2a24ee; border: 1px solid #5d6b55; border-radius: 6px; padding: 6px 9px; min-height: 36px; }
+.sped input[type=checkbox] { min-height: 0; width: 18px; height: 18px; }
+.sped button { cursor: pointer; }
+.sped button.on { background: #7a5a16; border-color: #f0c040; color: #fff; }
+.sped button.go { background: #23552f; border-color: #3ddc84; }
+.sped button.bad { background: #5a1d1d; border-color: #ff6b6b; }
+.sped .name { flex: 1 1 140px; min-width: 100px; font-weight: 600; }
+.sped .tools { display: flex; gap: 5px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+.sped .tools button { flex: 0 0 auto; }
+.sped .hint { font-size: var(--fs-body); color: #d9d2bb; text-shadow: 0 1px 2px #000; padding: 2px 2px 4px; }
+.sped .hint b { color: #ffd34d; }
+.sped .selbox { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; background: #000a; border: 1px solid #5d6b55; border-radius: 8px; padding: 5px 7px; }
+.sped .selbox[hidden] { display: none; }
+.sped .selbox input[type=number] { width: 86px; }
+.sped .panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(380px, 100vw); background: #101c16f4; border-left: 1px solid #5d6b55; overflow-y: auto;
+  padding: max(10px, env(safe-area-inset-top)) 12px 90px; -webkit-overflow-scrolling: touch; touch-action: pan-y; -webkit-user-select: text; user-select: text; z-index: 3; }
+.sped .panel[hidden] { display: none; }
+.sped .panel h3 { margin: 14px 0 6px; font-size: var(--fs-em); color: #f0c040; }
+.sped .panel label { display: flex; gap: 6px; align-items: center; margin: 5px 0; flex-wrap: wrap; }
+.sped .panel .row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.sped .panel .muted, .sped .muted { color: #9aa39e; font-size: var(--fs-cap); }
+.sped .panel ul { margin: 4px 0; padding-left: 18px; }
+.sped .list { max-height: 40vh; overflow-y: auto; border: 1px solid #33402f; border-radius: 6px; }
+.sped .list div { padding: 7px 8px; border-bottom: 1px solid #26322a; cursor: pointer; }
+.sped .list div:hover { background: #22352a; }
+.sped .chip { display: inline-flex; gap: 4px; align-items: center; background: #3a1d1d; border: 1px solid #ff6b6b; border-radius: 12px; padding: 2px 8px; margin: 2px; font-size: var(--fs-cap); }
+.sped .chip button { min-height: 0; padding: 0 4px; border: 0; background: none; }
+.sped .legend { position: absolute; left: 8px; top: 92px; font-size: var(--fs-mini); background: #000a; border-radius: 6px; padding: 4px 6px; pointer-events: none; line-height: 1.5; }
+.sped .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin: 0 3px 0 6px; vertical-align: -1px; }
+.sped .toast { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); background: #000d; border: 1px solid #f0c040; border-radius: 8px; padding: 8px 12px; max-width: 90vw; z-index: 4; }
+.sped .toast[hidden] { display: none; }
+@media (max-width: 600px) { .sped .legend { display: none; } .sped button, .sped select { padding: 6px 7px; } }
+.sped [hidden] { display: none !important; }
+.sped .bar > .hint { pointer-events: none; }
+.sped .bottom > .selbox { align-self: flex-start; max-width: 100%; }
+/* mobile fixes 2026-10-08: the icon buttons of the top bar were 26-31 px wide on touch screens */
+@media (pointer: coarse) { .sped .bar button, .sped #spedClose { min-width: 40px; min-height: 40px; } .sped input[type=checkbox] { width: 22px; height: 22px; } .sped .panel label { min-height: 36px; } }

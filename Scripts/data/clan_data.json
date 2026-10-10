@@ -1,0 +1,2193 @@
+{
+ "generated": "2026-10-07T11:33:07.984Z",
+ "sources": [
+  "https://bitbucket.org/l2jserver/l2j-server-datapack/raw/develop/src/main/resources/data/skillTrees/pledgeSkillTree.xml",
+  ".../data/skillTrees/subPledgeSkillTree.xml",
+  ".../data/stats/skills/00300-00399.xml, 00500-00599.xml, 00600-00699.xml, 00800-00899.xml (effects)",
+  ".../src/main/resources/sql/raidboss_spawnlist.sql (boss positions + respawn)",
+  ".../src/main/java/com/l2jserver/datapack/quests/Q00508_AClansReputation, Q00509_AClansFame, Q00510_AClansPrestige, Q00501_ProofOfClanAlliance, Q00503_PursuitOfClanAmbition",
+  "https://bitbucket.org/l2jserver/l2j-server-game/raw/develop/src/main/java/com/l2jserver/gameserver/model/L2Clan.java (levelUpClan, getMaxNrOfMembers, createSubPledge, checkClanJoinCondition)",
+  ".../model/actor/instance/L2VillageMasterInstance.java (create_clan / create_academy / create_royal / create_knight)",
+  ".../model/actor/instance/L2PcInstance.java setClassId (academy graduation)",
+  ".../data/sql/impl/ClanTable.java createClan",
+  "https://bitbucket.org/l2jserver/l2j-server-game/raw/develop/src/main/resources/config/clan.properties (default costs)",
+  "local: Dashboard/data/items.json, Scripts/data/raidbosses_h5.json, npcs_h5.json, spawns_h5.json, class_speed_h5.json"
+ ],
+ "caveat": "All numbers are L2J High Five DEFAULTS. L2Toggle may have changed costs or rates; verify in game (village master dialogs, clan skill list).",
+ "skillNotes": "reputation = the levelUpSp field of the pledge skill tree, which L2J charges as CLAN REPUTATION. The clan leader buys them at a Village Master -> Clan -> Learn clan skills. minRank = lowest member rank (social class) that receives the passive. Squad skills are bought for one sub-unit (Royal Guard / Order of Knights) and only that unit gets them.",
+ "skills": [
+  {
+   "id": 370,
+   "level": 1,
+   "name": "Clan Body",
+   "effect": "Max HP +3%",
+   "clanLevel": 5,
+   "reputation": 1500,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 370,
+   "level": 2,
+   "name": "Clan Body",
+   "effect": "Max HP +5%",
+   "clanLevel": 7,
+   "reputation": 6900,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 370,
+   "level": 3,
+   "name": "Clan Body",
+   "effect": "Max HP +6%",
+   "clanLevel": 11,
+   "reputation": 13200,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 371,
+   "level": 1,
+   "name": "Clan Spirituality",
+   "effect": "Max CP +6%",
+   "clanLevel": 6,
+   "reputation": 2100,
+   "items": [
+    {
+     "id": 9817,
+     "name": "Nonliving Nucleus",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 371,
+   "level": 2,
+   "name": "Clan Spirituality",
+   "effect": "Max CP +10%",
+   "clanLevel": 7,
+   "reputation": 5600,
+   "items": [
+    {
+     "id": 9817,
+     "name": "Nonliving Nucleus",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 371,
+   "level": 3,
+   "name": "Clan Spirituality",
+   "effect": "Max CP +12%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9817,
+     "name": "Nonliving Nucleus",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 372,
+   "level": 1,
+   "name": "Clan Soul",
+   "effect": "Max MP +3%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9818,
+     "name": "Angelic Essence",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 373,
+   "level": 1,
+   "name": "Clan Regeneration",
+   "effect": "HP regen +3%",
+   "clanLevel": 5,
+   "reputation": 1500,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 373,
+   "level": 2,
+   "name": "Clan Regeneration",
+   "effect": "HP regen +5%",
+   "clanLevel": 7,
+   "reputation": 6900,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 373,
+   "level": 3,
+   "name": "Clan Regeneration",
+   "effect": "HP regen +6%",
+   "clanLevel": 11,
+   "reputation": 13200,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 374,
+   "level": 1,
+   "name": "Clan Morale",
+   "effect": "CP regen +6%",
+   "clanLevel": 6,
+   "reputation": 2600,
+   "items": [
+    {
+     "id": 9817,
+     "name": "Nonliving Nucleus",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 374,
+   "level": 2,
+   "name": "Clan Morale",
+   "effect": "CP regen +10%",
+   "clanLevel": 8,
+   "reputation": 13000,
+   "items": [
+    {
+     "id": 9817,
+     "name": "Nonliving Nucleus",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 375,
+   "level": 1,
+   "name": "Clan Clarity",
+   "effect": "MP regen +3%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9818,
+     "name": "Angelic Essence",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 376,
+   "level": 1,
+   "name": "Clan Might",
+   "effect": "P.Atk +3%",
+   "clanLevel": 6,
+   "reputation": 3000,
+   "items": [
+    {
+     "id": 9815,
+     "name": "Dragon Heart",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "HEIR"
+  },
+  {
+   "id": 376,
+   "level": 2,
+   "name": "Clan Might",
+   "effect": "P.Atk +5%",
+   "clanLevel": 7,
+   "reputation": 6500,
+   "items": [
+    {
+     "id": 9815,
+     "name": "Dragon Heart",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "HEIR"
+  },
+  {
+   "id": 376,
+   "level": 3,
+   "name": "Clan Might",
+   "effect": "P.Atk +6%",
+   "clanLevel": 8,
+   "reputation": 13000,
+   "items": [
+    {
+     "id": 9815,
+     "name": "Dragon Heart",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "HEIR"
+  },
+  {
+   "id": 377,
+   "level": 1,
+   "name": "Clan Shield",
+   "effect": "P.Def +3%",
+   "clanLevel": 6,
+   "reputation": 3000,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "HEIR"
+  },
+  {
+   "id": 377,
+   "level": 2,
+   "name": "Clan Shield",
+   "effect": "P.Def +5%",
+   "clanLevel": 7,
+   "reputation": 6500,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "HEIR"
+  },
+  {
+   "id": 377,
+   "level": 3,
+   "name": "Clan Shield",
+   "effect": "P.Def +6%",
+   "clanLevel": 8,
+   "reputation": 13000,
+   "items": [
+    {
+     "id": 9816,
+     "name": "Earth Egg",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "HEIR"
+  },
+  {
+   "id": 378,
+   "level": 1,
+   "name": "Clan Empower",
+   "effect": "M.Atk +6%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9818,
+     "name": "Angelic Essence",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 379,
+   "level": 1,
+   "name": "Clan M. Def.",
+   "effect": "M.Def +6%",
+   "clanLevel": 5,
+   "reputation": 1500,
+   "items": [
+    {
+     "id": 9818,
+     "name": "Angelic Essence",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 379,
+   "level": 2,
+   "name": "Clan M. Def.",
+   "effect": "M.Def +10%",
+   "clanLevel": 7,
+   "reputation": 6900,
+   "items": [
+    {
+     "id": 9818,
+     "name": "Angelic Essence",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 379,
+   "level": 3,
+   "name": "Clan M. Def.",
+   "effect": "M.Def +12%",
+   "clanLevel": 11,
+   "reputation": 13200,
+   "items": [
+    {
+     "id": 9818,
+     "name": "Angelic Essence",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 380,
+   "level": 1,
+   "name": "Clan Guidance",
+   "effect": "Accuracy +1",
+   "clanLevel": 7,
+   "reputation": 5600,
+   "items": [
+    {
+     "id": 9814,
+     "name": "Memento Mori",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 380,
+   "level": 2,
+   "name": "Clan Guidance",
+   "effect": "Accuracy +2",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9814,
+     "name": "Memento Mori",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 381,
+   "level": 1,
+   "name": "Clan Agility",
+   "effect": "Evasion +1",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9814,
+     "name": "Memento Mori",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 382,
+   "level": 1,
+   "name": "Clan Shield Defense",
+   "effect": "Shield block rate +12%",
+   "clanLevel": 7,
+   "reputation": 5100,
+   "items": [
+    {
+     "id": 9814,
+     "name": "Memento Mori",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 382,
+   "level": 2,
+   "name": "Clan Shield Defense",
+   "effect": "Shield block rate +20%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9814,
+     "name": "Memento Mori",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 383,
+   "level": 1,
+   "name": "Clan Shield Block",
+   "effect": "Shield defence +24%",
+   "clanLevel": 6,
+   "reputation": 2100,
+   "items": [
+    {
+     "id": 9815,
+     "name": "Dragon Heart",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 383,
+   "level": 2,
+   "name": "Clan Shield Block",
+   "effect": "Shield defence +40%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9815,
+     "name": "Dragon Heart",
+     "count": 10
+    }
+   ],
+   "kind": "clan",
+   "minRank": "ELDER"
+  },
+  {
+   "id": 384,
+   "level": 1,
+   "name": "Clan Cyclonic Resistance",
+   "effect": "Wind resistance +3, Water resistance +3",
+   "clanLevel": 7,
+   "reputation": 5100,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 384,
+   "level": 2,
+   "name": "Clan Cyclonic Resistance",
+   "effect": "Wind resistance +5, Water resistance +5",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 385,
+   "level": 1,
+   "name": "Clan Magmatic Resistance",
+   "effect": "Fire resistance +3, Earth resistance +3",
+   "clanLevel": 7,
+   "reputation": 5100,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 385,
+   "level": 2,
+   "name": "Clan Magmatic Resistance",
+   "effect": "Fire resistance +5, Earth resistance +5",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 386,
+   "level": 1,
+   "name": "Clan Resist Shock",
+   "effect": "Resist shock +12%",
+   "clanLevel": 7,
+   "reputation": 5100,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 386,
+   "level": 2,
+   "name": "Clan Resist Shock",
+   "effect": "Resist shock +20%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 387,
+   "level": 1,
+   "name": "Clan Resist Hold",
+   "effect": "Resist hold +12%",
+   "clanLevel": 7,
+   "reputation": 5100,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 387,
+   "level": 2,
+   "name": "Clan Resist Hold",
+   "effect": "Resist hold +20%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 388,
+   "level": 1,
+   "name": "Clan Resist Sleep",
+   "effect": "Resist sleep +12%",
+   "clanLevel": 7,
+   "reputation": 5100,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 388,
+   "level": 2,
+   "name": "Clan Resist Sleep",
+   "effect": "Resist sleep +20%",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "BARON"
+  },
+  {
+   "id": 389,
+   "level": 1,
+   "name": "Clan Wind Walk",
+   "effect": "Speed +3",
+   "clanLevel": 8,
+   "reputation": 11000,
+   "items": [
+    {
+     "id": 8175,
+     "name": "Cradle of Creation",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "VISCOUNT"
+  },
+  {
+   "id": 390,
+   "level": 1,
+   "name": "Clan Luck",
+   "effect": "XP lost on PvP death -30%, Death-penalty chance (PvP) -30%, XP lost on PvE death -12%, Death-penalty chance (PvE) -12%",
+   "clanLevel": 7,
+   "reputation": 6900,
+   "items": [
+    {
+     "id": 8175,
+     "name": "Cradle of Creation",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 390,
+   "level": 2,
+   "name": "Clan Luck",
+   "effect": "XP lost on PvP death -50%, Death-penalty chance (PvP) -50%, XP lost on PvE death -20%, Death-penalty chance (PvE) -20%",
+   "clanLevel": 8,
+   "reputation": 14000,
+   "items": [
+    {
+     "id": 8175,
+     "name": "Cradle of Creation",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "APPRENTICE"
+  },
+  {
+   "id": 391,
+   "level": 1,
+   "name": "Clan Imperium",
+   "effect": "Clan leader only: needed to engrave the castle seal during a siege (no stat effect).",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [
+    {
+     "id": 8176,
+     "name": "Destruction Tombstone",
+     "count": 1
+    }
+   ],
+   "kind": "clan",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 590,
+   "level": 1,
+   "name": "Residence Body",
+   "effect": "Max HP +222",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    4,
+    7,
+    101,
+    111,
+    121
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 591,
+   "level": 1,
+   "name": "Residence Spirit",
+   "effect": "Max CP +444",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    2,
+    109,
+    120
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 592,
+   "level": 1,
+   "name": "Residence Soul",
+   "effect": "Max MP +168",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    3,
+    9,
+    108,
+    119
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 593,
+   "level": 1,
+   "name": "Residence Health",
+   "effect": "HP regen +1.09",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    1,
+    8,
+    106,
+    121
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 594,
+   "level": 1,
+   "name": "Residence Moral",
+   "effect": "CP regen +1.09",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    7,
+    105,
+    120
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 595,
+   "level": 1,
+   "name": "Residence Clarity",
+   "effect": "MP regen +0.47",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    6,
+    104,
+    119
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 596,
+   "level": 1,
+   "name": "Residence Might",
+   "effect": "P.Atk +34.6",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    5,
+    107,
+    118
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 597,
+   "level": 1,
+   "name": "Residence Shield",
+   "effect": "P.Def +54.7",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    2,
+    110,
+    117
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 598,
+   "level": 1,
+   "name": "Residence Empower",
+   "effect": "M.Atk +40.4",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    4,
+    107,
+    116
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 599,
+   "level": 1,
+   "name": "Residence Magic Barrier",
+   "effect": "M.Def +44",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    6,
+    8,
+    108,
+    115
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 600,
+   "level": 1,
+   "name": "Residence Guidance",
+   "effect": "Accuracy +4",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    1,
+    9,
+    110,
+    112
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 601,
+   "level": 1,
+   "name": "Residence Agility",
+   "effect": "Evasion +4",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    3,
+    103,
+    118
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 602,
+   "level": 1,
+   "name": "Residence Shield Block",
+   "effect": "Shield block rate +20",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    5,
+    102,
+    117
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 603,
+   "level": 1,
+   "name": "Residence Shield Defense",
+   "effect": "Shield defence +225",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    7,
+    101,
+    116
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 604,
+   "level": 1,
+   "name": "Residence Resist Typhoon",
+   "effect": "Water resistance +10, Wind resistance +10",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    8,
+    102,
+    115
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 605,
+   "level": 1,
+   "name": "Residence Resist Lava",
+   "effect": "Fire resistance +10, Earth resistance +10",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    4,
+    103,
+    114
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 606,
+   "level": 1,
+   "name": "Residence Fortitude",
+   "effect": "Resist shock +10%",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    1,
+    104,
+    113
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 607,
+   "level": 1,
+   "name": "Residence Freedom",
+   "effect": "Resist hold +10%",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    6,
+    105,
+    112
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 608,
+   "level": 1,
+   "name": "Residence Vigilance",
+   "effect": "Resist sleep +10%",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    5,
+    106,
+    111
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 609,
+   "level": 1,
+   "name": "Residence Movement",
+   "effect": "Speed +6",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    2,
+    114
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 610,
+   "level": 1,
+   "name": "Residence Death Fortune",
+   "effect": "Death-penalty chance (PvP) -30%, XP lost on PvP death -30%, Death-penalty chance (PvE) -12%, XP lost on PvE death -12%",
+   "clanLevel": 4,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    3,
+    9,
+    109,
+    113,
+    117
+   ],
+   "note": "Castle/fortress skill: granted automatically while the clan owns one of the listed residences (castle ids 1-9, fortress ids 101-121); not bought"
+  },
+  {
+   "id": 848,
+   "level": 1,
+   "name": "Gludio Territory Benefaction",
+   "effect": "STR +1, INT +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    81
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 849,
+   "level": 1,
+   "name": "Dion Territory Benefaction",
+   "effect": "DEX +1, WIT +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    82
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 850,
+   "level": 1,
+   "name": "Giran Territory Benefaction",
+   "effect": "STR +1, MEN +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    83
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 851,
+   "level": 1,
+   "name": "Oren Territory Benefaction",
+   "effect": "CON +1, MEN +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    84
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 852,
+   "level": 1,
+   "name": "Aden Territory Benefaction",
+   "effect": "DEX +1, MEN +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    85
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 853,
+   "level": 1,
+   "name": "Innadril Territory Benefaction",
+   "effect": "CON +1, INT +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    86
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 854,
+   "level": 1,
+   "name": "Goddard Territory Benefaction",
+   "effect": "DEX +1, INT +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    87
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 855,
+   "level": 1,
+   "name": "Rune Territory Benefaction",
+   "effect": "STR +1, WIT +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    88
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 856,
+   "level": 1,
+   "name": "Schuttgart Territory Benefaction",
+   "effect": "CON +1, WIT +1",
+   "clanLevel": 5,
+   "reputation": 0,
+   "items": [],
+   "kind": "residential",
+   "minRank": "APPRENTICE",
+   "residenceIds": [
+    89
+   ],
+   "note": "Territory skill: only while the clan owns that territory (castle); granted, not bought"
+  },
+  {
+   "id": 611,
+   "level": 1,
+   "name": "Fire Squad",
+   "effect": "P.Atk +17.3",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 8
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 611,
+   "level": 2,
+   "name": "Fire Squad",
+   "effect": "P.Atk +17.3, Critical rate +15",
+   "clanLevel": 9,
+   "reputation": 17400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 11
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 611,
+   "level": 3,
+   "name": "Fire Squad",
+   "effect": "P.Atk +17.3, Critical rate +15, Critical damage +100",
+   "clanLevel": 10,
+   "reputation": 24000,
+   "items": [
+    {
+     "id": 9911,
+     "name": "Blood Alliance",
+     "count": 2
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 612,
+   "level": 1,
+   "name": "Water Squad",
+   "effect": "P.Def +27.3",
+   "clanLevel": 7,
+   "reputation": 10400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 4
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 612,
+   "level": 2,
+   "name": "Water Squad",
+   "effect": "P.Def +27.3, M.Def +17.6",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 8
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 612,
+   "level": 3,
+   "name": "Water Squad",
+   "effect": "P.Def +27.3, M.Def +17.6, Shield defence +6%",
+   "clanLevel": 9,
+   "reputation": 17400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 11
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 613,
+   "level": 1,
+   "name": "Wind Squad",
+   "effect": "Accuracy +2",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 8
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 613,
+   "level": 2,
+   "name": "Wind Squad",
+   "effect": "Accuracy +2, Evasion +2",
+   "clanLevel": 9,
+   "reputation": 17400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 11
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 613,
+   "level": 3,
+   "name": "Wind Squad",
+   "effect": "Accuracy +2, Evasion +2, Speed +3",
+   "clanLevel": 10,
+   "reputation": 24000,
+   "items": [
+    {
+     "id": 9911,
+     "name": "Blood Alliance",
+     "count": 2
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 614,
+   "level": 1,
+   "name": "Earth Squad",
+   "effect": "M.Def +17",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 8
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 614,
+   "level": 2,
+   "name": "Earth Squad",
+   "effect": "M.Def +31.1",
+   "clanLevel": 9,
+   "reputation": 17400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 11
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 614,
+   "level": 3,
+   "name": "Earth Squad",
+   "effect": "M.Def +44",
+   "clanLevel": 10,
+   "reputation": 24000,
+   "items": [
+    {
+     "id": 9911,
+     "name": "Blood Alliance",
+     "count": 2
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 615,
+   "level": 1,
+   "name": "Divine Squad",
+   "effect": "Max MP +0%, Received heal +20",
+   "clanLevel": 7,
+   "reputation": 10400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 4
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT",
+   "altName": "Holy Squad (name in the skill data)"
+  },
+  {
+   "id": 615,
+   "level": 2,
+   "name": "Divine Squad",
+   "effect": "Max MP +30%, Received heal +20",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 8
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT",
+   "altName": "Holy Squad (name in the skill data)"
+  },
+  {
+   "id": 615,
+   "level": 3,
+   "name": "Divine Squad",
+   "effect": "Max MP +30%, Received heal +20, MP cost (magic) -5%, MP cost (physical) -5%, MP cost (dance/song) -5%",
+   "clanLevel": 9,
+   "reputation": 17400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 11
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT",
+   "altName": "Holy Squad (name in the skill data)"
+  },
+  {
+   "id": 616,
+   "level": 1,
+   "name": "Dark Squad",
+   "effect": "M.Atk +7.17",
+   "clanLevel": 8,
+   "reputation": 12000,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 8
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 616,
+   "level": 2,
+   "name": "Dark Squad",
+   "effect": "M.Atk +19.32",
+   "clanLevel": 9,
+   "reputation": 17400,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 11
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  },
+  {
+   "id": 616,
+   "level": 3,
+   "name": "Dark Squad",
+   "effect": "M.Atk +19.32, Magic critical rate +1%",
+   "clanLevel": 10,
+   "reputation": 24000,
+   "items": [
+    {
+     "id": 9911,
+     "name": "Blood Alliance",
+     "count": 2
+    }
+   ],
+   "kind": "squad",
+   "minRank": "KNIGHT"
+  }
+ ],
+ "levels": [
+  {
+   "level": 1,
+   "sp": 20000,
+   "adena": 650000,
+   "items": [],
+   "reputation": 0,
+   "members": 0,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "SP, adena and the item are paid by the CLAN LEADER personally",
+   "memberLimitAfter": {
+    "main": 15,
+    "academy": 0,
+    "royalGuardsEach": 0,
+    "knightsEach": 0
+   }
+  },
+  {
+   "level": 2,
+   "sp": 100000,
+   "adena": 2500000,
+   "items": [],
+   "reputation": 0,
+   "members": 0,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "SP, adena and the item are paid by the CLAN LEADER personally",
+   "memberLimitAfter": {
+    "main": 20,
+    "academy": 0,
+    "royalGuardsEach": 0,
+    "knightsEach": 0
+   }
+  },
+  {
+   "level": 3,
+   "sp": 350000,
+   "adena": 0,
+   "items": [
+    {
+     "id": 1419,
+     "name": "Blood Mark",
+     "count": 1
+    }
+   ],
+   "reputation": 0,
+   "members": 0,
+   "itemSource": "not found in the L2J quest scripts checked (unverified)",
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "SP, adena and the item are paid by the CLAN LEADER personally. Item source: not found in the L2J quest scripts checked (unverified)",
+   "memberLimitAfter": {
+    "main": 30,
+    "academy": 0,
+    "royalGuardsEach": 0,
+    "knightsEach": 0
+   }
+  },
+  {
+   "level": 4,
+   "sp": 1000000,
+   "adena": 0,
+   "items": [
+    {
+     "id": 3874,
+     "name": "Alliance Manifesto",
+     "count": 1
+    }
+   ],
+   "reputation": 0,
+   "members": 0,
+   "itemSource": "Quest 501 Proof of Clan Alliance (Sir Kristof Rodemai 30756, needs clan level 3)",
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "SP, adena and the item are paid by the CLAN LEADER personally. Item source: Quest 501 Proof of Clan Alliance (Sir Kristof Rodemai 30756, needs clan level 3)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 0,
+    "royalGuardsEach": 0,
+    "knightsEach": 0
+   }
+  },
+  {
+   "level": 5,
+   "sp": 2500000,
+   "adena": 0,
+   "items": [
+    {
+     "id": 3870,
+     "name": "Seal of Aspiration",
+     "count": 1
+    }
+   ],
+   "reputation": 0,
+   "members": 0,
+   "itemSource": "Quest 503 Pursuit of Clan Ambition (Sir Gustav Athebaldt 30760)",
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "SP, adena and the item are paid by the CLAN LEADER personally. Item source: Quest 503 Pursuit of Clan Ambition (Sir Gustav Athebaldt 30760)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 0,
+    "knightsEach": 0
+   }
+  },
+  {
+   "level": 6,
+   "sp": 0,
+   "adena": 0,
+   "items": [],
+   "reputation": 5000,
+   "members": 30,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "Reputation is taken from the clan; members = total clan members incl. academy and sub-units (getMembersCount)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 20,
+    "knightsEach": 0
+   }
+  },
+  {
+   "level": 7,
+   "sp": 0,
+   "adena": 0,
+   "items": [],
+   "reputation": 10000,
+   "members": 50,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "Reputation is taken from the clan; members = total clan members incl. academy and sub-units (getMembersCount)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 20,
+    "knightsEach": 10
+   }
+  },
+  {
+   "level": 8,
+   "sp": 0,
+   "adena": 0,
+   "items": [],
+   "reputation": 20000,
+   "members": 80,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "Reputation is taken from the clan; members = total clan members incl. academy and sub-units (getMembersCount)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 20,
+    "knightsEach": 10
+   }
+  },
+  {
+   "level": 9,
+   "sp": 0,
+   "adena": 0,
+   "items": [
+    {
+     "id": 9910,
+     "name": "Blood Oath",
+     "count": 150
+    }
+   ],
+   "reputation": 40000,
+   "members": 120,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "Reputation is taken from the clan; members = total clan members incl. academy and sub-units (getMembersCount)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 20,
+    "knightsEach": 25
+   }
+  },
+  {
+   "level": 10,
+   "sp": 0,
+   "adena": 0,
+   "items": [
+    {
+     "id": 9911,
+     "name": "Blood Alliance",
+     "count": 5
+    }
+   ],
+   "reputation": 40000,
+   "members": 140,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "Reputation is taken from the clan; members = total clan members incl. academy and sub-units (getMembersCount)",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 20,
+    "knightsEach": 25
+   }
+  },
+  {
+   "level": 11,
+   "sp": 0,
+   "adena": 0,
+   "items": [],
+   "reputation": 75000,
+   "members": 170,
+   "where": "Any Village Master (Grand Master / High Priest / Grand Magister / Head Blacksmith ...) -> Clan -> Increase clan level. Clan leader only; not while the clan is being dissolved.",
+   "notes": "Reputation is taken from the clan; members = total clan members incl. academy and sub-units (getMembersCount). The clan must also own a territory (Territory War).",
+   "memberLimitAfter": {
+    "main": 40,
+    "academy": 20,
+    "royalGuardsEach": 30,
+    "knightsEach": 25
+   }
+  }
+ ],
+ "memberLimits": {
+  "main": {
+   "0": 10,
+   "1": 15,
+   "2": 20,
+   "3": 30,
+   "4+": 40
+  },
+  "academy": {
+   "createdAt": 5,
+   "limit": 20,
+   "cost": "free"
+  },
+  "royalGuards": {
+   "createdAt": 6,
+   "units": 2,
+   "limitEach": "20 (30 at clan level 11)",
+   "cost": "5000 reputation each"
+  },
+  "knights": {
+   "createdAt": 7,
+   "units": 4,
+   "limitEach": "10 (25 at clan level 9+)",
+   "cost": "10000 reputation each"
+  },
+  "totals": "level 4-5: 40 (+20 academy from 5); level 6: +2x20 royal; level 7-8: +4x10 knights = 140; level 9-10: 200; level 11: 220"
+ },
+ "academy": {
+  "clanLevel": 5,
+  "create": "Clan leader at any Village Master: Clan -> Clan Academy -> create (bypass \"create_academy <name>\"). Name 2-16 letters/digits, unique among all sub-units. Free (no reputation). One academy per clan.",
+  "joinRules": "Pledge type -1. The character must have no clan, no clan-join penalty, level 40 or lower (L2J refuses level > 40) and must NOT have the 2nd profession (base class or 1st profession only). Max 20 academy members.",
+  "graduation": "On the 2nd class change the member leaves the academy automatically. Clan reputation depends on the level he JOINED at: <=16 -> 650; >=39 -> 190; otherwise 650 - (joinLevel - 16) x 20. The member gets an Academy Circlet (item 8181).",
+  "invite": "Clan leader (or a member with the invite privilege) sends RequestJoinPledge(targetObjId, -1); the target answers with RequestAnswerJoinPledge. L2Toggle Quick Accept Clan invitations may accept automatically.",
+  "notes": "Academy members cannot become clan leader. On L2Toggle class changes come from the Community Board Class Master; L2J graduates on any setClassId to a 2nd-profession class, so the board change should count (unverified)."
+ },
+ "quests": {
+  "508": {
+   "name": "A Clan's Reputation",
+   "npc": "Sir Eric Rodemai",
+   "npcId": 30868,
+   "npcPos": {
+    "x": 147456,
+    "y": 27488,
+    "z": -2204
+   },
+   "town": "Aden (castle town)",
+   "clanLevel": 5,
+   "repeatable": true,
+   "how": "Clan leader talks to the NPC and picks ONE boss (quest var raid=N). Killing that boss gives its item once (only if the leader does not already hold it). Hand it in for the reputation, then pick again. Repeatable.",
+   "bosses": [
+    {
+     "id": 25252,
+     "name": "Palibati Queen Themis",
+     "level": 70,
+     "x": 192376,
+     "y": 22087,
+     "z": -3608,
+     "zone": "Cemetery / The Forbidden Gateway",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8277,
+      "name": "Themis' Scale",
+      "count": 1
+     },
+     "reputation": 560,
+     "inRaidList": true,
+     "curseLevel": 69,
+     "nearestTeleport": "Aden -> Seal of Shilen"
+    },
+    {
+     "id": 25478,
+     "name": "Shilen's Priest Hisilrome",
+     "level": 65,
+     "x": 168288,
+     "y": 28368,
+     "z": -3632,
+     "zone": "Cemetery / The Forbidden Gateway",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 14883,
+      "name": "Hisilrome's Heart",
+      "count": 1
+     },
+     "reputation": 584,
+     "inRaidList": true,
+     "curseLevel": 64,
+     "nearestTeleport": "Aden -> Forsaken Plains"
+    },
+    {
+     "id": 25255,
+     "name": "Gargoyle Lord Tiphon",
+     "level": 65,
+     "x": 170048,
+     "y": -24896,
+     "z": -3440,
+     "zone": "Fields of Massacre",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8280,
+      "name": "Tiphon Shard",
+      "count": 1
+     },
+     "reputation": 602,
+     "inRaidList": true,
+     "curseLevel": 65,
+     "nearestTeleport": "Aden -> Fields of Massacre"
+    },
+    {
+     "id": 25245,
+     "name": "Last Lesser Giant Glaki",
+     "level": 78,
+     "x": 188809,
+     "y": 47780,
+     "z": -5968,
+     "zone": "Forsaken Plains / Silent Valley / Bayou Fortress",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8281,
+      "name": "Glaki's Necleus",
+      "count": 1
+     },
+     "reputation": 784,
+     "inRaidList": true,
+     "curseLevel": 77,
+     "nearestTeleport": "Aden -> Silent Valley"
+    },
+    {
+     "id": 25051,
+     "name": "Rahha",
+     "level": 65,
+     "x": 117760,
+     "y": -9072,
+     "z": -3264,
+     "zone": "Ancient Battleground / Western Fortress",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8282,
+      "name": "Rahha's Fang",
+      "count": 1
+     },
+     "reputation": 558,
+     "inRaidList": true,
+     "curseLevel": 64,
+     "nearestTeleport": "Aden -> Ancient Battleground"
+    },
+    {
+     "id": 25524,
+     "name": "Flamestone Giant",
+     "level": 76,
+     "x": 144600,
+     "y": -5500,
+     "z": -4100,
+     "zone": "Blazing Swamp",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8494,
+      "name": "Nucleus of Flamestone Giant",
+      "count": 1
+     },
+     "reputation": 768,
+     "inRaidList": true,
+     "curseLevel": 75,
+     "nearestTeleport": "Aden Terrace -> Out"
+    }
+   ]
+  },
+  "509": {
+   "name": "A Clan's Fame",
+   "npc": "Grand Magister Valdis",
+   "npcId": 31331,
+   "npcPos": {
+    "x": 36256,
+    "y": -49536,
+    "z": -1104
+   },
+   "town": "Rune",
+   "clanLevel": 6,
+   "repeatable": true,
+   "how": "Same mechanics as Q508 (pick one boss, kill it, hand in the item).",
+   "bosses": [
+    {
+     "id": 25290,
+     "name": "Daimon the White-Eyed",
+     "level": 78,
+     "x": 186304,
+     "y": -43744,
+     "z": -3193,
+     "zone": "Forge of the Gods area (Rune territory), quest altar",
+     "respawn": "no timed spawn: summoned through quest 604 Daimon the White-Eyed - Part 2 (its line is commented out in raidboss_spawnlist.sql)",
+     "item": {
+      "id": 8489,
+      "name": "Daimon's Eyes",
+      "count": 1
+     },
+     "reputation": 1378,
+     "inRaidList": false,
+     "note": "Position = the Q509 radar point. Missing from raidbosses_h5.json because it has no timed spawn."
+    },
+    {
+     "id": 25293,
+     "name": "Hesti Guardian Deity of the Hot Springs",
+     "level": 78,
+     "x": 134672,
+     "y": -115600,
+     "z": -1216,
+     "zone": "Hot Springs",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8490,
+      "name": "Hestia's Fairy Stone",
+      "count": 1
+     },
+     "reputation": 1378,
+     "inRaidList": true,
+     "curseLevel": 77,
+     "nearestTeleport": "Goddard -> Hot Springs"
+    },
+    {
+     "id": 25523,
+     "name": "Plague Golem",
+     "level": 73,
+     "x": 170000,
+     "y": -60000,
+     "z": -3500,
+     "zone": "Wall of Argos",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8491,
+      "name": "Nucleus of Lesser Golem",
+      "count": 1
+     },
+     "reputation": 1070,
+     "inRaidList": true,
+     "curseLevel": 73,
+     "nearestTeleport": "Goddard -> Wall of Argos"
+    },
+    {
+     "id": 25322,
+     "name": "Demon's Agent Falston",
+     "level": 66,
+     "x": 93296,
+     "y": -75104,
+     "z": -1824,
+     "zone": "Valley of Saints / Monastic Fortress",
+     "respawn": "12-60 h (L2J 36 h +/- 24 h)",
+     "item": {
+      "id": 8492,
+      "name": "Falston's Fang",
+      "count": 1
+     },
+     "reputation": 782,
+     "inRaidList": true,
+     "curseLevel": 65,
+     "nearestTeleport": "Goddard -> Monastery of silence"
+    }
+   ]
+  },
+  "510": {
+   "name": "A Clan's Prestige",
+   "npc": "Grand Magister Valdis",
+   "npcId": 31331,
+   "npcPos": {
+    "x": 36256,
+    "y": -49536,
+    "z": -1104
+   },
+   "town": "Rune",
+   "clanLevel": 5,
+   "repeatable": true,
+   "how": "Not a raid quest: every Tyrannosaurus kill (Primeval Isle) gives 1 Tyrannosaurus Claw (8767) to the clan leader. Hand in any number: reputation = 30 x claws below 10 claws, else 59 + 30 x claws.",
+   "mobs": [
+    {
+     "id": 22215,
+     "name": "Tyrannosaurus",
+     "level": 80,
+     "hp": 339687,
+     "aggressive": true,
+     "spawns": [
+      {
+       "x": 19506,
+       "y": -15772,
+       "z": -3080
+      },
+      {
+       "x": 22253,
+       "y": -17062,
+       "z": -2976
+      },
+      {
+       "x": 23348,
+       "y": -20888,
+       "z": -2672
+      },
+      {
+       "x": 25047,
+       "y": -18477,
+       "z": -2712
+      },
+      {
+       "x": 27331,
+       "y": -16669,
+       "z": -2664
+      },
+      {
+       "x": 27714,
+       "y": -14692,
+       "z": -2552
+      },
+      {
+       "x": 26555,
+       "y": -11574,
+       "z": -2464
+      },
+      {
+       "x": 21295,
+       "y": -11123,
+       "z": -2784
+      },
+      {
+       "x": 19605,
+       "y": -11234,
+       "z": -2816
+      }
+     ]
+    },
+    {
+     "id": 22216,
+     "name": "Tyrannosaurus",
+     "level": 80,
+     "hp": 339687,
+     "aggressive": true,
+     "spawns": [
+      {
+       "x": 19220,
+       "y": -11806,
+       "z": -2776
+      }
+     ]
+    },
+    {
+     "id": 22217,
+     "name": "Tyrannosaurus",
+     "level": 80,
+     "hp": 339687,
+     "aggressive": true,
+     "spawns": [
+      {
+       "x": 26740,
+       "y": -16596,
+       "z": -2688
+      }
+     ]
+    }
+   ],
+   "item": {
+    "id": 8767,
+    "name": "Tyrannosaurus Claw"
+   },
+   "reputationFormula": "n<10 ? 30*n : 59+30*n",
+   "bosses": []
+  }
+ },
+ "killRule": "A kill counts if the killer (the player the kill is credited to) is the clan leader, or a clan member within 1500 of the ONLINE clan leader (isInsideRadius 1500, 2D, Z ignored). The item goes to the clan leader. For 508/509 only the boss the leader picked counts, and only while he does not already hold its item.",
+ "clanCreation": {
+  "minLevel": 10,
+  "cost": "free",
+  "where": "Any Village Master -> Clan -> Create clan (bypass \"create_clan <name>\")",
+  "rules": "not in a clan, no clan-creation penalty (after dissolving), name 2-16 chars, letters/digits only"
+ },
+ "reputationSources": {
+  "Q508 bosses": "558-784 each",
+  "Q509 bosses": "782-1378 each",
+  "Q510": "30 per claw (+59 bonus from 10 claws)",
+  "Academy graduate": "190-650",
+  "Raid point ranking (weekly)": "1st 1250 ... 10th 100, up to 50th 25, up to 100th 12",
+  "Blood Oath / Blood Alliance (exchange)": "200 / 500",
+  "Clan war kill": "1 per kill",
+  "Hero": 1000,
+  "Castle / fortress taken": "1500 / 200"
+ },
+ "fastestClass": {
+  "assumptions": "Solo 1 -> 40, full L2Toggle board buffs (12 h), Mana Potions from grocers, free class change at 20 and 40 (Alt+B Career). H5 skill-tree facts plus common H5 experience; not measured on L2Toggle.",
+  "best": {
+   "race": "Dark Elf",
+   "classPath": "Dark Elf Mystic -> Dark Wizard (20) -> Phantom Summoner (40; Spellhowler if it will play in a party)",
+   "why": [
+    "Highest INT of the mystic races; the board Mystic scheme (Empower, Acumen, Wild Magic, Concentration) multiplies it.",
+    "Self-sustain all the way: Self Heal (1), Heal (7), Vampiric Touch (14), Corpse Life Drain (30).",
+    "At 20 the Dark Wizard gets Summon Shadow / Silhouette: a servitor tanks while you nuke (Twister 20, Shadow Spark 25), so the fragile mage takes little damage; Poisonous Cloud (25) adds AoE.",
+    "The classic mage weakness, MP downtime, is removed by cheap grocer Mana Potions.",
+    "Cheap gear: robe + magic weapon, blessed spiritshots only."
+   ],
+   "caveats": "Whether the Community Board also buffs the servitor is unverified. Before 20 it is a plain Wind Strike mage (still fast with Acumen + Mana Potions)."
+  },
+  "runnerUp": {
+   "race": "Kamael",
+   "classPath": "Kamael Female Soldier -> Warder (20) -> Arbalester (40)",
+   "why": [
+    "No MP problem: physical crossbow damage + soulshots; the board Warrior scheme fits fully.",
+    "Strong early kit: Fallen Attack / Fallen Arrow at 5, Abyssal Blaze 20, Dark Explosion (AoE) and Furious Soul 24, Soul Shock 36.",
+    "Crossbow range: mobs die before they reach you; Kamael start gear is good.",
+    "Weakness: no self-heal (potions only until Life to Soul at 40) and bolts cost adena."
+   ]
+  },
+  "alsoConsidered": "Human Mystic -> Wizard -> Warlock (Kat/Mew at 20, close to Dark Wizard), Male Soldier -> Trooper (melee AoE), Orc Fighter -> Raider -> Destroyer (very tough but slower single-target killing before 40)."
+ }
+}

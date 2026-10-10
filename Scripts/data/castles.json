@@ -1,0 +1,6325 @@
+{
+  "_generated": "2026-10-08",
+  "_sources": [
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-game/main/src/main/resources/config/siege.properties",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-game/main/src/main/resources/config/castle.properties",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-game/main/src/main/resources/config/SiegeSchedule.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/sql/castle.sql",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/sql/castle_siege_guards.sql",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/data/doors.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/data/zones/castle_siege.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/data/skillTrees/pledgeSkillTree.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/data/stats/skills/00500-00599.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/data/stats/skills/00600-00699.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/resources/data/stats/skills/00800-00899.xml",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-game/main/src/main/java/com/l2jserver/gameserver/instancemanager/CastleManager.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-game/main/src/main/java/com/l2jserver/gameserver/model/entity/Castle.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleChamberlain/CastleChamberlain.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleSiegeManager/CastleSiegeManager.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleTeleporter/CastleTeleporter.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleMercenaryManager/CastleMercenaryManager.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleWarehouse/CastleWarehouse.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleCourtMagician/CastleCourtMagician.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/ai/npc/CastleBlacksmith/CastleBlacksmith.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/instances/CastleDungeon/CastleDungeon.java",
+    "https://raw.githubusercontent.com/Shagooh/l2j-server-datapack/main/src/main/java/com/l2jserver/datapack/quests/Q00512_BladeUnderFoot/Q00512_BladeUnderFoot.java",
+    "C:/L2Swarm/Scripts/data/l2j_spawnlist.sql (castle NPC + artifact spawns)",
+    "C:/L2Swarm/Scripts/data/npcs_h5.json",
+    "C:/L2Swarm/Scripts/data/gatekeepers_h5.json",
+    "C:/L2Swarm/Scripts/data/teleports_h5.json"
+  ],
+  "_notes": [
+    "Coordinates are L2J High Five datapack values; L2Toggle may differ (not checked live).",
+    "Castle NPCs = spawnlist NPCs inside the castle siege-zone polygon with a castle role (role ids from the datapack castle NPC scripts), castle doormen, artifacts, wyvern manager or a title equal to the castle name; role NPCs outside the polygon were looked up by id (see below).",
+    "npc roles: chamberlain, messenger (siege registration = CastleSiegeManager), gatekeeper (Mass Gatekeeper = CastleTeleporter), mercenary_manager, warehouse, court_wizard, blacksmith, dungeon_warden, doorman, wyvern_manager, other.",
+    "gates = doors.xml <prefix>_castle_* without _agit_ (agit = clan hall doors in the town). role from the name part (outter/inner/wall/side_door/small/station/ctr).",
+    "controlTowers (Life Control Tower 13002) and flameTowers (Flame Control Tower 13004, zoneIds = trap zones) from siege.properties.",
+    "Residence skills: pledgeSkillTree.xml residenceId = castle id; territorySkills: residenceId 80 + castle id (Territory Benefaction, clan level 5).",
+    "Siege schedule (SiegeSchedule.xml): Sunday 16:00 and 20:00, max 5 concurrent sieges; siege.properties SiegeHourList 16,20.",
+    "Giran: Holmes (35188) is outside the castle siege zone, at 107386,145807,-3300 (10588 from the artifact)",
+    "Aden: Messenger Ruford (35278) is outside the castle siege zone, at 147551,19577,-1991 (18048 from the artifact)",
+    "Goddard: Daven (35367) is outside the castle siege zone, at 154208,-51648,-2984 (6837 from the artifact)",
+    "Schuttgart: Daguerre (35559) is outside the castle siege zone, at 75712,-144912,-1296 (9784 from the artifact)"
+  ],
+  "rules": {
+    "minClanLevel": 5,
+    "siegeLengthMin": 120,
+    "attackerMaxClans": 500,
+    "defenderMaxClans": 500,
+    "maxFlags": 1,
+    "siegeCycleDays": 14,
+    "_siegeCycleFrom": "Siege.setNextSiegeDate: next SiegeSchedule day/hour, + WEEK_OF_YEAR 2 when that time has passed (every 2 weeks)",
+    "siegeSchedule": [
+      {
+        "day": "SUNDAY",
+        "hour": 16,
+        "maxConcurrent": 5
+      },
+      {
+        "day": "SUNDAY",
+        "hour": 20,
+        "maxConcurrent": 5
+      }
+    ],
+    "otherConfig": {
+      "AttackerRespawn": 0,
+      "BloodAllianceReward": 1
+    },
+    "castleConfig": {
+      "SiegeHourList": "16,20",
+      "TeleportFunctionFeeRatio": 604800000,
+      "TeleportFunctionFeeLvl1": 1000,
+      "TeleportFunctionFeeLvl2": 10000,
+      "SupportFunctionFeeRatio": 604800000,
+      "SupportFeeLvl1": 49000,
+      "SupportFeeLvl2": 120000,
+      "MpRegenerationFunctionFeeRatio": 604800000,
+      "MpRegenerationFeeLvl1": 45000,
+      "MpRegenerationFeeLvl2": 65000,
+      "HpRegenerationFunctionFeeRatio": 604800000,
+      "HpRegenerationFeeLvl1": 12000,
+      "HpRegenerationFeeLvl2": 20000,
+      "ExpRegenerationFunctionFeeRatio": 604800000,
+      "ExpRegenerationFeeLvl1": 63000,
+      "ExpRegenerationFeeLvl2": 70000,
+      "OuterDoorUpgradePriceLvl2": 3000000,
+      "OuterDoorUpgradePriceLvl3": 4000000,
+      "OuterDoorUpgradePriceLvl5": 5000000,
+      "InnerDoorUpgradePriceLvl2": 750000,
+      "InnerDoorUpgradePriceLvl3": 900000,
+      "InnerDoorUpgradePriceLvl5": 1000000,
+      "WallUpgradePriceLvl2": 1600000,
+      "WallUpgradePriceLvl3": 1800000,
+      "WallUpgradePriceLvl5": 2000000,
+      "TrapUpgradePriceLvl1": 3000000,
+      "TrapUpgradePriceLvl2": 4000000,
+      "TrapUpgradePriceLvl3": 5000000,
+      "TrapUpgradePriceLvl4": 6000000,
+      "AllowRideWyvernAlways": false,
+      "AllowRideWyvernDuringSiege": true
+    }
+  },
+  "castles": [
+    {
+      "id": 1,
+      "name": "Gludio",
+      "key": "gludio",
+      "town": "Gludio",
+      "territory": "Gludio",
+      "siegeZone": {
+        "name": "gludio_castle_battlefield_territory",
+        "minZ": -4448,
+        "maxZ": 3551,
+        "polygon": [
+          [
+            -22615,
+            104510
+          ],
+          [
+            -13290,
+            104564
+          ],
+          [
+            -13313,
+            116950
+          ],
+          [
+            -22638,
+            116896
+          ]
+        ]
+      },
+      "pos": {
+        "x": -18113,
+        "y": 107972,
+        "z": -2480
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Town of Gludio",
+        "x": -12787,
+        "y": 122779,
+        "z": -3112,
+        "dist": 15736,
+        "fromTown": "Dark Elf Village",
+        "price": 10000
+      },
+      "ownerTeleports": [
+        {
+          "id": 13000,
+          "name": "Front of the Gludio Castle",
+          "x": -15043,
+          "y": 116596,
+          "z": -3208,
+          "price": 0
+        },
+        {
+          "id": 13001,
+          "name": "Gludio Town Square",
+          "x": -14393,
+          "y": 123671,
+          "z": -3144,
+          "price": 0
+        },
+        {
+          "id": 13002,
+          "name": "Front of the Shanty Fortress",
+          "x": -58761,
+          "y": 154663,
+          "z": -2701,
+          "price": 0
+        },
+        {
+          "id": 13003,
+          "name": "Front of the Southern Fortress",
+          "x": -29856,
+          "y": 214275,
+          "z": -3680,
+          "price": 0
+        },
+        {
+          "id": 13004,
+          "name": "Ruins of Agony",
+          "x": -41248,
+          "y": 122848,
+          "z": -2912,
+          "price": 500
+        },
+        {
+          "id": 13005,
+          "name": "Ruins of Despair",
+          "x": -19120,
+          "y": 136816,
+          "z": -3762,
+          "price": 500
+        },
+        {
+          "id": 13006,
+          "name": "The Ant Nest",
+          "x": -9959,
+          "y": 176184,
+          "z": -4160,
+          "price": 500
+        },
+        {
+          "id": 13007,
+          "name": "Windawood Manor",
+          "x": -28327,
+          "y": 155125,
+          "z": -3496,
+          "price": 500
+        }
+      ],
+      "forts": [
+        101,
+        102,
+        112,
+        113
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35063,
+          "name": "Gludio Holy Artifact",
+          "x": -18113,
+          "y": 107972,
+          "z": -2480,
+          "heading": 16384,
+          "spawnLoc": "GludioArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": -18325,
+          "y": 112811,
+          "z": -2377
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": -18048,
+          "y": 107098,
+          "z": -2378
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": -18113,
+          "y": 108597,
+          "z": -2343
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": -18154,
+          "y": 107591,
+          "z": -2560,
+          "zoneIds": [
+            70017,
+            70019
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": -19329,
+          "y": 108154,
+          "z": -2384,
+          "zoneIds": [
+            70018,
+            70020
+          ]
+        }
+      ],
+      "maxMercenaries": 100,
+      "gates": [
+        {
+          "id": 19210001,
+          "name": "gludio_castle_outter_001",
+          "x": -18481,
+          "y": 113065,
+          "z": -2476,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 19210002,
+          "name": "gludio_castle_outter_002",
+          "x": -18219,
+          "y": 113065,
+          "z": -2476,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 19210003,
+          "name": "gludio_castle_wall_001",
+          "x": -19912,
+          "y": 111381,
+          "z": -2688,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 19210004,
+          "name": "gludio_castle_wall_002",
+          "x": -16586,
+          "y": 111382,
+          "z": -2688,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 19210005,
+          "name": "gludio_castle_inner_001",
+          "x": -18244,
+          "y": 110520,
+          "z": -2289,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 19210006,
+          "name": "gludio_castle_inner_002",
+          "x": -17981,
+          "y": 110520,
+          "z": -2289,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 19210007,
+          "name": "gludio_castle_small_002",
+          "x": -19235,
+          "y": 108276,
+          "z": -2289,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 19210008,
+          "name": "gludio_castle_station",
+          "x": -18997,
+          "y": 108062,
+          "z": -1817,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 19210009,
+          "name": "gludio_castle_small_001",
+          "x": -17939,
+          "y": 107109,
+          "z": -2289,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35095,
+          "name": "Mass Gatekeeper",
+          "title": "Gludio",
+          "role": "gatekeeper",
+          "x": -16532,
+          "y": 109387,
+          "z": -1784,
+          "heading": 32768,
+          "spawnLoc": "gludio_mass_teleporter"
+        },
+        {
+          "npcId": 35096,
+          "name": "Outer Doorman",
+          "title": "Gludio",
+          "role": "doorman",
+          "x": -18452,
+          "y": 113261,
+          "z": -2750,
+          "heading": 16384,
+          "spawnLoc": "gludio_chamberlain_etc"
+        },
+        {
+          "npcId": 35096,
+          "name": "Outer Doorman",
+          "title": "Gludio",
+          "role": "doorman",
+          "x": -18506,
+          "y": 112913,
+          "z": -2750,
+          "heading": 32768,
+          "spawnLoc": "gludio_chamberlain_etc"
+        },
+        {
+          "npcId": 35097,
+          "name": "Inner Doorman",
+          "title": "Gludio",
+          "role": "doorman",
+          "x": -18279,
+          "y": 110702,
+          "z": -2460,
+          "heading": 16384,
+          "spawnLoc": "gludio_chamberlain_etc"
+        },
+        {
+          "npcId": 35097,
+          "name": "Inner Doorman",
+          "title": "Gludio",
+          "role": "doorman",
+          "x": -18345,
+          "y": 110347,
+          "z": -2500,
+          "heading": 32768,
+          "spawnLoc": "gludio_chamberlain_etc"
+        },
+        {
+          "npcId": 35098,
+          "name": "Blacksmith",
+          "title": "Gludio",
+          "role": "blacksmith",
+          "x": -17644,
+          "y": 109616,
+          "z": -2656,
+          "heading": 33000,
+          "spawnLoc": "gludio_blacksmith"
+        },
+        {
+          "npcId": 35099,
+          "name": "Warehouse Keeper",
+          "title": "Gludio",
+          "role": "warehouse",
+          "x": -18130,
+          "y": 110020,
+          "z": -2656,
+          "heading": 49152,
+          "spawnLoc": "gludio_warehouse"
+        },
+        {
+          "npcId": 35100,
+          "name": "Sayres",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": -18212,
+          "y": 108827,
+          "z": -2472,
+          "heading": 16384,
+          "spawnLoc": "gludio_chamberlain_etc"
+        },
+        {
+          "npcId": 35101,
+          "name": "Grad",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": -17952,
+          "y": 108142,
+          "z": -2032,
+          "heading": -16384,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35102,
+          "name": "Greenspan",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": -17876,
+          "y": 108944,
+          "z": -2485,
+          "heading": 16384,
+          "spawnLoc": "gludio19_npc1921_901"
+        },
+        {
+          "npcId": 35104,
+          "name": "Tyron",
+          "title": "Sir",
+          "role": "messenger",
+          "x": -15172,
+          "y": 116723,
+          "z": -3216,
+          "heading": 16384,
+          "spawnLoc": "gludio_chamberlain_etc"
+        },
+        {
+          "npcId": 35648,
+          "name": "Court Magician",
+          "title": "Gludio",
+          "role": "court_wizard",
+          "x": -18340,
+          "y": 108932,
+          "z": -2496,
+          "heading": 16384,
+          "spawnLoc": "Gludio_castle"
+        },
+        {
+          "npcId": 36403,
+          "name": "Warden",
+          "title": "Gludio",
+          "role": "dungeon_warden",
+          "x": -17962,
+          "y": 109067,
+          "z": -2657,
+          "heading": 8388,
+          "spawnLoc": "Gludio_castle"
+        }
+      ],
+      "siegeGuards": {
+        "count": 384,
+        "byName": {
+          "Guard": 264,
+          "Court Guard": 40,
+          "Royal Knight": 13,
+          "Court Sorcerer": 65,
+          "Baron Lewin Waldner": 1,
+          "Cronenberg": 1
+        },
+        "levels": [
+          75,
+          77,
+          79,
+          81,
+          83
+        ]
+      },
+      "skills": [
+        {
+          "id": 593,
+          "name": "Residence Health",
+          "level": 1,
+          "effect": "regHp +1.09",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 600,
+          "name": "Residence Guidance",
+          "level": 1,
+          "effect": "accCombat +4",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 606,
+          "name": "Residence Fortitude",
+          "level": 1,
+          "effect": "DefenceTrait SHOCK +10",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 848,
+          "name": "Gludio Territory Benefaction",
+          "level": 1,
+          "effect": "STR +1, INT +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6838,
+        "name": "Circlet of Gludio",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36403,
+        "wardenName": "Warden",
+        "x": -17962,
+        "y": 109067,
+        "z": -2657,
+        "instanceTemplateId": 13,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 2 fort(s) of its list (101, 102) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": -14762,
+        "y": 117288,
+        "z": -3616,
+        "why": "outside the siege zone, 9900 from the centre, toward the landing",
+        "walk": {
+          "from": "Town of Gludio",
+          "units": 6700
+        }
+      },
+      "nearestTeleport": {
+        "from": "Dark Elf",
+        "to": "Town of Gludio",
+        "desc": "Dark Elf Village -> Town of Gludio",
+        "x": -12787,
+        "y": 122779,
+        "z": -3112,
+        "price": 10000,
+        "dist": 15736
+      }
+    },
+    {
+      "id": 2,
+      "name": "Dion",
+      "key": "dion",
+      "town": "Dion",
+      "territory": "Dion",
+      "siegeZone": {
+        "name": "dion_castle_battlefield_territory",
+        "minZ": -4642,
+        "maxZ": 4000,
+        "polygon": [
+          [
+            26575,
+            165240
+          ],
+          [
+            17250,
+            165186
+          ],
+          [
+            17273,
+            152800
+          ],
+          [
+            26598,
+            152854
+          ]
+        ]
+      },
+      "pos": {
+        "x": 22073,
+        "y": 161778,
+        "z": -2672
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Dion",
+        "x": 15472,
+        "y": 142880,
+        "z": -2688,
+        "dist": 20018,
+        "fromTown": "Gludio",
+        "price": 3400
+      },
+      "ownerTeleports": [
+        {
+          "id": 13008,
+          "name": "Front of Dion Castle",
+          "x": 19888,
+          "y": 153395,
+          "z": -3144,
+          "price": 0
+        },
+        {
+          "id": 13009,
+          "name": "Dion Town Square",
+          "x": 19025,
+          "y": 145245,
+          "z": -3107,
+          "price": 0
+        },
+        {
+          "id": 13010,
+          "name": "Front of the Hive Fortress",
+          "x": 20126,
+          "y": 188254,
+          "z": -3392,
+          "price": 0
+        },
+        {
+          "id": 13011,
+          "name": "Entrance to Floran Village",
+          "x": 17430,
+          "y": 170103,
+          "z": -3506,
+          "price": 0
+        },
+        {
+          "id": 13012,
+          "name": "Cruma Marshlands",
+          "x": 5106,
+          "y": 126916,
+          "z": -3664,
+          "price": 500
+        },
+        {
+          "id": 13013,
+          "name": "Fortress of Resistance",
+          "x": 47382,
+          "y": 111278,
+          "z": -2104,
+          "price": 500
+        },
+        {
+          "id": 13014,
+          "name": "Plains of Dion",
+          "x": 630,
+          "y": 179184,
+          "z": -3720,
+          "price": 500
+        },
+        {
+          "id": 13015,
+          "name": "Tanor Canyon",
+          "x": 60374,
+          "y": 164301,
+          "z": -2856,
+          "price": 500
+        }
+      ],
+      "forts": [
+        103,
+        112,
+        114,
+        115
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35105,
+          "name": "Dion Holy Artifact",
+          "x": 22073,
+          "y": 161778,
+          "z": -2672,
+          "heading": 49152,
+          "spawnLoc": "DionArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 22285,
+          "y": 156939,
+          "z": -2571
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 22008,
+          "y": 162652,
+          "z": -2572
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 22073,
+          "y": 161153,
+          "z": -2537
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 22114,
+          "y": 162159,
+          "z": -2754,
+          "zoneIds": [
+            70021,
+            70023
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 23289,
+          "y": 161596,
+          "z": -2578,
+          "zoneIds": [
+            70022,
+            70024
+          ]
+        }
+      ],
+      "maxMercenaries": 150,
+      "gates": [
+        {
+          "id": 20220001,
+          "name": "dion_castle_outter_001",
+          "x": 22441,
+          "y": 156684,
+          "z": -2670,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 20220002,
+          "name": "dion_castle_outter_002",
+          "x": 22179,
+          "y": 156684,
+          "z": -2670,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 20220003,
+          "name": "dion_castle_wall_001",
+          "x": 23873,
+          "y": 158368,
+          "z": -2882,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 20220004,
+          "name": "dion_castle_wall_002",
+          "x": 20546,
+          "y": 158368,
+          "z": -2882,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 20220005,
+          "name": "dion_castle_inner_001",
+          "x": 22205,
+          "y": 159230,
+          "z": -2476,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 20220006,
+          "name": "dion_castle_inner_002",
+          "x": 21943,
+          "y": 159230,
+          "z": -2476,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 20220007,
+          "name": "dion_castle_small_001",
+          "x": 23194,
+          "y": 161470,
+          "z": -2483,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 20220008,
+          "name": "dion_castle_station",
+          "x": 22905,
+          "y": 161547,
+          "z": -2006,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 20220009,
+          "name": "dion_castle_small_002",
+          "x": 21899,
+          "y": 162737,
+          "z": -2483,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35137,
+          "name": "Mass Gatekeeper",
+          "title": "Dion",
+          "role": "gatekeeper",
+          "x": 20492,
+          "y": 160363,
+          "z": -1978,
+          "heading": 0,
+          "spawnLoc": "dion_mass_teleporter"
+        },
+        {
+          "npcId": 35138,
+          "name": "Outer Doorman",
+          "title": "Dion",
+          "role": "doorman",
+          "x": 22412,
+          "y": 156489,
+          "z": -2944,
+          "heading": 49152,
+          "spawnLoc": "dion_chamberlain_etc"
+        },
+        {
+          "npcId": 35138,
+          "name": "Outer Doorman",
+          "title": "Dion",
+          "role": "doorman",
+          "x": 22466,
+          "y": 156837,
+          "z": -2944,
+          "heading": 0,
+          "spawnLoc": "dion_chamberlain_etc"
+        },
+        {
+          "npcId": 35139,
+          "name": "Inner Doorman",
+          "title": "Dion",
+          "role": "doorman",
+          "x": 22239,
+          "y": 159048,
+          "z": -2654,
+          "heading": 49152,
+          "spawnLoc": "dion_chamberlain_etc"
+        },
+        {
+          "npcId": 35139,
+          "name": "Inner Doorman",
+          "title": "Dion",
+          "role": "doorman",
+          "x": 22305,
+          "y": 159403,
+          "z": -2694,
+          "heading": 0,
+          "spawnLoc": "dion_chamberlain_etc"
+        },
+        {
+          "npcId": 35140,
+          "name": "Blacksmith",
+          "title": "Dion",
+          "role": "blacksmith",
+          "x": 21649,
+          "y": 160199,
+          "z": -2850,
+          "heading": 61379,
+          "spawnLoc": "dion_blacksmith"
+        },
+        {
+          "npcId": 35141,
+          "name": "Warehouse Keeper",
+          "title": "Dion",
+          "role": "warehouse",
+          "x": 22100,
+          "y": 159781,
+          "z": -2877,
+          "heading": 6134,
+          "spawnLoc": "dion_warehouse"
+        },
+        {
+          "npcId": 35142,
+          "name": "Crosby",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 22172,
+          "y": 160923,
+          "z": -2666,
+          "heading": 49152,
+          "spawnLoc": "dion_chamberlain_etc"
+        },
+        {
+          "npcId": 35143,
+          "name": "Hodler",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 21912,
+          "y": 161608,
+          "z": -2226,
+          "heading": 0,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35144,
+          "name": "Mercenary Manager Sanford",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 21836,
+          "y": 160806,
+          "z": -2679,
+          "heading": 49152,
+          "spawnLoc": "dion11_npc2022_17"
+        },
+        {
+          "npcId": 35146,
+          "name": "Gibbson",
+          "title": "Herald",
+          "role": "messenger",
+          "x": 19132,
+          "y": 153027,
+          "z": -3120,
+          "heading": 49152,
+          "spawnLoc": "dion_chamberlain_etc"
+        },
+        {
+          "npcId": 35649,
+          "name": "Court Magician",
+          "title": "Dion",
+          "role": "court_wizard",
+          "x": 22303,
+          "y": 160806,
+          "z": -2690,
+          "heading": 45796,
+          "spawnLoc": "Dion_castle"
+        },
+        {
+          "npcId": 36404,
+          "name": "Warden",
+          "title": "Dion",
+          "role": "dungeon_warden",
+          "x": 22114,
+          "y": 160675,
+          "z": -2851,
+          "heading": 48698,
+          "spawnLoc": "Dion_castle"
+        }
+      ],
+      "siegeGuards": {
+        "count": 388,
+        "byName": {
+          "Guard": 264,
+          "Court Guard": 40,
+          "Royal Knight": 13,
+          "Court Sorcerer": 65,
+          "Duke Byron Ashton": 3,
+          "Ivano": 3
+        },
+        "levels": [
+          75,
+          77,
+          79,
+          81,
+          83
+        ]
+      },
+      "skills": [
+        {
+          "id": 591,
+          "name": "Residence Spirit",
+          "level": 1,
+          "effect": "MaxCp +444",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 597,
+          "name": "Residence Shield",
+          "level": 1,
+          "effect": "pDef +54.7",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 609,
+          "name": "Residence Movement",
+          "level": 1,
+          "effect": "runSpd +6",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 849,
+          "name": "Dion Territory Benefaction",
+          "level": 1,
+          "effect": "DEX +1, WIT +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6835,
+        "name": "Circlet of Dion",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36404,
+        "wardenName": "Warden",
+        "x": 22114,
+        "y": 160675,
+        "z": -2851,
+        "instanceTemplateId": 14,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (103) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 18808,
+        "y": 152432,
+        "z": -3312,
+        "why": "outside the siege zone, 9900 from the centre, toward the landing",
+        "walk": {
+          "from": "Dion",
+          "units": 10931
+        }
+      },
+      "nearestTeleport": {
+        "from": "Gludio",
+        "to": "Dion",
+        "desc": "Gludio -> Dion",
+        "x": 15472,
+        "y": 142880,
+        "z": -2688,
+        "price": 3400,
+        "dist": 20018
+      }
+    },
+    {
+      "id": 3,
+      "name": "Giran",
+      "key": "giran",
+      "town": "Giran",
+      "territory": "Giran",
+      "siegeZone": {
+        "name": "giran_castle_battlefield_territory",
+        "minZ": -4515,
+        "maxZ": 19935,
+        "polygon": [
+          [
+            121412,
+            140594
+          ],
+          [
+            121358,
+            149919
+          ],
+          [
+            108972,
+            149896
+          ],
+          [
+            109026,
+            140571
+          ]
+        ]
+      },
+      "pos": {
+        "x": 117950,
+        "y": 145096,
+        "z": -2544
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Antharas Lair",
+        "x": 131557,
+        "y": 114509,
+        "z": -3712,
+        "dist": 33477,
+        "fromTown": "Hunters Village",
+        "price": 7000
+      },
+      "ownerTeleports": [
+        {
+          "id": 13016,
+          "name": "Front of Giran Castle",
+          "x": 107954,
+          "y": 145841,
+          "z": -3224,
+          "price": 0
+        },
+        {
+          "id": 13017,
+          "name": "Giran Town Square",
+          "x": 81749,
+          "y": 149171,
+          "z": -3464,
+          "price": 0
+        },
+        {
+          "id": 13018,
+          "name": "Front of the Valley Fortress",
+          "x": 125934,
+          "y": 118277,
+          "z": -3080,
+          "price": 0
+        },
+        {
+          "id": 13019,
+          "name": "Giran Harbor",
+          "x": 47938,
+          "y": 186864,
+          "z": -3420,
+          "price": 0
+        },
+        {
+          "id": 13020,
+          "name": "Brekas Stronghold",
+          "x": 85546,
+          "y": 131328,
+          "z": -3672,
+          "price": 500
+        },
+        {
+          "id": 13021,
+          "name": "Devils Isle",
+          "x": 43408,
+          "y": 206881,
+          "z": -3752,
+          "price": 500
+        },
+        {
+          "id": 13022,
+          "name": "Dragon Valley",
+          "x": 73024,
+          "y": 118485,
+          "z": -3720,
+          "price": 500
+        },
+        {
+          "id": 13023,
+          "name": "Tanor Canyon",
+          "x": 60374,
+          "y": 164301,
+          "z": -2856,
+          "price": 500
+        }
+      ],
+      "forts": [
+        104,
+        114,
+        116,
+        118,
+        119
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35147,
+          "name": "Giran Holy Artifact",
+          "x": 117950,
+          "y": 145096,
+          "z": -2544,
+          "heading": 32768,
+          "spawnLoc": "GiranArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 113115,
+          "y": 144829,
+          "z": -2446
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 118828,
+          "y": 145106,
+          "z": -2447
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 117329,
+          "y": 145041,
+          "z": -2412
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 118331,
+          "y": 145055,
+          "z": -2627,
+          "zoneIds": [
+            70025,
+            70027
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 117768,
+          "y": 143880,
+          "z": -2451,
+          "zoneIds": [
+            70026,
+            70028
+          ]
+        }
+      ],
+      "maxMercenaries": 200,
+      "gates": [
+        {
+          "id": 23220001,
+          "name": "giran_castle_outter_001",
+          "x": 112857,
+          "y": 144729,
+          "z": -2540,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 23220002,
+          "name": "giran_castle_outter_002",
+          "x": 112857,
+          "y": 144990,
+          "z": -2540,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 23220003,
+          "name": "giran_castle_wall_001",
+          "x": 114540,
+          "y": 143296,
+          "z": -2755,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 23220004,
+          "name": "giran_castle_wall_002",
+          "x": 114540,
+          "y": 146623,
+          "z": -2755,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 23220005,
+          "name": "giran_castle_inner_001",
+          "x": 115402,
+          "y": 144965,
+          "z": -2349,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 23220006,
+          "name": "giran_castle_inner_002",
+          "x": 115402,
+          "y": 145227,
+          "z": -2349,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 23220007,
+          "name": "giran_castle_small_001",
+          "x": 117643,
+          "y": 143974,
+          "z": -2356,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 23220008,
+          "name": "giran_castle_station",
+          "x": 117720,
+          "y": 144242,
+          "z": -1877,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 23220009,
+          "name": "giran_castle_small_002",
+          "x": 118811,
+          "y": 145270,
+          "z": -2356,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35179,
+          "name": "Mass Gatekeeper",
+          "title": "Giran",
+          "role": "gatekeeper",
+          "x": 116535,
+          "y": 146677,
+          "z": -1851,
+          "heading": 49152,
+          "spawnLoc": "giran_mass_teleporter"
+        },
+        {
+          "npcId": 35180,
+          "name": "Outer Doorman",
+          "title": "Giran",
+          "role": "doorman",
+          "x": 112661,
+          "y": 144757,
+          "z": -2817,
+          "heading": 32768,
+          "spawnLoc": "giran_chamberlain_etc"
+        },
+        {
+          "npcId": 35180,
+          "name": "Outer Doorman",
+          "title": "Giran",
+          "role": "doorman",
+          "x": 113009,
+          "y": 144703,
+          "z": -2817,
+          "heading": 49152,
+          "spawnLoc": "giran_chamberlain_etc"
+        },
+        {
+          "npcId": 35181,
+          "name": "Inner Doorman",
+          "title": "Giran",
+          "role": "doorman",
+          "x": 115220,
+          "y": 144930,
+          "z": -2527,
+          "heading": 32768,
+          "spawnLoc": "giran_chamberlain_etc"
+        },
+        {
+          "npcId": 35181,
+          "name": "Inner Doorman",
+          "title": "Giran",
+          "role": "doorman",
+          "x": 115575,
+          "y": 144864,
+          "z": -2567,
+          "heading": 49152,
+          "spawnLoc": "giran_chamberlain_etc"
+        },
+        {
+          "npcId": 35182,
+          "name": "Blacksmith",
+          "title": "Giran",
+          "role": "blacksmith",
+          "x": 116494,
+          "y": 145516,
+          "z": -2723,
+          "heading": 58824,
+          "spawnLoc": "giran_blacksmith"
+        },
+        {
+          "npcId": 35183,
+          "name": "Warehouse Keeper",
+          "title": "Giran",
+          "role": "warehouse",
+          "x": 115910,
+          "y": 145101,
+          "z": -2723,
+          "heading": 1353,
+          "spawnLoc": "giran_warehouse"
+        },
+        {
+          "npcId": 35184,
+          "name": "Saul",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 117095,
+          "y": 144997,
+          "z": -2539,
+          "heading": 32768,
+          "spawnLoc": "giran_chamberlain_etc"
+        },
+        {
+          "npcId": 35185,
+          "name": "Bryce",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 117780,
+          "y": 145257,
+          "z": -2099,
+          "heading": 49000,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35186,
+          "name": "Arvid",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 116984,
+          "y": 145278,
+          "z": -2555,
+          "heading": 32768,
+          "spawnLoc": "giran15_npc2322_01"
+        },
+        {
+          "npcId": 35650,
+          "name": "Court Magician",
+          "title": "Giran",
+          "role": "court_wizard",
+          "x": 116983,
+          "y": 144864,
+          "z": -2566,
+          "heading": 36123,
+          "spawnLoc": "Giran_castle"
+        },
+        {
+          "npcId": 36405,
+          "name": "Warden",
+          "title": "Giran",
+          "role": "dungeon_warden",
+          "x": 116858,
+          "y": 145045,
+          "z": -2724,
+          "heading": 31728,
+          "spawnLoc": "Giran_castle"
+        },
+        {
+          "npcId": 35188,
+          "name": "Holmes",
+          "title": "Sir",
+          "role": "messenger",
+          "x": 107386,
+          "y": 145807,
+          "z": -3300,
+          "heading": 32768,
+          "spawnLoc": "giran_chamberlain_etc"
+        }
+      ],
+      "siegeGuards": {
+        "count": 382,
+        "byName": {
+          "Guard": 264,
+          "Court Guard": 40,
+          "Royal Knight": 13,
+          "Court Sorcerer": 65
+        },
+        "levels": [
+          75,
+          77,
+          79
+        ]
+      },
+      "skills": [
+        {
+          "id": 592,
+          "name": "Residence Soul",
+          "level": 1,
+          "effect": "MaxMp +168",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 601,
+          "name": "Residence Agility",
+          "level": 1,
+          "effect": "rEvas +4",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 610,
+          "name": "Residence Death Fortune",
+          "level": 1,
+          "effect": "reduceDeathPenaltyByPvp x0.7, reduceExpLostByPvp x0.7, reduceDeathPenaltyByMob x0.88, reduceExpLostByMob x0.88",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 850,
+          "name": "Giran Territory Benefaction",
+          "level": 1,
+          "effect": "STR +1, MEN +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6839,
+        "name": "Circlet of Giran",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36405,
+        "wardenName": "Warden",
+        "x": 116858,
+        "y": 145045,
+        "z": -2724,
+        "instanceTemplateId": 15,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (104) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 120328,
+        "y": 139751,
+        "z": -3888,
+        "why": "outside the siege zone, 5850 from the centre, toward the landing",
+        "walk": {
+          "from": "Antharas Lair",
+          "units": 31503
+        }
+      },
+      "nearestTeleport": {
+        "from": "Hunters",
+        "to": "Antharas Lair",
+        "desc": "Hunters Village -> Antharas Lair",
+        "x": 131557,
+        "y": 114509,
+        "z": -3712,
+        "price": 7000,
+        "dist": 33477
+      }
+    },
+    {
+      "id": 4,
+      "name": "Oren",
+      "key": "oren",
+      "town": "Oren",
+      "territory": "Oren",
+      "siegeZone": {
+        "name": "oren_castle_battlefield_territory",
+        "minZ": -4242,
+        "maxZ": 19935,
+        "polygon": [
+          [
+            87488,
+            32689
+          ],
+          [
+            87434,
+            42014
+          ],
+          [
+            75048,
+            41991
+          ],
+          [
+            75102,
+            32666
+          ]
+        ]
+      },
+      "pos": {
+        "x": 84026,
+        "y": 37191,
+        "z": -2272
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Oren",
+        "x": 82956,
+        "y": 53162,
+        "z": -1495,
+        "dist": 16007,
+        "fromTown": "Giran",
+        "price": 9400
+      },
+      "ownerTeleports": [
+        {
+          "id": 13024,
+          "name": "Front of Oren Castle",
+          "x": 75648,
+          "y": 39380,
+          "z": -2952,
+          "price": 0
+        },
+        {
+          "id": 13025,
+          "name": "Oren Town Square",
+          "x": 82323,
+          "y": 55466,
+          "z": -1480,
+          "price": 0
+        },
+        {
+          "id": 13026,
+          "name": "Front of the Ivory Fortress",
+          "x": 77023,
+          "y": 1591,
+          "z": -3608,
+          "price": 0
+        },
+        {
+          "id": 13027,
+          "name": "Ivory Tower",
+          "x": 85391,
+          "y": 16228,
+          "z": -3640,
+          "price": 500
+        },
+        {
+          "id": 13028,
+          "name": "Near the frontier post",
+          "x": 109721,
+          "y": 7394,
+          "z": -2800,
+          "price": 500
+        },
+        {
+          "id": 13029,
+          "name": "Sea of Spores",
+          "x": 64328,
+          "y": 26803,
+          "z": -3768,
+          "price": 500
+        },
+        {
+          "id": 13030,
+          "name": "Enchanted Valley, Southern Region",
+          "x": 124904,
+          "y": 61992,
+          "z": -3973,
+          "price": 500
+        },
+        {
+          "id": 13031,
+          "name": "Ancient Battleground",
+          "x": 118509,
+          "y": 4779,
+          "z": -4000,
+          "price": 500
+        }
+      ],
+      "forts": [
+        105,
+        113,
+        115,
+        116,
+        117
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35189,
+          "name": "Oren Holy Artifact",
+          "x": 84026,
+          "y": 37191,
+          "z": -2272,
+          "heading": 32768,
+          "spawnLoc": "OrenArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 79193,
+          "y": 36977,
+          "z": -2167
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 84906,
+          "y": 37254,
+          "z": -2168
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 83407,
+          "y": 37189,
+          "z": -2133
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 84407,
+          "y": 37150,
+          "z": -2354,
+          "zoneIds": [
+            70029,
+            70031
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 83844,
+          "y": 35975,
+          "z": -2178,
+          "zoneIds": [
+            70030,
+            70032
+          ]
+        }
+      ],
+      "maxMercenaries": 300,
+      "gates": [
+        {
+          "id": 22190001,
+          "name": "oren_castle_outter_001",
+          "x": 78925,
+          "y": 36824,
+          "z": -2267,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 22190002,
+          "name": "oren_castle_outter_002",
+          "x": 78925,
+          "y": 37085,
+          "z": -2267,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 22190003,
+          "name": "oren_castle_wall_001",
+          "x": 80616,
+          "y": 35391,
+          "z": -2482,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 22190004,
+          "name": "oren_castle_wall_002",
+          "x": 80616,
+          "y": 38718,
+          "z": -2482,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 22190005,
+          "name": "oren_castle_inner_001",
+          "x": 81470,
+          "y": 37060,
+          "z": -2076,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 22190006,
+          "name": "oren_castle_inner_002",
+          "x": 81470,
+          "y": 37322,
+          "z": -2076,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 22190007,
+          "name": "oren_castle_small_001",
+          "x": 83719,
+          "y": 36069,
+          "z": -2083,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 22190008,
+          "name": "oren_castle_station",
+          "x": 83796,
+          "y": 36337,
+          "z": -1604,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 22190009,
+          "name": "oren_castle_small_002",
+          "x": 84887,
+          "y": 37365,
+          "z": -2083,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35221,
+          "name": "Mass Gatekeeper",
+          "title": "Oren",
+          "role": "gatekeeper",
+          "x": 82611,
+          "y": 38772,
+          "z": -1578,
+          "heading": 49152,
+          "spawnLoc": "oren_mass_teleporter"
+        },
+        {
+          "npcId": 35222,
+          "name": "Outer Doorman",
+          "title": "Oren",
+          "role": "doorman",
+          "x": 78737,
+          "y": 36852,
+          "z": -2544,
+          "heading": 32768,
+          "spawnLoc": "oren_chamberlain_etc"
+        },
+        {
+          "npcId": 35222,
+          "name": "Outer Doorman",
+          "title": "Oren",
+          "role": "doorman",
+          "x": 79085,
+          "y": 36798,
+          "z": -2544,
+          "heading": 49152,
+          "spawnLoc": "oren_chamberlain_etc"
+        },
+        {
+          "npcId": 35223,
+          "name": "Inner Doorman",
+          "title": "Oren",
+          "role": "doorman",
+          "x": 81296,
+          "y": 37025,
+          "z": -2254,
+          "heading": 32768,
+          "spawnLoc": "oren_chamberlain_etc"
+        },
+        {
+          "npcId": 35223,
+          "name": "Inner Doorman",
+          "title": "Oren",
+          "role": "doorman",
+          "x": 81651,
+          "y": 36959,
+          "z": -2294,
+          "heading": 49152,
+          "spawnLoc": "oren_chamberlain_etc"
+        },
+        {
+          "npcId": 35224,
+          "name": "Blacksmith",
+          "title": "Oren",
+          "role": "blacksmith",
+          "x": 82464,
+          "y": 37592,
+          "z": -2450,
+          "heading": 44984,
+          "spawnLoc": "oren_warehouse"
+        },
+        {
+          "npcId": 35225,
+          "name": "Warehouse Keeper",
+          "title": "Oren",
+          "role": "warehouse",
+          "x": 82043,
+          "y": 37132,
+          "z": -2450,
+          "heading": 65001,
+          "spawnLoc": "oren_blacksmith"
+        },
+        {
+          "npcId": 35226,
+          "name": "Brasseur",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 83171,
+          "y": 37092,
+          "z": -2266,
+          "heading": 32768,
+          "spawnLoc": "oren_chamberlain_etc"
+        },
+        {
+          "npcId": 35227,
+          "name": "Finrod",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 83853,
+          "y": 37192,
+          "z": -1835,
+          "heading": 49000,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35228,
+          "name": "Morrison",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 83056,
+          "y": 37425,
+          "z": -2280,
+          "heading": 32768,
+          "spawnLoc": "oren20_npc2219_001"
+        },
+        {
+          "npcId": 35232,
+          "name": "Sherwood",
+          "title": "Messenger",
+          "role": "messenger",
+          "x": 75275,
+          "y": 40132,
+          "z": -3150,
+          "heading": 32768,
+          "spawnLoc": "oren_chamberlain_etc"
+        },
+        {
+          "npcId": 35651,
+          "name": "Court Magician",
+          "title": "Oren",
+          "role": "court_wizard",
+          "x": 83061,
+          "y": 36962,
+          "z": -2293,
+          "heading": 22020,
+          "spawnLoc": "Oren_castle"
+        },
+        {
+          "npcId": 36406,
+          "name": "Warden",
+          "title": "Oren",
+          "role": "dungeon_warden",
+          "x": 82916,
+          "y": 37108,
+          "z": -2451,
+          "heading": 32073,
+          "spawnLoc": "Oren_castle"
+        }
+      ],
+      "siegeGuards": {
+        "count": 382,
+        "byName": {
+          "Guard": 264,
+          "Court Guard": 40,
+          "Royal Knight": 13,
+          "Court Sorcerer": 65
+        },
+        "levels": [
+          75,
+          77,
+          79
+        ]
+      },
+      "skills": [
+        {
+          "id": 590,
+          "name": "Residence Body",
+          "level": 1,
+          "effect": "MaxHp +222",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 598,
+          "name": "Residence Empower",
+          "level": 1,
+          "effect": "mAtk +40.4",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 605,
+          "name": "Residence Resist Lava",
+          "level": 1,
+          "effect": "fireRes +10, earthRes +10",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 851,
+          "name": "Oren Territory Benefaction",
+          "level": 1,
+          "effect": "CON +1, MEN +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6837,
+        "name": "Circlet of Oren",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36406,
+        "wardenName": "Warden",
+        "x": 82916,
+        "y": 37108,
+        "z": -2451,
+        "instanceTemplateId": 16,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (105) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 83635,
+        "y": 43028,
+        "z": -3488,
+        "why": "outside the siege zone, 5850 from the centre, toward the landing",
+        "walk": {
+          "from": "Oren",
+          "units": 13081
+        }
+      },
+      "nearestTeleport": {
+        "from": "Giran",
+        "to": "Oren",
+        "desc": "Giran -> Oren",
+        "x": 82956,
+        "y": 53162,
+        "z": -1495,
+        "price": 9400,
+        "dist": 16007
+      }
+    },
+    {
+      "id": 5,
+      "name": "Aden",
+      "key": "aden",
+      "town": "Aden",
+      "territory": "Aden",
+      "siegeZone": {
+        "name": "aden_castle_battlefield_territory",
+        "minZ": -3184,
+        "maxZ": 6816,
+        "polygon": [
+          [
+            142431,
+            362
+          ],
+          [
+            152319,
+            344
+          ],
+          [
+            152282,
+            15197
+          ],
+          [
+            142393,
+            15215
+          ]
+        ]
+      },
+      "pos": {
+        "x": 147463,
+        "y": 1529,
+        "z": -368
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Blazing Swamp",
+        "x": 155310,
+        "y": -16339,
+        "z": -3320,
+        "dist": 19515,
+        "fromTown": "Aden",
+        "price": 6800
+      },
+      "ownerTeleports": [
+        {
+          "id": 13032,
+          "name": "Front of Aden Castle",
+          "x": 147428,
+          "y": 20161,
+          "z": -2008,
+          "price": 0
+        },
+        {
+          "id": 13033,
+          "name": "Aden Town Square",
+          "x": 147450,
+          "y": 28081,
+          "z": -2294,
+          "price": 0
+        },
+        {
+          "id": 13034,
+          "name": "Front of the Narsell Fortress",
+          "x": 160702,
+          "y": 51661,
+          "z": -3512,
+          "price": 0
+        },
+        {
+          "id": 13035,
+          "name": "Front of the Basin Fortress",
+          "x": 189664,
+          "y": 46042,
+          "z": -4264,
+          "price": 0
+        },
+        {
+          "id": 13036,
+          "name": "Enchanted Valley, Northen Region",
+          "x": 104426,
+          "y": 33746,
+          "z": -3825,
+          "price": 500
+        },
+        {
+          "id": 13071,
+          "name": "Blazing Swamp",
+          "x": 155310,
+          "y": -16339,
+          "z": -3320,
+          "price": 500
+        },
+        {
+          "id": 13038,
+          "name": "Forest of Mirrors",
+          "x": 142065,
+          "y": 81300,
+          "z": -3000,
+          "price": 500
+        },
+        {
+          "id": 13039,
+          "name": "Anghel Waterfall",
+          "x": 166182,
+          "y": 91560,
+          "z": -3168,
+          "price": 500
+        },
+        {
+          "id": 13072,
+          "name": "The Giants Cave Upper Layer",
+          "x": 183985,
+          "y": 61424,
+          "z": -3992,
+          "price": 500
+        },
+        {
+          "id": 13073,
+          "name": "The Giants Cave Lower Layer",
+          "x": 191754,
+          "y": 56760,
+          "z": -7624,
+          "price": 500
+        }
+      ],
+      "forts": [
+        106,
+        107,
+        117,
+        118
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35233,
+          "name": "Aden Holy Artifact",
+          "x": 147463,
+          "y": 1529,
+          "z": -368,
+          "heading": 16384,
+          "spawnLoc": "AdenArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 148774,
+          "y": 2351,
+          "z": -389
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 147456,
+          "y": 5724,
+          "z": 158
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 146137,
+          "y": 2352,
+          "z": -389
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 149976,
+          "y": 1583,
+          "z": -450,
+          "zoneIds": [
+            70008,
+            70016,
+            70007,
+            70015,
+            70006,
+            70014,
+            70005,
+            70013
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 144955,
+          "y": 1603,
+          "z": -450,
+          "zoneIds": [
+            70004,
+            70012,
+            70003,
+            70011,
+            70002,
+            70010,
+            70001,
+            70009
+          ]
+        }
+      ],
+      "maxMercenaries": 400,
+      "gates": [
+        {
+          "id": 24180001,
+          "name": "aden_castle_outter_001",
+          "x": 147278,
+          "y": 8483,
+          "z": -241,
+          "hp": 678840,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 24180002,
+          "name": "aden_castle_outter_002",
+          "x": 147634,
+          "y": 8483,
+          "z": -241,
+          "hp": 678840,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 24180003,
+          "name": "aden_castle_wall_in",
+          "x": 146770,
+          "y": 6977,
+          "z": -271,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 24180004,
+          "name": "aden_castle_inner_002",
+          "x": 147341,
+          "y": 6210,
+          "z": -278,
+          "hp": 169710,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 24180005,
+          "name": "aden_castle_inner_001",
+          "x": 147571,
+          "y": 6210,
+          "z": -278,
+          "hp": 169710,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 24180006,
+          "name": "aden_castle_wall_left",
+          "x": 145200,
+          "y": 5504,
+          "z": -442,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 24180007,
+          "name": "aden_castle_left_004",
+          "x": 146607,
+          "y": 5384,
+          "z": 48,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180008,
+          "name": "aden_castle_left_003",
+          "x": 146606,
+          "y": 5262,
+          "z": 48,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180009,
+          "name": "aden_castle_right_003",
+          "x": 148324,
+          "y": 5384,
+          "z": 48,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180010,
+          "name": "aden_castle_right_004",
+          "x": 148323,
+          "y": 5262,
+          "z": 48,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180011,
+          "name": "aden_castle_wall_right",
+          "x": 149711,
+          "y": 5503,
+          "z": -442,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 24180012,
+          "name": "aden_castle_left_002",
+          "x": 146001,
+          "y": 4721,
+          "z": -256,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180013,
+          "name": "aden_castle_left_001",
+          "x": 146001,
+          "y": 4493,
+          "z": -256,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180014,
+          "name": "aden_castle_right_001",
+          "x": 148908,
+          "y": 4721,
+          "z": -256,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180015,
+          "name": "aden_castle_right_002",
+          "x": 148908,
+          "y": 4493,
+          "z": -256,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180016,
+          "name": "aden_castle_terrace",
+          "x": 147511,
+          "y": 2240,
+          "z": 322,
+          "hp": 226302,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": false,
+          "role": "gate"
+        },
+        {
+          "id": 24180018,
+          "name": "aden_castle_side_door2",
+          "x": 150044,
+          "y": 3783,
+          "z": 21,
+          "hp": 8146080,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": false,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24180019,
+          "name": "aden_castle_side_door1",
+          "x": 149208,
+          "y": 3077,
+          "z": 1356,
+          "hp": 8146080,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": false,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24180020,
+          "name": "aden_castle_side_door4",
+          "x": 144859,
+          "y": 3783,
+          "z": 21,
+          "hp": 8146080,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": false,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24180021,
+          "name": "aden_castle_side_door3",
+          "x": 145694,
+          "y": 3076,
+          "z": 1355,
+          "hp": 8146080,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": false,
+          "isWall": false,
+          "role": "side door"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35266,
+          "name": "Mass Gatekeeper",
+          "title": "Aden",
+          "role": "gatekeeper",
+          "x": 147457,
+          "y": 4609,
+          "z": -2789,
+          "heading": 0,
+          "spawnLoc": "aden_mass_teleporter"
+        },
+        {
+          "npcId": 35267,
+          "name": "Outer Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 147292,
+          "y": 8693,
+          "z": -480,
+          "heading": 16389,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35267,
+          "name": "Outer Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 147293,
+          "y": 8158,
+          "z": -470,
+          "heading": 49152,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35268,
+          "name": "Inner Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 145725,
+          "y": 4799,
+          "z": -425,
+          "heading": 32768,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35268,
+          "name": "Inner Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 146275,
+          "y": 4468,
+          "z": -400,
+          "heading": 0,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35269,
+          "name": "Hall Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 147702,
+          "y": 6345,
+          "z": -400,
+          "heading": 16389,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35269,
+          "name": "Hall Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 147362,
+          "y": 6111,
+          "z": -400,
+          "heading": 49152,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35270,
+          "name": "Inner Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 149208,
+          "y": 4339,
+          "z": -440,
+          "heading": 0,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35270,
+          "name": "Inner Doorman",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 148636,
+          "y": 4756,
+          "z": -400,
+          "heading": 32768,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35271,
+          "name": "Gatekeeper",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 147408,
+          "y": 2320,
+          "z": 221,
+          "heading": 16000,
+          "spawnLoc": "aden20_npc2418_05"
+        },
+        {
+          "npcId": 35271,
+          "name": "Gatekeeper",
+          "title": "Aden",
+          "role": "doorman",
+          "x": 147552,
+          "y": 2128,
+          "z": 221,
+          "heading": 48000,
+          "spawnLoc": "aden20_npc2418_05"
+        },
+        {
+          "npcId": 35272,
+          "name": "Blacksmith",
+          "title": "Aden",
+          "role": "blacksmith",
+          "x": 147908,
+          "y": 5595,
+          "z": -884,
+          "heading": 48126,
+          "spawnLoc": "aden_blacksmith"
+        },
+        {
+          "npcId": 35273,
+          "name": "Warehouse Keeper",
+          "title": "Aden",
+          "role": "warehouse",
+          "x": 147056,
+          "y": 5595,
+          "z": -884,
+          "heading": 58383,
+          "spawnLoc": "aden_warehouse"
+        },
+        {
+          "npcId": 35274,
+          "name": "Logan",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 147412,
+          "y": 3355,
+          "z": -46,
+          "heading": 16389,
+          "spawnLoc": "aden_chamberlain_etc"
+        },
+        {
+          "npcId": 35275,
+          "name": "Kruger",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 147449,
+          "y": 1899,
+          "z": 216,
+          "heading": 49000,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35276,
+          "name": "Eldon",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 147952,
+          "y": 3742,
+          "z": -307,
+          "heading": 32768,
+          "spawnLoc": "aden20_npc2418_01"
+        },
+        {
+          "npcId": 35652,
+          "name": "Court Magician",
+          "title": "Aden",
+          "role": "court_wizard",
+          "x": 146953,
+          "y": 3714,
+          "z": -308,
+          "heading": 2058,
+          "spawnLoc": "Aden_castle"
+        },
+        {
+          "npcId": 36407,
+          "name": "Warden",
+          "title": "Aden",
+          "role": "dungeon_warden",
+          "x": 147471,
+          "y": 3435,
+          "z": -885,
+          "heading": 16383,
+          "spawnLoc": "Aden_castle"
+        },
+        {
+          "npcId": 35278,
+          "name": "Messenger Ruford",
+          "title": "Messenger",
+          "role": "messenger",
+          "x": 147551,
+          "y": 19577,
+          "z": -1991,
+          "heading": 16389,
+          "spawnLoc": "aden_chamberlain_etc"
+        }
+      ],
+      "siegeGuards": {
+        "count": 406,
+        "byName": {
+          "Court Sorcerer": 71,
+          "Guard": 325,
+          "Court Guard": 8,
+          "Royal Knight": 1,
+          "Amadeo Cadmus": 1
+        },
+        "levels": [
+          78,
+          79,
+          81,
+          85
+        ]
+      },
+      "skills": [
+        {
+          "id": 596,
+          "name": "Residence Might",
+          "level": 1,
+          "effect": "pAtk +34.6",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 602,
+          "name": "Residence Shield Block",
+          "level": 1,
+          "effect": "rShld +20",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 608,
+          "name": "Residence Vigilance",
+          "level": 1,
+          "effect": "DefenceTrait SLEEP +10",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 852,
+          "name": "Aden Territory Benefaction",
+          "level": 1,
+          "effect": "DEX +1, MEN +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6840,
+        "name": "Circlet of Aden",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36407,
+        "wardenName": "Warden",
+        "x": 147471,
+        "y": 3435,
+        "z": -885,
+        "instanceTemplateId": 17,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 2 fort(s) of its list (106, 107) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 148368,
+        "y": -531,
+        "z": -4456,
+        "why": "outside the siege zone, 2250 from the centre, toward the landing",
+        "walk": {
+          "from": "Blazing Swamp",
+          "units": 21198
+        }
+      },
+      "nearestTeleport": {
+        "from": "Aden",
+        "to": "Blazing Swamp",
+        "desc": "Aden -> Blazing Swamp",
+        "x": 155310,
+        "y": -16339,
+        "z": -3320,
+        "price": 6800,
+        "dist": 19515
+      }
+    },
+    {
+      "id": 6,
+      "name": "Innadril",
+      "key": "innadril",
+      "town": "Heine",
+      "territory": "Innadril",
+      "siegeZone": {
+        "name": "innadrile_castle_battlefield_territory",
+        "minZ": -2738,
+        "maxZ": 4000,
+        "polygon": [
+          [
+            120526,
+            254019
+          ],
+          [
+            111201,
+            253965
+          ],
+          [
+            111224,
+            241579
+          ],
+          [
+            120549,
+            241633
+          ]
+        ]
+      },
+      "pos": {
+        "x": 116024,
+        "y": 250557,
+        "z": -798
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Heine",
+        "x": 111455,
+        "y": 219400,
+        "z": -3544,
+        "dist": 31490,
+        "fromTown": "Gludio",
+        "price": 47000
+      },
+      "ownerTeleports": [
+        {
+          "id": 13040,
+          "name": "Front of Innadril Castle",
+          "x": 117608,
+          "y": 241660,
+          "z": -1408,
+          "price": 0
+        },
+        {
+          "id": 13041,
+          "name": "Innadril Town Square",
+          "x": 111455,
+          "y": 219400,
+          "z": -3546,
+          "price": 0
+        },
+        {
+          "id": 13042,
+          "name": "Front of the White Sands Fortress",
+          "x": 124651,
+          "y": 207877,
+          "z": -3184,
+          "price": 0
+        },
+        {
+          "id": 13043,
+          "name": "The Center of Alligator Island",
+          "x": 113708,
+          "y": 178387,
+          "z": -3232,
+          "price": 500
+        },
+        {
+          "id": 13044,
+          "name": "Field of Silence",
+          "x": 80987,
+          "y": 182423,
+          "z": -3504,
+          "price": 500
+        },
+        {
+          "id": 13045,
+          "name": "Field of Whispers",
+          "x": 86147,
+          "y": 218268,
+          "z": -3592,
+          "price": 500
+        },
+        {
+          "id": 13046,
+          "name": "Inside the Garden of Eva",
+          "x": 82693,
+          "y": 242220,
+          "z": -6712,
+          "price": 500
+        }
+      ],
+      "forts": [
+        108,
+        119
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35279,
+          "name": "Innadril Holy Artifact",
+          "x": 116024,
+          "y": 250557,
+          "z": -798,
+          "heading": -16384,
+          "spawnLoc": "InnadrilArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 116236,
+          "y": 245718,
+          "z": -667
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 115959,
+          "y": 251431,
+          "z": -667
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 116024,
+          "y": 249932,
+          "z": -633
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 116065,
+          "y": 250938,
+          "z": -850,
+          "zoneIds": [
+            70033,
+            70035
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 117240,
+          "y": 250375,
+          "z": -674,
+          "zoneIds": [
+            70034,
+            70036
+          ]
+        }
+      ],
+      "maxMercenaries": 400,
+      "gates": [
+        {
+          "id": 23250001,
+          "name": "innadrile_castle_outter_002",
+          "x": 116392,
+          "y": 245462,
+          "z": -766,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 23250002,
+          "name": "innadrile_castle_outter_001",
+          "x": 116130,
+          "y": 245462,
+          "z": -766,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 23250003,
+          "name": "innadrile_castle_wall_001",
+          "x": 117824,
+          "y": 247146,
+          "z": -978,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 23250004,
+          "name": "innadrile_castle_wall_002",
+          "x": 114497,
+          "y": 247146,
+          "z": -978,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 23250005,
+          "name": "innadrile_castle_inner_002",
+          "x": 116155,
+          "y": 248008,
+          "z": -572,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 23250006,
+          "name": "innadrile_castle_inner_001",
+          "x": 115894,
+          "y": 248008,
+          "z": -572,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 23250007,
+          "name": "innadrile_castle_small_001",
+          "x": 117145,
+          "y": 250249,
+          "z": -579,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 23250008,
+          "name": "innadrile_castle_station",
+          "x": 116856,
+          "y": 250326,
+          "z": -102,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 23250009,
+          "name": "innadrile_castle_small_002",
+          "x": 115849,
+          "y": 251516,
+          "z": -579,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35311,
+          "name": "Mass Gatekeeper",
+          "title": "Innadril",
+          "role": "gatekeeper",
+          "x": 114443,
+          "y": 249142,
+          "z": -74,
+          "heading": 0,
+          "spawnLoc": "innadrile_m_teleporter"
+        },
+        {
+          "npcId": 35312,
+          "name": "Outer Doorman",
+          "title": "Innadril",
+          "role": "doorman",
+          "x": 116363,
+          "y": 245268,
+          "z": -1040,
+          "heading": 49152,
+          "spawnLoc": "innadrile_chamberlain_etc"
+        },
+        {
+          "npcId": 35312,
+          "name": "Outer Doorman",
+          "title": "Innadril",
+          "role": "doorman",
+          "x": 116417,
+          "y": 245616,
+          "z": -1040,
+          "heading": 0,
+          "spawnLoc": "innadrile_chamberlain_etc"
+        },
+        {
+          "npcId": 35313,
+          "name": "Inner Doorman",
+          "title": "Innadril",
+          "role": "doorman",
+          "x": 116190,
+          "y": 247827,
+          "z": -750,
+          "heading": 49152,
+          "spawnLoc": "innadrile_chamberlain_etc"
+        },
+        {
+          "npcId": 35313,
+          "name": "Inner Doorman",
+          "title": "Innadril",
+          "role": "doorman",
+          "x": 116256,
+          "y": 248182,
+          "z": -790,
+          "heading": 0,
+          "spawnLoc": "innadrile_chamberlain_etc"
+        },
+        {
+          "npcId": 35314,
+          "name": "Blacksmith",
+          "title": "Innadril",
+          "role": "blacksmith",
+          "x": 115649,
+          "y": 249072,
+          "z": -973,
+          "heading": 868,
+          "spawnLoc": "innadril_blacksmith"
+        },
+        {
+          "npcId": 35315,
+          "name": "Warehouse Keeper",
+          "title": "Innadril",
+          "role": "warehouse",
+          "x": 116015,
+          "y": 248558,
+          "z": -946,
+          "heading": 18052,
+          "spawnLoc": "innadril_warehouse"
+        },
+        {
+          "npcId": 35316,
+          "name": "Neurath",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 116123,
+          "y": 249702,
+          "z": -762,
+          "heading": 49152,
+          "spawnLoc": "innadrile_chamberlain_etc"
+        },
+        {
+          "npcId": 35317,
+          "name": "Tate",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 115863,
+          "y": 250387,
+          "z": -322,
+          "heading": 0,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35318,
+          "name": "Solinus",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 115787,
+          "y": 249585,
+          "z": -775,
+          "heading": 49152,
+          "spawnLoc": "innadril12_npc2325_01"
+        },
+        {
+          "npcId": 35320,
+          "name": "Raybell",
+          "title": "Sir",
+          "role": "messenger",
+          "x": 117136,
+          "y": 241763,
+          "z": -1280,
+          "heading": 49152,
+          "spawnLoc": "innadrile_chamberlain_etc"
+        },
+        {
+          "npcId": 35653,
+          "name": "Court Magician",
+          "title": "Innadril",
+          "role": "court_wizard",
+          "x": 116253,
+          "y": 249588,
+          "z": -786,
+          "heading": 41905,
+          "spawnLoc": "Innadril_castle"
+        },
+        {
+          "npcId": 36408,
+          "name": "Warden",
+          "title": "Innadril",
+          "role": "dungeon_warden",
+          "x": 116041,
+          "y": 249446,
+          "z": -947,
+          "heading": 47953,
+          "spawnLoc": "Innadril_castle"
+        }
+      ],
+      "siegeGuards": {
+        "count": 384,
+        "byName": {
+          "Guard": 264,
+          "Court Guard": 40,
+          "Royal Knight": 13,
+          "Court Sorcerer": 65,
+          "Baron Lionel Hunter": 1,
+          "Schaht": 1
+        },
+        "levels": [
+          75,
+          77,
+          79,
+          81,
+          83
+        ]
+      },
+      "skills": [
+        {
+          "id": 595,
+          "name": "Residence Clarity",
+          "level": 1,
+          "effect": "regMp +0.47",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 599,
+          "name": "Residence Magic Barrier",
+          "level": 1,
+          "effect": "mDef +44",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 607,
+          "name": "Residence Freedom",
+          "level": 1,
+          "effect": "DefenceTrait HOLD +10",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 853,
+          "name": "Innadril Territory Benefaction",
+          "level": 1,
+          "effect": "CON +1, INT +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6834,
+        "name": "Circlet of Innadril",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36408,
+        "wardenName": "Warden",
+        "x": 116041,
+        "y": 249446,
+        "z": -947,
+        "instanceTemplateId": 18,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (108) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 121434,
+        "y": 248763,
+        "z": -3584,
+        "why": "outside the siege zone, 5700 from the centre",
+        "walk": {
+          "from": "Heine",
+          "units": 42052
+        }
+      },
+      "nearestTeleport": {
+        "from": "Gludio",
+        "to": "Heine",
+        "desc": "Gludio -> Heine",
+        "x": 111455,
+        "y": 219400,
+        "z": -3544,
+        "price": 47000,
+        "dist": 31490
+      }
+    },
+    {
+      "id": 7,
+      "name": "Goddard",
+      "key": "goddard",
+      "town": "Goddard",
+      "territory": "Goddard",
+      "siegeZone": {
+        "name": "godad_castle_battlefield_territory",
+        "minZ": -3397,
+        "maxZ": 5100,
+        "polygon": [
+          [
+            143023,
+            -53210
+          ],
+          [
+            151893,
+            -53210
+          ],
+          [
+            151949,
+            -39107
+          ],
+          [
+            145899,
+            -39107
+          ],
+          [
+            141457,
+            -44407
+          ]
+        ]
+      },
+      "pos": {
+        "x": 147477,
+        "y": -50449,
+        "z": -1496
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Goddard",
+        "x": 148024,
+        "y": -55281,
+        "z": -2728,
+        "dist": 4863,
+        "fromTown": "Gludio",
+        "price": 71000
+      },
+      "ownerTeleports": [
+        {
+          "id": 13047,
+          "name": "Front of Goddard Castle",
+          "x": 153996,
+          "y": -50182,
+          "z": -2992,
+          "price": 0
+        },
+        {
+          "id": 13048,
+          "name": "Goddard Town Square",
+          "x": 147728,
+          "y": -56331,
+          "z": -2776,
+          "price": 0
+        },
+        {
+          "id": 13049,
+          "name": "Front of the Borderland Fortress",
+          "x": 153460,
+          "y": -70055,
+          "z": -3312,
+          "price": 0
+        },
+        {
+          "id": 13050,
+          "name": "Hot Springs",
+          "x": 144880,
+          "y": -113468,
+          "z": -2560,
+          "price": 500
+        },
+        {
+          "id": 13051,
+          "name": "Varka Silenos Stronghold",
+          "x": 125740,
+          "y": -40864,
+          "z": -3736,
+          "price": 500
+        },
+        {
+          "id": 13052,
+          "name": "Ketra Orc Outpost",
+          "x": 146990,
+          "y": -67128,
+          "z": -3640,
+          "price": 500
+        },
+        {
+          "id": 13053,
+          "name": "Entrance to the Forge of the Gods",
+          "x": 169018,
+          "y": -116303,
+          "z": -2432,
+          "price": 500
+        },
+        {
+          "id": 13054,
+          "name": "Wall of Argos",
+          "x": 165054,
+          "y": -47861,
+          "z": -3560,
+          "price": 500
+        }
+      ],
+      "forts": [
+        109,
+        117,
+        120
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35322,
+          "name": "Altar of Fire",
+          "x": 146601,
+          "y": -50441,
+          "z": -1496,
+          "heading": 32768,
+          "spawnLoc": "GoddardArtefact1"
+        },
+        {
+          "npcId": 35323,
+          "name": "Altar of Water",
+          "x": 148353,
+          "y": -50457,
+          "z": -1496,
+          "heading": 0,
+          "spawnLoc": "GoddardArtefact2"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 144672,
+          "y": -48832,
+          "z": -1742
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 150240,
+          "y": -48832,
+          "z": -1742
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 147456,
+          "y": -49200,
+          "z": -1619
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 148144,
+          "y": -46992,
+          "z": -1609,
+          "zoneIds": [
+            70037,
+            70039
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 146784,
+          "y": -46992,
+          "z": -1609,
+          "zoneIds": [
+            70038,
+            70040
+          ]
+        }
+      ],
+      "maxMercenaries": 400,
+      "gates": [
+        {
+          "id": 24160009,
+          "name": "godad_castle_outter_002",
+          "x": 147642,
+          "y": -45571,
+          "z": -1945,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 24160010,
+          "name": "godad_castle_outter_001",
+          "x": 147290,
+          "y": -45571,
+          "z": -1945,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 24160011,
+          "name": "godad_castle_side_door_001",
+          "x": 149143,
+          "y": -48368,
+          "z": -2223,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24160012,
+          "name": "godad_castle_side_door_002",
+          "x": 145792,
+          "y": -48368,
+          "z": -2223,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24160013,
+          "name": "godad_castle_side_door_003",
+          "x": 148997,
+          "y": -47794,
+          "z": -1511,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24160014,
+          "name": "godad_castle_side_door_004",
+          "x": 145930,
+          "y": -47793,
+          "z": -1511,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 24160015,
+          "name": "godad_castle_station_001",
+          "x": 148750,
+          "y": -49120,
+          "z": -588,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 24160016,
+          "name": "godad_castle_station_002",
+          "x": 146180,
+          "y": -49121,
+          "z": -588,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 24160017,
+          "name": "godad_castle_ctr_001",
+          "x": 150248,
+          "y": -48577,
+          "z": -1659,
+          "hp": 79125,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "control door"
+        },
+        {
+          "id": 24160018,
+          "name": "godad_castle_ctr_002",
+          "x": 144682,
+          "y": -48577,
+          "z": -1659,
+          "hp": 79125,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "control door"
+        },
+        {
+          "id": 24160019,
+          "name": "godad_castle_inner_001",
+          "x": 148751,
+          "y": -48603,
+          "z": -2290,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 24160020,
+          "name": "godad_castle_inner_002",
+          "x": 146180,
+          "y": -48603,
+          "z": -2290,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 24160021,
+          "name": "godad_castle_wall_001",
+          "x": 150106,
+          "y": -47522,
+          "z": -2288,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 24160022,
+          "name": "godad_castle_wall_002",
+          "x": 144824,
+          "y": -47522,
+          "z": -2289,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 24160023,
+          "name": "godad_castle_inner_003",
+          "x": 147464,
+          "y": -46200,
+          "z": -1987,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35355,
+          "name": "Mass Gatekeeper",
+          "title": "Goddard",
+          "role": "gatekeeper",
+          "x": 147456,
+          "y": -46448,
+          "z": -963,
+          "heading": 49000,
+          "spawnLoc": "godard03_npc2416_07"
+        },
+        {
+          "npcId": 35356,
+          "name": "Outer Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 147808,
+          "y": -45328,
+          "z": -2083,
+          "heading": 16000,
+          "spawnLoc": "godard03_npc2416_05"
+        },
+        {
+          "npcId": 35356,
+          "name": "Outer Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 147264,
+          "y": -45632,
+          "z": -2083,
+          "heading": 48500,
+          "spawnLoc": "godard03_npc2416_05"
+        },
+        {
+          "npcId": 35357,
+          "name": "Inner Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 145640,
+          "y": -48096,
+          "z": -2382,
+          "heading": 32000,
+          "spawnLoc": "godard03_npc2416_13"
+        },
+        {
+          "npcId": 35357,
+          "name": "Inner Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 145904,
+          "y": -48096,
+          "z": -2382,
+          "heading": 0,
+          "spawnLoc": "godard03_npc2416_13"
+        },
+        {
+          "npcId": 35358,
+          "name": "Inner Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 149272,
+          "y": -48088,
+          "z": -2382,
+          "heading": 0,
+          "spawnLoc": "godard03_npc2416_12"
+        },
+        {
+          "npcId": 35358,
+          "name": "Inner Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 149024,
+          "y": -48080,
+          "z": -2382,
+          "heading": 33000,
+          "spawnLoc": "godard03_npc2416_12"
+        },
+        {
+          "npcId": 35359,
+          "name": "Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 148612,
+          "y": -49004,
+          "z": -688,
+          "heading": 16000,
+          "spawnLoc": "godard03_npc2416_10"
+        },
+        {
+          "npcId": 35359,
+          "name": "Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 148664,
+          "y": -49168,
+          "z": -672,
+          "heading": 48000,
+          "spawnLoc": "godard03_npc2416_10"
+        },
+        {
+          "npcId": 35360,
+          "name": "Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 146312,
+          "y": -49004,
+          "z": -688,
+          "heading": 16000,
+          "spawnLoc": "godard03_npc2416_11"
+        },
+        {
+          "npcId": 35360,
+          "name": "Doorman",
+          "title": "Goddard",
+          "role": "doorman",
+          "x": 146280,
+          "y": -49180,
+          "z": -672,
+          "heading": 48000,
+          "spawnLoc": "godard03_npc2416_11"
+        },
+        {
+          "npcId": 35361,
+          "name": "Blacksmith",
+          "title": "Goddard",
+          "role": "blacksmith",
+          "x": 146992,
+          "y": -48896,
+          "z": -2640,
+          "heading": 16000,
+          "spawnLoc": "goddard_blacksmith"
+        },
+        {
+          "npcId": 35362,
+          "name": "Warehouse Keeper",
+          "title": "Goddard",
+          "role": "warehouse",
+          "x": 147952,
+          "y": -48912,
+          "z": -2640,
+          "heading": 16000,
+          "spawnLoc": "goddard_warehouse"
+        },
+        {
+          "npcId": 35363,
+          "name": "Alfred",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 147408,
+          "y": -49296,
+          "z": -2120,
+          "heading": 16500,
+          "spawnLoc": "godard03_npc2416_01"
+        },
+        {
+          "npcId": 35364,
+          "name": "Hadley",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 147470,
+          "y": -49083,
+          "z": -503,
+          "heading": 16500,
+          "spawnLoc": "Wyvern_Manager"
+        },
+        {
+          "npcId": 35365,
+          "name": "Rowell",
+          "title": "Manager of Mercenary",
+          "role": "mercenary_manager",
+          "x": 147696,
+          "y": -49312,
+          "z": -2275,
+          "heading": 16500,
+          "spawnLoc": "godard03_npc2416_02"
+        },
+        {
+          "npcId": 35654,
+          "name": "Court Magician",
+          "title": "Goddard",
+          "role": "court_wizard",
+          "x": 147232,
+          "y": -49328,
+          "z": -2240,
+          "heading": 16384,
+          "spawnLoc": "Goddard_castle"
+        },
+        {
+          "npcId": 36409,
+          "name": "Warden",
+          "title": "Goddard",
+          "role": "dungeon_warden",
+          "x": 147454,
+          "y": -48908,
+          "z": -2640,
+          "heading": 16384,
+          "spawnLoc": "Goddard_castle"
+        },
+        {
+          "npcId": 35367,
+          "name": "Daven",
+          "title": "Messenger",
+          "role": "messenger",
+          "x": 154208,
+          "y": -51648,
+          "z": -2984,
+          "heading": 0,
+          "spawnLoc": "godard03_npc2416_04"
+        }
+      ],
+      "siegeGuards": {
+        "count": 583,
+        "byName": {
+          "Court Sorcerer": 98,
+          "Guard": 473,
+          "Royal Knight": 10,
+          "Duke Mora Ken Abygail": 1,
+          "Heinz": 1
+        },
+        "levels": [
+          75,
+          77,
+          79,
+          81,
+          83
+        ]
+      },
+      "skills": [
+        {
+          "id": 590,
+          "name": "Residence Body",
+          "level": 1,
+          "effect": "MaxHp +222",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 594,
+          "name": "Residence Moral",
+          "level": 1,
+          "effect": "regCp +1.09",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 603,
+          "name": "Residence Shield Defense",
+          "level": 1,
+          "effect": "sDef +225",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 854,
+          "name": "Goddard Territory Benefaction",
+          "level": 1,
+          "effect": "DEX +1, INT +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 6836,
+        "name": "Goddard Circlet",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36409,
+        "wardenName": "Warden",
+        "x": 147454,
+        "y": -48908,
+        "z": -2640,
+        "instanceTemplateId": 19,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (109) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 149669,
+        "y": -54032,
+        "z": -2976,
+        "why": "outside the siege zone, 4200 from the centre",
+        "walk": {
+          "from": "Goddard",
+          "units": 5793
+        }
+      },
+      "nearestTeleport": {
+        "from": "Gludio",
+        "to": "Goddard",
+        "desc": "Gludio -> Goddard",
+        "x": 148024,
+        "y": -55281,
+        "z": -2728,
+        "price": 71000,
+        "dist": 4863
+      }
+    },
+    {
+      "id": 8,
+      "name": "Rune",
+      "key": "rune",
+      "town": "Rune",
+      "territory": "Rune",
+      "siegeZone": {
+        "name": "rune_castle_battlefield_territory",
+        "minZ": -4350,
+        "maxZ": 10030,
+        "polygon": [
+          [
+            6015,
+            -56316
+          ],
+          [
+            17343,
+            -53750
+          ],
+          [
+            19486,
+            -52556
+          ],
+          [
+            23783,
+            -52570
+          ],
+          [
+            27027,
+            -49433
+          ],
+          [
+            27020,
+            -48831
+          ],
+          [
+            23887,
+            -45218
+          ],
+          [
+            19385,
+            -45203
+          ],
+          [
+            17413,
+            -44022
+          ],
+          [
+            6015,
+            -41600
+          ]
+        ]
+      },
+      "pos": {
+        "x": 9132,
+        "y": -49152,
+        "z": 1088
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Primeval Isle",
+        "x": 11235,
+        "y": -24026,
+        "z": -3640,
+        "dist": 25214,
+        "fromTown": "Rune",
+        "price": 6400
+      },
+      "ownerTeleports": [
+        {
+          "id": 13055,
+          "name": "Front of Rune Castle",
+          "x": 27400,
+          "y": -49180,
+          "z": -1320,
+          "price": 0
+        },
+        {
+          "id": 13056,
+          "name": "Rune Town Square",
+          "x": 43889,
+          "y": -49101,
+          "z": -792,
+          "price": 0
+        },
+        {
+          "id": 13057,
+          "name": "Front of the Swamp Fortress",
+          "x": 71814,
+          "y": -57054,
+          "z": -3088,
+          "price": 0
+        },
+        {
+          "id": 13058,
+          "name": "Forest of the Dead",
+          "x": 52107,
+          "y": -54328,
+          "z": -3158,
+          "price": 500
+        },
+        {
+          "id": 13059,
+          "name": "Wild Beast Pastures",
+          "x": 43805,
+          "y": -88010,
+          "z": -2780,
+          "price": 500
+        },
+        {
+          "id": 13060,
+          "name": "Swamp of Screams",
+          "x": 69340,
+          "y": -50203,
+          "z": -3314,
+          "price": 500
+        },
+        {
+          "id": 13061,
+          "name": "Valley of Saints",
+          "x": 65307,
+          "y": -71445,
+          "z": -3696,
+          "price": 500
+        },
+        {
+          "id": 13062,
+          "name": "Monastery of Silence",
+          "x": 106414,
+          "y": -87799,
+          "z": -2949,
+          "price": 500
+        },
+        {
+          "id": 14063,
+          "name": "Shyeeds Cavern",
+          "x": 76911,
+          "y": -55295,
+          "z": -5824,
+          "price": 500
+        }
+      ],
+      "forts": [
+        110,
+        120,
+        121
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35469,
+          "name": "Gods' Altar",
+          "x": 9132,
+          "y": -49152,
+          "z": 1088,
+          "heading": 0,
+          "spawnLoc": "RuneArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 16565,
+          "y": -50318,
+          "z": -641
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 16559,
+          "y": -48000,
+          "z": -641
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 10775,
+          "y": -48481,
+          "z": 83
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 12864,
+          "y": -47440,
+          "z": -1087,
+          "zoneIds": [
+            70041,
+            70043
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 12225,
+          "y": -50767,
+          "z": 1248,
+          "zoneIds": [
+            70042,
+            70044
+          ]
+        }
+      ],
+      "maxMercenaries": 400,
+      "gates": [
+        {
+          "id": 20160001,
+          "name": "rune_castle_outter_002",
+          "x": 18483,
+          "y": -49321,
+          "z": -1022,
+          "hp": 678840,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 20160002,
+          "name": "rune_castle_outter_001",
+          "x": 18483,
+          "y": -48982,
+          "z": -1022,
+          "hp": 678840,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 20160003,
+          "name": "rune_castle_inner_002",
+          "x": 15768,
+          "y": -49251,
+          "z": -901,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 20160004,
+          "name": "rune_castle_inner_001",
+          "x": 15768,
+          "y": -49053,
+          "z": -901,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 20160005,
+          "name": "rune_castle_inner_003",
+          "x": 15344,
+          "y": -49152,
+          "z": -720,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 20160006,
+          "name": "rune_castle_side_door_001",
+          "x": 12860,
+          "y": -51115,
+          "z": -771,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 20160007,
+          "name": "rune_castle_wall_001",
+          "x": 17257,
+          "y": -51539,
+          "z": -878,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 20160008,
+          "name": "rune_castle_wall_002",
+          "x": 17256,
+          "y": -46748,
+          "z": -878,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 20160009,
+          "name": "rune_castle_wall_003",
+          "x": 13840,
+          "y": -51703,
+          "z": -764,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35502,
+          "name": "Mass Gatekeeper",
+          "title": "Rune",
+          "role": "gatekeeper",
+          "x": 11127,
+          "y": -49148,
+          "z": 3843,
+          "heading": 18512,
+          "spawnLoc": "rune_mass_gatekeeper"
+        },
+        {
+          "npcId": 35503,
+          "name": "Outer Doorman",
+          "title": "Rune",
+          "role": "doorman",
+          "x": 18616,
+          "y": -48956,
+          "z": -1216,
+          "heading": 0,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35503,
+          "name": "Outer Doorman",
+          "title": "Rune",
+          "role": "doorman",
+          "x": 17908,
+          "y": -48960,
+          "z": -1200,
+          "heading": 33000,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35504,
+          "name": "Inner Doorman",
+          "title": "Rune",
+          "role": "doorman",
+          "x": 15688,
+          "y": -49036,
+          "z": -1056,
+          "heading": 33000,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35504,
+          "name": "Inner Doorman",
+          "title": "Rune",
+          "role": "doorman",
+          "x": 15860,
+          "y": -49020,
+          "z": -1056,
+          "heading": 0,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35505,
+          "name": "Inner Doorman",
+          "title": "Rune",
+          "role": "doorman",
+          "x": 12780,
+          "y": -51060,
+          "z": -1088,
+          "heading": 0,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35505,
+          "name": "Inner Doorman",
+          "title": "Rune",
+          "role": "doorman",
+          "x": 12736,
+          "y": -51184,
+          "z": -1088,
+          "heading": 49000,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35506,
+          "name": "Dungeon Gatekeeper",
+          "title": "Rune",
+          "role": "other",
+          "x": 11532,
+          "y": -49136,
+          "z": -1087,
+          "heading": 0,
+          "spawnLoc": "rune03_npc2016_18"
+        },
+        {
+          "npcId": 35507,
+          "name": "Blacksmith",
+          "title": "Rune",
+          "role": "blacksmith",
+          "x": 12872,
+          "y": -48752,
+          "z": -1088,
+          "heading": 33000,
+          "spawnLoc": "rune_blacksmith"
+        },
+        {
+          "npcId": 35508,
+          "name": "Warehouse Keeper",
+          "title": "Rune",
+          "role": "warehouse",
+          "x": 12864,
+          "y": -49184,
+          "z": -1088,
+          "heading": 39746,
+          "spawnLoc": "rune_warehouse"
+        },
+        {
+          "npcId": 35509,
+          "name": "Frederick",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 10211,
+          "y": -49084,
+          "z": -307,
+          "heading": 36736,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35510,
+          "name": "Titus",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 12318,
+          "y": -47703,
+          "z": 1296,
+          "heading": 22879,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35511,
+          "name": "Gompus",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 10840,
+          "y": -49273,
+          "z": -565,
+          "heading": 2366,
+          "spawnLoc": "rune_chamberlain_etc"
+        },
+        {
+          "npcId": 35513,
+          "name": "Sherman",
+          "title": "Messenger",
+          "role": "messenger",
+          "x": 26976,
+          "y": -48968,
+          "z": -1296,
+          "heading": 0,
+          "spawnLoc": "rune_castle_npc"
+        },
+        {
+          "npcId": 35655,
+          "name": "Court Magician",
+          "title": "Rune",
+          "role": "court_wizard",
+          "x": 10280,
+          "y": -48766,
+          "z": -546,
+          "heading": 182,
+          "spawnLoc": "Rune_castle"
+        },
+        {
+          "npcId": 36410,
+          "name": "Warden",
+          "title": "Rune",
+          "role": "dungeon_warden",
+          "x": 11534,
+          "y": -48907,
+          "z": -1088,
+          "heading": 0,
+          "spawnLoc": "Rune_castle"
+        }
+      ],
+      "siegeGuards": {
+        "count": 242,
+        "byName": {
+          "Court Sorcerer": 27,
+          "Guard": 183,
+          "Court Guard": 25,
+          "Royal Knight": 7
+        },
+        "levels": [
+          78,
+          79,
+          81
+        ]
+      },
+      "skills": [
+        {
+          "id": 593,
+          "name": "Residence Health",
+          "level": 1,
+          "effect": "regHp +1.09",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 599,
+          "name": "Residence Magic Barrier",
+          "level": 1,
+          "effect": "mDef +44",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 604,
+          "name": "Residence Resist Typhoon",
+          "level": 1,
+          "effect": "waterRes +10, windRes +10",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 855,
+          "name": "Rune Territory Benefaction",
+          "level": 1,
+          "effect": "STR +1, WIT +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 8182,
+        "name": "Circlet of Rune",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36410,
+        "wardenName": "Warden",
+        "x": 11534,
+        "y": -48907,
+        "z": -1088,
+        "instanceTemplateId": 20,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (110) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 6022,
+        "y": -40706,
+        "z": -3824,
+        "why": "outside the siege zone, 9000 from the centre",
+        "walk": {
+          "from": "Primeval Isle",
+          "units": 18871
+        }
+      },
+      "nearestTeleport": {
+        "from": "Rune",
+        "to": "Primeval Isle",
+        "desc": "Rune -> Primeval Isle",
+        "x": 11235,
+        "y": -24026,
+        "z": -3640,
+        "price": 6400,
+        "dist": 25214
+      }
+    },
+    {
+      "id": 9,
+      "name": "Schuttgart",
+      "key": "schuttgart",
+      "town": "Schuttgart",
+      "territory": "Schuttgart",
+      "siegeZone": {
+        "name": "schuttgart_castle_battlefield_territory",
+        "minZ": -3997,
+        "maxZ": 8503,
+        "polygon": [
+          [
+            71420,
+            -159445
+          ],
+          [
+            83119,
+            -159442
+          ],
+          [
+            83122,
+            -150000
+          ],
+          [
+            77897,
+            -143861
+          ],
+          [
+            71420,
+            -148782
+          ]
+        ]
+      },
+      "pos": {
+        "x": 77558,
+        "y": -154520,
+        "z": 224
+      },
+      "_posFrom": "average of the Holy Artifact / altar spawns (spawnlist, L2Artefact) — the artifact sits in the keep's throne room",
+      "nearestLanding": {
+        "name": "Schuttgart",
+        "x": 87126,
+        "y": -143520,
+        "z": -1288,
+        "dist": 14579,
+        "fromTown": "Gludio",
+        "price": 85000
+      },
+      "ownerTeleports": [
+        {
+          "id": 13063,
+          "name": "Front of Schuttgart Castle",
+          "x": 76358,
+          "y": -145548,
+          "z": -1176,
+          "price": 0
+        },
+        {
+          "id": 13064,
+          "name": "Schuttgart Town Square",
+          "x": 87379,
+          "y": -142322,
+          "z": -1336,
+          "price": 0
+        },
+        {
+          "id": 13065,
+          "name": "Front of the Archaic Fortress",
+          "x": 105007,
+          "y": -140874,
+          "z": -3360,
+          "price": 0
+        },
+        {
+          "id": 13066,
+          "name": "The Center of the Abandoned Coal Mines",
+          "x": 144706,
+          "y": -173223,
+          "z": -1520,
+          "price": 500
+        },
+        {
+          "id": 13067,
+          "name": "Plunderous Plains",
+          "x": 111965,
+          "y": -154172,
+          "z": -1528,
+          "price": 500
+        },
+        {
+          "id": 13068,
+          "name": "Den of Evil",
+          "x": 68693,
+          "y": -110438,
+          "z": -1946,
+          "price": 500
+        },
+        {
+          "id": 13069,
+          "name": "Ice Merchant Cabin",
+          "x": 113903,
+          "y": -108752,
+          "z": -860,
+          "price": 500
+        },
+        {
+          "id": 13070,
+          "name": "Crypts of Disgrace",
+          "x": 47692,
+          "y": -115745,
+          "z": -3744,
+          "price": 500
+        }
+      ],
+      "forts": [
+        111,
+        121
+      ],
+      "_fortsFrom": "CastleChamberlain.java / CastleDungeon.java FORTRESS map (same as the fort envoy castleIds)",
+      "artifact": [
+        {
+          "npcId": 35514,
+          "name": "Altar of Wind",
+          "x": 78442,
+          "y": -154520,
+          "z": 224,
+          "heading": 0,
+          "spawnLoc": "SchuttgartArtefact2"
+        },
+        {
+          "npcId": 35515,
+          "name": "Altar of Earth",
+          "x": 76674,
+          "y": -154520,
+          "z": 224,
+          "heading": 32768,
+          "spawnLoc": "SchuttgartArtefact1"
+        }
+      ],
+      "controlTowers": [
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 80334,
+          "y": -152898,
+          "z": -8
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 74775,
+          "y": -152928,
+          "z": -8
+        },
+        {
+          "npcId": 13002,
+          "name": "Life Control Tower",
+          "x": 77547,
+          "y": -153246,
+          "z": 112
+        }
+      ],
+      "flameTowers": [
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 76872,
+          "y": -151043,
+          "z": 120,
+          "zoneIds": [
+            70045,
+            70047
+          ]
+        },
+        {
+          "npcId": 13004,
+          "name": "Flame Control Tower",
+          "x": 78233,
+          "y": -151037,
+          "z": 120,
+          "zoneIds": [
+            70046,
+            70048
+          ]
+        }
+      ],
+      "maxMercenaries": 400,
+      "gates": [
+        {
+          "id": 22130001,
+          "name": "schutt_castle_outter_002",
+          "x": 77732,
+          "y": -149635,
+          "z": -213,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 22130002,
+          "name": "schutt_castle_outter_001",
+          "x": 77380,
+          "y": -149635,
+          "z": -213,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "outer gate"
+        },
+        {
+          "id": 22130003,
+          "name": "schutt_castle_inner_001",
+          "x": 77554,
+          "y": -150264,
+          "z": -255,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 22130004,
+          "name": "schutt_castle_wall_002",
+          "x": 80196,
+          "y": -151587,
+          "z": -557,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 22130005,
+          "name": "schutt_castle_wall_001",
+          "x": 74914,
+          "y": -151587,
+          "z": -555,
+          "hp": 1357680,
+          "pDef": 837,
+          "mDef": 674,
+          "hpShown": true,
+          "isWall": true,
+          "role": "wall (destructible)"
+        },
+        {
+          "id": 22130006,
+          "name": "schutt_castle_side_door_002",
+          "x": 79234,
+          "y": -152432,
+          "z": -491,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 22130007,
+          "name": "schutt_castle_side_door_001",
+          "x": 75883,
+          "y": -152432,
+          "z": -491,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 22130008,
+          "name": "schutt_castle_side_door_004",
+          "x": 79088,
+          "y": -151858,
+          "z": 221,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 22130009,
+          "name": "schutt_castle_side_door_003",
+          "x": 76021,
+          "y": -151857,
+          "z": 221,
+          "hp": 633000,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "side door"
+        },
+        {
+          "id": 22130010,
+          "name": "schutt_castle_ctr_002",
+          "x": 80338,
+          "y": -152641,
+          "z": 73,
+          "hp": 79125,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "control door"
+        },
+        {
+          "id": 22130011,
+          "name": "schutt_castle_ctr_001",
+          "x": 74772,
+          "y": -152641,
+          "z": 73,
+          "hp": 79125,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "control door"
+        },
+        {
+          "id": 22130012,
+          "name": "schutt_castle_inner_003",
+          "x": 78841,
+          "y": -152667,
+          "z": -558,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 22130013,
+          "name": "schutt_castle_inner_002",
+          "x": 76270,
+          "y": -152667,
+          "z": -558,
+          "hp": 1357680,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": false,
+          "isWall": false,
+          "role": "inner gate"
+        },
+        {
+          "id": 22130014,
+          "name": "schutt_castle_station_002",
+          "x": 78840,
+          "y": -153184,
+          "z": 1144,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        },
+        {
+          "id": 22130015,
+          "name": "schutt_castle_station_001",
+          "x": 76270,
+          "y": -153185,
+          "z": 1144,
+          "hp": 316500,
+          "pDef": 644,
+          "mDef": 518,
+          "hpShown": true,
+          "isWall": false,
+          "role": "station (gate mechanism)"
+        }
+      ],
+      "npcs": [
+        {
+          "npcId": 35544,
+          "name": "Gatekeeper",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 78735,
+          "y": -153060,
+          "z": 1018,
+          "heading": 2556,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35544,
+          "name": "Gatekeeper",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 78752,
+          "y": -153229,
+          "z": 1050,
+          "heading": 53375,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35545,
+          "name": "Gatekeeper",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 76399,
+          "y": -153055,
+          "z": 1043,
+          "heading": 22854,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35545,
+          "name": "Gatekeeper",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 76346,
+          "y": -153227,
+          "z": 1050,
+          "heading": 35323,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35547,
+          "name": "Mass Gatekeeper",
+          "title": "Schuttgart",
+          "role": "gatekeeper",
+          "x": 77568,
+          "y": -150560,
+          "z": 768,
+          "heading": 49000,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35548,
+          "name": "Outer Doorman",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 77365,
+          "y": -149682,
+          "z": -353,
+          "heading": 57062,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35548,
+          "name": "Outer Doorman",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 77893,
+          "y": -149383,
+          "z": -379,
+          "heading": 15733,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35549,
+          "name": "Inner Doorman",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 75731,
+          "y": -152159,
+          "z": -678,
+          "heading": 30710,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35549,
+          "name": "Inner Doorman",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 76006,
+          "y": -152166,
+          "z": -678,
+          "heading": 62180,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35550,
+          "name": "Inner Doorman",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 79371,
+          "y": -152142,
+          "z": -652,
+          "heading": 61567,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35550,
+          "name": "Inner Doorman",
+          "title": "Schuttgart",
+          "role": "doorman",
+          "x": 79098,
+          "y": -152149,
+          "z": -678,
+          "heading": 37821,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35553,
+          "name": "Blacksmith",
+          "title": "Schuttgart",
+          "role": "blacksmith",
+          "x": 77056,
+          "y": -152960,
+          "z": -904,
+          "heading": 16500,
+          "spawnLoc": "schuttgart_blacksmith"
+        },
+        {
+          "npcId": 35554,
+          "name": "Warehouse Keeper",
+          "title": "Schuttgart",
+          "role": "warehouse",
+          "x": 78080,
+          "y": -152976,
+          "z": -904,
+          "heading": 16500,
+          "spawnLoc": "schuttgart_warehouse"
+        },
+        {
+          "npcId": 35555,
+          "name": "August",
+          "title": "Chamberlain",
+          "role": "chamberlain",
+          "x": 77488,
+          "y": -153360,
+          "z": -384,
+          "heading": 16500,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35556,
+          "name": "Gallic",
+          "title": "Wyvern Manager",
+          "role": "wyvern_manager",
+          "x": 77502,
+          "y": -153296,
+          "z": 1224,
+          "heading": 16500,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35557,
+          "name": "Kendrew",
+          "title": "Mercenary Manager",
+          "role": "mercenary_manager",
+          "x": 77792,
+          "y": -153360,
+          "z": -512,
+          "heading": 16500,
+          "spawnLoc": "schuttgart_chmberlain_etc"
+        },
+        {
+          "npcId": 35656,
+          "name": "Court Magician",
+          "title": "Schuttgart",
+          "role": "court_wizard",
+          "x": 77320,
+          "y": -153372,
+          "z": -512,
+          "heading": 16384,
+          "spawnLoc": "Schuttgart_castle"
+        },
+        {
+          "npcId": 36411,
+          "name": "Warden",
+          "title": "Schuttgart",
+          "role": "dungeon_warden",
+          "x": 77554,
+          "y": -152972,
+          "z": -904,
+          "heading": 16384,
+          "spawnLoc": "Schuttgart_castle"
+        },
+        {
+          "npcId": 35559,
+          "name": "Daguerre",
+          "title": "Messenger",
+          "role": "messenger",
+          "x": 75712,
+          "y": -144912,
+          "z": -1296,
+          "heading": 16500,
+          "spawnLoc": "shuttgart_castle_npc"
+        }
+      ],
+      "siegeGuards": {
+        "count": 538,
+        "byName": {
+          "Verus": 5,
+          "Swain Ken Orwen": 1,
+          "Royal Knight": 10,
+          "Court Sorcerer": 74,
+          "Guard": 448
+        },
+        "levels": [
+          75,
+          77,
+          79,
+          81,
+          83
+        ]
+      },
+      "skills": [
+        {
+          "id": 592,
+          "name": "Residence Soul",
+          "level": 1,
+          "effect": "MaxMp +168",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 600,
+          "name": "Residence Guidance",
+          "level": 1,
+          "effect": "accCombat +4",
+          "clanLevelRequired": 4
+        },
+        {
+          "id": 610,
+          "name": "Residence Death Fortune",
+          "level": 1,
+          "effect": "reduceDeathPenaltyByPvp x0.7, reduceExpLostByPvp x0.7, reduceDeathPenaltyByMob x0.88, reduceExpLostByMob x0.88",
+          "clanLevelRequired": 4
+        }
+      ],
+      "territorySkills": [
+        {
+          "id": 856,
+          "name": "Schuttgart Territory Benefaction",
+          "level": 1,
+          "effect": "CON +1, WIT +1",
+          "clanLevelRequired": 5
+        }
+      ],
+      "crown": {
+        "itemId": 6841,
+        "name": "The Lord's Crown",
+        "_from": "CastleChamberlain 'give_crown' (castle lord only)"
+      },
+      "circlet": {
+        "itemId": 8183,
+        "name": "Circlet of Schuttgart",
+        "_from": "CastleManager._castleCirclets"
+      },
+      "taxDefault": 0,
+      "_taxFrom": "castle.sql initial INSERT taxPercent (column default is 15)",
+      "dungeon": {
+        "wardenNpcId": 36411,
+        "wardenName": "Warden",
+        "x": 77554,
+        "y": -152972,
+        "z": -904,
+        "instanceTemplateId": 21,
+        "instanceFile": "CastleDungeon.xml",
+        "quest": {
+          "id": 512,
+          "name": "Blade Under Foot",
+          "minLevel": 70
+        },
+        "enterLocs": [
+          {
+            "x": 12188,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12218,
+            "y": -48770,
+            "z": -3008
+          },
+          {
+            "x": 12248,
+            "y": -48770,
+            "z": -3008
+          }
+        ],
+        "reenterHours": 4,
+        "activityTimeMin": 60,
+        "conditions": "party; every member in the clan that owns this castle; castle not under siege; the first 1 fort(s) of its list (111) must not be in state 0 (undecided)",
+        "raids": [
+          {
+            "stage": 1,
+            "oneOf": [
+              {
+                "npcId": 25546,
+                "name": "Rhianna the Traitor",
+                "level": 75
+              },
+              {
+                "npcId": 25549,
+                "name": "Tesla the Deceiver",
+                "level": 75
+              },
+              {
+                "npcId": 25552,
+                "name": "Soul Hunter Chakundel",
+                "level": 76
+              }
+            ]
+          },
+          {
+            "stage": 2,
+            "oneOf": [
+              {
+                "npcId": 25553,
+                "name": "Durango the Crusher",
+                "level": 77
+              },
+              {
+                "npcId": 25554,
+                "name": "Brutus the Obstinate",
+                "level": 78
+              },
+              {
+                "npcId": 25557,
+                "name": "Ranger Karankawa",
+                "level": 79
+              },
+              {
+                "npcId": 25560,
+                "name": "Sargon the Mad",
+                "level": 79
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "oneOf": [
+              {
+                "npcId": 25563,
+                "name": "Beautiful Atrielle",
+                "level": 81
+              },
+              {
+                "npcId": 25566,
+                "name": "Nagen the Tomboy",
+                "level": 82
+              },
+              {
+                "npcId": 25569,
+                "name": "Jax the Destroyer",
+                "level": 82
+              }
+            ]
+          }
+        ],
+        "reward": "Q512: stage-3 raid gives Fragment of the Dungeon Leader Mark (9798): Beautiful Atrielle 175 solo / 1443 split over the party; Nagen the Tomboy 176 solo / 1447 split over the party; Jax the Destroyer 177 solo / 1450 split over the party; traded 1:1 for Knight's Epaulette (9912) at the warden"
+      },
+      "staging": {
+        "x": 80207,
+        "y": -145293,
+        "z": -1976,
+        "why": "outside the siege zone, 9600 from the centre",
+        "walk": {
+          "from": "Schuttgart",
+          "units": 18468
+        }
+      },
+      "nearestTeleport": {
+        "from": "Gludio",
+        "to": "Schuttgart",
+        "desc": "Gludio -> Schuttgart",
+        "x": 87126,
+        "y": -143520,
+        "z": -1288,
+        "price": 85000,
+        "dist": 14579
+      }
+    }
+  ],
+  "_enriched": {
+    "at": "2026-10-08T05:41:25.029Z",
+    "by": "docs/plan/tools/sieges_data.js",
+    "fields": [
+      "staging",
+      "nearestTeleport"
+    ]
+  }
+}

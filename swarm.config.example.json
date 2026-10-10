@@ -1,0 +1,82 @@
+{
+  "//": "EXAMPLE with every field explained. Copy to swarm.config.json, edit, then run SETUP.cmd (dry run) and SETUP.cmd -Apply. JSON has no comments, so the help sits in '//' keys - they are ignored.",
+  "version": 1,
+
+  "paths": {
+    "//root": "Install folder (where L2Swarm.exe, Scripts, Settings, Dashboard, docs live). Leave empty = the folder this file is in. Only set it if the config lives elsewhere.",
+    "root": "",
+    "//l2Client": "The game client l2.exe. Only needed for characters with clientMode 'ingame' (L2Swarm's Hook button starts it).",
+    "l2Client": "C:\\Lineage2\\system\\l2.exe"
+  },
+
+  "server": {
+    "//": "Lineage 2 server. loginIp/loginPort/serverId are written into every account config; gameIp/gamePort is only used to test whether the server is up (reconnect brake in l2swarm_ctl.ps1).",
+    "name": "L2Toggle",
+    "loginIp": "149.56.28.81",
+    "loginPort": 2106,
+    "serverId": 3,
+    "gameIp": "149.56.28.81",
+    "gamePort": 7778
+  },
+
+  "mcp": { "//": "L2Swarm's MCP server port (written into Settings\\settings.xml; Claude Code connects to http://127.0.0.1:<port>).", "port": 8083 },
+  "dashboard": { "//": "Dashboard web server (Dashboard\\server.js). keyFile = password for phone/LAN access (?key=...), created by SETUP when missing.", "port": 8090, "keyFile": "Dashboard\\key.txt" },
+  "login": { "//": "Seconds between two account logins at start (never below 5: the login server refuses mass logins). SETUP also writes it to Settings\\login_gap.txt.", "gapSeconds": 5 },
+
+  "//mainLeader": "Character that leads the main party and may give commands to everyone (swarm.js CONFIG.leader).",
+  "mainLeader": "Tankname",
+  "//clanLeader": "Character that owns the clan (clan jobs; used when Scripts\\data\\clan_quests.json has no leader).",
+  "clanLeader": "Tankname",
+  "//dailyLeaders": "Party leaders that run the daily Kamaloka (dashboard Kamaloka tab).",
+  "dailyLeaders": ["Tankname"],
+  "//dailyHallTeam": "Optional, OLD global list: the (max 6) characters that run a Kamaloka HALL (6-man instance) — only for the party whose leader is in it. Prefer kamaloka.hallTeams.",
+  "dailyHallTeam": ["Tankname", "Healername", "Nukername"],
+  "//kamaloka": "hallTeams: party leader -> the 2-6 characters (leader included) that go into a Kamaloka Hall when the party is bigger than 6; the others wait in the captain's town and rejoin after. Edited on the dashboard (Kamaloka -> party row -> Hall team), read live by swarm.js. A party without one gets an automatic team per Hall (leader, tank, up to 2 healers, strongest dealers in the level window).",
+  "kamaloka": { "hallTeams": {} },
+  "//teamRoutes": "Optional: party leader -> its own leveling route file in Scripts\\data (default: custom_zones.json for everyone).",
+  "teamRoutes": {},
+
+  "groups": {
+    "//": "L2Swarm account-list group per account. {party} = the party leader's character name. overrides: party leader -> group name.",
+    "format": "Party {party}",
+    "overrides": { "Solotrader": "Solo Solotrader" }
+  },
+
+  "//scripts": "Scripts (files in Scripts\\) every account starts with. SETUP adds missing ones to each account config.",
+  "scripts": ["swarm.js"],
+
+  "//roleTemplates": "role -> existing account config used as the template for NEW accounts of that role. SETUP copies it once to Settings\\templates\\<role>.xml with login, password and character removed. 'default' is used for roles without a template. On a new PC the templates in Settings\\templates are used.",
+  "roleTemplates": { "sk": "Tank.xml", "bishop": "Healer.xml", "destroyer": "Dd.xml", "nuker": "Nuker.xml", "default": "Dd.xml" },
+  "//healerRoles": "Roles that never assist-attack (FollowAtk off).",
+  "healerRoles": ["bishop", "shilliensaint", "healer"],
+  "//legacyConfigs": "Old config files in Settings\\ that SETUP must leave alone (never in AutoStart).",
+  "legacyConfigs": [],
+
+  "//accounts": [
+    "One line per game account. Fields:",
+    "  login      - account login name (required)",
+    "  character  - the character to play on it (L2Swarm selects it by name). Empty = not created yet.",
+    "  config     - file name in Settings\\ (default: login with a capital first letter + .xml)",
+    "  party      - character name of its party leader; the leader has party = its own name",
+    "  role       - swarm.js role: sk, bishop, destroyer, doombringer, necromancer, inspector, doomcryer, shilliensaint, crafter, spoiler, healer, nuker, dagger",
+    "  master     - optional note: which master account it belongs to",
+    "  autoStart  - logged in by 'L2Swarm Start' (default true)",
+    "  enabled    - false = ignored everywhere (default true)",
+    "  clientMode - 'oog' (out of game, default) or 'ingame' (real game client via L2Swarm's Hook)",
+    "  note       - free text",
+    "  classPlan  - optional: the 3 class names for the Alt+B -> Career -> Professions changes at 20 / 40 / 76, e.g.",
+    "               [\"Elven Wizard\", \"Spellsinger\", \"Mystic Muse\"]. Default = the role's usual path (sk: Palus Knight -> Shillien Knight ->",
+    "               Shillien Templar, bishop: Cleric -> Bishop -> Cardinal, destroyer: Orc Raider -> Destroyer -> Titan, ...).",
+    "               REQUIRED for 'nuker' (depends on the race) - without it that character never changes class automatically.",
+    "PASSWORDS NEVER GO IN THIS FILE. SETUP -Apply creates a missing account config and asks for the password (hidden prompt),",
+    "or reads it from the environment variable SWARM_PW_<LOGIN> (e.g. SWARM_PW_MYLOGIN1) or SWARM_PASSWORD; only the encrypted",
+    "password is written into Settings\\<config>."
+  ],
+  "accounts": [
+    { "login": "mylogin1", "character": "Tankname", "party": "Tankname", "role": "sk", "master": 1, "autoStart": true, "enabled": true, "clientMode": "oog", "note": "main leader" },
+    { "login": "mylogin2", "character": "Healername", "party": "Tankname", "role": "bishop" },
+    { "login": "mylogin3", "character": "Nukername", "party": "Tankname", "role": "nuker", "classPlan": ["Elven Wizard", "Spellsinger", "Mystic Muse"] },
+    { "login": "mylogin4", "character": "Solotrader", "party": "Solotrader", "role": "dagger", "note": "levels alone" },
+    { "login": "mylogin5", "character": "", "party": "Tankname", "role": "destroyer", "autoStart": false, "note": "character not created yet" }
+  ]
+}

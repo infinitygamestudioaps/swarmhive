@@ -1,0 +1,62 @@
+# The package lives INSIDE an L2Swarm folder. Everything that is not part of the package is ignored:
+# L2Swarm itself (exe, dlls, Data, Maps, Geodata), your settings and accounts, logs, the images SETUP generates.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/NOTICE.md
+!/CHANGELOG.md
+!/VERSION
+!/MANIFEST.sha256
+!/SETUP.ps1
+!/SETUP.cmd
+!/SETUP_PC_ALWAYS_ON.cmd
+!/update.ps1
+!/update.cmd
+!/INSTALL.cmd
+!/install.ps1
+!/swarm.config.example.json
+!/Scripts_dev/
+!/Scripts/
+!/Settings/
+!/Dashboard/
+!/docs/
+!/patches/
+
+# Scripts\: only the data (Scripts\swarm.js is DEPLOYED from Scripts_dev\swarm.js; your own scripts stay untracked)
+/Scripts/*
+!/Scripts/data/
+# your data files (the package ships *.example.json; SETUP / update.ps1 create these from them once)
+/Scripts/data/custom_zones.json
+/Scripts/data/party_spots.json
+/Scripts/data/party_tactics.json
+/Scripts/data/gear_prefs.json
+/Scripts/data/soul_prefs.json
+/Scripts/data/sell_list.json
+/Scripts/data/siege_plans.json
+/Scripts/data/dye_plan.json
+/Scripts/data/roster_extra.json
+/Scripts/data/clan_quests.json
+/Scripts/data/giran_routes.json
+/Scripts/data/soul_targets.json
+*.upstream
+*.lock
+
+# Settings\: only the account templates (your account configs hold encrypted passwords - never commit them)
+/Settings/*
+!/Settings/templates/
+
+# Dashboard: generated images + lookup tables (SETUP.cmd -Images) and the LAN key
+/Dashboard/key.txt
+/Dashboard/icons/
+/Dashboard/maptiles/
+/Dashboard/minitiles/
+/Dashboard/data/items.json
+/Dashboard/data/skills.json
+/Dashboard/data/classes.json
+
+# patch backups made by apply_patch_v7_2.ps1
+/patches/backup_*/
+
+# reports written by the upstream checker (patches/tools/upstream/check_upstream.ps1)
+/patches/upstream_report_*.md

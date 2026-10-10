@@ -1,0 +1,149 @@
+/* LIVE PARTY VIEW (2026-10-09, Dashboard/liveparty.js): #/live/<leader> — big live map + one animated live card per member. Uses the L2 skin
+   variables + the --fs-* type scale of index.html, and the raid HUD card components of raidlive.css (.rlh-mem box + damage/heal flash,
+   .rlh-ci cast icon with the sweep on top, .rlh-cd cooldown slots).
+   v2 (user 2026-10-09 13:00: "annoying that the party members are inside their own sidebar which can scroll"): NO inner scroll box. The page
+   scrolls as a whole: phone = map, then the cards in 1 column; tablet = map on top, cards in 2 columns; desktop >= 1280 = the map on the left
+   (sticky in its own column, it covers nothing) and the cards in a grid on the right (2 columns at 1280-1599, 3 at 1920). */
+#tab-liveparty { padding-bottom: 10px; }
+.lp-head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between; margin: -4px 0 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--line2); }
+.lp-head h2 { display: flex; align-items: center; gap: 6px; }
+.lp-head .act { display: flex; flex-wrap: nowrap; gap: 4px; align-items: center; }
+.lp-head .act select { flex: 0 1 150px; width: auto; min-width: 0; max-width: 170px; }
+.lp-sum { font-size: var(--fs-cap); color: var(--muted); }
+.lp-sum b { color: var(--ink); }
+.lp-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-items: start; }
+@media (min-width: 1280px) {
+  .lp-body { grid-template-columns: minmax(0, 1fr) minmax(580px, .95fr); }
+  .lp-mapcol { position: sticky; top: 8px; }
+}
+.lp-mapwrap { position: relative; border: 1px solid var(--line2); background: #0d2a33; height: 56vh; min-height: 300px; max-height: 760px;
+  touch-action: none; overflow: hidden; user-select: none; -webkit-user-select: none; cursor: grab; }
+.lp-mapwrap:active { cursor: grabbing; }
+@media (min-width: 700px) and (max-width: 1279px) { .lp-mapwrap { height: 52vh; max-height: 640px; } }
+@media (min-width: 1280px) { .lp-mapwrap { height: calc(100vh - 96px); min-height: 520px; max-height: none; } }
+.lp-mapwrap svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.lp-mapwrap text { font-family: Tahoma, Verdana, sans-serif; pointer-events: none; }
+.lp-zoom { position: absolute; right: 6px; top: 6px; display: flex; flex-direction: column; gap: 4px; z-index: 2; }
+.lp-zoom button { min-width: 34px; min-height: 34px; padding: 0 6px; font-size: var(--fs-em); font-weight: 700; }
+.lp-zoom button.on { color: var(--ok); }
+.lp-info { position: absolute; left: 6px; bottom: 6px; right: 50px; z-index: 2; font-size: var(--fs-mini); color: #f1e7cb; text-shadow: 0 1px 2px #000;
+  background: rgba(0, 0, 0, .55); padding: 3px 6px; border-radius: 3px; pointer-events: none; overflow-wrap: anywhere; }
+.lp-info:empty { display: none; }
+.lp-legend { display: flex; flex-wrap: wrap; gap: 3px 10px; font-size: var(--fs-mini); color: var(--muted); margin-top: 5px; align-items: center; }
+.lp-legend span { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.lp-legend svg { width: 16px; height: 12px; flex: none; }
+.lp-help { margin-top: 4px; font-size: var(--fs-cap); }
+.lp-help summary { cursor: pointer; color: var(--gold); }
+.lp-help ul { margin: 4px 0 0; padding-left: 18px; color: var(--ink); }
+.lp-help li { margin: 2px 0; }
+
+/* ---- member cards: a page-level grid (no max-height, no overflow) ---- */
+.lp-cards { display: grid; gap: 8px; min-width: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); align-content: start; }
+.lpm { cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 6px 8px 7px; border-left-color: var(--pc, #3a3320);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(0, 0, 0, .25)); transition: border-color .3s, box-shadow .3s; }
+.lpm > div { min-width: 0; }
+.lpm.sel { border-color: #fff; box-shadow: 0 0 0 1px #fff inset, 0 0 12px rgba(255, 255, 255, .28); }
+.lpm.stale { opacity: .5; } .lpm.stale .lp-r2 .gauge i { transition: none; }
+.lpm.dead { filter: grayscale(.65); }
+.lpm.stuck { border-color: #e0483c; }
+.lpm.aggro2 { border-left-color: #ff5a45; }
+/* 1 who */
+.lpm .lp-r1 { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto auto; gap: 6px; align-items: center; }
+.lpm .lp-r1 .gi.role { width: 30px; height: 30px; }
+.lpm .who { display: flex; flex-direction: column; align-items: flex-start; text-align: left; min-width: 0; line-height: 1.2; }
+.lpm .who > span { max-width: 100%; }
+.lpm .who .nl { display: flex; align-items: center; justify-content: flex-start; gap: 4px; min-width: 0; white-space: nowrap; }
+.lpm .who .n { font-size: var(--fs-em); color: #f1e7cb; overflow: hidden; text-overflow: ellipsis; }
+.lpm .who .sub { font-size: var(--fs-mini); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 15px; }
+.lpm .xp { font: 700 var(--fs-cap) Consolas, monospace; color: var(--gold); }
+.lpm a.open { font-size: var(--fs-mini); text-decoration: none; }
+/* 2 gauges: smooth width changes */
+.lpm .lp-r2 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.lpm .lp-r2 .gauge { --h: 14px; min-width: 0; } .lpm .lp-r2 .gauge span { font-size: var(--fs-mini); line-height: 14px; }
+.lpm .lp-r2 .gauge.unk { opacity: .35; }
+.lpm .gauge i { transition: width .8s ease-out; }
+/* 3 doing now: cast icon (sweep on top) + the activity line (max 2 lines) */
+.lpm .lp-r3 { display: flex; gap: 7px; align-items: center; min-height: 32px; }
+.lpm .rlh-ci { width: 32px; height: 32px; }
+.lpm .rlh-ci img { width: 28px; height: 28px; }
+.lpm .rlh-ci.act .gi { width: 22px; height: 22px; } .lpm .rlh-ci.act { opacity: .85; }
+.lpm .rlh-ci.used { box-shadow: 0 0 0 1px rgba(255, 207, 77, .7); animation: lpUsed .9s ease-out; }
+@keyframes lpUsed { from { box-shadow: 0 0 10px 3px rgba(255, 207, 77, .9); } to { box-shadow: 0 0 0 1px rgba(255, 207, 77, .7); } }
+.lpm .lact { flex: 1; min-width: 0; font-size: var(--fs-body); color: #f6ecd2; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lpm .lact b { color: #ffd98a; }
+.lpm .lact.bad b, .lpm .lact .bad { color: #ff8a7a; }
+/* 3b cast bar */
+.lpm .lp-cast { display: grid; grid-template-columns: minmax(0, auto) minmax(90px, 1fr); gap: 6px; align-items: center; font-size: var(--fs-cap); }
+.lpm .lp-cast .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #cfe8ff; }
+.lpm .lp-cast .castbar { height: 14px; } .lpm .lp-cast .castbar span { font-size: var(--fs-mini); line-height: 14px; }
+/* 4 target / route progress */
+.lpm .lp-tg, .lpm .lp-rt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(70px, 38%) auto; gap: 6px; align-items: center; font-size: var(--fs-cap); }
+.lpm .lp-tg .tn, .lpm .lp-rt .tn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ffb38a; }
+.lpm .lp-rt .tn { color: #9ff5b0; } .lpm .lp-tg.raid .tn { color: #f0c040; }
+.lpm .tb { position: relative; height: 12px; background: #1d1310; border: 1px solid #000; border-radius: 2px; overflow: hidden; }
+.lpm .tb i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(#e0483c, #8f1f16); transition: width .6s ease-out; }
+.lpm .lp-rt .tb i { background: linear-gradient(#5fe08a, #23874a); }
+.lpm .tb em { position: relative; display: block; text-align: center; font: 700 var(--fs-mini)/12px Consolas, monospace; font-style: normal; color: #fff; text-shadow: 0 0 2px #000; }
+.lpm .td { font: var(--fs-mini) Consolas, monospace; color: var(--muted); white-space: nowrap; }
+/* 5 key skills (cooldown sweeps from raidlive.css .rlh-cd) */
+.lpm .lp-keys { display: flex; gap: 4px; flex-wrap: wrap; }
+.lpm .lp-keys .rlh-cd { width: 30px; height: 30px; }
+/* 6 buffs / debuffs with a time bar */
+.lpm .lp-bfs { display: flex; flex-wrap: wrap; gap: 2px 3px; align-items: center; min-width: 0; }
+.lp-bf { position: relative; width: 20px; height: 22px; flex: none; }
+.lp-bf img { width: 20px; height: 20px; display: block; border: 1px solid #000; border-radius: 2px; }
+.lp-bf i { position: absolute; left: 0; bottom: 0; height: 2px; background: #7fd0ff; transition: width .8s linear; }
+.lp-bf.deb img { border-color: #c03a2c; box-shadow: 0 0 0 1px #c03a2c; } .lp-bf.deb i { background: #ff6a55; }
+.lp-bf.low i { background: #ffb020; } .lp-bf.low img { animation: lpBlink 1s ease-in-out infinite; }
+@keyframes lpBlink { 50% { opacity: .45; } }
+.lpm .lp-bfn { font-size: var(--fs-mini); color: var(--muted); margin-left: 3px; white-space: nowrap; }
+/* 7 chips */
+.lpm .chips2 { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
+.lpm .chips2 .chip, .lpm .lp-bfs .chip { font-size: var(--fs-mini); padding: 0 4px; }
+.lpm .chip.aggro { background: rgba(224, 72, 60, .25); border-color: #e0483c; color: #ffb3a6; animation: lpAggro 1.4s ease-in-out infinite; }
+.lpm .chip.aggro.hit { background: rgba(224, 72, 60, .45); color: #fff; }
+@keyframes lpAggro { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 90, 69, 0); } 50% { box-shadow: 0 0 0 3px rgba(255, 90, 69, .45); } }
+.lpm .chip.stuck { background: rgba(224, 72, 60, .3); border-color: #e0483c; color: #ffc0b5; } .lpm .chip.stuck.soft { background: rgba(255, 159, 67, .2); border-color: #ff9f43; color: #ffd2a0; }
+.lpm .chip.deb { background: rgba(138, 107, 216, .2); border-color: #8a6bd8; color: #d9c8ff; }
+.lpm .rate { font: var(--fs-mini) Consolas, monospace; color: var(--muted); }
+/* 8 last tries */
+.lpm .tl5 { border-top: 1px dotted var(--line); padding-top: 2px; font-size: var(--fs-mini); color: var(--muted); }
+.lpm .tl5 div { display: flex; gap: 5px; white-space: nowrap; overflow: hidden; min-width: 0; }
+.lpm .tl5 .t { font-family: Consolas, monospace; flex: none; }
+.lpm .tl5 .w { overflow: hidden; text-overflow: ellipsis; min-width: 0; color: #cfc5ab; }
+.lpm .tl5 .r { flex: none; font-weight: 700; } .lpm .tl5 .r.ok { color: var(--ok); } .lpm .tl5 .r.bad { color: var(--bad); } .lpm .tl5 .r.run { color: var(--run); }
+
+/* EXP DELTA (user 2026-10-09 09:20): "+1,234 exp (+0.01%)" left of the exp %, green float-up for gains, red for losses; ~6 s then gone.
+   Also used in the Parties tab member rows (index.html memberRow .xp). Absolutely placed: the row layout never jumps. */
+.mem2 .xp { position: relative; }
+.xpd { position: absolute; right: calc(100% + 4px); top: -1px; white-space: nowrap; font: 700 var(--fs-mini) Consolas, monospace; padding: 0 4px; border-radius: 3px;
+  pointer-events: none; z-index: 3; animation: xpd-float 6s ease-out forwards; }
+.xpd.gain { color: #9ff59a; background: rgba(10, 40, 12, .88); border: 1px solid #3f9a4f; text-shadow: 0 0 4px rgba(80, 255, 90, .45); }
+.xpd.loss { color: #ffb0a3; background: rgba(50, 10, 8, .9); border: 1px solid #b33a2c; text-shadow: 0 0 4px rgba(255, 70, 50, .45); }
+.xpd.lvl { color: #fff3b0; border-color: #e3c27a; background: rgba(60, 45, 5, .92); }
+/* on the cards (live view, character page) the pop-up takes the class line, in the flow: the name stays readable */
+.lpc .h .xslot { text-align: right; overflow: visible; }
+.xpd.inl { position: static; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; right: auto; top: auto; animation-name: xpd-pop; }
+@keyframes xpd-pop { 0% { opacity: 0; transform: scale(.85); } 8% { opacity: 1; transform: scale(1.08); } 14% { transform: scale(1); } 85% { opacity: 1; } 100% { opacity: 0; } }   /* in the flow: no float-up (the line would clip it) */
+@keyframes xpd-float {
+  0% { opacity: 0; transform: translateY(6px) scale(.9); }
+  8% { opacity: 1; transform: translateY(0) scale(1.06); }
+  14% { transform: translateY(0) scale(1); }
+  80% { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 0; transform: translateY(-9px); }
+}
+/* stuck ring pulse on the map */
+.lp-pulse { animation: lp-pulse 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes lp-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) {
+  .xpd, .xpd.inl { animation: xpd-fade 6s linear forwards; }
+  @keyframes xpd-fade { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
+  .lp-pulse, .lpm .chip.aggro, .lp-bf.low img, .lpm .rlh-ci.used { animation: none !important; }
+  .lpm, .lpm .gauge i, .lpm .tb i, .lp-bf i { transition: none !important; }
+  .lpm[class*="fx-"]::after { animation: none; display: none; }
+  .lpm .chip.aggro { box-shadow: 0 0 0 2px rgba(255, 90, 69, .6); }
+}
+/* Live button on the party card */
+button.lpbtn { color: #9ff59a; }
+button.lpbtn::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #3fbf5f; box-shadow: 0 0 6px #3fbf5f; display: inline-block; }

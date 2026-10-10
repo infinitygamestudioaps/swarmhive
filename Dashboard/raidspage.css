@@ -1,0 +1,207 @@
+/* RAIDS PAGE v2 (2026-10-09, Dashboard/raidspage.js): #/raids boss board + #/raid/<id> boss page. L2 skin variables + the site type scale
+   of index.html (--fs-mini 11 · --fs-cap 12 · --fs-body 13 · --fs-em 14 · --fs-section 14 · --fs-title 16 · --fs-page 20). No other font
+   sizes here. Phone portrait first: one column; tablet >= 760 px two columns of boss cards; desktop >= 1280 px three. */
+#tab-raidspage { padding-bottom: 12px; --rp-alive: #6fe08a; --rp-dead: #e0584a; --rp-win: #f2c14e; --rp-up: #8fd0ff; --rp-unk: #7d786a; }
+#tab-raidspage .box > h3 { font-size: var(--fs-section); }
+.rp-in { animation: rp-in .35s ease-out both; }
+@keyframes rp-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+/* ------------------------------------------------------------------ header */
+.rp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; justify-content: space-between; margin: -4px 0 8px; padding-bottom: 7px;
+  border-bottom: 1px solid var(--line2); box-shadow: 0 1px 0 rgba(0, 0, 0, .6); }
+.rp-head h2 { display: flex; align-items: center; gap: 6px; font-size: var(--fs-title); }
+.rp-head .rp-sum { font-size: var(--fs-cap); color: var(--muted); }
+.rp-head .rp-sum b { color: var(--ink); }
+.rp-head .act { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.rp-head select { max-width: 200px; }
+
+/* ------------------------------------------------------------------ pinned: live raid + raidhunt per party */
+.rp-pin { display: grid; gap: 6px; margin-bottom: 8px; }
+.rp-live { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; padding: 7px 10px;
+  border: 1px solid #a33a2c; background: linear-gradient(90deg, rgba(150, 30, 20, .35), rgba(20, 10, 8, .55)); color: var(--ink); text-decoration: none; overflow: hidden; }
+.rp-live::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 140, 110, .12) 50%, transparent 70%);
+  transform: translateX(-100%); animation: rp-sweep 3.2s ease-in-out infinite; pointer-events: none; }
+@keyframes rp-sweep { to { transform: translateX(100%); } }
+.rp-live .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5a45; box-shadow: 0 0 8px #ff5a45; animation: rp-pulse 1.2s ease-in-out infinite; }
+@keyframes rp-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.8); } }
+.rp-live .t { min-width: 0; }
+.rp-live .t b { color: #ffd0c4; font-size: var(--fs-em); }
+.rp-live .t .m { font-size: var(--fs-cap); color: #e8cfc7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-live .gauge { --h: 12px; margin-top: 3px; }
+.rp-live .gauge > i { transition: width .8s cubic-bezier(.2, .8, .2, 1); }
+.rp-live .b { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.rp-hunts { border: 1px solid var(--line); background: var(--box); }
+.rp-hunts > summary { cursor: pointer; padding: 6px 9px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; list-style: none; }
+.rp-hunts > summary::-webkit-details-marker { display: none; }
+.rp-hunts > summary b { color: var(--gold); font-size: var(--fs-section); }
+.rp-hunts > summary .muted { font-size: var(--fs-cap); }
+.rp-hrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; align-items: center; padding: 6px 9px; border-top: 1px solid var(--line);
+  border-left: 3px solid var(--pc, var(--line2)); }
+.rp-hrow.on { background: linear-gradient(90deg, rgba(227, 194, 122, .10), transparent 70%); }
+.rp-hrow .p { font-weight: 700; color: #f1e7cb; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; min-width: 0; }
+.rp-hrow .p .lv { font: var(--fs-mini) Consolas, monospace; color: var(--muted); font-weight: 400; }
+.rp-hrow .q { grid-column: 1 / -1; font-size: var(--fs-cap); color: var(--muted); line-height: 1.5; min-width: 0; overflow-wrap: anywhere; }
+.rp-hrow .q a { color: var(--ink); text-decoration: none; border-bottom: 1px dotted var(--line2); }
+.rp-hrow .q a:hover { color: var(--gold); }
+.rp-hrow .q .ql { color: var(--gold); font-weight: 700; }
+.rp-steps { grid-column: 1 / -1; display: flex; gap: 2px; min-width: 0; }
+.rp-steps span { flex: 1 1 0; min-width: 0; text-align: center; font-size: var(--fs-mini); padding: 2px 2px; color: var(--muted); background: rgba(0, 0, 0, .35);
+  border: 1px solid var(--line); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-steps span.past { color: #c9f5c9; background: #1f3d25; border-color: #2f6b3a; }
+.rp-steps span.cur { color: #1a1406; background: var(--gold); border-color: #fff3c4; font-weight: 700; animation: rp-cur 1.6s ease-in-out infinite; }
+@keyframes rp-cur { 50% { box-shadow: 0 0 8px rgba(227, 194, 122, .7); } }
+.rp-hrow .raw { grid-column: 1 / -1; font: var(--fs-mini) Consolas, monospace; color: #cfc5ad; overflow-wrap: anywhere; }
+
+/* ------------------------------------------------------------------ toolbar */
+.rp-bar { display: grid; gap: 6px; margin: 4px 0 8px; }
+.rp-bar .row { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; min-width: 0; }
+.rp-bar input[type=search] { flex: 1 1 180px; min-width: 0; }
+.rp-bar select { flex: 0 1 auto; min-width: 0; max-width: 190px; }
+.rp-bar input[type=number] { width: 70px; flex: none; }
+.rp-seg { display: inline-flex; gap: 2px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+.rp-seg::-webkit-scrollbar { display: none; }
+.rp-seg button { padding: 1px 9px; min-height: 26px; }
+.rp-seg button .n { font: var(--fs-mini) Consolas, monospace; color: var(--muted); margin-left: 2px; }
+.rp-seg button.on .n { color: var(--gold); }
+.rp-count { font-size: var(--fs-cap); color: var(--muted); }
+.rp-count a { cursor: pointer; }
+
+/* ------------------------------------------------------------------ boss board */
+.rp-board { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .rp-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .rp-board { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.rp-card { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 9px; align-items: start; padding: 7px 8px 7px 7px;
+  border: 1px solid var(--line); background: var(--box); border-left: 3px solid var(--st, var(--line2)); cursor: pointer; min-width: 0;
+  animation: rp-in .35s ease-out both; animation-delay: calc(var(--i, 0) * 22ms); transition: border-color .2s, background .2s, transform .15s; }
+.rp-card:hover { background: rgba(227, 194, 122, .06); border-color: var(--line2); }
+@media (hover: hover) { .rp-card:hover { transform: translateY(-1px); } }
+.rp-card[data-st=alive] { --st: var(--rp-alive); } .rp-card[data-st=dead] { --st: var(--rp-dead); } .rp-card[data-st=window] { --st: var(--rp-win); }
+.rp-card[data-st=up] { --st: var(--rp-up); } .rp-card[data-st=unknown] { --st: var(--rp-unk); }
+.rp-card.next { box-shadow: 0 0 0 1px #8a6d12 inset; background: linear-gradient(90deg, rgba(138, 109, 18, .18), rgba(0, 0, 0, .32) 60%); }
+.rp-card.livefight { border-color: #a33a2c; box-shadow: 0 0 0 1px #a33a2c inset, 0 0 12px rgba(255, 90, 69, .25); }
+.rp-card.flash { animation: rp-in .35s ease-out both, rp-flash 1.6s ease-out .1s; }
+@keyframes rp-flash { 0% { box-shadow: 0 0 0 2px var(--gold), 0 0 16px rgba(227, 194, 122, .6); } 100% { box-shadow: none; } }
+.rp-ic { position: relative; width: 44px; height: 44px; }
+.rp-ic img { position: absolute; inset: 4px; width: 36px; height: 36px; border: 1px solid #000; border-radius: 5px; background: #111; }
+.rp-ic .ring { position: absolute; inset: 0; border-radius: 9px; border: 2px solid var(--st, var(--line2)); opacity: .9; }
+.rp-card[data-st=alive] .rp-ic .ring { animation: rp-ring 1.8s ease-in-out infinite; }
+.rp-card[data-st=window] .rp-ic .ring { animation: rp-ring 2.8s ease-in-out infinite; }
+@keyframes rp-ring { 50% { box-shadow: 0 0 9px var(--st); opacity: .45; } }
+.rp-ic .lv { position: absolute; right: -5px; bottom: -4px; font: 700 var(--fs-mini)/1 Consolas, monospace; color: #1a1406; background: var(--gold);
+  border: 1px solid #000; border-radius: 8px; padding: 1px 4px; }
+.rp-main { min-width: 0; display: grid; gap: 2px; }
+.rp-t { display: flex; align-items: center; gap: 4px; min-width: 0; flex-wrap: wrap; }
+.rp-name { font-weight: 700; color: #f6ecd2; text-decoration: none; font-size: var(--fs-body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.rp-name:hover { color: var(--gold); }
+.rp-b { font-size: var(--fs-mini); padding: 0 5px; border-radius: 3px; border: 1px solid var(--line2); color: var(--muted); white-space: nowrap; line-height: 16px; }
+.rp-b.area { color: #c9f5c9; border-color: #2f6b3a; background: #17301c; }
+.rp-b.route { color: #cfe2ff; border-color: #34507a; background: #16243a; }
+.rp-b.route.locked { color: #fff3c4; border-color: #8a6d12; background: #3a2e08; }
+.rp-b.route.bad { color: #ffb3a6; border-color: #7a3127; background: #3a1410; }
+.rp-b.skip { opacity: .75; }
+.rp-b.epic { color: #e4c9ff; border-color: #6b4fa8; background: #2e1f4a; }
+.rp-sub { font-size: var(--fs-cap); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-stat { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 6px; align-items: center; font-size: var(--fs-cap); }
+.rp-stat .k { font-weight: 700; color: var(--st, var(--muted)); white-space: nowrap; }
+.rp-stat .v { color: var(--ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-stat .cd { font: 700 var(--fs-cap) Consolas, monospace; color: #fff3c4; }
+.rp-bar2 { grid-column: 1 / -1; height: 4px; margin-top: 2px; background: rgba(0, 0, 0, .55); border: 1px solid #2b2820; overflow: hidden; }
+.rp-bar2 i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #6b3128, var(--st, #8e8879)); transition: width 1s linear; }
+.rp-card[data-st=window] .rp-bar2 i { background: linear-gradient(90deg, #6b5a28, var(--rp-win)); }
+.rp-fit { display: flex; flex-wrap: wrap; gap: 3px; min-width: 0; }
+.rp-pf { display: inline-flex; align-items: center; gap: 3px; font-size: var(--fs-mini); line-height: 16px; padding: 0 5px 0 4px; border: 1px solid var(--line2);
+  border-left: 3px solid var(--pc, var(--line2)); background: rgba(0, 0, 0, .35); white-space: nowrap; color: var(--ink); }
+.rp-pf.good { color: #c9f5c9; } .rp-pf.ok { color: #cfe2ff; } .rp-pf.hard { color: #ffd8a8; } .rp-pf.curse { color: #b7b7b7; text-decoration: line-through; text-decoration-color: rgba(255, 120, 100, .7); }
+.rp-pf .d { color: var(--muted); font-family: Consolas, monospace; }
+.rp-pf.sel { box-shadow: 0 0 0 1px rgba(227, 194, 122, .5); }
+.rp-last { font-size: var(--fs-mini); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-last b { color: #c9f5c9; font-weight: 400; }
+.rp-go { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; }
+.rp-go button { padding: 1px 9px; }
+.rp-empty { padding: 16px; text-align: center; color: var(--muted); border: 1px dashed var(--line2); }
+
+/* ------------------------------------------------------------------ collapsible sections (saved routes, reports, loot, daily) */
+.rp-sec { margin-top: 10px; border: 1px solid var(--line); background: var(--box); }
+.rp-sec > summary { cursor: pointer; list-style: none; padding: 7px 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; user-select: none; }
+.rp-sec > summary::-webkit-details-marker { display: none; }
+.rp-sec > summary::before { content: '▸'; color: var(--gold); transition: transform .2s; display: inline-block; width: 10px; }
+.rp-sec[open] > summary::before { transform: rotate(90deg); }
+.rp-sec > summary b { color: var(--gold); font-size: var(--fs-section); }
+.rp-sec > summary .muted { font-size: var(--fs-cap); }
+.rp-sec > .rp-dbody { padding: 4px 10px 10px; border-top: 1px solid var(--line); animation: rp-in .25s ease-out both; min-width: 0; }
+.rp-explain { font-size: var(--fs-cap); color: var(--ink); margin: 6px 0 8px; padding: 6px 8px; border-left: 3px solid var(--gold); background: rgba(227, 194, 122, .06); }
+.rp-routes { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .rp-routes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .rp-routes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.rp-rt { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 4px 9px; padding: 6px 8px; border: 1px solid var(--line); background: rgba(0, 0, 0, .25);
+  border-left: 3px solid var(--rt, var(--line2)); min-width: 0; animation: rp-in .3s ease-out both; animation-delay: calc(var(--i, 0) * 18ms); }
+.rp-rt.locked { --rt: #b8962a; } .rp-rt.learned { --rt: #4f7fc0; } .rp-rt.failing { --rt: #c0503f; }
+.rp-rt svg { width: 70px; height: 52px; background: #0d1f24; border: 1px solid #000; display: block; }
+.rp-rt svg polyline { fill: none; stroke: #ffd34d; stroke-width: 2; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+  stroke-dasharray: 400; stroke-dashoffset: 400; animation: rp-draw 1.2s ease-out forwards; }
+@keyframes rp-draw { to { stroke-dashoffset: 0; } }
+.rp-rt svg .s { fill: #5aa9ff; } .rp-rt svg .e { fill: #f0c040; }
+.rp-rt .h { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; min-width: 0; }
+.rp-rt .h a { font-weight: 700; color: #f6ecd2; text-decoration: none; }
+.rp-rt .h a:hover { color: var(--gold); }
+.rp-rt .l { font-size: var(--fs-cap); color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.rp-rt .l b { color: var(--ink); font-weight: 400; }
+.rp-rt .acts { grid-column: 1 / -1; display: flex; gap: 4px; flex-wrap: wrap; }
+.rp-rt .acts button { padding: 1px 8px; min-height: 24px; }
+.rp-rgroup { grid-column: 1 / -1; margin: 6px 0 0; font-size: var(--fs-cap); color: var(--gold); font-weight: 700; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+
+/* reused old renderers (reports, loot, daily) inside the new sections */
+#tab-raidspage .rrgrid { gap: 8px; }
+#tab-raidspage .lootkill { border-left: 2px solid var(--line2); padding-left: 6px; margin: 4px 0; }
+
+/* ------------------------------------------------------------------ boss page */
+.rpb-head { display: grid; gap: 8px; margin: -4px 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line2); box-shadow: 0 1px 0 rgba(0, 0, 0, .6); }
+.rpb-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.rpb-top .rp-ic { width: 52px; height: 52px; }
+.rpb-top .rp-ic img { inset: 4px; width: 44px; height: 44px; }
+.rpb-id { flex: 1 1 200px; min-width: 0; }
+.rpb-id h2 { font-size: var(--fs-page); line-height: 1.15; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.rpb-id .sub { color: var(--muted); font-size: var(--fs-cap); }
+.rpb-acts { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; align-items: center; }
+.rpb-acts select { max-width: 190px; }
+.rpb-stat { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; align-items: center; font-size: var(--fs-body); }
+.rpb-stat .k { font-weight: 700; color: var(--st, var(--muted)); font-size: var(--fs-em); }
+.rpb-stat .cd { font: 700 var(--fs-em) Consolas, monospace; color: #fff3c4; }
+.rpb-stat .rp-bar2 { height: 6px; }
+.rpb-grid { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 900px) { .rpb-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (min-width: 1400px) { .rpb-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); } }
+.rpb-grid > .box { animation: rp-in .35s ease-out both; min-width: 0; }
+.rpb-grid > .box:nth-child(2) { animation-delay: 40ms; } .rpb-grid > .box:nth-child(3) { animation-delay: 80ms; } .rpb-grid > .box:nth-child(4) { animation-delay: 120ms; }
+.rpb-wide { grid-column: 1 / -1; }
+.rpb-kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 10px; font-size: var(--fs-cap); }
+.rpb-kv > span:nth-child(odd) { color: var(--muted); }
+.rpb-kv > span:nth-child(even) { color: var(--ink); min-width: 0; overflow-wrap: anywhere; }
+.rpb-drops { display: grid; gap: 6px; }
+.rpb-dg { border: 1px solid var(--line); background: rgba(0, 0, 0, .22); }
+.rpb-dg > .gh { display: flex; justify-content: space-between; gap: 6px; padding: 3px 7px; font-size: var(--fs-cap); color: var(--gold); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.rpb-dg > .gh .muted { font-size: var(--fs-mini); }
+.rpb-it { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 1px 7px; align-items: center; padding: 3px 7px; border-top: 1px solid rgba(255, 255, 255, .03); }
+.rpb-it:first-of-type { border-top: 0; }
+.rpb-it img { width: 22px; height: 22px; border: 1px solid #000; }
+.rpb-it .n { font-size: var(--fs-cap); color: var(--ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rpb-it .c { font: var(--fs-mini) Consolas, monospace; color: var(--muted); text-align: right; white-space: nowrap; }
+.rpb-it .c b { color: #fff3c4; font-weight: 400; }
+.rpb-it .u { grid-column: 2 / -1; font-size: var(--fs-mini); }
+.rpb-it .u.use-now { color: var(--ok); } .rpb-it .u.use-soon { color: var(--warn); } .rpb-it .u.use-craft { color: #c9a2ff; } .rpb-it .u.muted { color: var(--muted); }
+.rpb-chance { height: 3px; grid-column: 2 / -1; background: rgba(0, 0, 0, .5); overflow: hidden; }
+.rpb-chance i { display: block; height: 100%; background: linear-gradient(90deg, #5a4a2a, #ffcf4d); width: 0; animation: rp-grow .9s ease-out forwards; }
+@keyframes rp-grow { from { width: 0; } to { width: var(--w); } }
+.rpb-live { border-color: #a33a2c; }
+#tab-raidspage #routeEd .pmap { max-width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  #tab-raidspage *, #tab-raidspage *::before, #tab-raidspage *::after { animation: none !important; transition: none !important; }
+  .rp-rt svg polyline { stroke-dashoffset: 0; }
+  .rpb-chance i { width: var(--w); }
+}
+@media (max-width: 420px) {
+  .rp-card { grid-template-columns: 40px minmax(0, 1fr) auto; gap: 3px 7px; padding: 6px 6px 6px 5px; }
+  .rp-ic { width: 40px; height: 40px; } .rp-ic img { width: 32px; height: 32px; }
+  .rp-head select, .rpb-acts select { max-width: 150px; }
+}

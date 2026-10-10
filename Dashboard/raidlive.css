@@ -1,0 +1,204 @@
+/* RAIDLIVE HUD (2026-10-09): live raid / Kamaloka view. One set of components; the layout follows the width of the view itself
+   (container queries): < 720 px stacked + collapsible (phone), 720-1149 two columns (tablet), >= 1150 the raid HUD (desktop),
+   >= 1560 four columns (full-HD screen). Loaded by index.html (<link href="/raidlive.css">), served by server.js. */
+:root { --rlh-melee: #f2c46b; --rlh-caster: #e9e9e9; --rlh-heal: #5fd35f; --rlh-deb: #c58bff; --rlh-nuke: #ff9a3c; }
+.rlh { container: rlh / inline-size; padding: 8px; }
+.rlh-head { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 1px solid var(--line2); }
+.rlh-head h2 { font-size: var(--fs-em); } .rlh-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
+.rlh-head .pulse { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff4d3a; animation: lbp 1.4s infinite; vertical-align: middle; }
+
+/* sections */
+.rlh-grid { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "boss" "debuffs" "team" "map" "minions" "drops" "feed" "dmg" "dlog"; }
+.rlh-sec { min-width: 0; border: 1px solid var(--line); background: rgba(0, 0, 0, .28); border-radius: 4px; }
+.rlh-sec > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 6px 8px; min-height: 34px; border-bottom: 1px solid transparent; }
+.rlh-sec[open] > summary { border-bottom-color: var(--line); }
+.rlh-sec > summary::-webkit-details-marker { display: none; }
+.rlh-sec > summary::before { content: '▸'; color: var(--gold); font-size: var(--fs-cap); width: 10px; transition: transform .15s; }
+.rlh-sec[open] > summary::before { transform: rotate(90deg); }
+.rlh-sec > summary h3 { margin: 0; font-size: var(--fs-body); color: #e8c872; }
+.rlh-sx { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.rlh-body { padding: 8px; min-width: 0; }
+.rlh-boss.focus .rlh-bname b { color: #ffd34d; }
+
+.rlh-grid > .rlh-s-boss { grid-area: boss; } .rlh-grid > .rlh-s-debuffs { grid-area: debuffs; } .rlh-grid > .rlh-s-map { grid-area: map; }
+.rlh-grid > .rlh-s-minions { grid-area: minions; } .rlh-grid > .rlh-s-team { grid-area: team; } .rlh-grid > .rlh-s-feed { grid-area: feed; }
+.rlh-grid > .rlh-s-drops { grid-area: drops; } .rlh-grid > .rlh-s-dmg { grid-area: dmg; } .rlh-grid > .rlh-s-dlog { grid-area: dlog; }
+
+/* icons */
+.rlh-ic { width: 20px; height: 20px; vertical-align: middle; border: 1px solid #000; border-radius: 2px; flex: none; }
+.rlh-ic.xs { width: 16px; height: 16px; margin-right: 3px; } .rlh-ic.sm { width: 22px; height: 22px; } .rlh-ic.md { width: 30px; height: 30px; }
+.rlh-ic.debf { outline: 2px solid #c0392b; outline-offset: -1px; }
+
+/* boss */
+div.rlh-boss { display: grid; gap: 8px 14px; grid-template-columns: minmax(0, 1fr); }
+.rlh-bname { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; font-size: var(--fs-em); }
+.rlh-bmain .gauge.big { --h: 22px; }
+.rlh-spark { display: block; width: 100%; height: 60px; margin-top: 6px; background: rgba(0,0,0,.3); border: 1px solid var(--line); }
+.rlh-spark .g { stroke: rgba(255,255,255,.08); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.rlh-spark .a { fill: rgba(224, 58, 58, .22); } .rlh-spark .l { fill: none; stroke: #ff5a4a; stroke-width: 2; vector-effect: non-scaling-stroke; } .rlh-spark .d { fill: #fff; }
+div.rlh-spark { height: auto; padding: 6px; }
+.rlh-bstats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; align-content: start; }
+.rlh-bstats > div { display: flex; flex-direction: column; padding: 5px 7px; background: rgba(0,0,0,.3); border: 1px solid var(--line); border-radius: 3px; min-width: 0; }
+.rlh-bstats > div.wide { grid-column: 1 / -1; flex-direction: row; gap: 8px; align-items: center; flex-wrap: wrap; }
+.rlh-bstats .k { font-size: var(--fs-mini); color: var(--muted); } .rlh-bstats .v { font: 700 var(--fs-title) Consolas, monospace; color: #f0e2bd; overflow-wrap: anywhere; }
+.rlh-bstats .wide .v { font: 600 var(--fs-body) Tahoma, sans-serif; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.rlh-bstats .ok { color: var(--ok); font-weight: 700; }
+.rlh-bcast { display: inline-flex; gap: 6px; align-items: center; color: #ff8a8a; }
+.rlh-bcasts { font-size: var(--fs-cap); } .rlh-bc { display: flex; gap: 6px; align-items: center; padding: 1px 0; } .rlh-bc .t { color: #8a8a8a; font: var(--fs-mini) Consolas, monospace; } .rlh-bc .n { min-width: 0; overflow-wrap: anywhere; }
+
+/* debuffs */
+.rlh-dbhist { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.rlh-dbnote { margin-top: 6px; }
+
+/* minions */
+.rlh-mob { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(70px, 1fr) minmax(0, 1fr); gap: 6px; align-items: center; padding: 3px 0; font-size: var(--fs-cap); border-bottom: 1px dashed rgba(255,255,255,.05); }
+.rlh-mob .nm, .rlh-mob .tx { min-width: 0; overflow-wrap: anywhere; } .rlh-mob.focus .nm { color: #ffd34d; font-weight: 700; } .rlh-mob.oth .nm { color: #c9a0ff; }
+.rlh-deadl { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; font-size: var(--fs-mini); color: var(--muted); }
+.rlh-sub { margin-top: 8px; font-size: var(--fs-mini); color: var(--muted); }
+
+/* map */
+svg.rlh-map { max-height: 82vh; }
+.rlh-map .num { fill: #000; stroke: none; font-weight: 700; text-anchor: middle; }
+.rlh-map g.dead .num { fill: #ddd; }
+.rlh-map text.pl { fill: #fff; } .rlh-map text.pl.dead { fill: #999; }
+.rlh-map line.hit { stroke: var(--rm-atk); opacity: .8; }
+.rlh-map line.nuke { stroke: var(--rlh-nuke); stroke-dasharray: 3% 2%; opacity: .85; }
+.rlh-map line.deb { stroke: var(--rlh-deb); stroke-dasharray: 3% 2%; opacity: .9; }
+.rlh-map line.heal { stroke: var(--rlh-heal); stroke-dasharray: 2% 2%; opacity: .9; }
+.rlh-map line.agg { stroke: var(--rm-agg); opacity: .85; }
+.rlh-map circle.aoe { fill: rgba(255, 154, 60, .12); stroke: var(--rlh-nuke); stroke-dasharray: 2% 1.5%; }
+.rlh-map circle.aoe.heal { fill: rgba(95, 211, 95, .12); stroke: var(--rlh-heal); } .rlh-map circle.aoe.deb { fill: rgba(197, 139, 255, .12); stroke: var(--rlh-deb); }
+.rlh-map circle.aoe.boss { fill: rgba(255, 60, 60, .16); stroke: #ff3c3c; }
+.rlh-map .scale line { stroke: #fff; } .rlh-map .scale text { fill: #fff; }
+.rlh-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; font-size: var(--fs-cap); }
+.rlh-lg { display: inline-flex; align-items: center; gap: 4px; } .rlh-lg.dead { color: var(--muted); text-decoration: line-through; }
+.rlh-lg i, .rlh-mem .num { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; color: #000; font: 700 var(--fs-mini) Tahoma, sans-serif; font-style: normal; border: 1px solid #000; flex: none; }
+.rlh-keys { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 4px; font-size: var(--fs-mini); color: var(--muted); }
+.rlh-keys span { display: inline-flex; align-items: center; gap: 4px; }
+.rlh-keys .lk { display: inline-block; width: 18px; height: 0; border-top: 3px solid; } .lk.agg { border-color: var(--rm-agg); } .lk.hit { border-color: var(--rm-atk); }
+.lk.nuke { border-top-style: dashed; border-color: var(--rlh-nuke); } .lk.deb { border-top-style: dashed; border-color: var(--rlh-deb); } .lk.heal { border-top-style: dashed; border-color: var(--rlh-heal); }
+.rlh-keys .ck { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px dashed var(--rlh-nuke); }
+.rlh-keys .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #000; } .rlh-keys .dot.min { background: var(--rm-min); } .rlh-keys .dot.oth { background: var(--rm-oth); }
+
+/* team: every card has the same 7 rows in the same place (user 2026-10-09 09:45: bars must not be bumped by the damage number) */
+@property --cdp { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+.rlh-team { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.rlh-mem { position: relative; border: 1px solid #3a3320; border-left: 3px solid #3a3320; border-radius: 4px; padding: 6px 8px; font-size: var(--fs-cap); min-width: 0;
+  background: rgba(0,0,0,.28); display: grid; gap: 5px; grid-template-rows: 34px 14px 30px 34px 18px 18px 12px; transition: border-color .3s, background-color .3s; }
+.rlh-mem.warn { border-left-color: #ffa020; } .rlh-mem.crit { border-left-color: #ff2a2a; background: rgba(80, 10, 10, .28); } .rlh-mem.dead { opacity: .6; border-left-color: #666; }
+.rlh-mem > div { min-width: 0; overflow: hidden; }
+/* 1 header: number | class icon | name + class (ellipsis) | shots slot | DMG slot */
+.rlh-mem .r1 { display: grid; grid-template-columns: 18px 26px minmax(0, 1fr) 74px 34px; gap: 5px; align-items: center; }
+.rlh-slots { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .rlh-slots .rlh-slot { height: 15px; line-height: 15px; }
+.rlh-mem .r1 .gi.role { width: 26px; height: 26px; }
+.rlh-mem .rlh-who { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+.rlh-mem .rlh-who b, .rlh-mem .rlh-who .muted { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .rlh-mem .rlh-who b { font-size: var(--fs-body); } .rlh-mem .rlh-who .muted { font-size: var(--fs-mini); }
+.rlh-slot { font: 600 var(--fs-mini)/18px Consolas, monospace; height: 18px; padding: 0 5px; border-radius: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; background: #2a2a2a; color: #aaa; }
+.rlh-slot.ok { background: #183a24; color: #7be0a0; } .rlh-slot.bad { background: #4a1714; color: #ff9a8a; } .rlh-slot.dmg { background: #3a2a12; color: #ffcf9a; }
+/* 2 bars: HP | MP | CP, always three slots */
+.rlh-mem .r2 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; } .rlh-mem .r2 .gauge { --h: 14px; min-width: 0; }
+.rlh-mem .r2 .gauge.unk { opacity: .35; }
+.rlh-mem .gauge i { transition: width .8s ease-out; }
+/* 3 doing now: cast icon (progress ring while casting) + one line of text */
+.rlh-mem .r3 { display: flex; gap: 6px; align-items: center; }
+.rlh-mem .r3 .txt { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .rlh-mem .r3 .tg { color: #ffb38a; }
+.rlh-ci { position: relative; width: 30px; height: 30px; flex: none; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,.04); border: 1px solid #000; }
+.rlh-ci img { width: 26px; height: 26px; border-radius: 2px; display: block; }
+.rlh-ci.melee { font-size: var(--fs-title); color: #9cc8ff; } .rlh-ci.dead { color: #aaa; font-size: var(--fs-title); } .rlh-ci.idle { opacity: .35; }
+/* cast progress ON TOP of the icon (user 2026-10-09 10:05: "the casting animation is BEHIND the icon"): a clock sweep darkens the part of the
+   icon still to cast and a bright ring fills around its edge; both are overlays inside the icon box (the card row clips anything outside it) */
+.rlh-ci { overflow: hidden; isolation: isolate; } .rlh-ci img { position: relative; z-index: 0; }
+.rlh-ci.casting { box-shadow: 0 0 6px rgba(143, 208, 255, .55); }
+.rlh-ci.casting::before, .rlh-ci.casting::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: 4px; }
+.rlh-ci.casting::before { z-index: 2; background: conic-gradient(transparent var(--p, 0%), rgba(0, 0, 0, .55) 0); }
+.rlh-ci.casting::after { z-index: 3; padding: 2px; background: conic-gradient(#9fdcff var(--p, 0%), rgba(255, 255, 255, .18) 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+.rlh-cd { isolation: isolate; } .rlh-cd img { position: relative; z-index: 0; } .rlh-cd .sw { z-index: 2; } .rlh-cd b, .rlh-cd em { z-index: 3; }@keyframes rlhCast { from { --cdp: 0%; } to { --cdp: 100%; } }
+/* 4 key skills: game-style cooldown sweep */
+.rlh-mem .r4 { display: flex; gap: 4px; align-items: center; }
+.rlh-cd { position: relative; width: 32px; height: 32px; flex: none; border: 1px solid #000; border-radius: 3px; overflow: hidden; background: #111; }
+.rlh-cd img { width: 100%; height: 100%; display: block; }
+.rlh-cd .sw { position: absolute; inset: 0; pointer-events: none; }
+.rlh-cd.on .sw { background: conic-gradient(rgba(0,0,0,.72) var(--p, 100%), transparent 0); }
+@keyframes rlhCd { from { --cdp: 100%; } to { --cdp: 0%; } }
+.rlh-cd b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 700 var(--fs-cap) Consolas, monospace; color: #fff; text-shadow: 0 0 3px #000, 0 0 3px #000; }
+.rlh-cd em { position: absolute; right: 1px; bottom: 0; font: 700 var(--fs-mini) Consolas, monospace; font-style: normal; color: #ffe9a8; text-shadow: 0 0 2px #000, 0 0 2px #000; }
+.rlh-cd:not(.on) { box-shadow: inset 0 0 0 1px rgba(143, 208, 255, .35); }
+/* 5 buffs (one line) and 6 role (one line) */
+.rlh-mem .r5 { display: flex; gap: 4px; align-items: center; } .rlh-mem .r5 .bfi { display: flex; gap: 2px; align-items: center; min-width: 0; overflow: hidden; flex: 1; }
+.rlh-mem .r5 .rlh-ic.xs { margin: 0; } .rlh-mem .r5 .bfn { flex: none; font-size: var(--fs-mini); }
+.rlh-mem .r6 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-cap); line-height: 18px; }
+/* 7 damage share bar */
+.rlh-mem .r7 { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; align-items: center; font: var(--fs-mini)/12px Consolas, monospace; color: #ffcf9a; }
+.rlh-mem .r7 .bar { height: 6px; background: #2a2418; border-radius: 3px; overflow: hidden; } .rlh-mem .r7 .bar i { display: block; height: 100%; background: linear-gradient(90deg, #b8862e, #ffcf6a); transition: width .9s ease-out; }
+/* aggro holder pulse; damage taken / heal received flashes (two names so a new hit restarts the flash) */
+.rlh-mem.aggro { box-shadow: 0 0 0 1px rgba(255, 77, 77, .6); animation: rlhAggro 1.6s ease-in-out infinite; }
+@keyframes rlhAggro { 50% { box-shadow: 0 0 0 1px rgba(255, 77, 77, .9), 0 0 14px 2px rgba(255, 60, 60, .45); } }
+.rlh-mem.fx-dmg-0::after, .rlh-mem.fx-dmg-1::after, .rlh-mem.fx-heal-0::after, .rlh-mem.fx-heal-1::after { content: ''; position: absolute; inset: 0; border-radius: 4px; pointer-events: none; opacity: 0; }
+.rlh-mem.fx-dmg-0::after { background: rgba(255, 40, 40, .35); animation: rlhFlA 1s ease-out; } .rlh-mem.fx-dmg-1::after { background: rgba(255, 40, 40, .35); animation: rlhFlB 1s ease-out; }
+.rlh-mem.fx-heal-0::after { background: rgba(80, 230, 110, .3); animation: rlhFlA 1s ease-out; } .rlh-mem.fx-heal-1::after { background: rgba(80, 230, 110, .3); animation: rlhFlB 1s ease-out; }
+@keyframes rlhFlA { 0% { opacity: 1; } 100% { opacity: 0; } } @keyframes rlhFlB { 0% { opacity: 1; } 100% { opacity: 0; } }
+.rlh .rl2-dt .bar i { transition: width .9s ease-out; }
+.rlh-lg i, .rlh-mem .num { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; color: #000; font: 700 var(--fs-mini) Tahoma, sans-serif; font-style: normal; border: 1px solid #000; flex: none; }
+@media (prefers-reduced-motion: reduce) {
+  .rlh-mem, .rlh-mem .gauge i, .rlh-mem .r7 .bar i, .rlh .rl2-dt .bar i { transition: none; }
+  .rlh-mem.aggro { animation: none; box-shadow: 0 0 0 2px rgba(255, 77, 77, .9); }
+  .rlh-mem[class*="fx-"]::after { animation: none; display: none; }
+  
+}
+.rlh .chip { font: 600 var(--fs-mini) Consolas, monospace; padding: 1px 6px; border-radius: 9px; white-space: nowrap; }
+.rlh .ok { color: var(--ok); } .rlh .warn { color: #ffb84d; } .rlh .bad { color: #ff8a7a; }
+
+/* feed */
+.rlh-fbar { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.rlh-f { min-height: 30px; padding: 2px 10px; font-size: var(--fs-cap); opacity: .55; } .rlh-f.on { opacity: 1; }
+.rlh-feed { font: var(--fs-cap)/1.4 Tahoma, sans-serif; max-height: 420px; overflow: auto; }
+.rlh-feed .fe { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 6px; padding: 2px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+.rlh-feed .fe .t { font: var(--fs-mini) Consolas, monospace; color: #8a8a8a; } .rlh-feed .fe .m { min-width: 0; overflow-wrap: anywhere; }
+.rlh-feed .fe.death .m { color: #ff7a6a; font-weight: 700; } .rlh-feed .fe.res .m { color: var(--ok); } .rlh-feed .fe.result .m { color: #ffd34d; font-weight: 700; }
+.rlh-feed .fe.kill .m { color: #e8c872; } .rlh-feed .fe.heal .m { color: #9fe08a; } .rlh-feed .fe.boss .m { color: #ff9a8a; } .rlh-feed .fe.warn .m { color: #ffb84d; }
+.rlh-dlog { max-height: 320px; }
+
+/* tablet: two columns */
+@container rlh (min-width: 720px) {
+  .rlh-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "boss boss" "debuffs minions" "team team" "map feed" "drops drops" "dmg dlog"; }
+  div.rlh-boss { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } .rlh-bcasts { grid-column: 1 / -1; }
+  .rlh-sec > summary { pointer-events: auto; }
+}
+/* desktop raid HUD */
+@container rlh (min-width: 1150px) {
+  .rlh-grid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 2fr) minmax(0, 1.05fr);
+    grid-template-areas: "boss boss debuffs" "map team team" "minions team team" "drops feed dmg" "dlog dlog dlog"; }
+  div.rlh-boss { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, .9fr); } .rlh-bcasts { grid-column: auto; max-height: 190px; overflow: auto; }
+  .rlh-team { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+  .rlh-feed { max-height: 360px; }
+}
+/* full HD and up: a feed column along the right edge */
+@container rlh (min-width: 1560px) {
+  .rlh-grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-areas: "boss boss boss debuffs" "map team team feed" "minions team team feed" "drops dmg dlog feed"; }
+  .rlh-feed { max-height: 78vh; }
+  .rlh-sk .sn { max-width: 130px; }
+}
+@media (prefers-reduced-motion: reduce) { .rlh-cbar i { transition: none; } .rlh-head .pulse { animation: none; } }
+
+/* act button on every card */
+.rlh-act { min-height: 30px; height: 30px; padding: 0 4px; font-size: var(--fs-mini); }
+/* drops */
+.rlh-dk { margin: 8px 0 3px; font-size: var(--fs-mini); font-weight: 700; color: #e8c872; text-transform: uppercase; letter-spacing: .4px; }
+.rlh-drop { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto 92px 40px; gap: 6px; align-items: center; padding: 2px 0; font-size: var(--fs-cap); border-bottom: 1px dashed rgba(255,255,255,.05); }
+.rlh-drop .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .rlh-drop.got .nm { color: #ffe08a; }
+.rlh-drop .ct { font: var(--fs-mini) Consolas, monospace; white-space: nowrap; }
+.rlh-drop .pc { position: relative; height: 16px; background: #1e1a12; border: 1px solid #3a3320; border-radius: 3px; overflow: hidden; }
+.rlh-drop .pc i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, #4a6b2a, #8fc35a); }
+.rlh-drop .pc b { position: relative; display: block; text-align: right; padding-right: 4px; font: 700 var(--fs-mini)/16px Consolas, monospace; color: #fff; text-shadow: 0 0 2px #000; }
+.rlh-got > div { margin: 2px 0; font-size: var(--fs-cap); } .rlh-gi { display: inline-flex; align-items: center; gap: 2px; margin-right: 8px; }
+/* RAID FIGHT AREA (2026-10-09): fight / clear area + stage on the live raid map (same colours as the shape editor) */
+.rlh-map .ra-fight { fill: #ff7043; fill-opacity: .10; stroke: #ff7043; stroke-opacity: .9; stroke-linejoin: round; }
+.rlh-map .ra-clear { fill: none; stroke: #ffd34d; stroke-opacity: .85; stroke-dasharray: 2% 1.5%; }
+.rlh-map .ra-auto polygon { fill: #ffd34d; stroke: #ffd34d; stroke-linejoin: round; } .rlh-map .ra-auto { opacity: .10; }
+.rlh-map .ra-stage path { fill: #5ad1ff; stroke: #000; }
+.rlh-map .ra-left { fill: none; stroke: #ffd34d; } .rlh-map .ra-left.aggr { stroke: #ff2a2a; }
+.rlh-keys .lk.ra-f { border-color: #ff7043; } .rlh-keys .lk.ra-c { border-color: #ffd34d; border-top-style: dashed; } .rlh-keys .lk.ra-s { border-color: #5ad1ff; }
