@@ -2,6 +2,18 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.4.0 (2026-10-10)
+
+- Epic bosses Core, Queen Ant and Orfen follow the L2Toggle community guides (Scripts/data/epic_tactics.json, docs/plan/epic_guides.md, guide box with green/red requirements on the boss page
+- checks party, levels, raid curse and the 10-clients-per-IP rule BEFORE any trip
+- Core: half-room pull, hate aura on the 2nd wave
+- Queen Ant: rush the larva, AoE the nurses
+- Orfen: follow her to the nest at 50 %) - not battle-tested yet
+- Hunters Village fixed: the bots now recognise every town by its .town landing, gatekeepers without a town get the nearest one and a known town is never overwritten (they used .hunters inside Hunters and looped)
+- 16 saved raid routes used datapack teleport names the live menus write differently - all 64 routes now find their gatekeeper link
+- route editor: the teleport field is a real dropdown grouped by town (iPhone), and the route editor / fight area no longer render into a hidden copy (they showed for a second and vanished)
+- Exclude from raid hunt button at the top of every boss page
+
 ## v1.3.6 (2026-10-10)
 
 - Raid hunt: exclude bosses you do not want (e.g. ones you have to swim to): boss page -> Exclude from raid hunt (and Include again), for every party

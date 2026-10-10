@@ -2474,7 +2474,7 @@ function huntOne(hh) {
   const ph = huntPhase(h), pi = HUNT_PHASES.indexOf(ph);
   const steps = HUNT_PHASES.map((p, i) => `<span class="hstep ${i < pi ? 'past' : i === pi ? 'cur' : ''}">${p}</span>`).join('<span class="hsep">→</span>');
   const queue = (h.queue || []).map(q => `<a class="rlink" href="#/raid/${q.id}">${esc(q.name)}</a> <span class="muted">${q.level}</span>`).join(' · ');
-  const fight = ph === 'Fight' && LIVE && LIVE.running && (!LIVE.leader || LIVE.leader === h.leader) ? liveHtml() : '';
+  const fight = '';   // the live raid map is shown once in #raidLive (2026-10-10), not again inside each hunt box
   return `<div class="hunt"><div class="whead"><h2>${h.leader ? `Party ${esc(h.leader)} hunting: ` : "Hunting: "}${c.id ? `<a class="rlink" href="#/raid/${c.id}">${esc(c.name || '?')}</a>` : esc(c.name || '?')} <span class="muted">(lvl ${c.level || '?'})</span></h2><button data-hunt="stop" data-party="${esc(h.leader || '')}">Stop raidhunt</button></div>
     <div class="muted">${esc(c.route || '')}${c.zone ? ' · ' + esc(c.zone) : ''}${c.since ? ' · on this boss for ' + huntAgo(c.since) : ''} · leader ${esc(h.leader || '')}</div>
     <div class="hsteps">${steps}</div><div class="hraw">${esc(h.step || '')}</div>
@@ -2631,7 +2631,10 @@ async function pollLive() {
   if (LIVE_FOR && !LIVE.running && liveRuns(LIVE).length) { LIVE_FOR = ''; return pollLive(); }   // that party's raid ended: back to the default
   patch($('liveBanner'), liveBannerHtml() + kamaBannerHtml());
   if (TAB === 'live') patch($('liveFull'), liveChooserHtml() + (liveHtml() || '<div class="muted">No raid is running right now. This page shows the fight as soon as one starts.</div>'));
-  if (TAB === 'raids') patch($('raidLive'), HUNT && HUNT.active && !HUNT.stale ? '' : liveHtml());
+  // 2026-10-10 (user: 'the map is not loaded under raid bosses'): the live raid map always shows while a party fights (also during a raid hunt),
+  // and between bosses a short note says why there is no map instead of an empty space
+  const huntingNow = HUNT && ((HUNT.activeLeaders && HUNT.activeLeaders.length) || (HUNT.active && !HUNT.stale));
+  if (TAB === 'raids') patch($('raidLive'), LIVE && LIVE.running ? liveHtml() : huntingNow ? '<div class="hunt off"><span class="muted">No party is fighting a boss right now (the raid hunt is travelling or looking for the next boss). The live raid map appears here as soon as a party is on its boss.</span></div>' : liveHtml());
   if (TAB === 'raids' && HUNT && HUNT.active && !HUNT.stale && $('huntBox')) patch($('huntBox'), huntHtml());
   if (TAB === 'raid' && $('raidLiveB')) patch($('raidLiveB'), liveHtml());
   if (TAB === 'parties' && STATE) renderParties();
@@ -2986,8 +2989,8 @@ async function showRaidPage(id) {
     <div class="muted" style="margin-bottom:8px">${fitTxt}${Number(b.hp || 0).toLocaleString()} HP · ${esc(b.zoneName || '')} · respawn ${b.respawnMinH}–${b.respawnMaxH} h · status ${esc(st.status || 'unknown')}${st.lastSeen ? ' (' + new Date(st.lastSeen).toLocaleString() + ')' : ''} · raid points ${b.raidPoints || 0}</div>
     <div style="margin-bottom:6px"><b>Route:</b> ${esc(tp.desc || '?')}${tp.walkDist ? ' + ' + Math.round(tp.walkDist / 100) / 10 + ' km walk' : ''} · spawn ${b.x}, ${b.y}, ${b.z}</div>
     <div style="margin-bottom:6px"><b>Minions:</b> ${esc((b.minions || []).join(', ') || 'none')}</div>
-    <div class="whead" style="margin-top:10px"><h2>Fight area</h2><div class="act"><button id="rpArea" title="where the team fights this boss, what it clears first and where it waits (shape editor)">✎ Edit fight area</button></div></div><div id="rpAreaInfo" class="muted" style="margin-bottom:6px">…</div>
-    <div class="whead" style="margin-top:10px"><h2>Route to this boss</h2></div><div id="routeEd" class="muted">…</div>
+    <div class="whead" style="margin-top:10px"><h2>Fight area</h2><div class="act"><button id="rpAreaOld" title="where the team fights this boss, what it clears first and where it waits (shape editor)">✎ Edit fight area</button></div></div><div id="rpAreaInfoOld" class="muted" style="margin-bottom:6px">…</div>
+    <div class="whead" style="margin-top:10px"><h2>Route to this boss</h2></div><div id="routeEdOld" class="muted">…</div>   <!-- 2026-10-10: old hidden boss view; the ids routeEd / rpArea / rpAreaInfo belong to the boss page (raidspage.js), duplicates made the route editor and the fight area render into this hidden copy -->
     ${b.dangerNotes ? '<div style="margin-bottom:8px"><b>Danger:</b> ' + esc(b.dangerNotes) + '</div>' : ''}
     <div class="muted" style="margin-bottom:6px">Chances are the L2J High Five datapack values; L2Toggle runs drop rates ×1.5, so the "×1.5" column is an estimate. "Who / what" is for party ${esc(party)} at its current levels.</div>
     <div class="scroll"><table class="l2 droptbl"><thead><tr><th>Item</th><th>Count</th><th>Chance</th><th>×1.5</th><th>Who / what</th></tr></thead><tbody>${cats || '<tr><td colspan="5" class="muted">no drop list in the datapack</td></tr>'}</tbody></table></div>
@@ -3064,6 +3067,18 @@ function routeMapSvg() {
   return `<div class="pmap redmap"><svg id="redSvg" viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice" style="cursor:crosshair"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg>
     <div class="pmlegend"><span><i style="background:#5aa9ff"></i>landing</span><span><i style="background:#fff"></i>waypoint</span><span><i style="background:#ff5a45"></i>selected</span><span><i style="background:#c9a2ff"></i>inside (dungeon layer)</span><span style="color:#f0c040">♛ boss spawn</span><span>click = new point after the selected one · drag = move the map · wheel = zoom</span></div></div>`;
 }
+/** 2026-10-10 (user: "I click the down arrow, it does nothing, so I can't select another teleport"): the landing was an <input list> +
+ *  <datalist>, which iPhone Safari never opens from the arrow. A real <select> (native picker), grouped by town; the current value stays
+ *  selectable even when the live menus no longer list it. */
+function redLandingSelect() {
+  const all = (RED.gkStarts || []).slice(), cur = RED.landing || '';
+  if (cur && !all.includes(cur)) all.unshift(cur);
+  const groups = {};
+  all.forEach(s => { const town = s.includes('->') ? s.split('->')[0].trim() : 'other'; (groups[town] = groups[town] || []).push(s); });
+  const label = (s) => s.includes('->') ? s.split('->').slice(1).join('->').trim() : s;
+  const opts = Object.keys(groups).sort().map(g => '<optgroup label="' + esc(g) + '">' + groups[g].sort().map(s => '<option value="' + esc(s) + '"' + (s === cur ? ' selected' : '') + '>' + esc(label(s)) + '</option>').join('') + '</optgroup>').join('');
+  return '<select id="redLanding" aria-label="teleport (gatekeeper destination)" style="max-width:100%"><option value=""' + (cur ? '' : ' selected') + '>pick a teleport …</option>' + opts + '</select>';
+}
 function renderRouteEd() {
   const box = RED && $(RED.boxId || 'routeEd'); if (!box || !RED) return;
   const town = RED.kind === 'town';
@@ -3077,7 +3092,7 @@ function renderRouteEd() {
       <select id="redStartKind"><option value="gk"${!RED.start || RED.start.kind === 'gk' ? ' selected' : ''}>gatekeeper teleport</option><option value="town"${RED.start && RED.start.kind === 'town' ? ' selected' : ''}>.townname (walk from the town)</option></select>
       ${RED.start && RED.start.kind === 'town'
         ? `<select id="redTown">${Object.keys(RED.towns).map(t => `<option${RED.start.town === t ? ' selected' : ''}>${t}</option>`).join('')}</select><button id="redUseTown" title="put the .town landing in as point 1">Town landing = point 1</button>`
-        : `<input id="redLanding" list="redGkList" value="${esc(RED.landing)}" placeholder="pick: Town -> destination (live menus)" style="width:280px"><datalist id="redGkList">${(RED.gkStarts || []).map(t => `<option value="${esc(t)}">`).join('')}</datalist>`}
+        : redLandingSelect()}
       <span class="muted">${RED.start ? 'every member walks this route from the start' : 'no start set: the bots use it only after the automatic teleport'}</span></div>`}
     <div class="act" style="margin-bottom:6px;flex-wrap:wrap">
       <span class="muted">${P.length} points · ${km(redLen(P))} walk${RED.dirty ? ' · <b style="color:#ffd34d">unsaved changes</b>' : ''}</span></div>

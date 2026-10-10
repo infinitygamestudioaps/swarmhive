@@ -4161,7 +4161,9 @@ function recordGkMenu(npc, html) {
     let old = {}; try { old = JSON.parse(File.ReadAllText(fp)); } catch (e) { }
     const pages = old.pages || {};
     pages[links.slice(0, 3).join('|')] = links;             // én post pr. menu-side
-    const town = typeof currentTownKey === 'function' ? currentTownKey() : null;
+    // never overwrite a known town with null (2026-10-10: the bots did not recognise Hunters Village and wrote Esmeralda's town as null on
+    // every visit, which made Hunters "unknown" again -> the endless .hunters / gatekeeper loop)
+    const town = (typeof currentTownKey === 'function' ? currentTownKey() : null) || old.town || null;
     File.WriteAllText(fp, JSON.stringify({ name: String(npc.Name), title: String(npc.Title || ''), npcId: num(npc.NpcId || 0),
       x: Math.round(npc.X), y: Math.round(npc.Y), z: Math.round(npc.Z), town, pages, updated: new Date().toISOString(), by: Me.Name }, null, 1));
   } catch (e) { }
@@ -4284,7 +4286,15 @@ async function settleAfterPort() {
   if (left > 0) { setTask(`waiting ${Math.ceil(left / 1000)} s for the team to load in`); await sleep(left); }
 }
 
-const GK_ALIAS = { 'ant cave': 'The Ant Nest', 'entrance to alligator island': 'Alligator Island' };      // datapack destination (gkNorm'ed) -> link text on L2Toggle's live menus
+const GK_ALIAS = { 'ant cave': 'The Ant Nest', 'entrance to alligator island': 'Alligator Island',      // datapack destination (gkNorm'ed) -> link text on L2Toggle's live menus
+  // 2026-10-10 (audit of the saved raid routes vs the live menus, after the Sorcerer Isirr route stuck in Hunters Village): 16 routes used
+  // datapack names the live gatekeepers write differently (both spellings with / without "the", singular / plural)
+  'entrance to alligator islands': 'Alligator Island', 'alligator islands': 'Alligator Island',
+  'entrance to the forest of mirrors': 'Forest of Mirrors', 'entrance to forest of mirrors': 'Forest of Mirrors',
+  'southern pathway of enchanted valley': 'Enchanted Valley, Southern Region', 'northern pathway of enchanted valley': 'Enchanted Valley, Northern Region',
+  'cruma marshlands': 'Cruma Marshland', 'crypt of disgrace': 'Crypts of Disgrace', 'plains of lizardmen': 'Plains of the Lizardmen' };
+// the lookup is GK_ALIAS[gkNorm(text)] and gkNorm also drops plurals ('mirrors' -> 'mirror'): add every key in its gkNorm form too
+for (const k of Object.keys(GK_ALIAS)) { try { const nk = gkNorm(k); if (nk && !(nk in GK_ALIAS)) GK_ALIAS[nk] = GK_ALIAS[k]; } catch (e) { } }
 /** the leader's supply run is under way: he must not teleport (the server takes the whole party along) — escapes / rescue trips excepted */
 function supplyHoldsTeam() {
   try { return !!(state.supplyHold && leadRunBusy && isLeader() && !ESC.on && !state.escaping && !(RESCO.on || state.rescueTrip)); } catch (e) { return false; }
@@ -6748,6 +6758,10 @@ function buildTownGraph() {
     names.forEach(nm => {
       try {
         const j = JSON.parse(File.ReadAllText(`${dir}\\${nm}.json`));
+        if ((!j.town || !TOWNS[j.town]) && isFinite(j.x) && isFinite(j.y)) {   // 2026-10-10: Esmeralda (Hunters) + Yung (Kamael) had town null and were ignored
+          let lk = null, ld = 6000; for (const k in TOWN_LAND) { const p = TOWN_LAND[k], d = Math.hypot(j.x - p[0], j.y - p[1]); if (d < ld) { ld = d; lk = k; } }
+          if (lk) j.town = lk;
+        }
         if (!j.town || !TOWNS[j.town]) return;
         if (isFinite(j.x) && isFinite(j.y)) livePos.push({ town: j.town, x: j.x, y: j.y });
         const set = live[j.town] = live[j.town] || new Set();
@@ -6768,6 +6782,9 @@ function buildTownGraph() {
 function currentTownKey() {
   const g = buildTownGraph();
   const mx = Number(Me.X), my = Number(Me.Y);                     // (throws like distTo did when Me is not there yet)
+  // 0) within 3000 of a town's .town landing (exact live points, TOWN_LAND): that town (2026-10-10, user: "there are always issues in Hunters
+  //    Village" - the bot never knew it stood in Hunters: .hunters on the spot "did not move" and the retry looked for a gatekeeper link 'hunter')
+  { let lk = null, ld = 3000; for (const k in TOWN_LAND) { const p = TOWN_LAND[k], d = Math.hypot(mx - p[0], my - p[1]); if (d < ld) { ld = d; lk = k; } } if (lk) return lk; }
   // 1) next to a gatekeeper we have seen live: that is its town (the datapack landing point can be > 6000 from the gatekeeper)
   let near = null, nd = 4000;
   for (const p of g.livePos || []) { const d = Math.hypot(mx - p.x, my - p.y); if (d < nd) { nd = d; near = p.town; } }
@@ -10587,6 +10604,7 @@ async function missionTeamAction(action, data) {
     return { ok: true, msg: 'hand-in: waiting for clan warehouse / bank character (not built yet)' };
   }
   if (action === 'engage') {
+    if (data && data.epic) return epicEngage(data);                     // EPIC (2026-10-10): the boss's guide tactic (no L2Swarm combat)
     const b = data.boss;
     combatSquare(CONFIG.mission.engageRadius * zoneScale(), b.x, b.y, b.z);
     if (!IsEnabled) EnableBot();
@@ -10741,6 +10759,229 @@ function raidAreaClamp(A, x, y) {
   return { x: Math.round(e.x + dx / L * d), y: Math.round(e.y + dy / L * d), moved: true };
 }
 // RAIDAREA-PURE-END
+// EPIC-PURE-BEGIN (no host calls in here: docs/plan/tools/test_epic_tactics.js runs this block in node; Dashboard/raidspage.js carries the SAME
+// block text for text — docs/plan/tools/epic_sync.js copies it there together with Scripts/data/epic_tactics.json, --check fails when they differ)
+// EPIC BOSS TACTICS (user 2026-10-10: "they are guides for killing Core / Ant Queen / Orfen ... I want this guide used when you are attempting
+// the raid boss Core. Same for Ant Queen and Orfen"). Everything a tactic does comes from Scripts/data/epic_tactics.json: the requirement
+// check (refuse an unwinnable epic before any trip), the phase machine (stage -> pull -> waves -> boss, rush -> larva -> boss, stage 1 ->
+// follow -> lure -> stage 2), the focus pick per phase and the formation slots (tank front, casters behind him, healers at the back).
+var EPICP = { roleOrder: ['tank', 'healer', 'caster', 'buffer', 'melee'], kinds: ['tank', 'healer', 'caster', 'buffer', 'melee', 'other'],
+  defaults: { udEmergencyHp: 15, staleMs: 6000, searchRange: 6000, fightRadius: 2500, waveRadius: 1100, pullTimeoutMs: 30000, lostMs: 90000, formationTol: 120 },
+  rules: { tank: 'hold', team: 'stay', anchor: 'hold', focus: 'none', bossOffLimits: true, tankSpam: false, areaAggro: 'hold', ud: 'hold', aoeMinMobs: 0, pullSize: 40, aoeRange: 400 } };
+function epNum(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
+function epPt(p) { if (!p) return null; if (Array.isArray(p)) return p.length >= 2 && isFinite(Number(p[0])) ? { x: Number(p[0]), y: Number(p[1]), z: p.length > 2 ? Number(p[2]) : 0 } : null; return isFinite(Number(p.x)) ? { x: Number(p.x), y: Number(p.y), z: Number(p.z) || 0 } : null; }
+/** the tactic of a boss ({ id, name } | id | name), or null */
+function epicTacticOf(J, boss) {
+  if (!J || !J.bosses || boss === null || boss === undefined) return null;
+  const o = typeof boss === 'object' ? boss : null;
+  const id = o ? o.id : (/^\d+$/.test(String(boss).trim()) ? String(boss).trim() : null);
+  const nm = String(o ? o.name || '' : (id ? '' : boss)).toLowerCase().trim();
+  let t = id !== null && id !== undefined && J.bosses[String(id)] ? J.bosses[String(id)] : null;
+  if (!t && nm) t = Object.keys(J.bosses).map(k => J.bosses[k]).find(x => x && String(x.name || '').toLowerCase() === nm) || null;
+  return t || null;
+}
+/** the defaults of the file merged over the built-in ones */
+function epicDefaults(J) { const o = {}; Object.keys(EPICP.defaults).forEach(k => { o[k] = J && J.defaults && J.defaults[k] !== undefined ? J.defaults[k] : EPICP.defaults[k]; }); return o; }
+/** the boss level to plan with: live (seen) > user > datapack > guide */
+function epicLevel(t, live) {
+  const L = (t && t.level) || {};
+  if (epNum(live) > 0) return { level: epNum(live), source: 'live' };
+  if (epNum(L.user) > 0) return { level: epNum(L.user), source: 'user' };
+  if (epNum(L.datapack) > 0) return { level: epNum(L.datapack), source: 'datapack' };
+  if (epNum(L.guide) > 0) return { level: epNum(L.guide), source: 'guide' };
+  return { level: 0, source: '?' };
+}
+/** a party member's kind by role token (epic_tactics.json roleKinds): tank | healer | caster | buffer | melee | other */
+function epicRoleKind(role, J) {
+  const K = (J && J.roleKinds) || {}, r = String(role || '');
+  for (const k of EPICP.roleOrder) { if (K[k]) { try { if (new RegExp(K[k], 'i').test(r)) return k; } catch (e) { } } }
+  return 'other';
+}
+function epicCounts(party, J) { const c = { tank: 0, healer: 0, caster: 0, buffer: 0, melee: 0, other: 0 }; (party || []).forEach(m => { c[epicRoleKind(m.role, J)]++; }); return c; }
+/** our characters (not in this party) inside the boss zone: chars [{ name, x, y, z, ageMs }], fresh = ageMs < 180 s */
+function epicZoneCount(t, chars, partyNames) {
+  const Z = t && t.zone, c = Z && epPt(Z.center); if (!c) return { n: 0, names: [] };
+  const R = epNum(Z.radius) || 3000, zr = Array.isArray(Z.z) ? Z.z : null, mine = {}; (partyNames || []).forEach(n => { mine[n] = 1; });
+  const names = (chars || []).filter(ch => ch && !mine[ch.name] && (ch.ageMs === undefined || ch.ageMs < 180000) && isFinite(Number(ch.x))
+    && Math.hypot(Number(ch.x) - c.x, Number(ch.y) - c.y) <= R && (!zr || (Number(ch.z) >= zr[0] && Number(ch.z) <= zr[1]))).map(ch => ch.name);
+  return { n: names.length, names };
+}
+/**
+ * The requirement check of a tactic for a party. party: [{ name, level, role }] (online members incl. the leader).
+ * ctx: { liveLevel, others (our characters already in the zone, not in this party) }.
+ * -> { ok (every hard item passes), level, levelSource, counts, items: [{ key, label, ok, hard, have, need, note }], refuse: 'why' }
+ */
+function epicCheck(J, t, party, ctx) {
+  ctx = ctx || {}; party = party || [];
+  const R = (t && t.requirements) || {}, Z = (t && t.zone) || {}, items = [];
+  const lv = epicLevel(t, ctx.liveLevel), L = lv.level, cnt = epicCounts(party, J);
+  const lvls = party.map(m => epNum(m.level)).filter(x => x > 0), lo = lvls.length ? Math.min.apply(null, lvls) : 0, hi = lvls.length ? Math.max.apply(null, lvls) : 0;
+  const add = (key, label, ok, hard, have, need, note) => items.push({ key, label, ok: !!ok, hard: !!hard, have, need, note: note || '' });
+  const req = (k) => R[k] && typeof R[k] === 'object' ? R[k] : null, hardOf = (k, d) => { const r = req(k); return r && r.hard !== undefined ? !!r.hard : d; };
+  if (req('minMembers')) add('members', `${party.length} in the party (need ${R.minMembers.value})`, party.length >= epNum(R.minMembers.value), hardOf('minMembers', true), party.length, epNum(R.minMembers.value), R.minMembers.guide);
+  const maxC = epNum(Z.maxClientsPerIp) || epNum(J && J.server && J.server.maxClientsPerIp) || 0, others = epNum(ctx.others);
+  if (maxC) add('clients', `${party.length + others} of our characters in the zone (max ${maxC} per IP${others ? `; ${others} of ours already there` : ''})`, party.length + others <= maxC, true, party.length + others, maxC, 'all our accounts share one IP');
+  if (req('minLevelOverBoss') && L) { const need = L + epNum(R.minLevelOverBoss.value); add('minLevel', `lowest level ${lo || '?'} (need ${need}: boss ${L}${epNum(R.minLevelOverBoss.value) ? ' + ' + epNum(R.minLevelOverBoss.value) : ''})`, lo >= need, hardOf('minLevelOverBoss', true), lo, need, R.minLevelOverBoss.note); }
+  if (req('suggestedOverBoss') && L) { const need = L + epNum(R.suggestedOverBoss.value); add('suggested', `guide level ${need} (lowest ${lo || '?'})`, lo >= need, hardOf('suggestedOverBoss', false), lo, need, R.suggestedOverBoss.guide); }
+  if (L) { const cap = L + 8; add('curse', `highest level ${hi || '?'} (raid curse above ${cap})`, hi <= cap, true, hi, cap, 'a member more than 8 levels above the boss is cursed'); }
+  if (epNum(Z.levelCap) > 0) add('levelCap', `highest level ${hi || '?'} (zone cap ${epNum(Z.levelCap)})`, hi <= epNum(Z.levelCap), true, hi, epNum(Z.levelCap), Z.levelCapSource);
+  else if (Z.levelCap === null || Z.levelCap === undefined) add('levelCap', 'zone level cap unknown', true, false, hi, null, Z.levelCapSource || 'unknown — characters above it get ported out');
+  if (req('tank')) add('tank', `${cnt.tank} tank (need ${R.tank.value})`, cnt.tank >= epNum(R.tank.value), hardOf('tank', true), cnt.tank, epNum(R.tank.value), R.tank.guide);
+  if (req('healers')) add('healers', `${cnt.healer} healer${cnt.healer === 1 ? '' : 's'} (need ${R.healers.value})`, cnt.healer >= epNum(R.healers.value), hardOf('healers', true), cnt.healer, epNum(R.healers.value), R.healers.guide);
+  if (req('casters')) {
+    if (epNum(R.casters.value) > 0) add('casters', `${cnt.caster} damage caster${cnt.caster === 1 ? '' : 's'} (need ${R.casters.value})`, cnt.caster >= epNum(R.casters.value), hardOf('casters', true), cnt.caster, epNum(R.casters.value), R.casters.guide);
+    if (epNum(R.casters.recommended) > 0) add('castersRec', `${cnt.caster} casters (guide: ${R.casters.recommended})`, cnt.caster >= epNum(R.casters.recommended), false, cnt.caster, epNum(R.casters.recommended), R.casters.guide);
+  }
+  if (R.meleeUseless) add('melee', `${cnt.melee} melee damage dealer${cnt.melee === 1 ? '' : 's'} (the guide: melee is useless here)`, cnt.melee <= 2, false, cnt.melee, 2, 'melee classes are worthless here');
+  const bad = items.filter(i => i.hard && !i.ok);
+  return { ok: !bad.length, level: L, levelSource: lv.source, counts: cnt, items, lo, hi, refuse: bad.map(i => i.label).join('; ') };
+}
+/** phase state: { phase, i, since, flags: { name: ms }, hist: [{ id, at }] } */
+function epicPhaseInit(t, nowMs) { const P = (t && t.phases) || []; return { phase: P.length ? P[0].id : '', i: 0, since: nowMs, flags: {}, hist: P.length ? [{ id: P[0].id, at: nowMs }] : [] }; }
+function epicPhaseOf(t, id) { return ((t && t.phases) || []).find(p => p.id === id) || null; }
+/** one 'when' of a phase's next[]; o = { now, flags, minions, wave, bossHp, bossSeen } */
+function epicCond(w, st, o) {
+  if (!w) return false;
+  if (Array.isArray(w.any)) return w.any.some(x => epicCond(x, st, o));
+  const inPh = o.now - st.since, f = (k) => { const v = (o.flags && o.flags[k]) || (st.flags && st.flags[k]); return !!v && v >= st.since; };
+  if (w.after !== undefined && inPh < epNum(w.after)) return false;
+  if (w.flag && !f(w.flag)) return false;
+  if (w.minionsAtMost !== undefined && !(epNum(o.minions) <= epNum(w.minionsAtMost))) return false;
+  if (w.minionsAtLeast !== undefined && !(epNum(o.minions) >= epNum(w.minionsAtLeast))) return false;
+  if (w.waveAtLeast !== undefined && !(epNum(o.wave) >= epNum(w.waveAtLeast))) return false;
+  if (w.bossHpBelow !== undefined && !(o.bossHp !== null && o.bossHp !== undefined && epNum(o.bossHp) < epNum(w.bossHpBelow))) return false;
+  if (w.bossHpAbove !== undefined && !(o.bossHp !== null && o.bossHp !== undefined && epNum(o.bossHp) > epNum(w.bossHpAbove))) return false;
+  return true;
+}
+/** advance the phase machine one step (at most one phase per call). -> { changed, from, to, why } (st is updated) */
+function epicPhaseStep(t, st, o) {
+  const P = epicPhaseOf(t, st.phase); if (!P) return { changed: false, from: st.phase, to: st.phase, why: 'no such phase' };
+  Object.keys(o.flags || {}).forEach(k => { if (o.flags[k]) st.flags[k] = Math.max(st.flags[k] || 0, o.flags[k]); });
+  for (const n of (P.next || [])) {
+    if (!epicPhaseOf(t, n.to) || !epicCond(n.when, st, o)) continue;
+    const from = st.phase, why = epicWhenText(n.when);
+    st.phase = n.to; st.i = (t.phases || []).findIndex(p => p.id === n.to); st.since = o.now; st.hist.push({ id: n.to, at: o.now, why });
+    if (st.hist.length > 30) st.hist.shift();
+    return { changed: true, from, to: n.to, why };
+  }
+  return { changed: false, from: st.phase, to: st.phase, why: '' };
+}
+function epicWhenText(w) {
+  if (!w) return '';
+  if (Array.isArray(w.any)) return w.any.map(epicWhenText).join(' or ');
+  const s = [];
+  if (w.flag) s.push({ pulled: 'the tank is back with the pull', tankAt: 'the tank got there', bossTeleported: 'the boss teleported', bossSeen: 'the boss is in sight', tankAggro: 'the tank has the boss', bossNearAnchor: 'the boss is at the entrance', bossFound: 'the boss was found' }[w.flag] || w.flag);
+  if (w.waveAtLeast !== undefined) s.push(`${w.waveAtLeast}+ new minions coming in`);
+  if (w.minionsAtMost !== undefined) s.push(w.minionsAtMost ? `${w.minionsAtMost} or fewer minions left` : 'no minion left');
+  if (w.minionsAtLeast !== undefined) s.push(`${w.minionsAtLeast}+ minions`);
+  if (w.bossHpBelow !== undefined) s.push(`boss below ${w.bossHpBelow} %`);
+  if (w.bossHpAbove !== undefined) s.push(`boss above ${w.bossHpAbove} %`);
+  if (w.after !== undefined) s.push(s.length ? `(after ${Math.round(epNum(w.after) / 1000)} s)` : `after ${Math.round(epNum(w.after) / 1000)} s`);
+  return s.join(' ');
+}
+/** the rules of the current phase over the defaults; formation = the phase's own, else the boss's */
+function epicRules(t, st) {
+  const P = epicPhaseOf(t, st && st.phase) || {}, r = Object.assign({}, EPICP.rules, P.rules || {});
+  r.formation = Object.assign({ caster: 250, healer: 500, melee: 80 }, (t && t.formation) || {}, (P.rules && P.rules.formation) || {});
+  return r;
+}
+/** a named point of the tactic: hold | pull | larva | boss | nest | nestEntrance (live positions in o win: o.live = { larva, boss, tank }) */
+function epicPoint(t, name, live) {
+  const L = live || {};
+  if (name === 'tank' && L.tank) return L.tank;
+  if ((name === 'larva' || name === 'boss') && L[name]) return L[name];
+  const p = t && t.points ? epPt(t.points[name]) : null;
+  if (p) return p;
+  if (name === 'hold' && L.hold) return L.hold;
+  return null;
+}
+/**
+ * The focus target for the phase. o = { boss: { id, x, y, hp } | null, larva: { id, x, y } | null, minions: [{ id, x, y, onHealer, onMate }],
+ * cur (current focus id), from: { x, y } (the tank / anchor) }. -> objId, or -1 = nobody attacks (never the boss by accident).
+ */
+function epicFocusPick(rules, o) {
+  const M = (o.minions || []).filter(m => m && m.id), from = o.from || (o.boss ? { x: o.boss.x, y: o.boss.y } : { x: 0, y: 0 });
+  const near = (a, b) => Math.hypot(a.x - from.x, a.y - from.y) - Math.hypot(b.x - from.x, b.y - from.y);
+  const minion = () => {
+    const h = M.filter(m => m.onHealer); if (h.length) return h.sort(near)[0].id;
+    const keep = o.cur && M.find(m => m.id === o.cur); if (keep) return keep.id;
+    const mt = M.filter(m => m.onMate); if (mt.length) return mt.sort(near)[0].id;
+    return M.length ? M.slice().sort(near)[0].id : 0;
+  };
+  const f = rules && rules.focus;
+  if (f === 'none') return -1;
+  if (f === 'minions') return minion() || -1;
+  if (f === 'minions-then-boss') return minion() || (o.boss ? o.boss.id : -1);
+  if (f === 'larva') return o.larva ? o.larva.id : (o.boss && !rules.bossOffLimits ? o.boss.id : -1);
+  if (f === 'boss-larva') {           // Queen Ant: the Queen, unless she stands out of AoE range of the larva (then the larva keeps the AoE on it)
+    if (o.boss && o.larva && Math.hypot(o.boss.x - o.larva.x, o.boss.y - o.larva.y) > epNum(rules.aoeRange || 400)) return o.larva.id;
+    return o.boss ? o.boss.id : (o.larva ? o.larva.id : -1);
+  }
+  if (f === 'boss') return o.boss ? o.boss.id : (minion() || -1);
+  return -1;
+}
+/**
+ * The formation slot of a member: behind the base (the tank, or the anchor when the team stays put) on the side away from the enemy,
+ * spread in an arc. o = { kind, rules, anchor, tank, enemy, off (-1..1) } -> { x, y } | null (no slot: melee with a target)
+ */
+function epicSlot(o) {
+  const R = o.rules || {}, F = R.formation || {}, kind = o.kind;
+  const dist = kind === 'healer' ? epNum(F.healer) : (kind === 'caster' || kind === 'buffer') ? epNum(F.caster) : epNum(F.melee);
+  const base = R.team === 'stay' || R.team === 'goto' ? (o.anchor || o.tank) : (o.tank || o.anchor);
+  if (!base) return null;
+  if (kind === 'melee' && R.focus !== 'none' && R.team !== 'goto') return null;   // melee fight behind their target (raidDealer)
+  const en = o.enemy && Math.hypot(o.enemy.x - base.x, o.enemy.y - base.y) > 30 ? o.enemy : null;
+  const a0 = en ? Math.atan2(base.y - en.y, base.x - en.x) : 0;
+  const a = a0 + (Number(o.off) || 0) * (kind === 'healer' ? 0.45 : 0.6);
+  return { x: Math.round(base.x + Math.cos(a) * dist), y: Math.round(base.y + Math.sin(a) * dist) };
+}
+/** QA stage / generic stage point: { of, dist, from: 'arrival' } -> dist from the 'of' point toward me */
+function epicStagePoint(t, me, live) {
+  const S = t && t.points && t.points.stage, h = t && t.points ? epPt(t.points.hold) : null;
+  if (h) return h;
+  const of = S && typeof S === 'object' && !Array.isArray(S) ? epicPoint(t, S.of || 'boss', live) : null;
+  const ref = of || epicPoint(t, 'boss', live); if (!ref || !me) return me || null;
+  const d = epNum(S && S.dist) || 1400, L = Math.hypot(me.x - ref.x, me.y - ref.y) || 1;
+  if (L <= d) return { x: Math.round(me.x), y: Math.round(me.y), z: me.z || ref.z };
+  return { x: Math.round(ref.x + (me.x - ref.x) / L * d), y: Math.round(ref.y + (me.y - ref.y) / L * d), z: ref.z };
+}
+/** plain-language guide lines for the dashboard / party chat: [{ h, lines: [] }] */
+function epicGuideText(J, t) {
+  if (!t) return [];
+  const R = t.requirements || {}, Z = t.zone || {}, lv = epicLevel(t, 0), out = [];
+  const need = [];
+  if (R.tank) need.push(`${R.tank.value} tank`);
+  if (R.healers) need.push(`${R.healers.value} healer${R.healers.value > 1 ? 's' : ''}`);
+  if (R.casters && (R.casters.value || R.casters.recommended)) need.push(`${R.casters.value || 0}+ damage casters${R.casters.recommended ? ' (guide ' + R.casters.recommended + ')' : ''}`);
+  if (R.minMembers) need.push(`${R.minMembers.value}+ members`);
+  out.push({ h: 'Party', lines: [need.join(' · ') + (R.meleeUseless ? ' · melee is useless here' : ''), R.gear ? 'Gear: ' + R.gear : ''].filter(Boolean) });
+  out.push({ h: 'Server rules', lines: [`max ${Z.maxClientsPerIp || (J && J.server && J.server.maxClientsPerIp) || 10} clients per IP in ${Z.name || 'the zone'} — all our accounts share one IP, so one party at a time`,
+    Z.levelCap ? `level cap ${Z.levelCap} at the entrance (${Z.levelCapSource || ''})` : `level cap: unknown${Z.levelCapSource ? ' — ' + Z.levelCapSource : ''}`, Z.noTransform ? 'no transformations' : '', Z.pvp ? 'PvP zone' : '',
+    `raid curse above level ${lv.level + 8} (boss ${lv.level}, ${lv.source})`].filter(Boolean) });
+  if (t.route && t.route.text) out.push({ h: 'Way there', lines: [t.route.text] });
+  if (t.setup && t.setup.length) out.push({ h: 'Set-up', lines: t.setup.slice() });
+  out.push({ h: 'Fight', lines: (t.phases || []).map((p, i) => `${i + 1}. ${p.label}: ${p.say || ''}${(p.next || []).length ? ' → next when ' + p.next.map(n => epicWhenText(n.when)).join(' / ') : ''}`) });
+  if (t.notes && t.notes.length) out.push({ h: 'Notes', lines: t.notes.slice() });
+  return out;
+}
+/** check a tactics file: -> [problems] (the tests and epic_sync.js) */
+function epicValidate(J) {
+  const bad = [];
+  if (!J || !J.bosses) return ['no bosses'];
+  Object.keys(J.bosses).forEach(k => {
+    const t = J.bosses[k], n = (t && t.name) || k;
+    if (!t || String(t.id) !== String(k)) bad.push(`${n}: id ${t && t.id} != key ${k}`);
+    if (!t.source || !/^https:\/\//.test(String(t.source.url || ''))) bad.push(`${n}: no source url`);
+    if (!(t.phases || []).length) bad.push(`${n}: no phases`);
+    const ids = {}; (t.phases || []).forEach(p => { if (ids[p.id]) bad.push(`${n}: phase ${p.id} twice`); ids[p.id] = 1; });
+    (t.phases || []).forEach((p, i) => { (p.next || []).forEach(x => { if (!ids[x.to]) bad.push(`${n}: ${p.id} -> unknown phase ${x.to}`); }); if (i < t.phases.length - 1 && !(p.next || []).length) bad.push(`${n}: ${p.id} has no way on`); });
+    if (!t.requirements) bad.push(`${n}: no requirements`);
+    if (!t.zone || !epPt(t.zone.center)) bad.push(`${n}: no zone centre`);
+    if (!(t.minions || []).length) bad.push(`${n}: no minions`);
+  });
+  return bad;
+}
+// EPIC-PURE-END
 // RAID FIGHT AREA loader: Scripts/data/raid_areas.json, re-read when its write time changes (checked at most every 10 s); by npc id or boss name
 let RAREAS = null, rareasAt = 0, rareasStamp = '', rareasMemo = {};
 function raidAreasAll() {
@@ -10918,15 +11159,16 @@ const raidReport = {
     this.cur = null;
   },
 };
-async function waitBossDead(b, runId, ms) {
+async function waitBossDead(b, runId, ms, opt) {
+  const O = opt || {}, findR = num(O.range) || 3500, lostMs = num(O.lostMs) || 90000, stallMs = num(O.stallMs) || 600000;   // EPIC (2026-10-10): epics pass wider limits
   // USER RULE 2026-10-05: NEVER escape from a raid. "Either all die or we win" — we fight until the last one falls, THEN decide.
   // no fixed end while the boss keeps losing HP (2026-10-06 Hellion: the 30-min limit walked the team off at 26 %, all at 100 % HP):
   // the fight ends only after 10 min without any boss HP lost, or a hard cap of 90 min
   const hardUntil = now() + Math.max(ms, 5400000), t0 = now();
   let seenAlive = false, lastSeen = 0, lastHp = 100, bestHp = 101, progressAt = now();
-  while (regroupAlive(runId) && now() < hardUntil && now() - progressAt < 600000) {
+  while (regroupAlive(runId) && now() < hardUntil && now() - progressAt < stallMs) {
     let t = null;
-    try { t = findMobByName(b.name, 3500); } catch (e) { }
+    try { t = findMobByName(b.name, findR); } catch (e) { }
     if (t && !t.IsDead) { seenAlive = true; lastSeen = now(); lastHp = num(t.HpPercent) || lastHp; setTask(`raid: ${b.name} ${Math.round(lastHp)}%`); }
     if (lastHp < bestHp - 0.5) { bestHp = lastHp; progressAt = now(); }
     if (seenAlive && t && t.IsDead) return 'dead';
@@ -10937,7 +11179,7 @@ async function waitBossDead(b, runId, ms) {
       if (lastHp <= 10) return 'dead';
       // a teammate still sees it (the leader may stand > 3500 away): not lost (raid_status 'alive' from any window, < 20 s old)
       try { const st = JSON.parse(File.ReadAllText(SWARM_ROOT + '\\Logs\\raid_status.json'))[String(b.id)]; if (st && st.alive && now() - Date.parse(st.at) < 20000) lastSeen = now(); } catch (e) { }
-      if (now() - lastSeen > 90000) { raidEvent(`LOST: boss out of sight for 90 s (last seen at ${Math.round(lastHp)}%, best ${Math.round(Math.min(bestHp, 100))}%)`); return 'lost'; }
+      if (now() - lastSeen > lostMs) { raidEvent(`LOST: boss out of sight for ${Math.round(lostMs / 1000)} s (last seen at ${Math.round(lastHp)}%, best ${Math.round(Math.min(bestHp, 100))}%)`); return 'lost'; }
     }
     await sleep(2000);
   }
@@ -10958,6 +11200,470 @@ async function waitBossDeadOld(b, runId, ms) {
     await sleep(3000);
   }
   return Me.IsDead ? 'wiped' : (seenAlive ? 'timeout' : 'not-found');
+}
+
+// ===== EPIC HOST (user 2026-10-10: the L2Toggle community guides for Core / Queen Ant / Orfen; pure part EPIC-PURE above) =====
+// Only runs when a raid mission targets a boss with a tactic in Scripts/data/epic_tactics.json (!mission raid Core / dashboard "Raid it");
+// raidhunt keeps leaving epics out (EPIC_BOSS_RE) unless the file says enabledInRaidhunt: true. Everything else is untouched.
+// Leader: epicPreCheck (refuse an unwinnable epic BEFORE any trip: party, levels vs zone cap + raid curse, 10 clients per IP, tank /
+// healers / casters) -> epicRoute (Core: Dion, Cruma, floors, Hanna, the Teleportation Cubic; QA: the normal travel; Orfen: travel +
+// search of her spawn spots) -> stage -> countdown -> engage (epic flag: no L2Swarm combat, each window runs epicRunMine) -> the phase
+// machine (epicTick, 1 s) broadcasts swarm.epic { phase, rules, points } every 1.5 s; the focus (epicFocusTick) replaces the generic
+// minions-first focus. Members: formation slots (epicMemberTick), boss off limits, AoE gate, the tank routine epicTank (hold / pull /
+// rush / lure / goto / minions / boss; hate aura + Ultimate Defense timing by phase). Raid rules stay: countdown, never escape, no res
+// scrolls (nothing here uses one). Phases go to raid_live_<leader>.json ('epic' + 'phase') and Logs/epic_live_<leader>.json.
+var EPICH = { j: null, stamp: '', chk: 0 };
+var epicCtl = { on: false, mission: false, key: '', boss: '', bossDb: null, t: null, st: null, pts: {}, flags: {}, tank: '', sent: 0, bossLast: null,
+  seenMin: {}, focus: 0, pre: '', result: '', check: null, rx: null, startedAt: 0, events: [] };
+function epicData() {
+  if (EPICH.j && now() - EPICH.chk < 30000) return EPICH.j;
+  EPICH.chk = now();
+  const fp = `${__SCRIPTS__}\\data\\epic_tactics.json`, st = fileStamp(fp);
+  if (!EPICH.j || st !== EPICH.stamp) { try { EPICH.j = st ? JSON.parse(String(File.ReadAllText(fp)).replace(/^﻿/, '')) : { bosses: {} }; EPICH.stamp = st; } catch (e) { if (!EPICH.j) EPICH.j = { bosses: {} }; logError('epic_tactics.json', e); } }
+  return EPICH.j;
+}
+/** the tactic of a raid boss (raidbosses_h5 entry / { name } / name), or null */
+function epicFor(b) { try { return epicTacticOf(epicData(), b && typeof b === 'object' ? { id: b.id, name: b.name } : b); } catch (e) { return null; } }
+function epicDef() { return epicDefaults(epicData()); }
+function epicEvent(m) { try { raidEvent(`EPIC: ${m}`); } catch (e) { } epicCtl.events.push({ t: new Date().toTimeString().slice(0, 8), msg: m }); if (epicCtl.events.length > 40) epicCtl.events.shift(); }
+/** the broadcast phase (any window) when fresh and for my current boss, else null */
+function epicRx() {
+  const r = epicCtl.rx; if (!r || now() - r.at > epicDef().staleMs) return null;
+  if (state.mode !== 'raid' && state.mode !== 'mission') return null;
+  return r;
+}
+function epicRule(k) { const r = epicRx(); return r && r.rules ? r.rules[k] : undefined; }
+/** epic formation owns my movement (raid spacing / caster slot / follow-the-tank moves stand aside): casters, healers, buffers always; melee
+ *  while nobody attacks (focus none) or the team walks somewhere */
+function epicOwnsMove() {
+  const r = epicRx(); if (!r || !r.rules) return false;
+  if (ROLE_RE.tank.test(state.role || '') || (r.tank && r.tank === Me.Name)) return false;
+  const k = epicRoleKind(state.role, epicData());
+  if (k === 'melee' || k === 'other') return r.rules.focus === 'none' || r.rules.team === 'goto';
+  return true;
+}
+/** AoE gate (raidDealer castPick): the phase's aoeMinMobs, else the normal one */
+function epicAoeMin(base) { const v = epicRule('aoeMinMobs'); return v && v > 0 ? v : base; }
+/** tank gates: the 300 ms aggro spam (tankSpam false = no aggro at all) and the area aggro (hold = never) */
+function epicTankSpamOff() { return epicRule('tankSpam') === false; }
+function epicAreaHold() { return epicRule('areaAggro') === 'hold'; }
+/** Ultimate Defense gate: 'hold' (Orfen stage 1, Core before wave 2) except a real emergency */
+function epicUdHold(hp) { return epicRule('ud') === 'hold' && num(hp) >= num(epicDef().udEmergencyHp); }
+App.on('swarm.epic', (e) => { try { if (teamOf(e.source.characterName) !== teamOf(Me.Name)) return; epicCtl.rx = Object.assign({}, e.data || {}, { at: now() }); } catch (er) { } });
+App.on('swarm.epicflag', (e) => { try { if (!isLeader() || !epicCtl.on) return; const f = String((e.data || {}).flag || ''); if (f) { epicCtl.flags[f] = now(); epicEvent(`${e.source.characterName}: ${f}`); } } catch (er) { } });
+function epicFlag(f) { try { App.emit('swarm.epicflag', { flag: f }); } catch (e) { } if (isLeader() && epicCtl.on) { epicCtl.flags[f] = now(); } }
+
+// ---- leader: pre-check ----------------------------------------------------------------------------------------------------------------
+function epicParty() {
+  const out = [{ name: Me.Name, level: num(Me.Level), role: state.role || '' }];
+  try { teamNames().forEach(n => { if (n === Me.Name || benched(n)) return; const lp = livePos[n]; if (!lp || now() - lp.at > 120000) return; const p = partyMember(n); out.push({ name: n, level: num(p && p.Level) || num(lp.lvl), role: lp.role || '' }); }); } catch (e) { }
+  return out;
+}
+/** our characters of OTHER parties in the boss zone (their swarm_state files) */
+function epicOthersInZone(t, party) {
+  const chars = [];
+  try { Object.keys(CONFIG.roster || {}).forEach(n => { if (party.some(p => p.name === n)) return; try { const s = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Logs\\swarm_state_${n}.json`))); chars.push({ name: n, x: num(s.x), y: num(s.y), z: num(s.z), ageMs: now() - Date.parse(s.updated) }); } catch (e) { } }); } catch (e) { }
+  return epicZoneCount(t, chars, party.map(p => p.name));
+}
+function epicPreCheck(t, b) {
+  const party = epicParty(), oz = epicOthersInZone(t, party);
+  let live = 0; try { const m = findMobByName(b.name, 6000); if (m) live = num(m.Level); } catch (e) { }
+  const c = epicCheck(epicData(), t, party, { liveLevel: live, others: oz.n });
+  c.othersNames = oz.names; c.party = party.map(p => p.name);
+  return c;
+}
+function epicRefuse(t, c) {
+  const why = c.refuse || 'requirements not met';
+  SayToParty(`[epic] NOT raiding ${t.name}: ${why.slice(0, 200)}`);
+  SayToParty(`[epic] ${t.name} guide: ${String(t.summary || '').slice(0, 180)}`);
+  note(`epic ${t.name}: refused — ${why}${c.othersNames && c.othersNames.length ? ' (ours in the zone: ' + c.othersNames.join(', ') + ')' : ''}`, true);
+  try { intent('epic', `refused ${t.name}: ${why}`); intentDone('epic', false, why); } catch (e) { }
+  epicCtl.check = c; epicCtl.result = 'refused: ' + why; epicLiveWrite('refused');
+}
+
+// ---- leader: route --------------------------------------------------------------------------------------------------------------------
+/** click an NPC link that teleports (Hanna, the Teleportation Cubic); true = I am at the landing (or teleported when no landing is known) */
+async function epicClickLink(N, linkText, land) {
+  const atLand = () => land && Math.hypot(land[0] - Me.X, land[1] - Me.Y) < 700 && Math.abs((land[2] || Me.Z) - Me.Z) < 450;
+  if (atLand()) return true;
+  let ref = null, bd = 1500;
+  try { snapNpcs().forEach(n => { if (n.IsDead) return; if (num(n.Id) !== num(N.id) && String(n.Name) !== String(N.name)) return; const d = Math.hypot(num(n.X) - Me.X, num(n.Y) - Me.Y); if (d < bd) { bd = d; ref = n.ref || npcById(n.objId); } }); } catch (e) { }
+  if (!ref) { gkFail = `${N.name} not in sight at ${P(Me.X, Me.Y, Me.Z)}`; return false; }
+  if (bd > 160) await walkDirect(num(N.x) + 60, num(N.y), num(N.z), 100, 20000, null, true);
+  const html = await openNpc(ref);
+  if (!html) { gkFail = `${N.name} did not answer`; return false; }
+  const want = npcNorm(linkText), L = npcLinks(String(html)), l = L.find(x => npcNorm(x.text) === want) || L.find(x => npcNorm(x.text).includes(want) || (want.length > 6 && want.includes(npcNorm(x.text)) && npcNorm(x.text).length > 6));
+  if (!l) { gkFail = `${N.name} has no link "${linkText}" — ${L.map(x => x.text).join(' | ').slice(0, 200)}`; return false; }
+  const tp = waitTeleport(9000); Send.ReqBypassToServer(l.cmd, true); const ok = await tp;
+  try { appearBurst('epic link'); } catch (e) { }
+  await sleep(1500);
+  if (!ok && !atLand()) { gkFail = `${N.name}: "${l.text}" — no teleport${lastSysMsg && now() - lastSysMsg.at < 8000 ? ' (' + String(lastSysMsg.text).slice(0, 100) + ')' : ''}`; return false; }
+  return land ? atLand() || ok : ok;
+}
+App.on('swarm.epiclink', async (e) => {
+  try {
+    if (e.source.characterName !== CONFIG.leader || isLeader() || Me.IsDead) return;
+    const d = e.data || {}, N = d.npc || {}, land = d.land;
+    if (land && Math.hypot(land[0] - Me.X, land[1] - Me.Y) < 700 && Math.abs((land[2] || Me.Z) - Me.Z) < 450) return;   // the server took me along
+    if (Math.hypot(num(N.x) - Me.X, num(N.y) - Me.Y) > 2500) { note(`epic: ${CONFIG.leader} used ${N.name} — I am too far from it`); return; }
+    await sleep(((d.order || {})[Me.Name] || 0) * 2500 + 1500);
+    followHold(120000);
+    try { const ok = await epicClickLink(N, d.link, land); note(`epic: ${N.name} "${d.link}" ${ok ? 'ok' : 'FAILED' + (gkFail ? ' — ' + gkFail : '')}`, !ok); } finally { state.followHoldUntil = 0; }
+  } catch (er) { logError('swarm.epiclink', er); }
+});
+async function epicLinkStep(s, runId) {
+  const land = s.land || null, N = s.npc;
+  if (land && Math.hypot(land[0] - Me.X, land[1] - Me.Y) < 700 && Math.abs((land[2] || Me.Z) - Me.Z) < 450) return true;
+  if (Math.hypot(num(N.x) - Me.X, num(N.y) - Me.Y) > 250) await walkTo(num(N.x), num(N.y), num(N.z), 180, 300000, () => !regroupAlive(runId));
+  if ((await teamRegroupBeforePort(s.say || s.link)) === 'interrupted') { gkFail = 'interrupted before the teleport'; return false; }
+  const ok = await epicClickLink(N, s.link, land);
+  if (!ok) return false;
+  const order = {}; teamNames().forEach((n, i) => { order[n] = i; });
+  await sleep(2500); App.emit('swarm.epiclink', { npc: N, link: s.link, land, order });
+  const t0 = now(); let w = wholeTeamHere(1500);
+  while (!w.ok && now() - t0 < Object.keys(order).length * 2500 + 60000 && regroupAlive(runId)) { setTask(`epic: waiting for ${w.missing.join(', ')} after ${N.name}`); await sleep(2000); w = wholeTeamHere(1500); }
+  if (!w.ok) note(`epic: after ${N.name} still missing ${w.missing.join(', ')}`, true);
+  return true;
+}
+/** Orfen: visit her spawn spots (nearest first) until she is in sight */
+async function epicSearch(t, b, runId) {
+  const R = epicDef().searchRange, pts = ((t.points && t.points.search) || []).map(epPt).filter(Boolean);
+  const seen = () => { try { const m = findMobByName(b.name, R); return m && !m.IsDead ? m : null; } catch (e) { return null; } };
+  let m = seen(); if (m) return m;
+  const left = pts.slice();
+  while (left.length && regroupAlive(runId)) {
+    left.sort((p, q) => Math.hypot(p.x - Me.X, p.y - Me.Y) - Math.hypot(q.x - Me.X, q.y - Me.Y));
+    const p = left.shift();
+    epicSetPre('search', `looking for ${b.name} at ${P(p.x, p.y, p.z)} (${pts.length - left.length}/${pts.length})`);
+    await leadTeamWalk(p.x, p.y, p.z, 1500, 300000, () => !regroupAlive(runId) || !!seen());
+    await sleep(2500); m = seen(); if (m) { epicEvent(`${b.name} found at ${P(m.X, m.Y, m.Z)}`); return m; }
+  }
+  return null;
+}
+async function epicRoute(t, b, runId) {
+  const steps = (t.route && t.route.steps) || [{ do: 'travel' }];
+  for (const s of steps) {
+    if (!regroupAlive(runId)) return { ok: false, why: 'stopped' };
+    epicSetPre('travel', s.say || s.do);
+    if (s.do === 'npctrip') {
+      const r = await goToNpc(s.query, { noTalk: true, abort: () => !regroupAlive(runId) });
+      if (!r.ok) return { ok: false, why: `${s.say || s.query}: ${r.why}` };
+    } else if (s.do === 'link') {
+      if (!(await epicLinkStep(s, runId))) return { ok: false, why: `${s.say || s.link}: ${gkFail || 'failed'}` };
+    } else if (s.do === 'travel') {
+      const c = epPt(t.points && t.points.search && t.points.search[0]) || { x: b.x, y: b.y, z: b.z };
+      if (Math.hypot(c.x - Me.X, c.y - Me.Y) <= 3000) continue;
+      const tp = b.nearestTeleport || {};
+      const ur = loadRaidRoute(b), userRoute = ur && ur.start && ur.start.kind && ur.points && ur.points.length > 1 ? ur : null;
+      const spot = { name: `raid: ${b.name}`, levelMin: 1, levelMax: 99, center: c, radius: 1500, gk: tp.desc ? { from: String(tp.from || '').split('(')[0].trim(), desc: tp.desc } : null };
+      const rt = await orderRetry(`epic ${b.name}`, { what: `travel to ${b.name}`, team: true, max: num(CONFIG.mission.travelTries) || 2, abort: () => !regroupAlive(runId),
+        done: () => Math.hypot(c.x - Me.X, c.y - Me.Y) <= 3000,
+        attempt: async (n) => {
+          if (n > 1 && !(await ensureTeamForTrip(`epic ${b.name} (try ${n})`, () => !regroupAlive(runId)))) return { ok: false, why: 'the team is not together' };
+          gkFail = ''; lastTownCmd = 0;
+          if (userRoute) await userRouteTrip(userRoute, b, runId); else await travelToSpot(spot);
+          const at = Math.hypot(c.x - Me.X, c.y - Me.Y);
+          return { ok: at <= 3000, why: at <= 3000 ? '' : `${Math.round(at)} from ${b.name}${gkFail ? ' — ' + String(gkFail).slice(0, 100) : ''}` };
+        } });
+      if (!rt.ok) return { ok: false, why: rt.why || `could not reach ${b.name}` };
+    } else if (s.do === 'search') {
+      const m = await epicSearch(t, b, runId);
+      if (!m) return { ok: false, why: `${b.name} not found at any of her spawn spots`, notFound: true };
+    }
+  }
+  return { ok: true };
+}
+
+// ---- leader: the mission -------------------------------------------------------------------------------------------------------------
+function epicSetPre(phase, text) { epicCtl.pre = phase; epicCtl.preText = text || ''; try { setTask(`epic ${epicCtl.boss}: ${text || phase}`); } catch (e) { } epicLiveWrite(phase); }
+/** the raid live view runs before the fight too (travel / search / stage), like the area clear */
+function epicPreLive() { return isLeader() && epicCtl.mission && !epicCtl.on && !!epicCtl.boss; }
+/**
+ * The whole epic raid after the pre-check (leader, lead mode). -> outcome ('dead' | 'wiped' | 'lost' | 'timeout' | 'not-found') or null
+ * (stopped / could not get there: the caller just returns; the team stays where it is).
+ */
+async function epicMission(b, t, runId) {
+  Object.assign(epicCtl, { mission: true, on: false, key: String(t.id), boss: b.name, bossDb: b, t, st: null, flags: {}, seenMin: {}, focus: 0, bossLast: null, result: '', startedAt: now(), events: [] });
+  try {
+    epicEvent(`${t.name}: the L2Toggle guide tactic (${(t.phases || []).map(p => p.label).join(' -> ')})`);
+    const r = await epicRoute(t, b, runId);
+    if (!regroupAlive(runId)) return null;
+    if (!r.ok) {
+      SayToParty(`[epic] ${b.name}: ${String(r.why).slice(0, 200)} — stopping, the team stays here`); note(`epic ${b.name}: route failed — ${r.why}`, true);
+      epicCtl.result = r.notFound ? 'not found' : 'route failed: ' + r.why;
+      return r.notFound ? 'not-found' : null;
+    }
+    // stage point: the tactic's hold point, else the stage rule (QA: 1800 from the larva toward us), else 1400 from the boss toward us
+    const live = epicLivePts(t);
+    const hold = epicStagePoint(t, { x: Me.X, y: Me.Y, z: Me.Z }, live) || { x: Me.X, y: Me.Y, z: Me.Z };
+    epicCtl.pts = { hold };
+    epicSetPre('stage', `the team gathers at ${P(hold.x, hold.y, hold.z)}`);
+    if (Math.hypot(hold.x - Me.X, hold.y - Me.Y) > 250) await leadTeamWalk(hold.x, hold.y, hold.z || Me.Z, 200, 180000, () => !regroupAlive(runId));
+    if (!regroupAlive(runId)) return null;
+    // the pre-check again right here (somebody levelled / died / another party of ours walked in meanwhile)
+    { const c = epicPreCheck(t, b); epicCtl.check = c; if (!c.ok) { epicRefuse(t, c); return null; } }
+    (t.setup || []).slice(0, 3).forEach(s => SayToParty(`[epic] set-up: ${String(s).slice(0, 200)}`));
+    if (!(await raidCountdown(b, runId))) return null;
+    // the fight
+    epicCtl.st = epicPhaseInit(t, now());
+    epicCtl.tank = epicTankName();
+    epicCtl.on = true;
+    const P0 = epicPhaseOf(t, epicCtl.st.phase) || {};
+    SayToParty(`[epic] ${t.name}: ${P0.label || epicCtl.st.phase} — ${String(P0.say || '').slice(0, 200)}`);
+    epicEvent(`phase ${P0.label || epicCtl.st.phase}`);
+    epicTick();                                                        // the first broadcast before anyone moves
+    raidReport.start(b, 'epic');
+    raidActiveWrite(b.name, false, 'fight');
+    await teamStep(runId, 'engage', 15000, { boss: { name: b.name, x: b.x, y: b.y, z: b.z }, epic: { key: String(t.id), center: [Math.round(hold.x), Math.round(hold.y), Math.round(hold.z || Me.Z)], radius: epicDef().fightRadius } });
+    EnableBot();
+    const follows = (t.phases || []).some(p => p.rules && (p.rules.team === 'goto' || p.rules.tank === 'goto'));
+    const outcome = await waitBossDead(b, runId, CONFIG.mission.raidTimeoutMs, { range: epicDef().searchRange, lostMs: follows ? Math.max(epicDef().lostMs, 300000) : epicDef().lostMs });
+    epicCtl.result = outcome;
+    epicEvent(`RESULT ${outcome} in phase ${epicCtl.st ? epicCtl.st.phase : '?'}`);
+    return outcome;
+  } finally {
+    epicCtl.on = false; epicCtl.mission = false;
+    try { App.emit('swarm.epic', { key: epicCtl.key, boss: epicCtl.boss, phase: 'done', rules: null, done: true }); } catch (e) { }
+    epicCtl.rx = null;
+    epicLiveWrite('done');
+  }
+}
+function epicTankName() {
+  if (ROLE_RE.tank.test(state.role || '')) return Me.Name;
+  let n = ''; try { teamNames().some(x => { const lp = livePos[x]; if (lp && ROLE_RE.tank.test(lp.role || '')) { n = x; return true; } return false; }); } catch (e) { }
+  return n || Me.Name;
+}
+/** live positions: the boss, the larva (Queen Ant), the tank */
+function epicLivePts(t) {
+  const out = {};
+  try {
+    const b = findMobByName(epicCtl.boss || t.name, epicDef().searchRange); if (b && !b.IsDead) out.boss = { x: num(b.X), y: num(b.Y), z: num(b.Z), id: num(b.objId), hp: num(b.HpPercent) };
+    const lv = (t.minions || []).find(m => m.role === 'larva');
+    if (lv) { let best = null; snapMobs().forEach(m => { if (m.IsDead || String(m.Name) !== lv.name) return; if (!best || Math.hypot(m.X - Me.X, m.Y - Me.Y) < Math.hypot(best.X - Me.X, best.Y - Me.Y)) best = m; }); if (best) out.larva = { x: num(best.X), y: num(best.Y), z: num(best.Z), id: num(best.objId) }; }
+    const tk = epicCtl.tank && epicCtl.tank !== Me.Name ? livePos[epicCtl.tank] : null;
+    out.tank = tk && now() - tk.at < 10000 ? { x: num(tk.X), y: num(tk.Y), z: num(tk.Z) } : { x: Me.X, y: Me.Y, z: Me.Z };
+  } catch (e) { }
+  return out;
+}
+/** the minions of the tactic in sight: [{ id, x, y, name, hp, onHealer, onMate }] (the larva is not counted) */
+function epicMinions(t, center, r) {
+  const names = {}; (t.minions || []).forEach(m => { if (m.role !== 'larva') names[m.name] = 1; });
+  const out = [];
+  try { snapMobs().forEach(m => {
+    if (m.IsDead || !names[String(m.Name)] || Math.hypot(m.X - center.x, m.Y - center.y) > r) return;
+    const h = minionOnMate[m.objId], fresh = h && now() - h.at < 4000;
+    out.push({ id: num(m.objId), x: num(m.X), y: num(m.Y), name: String(m.Name), hp: num(m.HpPercent), onHealer: !!(fresh && h.prio === 0), onMate: !!fresh });
+  }); } catch (e) { }
+  return out;
+}
+/** the phase machine + broadcast (leader, every second while the fight runs; also once right before the engage) */
+function epicTick() {
+  const t = epicCtl.t, st = epicCtl.st; if (!t || !st) return;
+  const D = epicDef(), live = epicLivePts(t);
+  const tankP = live.tank, hold = epicCtl.pts.hold;
+  // the boss: seen / HP / a teleport (a jump > 3000, or gone from sight right after she was at <= 55 %)
+  if (live.boss) {
+    const L = epicCtl.bossLast;
+    if (L && Math.hypot(live.boss.x - L.x, live.boss.y - L.y) > 3000) { epicCtl.flags.bossTeleported = now(); epicEvent(`${t.name} teleported (${P(L.x, L.y)} -> ${P(live.boss.x, live.boss.y)})`); }
+    epicCtl.bossLast = { x: live.boss.x, y: live.boss.y, hp: live.boss.hp, at: now() };
+    epicCtl.flags.bossSeen = now();
+  } else if (epicCtl.bossLast && epicCtl.bossLast.hp > 0 && epicCtl.bossLast.hp <= 55 && now() - epicCtl.bossLast.at > 4000 && !epicCtl.flags.bossTeleported) {
+    epicCtl.flags.bossTeleported = now(); epicEvent(`${t.name} vanished at ${Math.round(epicCtl.bossLast.hp)} % — teleported to her nest?`);
+  }
+  let rules = epicRules(t, st);
+  const pt = (name) => name === 'hold' ? hold : epicPoint(t, name, Object.assign({}, live, { hold }));
+  const anchor = pt(rules.anchor) || hold;
+  const mins = epicMinions(t, anchor || tankP, D.fightRadius);
+  // waves: minions that come within waveRadius of the anchor for the first time (3 s after the phase began)
+  mins.forEach(m => { if (Math.hypot(m.x - anchor.x, m.y - anchor.y) <= D.waveRadius && !epicCtl.seenMin[m.id]) epicCtl.seenMin[m.id] = now(); });
+  const wave = Object.keys(epicCtl.seenMin).filter(id => epicCtl.seenMin[id] >= st.since + 3000 && mins.some(m => String(m.id) === id)).length;
+  // flags the leader sees himself: the tank at his target, the boss at the anchor, the tank has the boss
+  const tgt = rules.tank === 'rush' ? pt(rules.rushTo || 'larva') : rules.tank === 'goto' ? pt(rules.goto || 'nestEntrance') : null;
+  if (tgt && tankP && Math.hypot(tgt.x - tankP.x, tgt.y - tankP.y) < 300) epicCtl.flags.tankAt = now();
+  if (live.boss && anchor && Math.hypot(live.boss.x - anchor.x, live.boss.y - anchor.y) < 600) epicCtl.flags.bossNearAnchor = now();
+  if (raidCtl.aggroAt && raidCtl.aggroAt >= st.since) epicCtl.flags.tankAggro = raidCtl.aggroAt;
+  const ch = epicPhaseStep(t, st, { now: now(), flags: epicCtl.flags, minions: mins.length, wave, bossHp: live.boss ? live.boss.hp : null, bossSeen: !!live.boss });
+  if (ch.changed) {
+    const Pn = epicPhaseOf(t, ch.to) || {};
+    SayToParty(`[epic] ${t.name}: ${Pn.label || ch.to} — ${String(Pn.say || '').slice(0, 180)}`);
+    epicEvent(`phase ${Pn.label || ch.to} (${ch.why})`);
+    note(`epic ${t.name}: ${ch.from} -> ${ch.to} (${ch.why})`, true);
+    rules = epicRules(t, st);
+  }
+  const anc = pt(rules.anchor) || hold;
+  const enemy = live.boss && !rules.bossOffLimits ? live.boss : (rules.tank === 'pull' ? pt('pull') : null) || (mins.length ? { x: mins.reduce((a, m) => a + m.x, 0) / mins.length, y: mins.reduce((a, m) => a + m.y, 0) / mins.length } : null) || pt('boss') || live.boss || null;
+  epicCtl.view = { minions: mins.length, wave, anchor: anc, enemy, boss: live.boss || null, larva: live.larva || null };
+  const pts = {}; ['hold', 'pull', 'larva', 'boss', 'nest', 'nestEntrance'].forEach(k => { const p = pt(k); if (p) pts[k] = { x: Math.round(p.x), y: Math.round(p.y), z: Math.round(p.z || 0) }; });
+  const msg = { key: epicCtl.key, boss: epicCtl.boss, phase: st.phase, label: (epicPhaseOf(t, st.phase) || {}).label || st.phase, since: st.since, rules, anchor: anc ? { x: Math.round(anc.x), y: Math.round(anc.y), z: Math.round(anc.z || Me.Z) } : null,
+    enemy: enemy ? { x: Math.round(enemy.x), y: Math.round(enemy.y) } : null, tank: epicCtl.tank, pts, bossObj: live.boss ? live.boss.id : 0, larvaObj: live.larva ? live.larva.id : 0 };
+  epicCtl.rx = Object.assign({}, msg, { at: now() });                 // my own windows' gates read the same thing
+  if (ch.changed || now() - epicCtl.sent > 1500) { epicCtl.sent = now(); try { App.emit('swarm.epic', msg); } catch (e) { } }
+  epicLiveWrite(st.phase);
+}
+setInterval(() => { if (!epicCtl.on || !isLeader()) return; try { epicTick(); } catch (e) { logError('epicTick', e); } }, 1000);
+/** the focus during an epic fight (replaces the generic minions-first focus while epicCtl.on): EPIC-PURE epicFocusPick per phase */
+function epicFocusTick() {
+  const t = epicCtl.t, r = epicCtl.rx; if (!t || !r || !r.rules) return;
+  const v = epicCtl.view || {}, from = epicLivePts(t).tank || r.anchor;
+  const mins = epicMinions(t, r.anchor || from, epicDef().fightRadius);
+  const id = epicFocusPick(r.rules, { boss: v.boss, larva: v.larva, minions: mins, cur: epicCtl.focus, from });
+  epicCtl.focus = id;
+  raidFocus.id = id > 0 ? id : 0;
+  Object.assign(raidCtl, { focus: id, bossId: v.boss ? v.boss.id : 0, tank: epicCtl.tank || Me.Name });
+  App.emit('swarm.focus', { focus: id, boss: v.boss ? v.boss.id : 0, tank: epicCtl.tank || Me.Name, minions: mins.length });
+}
+/** raid_live_<leader>.json extras (phase name + the tactic state) */
+function epicLiveOut(phase) {
+  const t = epicCtl.t; if (!t) return null;
+  const st = epicCtl.st, Pn = st ? epicPhaseOf(t, st.phase) : null;
+  return { key: epicCtl.key, boss: t.name, source: t.source && t.source.url, phase: st ? st.phase : (phase || epicCtl.pre), label: Pn ? Pn.label : (epicCtl.preText || phase || epicCtl.pre),
+    pre: !epicCtl.on, phases: (t.phases || []).map(p => ({ id: p.id, label: p.label })), since: st ? new Date(st.since).toISOString() : null,
+    hist: st ? st.hist.map(h => ({ id: h.id, at: new Date(h.at).toISOString(), why: h.why || '' })) : [], view: epicCtl.view || null,
+    check: epicCtl.check ? { ok: epicCtl.check.ok, refuse: epicCtl.check.refuse, items: epicCtl.check.items } : null, result: epicCtl.result || '', events: epicCtl.events.slice(-20) };
+}
+function epicLiveExtras(out) {
+  if (!epicCtl.t || (!epicCtl.on && !epicCtl.mission)) return;
+  const e = epicLiveOut(); if (!e) return;
+  out.epic = e; out.phase = `Epic ${e.boss}: ${e.label}`;
+}
+function epicLiveWrite(phase) {
+  try { if (!isLeader() || !epicCtl.t) return; const o = epicLiveOut(phase) || {}; o.leader = Me.Name; o.updatedAt = new Date().toISOString(); File.WriteAllText(`${SWARM_ROOT}\\Logs\\epic_live_${liveFileName()}.json`, JSON.stringify(o)); } catch (e) { }
+}
+
+// ---- every window: engage, formation, boss off limits ----------------------------------------------------------------------------
+/** missionTeamAction 'engage' with data.epic: raid mode WITHOUT L2Swarm combat (it would hit the boss / the next room); my epic part */
+function epicEngage(data) {
+  const b = data.boss, c = (data.epic && data.epic.center) || [b.x, b.y, b.z];
+  combatSquare(num(data.epic && data.epic.radius) || 2500, c[0], c[1], c[2]);
+  stopCombatG();
+  if (!IsEnabled) EnableBot();
+  state.bossName = b.name; state.mode = 'raid'; raidCtl.aggroAt = 0; raidCtl.focus = -1; raidCtl.engaged = !!data.engaged;
+  lootSnapshot(b.name);
+  followHold(10000);
+  epicRunMine(b.name).catch(e => logError('epic part', e));
+  return { ok: true, msg: `epic ${b.name}: my part (${epicRoleKind(state.role, epicData())})` };
+}
+async function epicRunMine(bossName) {
+  raidPrep.ready = {}; raidPrep.ddStartAt = 0; raidCtl.aggroAt = 0;
+  Object.assign(raidSeq, { fullAt: 0, gateSaid: false, miss: {}, why: {} });
+  const myRun = raidSeq.runs = (raidSeq.runs || 0) + 1; raidSeq.running = true;
+  try {
+    const rr = (() => { try { return rkRaidRoutine(state.role); } catch (e) { return ''; } })();
+    if (ROLE_RE.tank.test(state.role || '') || rr === 'tank') { await epicTank(); return; }
+    if (isHealerRole() || HEALER_ROLES.test(state.role || '')) return;   // the healer brain (healTick) heals in raids
+    if (state.role === 'doomcryer') { await raidDoomcryer(); return; }
+    let boss = null; try { boss = findMobByName(bossName, epicDef().searchRange); } catch (e) { }
+    if (state.role === 'inspector' && boss) raidInspector(boss).catch(e => logError('raidInspector', e));
+    await raidDealer(boss);
+  } finally { if (raidSeq.runs === myRun) raidSeq.running = false; }
+}
+let epicMoveBusy = false, epicTargetSaid = 0;
+setInterval(() => {
+  try {
+    const r = epicRx(); if (!r || !r.rules || r.done || Me.IsDead || !IsCharacterReady()) return;
+    followHold(8000);                                                  // no L2Swarm follow: the formation / the tank routine move us
+    const R = r.rules;
+    // boss off limits: never keep the boss as my target before the tactic says so
+    if (R.bossOffLimits && r.bossObj) { let tg = 0; try { tg = Target ? num(Target.objId) : 0; } catch (e) { } if (tg && tg === num(r.bossObj)) { try { Send.RequestTargetCancel(0); } catch (e) { } if (now() - epicTargetSaid > 15000) { epicTargetSaid = now(); note(`epic: ${r.boss} is off limits in this phase — target dropped`); } } }
+    if (!epicOwnsMove() || epicMoveBusy) return;
+    const tk = r.tank && r.tank !== Me.Name ? livePos[r.tank] : null, tankP = tk && now() - tk.at < 10000 ? { x: num(tk.X), y: num(tk.Y) } : null;
+    // the team walks (Orfen's nest): a real walk, not a straight server move
+    if (R.team === 'goto' && r.anchor && Math.hypot(r.anchor.x - Me.X, r.anchor.y - Me.Y) > 900) {
+      epicMoveBusy = true; setTask(`epic: walking to ${R.goto || 'the next spot'}`);
+      walkTo(r.anchor.x, r.anchor.y, r.anchor.z, 300, 240000, () => { const q = epicRx(); return !q || !q.rules || q.rules.team !== 'goto'; }).catch(() => { }).then(() => { epicMoveBusy = false; });
+      return;
+    }
+    if (Me.IsCasting) return;
+    const s = epicSlot({ kind: isHealerRole() ? 'healer' : epicRoleKind(state.role, epicData()), rules: R, anchor: r.anchor, tank: tankP, enemy: r.enemy, off: formationOffset().off });
+    if (!s) return;
+    if (Math.hypot(s.x - Me.X, s.y - Me.Y) > epicDef().formationTol) nnMove(s.x, s.y, Me.Z);
+  } catch (e) { }
+}, 700);
+
+// ---- the tank ----------------------------------------------------------------------------------------------------------------------
+async function epicTank() {
+  const done = {};                                                     // per phase: one-time actions (pull, lure, area 'now', UD after it)
+  let told = false;
+  while (state.mode === 'raid' && state.running && !Me.IsDead) {
+    const r = epicRx(); if (!r || !r.rules) { await sleep(500); continue; }
+    if (r.done) return;
+    const R = r.rules, key = `${r.phase}@${r.since}`, D = done[key] || (done[key] = {});
+    const boss = (() => { try { return findMobByName(state.bossName, epicDef().searchRange); } catch (e) { return null; } })();
+    const pt = (n) => (r.pts && r.pts[n]) || null, A = r.anchor;
+    const minsNear = (rad) => { let n = 0; try { const names = {}; ((epicCtl.t || epicFor(state.bossName) || {}).minions || []).forEach(m => { if (m.role !== 'larva') names[m.name] = 1; }); snapMobs().forEach(m => { if (!m.IsDead && names[String(m.Name)] && Math.hypot(m.X - Me.X, m.Y - Me.Y) < rad) n++; }); } catch (e) { } return n; };
+    // area aggro 'now' once per phase, then Ultimate Defense when the phase says afterArea
+    if (R.areaAggro === 'now' && !D.area) { const k = tankReady('area'); if (k) { D.area = true; Send.RequestMagicSkillUse(num(k.Id)); epicEvent(`${Me.Name}: ${k.Name} (phase ${r.label})`); await sleep(Math.max(num(k.HitTime), 400) + 150); } }
+    if (R.ud === 'afterArea' && (D.area || R.areaAggro !== 'now') && !D.ud) { const k = tankReady('save'); if (k) { D.ud = true; udLastTry = now(); Send.RequestMagicSkillUse(num(k.Id)); epicEvent(`${Me.Name}: ${k.Name} after the hate aura`); raidEvent(`${Me.Name}: ${k.Name} at ${Math.round(Me.HpPercent)}% HP (epic ${r.phase})`); await sleep(600); } }
+    if (R.tank === 'hold' || R.tank === 'minions') {
+      if (A && Math.hypot(A.x - Me.X, A.y - Me.Y) > 180) nnMove(A.x, A.y, A.z);
+      if (R.tank === 'minions') { const f = raidCtl.focus > 0 ? mobById(raidCtl.focus) : null; if (f && !f.IsDead && Math.hypot(f.X - Me.X, f.Y - Me.Y) < 600) { Send.Action(f.objId); await sleep(150); Send.Attack(f.objId); } }
+      await sleep(600); continue;
+    }
+    if (R.tank === 'pull' && !D.pulled) {
+      D.pulled = true;
+      const to = pt('pull') || (boss ? { x: boss.X, y: boss.Y, z: boss.Z } : null);
+      if (to) {
+        setTask(`epic: pulling ~${R.pullSize} minions`); epicEvent(`${Me.Name}: pulling toward ${P(to.x, to.y)}`);
+        const t0 = now(), lim = epicDef().pullTimeoutMs;
+        while (now() - t0 < lim && state.mode === 'raid' && !Me.IsDead) {
+          nnMove(to.x, to.y, to.z || Me.Z);
+          await sleep(400);
+          const n = minsNear(700), dTo = Math.hypot(to.x - Me.X, to.y - Me.Y);
+          if (n >= num(R.pullSize) || dTo < 150 || (boss && Math.hypot(boss.X - Me.X, boss.Y - Me.Y) < 900) || Me.HpPercent < 55) { epicEvent(`${Me.Name}: ${n} minions on me — back to the wall`); break; }
+        }
+        const back = A || pt('hold');
+        if (back) { const t1 = now(); while (Math.hypot(back.x - Me.X, back.y - Me.Y) > 200 && now() - t1 < 25000 && !Me.IsDead) { nnMove(back.x, back.y, back.z || Me.Z); await sleep(500); } }
+      }
+      epicFlag('pulled');
+      continue;
+    }
+    if (R.tank === 'rush') {
+      const to = (r.larvaObj && mobById(r.larvaObj)) ? (() => { const l = mobById(r.larvaObj); return { x: l.X, y: l.Y, z: l.Z }; })() : pt(R.rushTo || 'larva');
+      if (to && Math.hypot(to.x - Me.X, to.y - Me.Y) > 150) { nnMove(to.x, to.y, to.z || Me.Z); setTask('epic: rushing to the larva'); }
+      await sleep(500); continue;
+    }
+    if (R.tank === 'goto' && !D.goto) {
+      D.goto = true;
+      const to = pt(R.goto || 'nestEntrance');
+      if (to) { setTask(`epic: to ${R.goto || 'the nest entrance'}`); await walkTo(to.x, to.y, to.z, 200, 240000, () => { const q = epicRx(); return !q || q.phase !== r.phase; }); }
+      continue;
+    }
+    if (R.tank === 'lure' && !D.lure) {
+      D.lure = true;
+      const back = A || pt('nestEntrance'), t0 = now();
+      setTask('epic: luring the boss to the entrance (no hits)'); epicEvent(`${Me.Name}: luring ${state.bossName}`);
+      while (now() - t0 < 25000 && state.mode === 'raid' && !Me.IsDead) {
+        const bo = (() => { try { return findMobByName(state.bossName, epicDef().searchRange); } catch (e) { return null; } })();
+        if (!bo) { const n = pt('nest'); if (n) nnMove(n.x, n.y, n.z); await sleep(500); continue; }
+        const onMe = (num(lastAttackerOnMe.id) === num(bo.objId) && now() - lastAttackerOnMe.at < 4000) || (raidLive.bossTarget && num(raidLive.bossTarget.id) === num(Me.objId) && now() - raidLive.bossTarget.at < 4000);
+        if (onMe || Math.hypot(bo.X - Me.X, bo.Y - Me.Y) < 350) break;
+        nnMove(bo.X, bo.Y, bo.Z); await sleep(450);
+      }
+      if (back) { const t1 = now(); while (Math.hypot(back.x - Me.X, back.y - Me.Y) > 200 && now() - t1 < 25000 && !Me.IsDead) { nnMove(back.x, back.y, back.z || Me.Z); await sleep(500); } }
+      epicFlag('pulled');
+      continue;
+    }
+    if (R.tank === 'boss') {
+      if (!boss || boss.IsDead) { if (A && Math.hypot(A.x - Me.X, A.y - Me.Y) > 250) nnMove(A.x, A.y, A.z); await sleep(600); continue; }
+      if (R.areaAggro === 'free' && minsNear(400) >= 2) { const k = tankReady('area'); if (k) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(Math.max(num(k.HitTime), 400) + 150); } }
+      const single = tankReady('single');
+      if (single) { Send.Action(boss.objId); await sleep(200); Send.RequestMagicSkillUse(num(single.Id)); await sleep(Math.max(num(single.HitTime), 400) + 150); }
+      if (!told && (single || Distance(boss) < 200)) { told = true; App.emit('swarm.aggro', { boss: boss.objId }); raidCtl.aggroAt = now(); }
+      await raidDebuffStep(boss);
+      Send.Action(boss.objId); await sleep(150); Send.Attack(boss.objId);
+      await sleep(700); continue;
+    }
+    await sleep(600);
+  }
+}
+// ---- raidhunt (off by default: epic_tactics.json enabledInRaidhunt) -------------------------------------------------------------------
+function epicHuntOk(b, lo, hi) {
+  try {
+    const J = epicData(); if (!J || J.enabledInRaidhunt !== true) return false;
+    const t = epicFor(b); if (!t || raidHunt.skip[b.name] || b.skipHunt || raidExcluded(b)) return false;
+    const L = epicLevel(t, 0).level; if (!(L >= lo && L <= hi)) return false;
+    return epicPreCheck(t, b).ok;
+  } catch (e) { return false; }
 }
 
 // LOOT RECORD (user 2026-10-04 22:55: "write down what we got per raid boss"): every window snapshots its bag when the raid starts and,
@@ -11255,6 +11961,25 @@ async function manualKamaloka(arg) {
   if (out === null) return;                                            // no hall team fits: said so in party chat
   try { await leaderMission('kamaloka', arg); } finally { if (out.length) unbenchHall(); }
 }
+/** The end of a raid mission (lead mode): result, raid_status / raid_seen, loot, report, everyone stops. Moved out of leaderMission
+ *  2026-10-10 so the epic tactics (epicMission) end the same way. */
+async function raidMissionFinish(boss, outcome) {
+  SayToParty(`[mission] ${boss.name}: ${outcome === 'dead' ? 'KILLED — collecting loot' : outcome}`);
+  note(`raid ${boss.name}: ${outcome}`, true);
+  raidActiveWrite(boss.name, true);
+  raidEvent(`RESULT: ${boss.name} ${outcome}`);
+  if (outcome === 'dead') raidStatusSet(boss.name, false, 'killed by us');
+  else if (outcome === 'not-found') raidStatusSet(boss.name, false, 'found dead (not there when we came)');
+  try { appendShared(SWARM_ROOT + '\\Logs\\raid_seen.log', `${new Date().toISOString()}\t${boss.id}\t${boss.name}\t${outcome}\r\n`); } catch (e) { }
+  if (outcome === 'dead') { SayToParty('!loot'); await sleep(1500); await lootGround(1500, 25000); await sleep(2000); }   // was 60 s: Forward Drop puts the drops on the leader anyway (speed, 2026-10-06)
+  raidReport.finish(boss, outcome);
+  // everyone STOPS after the raid (user 2026-10-04 22:18: the dealers kept pulling other monsters with the raid combat zone still on)
+  App.emit('swarm.calm', { why: 'raid done' }); stopCombatG();                              // everyone leaves raid mode
+  if (outcome === 'wiped') { SayToParty(`[raid] ${boss.name}: everyone fell — waiting for orders`); SayToParty('!stop'); setLeadPaused(true, 'auto:wipe'); }   // user: fight to the last one, THEN decide (regroup in Giran allowed, split watchdog)
+  else if (!raidHunt.active) { SayToParty('!stop'); setLeadPaused(true, 'auto:raid-done'); }   // raidhunt goes on to the next boss
+  state.mode = 'idle';
+  SayToParty(`[mission] done: raid ${boss.name} (${outcome}) — waiting here for orders`);
+}
 async function leaderMission(kind, arg) {
   if (!isLeader()) return;
   // ORDERSTICK (2026-10-10): another team task (supply run / regroup) = WAIT for it (max 10 min), it was "busy" = the order dropped
@@ -11269,13 +11994,23 @@ async function leaderMission(kind, arg) {
   regroupRun = { id: runId, reason: `mission ${kind} ${arg || ''}`.trim() }; try { pairsTravelStop(`mission ${kind}`); } catch (e) { }   // PAIRSGATE
   const g = CONFIG.regroup;
   try {
-    let boss = null;
+    let boss = null, epicT = null;
     if (kind === 'raid') {
       boss = findBoss(arg);
       if (!boss) { SayToParty(`[mission] unknown raid boss '${arg}'`); return; }
       { const tm = teamMaxLevel(), rl = num(boss.routeMaxMobLevel);
         if (rl > tm + CONFIG.danger.margin) { SayToParty(`[safety] not raiding ${boss.name}: the way there has level-${rl} monsters (${boss.routeDanger || '?'}), team max ${tm}`); note(`mission: refused ${boss.name} — route danger ${rl} (${boss.routeDanger || ''})`, true); return; } }
       SayToParty(`[mission] RAID ${boss.name} (lvl ${boss.level}) — pause, home, buff, restock, go`);
+      // EPIC (user 2026-10-10): Core / Queen Ant / Orfen run the L2Toggle guide tactic (Scripts/data/epic_tactics.json); refused BEFORE any trip
+      // when the party cannot win it (composition, levels vs zone cap + curse, max 10 of our clients in the zone)
+      epicT = epicFor(boss);
+      if (epicT) {
+        if (!leadMode()) { SayToParty(`[epic] ${boss.name}: the guide tactic needs lead mode — not started`); return; }
+        const chk = epicPreCheck(epicT, boss); Object.assign(epicCtl, { t: epicT, boss: boss.name, key: String(epicT.id), check: chk });
+        if (!chk.ok) { epicRefuse(epicT, chk); return; }
+        SayToParty(`[epic] ${boss.name}: guide tactic (${String(epicT.source && epicT.source.url || '').replace(/^https?:\/\//, '').slice(0, 90)}) — ${String(epicT.summary || '').slice(0, 150)}`);
+        chk.items.filter(i => !i.ok && !i.hard).forEach(i => SayToParty(`[epic] warning: ${i.label}`));
+      }
       Object.assign(missionBoss, { name: boss.name, until: now() + 3 * 3600e3 }); App.emit('swarm.missionboss', { name: boss.name }); raidActiveWrite(boss.name, false);
     } else if (kind === 'kamaloka') {
       const levels = [Me.Level];
@@ -11375,6 +12110,7 @@ async function leaderMission(kind, arg) {
       if (!regroupAlive(runId)) return;
       // TEAMJOIN (2026-10-09): never set off with teammates missing — every online teammate with me first (call / walk over / hub regroup)
       if (!(await ensureTeamForTrip(`raid ${boss.name}`, () => !regroupAlive(runId)))) { SayToParty(`[mission] ${boss.name}: not setting off — the team is not together`); raidActiveWrite(boss.name, true); return; }
+      if (epicT) { const eo = await epicMission(boss, epicT, runId); if (eo === null) { raidActiveWrite(boss.name, true); return; } await raidMissionFinish(boss, eo); return; }   // EPIC (2026-10-10)
       const tp = boss.nearestTeleport || {};
       const spot = { name: `raid: ${boss.name}`, levelMin: 1, levelMax: 99, center: { x: boss.x, y: boss.y, z: boss.z }, radius: 1500,
         gk: tp.desc ? { from: String(tp.from || '').split('(')[0].trim(), desc: tp.desc } : null };
@@ -11426,21 +12162,7 @@ async function leaderMission(kind, arg) {
         EnableBot();
         outcome = await waitBossDead(boss, runId, CONFIG.mission.raidTimeoutMs);
       }
-      SayToParty(`[mission] ${boss.name}: ${outcome === 'dead' ? 'KILLED — collecting loot' : outcome}`);
-      note(`raid ${boss.name}: ${outcome}`, true);
-      raidActiveWrite(boss.name, true);
-      raidEvent(`RESULT: ${boss.name} ${outcome}`);
-      if (outcome === 'dead') raidStatusSet(boss.name, false, 'killed by us');
-      else if (outcome === 'not-found') raidStatusSet(boss.name, false, 'found dead (not there when we came)');
-      try { appendShared(SWARM_ROOT + '\\Logs\\raid_seen.log', `${new Date().toISOString()}\t${boss.id}\t${boss.name}\t${outcome}\r\n`); } catch (e) { }
-      if (outcome === 'dead') { SayToParty('!loot'); await sleep(1500); await lootGround(1500, 25000); await sleep(2000); }   // was 60 s: Forward Drop puts the drops on the leader anyway (speed, 2026-10-06)
-      raidReport.finish(boss, outcome);
-      // everyone STOPS after the raid (user 2026-10-04 22:18: the dealers kept pulling other monsters with the raid combat zone still on)
-      App.emit('swarm.calm', { why: 'raid done' }); stopCombatG();                              // everyone leaves raid mode
-      if (outcome === 'wiped') { SayToParty(`[raid] ${boss.name}: everyone fell — waiting for orders`); SayToParty('!stop'); setLeadPaused(true, 'auto:wipe'); }   // user: fight to the last one, THEN decide (regroup in Giran allowed, split watchdog)
-      else if (!raidHunt.active) { SayToParty('!stop'); setLeadPaused(true, 'auto:raid-done'); }   // raidhunt goes on to the next boss
-      state.mode = 'idle';
-      SayToParty(`[mission] done: raid ${boss.name} (${outcome}) — waiting here for orders`);
+      await raidMissionFinish(boss, outcome);
       return;
     }
     await teamStep(runId, 'pause', 15000);
@@ -17773,7 +18495,7 @@ async function raidHuntLoop(minL, maxL) {
       // and never a boss whose way there passes monsters far above us (Skyla 32 = an 18 km walk through level-85 Dragon Valley, 2026-10-05)
       // reachable === false: no walkable route from any town landing (docs/plan/tools/raid_verify.js, geodata path finder)
       const routeOk = (b) => b.reachable !== false && num(b.routeMaxMobLevel) <= Math.max(tMax, teamMaxLevel()) + CONFIG.danger.margin;
-      const cands = raidDb().filter(b => b.type === 'raid' && !EPIC_BOSS_RE.test(String(b.name)) && num(b.curseLevel || b.level) >= lo && b.level <= hi && b.recommendedFor9Man !== false && !raidHunt.skip[b.name] && !b.skipHunt && !raidExcluded(b) && !inDungeon(b) && routeOk(b))
+      const cands = raidDb().filter(b => epicHuntOk(b, lo, hi) || b.type === 'raid' && !EPIC_BOSS_RE.test(String(b.name)) && num(b.curseLevel || b.level) >= lo && b.level <= hi && b.recommendedFor9Man !== false && !raidHunt.skip[b.name] && !b.skipHunt && !raidExcluded(b) && !inDungeon(b) && routeOk(b))
         .filter(b => { const s = status[String(b.id)]; return !(s && s.alive === false && now() - Date.parse(s.at) < (b.respawnMinH || 12) * 3600e3); })
         .sort((a, b) => (clanQuestBoss(b.name) - clanQuestBoss(a.name)) || (a.level - b.level) || (Math.hypot(a.x - Me.X, a.y - Me.Y) - Math.hypot(b.x - Me.X, b.y - Me.Y)));
       // no boss up right now (all killed / respawning / skipped): LEVEL meanwhile and look again every 15 min (2026-10-06 02:31: the team
@@ -22637,6 +23359,7 @@ setInterval(() => {
     if (!inRaid() || isLeader() || !IsCharacterReady() || Me.IsDead) return;
     const healer = isHealerRole() || HEALER_ROLES.test(state.role || ''), caster = CASTER_ROLES.test(state.role || '');
     if (!healer && !caster) return;
+    if (epicOwnsMove()) return;                                         // EPIC (2026-10-10): the epic formation places me
     // members do not have state.bossName — the leader's focus broadcast (raidCtl.bossId) names the boss (2026-10-06: the first version
     // found no boss on the members and did nothing; the healers stood 276 from Shadar again)
     let B = null;
@@ -22832,6 +23555,7 @@ setInterval(() => {
   // cooldown most ticks); the scan works on the snapshot entries (plain data, <= 250 ms old; only objIds are handed to the server), my position
   // and my target are read once.
   if (!tankReady('area') && !tankReady('single')) return;
+  if (epicTankSpamOff()) return;                                        // EPIC (2026-10-10): no aggro in this phase (stage / pull / rush / lure)
   if (!inst.on && currentTownKey()) return;
   // raid set-up (staging, area clear, countdown): the boss and everything within 2500 of it are off limits until the tank's own pull
   let bossNear = null;
@@ -22855,7 +23579,7 @@ setInterval(() => {
   if (!tgt) return;
   if (aggroSpamHold({ now: now(), castLock: state.raidCastLock, onMate: !!onMate })) return;   // a debuff cast is pending: a new Aggression request replaced the queued Sting (RAIDROLE 2026-10-09)                                           // outside an instance: only monsters already in our fight
   // mass aggro first whenever 2+ monsters of the fight are around me (user 2026-10-05 21:35), the single one when it is on cooldown
-  const area = near.filter(m => Math.hypot(m.X - mx, m.Y - my) < 400 && (inst.on || hitsUs(m) || m === mine)).length >= 2 ? tankReady('area') : null;
+  const area = epicAreaHold() ? null : near.filter(m => Math.hypot(m.X - mx, m.Y - my) < 400 && (inst.on || hitsUs(m) || m === mine)).length >= 2 ? tankReady('area') : null;
   const single = area ? null : tankReady('single');
   const sk = area || single; if (!sk) return;
   instAggroBusy = true;
@@ -22880,6 +23604,7 @@ setInterval(() => {
   const peak = Math.max(...tankHp.map(h => h.hp));
   // HP < 40 %, 20+ points lost in 3 s, or 4+ monsters on me with HP under 65 %
   if (!(hp < 40 || peak - hp >= 20 || (fullAgg.onMe >= 4 && hp < 65))) return;
+  if (epicUdHold(hp)) return;                                           // EPIC (2026-10-10): the guide keeps Ultimate Defense for later (emergency below udEmergencyHp)
   if (now() - udLastTry < 10000) return;                              // the skill shows ready for a moment after the cast (sent 3x in 1 s)
   const k = tankReady('save');
   if (!k) return;
@@ -22892,6 +23617,7 @@ setInterval(() => {
 // minions (2026-10-04 23:40: Ferkel's list showed Dungeon Skeletons/Dread Soldiers and the team focused them). Unknown boss = old rule.
 const minionNameCache = {};
 function minionNames(bossName) {
+  if (minionNameCache[bossName] === undefined) { const et = epicFor({ name: bossName }); if (et && (et.minions || []).length) { minionNameCache[bossName] = et.minions.map(m => String(m.name)); return minionNameCache[bossName]; } }   // EPIC: the tactic's minions
   if (minionNameCache[bossName] === undefined) { const b = findBoss(bossName); minionNameCache[bossName] = b ? (Array.isArray(b.minions) ? b.minions.map(x => String(x).replace(/\s*x\d+\s*$/i, '').trim()) : []) : null; }
   return minionNameCache[bossName];
 }
@@ -22914,6 +23640,7 @@ const spacing = { on: false, lastMove: 0 };
 setInterval(() => {
   try {
     if (!state.role || !CASTER_ROLES.test(state.role) || !IsCharacterReady() || Me.IsDead) return;
+    if (epicOwnsMove()) return;                                         // EPIC (2026-10-10): the epic formation places me
     if (state.mode !== 'raid' || !state.bossName) { if (spacing.on) { spacing.on = false; try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } } return; }
     const boss = findMobByName(state.bossName, 2500);
     if (!boss) return;
@@ -22935,6 +23662,7 @@ const bossOnOther = { at: 0, who: '' };          // the boss hits a teammate who
 App.on('swarm.attacked', (e) => { try { if (!isLeader() || state.mode !== 'raid') return; const d = e.data; if (!d || d.name === Me.Name) return; const lp = livePos[d.name] || {}; minionOnMate[d.attacker] = { at: now(), prio: lp.healer ? 0 : 1 }; { const am = mobById(d.attacker); if (am && state.bossName && String(am.Name) === state.bossName && isRaidBossMob(am)) { bossOnOther.at = now(); bossOnOther.who = d.name; } } } catch (er) { } });
 setInterval(() => {
   if (!isLeader() || state.mode !== 'raid' || !state.bossName) return;
+  if (epicCtl.on) { try { epicFocusTick(); } catch (e) { } return; }   // EPIC (2026-10-10): the phase decides the focus (EPIC-PURE epicFocusPick)
   const boss = findMobByName(state.bossName, 3000);
   if (!boss) return;
   const mins = bossMinions(boss);
@@ -23288,8 +24016,9 @@ setInterval(() => {
 setInterval(() => {
   if (kamaLive.on) return;                         // the Kamaloka view owns raidLive while a Kamaloka runs
   const rcl = raidClearLive.on && state.mode === 'raidclear';      // RAID FIGHT AREA (2026-10-09): the live view shows the clear too (monsters left inside the clear area)
-  const bossName = rcl ? raidClearLive.boss : state.bossName;
-  if (!isLeader() || (state.mode !== 'raid' && !rcl) || !bossName) { raidLive.startedAt = 0; return; }
+  const epre = !rcl && state.mode !== 'raid' && epicPreLive();          // EPIC (2026-10-10): travel / search / stage of an epic show live too
+  const bossName = rcl ? raidClearLive.boss : epre ? epicCtl.boss : state.bossName;
+  if (!isLeader() || (state.mode !== 'raid' && !rcl && !epre) || !bossName) { raidLive.startedAt = 0; return; }
   try {
     if (!raidLive.startedAt) { raidLive.startedAt = now(); raidLive.events = []; raidLive.minionIds = {}; raidLive.dead = {}; raidLive.gone = {}; raidLive.casts = {}; raidLive.act = {}; raidLive.dmg = {}; raidLive.dmgLog = []; raidLive.bossCasts = []; raidLive.bossTarget = null; raidLive.debuffs = []; raidEvent(rcl ? `clearing for ${bossName}` : `raid started: ${bossName}`); }
     const boss = findMobByName(bossName, 4000);
@@ -23321,7 +24050,8 @@ setInterval(() => {
         .concat(Object.keys(raidLive.gone).map(id => ({ name: raidLive.gone[id], hp: 0, objId: Number(id), focus: false, dead: true }))),
       focus: raidCtl.focus, bossName, area: raidLiveArea(rcl), phase: rcl ? `Raid clearing: ${raidClearLive.left.length} left inside the ${raidClearLive.area ? 'clear area' : 'boss area (no fight area set)'} · ${raidClearLive.killed} killed` : !raidCtl.aggroAt ? 'waiting for the tank / destroyers' : mins.length ? `killing minions (${mins.length} left)` : 'on the boss',
       party, events: raidLive.events, startedAt: new Date(raidLive.startedAt).toISOString(), updatedAt: new Date().toISOString() };
-    try { raidHudExtras(out); } catch (e) { }                                // RAIDLIVE HUD 2026-10-09: boss target fallback + HP history
+    try { raidHudExtras(out); } catch (e) { }
+    try { epicLiveExtras(out); } catch (e) { }                              // EPIC (2026-10-10): phase name + tactic state                                // RAIDLIVE HUD 2026-10-09: boss target fallback + HP history
     File.WriteAllText(SWARM_ROOT + '\\Logs\\raid_live_' + liveFileName() + '.json', JSON.stringify(out));   // LIVE PER PARTY 2026-10-09: one file per leader (two parties can raid at once)
   } catch (e) { }
 }, 1000);
@@ -23363,7 +24093,7 @@ async function raidDealer(boss) {
   // FULL AGGRO first (user 2026-10-05 22:20: "no one attacks ANYTHING until Tank1 has full aggro"): wait for it (destroyers 150 s, others 90 s)
   while (!fullAggro() && !aggroMsg.stuck && now() - t0 < Math.max(waitMs, 90000) && state.mode === 'raid' && !Me.IsDead) {
     const tk = partyMember(raidCtl.tank || CONFIG.leader);
-    if (tk && !tk.IsDead) { const s = raClampXY(followSpot(tk).x, followSpot(tk).y); if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 250 && !Me.IsCasting) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } } }   // inside the fight area (RAIDAREA)
+    if (tk && !tk.IsDead && !epicOwnsMove()) { const s = raClampXY(followSpot(tk).x, followSpot(tk).y); if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 250 && !Me.IsCasting) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } } }   // inside the fight area (RAIDAREA)
     setTask(`raid: behind ${CONFIG.leader}, waiting for full aggro`);
     await sleep(500);
   }
@@ -23385,7 +24115,7 @@ async function raidDealer(boss) {
     // no full aggro (a new minion, one on a healer): stop attacking, follow behind the tank until he has them all again —
     // unless the focus is one he can not hold for 8 s (archers on the healers): then kill that one (mayAttack)
     if (!mayAttack(tgt)) {
-      if (tank && !tank.IsDead && !Me.IsCasting) { const s = followSpot(tank); if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 250) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } } }
+      if (tank && !tank.IsDead && !Me.IsCasting && !epicOwnsMove()) { const s = followSpot(tank); if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 250) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } } }
       setTask('raid: holding — the tank does not have full aggro'); await sleep(400); continue;
     }
     if (state.role === 'destroyer' && !ddStartSent && tgt.objId === bossId && Distance(tgt) < 200) { ddStartSent = true; App.emit('swarm.ddstart', {}); if (!raidPrep.ddStartAt) raidPrep.ddStartAt = now(); }
@@ -23398,7 +24128,7 @@ async function raidDealer(boss) {
       const b = behindSpot(tgt, tank, FORMATION.melee.r, null, formationOffset().off * FORMATION.melee.step);
       if (Math.hypot(Me.X - b.x, Me.Y - b.y) > 90) { try { Send.MoveBackwardToLocation(Math.round(b.x), Math.round(b.y), Math.round(Me.Z)); } catch (e) { } await sleep(700); }
     }
-    if (CASTER_ROLES.test(state.role || '') && tank && raidDealer.rise !== aggroMsg.rises && !Me.IsCasting) {
+    if (CASTER_ROLES.test(state.role || '') && tank && raidDealer.rise !== aggroMsg.rises && !Me.IsCasting && !epicOwnsMove()) {
       raidDealer.rise = aggroMsg.rises;
       const s0 = casterBehindSpot(tank, 700), s = raClampXY(s0.x, s0.y);   // RAID FIGHT AREA: the slot inside the area (its edge facing the boss)
       if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 200) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } await sleep(1500); }
@@ -23415,12 +24145,12 @@ async function raidDealer(boss) {
     { const ordBase = castOrder(plan.attacks, { hpPct: num(Me.HpPercent), worth: true }), ord = elementOrder(ordBase, state.bossName);
       ord.forEach(sk => { reach = Math.max(reach, sk.range || 0); });
       const pk = castPick(castCands(posFilterOrder(tgt, ord)), { mp: num(Me.MP), hpPct: num(Me.HpPercent), dist: Distance(tgt), mobs: countMobsNear(tgt.X, tgt.Y, CONFIG.autoSkills.aoeRadius),
-        aoeMinMobs: CONFIG.autoSkills.aoeMinMobs, worth: true, blocked: castBlocked, now: now(), primaryId: ord !== ordBase ? ((ord.find(x => !castIsAoe(x)) || {}).id || 0) : 0 });
+        aoeMinMobs: epicAoeMin(CONFIG.autoSkills.aoeMinMobs), worth: true, blocked: castBlocked, now: now(), primaryId: ord !== ordBase ? ((ord.find(x => !castIsAoe(x)) || {}).id || 0) : 0 });
       if (pk.skill) { const r = await castNow(pk.skill); castOne = !!r.started; }
       else { castStats.why[pk.why] = (castStats.why[pk.why] || 0) + 1; if (pk.wait && pk.wait < 400) await sleep(pk.wait); } }
     // a caster out of reach of its longest attack steps in just enough (2026-10-06 Hellion: Necro1 stood 700 behind the group, his
     // spells reach ~600, and he dealt 7.6k in 30 min while the destroyers dealt 60k): never closer than 450
-    if (!castOne && reach && CASTER_ROLES.test(state.role || '') && !isHealerRole() && Distance(tgt) > reach + 60 && !Me.IsCasting) {
+    if (!castOne && reach && CASTER_ROLES.test(state.role || '') && !isHealerRole() && Distance(tgt) > reach + 60 && !Me.IsCasting && !epicOwnsMove()) {
       const ang = Math.atan2(Me.Y - tgt.Y, Me.X - tgt.X), want = Math.max(RAIDKEEP.caster - RAIDKEEP.tol, reach - 100);   // never into the boss's AoE (Shadar wipe 2026-10-06)
       { const c = raClampXY(tgt.X + Math.cos(ang) * want, tgt.Y + Math.sin(ang) * want); try { Send.MoveBackwardToLocation(Math.round(c.x), Math.round(c.y), Math.round(Me.Z)); } catch (e) { } }   // inside the fight area (RAIDAREA)
       await sleep(900);
