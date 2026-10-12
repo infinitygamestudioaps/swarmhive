@@ -16,6 +16,13 @@ next to a two-handed weapon, polearm, bow or duals. By default they also keep th
 item with one of a **higher** grade. Both are switches in the box. Your own choices in the planner below always win. `!upgrade` is your
 order and runs even with auto upgrades off (a lock still holds).
 
+**Starter gear** (the pieces a character is created with: Squire's Sword / Shirt / Pants, Apprentice's Wand / Tunic / Stockings,
+Training Gloves, Guild Member's Club, the Newbie Guide's "Apprentice Adventurer's" weapons) is not your choice, so its type never holds
+a slot: a Warrior's Squire's Sword becomes the class's two-handed sword, a Rogue's a dagger, a mystic's wand a staff (a bow only for an
+archer). **Replaced starter gear** in the box says what happens to the piece an upgrade replaced: *sell it* (default; sold at Helvetia
+in Giran, destroyed when the shop refuses it), *destroy it*, or *keep it in the bag* (then the junk sale leaves starter pieces alone too).
+Quest items, enchanted and S.A. items are never touched.
+
 > New to the words used here (grade, Common item, S.A., set bonus, supply run)? See the [glossary](../06-glossary.md).
 > The old per-role Gear tab (2026-10-06) is what you see until the dashboard server has been restarted once; its choices keep working
 > (they show up in the planner as "from the old *role* choice").

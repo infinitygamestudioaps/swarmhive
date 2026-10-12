@@ -12,7 +12,9 @@
 # What it KEEPS (never overwritten):
 #   swarm.config.json, Settings\ (your accounts; Settings\templates you changed), Logs\, Dashboard\key.txt, the generated images,
 #   your data files Scripts\data\custom_zones.json, party_spots.json, party_tactics.json, gear_prefs.json, soul_prefs.json, sell_list.json,
-#   siege_plans.json, dye_plan.json, roster_extra.json, clan_quests.json, giran_routes.json, class_plans.json, buff_plans.json, raid_excluded.json (the package only ships *.example.json of them),
+#   siege_plans.json, dye_plan.json, roster_extra.json, clan_quests.json, giran_routes.json, class_plans.json, buff_plans.json, raid_excluded.json,
+#   stash_rules.json, brain_host.json, brain_parties.json, fund_rules.json, seven_signs.json, quest_farm.json, spot_learned.json,
+#   skill_enchant_plan.json, gear_auto.json (the package only ships *.example.json of them),
 #   recorded/locked routes (Scripts\data\routes\) and live gatekeeper menus (gk_live\) you changed, and every room / spot / area / zone you
 #   edited in the dashboard shape editor (manual: true - merged into the new data with docs\plan\tools\manual_guard.js).
 # What it REPLACES: the code (Scripts_dev\swarm.js, Dashboard, tools, SETUP, patches\universal, docs). A changed code file is saved first to
@@ -83,6 +85,11 @@ if ($useGit) {
                 if ($upChanged -contains $f -and (Test-Path -LiteralPath $live)) { Copy-Item -LiteralPath $live "$live.upstream" -Force }
                 Copy-Item -LiteralPath $mine $live -Force
                 [void]$kept.Add($rel + $(if ($upChanged -contains $f) { '   (the update also changed it: its version is in ' + $rel + '.upstream)' } else { '' }))
+            } elseif ($upChanged -contains $f -and -not (Test-Path -LiteralPath $live) -and ($rel -like 'Scripts\data\*.json') -and (Test-Path -LiteralPath ($live -replace '\.json$', '.example.json'))) {
+                # the package stopped shipping this data file and ships <name>.example.json instead (v1.6.0: stash_rules, spot_learned ...):
+                # it is one of YOUR data files from now on - your copy stays
+                Copy-Item -LiteralPath $mine $live -Force
+                [void]$kept.Add("$rel   (yours from now on: the package ships $(Split-Path ($live -replace '\.json$', '.example.json') -Leaf))")
             } elseif ($upChanged -contains $f) {
                 [void]$changedByUs.Add($rel)
             } else {
@@ -171,6 +178,13 @@ if (-not $NoDeploy -and (Test-Path $dev) -and ((Hash $dev) -ne (Hash $live))) {
         New-Item -ItemType Directory -Force (Split-Path $live) | Out-Null
         & node --check $dev; if ($LASTEXITCODE -ne 0) { Say 'Scripts_dev\swarm.js has a syntax error - not deployed' Red } else { Copy-Item $dev $live -Force; Say 'deployed Scripts_dev\swarm.js -> Scripts\swarm.js (L2Swarm is not running)' }
     }
+}
+
+# ------------------------------------------------------------------ the new engine's agent (v1.6.0): Scripts_dev\agent2.js -> Scripts\agent2.js
+# (harmless when the new engine is off: no account runs it; accounts that do run it reload it and reconnect within seconds)
+$devA = "$root\Scripts_dev\agent2.js"; $liveA = "$root\Scripts\agent2.js"
+if (-not $NoDeploy -and (Test-Path $devA) -and ((Hash $devA) -ne (Hash $liveA))) {
+    & node --check $devA; if ($LASTEXITCODE -ne 0) { Say 'Scripts_dev\agent2.js has a syntax error - not deployed' Red } else { Copy-Item $devA $liveA -Force; Say 'deployed Scripts_dev\agent2.js -> Scripts\agent2.js' }
 }
 
 # ------------------------------------------------------------------ optional patch: tell, never apply by itself

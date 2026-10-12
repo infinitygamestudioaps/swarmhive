@@ -151,7 +151,7 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(fail > 0 && pf > fail && pf < ban, 'a trip interrupted for the dashboard choice continues BEFORE any spot ban');
   check(/manualSpotOnPick\(spot\);/.test(body) && /manualSpotOnTravel\(spot, true\);/.test(body), 'status hooks after the pick and on arrival');
   const tts = src.slice(src.indexOf('async function travelToSpot'), src.indexOf('async function autoLevelLoop'));
-  check(/!sameFloorRoom && (!viaGiran && )?Math\.hypot\(spot\.center\.x - Me\.X/.test(tts),'travelToSpot: no Giran regroup for a room on the floor we stand on');
+  check(/!sameFloorRoom && (!viaGiran && )?(!nonstopOn\(\) && )?Math\.hypot\(spot\.center\.x - Me\.X/.test(tts),'travelToSpot: no Giran regroup for a room on the floor we stand on');
   check(/manualSpot: \(isLeader\(\) \|\| soloChar\(\)\) \? \(\(\) => \{ try \{ return manualSpotPublic\(\)/.test(src), 'swarm_state carries manualSpot');
   check(/if \(now\(\) - manualState\.at > 5000\)/.test(src), 'party_spots.json is re-read every 5 s');
 }
@@ -265,6 +265,11 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   { const kp2 = src.slice(src.indexOf('function toggleCtx()'), src.indexOf('async function autoSkillTick'));
     check(/act === 'on' && !busy/.test(kp2) && !kp2.includes('state.escaping || tradeState || Me.IsSitting || rest.sitting || state.gkBusy) return'), 'trade / gatekeeper / escape: toggles still switched OFF, never ON'); }
   check(D({ name: 'Fake Death', running: true, wanted: false, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === '', 'Fake Death is never switched off by the keeper');
+  // 2026-10-10 (user: "Dagger1 still has Silent Move activated - it's also a toggle skill")
+  check(D({ name: 'Silent Move', running: true, wanted: false, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 1e6 - 9000, town: false }) === 'off', 'Silent Move left on in the field: switched OFF after the fight-off delay');
+  check(D({ name: 'Silent Move', running: true, wanted: false, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === 'off', 'Silent Move in a town: OFF');
+  { const kp3 = src.slice(src.indexOf('function toggleCtx()'), src.indexOf('async function autoSkillTick'));
+    check(/scoutCtl\.on && typeof SCOUT_SPEED !== 'undefined' && \(SCOUT_SPEED\.stealthRe\.test\(name\)/.test(kp3), 'during a scout trip the keeper leaves the stealth toggle to the scout'); }
   check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 1e6 - 5000 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === '', `recast gap ${M.TOGGLE_RULE.recastGapMs / 1000} s (IsRunning needs a moment to show)`);
   check(D({ name: 'Accuracy', running: false, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: true, lastFightAt: 1e6, town: false, dead: true }) === '', 'dead: nothing');
   check(D({ name: 'Accuracy', running: false, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: true, lastFightAt: 1e6, town: true }) === '', 'never on in a town, even when hit there');
@@ -310,7 +315,7 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(/!supplyDue\(lastSupplyAtGet\(\), now\(\)\)\) return;/.test(src), 'the supply watch uses the same timestamp');
   check(!/now\(\) - lastSupplyAt\b/.test(src) && /lastSupplyAtSet\(now\(\)\);/.test(src), 'no in-memory-only timestamp left; leadSupply persists it');
   check(/control\.gen\+\+; state\.supplyHold = runId;/.test(src) && /if \(state\.supplyHold === runId\) state\.supplyHold = null;/.test(src), 'the supply run holds the team: other walks/holds step aside, the hold is released in finally');
-  check(/async function gkTeleport\(wanted, why\) \{\s*if \(supplyHoldsTeam\(\)\)/.test(src) && /if \(supplyHoldsTeam\(\)\) \{ note\(`town: NOT using \.town/.test(src), 'no .town / gatekeeper teleport by the leader during the supply run (the 18:35:17 .dion)');
+  check(/async function gkTeleport\(wanted, why\) \{(?:\s*if \(\/\^autolevel\/i[^\n]*)?\s*if \(supplyHoldsTeam\(\)\)/.test(src) && /if \(supplyHoldsTeam\(\)\) \{ note\(`town: NOT using \.town/.test(src), 'no .town / gatekeeper teleport by the leader during the supply run (the 18:35:17 .dion)');
   check(/state\.inHubRegroup \|\| state\.goingHub \|\| \(control\.owner && control\.owner !== 'leveling'/.test(src), 'idle watchdog: no 2nd regroup/supply while a regroup / order still runs (18:34:38)');
   check(/if \(rank < 0 && data && Array\.isArray\(data\.order\)\) return \{ ok: true, msg: 'nothing to buy \(plan step\)' \}/.test(src), 'gearrun: characters not on the buyers list answer at once');
   check(/dyeUnavailMark\(e\.dyeId/.test(src) && /todoAll\.filter\(e => !unavailActive\(UA, e\.dyeId, now\(\)\)\)/.test(src), 'dyeMine remembers + skips dyes no shop sold');

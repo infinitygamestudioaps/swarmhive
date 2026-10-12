@@ -66,7 +66,7 @@
   const best = (q, fields) => { const ws = String(q).split(/\s+/).filter(Boolean); if (ws.length < 2) return best1(q, fields); const v = ws.map(w => best1(w, fields)); return v.every(x => x > 0) ? v.reduce((a, b) => a + b, 0) / v.length : best1(q, fields); };
   function pages() {
     const out = [...document.querySelectorAll('#tabs [data-tab]')].map(b => ({ tab: b.dataset.tab, label: b.textContent.trim(), img: (b.querySelector('img') || {}).src || '' }));
-    out.push({ tab: 'live', label: 'Live raid view', img: '/icons/icon/accessory_raid_master_i00.png' }, { tab: 'spot', label: 'Hunting-spot map editor', img: '/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png' });
+    out.push({ tab: 'live', label: 'Live raid view', img: '/icons/icon/accessory_raid_master_i00.png' }, { tab: 'spot', label: 'Hunting-spot map editor', img: '/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png' }, { tab: 'navatlas', label: 'Navigation atlas (route to any boss / NPC / area / room)', img: '/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png' });   // NAV ATLAS 2026-10-12
     return out;
   }
   function searchItems(q) {
@@ -80,7 +80,7 @@
       return out;
     }
     if (/^[!/@]/.test(q)) out.push({ sec: 'Send as typed', kind: 'raw', raw: CC.q.trim(), s: 1000 });
-    K.COMMANDS.forEach(c => { const s = best(q, [[c.title, 1], [c.tpl, .9], [c.kw, .7], [CATN[c.cat][1], .5], [c.desc, .3]]); if (s > 0) out.push({ sec: 'Commands', kind: 'cmd', c, s: s + (c.cat === 'legacy' ? -30 : 0) }); });
+    K.COMMANDS.forEach(c => { if (c.hidden) return; const s = best(q, [[c.title, 1], [c.tpl, .9], [c.kw, .7], [CATN[c.cat][1], .5], [c.desc, .3]]); if (s > 0) out.push({ sec: 'Commands', kind: 'cmd', c, s: s + (c.cat === 'legacy' ? -30 : 0) }); });
     chars().forEach(c => { const s = best(q, [[c.name, 1.1], [c.cls, .6], [c.role, .5], [partyOf(c), .3]]); if (s > 0) out.push({ sec: 'Characters', kind: 'char', ch: c, s }); });
     Object.keys(P).forEach(L => { const s = best(q, [['party ' + L, 1.05], [L, 1]]); if (s > 0) out.push({ sec: 'Parties', kind: 'party', L, list: P[L], s }); });
     pages().forEach(p => { const s = best(q, [[p.label, .9], [p.tab, .8]]); if (s > 0) out.push({ sec: 'Pages', kind: 'page', p, s }); });
@@ -117,8 +117,8 @@
     const [kind, who] = ctx.split(':');
     const cl = clan();
     return K.COMMANDS.filter(c => {
-      if (c.targets.includes('none')) return false;
-      if (c.handler === 'clanleader') return kind === 'char' ? who === cl.leader : (parties()[who] || []).some(m => m.name === cl.leader);
+      if (c.targets.includes('none') || c.hidden) return false;                 // CMDFIX 2026-10-12: hidden catalog entries (dead / duplicate) are not offered
+      if (c.handler === 'clanleader') return kind === 'char' ? who === cl.leader : (c.targets.includes('party') || (parties()[who] || []).some(m => m.name === cl.leader));   // CMDFIX2: clanquest hunt steps on any party sheet
       return kind === 'char' ? (c.targets.includes('char') || c.targets.includes('chars')) : c.targets.includes('party');
     });
   }
@@ -153,6 +153,7 @@
     sieges: async () => { const d = await api('/api/sieges'); return { forts: (d.forts || []).map(f => f.name), castles: (d.castles || []).map(c => c.name), plans: (d.plans || []).map(p => ({ v: p.id, l: `${p.targetName || p.id} · ${p.siegeAt ? String(p.siegeAt).slice(0, 16).replace('T', ' ') : ''}` })) }; },
     gks: async () => { const d = await api('/api/gatekeepers'); const s = new Set(); (d.gatekeepers || []).forEach(g => (g.links || []).forEach(l => { if (!/^(teleport|quest|exchange|noblesse|summon|trade|buy|sell|talk|back|move to)/i.test(l)) s.add(l); })); return [...s].sort(); },
     cata: async () => ((await api('/api/spotplaces')).places || []).filter(p => p.kind === 'catacomb').map(p => ({ v: p.name, l: p.name + (p.levelRange ? ` (${[].concat(p.levelRange).join('-')})` : '') })),
+    zmaps: async () => ((await api('/api/zmaps')).zmaps || []),   // CMDFIX2 override 2026-10-12: '!zone' picker (old server: free text only)
   };
   async function load(k) {
     const d = CC.data[k]; if (d && (d.v || d.err) && Date.now() - d.at < 300000) return d.v;
@@ -180,10 +181,12 @@
       case 'kamaloka': { load('kama'); const l = have('kama'); return sel(l ? l.map(k => opt(k.v, k.l, v)).join('') : opt(v, v || 'loading…', v)); }
       case 'dungeon': { load('cata'); const l = have('cata'); return sel(opt('', '— pick —', v) + (l ? l.map(d => opt(d.v, d.l, v)).join('') : '')); }
       case 'gk': { load('gks'); const l = have('gks'); return txt('', l ? l.map(x => `<option value="${ESC(x)}">`).join('') : ''); }
+      case 'zmap': { load('zmaps'); const l = have('zmaps') || []; return txt('', l.concat('off').map(x => `<option value="${ESC(x)}">`).join('')); }   // CMDFIX2 override
       case 'fort': case 'castle': { load('sieges'); const s = have('sieges'); const l = s ? (a.type === 'fort' ? s.forts : s.castles) : null; return sel(opt('', l ? '— pick —' : 'loading…', v) + (l || []).map(x => opt(x.replace(/ (Fortress|Castle)$/, ''), x, v)).join('')); }
       case 'siegeplan': { load('sieges'); const s = have('sieges'); return sel(opt('', s ? (s.plans.length ? '— pick —' : 'no saved plans (Fortresses / Castles tab)') : 'loading…', v) + (s ? s.plans.map(p => opt(p.v, p.l, v)).join('') : '')); }
       case 'item': { const q = String(CC.args[a.key + '_q'] ?? v).toLowerCase(); const it = (typeof GD !== 'undefined' && GD.items) || {}; const hits = q.length >= 2 ? Object.keys(it).filter(id => String((it[id] || [])[0] || '').toLowerCase().includes(q) || id === q).slice(0, 40) : [];
         return `<label class="ccfield">${lab}<input id="${id}" data-arg="${a.key}" data-item="1" value="${ESC(v)}" placeholder="item id or name (2+ letters)" list="${id}_l" autocomplete="off"><datalist id="${id}_l">${hits.map(i => `<option value="${i}">${ESC(it[i][0])}</option>`).join('')}</datalist>${/^\d+$/.test(String(v)) && it[v] ? `<small class="muted">${ESC(it[v][0])}</small>` : ''}</label>`; }
+      case 'select': return sel((a.optional ? '' : opt('', '— pick —', v)) + (a.options || []).map(o => Array.isArray(o) ? opt(o[0], o[1], v) : opt(o, o, v)).join(''));   // CMDFIX 2026-10-12
       case 'number': return txt('type="number" inputmode="numeric"');
       default: return txt();
     }
@@ -191,6 +194,12 @@
   /** target chips: All / Clan / parties / characters (multi-select). */
   function targetHtml(c) {
     if (c.targets.includes('none')) return '<div class="muted">Runs on this PC (no character target).</div>';
+    if (c.handler === 'clanleader' && c.targets.includes('party')) {   // CMDFIX2-2026-10-12 (clanquest): hunt steps are run by a PARTY leader — the clan leader alone hunted them solo
+      const cl = clan(), P = parties(), ok = (t) => t === 'char:' + cl.leader || (t.startsWith('party:') && !!P[t.slice(6)]);
+      if (CC.targets.length !== 1 || !ok(CC.targets[0])) CC.targets = ['char:' + cl.leader];
+      const on = (t) => CC.targets.includes(t) ? ' on' : '';
+      return `<div class="ccchips"><button type="button" class="ccchip${on('char:' + cl.leader)}" data-tg="char:${ESC(cl.leader)}">${clsIco({ name: cl.leader })} ${ESC(cl.leader)} <small>clan leader</small></button>${Object.keys(P).map(L => `<button type="button" class="ccchip${on('party:' + L)}" data-tg="party:${ESC(L)}">Party ${ESC(L)} <small>${P[L].length}</small></button>`).join('')}</div><div class="muted">Talk / level-up steps: the clan leader. Hunt steps: pick the party that hunts (its leader runs the step).</div>`;
+    }
     if (c.handler === 'clanleader') { const cl = clan(); CC.targets = ['char:' + cl.leader]; return `<div class="ccchips"><span class="ccchip on fixed">${clsIco({ name: cl.leader })} ${ESC(cl.leader)} <small>clan leader${cl.name ? ' · ' + ESC(cl.name) : ''}</small></span></div><div class="muted">Only the clan leader's window acts on this command.</div>`; }
     const P = parties(), T = CC.targets, on = (t) => T.includes(t) ? ' on' : '';
     const okKind = (k) => c.targets.includes(k);
@@ -248,9 +257,10 @@
     if (!CC.targets.length) return '<div class="ccprev warn">Pick who gets it.</div>';
     const p = (CC.plan && !CC.plan.error) ? CC.plan : planLocal();
     const err = CC.plan && CC.plan.error && !CC.plan.needConfirm ? `<div class="ccprev bad">Server: ${ESC(CC.plan.error)}</div>` : '';
-    const who = affected(p), off = who.filter(x => !live(x)), busy = busyOf(who);
+    const login = c.tpl === '@login';   // CMDFIX2 botparty: for Log in, offline is the point - warn about the ONLINE ones instead
+    const who = affected(p), off = login ? [] : who.filter(x => !live(x)), busy = busyOf(who);
     const hand = c.handler === 'leader' ? 'Only the party leader acts; the others follow him.' : c.handler === 'self' ? 'Each character that hears it acts for itself.' : c.handler === 'each' ? 'Every character that hears it acts.' : '';
-    return err + `<div class="ccprev"><div class="ccsend">${p.sends.map(s => `<div><code>${ESC(s.text)}</code> <span class="muted">${s.via === 'party' ? 'party chat from' : s.via === 'say' ? 'normal chat from (no party)' : s.via === 'command' ? 'L2Swarm command on' : ESC(s.via) + ' on'}</span> <b>${ESC(s.to)}</b>${s.online === false ? ' <span class="bad">offline</span>' : ''}${s.note ? ` <span class="muted">· ${ESC(s.note)}</span>` : ''}</div>`).join('')}</div>
+    return err + `<div class="ccprev"><div class="ccsend">${p.sends.map(s => `<div><code>${ESC(s.text)}</code> <span class="muted">${s.via === 'party' ? 'party chat from' : s.via === 'say' ? 'normal chat from (no party)' : s.via === 'command' ? 'L2Swarm command on' : ESC(s.via) + ' on'}</span> <b>${ESC(s.to)}</b>${login ? (s.online ? ' <span class="bad">online already</span>' : '') : s.online === false ? ' <span class="bad">offline</span>' : ''}${s.note ? ` <span class="muted">· ${ESC(s.note)}</span>` : ''}</div>`).join('')}</div>
       <div class="muted">${p.sends.length} send${p.sends.length === 1 ? '' : 's'} · <b>${who.length}</b> character${who.length === 1 ? '' : 's'} affected${off.length ? ` · <span class="bad">${off.length} offline</span>` : ''}${busy.length ? ` · busy: ${ESC(busy.map(x => x.name).join(', '))}` : ''}${p.local ? '' : ' · checked by the server'}${hand ? '<br>' + ESC(hand) : ''}</div></div>`;
   }
   function formHtml() {
@@ -266,7 +276,7 @@
   function resultHtml() {
     const r = CC.result; if (r.error) return `<div class="ccres bad">✗ ${ESC(r.error)}</div>`;
     const bad = (r.sends || []).filter(s => !s.ok);
-    return `<div class="ccres ${bad.length ? 'warn' : 'ok'}">${bad.length ? '⚠' : '✓'} ${ESC(r.command || '')} → ${ESC(r.target || '')}: ${r.sent ?? (r.sends || []).length}/${(r.sends || []).length || 1} sent${r.channelNote ? `<div>${ESC(r.channelNote)}</div>` : ''}${bad.map(s => `<div>${ESC(s.to)}: ${ESC(s.error || s.out || 'failed')}</div>`).join('')}</div>`;
+    return `<div class="ccres ${bad.length ? 'warn' : 'ok'}">${bad.length ? '⚠' : '✓'} ${ESC(r.command || '')} → ${ESC(r.target || '')}: ${r.sent ?? (r.sends || []).length}/${(r.sends || []).length || 1} sent${r.channelNote ? `<div>${ESC(r.channelNote)}</div>` : ''}${bad.map(s => `<div>${ESC(s.to)}: ${ESC(s.error || s.out || 'failed')}</div>`).join('')}${r.target === 'PC' ? (r.sends || []).filter(s => s.ok && s.out).map(s => `<div>${ESC(s.out)}</div>`).join('') : ''}</div>`;   // CMDFIX2 botparty: deploy says SKIP / DEPLOYED
   }
   function footHtml() {
     if (CC.view !== 'form') return CC.view === 'search' ? '<span class="muted">↑↓ choose · Enter open · Esc close · ! swarm · / L2Swarm</span>' : '<span class="muted">Tap a command to set it up — nothing is sent before you confirm.</span>';
@@ -332,8 +342,13 @@
     Object.assign(CC.args, args || {});
     CC.targets = defaultTargets(c, ctx); CC.showChars = CC.targets.some(t => t.startsWith('char:')); CC.plan = null; CC.planKey = ''; CC.result = null;
     if (c.action === 'clientmode' && ctx && ctx.startsWith('party:')) CC.targets = [];
+    if (ovNamed(c)) { if (!CC.args.name && !(ctx && ctx.startsWith('party:'))) { const t1 = CC.targets.length === 1 && CC.targets[0].startsWith('char:') ? CC.targets[0].slice(5) : ''; if (t1) CC.args.name = t1; } ovSync(); }
     CC.view = 'form'; show(); const b = document.getElementById('ccBody'); if (b) b.scrollTop = 0;
   }
+  // CMDFIX2 override (2026-10-12): '!ov <name> ...' — only <name>'s window acts, so the target chip IS the Character arg (the server sends it
+  // from <name> anyway); picking either one sets the other (before: two independent pickers, "sent" while nobody acted)
+  function ovNamed(c) { return !!(c && !c.raw && /^!ov \{name\}/.test(c.tpl || '')); }
+  function ovSync() { const n = String(CC.args.name || '').trim(); if (n) { CC.targets = ['char:' + n]; CC.showChars = true; } }
   function back() {
     if (CC.view === 'form') { CC.view = CC.from === 'sheet' ? 'sheet' : 'search'; CC.ctx = CC.fromCtx || CC.ctx; CC.result = null; render(); return; }
     if (CC.view === 'sheet' && CC.from === 'search') { CC.view = 'search'; CC.from = null; CC.q = ''; render(); return; }
@@ -363,6 +378,7 @@
     if (t.id === 'ccQ') { CC.q = t.value; CC.sel = 0; renderBody(); return; }
     const k = t.dataset && t.dataset.arg; if (!k) return;
     CC.args[k] = t.value;
+    if (k === 'name' && ovNamed(CC.cmd)) ovSync();                     // CMDFIX2 override: the Character arg moves the target chip
     if (t.dataset.item) { CC.args[k + '_q'] = t.value; const m = String(t.value).match(/^\s*(\d+)/); if (m) CC.args[k] = m[1]; }
     if (e.type === 'change' || t.tagName === 'SELECT' || t.dataset.item) { const pos = t.selectionStart; renderBody(); const n = document.getElementById(t.id); if (n && n.tagName === 'INPUT') { n.focus(); try { n.setSelectionRange(pos, pos); } catch (er) { } } }
     else { CC.planKey = ''; refreshPlan(); const pv = document.querySelector('#ccBody .ccprev'); if (pv) pv.outerHTML = previewHtml(); document.getElementById('ccFoot').innerHTML = footHtml(); }
@@ -394,12 +410,14 @@
     // several targets at once, except for commands made for exactly one character or one party; 'all' / 'clan' stand alone;
     // without 'chars' in the catalog only ONE character can be picked (e.g. /trade, client mode)
     const c = CC.cmd, T = CC.targets;
+    if (c.handler === 'clanleader') { CC.targets = [t]; return; }       // CMDFIX2: clan leader OR one party (clanquest), never several
     if (T.includes(t)) { CC.targets = T.filter(x => x !== t); return; }
     if (t === 'all' || t === 'clan') { CC.targets = [t]; return; }
     const single = c.targets.length === 1 && /^(char|party)$/.test(c.targets[0]);
     let next = single ? [t] : T.filter(x => x !== 'all' && x !== 'clan').concat(t);
     if (!c.targets.includes('chars') && t.startsWith('char:')) next = next.filter(x => !x.startsWith('char:') || x === t);
     CC.targets = next;
+    if (ovNamed(c) && t.startsWith('char:')) CC.args.name = t.slice(5);   // CMDFIX2 override: the target chip moves the Character arg
   }
 
   // ---------- confirm + send ----------
@@ -411,7 +429,8 @@
     return [uiP('Send to ', uiEm(parts.join(' + ')), who.length > 1 && T.length > 1 ? ` — ${who.length} characters` : '', ':'),
       uiP(uiEm(c.title), '  ', uiCode(plan.command)),
       busy.length ? uiWarn('Busy right now and will change orders: ', busy.join(', ')) : '',
-      off.length ? uiNote('Offline (will not get it): ', off.join(', ')) : ''];
+      c.tpl === '@login' ? (who.filter(x => live(x)).length ? uiWarn('Online right now (an open account is not opened twice): ', who.filter(x => live(x)).map(x => x.name).join(', ')) : '')   // CMDFIX2 botparty
+        : off.length ? uiNote('Offline (will not get it): ', off.join(', ')) : ''];
   }
   // one dialog at a time from the Send button (the dialog is async now)
   async function ask(o) { if (CC.asking) return null; CC.asking = true; try { return await o(); } finally { CC.asking = false; } }

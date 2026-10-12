@@ -155,12 +155,22 @@ function recommendFor(C, G, h, c, grade) {
   // jewellery: best M.Def; the epic boss jewels (Queen Ant, Core, Orfen, Zaken, Baium, Antharas, Valakas, Frintezza ...) are never the plan,
   // only an alternative ('better if you get it'): one boss kill each, not something to plan a whole team around
   const EPIC = /Queen Ant|\bCore\b|Orfen|Zaken|Baium|Antharas|Valakas|Frintezza|Beleth|Freya/i;
+  // EPIC JEWELS (user 2026-10-12, backlog D11: "epics always recommended per grade"): the boss jewels of THIS grade (grade = the item data:
+  // B Queen Ant ring; A Core ring, Orfen earring, Frintezza necklace; S Baium ring, Antharas + Zaken earrings, Valakas necklace) are the
+  // recommendation for their slot (epic: true); the best normal piece is the epic's alternative (bought while nobody has the epic). Slot 2
+  // (earring2 / ring2) shows the second epic or the normal piece with botSkip: the bots' file (gear_rec/<classId>.json) leaves slot 2 out =
+  // "slot 1's list twice", so without the epic they still buy two normal pieces and with it one.
+  const EPIC_NAMES = ['Ring of Queen Ant', 'Ring of Core', 'Earring of Orfen', 'Necklace of Frintezza', 'Ring of Baium', 'Earring of Antharas', 'Earring of Zaken', 'Necklace of Valakas'];
   ['neck', 'earring', 'ring'].forEach(s => {
     const r = bestPiece(s, it => EPIC.test(it.n) ? 0 : (it.md || 0) + (it.mp || 0) * 0.05, 'Best M.Def ' + (s === 'neck' ? 'necklace' : s + ' (both)'));
-    if (!r) return;
-    const ep = ofGrade(s).filter(([, it]) => EPIC.test(it.n) && fits(it, s)).sort((a, b) => (b[1].md || 0) - (a[1].md || 0))[0];
-    if (ep && !r.alt.includes(ep[0])) { r.alt.push(ep[0]); r.altNames.push(ep[1].n); r.why += '; epic boss jewel: ' + ep[1].n; }
-    out[s] = r;
+    const eps = EPIC_NAMES.map(n => all.find(([, it]) => it.n === n && it.s === s && it.g === grade && fits(it, s))).filter(Boolean);
+    if (!eps.length) { if (r) out[s] = r; return; }
+    const two = s !== 'neck', normal = r ? [r.id].concat(r.alt || []) : [], e1 = eps[0], e2 = two ? eps[1] : null;
+    const tail = r ? `; until someone has it: ${r.name} (${where(r.id)})` : '';
+    out[s] = Object.assign(mk(e1[0], 'auto', `Epic boss jewel (${grade}-grade, ${statWords(e1[1])}): ${String(h.srcText(C, e1[0])).split(' · ')[0]}${tail}`, (e2 ? [e2[0]] : []).concat(normal)), { epic: true });
+    if (!two) return;
+    if (e2) out[s + '2'] = Object.assign(mk(e2[0], 'auto', `Epic boss jewel (${grade}-grade, ${statWords(e2[1])}): ${String(h.srcText(C, e2[0])).split(' · ')[0]}${tail}`, normal), { epic: true, botSkip: true });
+    else if (r) out[s + '2'] = Object.assign({}, r, { botSkip: true, why: r.why + ' (next to the epic ' + e1[1].n + ')' });
   });
   if (gi >= 2) {   // belts from C, bracelets (talisman slots) from C; the bots never buy them
     const r = bestPiece('belt', it => /Belt\b/i.test(it.n) ? (it.pd || 0) + (it.md || 0) + (it.mp || 0) * 0.05 : 0, 'Best belt'); if (r) { r.why += ' · get it by hand'; out.belt = r; }

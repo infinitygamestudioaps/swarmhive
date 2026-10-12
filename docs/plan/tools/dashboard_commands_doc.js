@@ -9,7 +9,7 @@ const SCOPE = { party: 'party', char: 'one character', chars: 'several character
 const HAND = { leader: 'party leader acts, party follows', each: 'every window that hears it', self: 'each character for itself ([name] = only that one)', clanleader: 'clan leader only' };
 const SAFE = { safe: 'safe', confirm: 'needs confirm', destructive: '**destructive** (confirm + typed YES; server refuses without it)' };
 const argTxt = (c) => (c.args || []).map(a => `${a.optional ? '[' : '<'}${a.key}${a.optional ? ']' : '>'}: ${a.type}`).join(', ');
-const where = (c) => c.targets.includes('none') ? 'palette (search) · PC tab' : `palette · ${c.targets.includes('party') ? 'party sheet' : ''}${c.targets.includes('party') && (c.targets.includes('char') || c.targets.includes('chars')) ? ' + ' : ''}${c.targets.includes('char') || c.targets.includes('chars') ? 'character sheet' : ''}${c.handler === 'clanleader' ? ' (clan leader / his party)' : ''}`;
+const where = (c) => c.hidden ? `**hidden** in the command center (${c.hideWhy || 'not offered'}); typing it still works` : c.targets.includes('none') ? 'palette (search) · PC tab' : `palette · ${c.targets.includes('party') ? 'party sheet' : ''}${c.targets.includes('party') && (c.targets.includes('char') || c.targets.includes('chars')) ? ' + ' : ''}${c.targets.includes('char') || c.targets.includes('chars') ? 'character sheet' : ''}${c.handler === 'clanleader' ? ' (clan leader / his party)' : ''}`;
 const esc = (s) => String(s || '').replace(/\|/g, '\\|');
 let md = `# Dashboard commands — inventory (command center, 2026-10-08)
 
@@ -28,6 +28,7 @@ How a command travels (server.js \`commandPlan\`):
 
 Counts: ${K.COMMANDS.length} catalog entries — ${K.COMMANDS.filter(c => c.kind === 'swarm').length} swarm (${K.SWARM_WORDS.length} distinct !words = every !command swarm.js handles except the internal !ready),
 ${K.COMMANDS.filter(c => c.kind === 'bot').length} L2Swarm chat-box (${K.BOT_WORDS.length} distinct /words), ${K.COMMANDS.filter(c => c.kind === 'action').length} dashboard actions.
+Hidden (not offered in the command center, still typed by hand): ${K.COMMANDS.filter(c => c.hidden).map(c => c.id).join(', ') || 'none'}.
 Safety: ${['safe', 'confirm', 'destructive'].map(s => `${K.COMMANDS.filter(c => c.safety === s).length} ${s}`).join(', ')}.
 
 `;

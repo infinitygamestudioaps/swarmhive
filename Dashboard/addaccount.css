@@ -1,0 +1,33 @@
+/* ADD ACCOUNT (2026-10-12): the "+ Add account" panel on the Accounts tab (Dashboard/addaccount.js). Phone first (390 px, no sideways scroll). */
+.aa { margin: 0 0 12px; max-width: 100%; box-sizing: border-box; }
+.aa *, .aa *::before, .aa *::after { box-sizing: border-box; }
+.aa [hidden] { display: none !important; }
+#tab-accounts .whead { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.aa-open { margin-left: auto; }
+.aa-help { margin: 0 0 8px; font-size: var(--fs-cap); }
+.aa-help summary { cursor: pointer; color: var(--gold); }
+.aa-help ol { margin: 6px 0 6px 18px; padding: 0; display: grid; gap: 4px; }
+.aa-help code, .aa code { font-size: var(--fs-mini); color: var(--gold); word-break: break-all; }
+.aa-modes { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 8px; }
+.aa-form { display: grid; gap: 8px; min-width: 0; }
+.aa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; min-width: 0; }
+.aa-form input:not([type=checkbox]):not([type=radio]), .aa-form select, .aa-form textarea { width: 100%; }
+.aa-form textarea { font-family: Consolas, 'Courier New', monospace; resize: vertical; min-height: 110px; }
+.aa input[type=radio] { appearance: auto; -webkit-appearance: radio; width: 16px; height: 16px; min-height: 0; margin: 0; padding: 0; border: 0; border-image: none; accent-color: #b8955a; }
+.aa-set { border: 1px solid var(--line); border-radius: 3px; padding: 6px 8px 8px; margin: 0; display: grid; gap: 6px; min-width: 0; }
+.aa-set legend { color: var(--muted); font-size: var(--fs-cap); padding: 0 4px; }
+.aa-newchar { margin-top: 2px; }
+.aa-checks { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.aa-checks label.chk, .aa-set label.chk, .aa-form > label.chk { color: var(--ink); white-space: normal; }
+.aa-act { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.aa-act button { min-width: 96px; }
+.aa-err { color: #e88a7a; font-size: var(--fs-cap); }
+.aa-err:empty { display: none; }
+.aa-result:empty { display: none; }
+.aa-result { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.aa-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.aa-r { overflow-wrap: anywhere; }
+.aa-b { display: inline-block; font-size: var(--fs-mini); padding: 0 6px; border-radius: 3px; border: 1px solid; line-height: 16px; }
+.aa-ok { color: #9fd38a; border-color: #4f7a42; }
+.aa-warn { color: var(--gold); border-color: #7a6a42; }
+.aa-bad { color: #e88a7a; border-color: #7a4a42; }

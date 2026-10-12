@@ -2,6 +2,30 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.0 (2026-10-13)
+
+- New engine (brain host, off by default): swarm.js runs in the dashboard, L2Swarm only a tiny agent - far less RAM
+- Quests: all 522 H5 quests, quest page with live progress per character, quest engine (repeatable quests, quest items protected), adena quest farm
+- World navigation atlas: precomputed routes to every raid boss/NPC/area/room with doors, keys, timed doors, conditions
+- route view everywhere (computed vs your own route, obstacles, where to get key items)
+- saved route legs follow the path finder
+- Your orders win: a quest/order you start is only interrupted by survival
+- 7 Signs tab (opt-in per party/character)
+- Town paths layer on all maps
+- Skill enchant page (manual only), masterwork in gear choice, soul crystal stage plan, clan automation + nobility ranks
+- Enchanting is manual only, safe +4
+- Starter weapons are replaced and sold
+- Commander: orders over clan chat / whisper
+- Log in again button
+- Dashboard 3-6x faster (gzip, ETag, no full log reads)
+- 149 dashboard commands checked and fixed
+- many fixes (healers target teammates, sell guard, height limit on maps)
+
+## v1.5.4 (2026-10-10)
+
+- Trade page (hand loot to the clan leader or any character, item picker with presets) + !handover. Clan warehouse stash (live dest setting, untradeable items stay, clear 'no clan warehouse right' message). Clan invites only for ticked characters (Clan tab). Offline status banner with the reconnect brake's reason + next try
+- brake checks the login server every 2 min. Area rotation counts only monsters the party would attack. Silent Move off outside scout trips. In-game (Hook) mode works with L2Swarm 3.8.14. Core: level 40, entry cap 49, real Teleportation Cubic spot + link, routes resume from where the team stands.
+
 ## v1.5.3 (2026-10-10)
 
 - Dashboard fixes: Gear page - the new Auto gear upgrades box no longer pushes the gear plan and its item images off the screen (moved below Our characters, folded by default with a one-line summary). All pages - item/skill icons and names load again by themselves when the game data could not be fetched (e.g. a page open while the dashboard server restarted showed ? icons until a full reload).

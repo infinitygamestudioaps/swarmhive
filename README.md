@@ -4,12 +4,12 @@
 
 *Lead the swarm.* A swarm kit for L2Swarm.
 
-![version](https://img.shields.io/badge/version-1.5.3-blue)
+![version](https://img.shields.io/badge/version-1.6.0-blue)
 ![L2Swarm](https://img.shields.io/badge/L2Swarm-3.8.14%2B-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 ![platform](https://img.shields.io/badge/Windows-10%20%7C%2011-lightgrey)
 
-**Version 1.5.3 (2026-10-10)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
+**Version 1.6.0 (2026-10-13)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
 
 This kit runs a **whole swarm of Lineage 2 characters with L2Swarm**: up to 40 accounts in several parties that level,
 restock, gear up, run Kamaloka and hunt raid bosses on their own, with one leader per party making the decisions. It
@@ -95,8 +95,15 @@ Details for every feature are in the [user guide](docs/guide/README.md).
   focus fire on minions then the boss, destroyer opening, debuffs; never runs away from a raid. Kill logs and reports.
   See [Raids](docs/guide/README.md#raids).
 - **Daily Kamaloka.** Each party leader runs a Kamaloka that fits the whole party once per day.
-- **Catacombs and necropolises** (Seven Signs: every character signs up with Dawn), fortress/castle siege planning,
-  soul crystal leveling, clan level quests.
+- **Catacombs and necropolises** (Seven Signs: the characters you enroll on the dashboard **7 Signs** tab sign up with Dawn;
+  nobody by default), fortress/castle siege planning, soul crystal leveling, clan level quests, clan ranks.
+- **Quests**: every High Five quest as data (`Scripts/data/quests/`), a quest page with live progress, beginner gear coupons and an
+  optional repeatable-quest farm (**off by default**). A navigation atlas (`Scripts/data/nav_atlas/`) routes the party to every raid boss,
+  NPC and hunting area.
+- **New engine (optional, off by default):** swarm.js runs inside the dashboard's brain host and L2Swarm only runs the small
+  `Scripts/agent2.js` - much less memory per character. Switch it on per character in `Scripts/data/brain_host.json`
+  (see [INSTALL](docs/plan/INSTALL.md#optional-features-all-off-on-a-fresh-install) and `docs/plan/new_engine/DESIGN.md`).
+- **Commanders (optional):** characters named in `swarm.config.json` `commanders` can order every party over clan chat or a whisper.
 - **Escape and rescue.** Escape from a lost fight to a safe spot (aggro ranges of every aggressive monster), cross-floor
   rescue, regroup of anyone left behind, never teleporting while a teammate is still fighting.
 - **Hunting pairs** (optional per party): the leader splits damage dealers into small groups with their own targets.

@@ -4,6 +4,9 @@
 'use strict';
 const path = require('path');
 const LE = require(path.join(__dirname, '..', '..', '..', 'Dashboard', 'levelEta.js'));
+// EXP TABLE 2026-10-12: this test uses synthetic level sizes and checks the LEARNED-size path (the fallback); the real table path is
+// tested by docs/plan/tools/test_exptable.js.
+LE.CFG.useTable = false;
 let fails = 0;
 const ok = (name, cond, info) => { if (!cond) fails++; console.log(`  ${cond ? 'ok  ' : 'FAIL'} ${name}${info != null && info !== '' ? ' - ' + info : ''}`); };
 const near = (a, b, tol) => a != null && Math.abs(a - b) <= (tol != null ? tol : Math.abs(b) * 0.01 + 1e-9);

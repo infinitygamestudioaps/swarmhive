@@ -1,0 +1,1872 @@
+{
+ "_readme": "Clan nobility ranks (built by docs/plan/tools/clan_ranks.js — do not edit by hand, except characterFlags). Tags: GUIDE = forum topic 429 chart, DATAPACK = L2J High Five code/data, LIVE = the L2Toggle village master page saved by the bots, INFERRED = retail behaviour not enforced by L2J / not seen on L2Toggle. Dashboard: Dashboard/clanranks.js (+ _logic, _api, .css).",
+ "generated": "2026-10-12T14:59:54.686Z",
+ "sources": {
+  "forum": "https://community.lineage2toggle.com/index.php?/topic/429-clan-nobility-ranks-based-on-clan-level/ (Scrapyard, 2021-12-05, 1 post, no replies; chart = image 1010x290, sources named in the post: ign.com/wikis/lineage-ii/Player_Rankings, legacy-lineage2.com/Knowledge/clans.html)",
+  "calc": "L2J game core L2ClanMember.calculatePledgeClass (github.com/Shagooh/l2j-server-game, main)",
+  "vm": "L2J L2VillageMasterInstance (create_academy 5 / create_royal 6 / create_knight 7)",
+  "clan": "L2J L2Clan (getMaxNrOfMembers, createAlly level 5, siege skills for the leader at the castle siege min level)",
+  "war": "L2J RequestStartPledgeWar (clan level >= 3 AND members >= character.properties ClanMembersForWar = 15)",
+  "crest": "L2J RequestSetPledgeCrest / RequestExSetPledgeCrestLarge (clan level >= 3)",
+  "auction": "L2J L2AuctioneerInstance bid1 (clan level >= 2, AUCTION_ONLY_CLAN_LEVEL_2_HIGHER)",
+  "wh": "L2J datapack handlers/bypasshandlers/ClanWarehouse.java (clan level 0 refused: ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE)",
+  "mpcc": "L2J RequestExAskJoinMPCC (command channel: clan leader of a clan level >= 5, or the Clan Imperium skill)",
+  "fort": "L2J config fortsiege.properties SiegeClanMinLevel = 4",
+  "castle": "L2J config siege.properties ClanMinLevel = 5",
+  "clanProps": "L2J config clan.properties (CreateRoyalGuardCost 5000, CreateKnightUnitCost 10000, ReinforceKnightUnitCost 5000, ClanLevel6-11Cost/Requirement)",
+  "items": "L2J datapack stats/items <cond><player pledgeClass=\"..\"/> (ConditionPlayerPledgeClass: needs a clan; -1 = clan leader only, else pledgeClass >= value)",
+  "trees": "L2J datapack skillTrees/pledgeSkillTree.xml + subPledgeSkillTree.xml (socialClass per clan skill; SkillTreesData parses it, RequestAcquireSkill / L2Clan.addSkillEffects do not check it)",
+  "clanData": "Scripts/data/clan_data.json (2026-10-07)"
+ },
+ "rankIds": [
+  {
+   "id": 0,
+   "name": "Vagabond",
+   "note": "only via the level-4 L2J quirk or without a clan"
+  },
+  {
+   "id": 1,
+   "name": "Vassal",
+   "note": ""
+  },
+  {
+   "id": 2,
+   "name": "Heir",
+   "note": ""
+  },
+  {
+   "id": 3,
+   "name": "Knight",
+   "note": ""
+  },
+  {
+   "id": 4,
+   "name": "Elder",
+   "note": ""
+  },
+  {
+   "id": 5,
+   "name": "Baron",
+   "note": ""
+  },
+  {
+   "id": 6,
+   "name": "Viscount",
+   "note": ""
+  },
+  {
+   "id": 7,
+   "name": "Count",
+   "note": ""
+  },
+  {
+   "id": 8,
+   "name": "Marquis",
+   "note": ""
+  },
+  {
+   "id": 9,
+   "name": "Duke",
+   "note": ""
+  },
+  {
+   "id": 10,
+   "name": "Grand Duke",
+   "note": ""
+  },
+  {
+   "id": 11,
+   "name": "King",
+   "note": "L2J client name \"Distinguished King\"; chart \"King\""
+  }
+ ],
+ "socialClassEnum": {
+  "tag": "DATAPACK",
+  "list": [
+   "VAGABOND",
+   "VASSAL",
+   "APPRENTICE",
+   "HEIR",
+   "KNIGHT",
+   "ELDER",
+   "BARON",
+   "VISCOUNT",
+   "COUNT",
+   "MARQUIS",
+   "DUKE",
+   "GRAND_DUKE",
+   "DISTINGUISHED_KING",
+   "EMPEROR"
+  ],
+  "note": "skill-tree enum: APPRENTICE is inserted at ordinal 2, so ordinals from HEIR up are one higher than pledgeClass. Mapping by NAME: HEIR 2, KNIGHT 3, ELDER 4, BARON 5, VISCOUNT 6; APPRENTICE -> 1 (Vassal) is INFERRED."
+ },
+ "roles": {
+  "leader": {
+   "label": "Clan leader",
+   "fromClanLevel": 1
+  },
+  "member": {
+   "label": "Clan member (main clan)",
+   "fromClanLevel": 1
+  },
+  "royalCaptain": {
+   "label": "Royal Guard captain",
+   "fromClanLevel": 6
+  },
+  "knightCommander": {
+   "label": "Knight commander",
+   "fromClanLevel": 7
+  },
+  "royalMember": {
+   "label": "Royal Guard member",
+   "fromClanLevel": 6
+  },
+  "knightMember": {
+   "label": "Knight member",
+   "fromClanLevel": 7
+  },
+  "academy": {
+   "label": "Academy",
+   "fromClanLevel": 5
+  }
+ },
+ "overrides": {
+  "noblesse": {
+   "minPledgeClass": 5,
+   "tag": "GUIDE + DATAPACK"
+  },
+  "hero": {
+   "minPledgeClass": 8,
+   "tag": "GUIDE + DATAPACK"
+  },
+  "castleOwnerLeader": {
+   "pledgeClass": 11,
+   "tag": "GUIDE only (not in L2J)"
+  }
+ },
+ "chart": {
+  "tag": "GUIDE",
+  "columns": [
+   "1-4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11"
+  ],
+  "header": "Clan member means direct clan member, not a member within a Royal guard, Order of the Knights, or Academy",
+  "rows": {
+   "Vassal (a)": {
+    "1-4": "Clan member"
+   },
+   "Vassal (b)": {
+    "6": "Academy",
+    "7": "Academy",
+    "8": "Academy",
+    "9": "Academy",
+    "10": "Academy",
+    "11": "Academy",
+    "1-4": "Lvl 3 Clan Leader"
+   },
+   "Heir": {
+    "5": "Clan member",
+    "6": "Guard Member",
+    "7": "Knight Member",
+    "1-4": "Lvl 3 Clan Leader"
+   },
+   "Knight": {
+    "6": "Clan member",
+    "7": "Guard Member",
+    "8": "Knight Member",
+    "1-4": "Lvl 4 Clan Leader"
+   },
+   "Elder": {
+    "5": "Clan Leader",
+    "6": "Guard Captain",
+    "7": "Clan member",
+    "8": "Guard Member",
+    "9": "Knight Member"
+   },
+   "Baron": {
+    "6": "Clan Leader",
+    "7": "Knight Commander",
+    "8": "Clan member",
+    "9": "Guard Member",
+    "10": "Knight Member",
+    "1-4": "Noblesse (any clan level)"
+   },
+   "Viscount": {
+    "7": "Guard Captain",
+    "8": "Knight Commander",
+    "9": "Clan member",
+    "10": "Guard Member",
+    "11": "Knight Member"
+   },
+   "Count": {
+    "7": "Clan Leader",
+    "8": "Guard Captain",
+    "9": "Knight Commander",
+    "10": "Clan member",
+    "11": "Guard Member"
+   },
+   "Marquis": {
+    "8": "Clan Leader",
+    "9": "Guard Captain",
+    "10": "Knight Commander",
+    "11": "Clan member",
+    "1-4": "Hero (any clan level)"
+   },
+   "Duke": {
+    "9": "Clan Leader",
+    "10": "Guard Captain",
+    "11": "Knight Commander"
+   },
+   "Grand Duke": {
+    "10": "Clan Leader",
+    "11": "Guard Captain"
+   },
+   "King": {
+    "11": "Clan Leader ?",
+    "1-4": "Clan leader owning castle"
+   }
+  }
+ },
+ "byClanLevel": {
+  "1": {
+   "l2j": {
+    "leader": 1,
+    "member": 1
+   },
+   "chart": {
+    "leader": 1,
+    "member": 1
+   },
+   "differs": []
+  },
+  "2": {
+   "l2j": {
+    "leader": 1,
+    "member": 1
+   },
+   "chart": {
+    "leader": 1,
+    "member": 1
+   },
+   "differs": []
+  },
+  "3": {
+   "l2j": {
+    "leader": 1,
+    "member": 1
+   },
+   "chart": {
+    "leader": [
+     1,
+     2
+    ],
+    "member": 1
+   },
+   "differs": [
+    "leader"
+   ]
+  },
+  "4": {
+   "l2j": {
+    "leader": 3,
+    "member": 0
+   },
+   "chart": {
+    "leader": 3,
+    "member": 1
+   },
+   "differs": [
+    "member"
+   ]
+  },
+  "5": {
+   "l2j": {
+    "leader": 4,
+    "member": 2,
+    "academy": 2
+   },
+   "chart": {
+    "leader": 4,
+    "member": 2
+   },
+   "differs": [
+    "academy"
+   ]
+  },
+  "6": {
+   "l2j": {
+    "leader": 5,
+    "member": 3,
+    "royalCaptain": 4,
+    "royalMember": 2,
+    "academy": 1
+   },
+   "chart": {
+    "leader": 5,
+    "member": 3,
+    "royalCaptain": 4,
+    "royalMember": 2,
+    "academy": 1
+   },
+   "differs": []
+  },
+  "7": {
+   "l2j": {
+    "leader": 7,
+    "member": 4,
+    "royalCaptain": 6,
+    "knightCommander": 5,
+    "royalMember": 3,
+    "knightMember": 2,
+    "academy": 1
+   },
+   "chart": {
+    "leader": 7,
+    "member": 4,
+    "royalCaptain": 6,
+    "knightCommander": 5,
+    "royalMember": 3,
+    "knightMember": 2,
+    "academy": 1
+   },
+   "differs": []
+  },
+  "8": {
+   "l2j": {
+    "leader": 8,
+    "member": 5,
+    "royalCaptain": 7,
+    "knightCommander": 6,
+    "royalMember": 4,
+    "knightMember": 3,
+    "academy": 1
+   },
+   "chart": {
+    "leader": 8,
+    "member": 5,
+    "royalCaptain": 7,
+    "knightCommander": 6,
+    "royalMember": 4,
+    "knightMember": 3,
+    "academy": 1
+   },
+   "differs": []
+  },
+  "9": {
+   "l2j": {
+    "leader": 9,
+    "member": 6,
+    "royalCaptain": 8,
+    "knightCommander": 7,
+    "royalMember": 5,
+    "knightMember": 4,
+    "academy": 1
+   },
+   "chart": {
+    "leader": 9,
+    "member": 6,
+    "royalCaptain": 8,
+    "knightCommander": 7,
+    "royalMember": 5,
+    "knightMember": 4,
+    "academy": 1
+   },
+   "differs": []
+  },
+  "10": {
+   "l2j": {
+    "leader": 10,
+    "member": 7,
+    "royalCaptain": 9,
+    "knightCommander": 8,
+    "royalMember": 6,
+    "knightMember": 5,
+    "academy": 1
+   },
+   "chart": {
+    "leader": 10,
+    "member": 7,
+    "royalCaptain": 9,
+    "knightCommander": 8,
+    "royalMember": 6,
+    "knightMember": 5,
+    "academy": 1
+   },
+   "differs": []
+  },
+  "11": {
+   "l2j": {
+    "leader": 11,
+    "member": 8,
+    "royalCaptain": 10,
+    "knightCommander": 9,
+    "royalMember": 7,
+    "knightMember": 6,
+    "academy": 1
+   },
+   "chart": {
+    "leader": 11,
+    "member": 8,
+    "royalCaptain": 10,
+    "knightCommander": 9,
+    "royalMember": 7,
+    "knightMember": 6,
+    "academy": 1
+   },
+   "differs": []
+  }
+ },
+ "conflicts": [
+  {
+   "where": "clan level 1-3, leader",
+   "chart": "Vassal and Heir (listed in both rows for a level-3 leader)",
+   "l2j": "Vassal (1)",
+   "use": "L2J"
+  },
+  {
+   "where": "clan level 4, non-leaders",
+   "chart": "Vassal (1)",
+   "l2j": "Vagabond (0) — calculatePledgeClass has no else-branch for level 4",
+   "use": "L2J (probable L2J quirk; matters only for Clan Oath gear: a level-4 member could lose it)"
+  },
+  {
+   "where": "Academy",
+   "chart": "starts at clan level 6 (Vassal)",
+   "l2j": "created from clan level 5; a level-5 academy member gets Heir (2) because case 5 ignores the pledge type",
+   "use": "L2J"
+  },
+  {
+   "where": "King",
+   "chart": "clan leader owning a castle = King (any level); level 11 leader \"Clan Leader ?\"",
+   "l2j": "no castle rule; every level-11 leader = 11",
+   "use": "L2J (castle rule kept as GUIDE override only)"
+  },
+  {
+   "where": "clan skill ranks (minRank / socialClass)",
+   "chart": "-",
+   "l2j": "parsed and shown in the skill list only; L2Clan.addSkillEffects checks skill.minPledgeClass, which is 0 for clan skills -> every member gets every clan skill",
+   "use": "retail = INFERRED; L2Toggle not checked"
+  },
+  {
+   "where": "spelling",
+   "chart": "\"Maquis\"",
+   "l2j": "Marquis",
+   "use": "Marquis"
+  }
+ ],
+ "levels": [
+  {
+   "level": 1,
+   "requirements": {
+    "sp": 20000,
+    "adena": 650000,
+    "items": [],
+    "reputation": 0,
+    "members": 0,
+    "extra": null,
+    "paidBy": "clan leader (SP, adena, item)",
+    "tag": "DATAPACK",
+    "membersRule": null
+   },
+   "itemSource": null,
+   "live": {
+    "text": "SP : 20,000 Adena : 650,000",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 15,
+     "academy": 0,
+     "royalGuardsEach": 0,
+     "knightsEach": 0,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Clan warehouse",
+      "source": "L2J datapack handlers/bypasshandlers/ClanWarehouse.java (clan level 0 refused: ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [],
+    "squadSkills": [],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 1,
+      "rank": "Vassal"
+     },
+     "member": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 2,
+   "requirements": {
+    "sp": 100000,
+    "adena": 2500000,
+    "items": [],
+    "reputation": 0,
+    "members": 0,
+    "extra": null,
+    "paidBy": "clan leader (SP, adena, item)",
+    "tag": "DATAPACK",
+    "membersRule": null
+   },
+   "itemSource": null,
+   "live": {
+    "text": "SP: 100,000 / Adena: 2,500,000",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 20,
+     "academy": 0,
+     "royalGuardsEach": 0,
+     "knightsEach": 0,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Bid in clan hall auctions",
+      "source": "L2J L2AuctioneerInstance bid1 (clan level >= 2, AUCTION_ONLY_CLAN_LEVEL_2_HIGHER)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [],
+    "squadSkills": [],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 1,
+      "rank": "Vassal"
+     },
+     "member": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 3,
+   "requirements": {
+    "sp": 350000,
+    "adena": 0,
+    "items": [
+     {
+      "id": 1419,
+      "name": "Blood Mark",
+      "count": 1
+     }
+    ],
+    "reputation": 0,
+    "members": 0,
+    "extra": null,
+    "paidBy": "clan leader (SP, adena, item)",
+    "tag": "DATAPACK",
+    "membersRule": null
+   },
+   "itemSource": "LIVE (village master page): You can obtain a Blood Mark by killing a Bloody Queen. They are located in Watcher's Tomb or around the Forbidden Gateway.",
+   "live": {
+    "text": "SP: 350,000 / Item: Blood Mark",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 30,
+     "academy": 0,
+     "royalGuardsEach": 0,
+     "knightsEach": 0,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Clan crest + large crest",
+      "source": "L2J RequestSetPledgeCrest / RequestExSetPledgeCrestLarge (clan level >= 3)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Declare clan wars (also needs 15+ members)",
+      "source": "L2J RequestStartPledgeWar (clan level >= 3 AND members >= character.properties ClanMembersForWar = 15)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [],
+    "squadSkills": [],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 1,
+      "rank": "Vassal"
+     },
+     "member": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 4,
+   "requirements": {
+    "sp": 1000000,
+    "adena": 0,
+    "items": [
+     {
+      "id": 3874,
+      "name": "Alliance Manifesto",
+      "count": 1
+     }
+    ],
+    "reputation": 0,
+    "members": 0,
+    "extra": null,
+    "paidBy": "clan leader (SP, adena, item)",
+    "tag": "DATAPACK",
+    "membersRule": null
+   },
+   "itemSource": "Quest 501 Proof of Clan Alliance (Sir Kristof Rodemai 30756, needs clan level 3)",
+   "live": {
+    "text": "SP: 1,000,000 / Item: Alliance Manifesto",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 0,
+     "royalGuardsEach": 0,
+     "knightsEach": 0,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Register for fortress sieges",
+      "source": "L2J config fortsiege.properties SiegeClanMinLevel = 4",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Leader becomes Knight; other members drop to Vagabond in L2J (quirk, see conflicts)",
+      "source": "L2J game core L2ClanMember.calculatePledgeClass (github.com/Shagooh/l2j-server-game, main)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [],
+    "squadSkills": [],
+    "residenceSkills": 21,
+    "ranks": {
+     "leader": {
+      "pc": 3,
+      "rank": "Knight"
+     },
+     "member": {
+      "pc": 0,
+      "rank": "Vagabond"
+     }
+    }
+   }
+  },
+  {
+   "level": 5,
+   "requirements": {
+    "sp": 2500000,
+    "adena": 0,
+    "items": [
+     {
+      "id": 3870,
+      "name": "Seal of Aspiration",
+      "count": 1
+     }
+    ],
+    "reputation": 0,
+    "members": 0,
+    "extra": null,
+    "paidBy": "clan leader (SP, adena, item)",
+    "tag": "DATAPACK",
+    "membersRule": null
+   },
+   "itemSource": "Quest 503 Pursuit of Clan Ambition (Sir Gustav Athebaldt 30760)",
+   "live": {
+    "text": "SP: 2,500,000 / Item: Seal of Aspiration",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 0,
+     "knightsEach": 0,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Create an alliance",
+      "source": "L2J L2Clan (getMaxNrOfMembers, createAlly level 5, siege skills for the leader at the castle siege min level)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Clan leader can open a Command Channel",
+      "source": "L2J RequestExAskJoinMPCC (command channel: clan leader of a clan level >= 5, or the Clan Imperium skill)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Register for castle sieges; the leader gets the siege skills",
+      "source": "L2J config siege.properties ClanMinLevel = 5; L2J L2Clan (getMaxNrOfMembers, createAlly level 5, siege skills for the leader at the castle siege min level)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Clan Academy (20 members, free)",
+      "source": "L2J L2VillageMasterInstance (create_academy 5 / create_royal 6 / create_knight 7)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Clan skills can be learned (clan reputation + items)",
+      "source": "L2J datapack skillTrees/pledgeSkillTree.xml + subPledgeSkillTree.xml (socialClass per clan skill; SkillTreesData parses it, RequestAcquireSkill / L2Clan.addSkillEffects do not check it)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Clan reputation quests 508 A Clan's Reputation, 510 A Clan's Prestige",
+      "source": "Scripts/data/clan_data.json (2026-10-07)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [
+     "Clan Body 1",
+     "Clan Regeneration 1",
+     "Clan M. Def. 1",
+     "Clan Imperium 1"
+    ],
+    "squadSkills": [],
+    "residenceSkills": 9,
+    "ranks": {
+     "leader": {
+      "pc": 4,
+      "rank": "Elder"
+     },
+     "member": {
+      "pc": 2,
+      "rank": "Heir"
+     },
+     "academy": {
+      "pc": 2,
+      "rank": "Heir"
+     }
+    }
+   }
+  },
+  {
+   "level": 6,
+   "requirements": {
+    "sp": 0,
+    "adena": 0,
+    "items": [],
+    "reputation": 5000,
+    "members": 30,
+    "extra": null,
+    "paidBy": "the clan (reputation)",
+    "tag": "DATAPACK",
+    "membersRule": "L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says \"More than N\" (exact edge not verified)"
+   },
+   "itemSource": null,
+   "live": {
+    "text": "Clan Fame: 5,000 / Clan Member: More than 30",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 20,
+     "knightsEach": 0,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Royal Guard x2 (5,000 reputation each, 20 members each)",
+      "source": "L2J L2VillageMasterInstance (create_academy 5 / create_royal 6 / create_knight 7); L2J config clan.properties (CreateRoyalGuardCost 5000, CreateKnightUnitCost 10000, ReinforceKnightUnitCost 5000, ClanLevel6-11Cost/Requirement)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Clan quest 509 A Clan's Fame",
+      "source": "Scripts/data/clan_data.json (2026-10-07)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [
+     "Clan Spirituality 1",
+     "Clan Morale 1",
+     "Clan Might 1",
+     "Clan Shield 1",
+     "Clan Shield Block 1"
+    ],
+    "squadSkills": [],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 5,
+      "rank": "Baron"
+     },
+     "member": {
+      "pc": 3,
+      "rank": "Knight"
+     },
+     "royalCaptain": {
+      "pc": 4,
+      "rank": "Elder"
+     },
+     "royalMember": {
+      "pc": 2,
+      "rank": "Heir"
+     },
+     "academy": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 7,
+   "requirements": {
+    "sp": 0,
+    "adena": 0,
+    "items": [],
+    "reputation": 10000,
+    "members": 50,
+    "extra": null,
+    "paidBy": "the clan (reputation)",
+    "tag": "DATAPACK",
+    "membersRule": "L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says \"More than N\" (exact edge not verified)"
+   },
+   "itemSource": null,
+   "live": {
+    "text": "Clan Fame: 10,000 / Clan Member: More than 50",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 20,
+     "knightsEach": 10,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Order of Knights x4 (10,000 reputation each, 10 members each)",
+      "source": "L2J L2VillageMasterInstance (create_academy 5 / create_royal 6 / create_knight 7); L2J config clan.properties (CreateRoyalGuardCost 5000, CreateKnightUnitCost 10000, ReinforceKnightUnitCost 5000, ClanLevel6-11Cost/Requirement)",
+      "tag": "DATAPACK"
+     },
+     {
+      "what": "Squad skills (one sub-unit each)",
+      "source": "L2J datapack skillTrees/pledgeSkillTree.xml + subPledgeSkillTree.xml (socialClass per clan skill; SkillTreesData parses it, RequestAcquireSkill / L2Clan.addSkillEffects do not check it)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [
+     "Clan Body 2",
+     "Clan Spirituality 2",
+     "Clan Regeneration 2",
+     "Clan Might 2",
+     "Clan Shield 2",
+     "Clan M. Def. 2",
+     "Clan Guidance 1",
+     "Clan Shield Defense 1",
+     "Clan Cyclonic Resistance 1",
+     "Clan Magmatic Resistance 1",
+     "Clan Resist Shock 1",
+     "Clan Resist Hold 1",
+     "Clan Resist Sleep 1",
+     "Clan Luck 1"
+    ],
+    "squadSkills": [
+     "Water Squad 1",
+     "Divine Squad 1"
+    ],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 7,
+      "rank": "Count"
+     },
+     "member": {
+      "pc": 4,
+      "rank": "Elder"
+     },
+     "royalCaptain": {
+      "pc": 6,
+      "rank": "Viscount"
+     },
+     "knightCommander": {
+      "pc": 5,
+      "rank": "Baron"
+     },
+     "royalMember": {
+      "pc": 3,
+      "rank": "Knight"
+     },
+     "knightMember": {
+      "pc": 2,
+      "rank": "Heir"
+     },
+     "academy": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 8,
+   "requirements": {
+    "sp": 0,
+    "adena": 0,
+    "items": [],
+    "reputation": 20000,
+    "members": 80,
+    "extra": null,
+    "paidBy": "the clan (reputation)",
+    "tag": "DATAPACK",
+    "membersRule": "L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says \"More than N\" (exact edge not verified)"
+   },
+   "itemSource": null,
+   "live": {
+    "text": "Clan Fame: 20,000 / Clan Member: More than 80",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 20,
+     "knightsEach": 10,
+     "tag": "DATAPACK"
+    },
+    "features": [],
+    "clanSkills": [
+     "Clan Spirituality 3",
+     "Clan Soul 1",
+     "Clan Morale 2",
+     "Clan Clarity 1",
+     "Clan Might 3",
+     "Clan Shield 3",
+     "Clan Empower 1",
+     "Clan Guidance 2",
+     "Clan Agility 1",
+     "Clan Shield Defense 2",
+     "Clan Shield Block 2",
+     "Clan Cyclonic Resistance 2",
+     "Clan Magmatic Resistance 2",
+     "Clan Resist Shock 2",
+     "Clan Resist Hold 2",
+     "Clan Resist Sleep 2",
+     "Clan Wind Walk 1",
+     "Clan Luck 2"
+    ],
+    "squadSkills": [
+     "Fire Squad 1",
+     "Water Squad 2",
+     "Wind Squad 1",
+     "Earth Squad 1",
+     "Divine Squad 2",
+     "Dark Squad 1"
+    ],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 8,
+      "rank": "Marquis"
+     },
+     "member": {
+      "pc": 5,
+      "rank": "Baron"
+     },
+     "royalCaptain": {
+      "pc": 7,
+      "rank": "Count"
+     },
+     "knightCommander": {
+      "pc": 6,
+      "rank": "Viscount"
+     },
+     "royalMember": {
+      "pc": 4,
+      "rank": "Elder"
+     },
+     "knightMember": {
+      "pc": 3,
+      "rank": "Knight"
+     },
+     "academy": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 9,
+   "requirements": {
+    "sp": 0,
+    "adena": 0,
+    "items": [
+     {
+      "id": 9910,
+      "name": "Blood Oath",
+      "count": 150
+     }
+    ],
+    "reputation": 40000,
+    "members": 120,
+    "extra": null,
+    "paidBy": "the clan (reputation)",
+    "tag": "DATAPACK",
+    "membersRule": "L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says \"More than N\" (exact edge not verified)"
+   },
+   "itemSource": null,
+   "live": {
+    "text": "Clan Fame: 40,000 / Clan Member: More than 120 / Item: 150 Blood Oaths",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 20,
+     "knightsEach": 25,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Order of Knights limit 25 each",
+      "source": "L2J L2Clan (getMaxNrOfMembers, createAlly level 5, siege skills for the leader at the castle siege min level)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [],
+    "squadSkills": [
+     "Fire Squad 2",
+     "Water Squad 3",
+     "Wind Squad 2",
+     "Earth Squad 2",
+     "Divine Squad 3",
+     "Dark Squad 2"
+    ],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 9,
+      "rank": "Duke"
+     },
+     "member": {
+      "pc": 6,
+      "rank": "Viscount"
+     },
+     "royalCaptain": {
+      "pc": 8,
+      "rank": "Marquis"
+     },
+     "knightCommander": {
+      "pc": 7,
+      "rank": "Count"
+     },
+     "royalMember": {
+      "pc": 5,
+      "rank": "Baron"
+     },
+     "knightMember": {
+      "pc": 4,
+      "rank": "Elder"
+     },
+     "academy": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 10,
+   "requirements": {
+    "sp": 0,
+    "adena": 0,
+    "items": [
+     {
+      "id": 9911,
+      "name": "Blood Alliance",
+      "count": 5
+     }
+    ],
+    "reputation": 40000,
+    "members": 140,
+    "extra": null,
+    "paidBy": "the clan (reputation)",
+    "tag": "DATAPACK",
+    "membersRule": "L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says \"More than N\" (exact edge not verified)"
+   },
+   "itemSource": null,
+   "live": {
+    "text": "Clan Fame: 40,000 / Clan Member: More than 140 / Item: 5 Blood Alliance",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 20,
+     "knightsEach": 25,
+     "tag": "DATAPACK"
+    },
+    "features": [],
+    "clanSkills": [],
+    "squadSkills": [
+     "Fire Squad 3",
+     "Wind Squad 3",
+     "Earth Squad 3",
+     "Dark Squad 3"
+    ],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 10,
+      "rank": "Grand Duke"
+     },
+     "member": {
+      "pc": 7,
+      "rank": "Count"
+     },
+     "royalCaptain": {
+      "pc": 9,
+      "rank": "Duke"
+     },
+     "knightCommander": {
+      "pc": 8,
+      "rank": "Marquis"
+     },
+     "royalMember": {
+      "pc": 6,
+      "rank": "Viscount"
+     },
+     "knightMember": {
+      "pc": 5,
+      "rank": "Baron"
+     },
+     "academy": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  },
+  {
+   "level": 11,
+   "requirements": {
+    "sp": 0,
+    "adena": 0,
+    "items": [],
+    "reputation": 75000,
+    "members": 170,
+    "extra": "The clan must own a territory (LIVE page: \"Must be Territory Owner\")",
+    "paidBy": "the clan (reputation)",
+    "tag": "DATAPACK",
+    "membersRule": "L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says \"More than N\" (exact edge not verified)"
+   },
+   "itemSource": null,
+   "live": {
+    "text": "Clan Fame: 75,000 / Clan Member: More than 170 / Must be Territory Owner",
+    "matchesDatapack": true
+   },
+   "unlocks": {
+    "memberLimit": {
+     "main": 40,
+     "academy": 20,
+     "royalGuardsEach": 30,
+     "knightsEach": 25,
+     "tag": "DATAPACK"
+    },
+    "features": [
+     {
+      "what": "Royal Guard limit 30 each",
+      "source": "L2J L2Clan (getMaxNrOfMembers, createAlly level 5, siege skills for the leader at the castle siege min level)",
+      "tag": "DATAPACK"
+     }
+    ],
+    "clanSkills": [
+     "Clan Body 3",
+     "Clan Regeneration 3",
+     "Clan M. Def. 3"
+    ],
+    "squadSkills": [],
+    "residenceSkills": 0,
+    "ranks": {
+     "leader": {
+      "pc": 11,
+      "rank": "King"
+     },
+     "member": {
+      "pc": 8,
+      "rank": "Marquis"
+     },
+     "royalCaptain": {
+      "pc": 10,
+      "rank": "Grand Duke"
+     },
+     "knightCommander": {
+      "pc": 9,
+      "rank": "Duke"
+     },
+     "royalMember": {
+      "pc": 7,
+      "rank": "Count"
+     },
+     "knightMember": {
+      "pc": 6,
+      "rank": "Viscount"
+     },
+     "academy": {
+      "pc": 1,
+      "rank": "Vassal"
+     }
+    }
+   }
+  }
+ ],
+ "live": {
+  "file": "Logs/clan_page_levelup_Vergara_2.html",
+  "savedAt": "2026-10-09T20:51:31.936Z",
+  "hints": [
+   "You can obtain a Blood Mark by killing a Bloody Queen. They are located in Watcher's Tomb or around the Forbidden Gateway.",
+   "To obtain an Alliance Manifesto, meet sir Christopher Rodemai of Giran Castle Town.",
+   "To obtain a Seal of Aspiration, see Sir Gustav Athebaldt in the Town of Oren."
+  ],
+  "tag": "LIVE"
+ },
+ "rankGatedItems": [
+  {
+   "pledgeClass": 1,
+   "rank": "Vassal",
+   "label": "Clan Oath set (D)",
+   "items": [
+    {
+     "id": 7850,
+     "name": "Clan Oath Helm",
+     "grade": "D"
+    },
+    {
+     "id": 7851,
+     "name": "Clan Oath Armor",
+     "grade": "D"
+    },
+    {
+     "id": 7852,
+     "name": "Clan Oath Gauntlets",
+     "grade": "D"
+    },
+    {
+     "id": 7853,
+     "name": "Clan Oath Sabaton",
+     "grade": "D"
+    },
+    {
+     "id": 7854,
+     "name": "Clan Oath Brigandine",
+     "grade": "D"
+    },
+    {
+     "id": 7855,
+     "name": "Clan Oath Leather Gloves",
+     "grade": "D"
+    },
+    {
+     "id": 7856,
+     "name": "Clan Oath Boots",
+     "grade": "D"
+    },
+    {
+     "id": 7857,
+     "name": "Clan Oath Aketon",
+     "grade": "D"
+    },
+    {
+     "id": 7858,
+     "name": "Clan Oath Padded Gloves",
+     "grade": "D"
+    },
+    {
+     "id": 7859,
+     "name": "Clan Oath Sandals",
+     "grade": "D"
+    },
+    {
+     "id": 9821,
+     "name": "Shadow Item: Clan Oath Armor",
+     "grade": "D"
+    },
+    {
+     "id": 9822,
+     "name": "Shadow Item: Clan Oath Gauntlets",
+     "grade": "D"
+    },
+    {
+     "id": 9823,
+     "name": "Shadow Item: Clan Oath Sabaton",
+     "grade": "D"
+    },
+    {
+     "id": 9827,
+     "name": "Shadow Item: Clan Oath Aketon",
+     "grade": "D"
+    },
+    {
+     "id": 9828,
+     "name": "Shadow Item: Clan Oath Padded Gloves",
+     "grade": "D"
+    },
+    {
+     "id": 9829,
+     "name": "Shadow Item: Clan Oath Sandals",
+     "grade": "D"
+    }
+   ],
+   "leaderFromClanLevel": 1,
+   "memberFromClanLevel": 1,
+   "noblesseIsEnough": true,
+   "tag": "DATAPACK"
+  },
+  {
+   "pledgeClass": 2,
+   "rank": "Heir",
+   "label": "Castle circlets",
+   "items": [
+    {
+     "id": 6834,
+     "name": "Circlet of Innadril",
+     "grade": "none"
+    },
+    {
+     "id": 6835,
+     "name": "Circlet of Dion",
+     "grade": "none"
+    },
+    {
+     "id": 6836,
+     "name": "Goddard Circlet",
+     "grade": "none"
+    },
+    {
+     "id": 6837,
+     "name": "Circlet of Oren",
+     "grade": "none"
+    },
+    {
+     "id": 6838,
+     "name": "Circlet of Gludio",
+     "grade": "none"
+    },
+    {
+     "id": 6839,
+     "name": "Circlet of Giran",
+     "grade": "none"
+    },
+    {
+     "id": 6840,
+     "name": "Circlet of Aden",
+     "grade": "none"
+    },
+    {
+     "id": 8182,
+     "name": "Circlet of Rune",
+     "grade": "none"
+    },
+    {
+     "id": 8183,
+     "name": "Circlet of Schuttgart",
+     "grade": "none"
+    }
+   ],
+   "leaderFromClanLevel": 4,
+   "memberFromClanLevel": 5,
+   "noblesseIsEnough": true,
+   "tag": "DATAPACK"
+  },
+  {
+   "pledgeClass": 4,
+   "rank": "Elder",
+   "label": "Apella sets (A)",
+   "items": [
+    {
+     "id": 7860,
+     "name": "Apella Helm",
+     "grade": "A"
+    },
+    {
+     "id": 7861,
+     "name": "Apella Plate Armor",
+     "grade": "A"
+    },
+    {
+     "id": 7862,
+     "name": "Apella Gauntlet",
+     "grade": "A"
+    },
+    {
+     "id": 7863,
+     "name": "Apella Solleret",
+     "grade": "A"
+    },
+    {
+     "id": 7864,
+     "name": "Apella Brigandine",
+     "grade": "A"
+    },
+    {
+     "id": 7865,
+     "name": "Apella Leather Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 7866,
+     "name": "Apella Boots",
+     "grade": "A"
+    },
+    {
+     "id": 7867,
+     "name": "Apella Doublet",
+     "grade": "A"
+    },
+    {
+     "id": 7868,
+     "name": "Apella Silk Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 7869,
+     "name": "Apella Sandals",
+     "grade": "A"
+    },
+    {
+     "id": 7870,
+     "name": "Sealed Apella Helm",
+     "grade": "A"
+    },
+    {
+     "id": 7871,
+     "name": "Sealed Apella Plate Armor",
+     "grade": "A"
+    },
+    {
+     "id": 7872,
+     "name": "Sealed Apella Gauntlet",
+     "grade": "A"
+    },
+    {
+     "id": 7873,
+     "name": "Sealed Apella Solleret",
+     "grade": "A"
+    },
+    {
+     "id": 7874,
+     "name": "Sealed Apella Brigandine",
+     "grade": "A"
+    },
+    {
+     "id": 7875,
+     "name": "Sealed Apella Leather Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 7876,
+     "name": "Sealed Apella Boots",
+     "grade": "A"
+    },
+    {
+     "id": 7877,
+     "name": "Sealed Apella Doublet",
+     "grade": "A"
+    },
+    {
+     "id": 7878,
+     "name": "Sealed Apella Silk Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 7879,
+     "name": "Sealed Apella Sandals",
+     "grade": "A"
+    },
+    {
+     "id": 14582,
+     "name": "Apella Combat Helmet",
+     "grade": "A"
+    },
+    {
+     "id": 14583,
+     "name": "Apella Combat Armor",
+     "grade": "A"
+    },
+    {
+     "id": 14584,
+     "name": "Apella Combat Gauntlet",
+     "grade": "A"
+    },
+    {
+     "id": 14585,
+     "name": "Apella Combat Boots",
+     "grade": "A"
+    },
+    {
+     "id": 14586,
+     "name": "Apella Combat Clothes",
+     "grade": "A"
+    },
+    {
+     "id": 14587,
+     "name": "Apella Combat Leather Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 14588,
+     "name": "Apella Combat Shoes",
+     "grade": "A"
+    },
+    {
+     "id": 14589,
+     "name": "Apella Combat Overcoat",
+     "grade": "A"
+    },
+    {
+     "id": 14590,
+     "name": "Apella Combat Silk Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 14591,
+     "name": "Apella Combat Sandals",
+     "grade": "A"
+    }
+   ],
+   "leaderFromClanLevel": 5,
+   "memberFromClanLevel": 7,
+   "noblesseIsEnough": true,
+   "tag": "DATAPACK"
+  },
+  {
+   "pledgeClass": 5,
+   "rank": "Baron",
+   "label": "Improved Apella (A) + Knight's Cloak",
+   "items": [
+    {
+     "id": 9830,
+     "name": "Improved Apella Helm",
+     "grade": "A"
+    },
+    {
+     "id": 9831,
+     "name": "Improved Apella Plate Armor",
+     "grade": "A"
+    },
+    {
+     "id": 9832,
+     "name": "Improved Apella Gauntlet",
+     "grade": "A"
+    },
+    {
+     "id": 9833,
+     "name": "Improved Apella Solleret",
+     "grade": "A"
+    },
+    {
+     "id": 9834,
+     "name": "Improved Apella Brigandine",
+     "grade": "A"
+    },
+    {
+     "id": 9835,
+     "name": "Improved Apella Leather Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 9836,
+     "name": "Improved Apella Boots",
+     "grade": "A"
+    },
+    {
+     "id": 9837,
+     "name": "Improved Apella Doublet",
+     "grade": "A"
+    },
+    {
+     "id": 9838,
+     "name": "Improved Apella Silk Gloves",
+     "grade": "A"
+    },
+    {
+     "id": 9839,
+     "name": "Improved Apella Sandals",
+     "grade": "A"
+    },
+    {
+     "id": 13686,
+     "name": "Sealed Knight's Cloak",
+     "grade": "none"
+    },
+    {
+     "id": 13687,
+     "name": "Knight's Cloak",
+     "grade": "S84"
+    },
+    {
+     "id": 13688,
+     "name": "Knight's Cloak - Light Armor exclusive",
+     "grade": "S84"
+    },
+    {
+     "id": 13689,
+     "name": "Knight's Cloak - Robe exclusive",
+     "grade": "S84"
+    },
+    {
+     "id": 13690,
+     "name": "Knight's Cloak - Kamael exclusive",
+     "grade": "S84"
+    }
+   ],
+   "leaderFromClanLevel": 6,
+   "memberFromClanLevel": 8,
+   "noblesseIsEnough": true,
+   "tag": "DATAPACK"
+  },
+  {
+   "pledgeClass": -1,
+   "rank": "Clan leader only",
+   "label": "The Lord's Crown",
+   "items": [
+    {
+     "id": 6841,
+     "name": "The Lord's Crown",
+     "grade": "none"
+    }
+   ],
+   "leaderFromClanLevel": 0,
+   "memberFromClanLevel": null,
+   "noblesseIsEnough": false,
+   "tag": "DATAPACK"
+  }
+ ],
+ "rankGatedSkills": [
+  {
+   "id": 3603,
+   "name": "Demon Sword Zariche (cursed weapon)",
+   "minPledgeClass": 2,
+   "tag": "DATAPACK"
+  },
+  {
+   "id": 3629,
+   "name": "Blood Sword Akamanah (cursed weapon)",
+   "minPledgeClass": 2,
+   "tag": "DATAPACK"
+  }
+ ],
+ "clanSkillRanks": {
+  "tag": "INFERRED",
+  "note": "retail: lowest member rank that receives the clan skill passive. L2J does NOT enforce it (every member gets every clan skill); L2Toggle not checked.",
+  "skills": {
+   "370 Clan Body": {
+    "socialClass": "APPRENTICE",
+    "retailMinRank": "Vassal",
+    "retailMinPledgeClass": 1,
+    "kind": "clan"
+   },
+   "371 Clan Spirituality": {
+    "socialClass": "ELDER",
+    "retailMinRank": "Elder",
+    "retailMinPledgeClass": 4,
+    "kind": "clan"
+   },
+   "372 Clan Soul": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "373 Clan Regeneration": {
+    "socialClass": "APPRENTICE",
+    "retailMinRank": "Vassal",
+    "retailMinPledgeClass": 1,
+    "kind": "clan"
+   },
+   "374 Clan Morale": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "clan"
+   },
+   "375 Clan Clarity": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "376 Clan Might": {
+    "socialClass": "HEIR",
+    "retailMinRank": "Heir",
+    "retailMinPledgeClass": 2,
+    "kind": "clan"
+   },
+   "377 Clan Shield": {
+    "socialClass": "HEIR",
+    "retailMinRank": "Heir",
+    "retailMinPledgeClass": 2,
+    "kind": "clan"
+   },
+   "378 Clan Empower": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "379 Clan M. Def.": {
+    "socialClass": "APPRENTICE",
+    "retailMinRank": "Vassal",
+    "retailMinPledgeClass": 1,
+    "kind": "clan"
+   },
+   "380 Clan Guidance": {
+    "socialClass": "ELDER",
+    "retailMinRank": "Elder",
+    "retailMinPledgeClass": 4,
+    "kind": "clan"
+   },
+   "381 Clan Agility": {
+    "socialClass": "ELDER",
+    "retailMinRank": "Elder",
+    "retailMinPledgeClass": 4,
+    "kind": "clan"
+   },
+   "382 Clan Shield Defense": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "383 Clan Shield Block": {
+    "socialClass": "ELDER",
+    "retailMinRank": "Elder",
+    "retailMinPledgeClass": 4,
+    "kind": "clan"
+   },
+   "384 Clan Cyclonic Resistance": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "385 Clan Magmatic Resistance": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "386 Clan Resist Shock": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "387 Clan Resist Hold": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "388 Clan Resist Sleep": {
+    "socialClass": "BARON",
+    "retailMinRank": "Baron",
+    "retailMinPledgeClass": 5,
+    "kind": "clan"
+   },
+   "389 Clan Wind Walk": {
+    "socialClass": "VISCOUNT",
+    "retailMinRank": "Viscount",
+    "retailMinPledgeClass": 6,
+    "kind": "clan"
+   },
+   "390 Clan Luck": {
+    "socialClass": "APPRENTICE",
+    "retailMinRank": "Vassal",
+    "retailMinPledgeClass": 1,
+    "kind": "clan"
+   },
+   "391 Clan Imperium": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "clan"
+   },
+   "611 Fire Squad": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "squad"
+   },
+   "612 Water Squad": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "squad"
+   },
+   "613 Wind Squad": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "squad"
+   },
+   "614 Earth Squad": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "squad"
+   },
+   "615 Divine Squad": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "squad"
+   },
+   "616 Dark Squad": {
+    "socialClass": "KNIGHT",
+    "retailMinRank": "Knight",
+    "retailMinPledgeClass": 3,
+    "kind": "squad"
+   }
+  }
+ },
+ "l2toggleNotes": [
+  {
+   "what": "Member limit at clan level 2",
+   "text": "CLAUDE.md 6b (2026-10-10) calls MyClan level 2 \"FULL (13 + leader limit)\" with 13 members; the L2J default is 20. Not verified on L2Toggle.",
+   "tag": "INFERRED"
+  },
+  {
+   "what": "Clan level costs",
+   "text": "LIVE page Logs/clan_page_levelup_Vergara_2.html lists the same SP / adena / items / reputation / member counts as L2J (see levels[].live.matchesDatapack).",
+   "tag": "LIVE"
+  },
+  {
+   "what": "Ranks on L2Toggle",
+   "text": "Not seen in game. The bots do not read pledgeClass (no field in the L2Swarm JS API docs).",
+   "tag": "INFERRED"
+  }
+ ],
+ "characterFlags": {},
+ "_characterFlagsHelp": "Optional { \"<Name>\": { \"noble\": true, \"hero\": true } } — kept when the tool rebuilds the file. Nobody is Noblesse / Hero today (INFERRED: Noblesse needs a level-75 subclass; highest character is 58)."
+}

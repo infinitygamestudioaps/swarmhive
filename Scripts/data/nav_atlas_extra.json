@@ -1,0 +1,1214 @@
+{
+  "about": "Extra transport data for docs/plan/tools/nav_atlas.js (2026-10-12 unreachable research, docs/plan/unreachable_research.md). gkLinks = town gatekeeper links that are on the LIVE menus (Scripts/data/gk_live) but not in teleports_h5.json; dungeonGk = gatekeeperRoute overrides for dungeon_rooms.json; hubs = landings reached by an NPC / vehicle / walk-in-zone chain (each via = one step; serve = targets inside this box use the hub first); walkVia = a walk through fixed points (drop = a one-way ledge the geodata step rule does not allow); unreachableNotes = researched targets that stay unreachable. read: LIVE (seen on the live server), DATAPACK (L2J H5 file), GUIDE (url), INFERRED.",
+  "gkLinks": [
+    {
+      "from": "Gludio",
+      "dest": "Necropolis of Sacrifice",
+      "price": 5000,
+      "landing": [
+        -41641,
+        208652,
+        -5088
+      ],
+      "read": "LIVE",
+      "src": "gk_live/Bella.json + Logs/dungeon.log 'landed after \"Necropolis of Sacrifice\" at -41641,208652,-5088' (2026-10-07/08)"
+    },
+    {
+      "from": "Gludio",
+      "dest": "The Patriot's Necropolis",
+      "price": 4000,
+      "landing": [
+        -22197,
+        77369,
+        -5177
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Bella.json; landing = teleport.sql 'Necro Patriots Exit' (the antechamber of the outer Gatekeeper Ziggurat 31098)"
+    },
+    {
+      "from": "Giran",
+      "dest": "Catacomb of the Branded",
+      "price": 3000,
+      "landing": [
+        45895,
+        170303,
+        -4976
+      ],
+      "read": "LIVE",
+      "src": "gk_live/Clarissa.json + Logs/dungeon.log 'landed after \"Catacomb of the Branded\" at 45895,170303,-4976'"
+    },
+    {
+      "from": "Giran",
+      "dest": "Necropolis of Martyrdom",
+      "price": 5000,
+      "landing": [
+        117793,
+        132810,
+        -4835
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Clarissa.json; landing = teleport.sql 'Necro Martyrs Exit'"
+    },
+    {
+      "from": "Aden",
+      "dest": "Catacomb of the Witch",
+      "price": 5000,
+      "landing": [
+        139965,
+        79678,
+        -5433
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Elisa.json; landing = teleport.sql 'Cat Witch Exit'"
+    },
+    {
+      "from": "Aden",
+      "dest": "The Disciple's Necropolis",
+      "price": 6000,
+      "landing": [
+        171902,
+        -17595,
+        -4905
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Elisa.json; landing = teleport.sql 'Necro Disciples Exit'"
+    },
+    {
+      "from": "Aden",
+      "dest": "Catacomb of the Forbidden Path",
+      "price": 6000,
+      "landing": [
+        113429,
+        84540,
+        -6545
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Elisa.json; landing = teleport.sql 'Cat ForbiddenPath Exit'"
+    },
+    {
+      "from": "Heine",
+      "dest": "Necropolis of Worship",
+      "price": 3000,
+      "landing": [
+        110818,
+        174010,
+        -5443
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Flauen.json; landing = teleport.sql 'Necro Worshippers Exit'"
+    },
+    {
+      "from": "Heine",
+      "dest": "The Saint's Necropolis",
+      "price": 6000,
+      "landing": [
+        82608,
+        209225,
+        -5443
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Flauen.json; landing = teleport.sql 'Necro Saints Exit'"
+    },
+    {
+      "from": "Dion",
+      "dest": "The Pilgrim's Necropolis",
+      "price": 2000,
+      "landing": [
+        45250,
+        124366,
+        -5417
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Trisha.json; landing = teleport.sql 'Necro Pilgrims Exit'"
+    },
+    {
+      "from": "Dion",
+      "dest": "The Catacomb of the Heretic",
+      "price": 2000,
+      "landing": [
+        42514,
+        143917,
+        -5385
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Trisha.json; landing = teleport.sql 'Cat Heretics Exit'"
+    },
+    {
+      "from": "Oren",
+      "dest": "Catacomb of the Apostate",
+      "price": 4000,
+      "landing": [
+        77225,
+        78362,
+        -5119
+      ],
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Valentina.json; landing = teleport.sql 'Cat Apostate Exit'"
+    },
+    {
+      "from": "Oren",
+      "dest": "Necropolis of Devotion",
+      "price": 5000,
+      "landing": "ziggurat",
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Valentina.json; landing = next to the dungeon's outer Gatekeeper Ziggurat (dungeon_rooms.json floors[0].enter.npc), no Exit entry in teleport.sql"
+    },
+    {
+      "from": "Oren",
+      "dest": "Catacomb of Dark Omens",
+      "price": 6000,
+      "landing": "ziggurat",
+      "read": "LIVE menu + INFERRED landing",
+      "src": "gk_live/Valentina.json; landing = next to the outer Gatekeeper Ziggurat"
+    }
+  ],
+  "dungeonGk": {
+    "witch": {
+      "town": "Aden",
+      "gatekeeper": "Elisa",
+      "destination": "Catacomb of the Witch",
+      "read": "LIVE",
+      "src": "gk_live/Elisa.json (Aden scanned since dungeon_rooms.json was written)"
+    },
+    "disciples": {
+      "town": "Aden",
+      "gatekeeper": "Elisa",
+      "destination": "The Disciple's Necropolis",
+      "read": "LIVE",
+      "src": "gk_live/Elisa.json"
+    },
+    "forbidden": {
+      "town": "Aden",
+      "gatekeeper": "Elisa",
+      "destination": "Catacomb of the Forbidden Path",
+      "read": "LIVE",
+      "src": "gk_live/Elisa.json"
+    }
+  },
+  "hubs": [
+    {
+      "id": "ivory-basement",
+      "name": "Ivory Tower Underground Shopping Area",
+      "parent": {
+        "gk": "Oren -> Ivory Tower"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 30727,
+            "name": "Verona",
+            "x": 85336,
+            "y": 16194,
+            "z": -3664
+          },
+          "links": [
+            "Go to another floor.",
+            "Underground Shopping Area"
+          ],
+          "landing": [
+            84915,
+            15969,
+            -4294
+          ]
+        }
+      ],
+      "serve": {
+        "x": 85300,
+        "y": 16200,
+        "r": 1600,
+        "zMin": -4600,
+        "zMax": -4000
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/30727.htm + 30727-2.htm, teleport.sql id 31"
+    },
+    {
+      "id": "ivory-f2",
+      "name": "Ivory Tower 2nd floor (Human Wizard Guild)",
+      "parent": {
+        "gk": "Oren -> Ivory Tower"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 30727,
+            "name": "Verona",
+            "x": 85336,
+            "y": 16194,
+            "z": -3664
+          },
+          "links": [
+            "Go to another floor.",
+            "2nd Floor Human Wizard Guild"
+          ],
+          "landing": [
+            85399,
+            16197,
+            -2809
+          ]
+        }
+      ],
+      "serve": {
+        "x": 85300,
+        "y": 16200,
+        "r": 1600,
+        "zMin": -3100,
+        "zMax": -2550
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/30727-2.htm, teleport.sql id 33"
+    },
+    {
+      "id": "ivory-f3",
+      "name": "Ivory Tower 3rd floor (Elven Wizard Guild)",
+      "parent": {
+        "gk": "Oren -> Ivory Tower"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 30727,
+            "name": "Verona",
+            "x": 85336,
+            "y": 16194,
+            "z": -3664
+          },
+          "links": [
+            "Go to another floor.",
+            "3rd Floor Elven Wizard Guild"
+          ],
+          "landing": [
+            85399,
+            16197,
+            -2293
+          ]
+        }
+      ],
+      "serve": {
+        "x": 85300,
+        "y": 16200,
+        "r": 1600,
+        "zMin": -2550,
+        "zMax": -2030
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/30727-2.htm, teleport.sql id 34"
+    },
+    {
+      "id": "ivory-f4",
+      "name": "Ivory Tower 4th floor (Dark Wizard Guild)",
+      "parent": {
+        "gk": "Oren -> Ivory Tower"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 30727,
+            "name": "Verona",
+            "x": 85336,
+            "y": 16194,
+            "z": -3664
+          },
+          "links": [
+            "Go to another floor.",
+            "4th Floor Dark Wizard Guild"
+          ],
+          "landing": [
+            85399,
+            16197,
+            -1776
+          ]
+        }
+      ],
+      "serve": {
+        "x": 85300,
+        "y": 16200,
+        "r": 1600,
+        "zMin": -2030,
+        "zMax": -1400
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/30727-2.htm, teleport.sql id 35"
+    },
+    {
+      "id": "race-track",
+      "name": "Monster Race Track / Dion arena",
+      "parent": {
+        "town": "Dion"
+      },
+      "via": [
+        {
+          "townGk": true,
+          "link": "Move to Arena & Monster Race Track",
+          "landing": [
+            12661,
+            181687,
+            -3540
+          ],
+          "condition": "race-track"
+        }
+      ],
+      "serve": {
+        "x": 12500,
+        "y": 182600,
+        "r": 2600,
+        "zMin": -3900,
+        "zMax": -3200
+      },
+      "read": "LIVE menu + DATAPACK landing",
+      "src": "gk_live/Trisha.json 'Move to Arena & Monster Race Track (free)' + ai/npc/Teleports/TeleportToRaceTrack.java TELEPORT"
+    },
+    {
+      "id": "fantasy-isle",
+      "name": "Fantasy Isle",
+      "parent": {
+        "town": "Giran"
+      },
+      "via": [
+        {
+          "townGk": true,
+          "link": "Teleport to Fantasy Isle",
+          "landing": [
+            -59716,
+            -57868,
+            -2032
+          ],
+          "landingR": 1500,
+          "condition": "fantasy-isle"
+        }
+      ],
+      "serve": {
+        "x": -58500,
+        "y": -56500,
+        "r": 6500,
+        "zMin": -2600,
+        "zMax": -800
+      },
+      "read": "LIVE menu + DATAPACK landing",
+      "src": "gk_live/Clarissa.json 'Teleport to Fantasy Isle (free)' + TeleportToFantasy.java ISLE_LOCATIONS (4 random spots around -59720,-56900)"
+    },
+    {
+      "id": "underground-coliseum",
+      "name": "Underground Coliseum",
+      "parent": {
+        "hub": "fantasy-isle"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32378,
+            "name": "Fantasy Isle Paddies",
+            "x": -59234,
+            "y": -56897,
+            "z": -2032
+          },
+          "link": "Move to the Underground Coliseum.",
+          "landing": [
+            -81896,
+            -49589,
+            -10352
+          ],
+          "landingR": 900,
+          "condition": "fantasy-isle"
+        }
+      ],
+      "serve": {
+        "x": -82000,
+        "y": -49300,
+        "r": 6000,
+        "zMin": -11000,
+        "zMax": -10000
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/32378.htm + TeleportToUndergroundColiseum.java COLISEUM_LOCS"
+    },
+    {
+      "id": "keucereus",
+      "name": "Keucereus Alliance Base (Gracia)",
+      "parent": {
+        "town": "Gludio"
+      },
+      "via": [
+        {
+          "townGk": true,
+          "links": [
+            "Gludio Airship Field.",
+            "Teleport to Gludio Airship Field."
+          ],
+          "landing": [
+            -149406,
+            255247,
+            -80
+          ],
+          "landingR": 1500,
+          "note": "live first page shows \"Gludio Airship Field.\" (gk_live/Bella.json); datapack 30256.htm \"Ask about Flying Boat\" -> 30256-4.htm \"Teleport to Gludio Airship Field.\" (goto 12118). The executor accepts a teleport straight from the first link."
+        },
+        {
+          "npc": {
+            "id": 32609,
+            "name": "Flight Control",
+            "x": -149360,
+            "y": 252936,
+            "z": -136
+          },
+          "how": "vehicle",
+          "link": "Board the Airship.",
+          "landing": [
+            -186563,
+            243590,
+            2608
+          ],
+          "wait": {
+            "sec": 900,
+            "retrySec": 20
+          },
+          "cost": 600,
+          "condition": "gracia-airship"
+        }
+      ],
+      "serve": {
+        "x": -185000,
+        "y": 242500,
+        "r": 7000,
+        "zMin": 900,
+        "zMax": 3300
+      },
+      "read": "LIVE menu (Bella \"Gludio Airship Field.\") + DATAPACK",
+      "src": "gk_live/Bella.json first page \"Gludio Airship Field.\" (datapack 30256-4.htm goto 12118 -> -149406,255247,-80) + gracia/vehicles/AirShipGludioGracia (dock 10 Gludio wharf -> dock 11 Gracia, oust -186563,243590,2608)"
+    },
+    {
+      "id": "soi-dock",
+      "name": "Seed of Infinity dock",
+      "parent": {
+        "hub": "keucereus"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32782,
+            "name": "Lionel",
+            "x": -183980,
+            "y": 242722,
+            "z": 1576
+          },
+          "links": [
+            "Teleport",
+            "Seed of Infinity Dock"
+          ],
+          "landing": [
+            -212843,
+            209695,
+            4280
+          ],
+          "price": 150000,
+          "condition": "keucereus-docks"
+        }
+      ],
+      "serve": {
+        "x": -212900,
+        "y": 209800,
+        "r": 1800,
+        "zMin": 3800,
+        "zMax": 4900
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/32782.htm + 32782-1.htm, teleport.sql 15006"
+    },
+    {
+      "id": "soa-dock",
+      "name": "Seed of Annihilation dock",
+      "parent": {
+        "hub": "keucereus"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32782,
+            "name": "Lionel",
+            "x": -183980,
+            "y": 242722,
+            "z": 1576
+          },
+          "links": [
+            "Teleport",
+            "Seed of Annihilation Dock"
+          ],
+          "landing": [
+            -175520,
+            154505,
+            2712
+          ],
+          "price": 150000,
+          "condition": "keucereus-docks"
+        }
+      ],
+      "serve": {
+        "x": -177000,
+        "y": 154000,
+        "r": 4500,
+        "zMin": 2000,
+        "zMax": 3300
+      },
+      "read": "DATAPACK",
+      "src": "teleport.sql 15008"
+    },
+    {
+      "id": "sod-dock",
+      "name": "Seed of Destruction dock (Secret Airstrip)",
+      "parent": {
+        "hub": "keucereus"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32782,
+            "name": "Lionel",
+            "x": -183980,
+            "y": 242722,
+            "z": 1576
+          },
+          "links": [
+            "Teleport",
+            "Seed of Destruction Dock"
+          ],
+          "landing": [
+            -248535,
+            250273,
+            4336
+          ],
+          "price": 150000,
+          "condition": "keucereus-docks"
+        }
+      ],
+      "serve": {
+        "x": -248600,
+        "y": 250600,
+        "r": 3000,
+        "zMin": 3800,
+        "zMax": 4900
+      },
+      "read": "DATAPACK",
+      "src": "teleport.sql 15007"
+    },
+    {
+      "id": "soi",
+      "name": "Seed of Infinity (inside)",
+      "parent": {
+        "hub": "soi-dock"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32534,
+            "name": "Jaedin",
+            "x": -212831,
+            "y": 209536,
+            "z": 4272
+          },
+          "link": "Say yes.",
+          "landing": [
+            -183292,
+            206063,
+            -12888
+          ],
+          "condition": "seed-of-infinity"
+        }
+      ],
+      "serve": {
+        "x": -183300,
+        "y": 206200,
+        "r": 3000,
+        "zMin": -13400,
+        "zMax": -12400
+      },
+      "read": "DATAPACK",
+      "src": "html/teleporter/32534.htm (goto 14000)"
+    },
+    {
+      "id": "soa",
+      "name": "Seed of Annihilation (main)",
+      "parent": {
+        "hub": "soa-dock"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32734,
+            "name": "Klemis",
+            "x": -178467,
+            "y": 153371,
+            "z": 2472
+          },
+          "link": "Enter the Seed of Annihilation",
+          "landing": [
+            -180218,
+            185923,
+            -10576
+          ],
+          "condition": "klemis"
+        }
+      ],
+      "serve": {
+        "x": -180200,
+        "y": 181500,
+        "r": 8500,
+        "zMin": -11400,
+        "zMax": -9700
+      },
+      "read": "DATAPACK",
+      "src": "ai/npc/Teleports/Klemis (level >= 80)"
+    },
+    {
+      "id": "soa-west",
+      "name": "Seed of Annihilation (west wing, Dopagen)",
+      "parent": {
+        "hub": "soa"
+      },
+      "via": [
+        {
+          "how": "zone",
+          "at": [
+            -182488,
+            186655,
+            -10550
+          ],
+          "landing": [
+            -213175,
+            182648,
+            -10992
+          ],
+          "condition": "soa-portals"
+        }
+      ],
+      "serve": {
+        "x": -213000,
+        "y": 179000,
+        "r": 8000,
+        "zMin": -12600,
+        "zMax": -10400
+      },
+      "read": "DATAPACK",
+      "src": "SeedOfAnnihilation.java TELEPORT_ZONES 60002 + zones/custom_script.xml"
+    },
+    {
+      "id": "soa-lower",
+      "name": "Seed of Annihilation (lower level, Torumba)",
+      "parent": {
+        "hub": "soa"
+      },
+      "via": [
+        {
+          "how": "zone",
+          "at": [
+            -178458,
+            188167,
+            -10750
+          ],
+          "landing": [
+            -180211,
+            182984,
+            -15152
+          ],
+          "condition": "soa-portals"
+        }
+      ],
+      "serve": {
+        "x": -177500,
+        "y": 185000,
+        "r": 6500,
+        "zMin": -15700,
+        "zMax": -14500
+      },
+      "read": "DATAPACK",
+      "src": "SeedOfAnnihilation.java TELEPORT_ZONES 60004"
+    },
+    {
+      "id": "tully-entrance",
+      "name": "Steel Citadel: Dorian (Tully's Workshop entrance)",
+      "parent": {
+        "cond": "hellbound"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32313,
+            "name": "Deltuva",
+            "x": 10632,
+            "y": 244721,
+            "z": -2008
+          },
+          "link": "Let me into the Steel Citadel.",
+          "landing": [
+            17934,
+            283189,
+            -9701
+          ],
+          "condition": "deltuva"
+        }
+      ],
+      "serve": {
+        "x": 17934,
+        "y": 283189,
+        "r": 1500,
+        "zMin": -10300,
+        "zMax": -9200
+      },
+      "read": "DATAPACK + GUIDE",
+      "src": "hellbound/ai/npc/Deltuva + hellboundSpawns.xml; https://lineage.pmfun.com/list/quest-more/hellbound-guide"
+    },
+    {
+      "id": "tully-f1",
+      "name": "Tully's Workshop 1st floor",
+      "parent": {
+        "hub": "tully-entrance"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32373,
+            "name": "Dorian",
+            "x": 17934,
+            "y": 283189,
+            "z": -9701
+          },
+          "link": "Get help.",
+          "landing": [
+            -13400,
+            272827,
+            -15300
+          ],
+          "condition": "tully-workshop"
+        }
+      ],
+      "serve": {
+        "x": -13000,
+        "y": 275000,
+        "r": 6000,
+        "zMin": -15800,
+        "zMax": -14800
+      },
+      "read": "DATAPACK",
+      "src": "TullyWorkshop.java 'enter' (DORIAN)"
+    },
+    {
+      "id": "tully-f2",
+      "name": "Tully's Workshop 2nd floor",
+      "parent": {
+        "hub": "tully-f1"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32753,
+            "name": "Floor Teleport Device",
+            "x": -12944,
+            "y": 273952,
+            "z": -15296
+          },
+          "link": "Go upstairs.",
+          "landing": [
+            -12700,
+            273340,
+            -13600
+          ],
+          "condition": "tully-workshop"
+        }
+      ],
+      "serve": {
+        "x": -13000,
+        "y": 275000,
+        "r": 6000,
+        "zMin": -14100,
+        "zMax": -13100
+      },
+      "read": "DATAPACK",
+      "src": "TullyWorkshop.java TELE_COORDS 32753 (the 2nd 32753 spawn: the 1st one at -13226,273413 lies behind tolles_door_53, which has no opener)"
+    },
+    {
+      "id": "tully-f3",
+      "name": "Tully's Workshop 3rd floor",
+      "parent": {
+        "hub": "tully-f2"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32754,
+            "name": "Floor Teleport Device",
+            "x": -12768,
+            "y": 273440,
+            "z": -13600
+          },
+          "link": "Go upstairs.",
+          "landing": [
+            -13246,
+            275740,
+            -11936
+          ],
+          "condition": "tully-workshop"
+        }
+      ],
+      "serve": {
+        "x": -13000,
+        "y": 275000,
+        "r": 6000,
+        "zMin": -12400,
+        "zMax": -11400
+      },
+      "read": "DATAPACK",
+      "src": "TullyWorkshop.java TELE_COORDS 32754"
+    },
+    {
+      "id": "tully-f4",
+      "name": "Tully's Workshop 4th floor",
+      "parent": {
+        "hub": "tully-f3"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32755,
+            "name": "Floor Teleport Device",
+            "x": -13133,
+            "y": 275690,
+            "z": -11925
+          },
+          "link": "Go upstairs.",
+          "landing": [
+            -12798,
+            273458,
+            -10496
+          ],
+          "condition": "tully-workshop"
+        }
+      ],
+      "serve": {
+        "x": -13000,
+        "y": 275000,
+        "r": 6000,
+        "zMin": -11000,
+        "zMax": -10000
+      },
+      "read": "DATAPACK",
+      "src": "TullyWorkshop.java TELE_COORDS 32755"
+    },
+    {
+      "id": "tully-f5",
+      "name": "Tully's Workshop 5th floor (Tully)",
+      "parent": {
+        "hub": "tully-f4"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 32756,
+            "name": "Floor Teleport Device",
+            "x": -12848,
+            "y": 273408,
+            "z": -10496
+          },
+          "link": "Go upstairs.",
+          "landing": [
+            -13500,
+            275912,
+            -9032
+          ],
+          "condition": "tully-workshop"
+        }
+      ],
+      "serve": {
+        "x": -13000,
+        "y": 275000,
+        "r": 6000,
+        "zMin": -9500,
+        "zMax": -8500
+      },
+      "read": "DATAPACK",
+      "src": "TullyWorkshop.java TELE_COORDS 32756"
+    },
+    {
+      "id": "naia-roof",
+      "name": "Steel Citadel roof (Tower of Naia entrance)",
+      "parent": {
+        "hub": "tully-f5"
+      },
+      "via": [
+        {
+          "manual": true,
+          "text": "Tully's Workshop floors 6-8: the 7th floor Agent 32372 / Teleportation Cubic 32467 takes the party to the roof (21935,243923,11088); kill Darion 25603 there",
+          "landing": [
+            21935,
+            243923,
+            11088
+          ],
+          "condition": "tower-of-naia"
+        }
+      ],
+      "serve": {
+        "x": 19000,
+        "y": 244200,
+        "r": 4000,
+        "zMin": 10800,
+        "zMax": 12000
+      },
+      "read": "DATAPACK + GUIDE",
+      "src": "TullyWorkshop.java CUBE_68_TELEPORTS / AGENT skill 5526; https://lineage.pmfun.com/list/quest-more/hellbound-guide"
+    },
+    {
+      "id": "naia-tower",
+      "name": "Tower of Naia (1st room)",
+      "parent": {
+        "hub": "naia-roof"
+      },
+      "via": [
+        {
+          "manual": true,
+          "text": "attack the Naia Lock 18491 (16409,244438,11620) to below 10 % HP (do not kill it)",
+          "landing": [
+            16608,
+            244520,
+            11620
+          ],
+          "condition": "tower-of-naia"
+        },
+        {
+          "npc": {
+            "id": 18492,
+            "name": "Control Device",
+            "x": 16608,
+            "y": 244420,
+            "z": 11620
+          },
+          "links": [
+            "Push the button.",
+            "Enter the Tower of Naia."
+          ],
+          "landing": [
+            -47271,
+            246098,
+            -9120
+          ],
+          "condition": "tower-of-naia"
+        }
+      ],
+      "serve": {
+        "x": -47000,
+        "y": 246100,
+        "r": 1500,
+        "zMin": -9500,
+        "zMax": -8700
+      },
+      "read": "DATAPACK",
+      "src": "TowerOfNaia.java 18492-05.htm / teleport"
+    },
+    {
+      "id": "naia-core",
+      "name": "Core Naia (Epidos / Naia Cube)",
+      "parent": {
+        "hub": "naia-tower"
+      },
+      "via": [
+        {
+          "manual": true,
+          "text": "12 rooms (Ingenious Contraption 'Flip the switch.', party, 5 min each), then the spore challenge until Epidos spawns; kill Epidos -> the Naia Cube 32376 spawns at (-45482,246277,-14184) (the party stands at the cube when Epidos dies)",
+          "landing": [
+            -45482,
+            246277,
+            -14184
+          ],
+          "condition": "tower-of-naia"
+        }
+      ],
+      "serve": {
+        "x": -45480,
+        "y": 246900,
+        "r": 2500,
+        "zMin": -14600,
+        "zMax": -13500
+      },
+      "read": "DATAPACK",
+      "src": "TowerOfNaia.java + ai/individual/Epidos.java"
+    },
+    {
+      "id": "four-sepulchers",
+      "name": "Four Sepulchers hall",
+      "parent": {
+        "gk": "Goddard -> Wall of Argos"
+      },
+      "via": [
+        {
+          "npc": {
+            "id": 31920,
+            "name": "Elmoreden's Ghost Chamberlain",
+            "x": 164304,
+            "y": -47600,
+            "z": -3507
+          },
+          "link": "I want to visit the Four Sepulchers.",
+          "landing": [
+            178127,
+            -84435,
+            -7215
+          ],
+          "condition": "four-sepulchers"
+        }
+      ],
+      "serve": {
+        "x": 178100,
+        "y": -84800,
+        "r": 3500,
+        "zMin": -7600,
+        "zMax": -6800
+      },
+      "read": "DATAPACK",
+      "src": "ai/npc/Teleports/GhostChamberlainOfElmoreden"
+    },
+    {
+      "id": "wigoth-hall",
+      "name": "Four Sepulchers exit hall (Ghost of Wigoth)",
+      "parent": {
+        "hub": "four-sepulchers"
+      },
+      "via": [
+        {
+          "manual": true,
+          "text": "Q620 Four Goblets: enter a sepulcher (Sepulcher Managers 31921-31924, entry phase of the hourly cycle, party), clear it; Ghost of Wigoth 31452 'Escape' -> EXIT_LOC",
+          "landing": [
+            169584,
+            -91008,
+            -2912
+          ],
+          "condition": "four-sepulchers-exit"
+        }
+      ],
+      "serve": {
+        "x": 169600,
+        "y": -91000,
+        "r": 2600,
+        "zMin": -3300,
+        "zMax": -2500
+      },
+      "read": "DATAPACK",
+      "src": "quests/Q00620_FourGoblets (EXIT -> EXIT_LOC 169584,-91008,-2912)"
+    }
+  ],
+  "walkVia": {
+    "npc:32039@34842,-49756": {
+      "town": "Rune",
+      "points": [
+        [
+          35736,
+          -50792,
+          712
+        ],
+        [
+          35736,
+          -50776,
+          368,
+          "drop"
+        ],
+        [
+          35656,
+          -51064,
+          368
+        ],
+        [
+          35656,
+          -51080,
+          -32,
+          "drop"
+        ],
+        [
+          35704,
+          -50776,
+          -32
+        ],
+        [
+          35704,
+          -50760,
+          -424,
+          "drop"
+        ],
+        [
+          35736,
+          -51048,
+          -424
+        ],
+        [
+          35736,
+          -51064,
+          -760,
+          "drop"
+        ]
+      ],
+      "read": "INFERRED",
+      "src": "geodata 0-1 search (unreachable_research): Triol's Mirror stands on a terrace below Rune's upper level; the only geodata way down is 4 ledges of 340-400 at (35700,-50900) (a stairwell whose steps exceed the 48 step rule) — walk down = one-way drops, live check"
+    }
+  },
+  "unreachableNotes": {
+    "raid:25484": "Zaken's Chief Mate Tillion: a plateau on Devil's Isle enclosed by cliffs; the shortest geodata way in crosses 9 blocked cells climbing 700 (41864,217432,-3712 -> 42136,218008,-2984). No NPC / teleport leads there in the datapack. Needs a live walk recording (dashboard route editor 'Record its walk').",
+    "area:plains-of-lizardmen-33": "Abyss Weed / Energy Plant (stationary, level 85) in a pit: no walk in even ignoring walls (needs drops > 600 into the pit). Not worth a route."
+  },
+  "longLegs": [
+    {
+      "why": "Hellbound Warpgate landing -> Deltuva (Steel Citadel outer gate)",
+      "a": [
+        -11272,
+        236464,
+        -3248
+      ],
+      "b": [
+        10632,
+        244721,
+        -2008
+      ],
+      "box": [
+        -20000,
+        14000,
+        228000,
+        256000
+      ],
+      "read": "INFERRED (geodata flood: 2.25 M cells, the A* worker cap is 2 M)"
+    },
+    {
+      "why": "Rune Castle Town Temple landing -> Dungeon Gatekeeper 35506 (inner Rune Castle)",
+      "a": [
+        38303,
+        -48040,
+        896
+      ],
+      "b": [
+        11532,
+        -49136,
+        -1087
+      ],
+      "box": [
+        5000,
+        48000,
+        -62000,
+        -36000
+      ],
+      "read": "INFERRED (geodata A* with a 7 M cell cap: 52.5 km)"
+    },
+    {
+      "why": "Keucereus airship oust point -> Dilios (General Dilios, Keucereus base)",
+      "a": [
+        -186563,
+        243590,
+        2608
+      ],
+      "b": [
+        -185615,
+        240748,
+        1568
+      ],
+      "box": [
+        -195000,
+        -176000,
+        232000,
+        252000
+      ],
+      "read": "INFERRED (geodata A*, 8.1 km; the worker cap of ~1 M cells was too small)"
+    }
+  ]
+}

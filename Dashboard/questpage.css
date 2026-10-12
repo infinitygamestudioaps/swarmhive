@@ -1,0 +1,107 @@
+/* QUESTS page #/quests (Dashboard/questpage.js). L2 skin: index.html tokens (--gold, --muted, --line, --line2, --box, --ok, --bad, --fs-*). Phone first: 390 px, no sideways scroll. */
+.qp { min-width: 0; overflow-wrap: anywhere; }
+.qp .qp-ic { width: 18px; height: 18px; vertical-align: -4px; margin-right: 2px; flex: none; }
+.qp .box { margin-bottom: 8px; }
+.qp h4 { margin: 8px 0 4px; color: var(--gold); font-size: var(--fs-cap); }
+.qp-msg { margin: 6px 0; padding: 6px 10px; border: 1px solid #2f5a3c; background: rgba(23, 58, 34, .55); border-radius: 3px; color: #c9f0d2; font-size: var(--fs-cap); }
+.qp-msg.bad { border-color: #8f2f24; background: rgba(74, 23, 20, .7); color: #ffc9bf; }
+.qp-note { margin: 4px 0 8px; padding: 6px 10px; border: 1px solid #6b5a28; background: rgba(70, 58, 20, .45); border-radius: 3px; font-size: var(--fs-cap); color: #f3dfa0; }
+
+/* filters */
+.qp-filters { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: flex-end; }
+.qp-f { display: flex; flex-direction: column; gap: 2px; font-size: var(--fs-mini); color: var(--muted); min-width: 0; }
+.qp-f input, .qp-f select { max-width: 100%; min-width: 0; }
+.qp-f input[type=number] { width: 90px; }
+.qp-fq { flex: 1 1 180px; } .qp-fq input { width: 100%; }
+.qp-chk { display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-cap); white-space: nowrap; }
+.qp-count { margin: 4px 2px; }
+
+/* list */
+.qp-list { display: flex; flex-direction: column; gap: 3px; }
+.qp-row, .qp-prow { display: grid; grid-template-columns: 52px minmax(0, 1fr) minmax(0, 220px); grid-template-areas: "lv nm rw" "lv npc rw"; gap: 1px 8px; padding: 5px 8px;
+  border: 1px solid var(--line); background: var(--box); border-radius: 3px; color: inherit; text-decoration: none; align-items: center; }
+.qp-row:hover, .qp-prow:hover { border-color: var(--line2); background: rgba(255, 255, 255, .04); }
+.qp-lv { grid-area: lv; font: 600 var(--fs-cap) Consolas, monospace; color: var(--gold); text-align: center; }
+.qp-nm { grid-area: nm; min-width: 0; display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
+.qp-npc { grid-area: npc; min-width: 0; }
+.qp-rw { grid-area: rw; display: flex; flex-wrap: wrap; gap: 3px 6px; align-items: center; justify-content: flex-end; min-width: 0; }
+.qp-ad { white-space: nowrap; color: #f3dfa0; font-size: var(--fs-cap); }
+.qp-exp { white-space: nowrap; }
+.qp-more { text-align: center; margin: 8px 0; }
+@media (max-width: 640px) {
+  .qp-row, .qp-prow { grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "lv nm" "lv npc" "lv rw"; }
+  .qp-rw { justify-content: flex-start; }
+}
+
+/* badges */
+.qp-b { font: 600 var(--fs-mini) Consolas, monospace; padding: 0 5px; border-radius: 8px; border: 1px solid var(--line2); background: rgba(0, 0, 0, .35); white-space: nowrap; color: #ccc; }
+.qp-b-repeatable { color: #7be0a0; border-color: #3f5e34; } .qp-b-daily { color: #9cc8ff; border-color: #2c4b6b; } .qp-b-one-time { color: #aaa; }
+.qp-b-warn { color: #ffcf9a; border-color: #6b5a28; } .qp-b-ok { color: var(--ok); border-color: #3f5e34; } .qp-b-no { color: var(--bad); border-color: #6b3128; }
+.qp-b-maybe { color: #f3dfa0; border-color: #6b5a28; } .qp-b-req { color: #d6b3ff; border-color: #4b3a6b; font-weight: 400; }
+.qp-b-run { color: #fff; background: #2f6d2f; border-color: #5fd35f; } .qp-b-end { color: #f0c040; } .qp-b-lv { color: var(--gold); }
+
+/* detail */
+.qp-dhead { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-bottom: 8px; }
+.qp-dhead h2 { margin: 0; }
+.qp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 8px; }
+.qp-grid > .box { margin-bottom: 0; } .qp-grid { margin-bottom: 8px; }
+.qp-desc { white-space: pre-wrap; font-size: var(--fs-cap); line-height: 1.45; margin: 6px 0; max-height: 260px; overflow-y: auto; }
+.qp-start { margin-bottom: 4px; }
+.qp-ul { margin: 2px 0 6px; padding-left: 18px; font-size: var(--fs-cap); }
+.qp-ul li { margin: 3px 0; }
+.qp-steps { margin: 0; padding-left: 0; list-style: none; }
+.qp-step { border-left: 2px solid var(--line2); padding: 2px 0 4px 8px; margin: 6px 0; }
+.qp-cond { font: 600 var(--fs-mini) Consolas, monospace; color: var(--gold); border: 1px solid var(--line2); padding: 0 5px; border-radius: 2px; }
+.qp-sub { font-size: var(--fs-mini); color: var(--gold); margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .04em; }
+.qp-subl { font-size: var(--fs-mini); margin: 1px 0 1px 4px; }
+.qp-trig q { color: #fff; }
+.qp-it { display: inline-flex; align-items: center; gap: 2px; white-space: normal; }
+.qp-it.qi { color: #ffd98a; }
+.qp-qi { font: 700 9px Consolas, monospace; background: #8a6a14; color: #fff; border-radius: 6px; padding: 0 3px; margin-left: 2px; }
+.qp-src { margin: 4px 2px 12px; font-size: var(--fs-mini); }
+/* characters */
+.qp-ch { border: 1px solid var(--line); border-radius: 3px; padding: 5px 7px; margin: 4px 0; background: rgba(0, 0, 0, .2); }
+.qp-ch.off { opacity: .7; }
+.qp-chh { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.qp-why { font-size: var(--fs-mini); }
+.qp-chs { margin-top: 3px; font-size: var(--fs-cap); }
+.qp-need { display: flex; flex-wrap: wrap; gap: 3px 8px; font: var(--fs-mini) Consolas, monospace; margin-top: 2px; }
+.qp-need .ok { color: var(--ok); }
+.qp-cha { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; margin-top: 5px; font-size: var(--fs-cap); }
+.qp-cha input[type=number] { width: 56px; }
+/* map */
+.qp-map { width: 100%; max-width: 640px; aspect-ratio: 1 / 1; margin: 0 auto; border: 1px solid var(--line); background: #0b0d0c; overflow: hidden; }
+.qp-map svg { width: 100%; height: 100%; display: block; }
+.qp-mapbtn { margin-left: auto; display: inline-flex; gap: 4px; flex-wrap: wrap; }
+.qp-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
+.qp-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 3px; vertical-align: -1px; border: 1px solid #000; }
+.qp-dot.qp-sq { border-radius: 1px; }
+/* farm */
+.qp-farm > summary { cursor: pointer; list-style: none; } .qp-farm > summary::-webkit-details-marker { display: none; }
+.qp-farm > summary h3 { margin: 0; }
+.qp-fhelp { margin: 6px 0; }
+.qp-fform { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: flex-end; }
+.qp-fform .qp-f input { width: 120px; }
+.qp-fchars { display: flex; flex-wrap: wrap; gap: 3px 12px; }
+.qp-fbtn { margin: 8px 0; }
+.qp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 6px; }
+.qp-card { border: 1px solid var(--line); border-radius: 3px; padding: 5px 7px; font-size: var(--fs-cap); background: rgba(0, 0, 0, .2); }
+.qp-kv { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--fs-cap); }
+.qp-plan { display: flex; flex-direction: column; gap: 3px; }
+.qp-prow { grid-template-areas: "lv nm rw" "lv npc rw"; }
+.qp-prow .qp-kv { grid-area: rw; justify-content: flex-end; }
+.qp-prow .qp-why { grid-area: npc; }
+@media (max-width: 640px) { .qp-prow .qp-kv { justify-content: flex-start; } }
+.qp-cha label { display: inline-flex; flex-direction: row; align-items: center; gap: 4px; }
+#qpChars { max-height: 620px; overflow-y: auto; overscroll-behavior: contain; }
+/* BEGINNER GEAR 2026-10-12 (forum topic 78): box on the Quests list (questpage.js renderBg) */
+.qp-bgchain .qp-card .qp-why { display: block; margin-top: 3px; }
+.qp-bgstep { margin-top: 6px; padding-top: 5px; border-top: 1px solid var(--line2); }
+.qp-bgstep .qp-fbtn { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.qp-bgstep .qp-fbtn:empty { display: none; }
+.qp-bgv-do { color: #fff; background: #2f6d2f; border-color: #5fd35f; }
+.qp-bgv-optional { color: #ffcf9a; border-color: #6b5a28; }
+.qp-bgv-wait { color: var(--gold); }
+.qp-bgv-done { color: var(--ok); border-color: #3f5e34; }
+.qp-bgv-skip, .qp-bgv-gone { color: #999; }
+#qpBgNpc { max-width: 100%; }

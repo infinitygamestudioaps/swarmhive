@@ -79,6 +79,7 @@
     s.addEventListener('click', onClick);
     s.addEventListener('change', onChange);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && BP.ed) closeSheet(); });
+    s.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.id === 'bpRmAdd') { e.preventDefault(); const b = s.querySelector('[data-bpact="rmAdd"]'); if (b) b.click(); } });
     document.addEventListener('click', (e) => { const sh = $id('bpSheet'); if (sh && !sh.hidden && e.target === sh) closeSheet(); });
     return s;
   }
@@ -256,6 +257,44 @@
         <button data-bpact="close">Cancel</button>
       </div>`);
   }
+  // =========================================================================================== never-keep picker (D12 2026-10-12)
+  // The bot (swarm.js rkNoBuff) matches a list entry against the buff's skill NAME or its abnormal TYPE, any case: the options here are the exact
+  // names the party's buffers reported (their learned buff skills), a few often-cancelled chants / board buffs, the saved entries, and typed ones.
+  const RM_COMMON = ['Chant of Blood Awakening', 'War Chant', 'Chant of Fury', 'Chant of Rage', 'Chant of Battle', 'Chant of Evasion', 'Chant of Predator',
+    'Chant of Eagle', 'Chant of Vampire', 'Berserker Spirit', 'Wild Magic', 'Haste', 'Guidance', 'Death Whisper', 'Vampiric Rage', 'Dance of Fury', 'Dance of Vampire'];
+  function openRemove(name) {
+    const p = party(BP.sel), m = p && p.members.find(x => x.name === name); if (!m) return;
+    const opts = [], seen = {};
+    const add = (nm, from, ab) => { const v = String(nm || '').trim(); if (!v) return; const k = v.toLowerCase(); if (seen[k]) { if (from && !seen[k].from.includes(from)) seen[k].from += ', ' + from; return; } seen[k] = { key: k, name: v, from: from || '', ab: ab || '' }; opts.push(seen[k]); };
+    p.members.forEach(b => { const sk = b.skills || { party: [], target: [] }; [].concat(sk.party || [], sk.target || []).forEach(s => add(s.name, b.name, s.ab)); });
+    RM_COMMON.forEach(n => add(n, 'often cancelled'));
+    const sel = {};
+    (m.remove || []).forEach(v => { add(v, seen[String(v).trim().toLowerCase()] ? '' : 'on the list'); sel[String(v).trim().toLowerCase()] = String(v).trim(); });
+    BP.ed = { kind: 'remove', name, leader: p.leader, m, opts, sel };
+    renderRemove();
+    $id('bpSheet').hidden = false; document.documentElement.classList.add('cpl-modal');
+  }
+  function renderRemove() {
+    const E = BP.ed, m = E.m, n = Object.keys(E.sel).length;
+    const row = (o, i) => `<div class="bpl-row ${E.sel[o.key] ? 'on' : 'off'}"><label class="bpl-k"><input type="checkbox" data-bprm="${i}" ${E.sel[o.key] ? 'checked' : ''}> <b>${h(o.name)}</b></label>
+        <span class="muted bpl-meta">${o.from ? h(o.from === 'often cancelled' || o.from === 'typed' || o.from === 'on the list' ? o.from : 'cast by ' + o.from) : ''}${o.ab ? ' · ' + h(o.ab) : ''}</span></div>`;
+    const fromParty = E.opts.map((o, i) => [o, i]).filter(([o]) => o.from && o.from !== 'often cancelled' && o.from !== 'typed' && o.from !== 'on the list');
+    const other = E.opts.map((o, i) => [o, i]).filter(([o]) => !fromParty.some(([x]) => x === o));
+    put($id('bpPanel'), `<div class="cpl-ph"><div>${icon(m.classId)}<b>${h(E.name)}</b> <span class="muted">party ${h(E.leader)} · never keep these buffs</span></div>
+        <button class="cpl-x" data-bpact="close" aria-label="close">✕</button></div>
+      <div class="muted cpl-suggline">Tick the buffs ${h(E.name)} cancels itself as soon as they appear; the party's buffers never cast them on ${h(E.name)}. Other buffs (board buffs too) stay. Nothing is saved until you tap Save.</div>
+      <h4>Buffs the party's buffers cast</h4>
+      <div class="bpl-list">${fromParty.map(([o, i]) => row(o, i)).join('') || '<div class="muted">No buff skills reported by this party yet (the buffers log in once with the kit).</div>'}</div>
+      <h4>Often cancelled / typed</h4>
+      <div class="bpl-list">${other.map(([o, i]) => row(o, i)).join('')}</div>
+      <div class="bpl-add"><input id="bpRmAdd" placeholder="another buff: exact skill name or buff type" aria-label="buff name" maxlength="60"><button data-bpact="rmAdd">Add</button></div>
+      <div class="cpl-pfoot">
+        <span class="muted">${n ? `${n} ticked` : 'nothing ticked = keeps every buff'}</span>
+        <button data-bpact="rmNone" ${n ? '' : 'disabled'}>Untick all</button>
+        <button class="cpl-primary" data-bpact="rmSave">Save</button>
+        <button data-bpact="close">Cancel</button>
+      </div>`);
+  }
   function editorEntry() {
     const E = BP.ed;
     return { buffs: E.rows.filter(r => r.keep).map((r, i) => Object.assign({ skill: r.skill, targets: r.kind === 'party' ? ['party'] : (r.targets && r.targets.length ? r.targets.slice() : ['party']), priority: i + 1, keep: true }, r.id ? { id: r.id } : {})),
@@ -334,13 +373,21 @@
       if (!await uiConfirm({ title: `Buffing ${to ? 'OFF' : 'ON'} for ${n}?`, body: to ? [uiP(`${n} casts no buffs at all: no plan, no suggestion, no songs / dances.`), uiNote('Its saved plan is kept; switch it on again any time.')] : [uiP(`${n} buffs again (its approved plan, or the suggestion as the settings allow).`)], confirmText: to ? 'Buffing OFF' : 'Buffing ON', cancelText: 'Cancel' })) return;
       await post({ action: 'switches', leader: p.leader, name: n, noBuffs: to }, `${n}: buffing ${to ? 'OFF' : 'ON'}`); return;
     }
-    if (act === 'remove' && n) {   // MR.P 2026-10-10: the buffs this character cancels itself (and buffers never cast on it)
-      const mm = p.members.find(x => x.name === n), cur = (mm && mm.remove) || [];
-      const v = await uiPrompt({ title: `${n}: never keep these buffs`, body: [uiP(`${n} cancels these buffs itself as soon as they appear, and the party's buffers never cast them on ${n}.`), uiNote('Skill names or buff types, separated by commas (e.g. Chant of Blood Awakening, War Chant). Empty = keep everything.')],
-        label: 'Buffs to cancel', value: cur.join(', '), confirmText: 'Save', validate: (x) => x.length > 600 ? 'Too long' : '' });
-      if (v === null || v === undefined || v === false) return;
-      const list = String(v).split(',').map(x => x.trim()).filter(Boolean);
-      await post({ action: 'remove', leader: p.leader, name: n, remove: list }, list.length ? `${n} cancels: ${list.join(', ')}` : `${n}: keeps every buff`); return;
+    if (act === 'remove' && n) { openRemove(n); return; }   // MR.P 2026-10-10: the buffs this character cancels itself (and buffers never cast on it)
+    // D12 2026-10-12 ("cannot choose a buff to 'Never keep'"): a tick list in the bottom sheet instead of a free-text prompt (the prompt had
+    // nothing to choose from, a typo silently matched nothing, and an empty field kept Save disabled, so a list could never be cleared)
+    if (act === 'rmAdd' && E && E.kind === 'remove') {
+      const inp = $id('bpRmAdd'), v = ((inp && inp.value) || '').trim().slice(0, 60); if (!v) return;
+      if (!E.opts.some(o => o.key === v.toLowerCase())) E.opts.push({ key: v.toLowerCase(), name: v, from: 'typed', ab: '' });
+      E.sel[v.toLowerCase()] = v; renderRemove(); return;
+    }
+    if (act === 'rmNone' && E && E.kind === 'remove') { E.sel = {}; renderRemove(); return; }
+    if (act === 'rmSave' && E && E.kind === 'remove') {
+      const list = Object.keys(E.sel).map(k => E.sel[k]).filter(Boolean);
+      if (list.length > 40) { flash('At most 40 buffs on the list', true); return; }
+      const nm = E.name, r = await post({ action: 'remove', leader: E.leader, name: nm, remove: list }, list.length ? `${nm} cancels: ${list.join(', ')}` : `${nm}: keeps every buff`);
+      if (r) closeSheet();
+      return;
     }
     if (act === 'unapprove' && m) { if (!await uiConfirm({ title: `Unapprove ${m.name}'s buff plan?`, body: `The plan is kept as "not reviewed"; ${m.name} then runs it only as the settings allow for a suggestion.`, confirmText: 'Unapprove' })) return; await post({ action: 'unapprove', leader: p.leader, names: [m.name] }, `${m.name}: buff plan unapproved.`); return; }
     if (act === 'clear' && m) { if (!await uiConfirm({ title: `Remove ${m.name}'s buff plan?`, body: `Without a plan ${m.name} runs the suggestion from its skills (if the settings allow it).`, confirmText: 'Remove plan', danger: true })) return; await post({ action: 'clear', leader: p.leader, names: [m.name] }, `${m.name}: buff plan removed.`); return; }
@@ -373,6 +420,7 @@
     else if (x.dataset.bpsw) { E[x.dataset.bpsw] = x.checked; }
     else if (x.dataset.bprot !== undefined) { E.rot[+x.dataset.bprot].on = x.checked; renderEditor(); }
     else if (x.dataset.bpka !== undefined) { E.rot[+x.dataset.bpka].keepAlways = x.checked; }
+    else if (x.dataset.bprm !== undefined && E.kind === 'remove') { const o = E.opts[+x.dataset.bprm]; if (o) { if (x.checked) E.sel[o.key] = o.name; else delete E.sel[o.key]; } renderRemove(); }
   }
 
   setInterval(() => { if (!document.hidden && !BP.open) load(true); }, 60000);

@@ -258,6 +258,7 @@ pre.log { margin: 0; max-height: 420px; overflow: auto; font: var(--fs-cap)/1.45
 
 /* ---- party window (one row per member, like the in-game party window) ---- */
 .alerts { display: grid; gap: 3px; margin-bottom: 8px; }
+.reloginbtn { margin-left: auto; padding: 3px 10px; font-weight: 700; background: var(--accent, #2d6cdf); color: #fff; border: 0; border-radius: 4px; cursor: pointer; white-space: nowrap; }
 .alert { font-size: var(--fs-cap); padding: 4px 8px; border-left: 3px solid var(--warn); background: rgba(233, 185, 73, .08); display: flex; gap: 6px; align-items: center; }
 .alert.bad { border-color: var(--bad); background: rgba(236, 106, 85, .09); }
 .queue { font-size: var(--fs-cap); margin-bottom: 8px; padding: 5px 8px; border: 1px solid var(--line); background: var(--box); }
@@ -537,6 +538,14 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
 }
 .dmaphint { display: none; font-size: var(--fs-cap); color: var(--muted, #999); margin: 2px 0 4px; }
 /* seven signs mark 2026-10-08 */ .chip.ssdawn{background:#5a4a12;color:#ffd866;border-color:#b8962a;margin-left:4px} .chip.ssdusk{background:#2e1f4a;color:#c9a8ff;border-color:#6b4fa8;margin-left:4px} .chip.ssnone{background:#2a2a2a;color:#9a9a9a;border-color:#555;margin-left:4px}
+/* reconnect brake / offline status bar (2026-10-10) */
+.brakebar { margin-top: 8px; padding: 8px 12px; border: 1px solid var(--warn); border-left-width: 4px; border-radius: 4px; background: rgba(233,185,73,.08); font-size: 14px; }
+.brakebar.bad { border-color: var(--bad); background: rgba(236,106,85,.09); } .brakebar.ok { border-color: var(--ok); background: rgba(134,207,110,.08); }
+.brakebar .bk-t { font-weight: 700; color: var(--gold); } .brakebar .bk-n { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; }
+.brakebar .bk-w { margin-top: 2px; } .brakebar .bk-b { margin-top: 2px; color: var(--muted); } .brakebar .bk-b b { color: var(--ink); }
+.brakebar .bk-h { margin-top: 4px; color: var(--muted); font-size: 13px; } .brakebar .bk-h summary { cursor: pointer; }
+/* PHONES (user 2026-10-12: "make sure it works on mobile, buttons go out of bounds"): a button / select / input is never wider than its box; long labels wrap */
+@media (max-width: 700px) { main button, main select, main input, main .btn { max-width: 100%; } main button, main .btn { white-space: normal; overflow-wrap: anywhere; } }
 </style>
 </head>
 <body>
@@ -550,6 +559,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
         <button type="submit">Send</button>
       </form>
     </div>
+    <div id="brakeBar" class="brakebar" hidden></div>
     <div id="msg"></div>
     <div id="liveBanner"></div>
     <nav id="tabs">
@@ -569,6 +579,11 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="gear"><img class="gi" src="/icons/icon/armor_t53_u_i00.png" alt=""> Gear</button>
       <button data-tab="classes"><img class="gi" src="/icons/class/class_106.png" alt=""> Classes</button>
       <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
+      <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
+      <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
+      <button data-tab="sevensigns"><img class="gi" src="/icons/icon/accessory_lbracelet_of_dawn.png" alt=""> 7 Signs</button>
+      <button data-tab="quests"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Quests</button>
+      <button data-tab="skillenchant"><img class="gi" src="/icons/icon/etc_codex_of_giant_i00.png" alt=""> Enchant</button>
       <button data-tab="accounts"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Character.png" alt=""> Accounts</button>
       <button data-tab="plan"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Plan</button>
       <button data-tab="pc"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_SystemMenu.png" alt=""> PC</button>
@@ -648,7 +663,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
   </section>
 
   <section id="tab-clan" class="win" hidden>
-    <div class="whead"><h2>Clan</h2><div class="act"><button id="clWh" title="The clan leader opens the clan warehouse and reports what is in it">Look in the clan warehouse now</button></div></div>
+    <div class="whead"><h2>Clan</h2></div><!-- CLANAUTO 2026-10-12: "Look in the clan warehouse now" moved into the Clan warehouse box (the bots look by themselves) -->
     <div id="clanBox" class="muted">Loading…</div>
   </section>
 
@@ -1046,7 +1061,13 @@ function route() {
   if (window.GearPage && GearPage.route(kind, arg)) return;     // GEAR PLANNER 2026-10-09: #/gear[/<classId>/<grade>] (Dashboard/gearpage.js); closes itself on other pages
   if (window.KamaPage && KamaPage.route(kind, arg)) return;     // KAMALOKA PAGE 2026-10-09: #/kamaloka[/<id>|/live] v2, every party (Dashboard/kamapage.js); closes itself on other pages
   if (window.ClassPage && ClassPage.route(kind, arg)) return;   // CLASS PLANS 2026-10-10: #/classes[/<leader>] (Dashboard/classpage.js); closes itself on other pages
+  if (window.NavAtlasPage && NavAtlasPage.route(kind, arg)) return;   // NAV ATLAS 2026-10-12: #/navatlas[/<target key>] (Dashboard/navatlas.js, read-only); closes itself on other pages
   if (window.BuffPage && BuffPage.route(kind, arg)) return;     // BUFF PLANS 2026-10-10: #/buffs[/<leader>] (Dashboard/buffpage.js); closes itself on other pages
+  if (window.TradePage && TradePage.route(kind, arg)) return;   // HANDOVER 2026-10-10: #/trade[/party:<leader>|char:<name>] (Dashboard/tradepage.js); closes itself on other pages
+  if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
+  if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
+  if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
+  if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
   if (kind === 'char' && arg) { showCharPage(decodeURIComponent(arg)); return; }
   if (kind === 'raid' && arg) { showRaidPage(decodeURIComponent(arg)); return; }
   if (kind === 'live') { showLivePage(); return; }
@@ -1085,6 +1106,17 @@ async function setClientMode(name, mode) {
   try { const d = await api('/api/clientmode', { method: 'POST', body: JSON.stringify({ name, mode }) }); if (d.error) { $('msg').textContent = `${name}: ${d.error}`; return; } $('msg').textContent = `${name}: ${mode} — applied within ~2 min` + (d.warning ? ` (${d.warning})` : ''); const el = $('cmode'); if (el) el.textContent = 'wanted: ' + d.modes[name]; }
   catch (e) { $('msg').textContent = e.message; }
 }
+
+// --- RELOGIN (user 2026-10-12: "a clear button to log the character in again") ------------------------------------------
+async function relogin(name) {
+  if (!await uiConfirm({ title: `Log ${name} in again?`, body: [`If L2Swarm still has the account open (hanging or reconnecting), it is closed first and then opened again.`, uiNote('Logging in takes 20-60 seconds.')], confirmText: 'Log in again' })) return;
+  $('msg').textContent = `logging ${name} in…`;
+  try {
+    const d = await api('/api/relogin', { method: 'POST', body: JSON.stringify({ name }) });
+    $('msg').innerHTML = d.ok ? GI(UI.yes, 'sm') + ` ${esc(name)}: logging in — it reports in again within a minute` : GI(UI.warn, 'sm') + ` ${esc(name)}: ${esc(d.error || (d.steps || []).join(' | '))}`;
+  } catch (e) { $('msg').innerHTML = GI(UI.warn, 'sm') + ' ' + esc(e.message); }
+}
+document.addEventListener('click', (e) => { const b = e.target.closest('[data-relogin]'); if (b) { e.preventDefault(); e.stopPropagation(); relogin(b.dataset.relogin); } }, true);
 
 // --- Commands -----------------------------------------------------------------
 async function send(target, text, cmd) {
@@ -1136,7 +1168,7 @@ document.addEventListener('click', async (e) => {
 function problems(c) {
   const out = [];
   const live = c.ageSec <= 30;
-  if (c.ageSec > 30 && c.ageSec < 6 * 3600) out.push(['bad', `${c.name}: not reporting for ${fmt(c.ageSec)} (offline or script stopped)`]);
+  if (c.ageSec > 30) out.push(['bad', `${c.name}: not reporting for ${fmt(c.ageSec)} (offline or script stopped)`, c.name]);   // 3rd = "Log in again" button (2026-10-12: no 6 h cut-off, a character offline for a day needs the button most)
   if (!live) return out;
   if (c.dead) out.push(['bad', `${c.name} is dead`]);
   const it = c.intent;
@@ -1186,10 +1218,22 @@ function memberRow(c) {
 // The bar animates here from start + ms (server clock; SKEW = server - browser), the rows refresh every 1.5 s while one is active.
 let ESCSKEW = 0, ESCSKEWREF = null;
 const escNow = () => Date.now() + ESCSKEW;
-const escActive = (c) => c && c.ageSec <= 30 && ((c.escape && c.escape.on) || (c.cast && !c.cast.ended));
+// D13 2026-10-12 ("the Parties tab shows a character casting a skill it already finished"): the bot keeps an ended cast 20 s in swarm_state and
+// only ends a cast it saw finish; a cast is GONE (not drawn) when it ended > keepMs ago, or it never got an end but its time ran out
+// (start + ms + 1.5 s; 10 s when the cast time is unknown). Shared by the Parties tab, activity.js, liveparty.js and charpage.js (window.castGone).
+function castGone(k, nowMs, keepMs) {
+  if (!k) return true;
+  const t = nowMs != null ? nowMs : escNow(), st = Date.parse(k.start);
+  if (!isFinite(st)) return true;
+  if (k.ended) { const e = Date.parse(k.endedAt || k.start); return !isFinite(e) || t - e > (keepMs != null ? keepMs : 3000); }
+  const ms = +k.ms || 0;
+  return t - st > (ms > 0 ? ms + 1500 : 10000);
+}
+window.castGone = castGone;
+const escActive = (c) => c && c.ageSec <= 30 && ((c.escape && c.escape.on) || (c.cast && !c.cast.ended && !castGone(c.cast)));
 const CCMARK = { sleep: 'zZ', root: '⚓', hold: '✶', stun: '✶', fear: '!', slow: '~', peace: '☮', silence: '…', held: '✶' };
 function castHtml(c) {
-  const k = c.cast; if (!k || c.ageSec > 30) return '';
+  const k = c.cast; if (!k || c.ageSec > 30 || castGone(k)) return '';
   const icon = k.kind === 'soe' ? `<img class="ic" src="${itemIcon(k.id || 736)}" onerror="this.src='/icons/${UI.soe}.png'">` : k.kind === 'town' ? GI(UI.map, 'sm') : `<img class="ic" src="${skillIcon(k.skill || k.id)}" onerror="this.style.visibility='hidden'">`;
   const what = k.kind === 'town' ? `${esc(k.name)} → ${esc(k.target || 'town')}` : esc(k.name) + (k.target ? ' → ' + esc(k.target) : '');
   const cls = k.ended ? (/interrupt|refused|resist|fail|no teleport/.test(k.ended) ? 'int' : 'ok') : '';
@@ -1269,6 +1313,7 @@ setInterval(() => {
     if (!bar || !txt || !isFinite(st)) return;
     if (ended) { bar.style.width = '100%'; txt.textContent = ended; return; }
     const el = escNow() - st, p = ms ? Math.max(0, Math.min(1, el / ms)) : 1;
+    if (el > (ms > 0 ? ms + 1500 : 10000)) { const row = b.closest('.castrow, .lp-cast'); if (row) row.hidden = true; return; }   // D13: ran out without an end -> hide until the next refresh drops it
     bar.style.width = (p * 100).toFixed(1) + '%';
     txt.textContent = ms ? (el < ms ? ((ms - el) / 1000).toFixed(1) + ' s' : 'finishing…') : '';
   });
@@ -1330,11 +1375,14 @@ function partyMap(leader, list) {
     const h = zone.r / 2;
     over += `<rect x="${zone.x - h}" y="${zone.y - h}" width="${zone.r}" height="${zone.r}" fill="rgba(227,194,122,.07)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(zone.x - h + 4 * u, zone.y - h + 12 * u, (zone.local ? 'local fallback square (the chosen spot was not reached)' : 'hunting: ' + (zone.name || '')) + (L.spotClaim && L.spotClaim.claimed ? ' (claimed)' : ''), 9, '#e3c27a');
   }
+  let TPL = null;
   // HALLWAY CENTRELINES + ROUTES (2026-10-09): the floor's centreline network (faint), the leader's route (green, dots, next waypoint ringed,
   // target), each member's own route (thin, party colour), stuck members (red ring + "stuck N s")
   { const dn = (L.route && L.route.dungeon) || (zone && zone.room ? String(zone.name || '').split(':')[0].trim() : '') || (chosen && chosen.dungeon) || '';
     const g = dn ? graphFor(dn, () => { if (TAB === 'parties' && STATE) renderParties(); }) : null;
-    if (g) { const fi = L.route && isFinite(L.route.floor) && L.route.floor >= 0 ? L.route.floor : graphFloorAt(g, L.z); if (fi >= 0) over += graphLayer(g, fi, u); }
+    // TOWN PATHS 2026-10-12 (Dashboard/townpaths.js): every street of a town in view (+ Giran's recorded routes), under the routes; it replaces the walked-town graph
+    if (window.TownPaths) { TPL = TownPaths.layer({ x0, y0, W, H: W, u }, { active: TownPaths.activeOf(L), fs: 8.5 }); over += TPL.base + TPL.labels; }
+    if (g && !(g.town && window.TownPaths && TownPaths.isOn())) { const fi = L.route && isFinite(L.route.floor) && L.route.floor >= 0 ? L.route.floor : graphFloorAt(g, L.z); if (fi >= 0) over += graphLayer(g, fi, u); }
     near.forEach(c => { over += routeLayer(c, u, col, c.name === leader, label); }); }
   // ROTATION (several rooms / field areas, 2026-10-08 22:45): the other chosen ones, numbered; the current one is the gold outline above
   const MU = zone && zone.multi && Array.isArray(zone.multi.list) && zone.multi.list.length > 1 ? zone.multi : null;
@@ -1388,7 +1436,7 @@ function partyMap(leader, list) {
   const sm = Math.pow(10, Math.floor(Math.log10(R / 2))), sb = R / 2 > 5 * sm ? 5 * sm : R / 2 > 2 * sm ? 2 * sm : sm;
   over += `<g transform="translate(${x0 + 8 * u} ${y0 + W - 8 * u})"><line x1="0" y1="0" x2="${sb}" y2="0" stroke="#fff" stroke-width="${2 * u}"/>${label(0, -4 * u, km(sb), 9)}</g>`;
   return `<div class="pmap"><svg viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg>
-    <div class="pmlegend"><span><i style="background:${col}"></i>member</span><span><i style="background:#9aa;opacity:.85"></i>other parties</span><span><i style="background:${col};box-shadow:0 0 0 2px #ff5a45"></i>fighting</span><span><i style="background:#5aa9ff"></i>resting</span><span><i style="background:#3a0d0d;border:1px solid #ff6b5a"></i>dead</span><span><i style="background:#e0483c"></i>monster</span>${zpoly ? (zone && zone.area ? '<span style="color:#e3c27a">⬠ hunting area</span>' : '<span style="color:#e3c27a">⬠ hunting room</span>') + (zone && zone.multi && zone.multi.list && zone.multi.list.length > 1 ? '<span style="color:#cfd8dc">⬠ next ones (number ~expected monsters)</span>' : '') : zone ? (zone.local ? '<span style="color:#e3c27a">▭ local fallback square</span>' : '<span style="color:#e3c27a">▭ hunting square</span>') : ''}${cpoly ? '<span style="color:#fff">⬠ chosen room</span>' : ''}<span>◌ leader combat range</span>${near.some(c => c.route && c.route.pts) ? '<span style="color:#3ddc84">━ route (centerline)</span><span style="color:#ffd34d">• door</span><span style="color:#ff6b5a">◯ stuck</span>' : ''}</div></div>`;
+    <div class="pmlegend"><span><i style="background:${col}"></i>member</span><span><i style="background:#9aa;opacity:.85"></i>other parties</span><span><i style="background:${col};box-shadow:0 0 0 2px #ff5a45"></i>fighting</span><span><i style="background:#5aa9ff"></i>resting</span><span><i style="background:#3a0d0d;border:1px solid #ff6b5a"></i>dead</span><span><i style="background:#e0483c"></i>monster</span>${zpoly ? (zone && zone.area ? '<span style="color:#e3c27a">⬠ hunting area</span>' : '<span style="color:#e3c27a">⬠ hunting room</span>') + (zone && zone.multi && zone.multi.list && zone.multi.list.length > 1 ? '<span style="color:#cfd8dc">⬠ next ones (number ~expected monsters)</span>' : '') : zone ? (zone.local ? '<span style="color:#e3c27a">▭ local fallback square</span>' : '<span style="color:#e3c27a">▭ hunting square</span>') : ''}${cpoly ? '<span style="color:#fff">⬠ chosen room</span>' : ''}<span>◌ leader combat range</span>${near.some(c => c.route && c.route.pts) ? '<span style="color:#3ddc84">━ route (centerline)</span><span style="color:#ffd34d">• door</span><span style="color:#ff6b5a">◯ stuck</span>' : ''}${window.TownPaths ? (TPL && TPL.towns.length ? TownPaths.legendHtml(TPL.towns) : '') + TownPaths.toggleHtml() : ''}</div></div>`;
 }
 /** Party alerts: worst first, max 3 visible (rest behind "n more"), low supplies summed up in one line. */
 function alertsHtml(alerts, list) {
@@ -1396,7 +1444,7 @@ function alertsHtml(alerts, list) {
   const all = alerts.slice().sort((a, b) => (a[0] === 'bad' ? 0 : 1) - (b[0] === 'bad' ? 0 : 1));
   if (noSoe.length) all.push(['warn', 'No Scroll of Escape: ' + noSoe.join(', ') + ' — restock buys them']);
   if (!all.length) return '';
-  const row = ([k, t]) => `<div class="alert ${k}">${GI(UI.warn, 'sm')} <span>${esc(t)}</span></div>`;
+  const row = ([k, t, who]) => `<div class="alert ${k}">${GI(UI.warn, 'sm')} <span>${esc(t)}</span>${who ? ` <button class="reloginbtn" data-relogin="${esc(who)}" title="Log ${esc(who)} in again (a hanging session is closed first)">Log in again</button>` : ''}</div>`;
   return '<div class="alerts">' + all.slice(0, 3).map(row).join('') +
     (all.length > 3 ? `<details><summary class="muted" style="cursor:pointer">${all.length - 3} more</summary><div class="alerts" style="margin-top:3px">${all.slice(3).map(row).join('')}</div></details>` : '') + '</div>';
 }
@@ -1644,7 +1692,13 @@ function ssGateParty(party, dungeon, t) {
   const cur = ssgNow(S.state || {}, t || Date.now(), 18, 6 * 3600e3);
   const mem = (S.chars || []).filter(c => c.party === party).map(c => ({ name: c.name, rec: { cycle: c.cycle, status: c.status, denied: c.denied }, base: /1st class transfer/.test(c.why || '') }));
   if (!mem.length) return null;
-  return Object.assign(ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 99 }), { cur });
+  // 7 SIGNS OPT-IN 2026-10-12 (= swarm.js ssoGate): a sign-up / priest read for characters that are not enrolled = closed + the hint
+  const O = S.optin || {}, lc = (x) => String(x || '').toLowerCase(), enr = (n) => (O.chars || []).some(x => lc(x) === lc(n)) || (O.parties || []).some(x => lc(x) === lc(party));
+  let g = ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 99 });
+  const hint = 'enroll on the 7 Signs tab for the automatic sign-up (or send !dawn)';
+  if (g.state === 'signup') { const no = (g.need || []).filter(n => !enr(n)); if (no.length) g = { state: 'closed', ok: false, optin: true, why: 'competition period: ' + no.join(', ') + (no.length === 1 ? ' is' : ' are') + ' not signed up and not enrolled — ' + hint, until: 0, need: [], who: no }; }
+  else if (g.state === 'check' && !mem.some(m => enr(m.name))) g = { state: 'closed', ok: false, optin: true, why: g.why + ' — nobody of the team is enrolled: ' + hint, until: 0, need: [], who: [] };
+  return Object.assign(g, { cur });
 }
 /** one line for the picker: green enter, red closed (until when), gold sign-up first, grey period not read */
 function ssGateText(g) {
@@ -2045,7 +2099,7 @@ document.addEventListener('input', (e) => {
 function renderParties() {
   const parties = {};
   STATE.chars.forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
-  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip() + (liveRuns(KLIVE).length > 1 ? kamaBannerHtml(true) : KLIVE.running ? kamaLiveHtml() : '') + Object.entries(parties).map(([leader, list]) => {
+  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip() + /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).map(([leader, list]) => {
     list.sort((a, b) => (b.name === leader) - (a.name === leader) || a.name.localeCompare(b.name));
     const lv = list.map(c => c.level);
     const live = list.filter(c => c.ageSec <= 30).length;
@@ -2058,13 +2112,16 @@ function renderParties() {
     return `<div class="win">
       <div class="whead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.LiveParty ? LiveParty.button(leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
           <button data-quick="${tgt}|!collect|Collect adena to the leader" title="Members keep 2M / 2.5M / 3M by level, the rest goes to the leader">Collect</button>
           <button data-quick="${tgt}|!classchange|Class change (Community Board)" title="Alt+B → Career → Professions — only characters with an APPROVED class plan (Classes page) whose level allows it">Class</button>
           <button data-quick="${tgt}|!buff|Rebuff" title="Rebuff">Buff</button>
+          <button data-quick="${tgt}|!park start|Back to town (everyone to Giran, waits there for the next order)" title="Everyone stops, goes to Giran (.giran), walks to the start and waits for orders">Town</button>
+          <button data-quick="${tgt}|!formation rows|Formation in front of the landing (rows; wedge / line from the Commands sheet)" title="Line up in front of the town landing, side by side, each party its own lane">Formation</button>
+          <button data-quick="${tgt}|!hunthere|Hunt here 24/7 (around the leader, no town trips; !hunthere off ends it)" title="Hunt around the spot where the leader stands now, around the clock: no supply runs, no Giran trips; after a death it comes back here">Hunt here 24/7</button>
           <button data-quick="${tgt}|!stop|STOP everything" title="Stop everything">Stop</button>
           <select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…" style="max-width:150px"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button>
         </div></div>
@@ -2104,6 +2161,7 @@ function initMap() {
     errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
   }).addTo(MAP);
   MAP.on('dragstart', () => { $('mapFollow').checked = false; });
+  if (window.TownPaths) TownPaths.attach(MAP, { onPick: () => { $('mapFollow').checked = false; } });   // TOWN PATHS 2026-10-12: layer + town picker + legend
   MAP.on('zoomend', () => { $('map').classList.toggle('lowzoom', MAP.getZoom() < -1); });
   $('map').classList.toggle('lowzoom', MAP.getZoom() < -1);
   $('mapFocus').onchange = () => { mapFocus = $('mapFocus').value; $('mapFollow').checked = true; renderMap(true); };
@@ -3028,15 +3086,18 @@ async function routeEditor(b) {
   if (!$('routeEd')) return;
   if (d.error) { $('routeEd').textContent = d.error; return; }
   const r = d.route, L = d.landingDefault;
+  const ATL = window.RouteAtlas ? await RouteAtlas.get(d.id) : null;   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): the nav atlas computed path of this boss
+  if (!$('routeEd')) return;
   // no saved route yet: start a draft from the landing to the boss spawn (nothing is saved until "Save")
   const pts = r ? r.points.map(p => (p.layer ? { x: p.x, y: p.y, z: p.z, layer: p.layer } : { x: p.x, y: p.y, z: p.z })) : (L ? [{ x: L.x, y: L.y, z: L.z }, { x: d.boss.x, y: d.boss.y, z: d.boss.z }] : []);
-  if (RED && RED.rec) { clearInterval(RED.rec.timer); }
+  if (RED && RED.rec) { clearInterval(RED.rec.timer); recHold(RED.rec.name, false); }
   RED = { gkLand: d.gkLand || {}, id: d.id, boss: d.boss, L, route: r, landing: (r && r.landing) || (L && L.desc) || '', start: (r && r.start) || (!r && L && /->/.test(L.desc || '') ? { kind: 'gk', desc: L.desc } : null), gkStarts: d.gkStarts || [], towns: d.towns || {}, layers: d.layers || {}, layer: 0, pts, sel: pts.length ? pts.length - 1 : -1, dirty: !r, msg: r ? '' : 'No saved route yet — this is a draft from the landing to the spawn. Add points and press Save.' };
+  RED.atlas = ATL; if (!r && window.RouteAtlas) RouteAtlas.prefillRed(RED);   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): no saved route = the list starts as the computed path (not saved)
   renderRouteEd();
 }
 /** The view that shows the whole route + landing + boss. */
 function redFitView() {
-  const P = RED.pts, B = RED.boss, all = P.concat([{ x: B.x, y: B.y }]).concat(RED.L ? [{ x: RED.L.x, y: RED.L.y }] : []);
+  const P = RED.pts, B = RED.boss, all = P.concat([{ x: B.x, y: B.y }]).concat(RED.L ? [{ x: RED.L.x, y: RED.L.y }] : []).concat(RED.atlas && window.RouteAtlas ? RouteAtlas.fitPts(RED.atlas) : []);
   const minX = Math.min(...all.map(p => p.x)), maxX = Math.max(...all.map(p => p.x)), minY = Math.min(...all.map(p => p.y)), maxY = Math.max(...all.map(p => p.y));
   return { cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, R: Math.max(1500, (maxX - minX) / 2 + 900, (maxY - minY) / 2 + 900) };
 }
@@ -3054,6 +3115,7 @@ function routeMapSvg() {
   }
   const label = (x, y, t, size, fill) => `<text x="${x}" y="${y}" font-size="${(size || 10) * u}" fill="${fill || '#fff'}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
   let over = '';
+  if (RED.atlas && window.RouteAtlas) over += RouteAtlas.svgLayer(RED.atlas, u);   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): computed path layer under the editable route
   if (P.length > 1) over += `<polyline points="${P.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="#ffd34d" stroke-width="${2.2 * u}" stroke-linejoin="round"/>`;
   if (RED.start && RED.start.kind === 'town' && RED.towns[RED.start.town]) { const T = RED.towns[RED.start.town]; over += `<rect x="${T[0] - 8 * u}" y="${T[1] - 8 * u}" width="${16 * u}" height="${16 * u}" fill="#7be0a0" stroke="#000" stroke-width="${u}"/>` + label(T[0] + 11 * u, T[1] - 9 * u, '.' + RED.start.town.toLowerCase() + ' landing', 9, '#7be0a0'); }
   if (RED.L && !(RED.start && RED.start.kind === 'town')) over += `<rect x="${RED.L.x - 7 * u}" y="${RED.L.y - 7 * u}" width="${14 * u}" height="${14 * u}" fill="#5aa9ff" stroke="#000" stroke-width="${u}"/>` + label(RED.L.x + 10 * u, RED.L.y - 8 * u, 'landing', 9, '#5aa9ff');
@@ -3069,7 +3131,7 @@ function routeMapSvg() {
     over += `<circle cx="${c.x}" cy="${c.y}" r="${4 * u}" fill="${partyColor(c.party)}" stroke="#fff" stroke-width="${u}"/>` + label(c.x + 6 * u, c.y + 4 * u, c.name, 8);
   });
   return `<div class="pmap redmap"><svg id="redSvg" viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice" style="cursor:crosshair"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg>
-    <div class="pmlegend"><span><i style="background:#5aa9ff"></i>landing</span><span><i style="background:#fff"></i>waypoint</span><span><i style="background:#ff5a45"></i>selected</span><span><i style="background:#c9a2ff"></i>inside (dungeon layer)</span><span style="color:#f0c040">♛ boss spawn</span><span>click = new point after the selected one · drag = move the map · wheel = zoom</span></div></div>`;
+    <div class="pmlegend">${RED.atlas && window.RouteAtlas ? RouteAtlas.legend(RED.atlas) : ''}<span><i style="background:#5aa9ff"></i>landing</span><span><i style="background:#fff"></i>waypoint</span><span><i style="background:#ff5a45"></i>selected</span><span><i style="background:#c9a2ff"></i>inside (dungeon layer)</span><span style="color:#f0c040">♛ boss spawn</span><span>click = new point after the selected one · drag = move the map · wheel = zoom</span></div></div>`;
 }
 /** 2026-10-10 (user: "I click the down arrow, it does nothing, so I can't select another teleport"): the landing was an <input list> +
  *  <datalist>, which iPhone Safari never opens from the arrow. A real <select> (native picker), grouped by town; the current value stays
@@ -3083,15 +3145,18 @@ function redLandingSelect() {
   const opts = Object.keys(groups).sort().map(g => '<optgroup label="' + esc(g) + '">' + groups[g].sort().map(s => '<option value="' + esc(s) + '"' + (s === cur ? ' selected' : '') + '>' + esc(label(s)) + '</option>').join('') + '</optgroup>').join('');
   return '<select id="redLanding" aria-label="teleport (gatekeeper destination)" style="max-width:100%"><option value=""' + (cur ? '' : ' selected') + '>pick a teleport …</option>' + opts + '</select>';
 }
+/** RECORDING HOLD: tell the bot that this character is being recorded (no attacks, bot off) — Logs/rec_hold_<Name>.txt via /api/rechold */
+function recHold(name, on) { try { api('/api/rechold', { method: 'POST', body: JSON.stringify({ name, on }) }).catch(() => { }); } catch (e) { } }   // api(): key + JSON like every other call
 function renderRouteEd() {
   const box = RED && $(RED.boxId || 'routeEd'); if (!box || !RED) return;
   const town = RED.kind === 'town';
   const r = RED.route, P = RED.pts;
   const online = ((STATE && STATE.chars) || []).filter(c => c.ageSec <= 60 && isFinite(c.x)).map(c => c.name);
-  const status = town ? (r ? `<span class="fit good">Giran route '${esc(RED.id)}'</span>${r.editedAt ? ' · edited ' + new Date(r.editedAt).toLocaleString() : ' · recorded by hand (2026-10-03)'}` : '<span class="st-dead">new route, not saved yet</span>') : r ? `${r.manual ? '<span class="fit good">locked</span> the bots use exactly this route' : '<span class="muted">recorded by the bots</span> (a better walk may replace it)'} · used ${r.uses || 0}x${r.fails ? ' · <span class="st-dead">failed ' + r.fails + 'x</span>' : ''}${r.editedAt ? ' · edited ' + new Date(r.editedAt).toLocaleString() : r.savedAt ? ' · recorded ' + new Date(r.savedAt).toLocaleString() : ''}` : '<span class="st-dead">not saved yet</span>';
+  const status = town ? (r ? `<span class="fit good">Giran route '${esc(RED.id)}'</span>${r.editedAt ? ' · edited ' + new Date(r.editedAt).toLocaleString() : ' · recorded by hand (2026-10-03)'}` : '<span class="st-dead">new route, not saved yet</span>') : r ? `${r.manual ? '<span class="fit good">locked</span> the bots use exactly this route' : '<span class="muted">recorded by the bots</span> (a better walk may replace it)'} · used ${r.uses || 0}x${r.fails ? ' · <span class="st-dead">failed ' + r.fails + 'x</span>' : ''}${r.editedAt ? ' · edited ' + new Date(r.editedAt).toLocaleString() : r.savedAt ? ' · recorded ' + new Date(r.savedAt).toLocaleString() : ''}` : RED.fromAtlas ? '<span class="fit next">computed — not saved yet</span>' : '<span class="st-dead">not saved yet</span>';
   box.className = '';
   box.innerHTML = `<div class="muted" style="margin-bottom:6px">${status}</div>
     ${RED.msg ? `<div style="margin-bottom:6px">${esc(RED.msg)}</div>` : ''}
+    ${!town && window.RouteAtlas ? RouteAtlas.infoHtml(RED) : ''}
     ${town ? '' : `<div class="act" style="margin-bottom:6px;flex-wrap:wrap;align-items:center"><b>Start:</b>
       <select id="redStartKind"><option value="gk"${!RED.start || RED.start.kind === 'gk' ? ' selected' : ''}>gatekeeper teleport</option><option value="town"${RED.start && RED.start.kind === 'town' ? ' selected' : ''}>.townname (walk from the town)</option></select>
       ${RED.start && RED.start.kind === 'town'
@@ -3126,7 +3191,8 @@ function renderRouteEd() {
       <div class="muted">One point per line: <code>x y z</code>, <code>x, y, z</code> or a <code>/loc</code> line from the game ("Current location : -12345, 67890, -3456").</div>
       <textarea id="redPaste" rows="5" style="width:100%;margin:6px 0"></textarea>
       <button id="redPasteRep">Replace the route with these</button> <button id="redPasteAdd">Add after the selected point</button></details>`;
-  const set = (fn) => { RED.msg = ''; fn(); RED.dirty = true; renderRouteEd(); };   // 2026-10-09: clear the old message BEFORE fn (fn's 'added …' message was wiped at once)
+  const set = (fn) => { RED.msg = ''; fn(); RED.dirty = true; renderRouteEd(); };
+  if (!town && window.RouteAtlas) RouteAtlas.bind(box, RED, set);   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): "Use computed path" (uiConfirm)   // 2026-10-09: clear the old message BEFORE fn (fn's 'added …' message was wiped at once)
   box.querySelectorAll('.redIn').forEach(el => el.onchange = () => { const v = Math.round(+el.value); if (Number.isFinite(v)) set(() => { RED.pts[+el.dataset.i][el.dataset.k] = v; RED.sel = +el.dataset.i; }); });
   box.querySelectorAll('tr[data-row]').forEach(tr => tr.onclick = (e) => { if (e.target.closest('input,button')) return; RED.sel = +tr.dataset.row; RED.layer = P[RED.sel].layer || 0; renderRouteEd(); });
   box.querySelectorAll('.redUp').forEach(el => el.onclick = () => { const i = +el.dataset.i; if (i > 0) set(() => { [P[i - 1], P[i]] = [P[i], P[i - 1]]; RED.sel = i - 1; }); });
@@ -3149,11 +3215,13 @@ function renderRouteEd() {
   if ($('redUseTown')) $('redUseTown').onclick = () => { const T = RED.towns[RED.start.town]; if (T) set(() => { P.unshift({ x: T[0], y: T[1], z: T[2] }); RED.sel = 0; RED.msg = '.' + RED.start.town.toLowerCase() + ' landing added as point 1'; }); };
   if ($('redLayer')) $('redLayer').onchange = () => { RED.layer = +$('redLayer').value; renderRouteEd(); };
   if ($('redRec')) $('redRec').onclick = () => {
-    if (RED.rec) { clearInterval(RED.rec.timer); RED.msg = `recording stopped (${RED.rec.n} points added) — check them and press Save`; RED.rec = null; renderRouteEd(); return; }
+    if (RED.rec) { clearInterval(RED.rec.timer); recHold(RED.rec.name, false); RED.msg = `recording stopped (${RED.rec.n} points added) — check them and press Save; ${RED.rec.name} may fight again`; RED.rec = null; renderRouteEd(); return; }
     const name = $('redChar').value; if (!name) return;
     const rec = { name, n: 0 };
+    recHold(name, true);                                   // the character stops attacking while it is recorded (user 2026-10-11)
     rec.timer = setInterval(() => {
-      if (!RED || RED.rec !== rec) { clearInterval(rec.timer); return; }
+      if (!RED || RED.rec !== rec) { clearInterval(rec.timer); recHold(name, false); return; }
+      recHold(name, true);                                 // keep the hold fresh (it expires 20 s after the last refresh, e.g. a closed page)
       const c = ((STATE && STATE.chars) || []).find(x => x.name === name);
       if (!c || c.ageSec > 20 || !isFinite(c.x)) return;
       const last = RED.pts[RED.sel] || RED.pts[RED.pts.length - 1];
@@ -3161,7 +3229,7 @@ function renderRouteEd() {
       const p = { x: Math.round(c.x), y: Math.round(c.y), z: Math.round(isFinite(c.z) ? c.z : (last || {}).z || 0) }; if (RED.layer) p.layer = RED.layer;
       RED.pts.splice(RED.sel + 1, 0, p); RED.sel++; rec.n++; RED.dirty = true; RED.msg = `recording ${name}: ${rec.n} points`; renderRouteEd();
     }, 2000);
-    RED.rec = rec; RED.msg = `recording ${name} — walk it in the game; a point every ~250 units`; renderRouteEd();
+    RED.rec = rec; RED.msg = `recording ${name} — walk it in the game; a point every ~250 units. ${name} does not attack anything while recording`; renderRouteEd();
   };
   $('redHere').onclick = () => { const c = ((STATE && STATE.chars) || []).find(c => c.name === $('redChar').value); if (!c) return; set(() => { const np = { x: Math.round(c.x), y: Math.round(c.y), z: Math.round(isFinite(c.z) ? c.z : (P[RED.sel] || {}).z || 0) }; if (RED.layer) np.layer = RED.layer; P.splice(RED.sel + 1, 0, np); RED.sel++; RED.msg = `added ${c.name}'s position`; }); };
   // MAP: click = new point after the selected one (z = the selected point's z; correct it in the list if needed), click on a point =
@@ -3212,7 +3280,7 @@ function renderRouteEd() {
     if (!RED.landing && !RED.start) { uiAlert({ title: 'No start set', body: 'Set the start: a gatekeeper teleport ("Dion -> Plains of Dion") or a .townname' }); return; }
     const d = await api('/api/route', { method: 'POST', body: JSON.stringify({ id: RED.id, points: P, landing: RED.landing, start: RED.start, manual }) });
     if (d.error) { uiError(d.error); return; }
-    RED.route = d.route; RED.dirty = false; RED.msg = d.msg || 'saved'; renderRouteEd();
+    RED.route = d.route; RED.dirty = false; RED.fromAtlas = false; RED.msg = d.msg || 'saved'; renderRouteEd();
   };
   $('redSave').onclick = () => save(true);
   if ($('redSaveRec')) $('redSaveRec').onclick = () => save(false);
@@ -3912,12 +3980,38 @@ function renderTab() {
   if (TAB === 'char') renderCharWin();             // mini-map follows the 4 s position updates
   if (!$('plans').children.length) $('plans').innerHTML = STATE.plan.map(f => `<a class="chip" style="cursor:pointer" data-f="${esc(f)}">${esc(f)}</a>`).join('');
 }
+// OFFLINE / RECONNECT STATUS (user 2026-10-10: "I don't see any status on when they will try again or why they are not in"): the reconnect
+// brake's phase (server.js brakeStatus <- Logs/reconnect_brake.json, written by l2swarm_ctl.ps1 every 2 min) as a banner under the header
+const BRAKE_TITLE = { watching: 'Characters lost the connection — reconnecting', paused: 'Logins paused by the reconnect brake', refused: 'Login server is refusing us — waiting',
+  testing: 'Test login running', testFailed: 'Test login failed — trying again soon', serverDown: 'Game server is down', reopening: 'Logging them back in', done: 'Everyone is back in' };
+function renderBrake(B, stale) {
+  const el = $('brakeBar'); if (!el) return;
+  B = B || {}; const ph = B.phase || '';
+  const names = (B.chars && B.chars.length ? B.chars : (ph ? [] : stale || []));
+  if (!ph && !names.length) { el.hidden = true; el.innerHTML = ''; return; }
+  const hm = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); };
+  const inMin = (iso) => { const m = Math.round((Date.parse(iso) - Date.now()) / 60000); return m <= 0 ? 'any moment now' : 'in ' + m + ' min'; };
+  const title = ph ? BRAKE_TITLE[ph] || ph : `${names.length} character${names.length === 1 ? '' : 's'} not reporting`;
+  const why = ph ? B.why : 'No word from their script for over 30 s (logging in, disconnected, or the script is restarting). L2Swarm reconnects lost characters by itself; after 3 min the reconnect brake takes over and this bar shows what it does.';
+  const bits = [];
+  if (B.offlineSince && ph !== 'done') bits.push('offline since ' + hm(B.offlineSince));
+  if (B.nextTry && /paused|refused|testFailed|serverDown/.test(ph)) bits.push('<b>next try ' + hm(B.nextTry) + ' (' + inMin(B.nextTry) + ')</b>');
+  if (B.lastProbe && B.lastProbe.at) bits.push('login server checked ' + hm(B.lastProbe.at) + ': ' + (B.lastProbe.bytes > 0 ? 'answers' : B.lastProbe.bytes < 0 ? 'unreachable' : 'hangs up'));
+  if (ph === 'done' && B.doneAt) bits.push('back at ' + hm(B.doneAt));
+  const hist = (B.history || []).map(l => esc(l.replace(/^\d{4}-\d\d-\d\d /, '').replace(' brake:', ''))).join('<br>');
+  el.className = 'brakebar ' + (ph === 'done' ? 'ok' : /serverDown|refused|testFailed/.test(ph) ? 'bad' : 'warn');
+  el.innerHTML = `<div class="bk-t">${ph === 'done' ? '✓' : '⚠'} ${esc(title)}${names.length ? `: <span class="bk-n">${names.map(esc).join(', ')}</span>` : ''}</div>` +
+    (why ? `<div class="bk-w">${esc(why)}</div>` : '') + (bits.length ? `<div class="bk-b">${bits.join(' · ')}</div>` : '') +
+    (hist ? `<details class="bk-h"><summary>What the brake did</summary><div>${hist}</div></details>` : '');
+  el.hidden = false;
+}
 async function refresh() {
   if (document.hidden) return;
   try {
     STATE = await api('/api/state');
     const alive = STATE.chars.filter(c => c.ageSec <= 30).length;
     $('sum').textContent = `${alive}/${STATE.chars.length} characters reporting · updated ${clock(STATE.now)}`;
+    try { renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30).map(c => c.name)); } catch (e) { }
     fillTargets();
     renderTab();
     if (TAB === 'logs' && Date.now() - LG.at > 8000) loadLogChar();
@@ -4068,7 +4162,8 @@ function clanHtml(d) {
   const wh = st.warehouse || null, items = (wh && wh.items) || [];
   const whBox = `<div class="box"><h3>${GI(UI.inv)} Clan warehouse</h3>${wh && wh.seenAt ? `<div class="muted" style="margin-bottom:4px">last seen ${ago(wh.seenAt)} by ${esc(wh.seenBy || '?')} · ${items.length} items</div>` +
     (items.length ? items.map(i => `<div class="rrrow"><span><img class="ic sm" loading="lazy" src="${itemIcon(i.id)}" onerror="this.src=iconUrl(null)"> ${esc(i.name || ('#' + i.id))}${i.enchant ? ' <b>+' + i.enchant + '</b>' : ''}</span><span>${Number(i.count || 1).toLocaleString()}</span></div>`).join('') : '<span class="muted">empty</span>')
-    : '<span class="muted">never seen yet: it updates every time the clan leader opens the clan warehouse</span>'}</div>`;
+    : '<span class="muted">never seen yet: it updates every time the clan leader opens the clan warehouse</span>'}
+    <div style="margin-top:6px"><button data-clorder="char:${esc(name)}|!clanwh|Open the clan warehouse and report what is in it">Look now</button> <span class="muted">(automatic after new deposits: see "Runs by itself")</span></div></div>`;
   const help = `<div class="box"><h3>${GI(UI.party)} Help the clan leader</h3><div class="muted" style="margin-bottom:6px">The party travels to the clan leader and hunts around him until stopped (for clan quests that need clan members with him).</div>
     ${helpers.length ? helpers.map(t => `<div class="rrrow"><span>Party <b>${esc(t.leader)}</b> <span class="muted">${(t.members || []).length} chars</span></span><span class="act"><button data-clorder="party:${esc(t.leader)}|!assist ${esc(name)}|Travel to ${esc(name)} and hunt around him">Send party ${esc(t.leader)} to help</button><button data-clorder="party:${esc(t.leader)}|!assist off|Stop helping the clan leader">Stop helping</button></span></div>`).join('') : '<span class="muted">no other parties</span>'}</div>`;
   // 1) roster
@@ -4076,6 +4171,17 @@ function clanHtml(d) {
   const roster = (d.roster && d.roster.length) ? d.roster : ((det && det.ours) || []).map(o => ({ name: o.name, level: o.level, role: o.role, cls: o.cls, team: (typeof o.party === 'string' && o.party) || o.name })), lim = clanLimit(D, clvl);
   const rosterH = `<div class="whead" style="margin-top:12px"><h2>Clan roster</h2><span class="muted">${roster.length}${lim != null ? ' / ' + esc(lim) : ''} members (clan level ${clvl})</span></div>` +
     (roster.length ? `<div class="scroll"><table class="l2"><thead><tr><th>Name</th><th>Lvl</th><th>Role</th><th>Party</th></tr></thead><tbody>${roster.map(r => `<tr><td><a href="#/char/${encodeURIComponent(r.name)}"><b>${esc(r.name)}</b></a></td><td>${r.level ?? '?'}</td><td>${classIcon(r)} <span class="muted">${esc(r.role || '')}</span></td><td>${r.team ? 'Party ' + esc(r.team) : ''}</td></tr>`).join('')}</tbody></table></div>` : '<div class="muted">No clan yet</div>');
+  // 2) WHO GETS INVITED (user 2026-10-10: "so I control who gets invited"): clan.inviteAllow; nobody unless ticked here
+  const allow = new Set(((qc.inviteAllow) || []).map(String)), inClan = new Set(roster.map(r => r.name)), ptick = new Set(((qc.inviteParties) || []).map(String));   // CLANAUTO: a ticked party = also its future members
+  const invTeams = teams.map(t => ({ leader: t.leader, members: (t.members || []).filter(m => m.name && m.name !== name) })).filter(t => t.members.length);
+  const inviteH = `<div class="whead" style="margin-top:12px"><h2>Who gets invited</h2><span class="muted">${allow.size} ticked${ptick.size ? ' · ' + ptick.size + ' whole parties' : ''}</span></div>
+    <div class="muted" style="margin-bottom:6px">The clan leader invites ONLY the characters ticked here (or in a party invited as a whole, also new members later), when they stand next to him (within 900) and the clan has room${lim != null ? ` (${roster.length} / ${esc(lim)} now)` : ''}. Nothing ticked = nobody is invited.</div>
+    ${invTeams.map(t => { const out = t.members.filter(m => !inClan.has(m.name)), pOn = ptick.has(t.leader);
+      return `<div class="box" style="margin-bottom:6px"><div class="rrrow"><span>Party <b>${esc(t.leader)}</b> <span class="muted">${t.members.length - out.length} in the clan · ${out.length} not</span></span>
+        <span class="act"><button class="${pOn ? 'on' : ''}" data-cainvp="${esc(t.leader)}|${pOn ? 0 : 1}" aria-pressed="${pOn}">${pOn ? '✓ Whole party (also new members)' : 'Invite the whole party'}</button></span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">${t.members.map(m => inClan.has(m.name) ? `<span class="chip ok">${esc(m.name)} · in the clan</span>`
+          : pOn ? `<span class="chip">✓ ${esc(m.name)} · via the party</span>`
+          : `<button class="${allow.has(m.name) ? 'on' : ''}" data-clinv="${esc(m.name)}|${allow.has(m.name) ? 0 : 1}" aria-pressed="${allow.has(m.name)}">${allow.has(m.name) ? '✓ ' : ''}${esc(m.name)}</button>`).join('')}</div></div>`; }).join('')}`;
   // 3) quests
   const kill = 'The clan leader must be within 1500 of the kill (or kill it himself): he travels with the party.';
   const questsH = `<div class="whead" style="margin-top:12px"><h2>Clan quests</h2></div><div class="muted" style="margin-bottom:6px">${kill}</div>
@@ -4116,7 +4222,17 @@ function clanHtml(d) {
     <div class="box"><h3>Academy rules</h3><div class="muted">
       <div><b>Clan level needed:</b> ${esc(A.clanLevel ?? '?')}${A.create ? ' — ' + esc(A.create) : ''}</div><div style="margin-top:4px"><b>Who may join:</b> ${esc(A.joinRules || '?')}</div>
       <div style="margin-top:4px"><b>Graduation:</b> ${esc(A.graduation || '?')}</div>${A.notes ? `<div style="margin-top:4px">${esc(A.notes)}</div>` : ''}</div></div></div>`;
-  return `<div class="cgrid" style="margin-top:0">${card}${clan}${cl ? clanNextBox(d, clvl, name) : ''}${whBox}${help}</div>${cl ? clanLevelQuestsHtml(d, name, clvl) : ''}${rosterH}${questsH}${bossH}${skillsH}${levelsH}${acadH}`;
+  // CLANAUTO 2026-10-12 ("too many manual tasks"): the overview (Needs you + Runs by itself) on top, everything else folded (Dashboard/clanauto.js)
+  const S = (k, t, x, b) => window.ClanAuto ? ClanAuto.sec(k, t, x, b) : x;
+  return (window.ClanAuto ? ClanAuto.html() : '')
+    + S('leader', 'Clan leader, level & warehouse', `<div class="cgrid" style="margin-top:0">${card}${clan}${cl ? clanNextBox(d, clvl, name) : ''}${whBox}</div>`, cl ? `${cl.name} · level ${clvl}` : 'no clan yet')
+    + S('invite', 'Members & invites', rosterH + inviteH, `${roster.length}${lim != null ? ' / ' + lim : ''} members · ${allow.size} ticked${ptick.size ? ' · ' + ptick.size + ' parties' : ''}`)
+    + (cl ? S('lq', 'Clan level quests (levels 3–5)', clanLevelQuestsHtml(d, name, clvl), 'step by step, manual steps marked') : '')
+    + S('rq', 'Clan raid quests & helping the clan leader', questsH + bossH + `<div class="cgrid">${help}</div>`, `${act.length} active`)
+    + S('skills', 'Clan skills', skillsH, fs ? `saving for ${fs.name} ${fs.level}` : 'auto-pick')
+    + S('levels', 'Clan level table', levelsH, '')
+    + (window.ClanRanks ? S('ranks', 'Nobility ranks', ClanRanks.html(), ClanRanks.badge()) : '')
+    + S('acad', 'New accounts (Academy)', acadH, '');
 }
 async function clanPost(body, okText) {
   try { const r = await api('/api/clan', { method: 'POST', body: JSON.stringify(body) }); if (!r || r.error || r.ok === false) throw new Error((r && r.error) || 'refused');
@@ -4142,6 +4258,15 @@ $('tab-clan').addEventListener('click', async (e) => {
     } catch (err) { $('naPw').value = ''; $('naMsg').textContent = 'failed: ' + err.message; }
     return;
   }
+  if (d.clinv) { const [n, on] = d.clinv.split('|'); await clanPost({ action: 'invite', names: [n], on: on === '1' }, on === '1' ? `${n} may be invited (when standing next to the clan leader)` : `${n} will not be invited`); return; }
+  if (d.clinvp) {
+    const [L, on] = d.clinvp.split('|'), t2 = ((CLAN && CLAN.teams) || []).find(x => x.leader === L), inClan = new Set(((CLAN && CLAN.roster) || []).map(r => r.name));
+    const names = ((t2 && t2.members) || []).map(m => m.name).filter(n => n && !inClan.has(n) && n !== CLAN.leader);
+    if (!names.length) return;
+    if (await uiConfirm({ title: on === '1' ? `Invite party ${L}?` : `Stop inviting party ${L}?`, body: [uiP(on === '1' ? 'These characters may be invited when they stand next to the clan leader and the clan has room:' : 'These characters will not be invited:'), uiList(names)], confirmText: on === '1' ? 'Tick them' : 'Untick them' }))
+      await clanPost({ action: 'invite', names, on: on === '1' }, `party ${L}: ${names.length} ${on === '1' ? 'ticked' : 'unticked'}`);
+    return;
+  }
   if (!STATE) return;
   const o = t.closest('[data-clorder]'), r = t.closest('[data-clraid]');
   if (o) { e.stopPropagation(); const [tg, cmd, label] = o.dataset.clorder.split('|'); if (await confirmOrder(tg, cmd, label)) send(tg, null, cmd); return; }
@@ -4165,7 +4290,7 @@ function clanNextBox(d, clvl, name) {
   if (N.members) rows.push(row('Clan members', N.members.have, N.members.need));
   return head + `<div style="margin-top:6px"><b>Next: level ${N.next}</b></div><div class="scroll"><table class="l2"><thead><tr><th>Needs</th><th>Have</th><th>Need</th><th></th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
     ${N.ok ? `<button data-clorder="char:${esc(name)}|!clanlevel|Increase the clan level to ${N.next} now (Giran village master)">Increase clan level now</button>` : `<button disabled title="${esc(N.missing.join('; '))}">Increase clan level now</button><div class="muted">Missing: ${esc(N.missing.join('; '))}</div>`}
-    <div class="scbar" style="margin-top:6px">Automatic level-up: <b>${st.clanAuto ? 'ON' : 'OFF'}</b> <button data-clorder="char:${esc(name)}|!clanlevel auto ${st.clanAuto ? 'off' : 'on'}|Automatic clan level-up ${st.clanAuto ? 'OFF' : 'ON'} (in a town, when everything is there)">${st.clanAuto ? 'Switch off' : 'Switch on'}</button></div></div>`;
+    <div class="muted" style="margin-top:6px">Automatic level-up: <b>${st.clanAuto ? 'ON' : 'OFF'}</b> (switch at the top: "Runs by itself")</div></div>`;
 }
 function clanLevelQuestsHtml(d, name, clvl) {
   const LQ = ((d.quests || {}).levelQuests) || {}, P = d.cqProgress || {};
@@ -4202,23 +4327,26 @@ function clanTabsHtml(d) {
   const L = d.clans || [], sel = clanSelected(d);
   const bar = `<div class="scbar" style="flex-wrap:wrap;gap:6px;margin-bottom:8px">${L.map(c => `<button data-clsel="${esc(c.name)}" class="${sel && sel.name === c.name ? 'on' : ''}" title="${esc(c.planned ? 'the configured clan (not founded yet)' : 'leader ' + (c.leader || 'not known yet'))}">${GI(UI.clan, 'sm')} ${esc(c.name)}${c.planned ? ' <span class="muted">(planned)</span>' : c.level ? ' <span class="muted">lvl ' + c.level + '</span>' : ''}${c.leader ? ' <span class="muted">· ' + esc(c.leader) + (c.leaderOurs ? '' : ' (not ours)') + '</span>' : ''}</button>`).join('')}</div>`;
   const body = !sel || sel.configured ? clanHtml(d) : otherClanHtml(d, sel);
-  return bar + body + sevenSignsHtml(d) + clanEventHtml(d, sel) + raidTplHtml();
+  const S = (k, t, x, b) => window.ClanAuto ? ClanAuto.sec(k, t, x, b) : x;   // CLANAUTO 2026-10-12: folded sections
+  return bar + body + S('ss', 'Seven Signs', sevenSignsHtml(d), 'opt-in · 7 Signs tab') + S('event', 'Clan event: several parties on an epic boss', clanEventHtml(d, sel), '') + S('tpl', 'Raid team templates', raidTplHtml(), '');
 }
-// SEVEN SIGNS (user 2026-10-08): period + last winner, and per character Dawn / Dusk / not registered + whether a Ziggurat lets it in
+// SEVEN SIGNS on the Clan tab (user 2026-10-08; MOVED 2026-10-12 to the 7 Signs tab #/sevensigns, Dashboard/sevensigns.js): a short summary
+// (period, signed up per party, who is enrolled) + the link. The per-character chips (ssMark) stay in the party rows.
 function sevenSignsHtml(d) {
   const S = d.sevenSigns; if (!S) return '';
-  const st = S.state || {}, ms = (t) => t ? ago(new Date(t).toISOString()) : '';
+  const st = S.state || {}, O = S.optin || {}, lc = (x) => String(x || '').toLowerCase();
   const v0 = (S.chars || []).find(c => c.viewAt && c.period) || null;      // the bots carry the period forward over Mondays
   const period = (v0 && v0.period) || st.period || 'unknown', winner = (v0 && v0.winner) || st.winner || '';
   const nextC = (v0 && v0.nextChange) || st.nextChange || '', nextTxt = nextC ? new Date(nextC).toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
-  const lab = (c) => c.registered === 'dawn' ? '<span class="fit good">Dawn</span>' : c.registered === 'dusk' ? '<span class="fit hard">Dusk</span>'
-    : `<span class="fit low">not registered</span>${c.status === 'firstclass' ? ' <span class="muted">(needs the 1st class transfer)</span>' : c.status === 'fee' ? ' <span class="muted">(the priest asked for a fee — see Logs/dawn.log)</span>' : c.status === 'failed' ? ' <span class="muted">(last try failed)</span>' : ''}`;
+  const enr = (c) => (O.chars || []).some(x => lc(x) === lc(c.name)) || (O.parties || []).some(x => lc(x) === lc(c.party));
   const parties = {}; (S.chars || []).forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
-  const rows = Object.keys(parties).sort().map(p => parties[p].sort((a, b) => a.name.localeCompare(b.name)).map((c, i) => `<tr><td>${i ? '' : '<b>' + esc(p) + '</b>'}</td><td><a href="#/char/${encodeURIComponent(c.name)}">${esc(c.name)}</a> <span class="muted">${c.level}</span></td><td>${lab(c)}${c.signedAt ? ' <span class="muted">' + ms(c.signedAt) + '</span>' : ''}</td><td>${c.allowed === null ? '<span class="muted">?</span>' : c.allowed ? '<span class="fit good">may enter</span>' : '<span class="fit hard">closed</span>'} <span class="muted">${esc(c.why || '')}</span></td></tr>`).join('')).join('');
-  return `<div class="whead" style="margin-top:12px"><h2>Seven Signs</h2><span class="muted">always Lords of Dawn (user rule)</span></div>
-  <div class="box"><div>Period: <b>${esc(period)}</b>${period === 'validation' ? ' · last competition won by <b>' + esc(winner || 'unknown') + '</b>' : ''}${nextTxt ? ' · next change <b>' + esc(nextTxt) + '</b> <span class="muted">(Monday 18:00 server time, taken as UTC)</span>' : ''}${st.checkedAt ? ' <span class="muted">· priest read ' + ms(st.checkedAt) + (st.by ? ' by ' + esc(st.by) : '') + '</span>' : ' <span class="muted">· no Priest of Dawn read yet</span>'}</div>
-    <div class="muted" style="margin:4px 0">Catacombs/necropolises (Gatekeeper Ziggurat): competition period = signed up (Dawn or Dusk); seal validation period = only the winning side (and only if it owns the seal: Avarice = necropolises, Gnosis = catacombs). Sign-up only in the competition period (Monday 18:00 for one week), after the 1st class transfer; the bots do it by themselves at a Priest of Dawn (every Giran regroup). <code>!dawn</code> = now.</div>
-    <div class="scroll"><table class="l2"><thead><tr><th>Party</th><th>Character</th><th>Seven Signs</th><th>Catacombs / necropolises</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="muted">no data yet (the bots write it after the next deploy)</td></tr>'}</tbody></table></div></div>`;
+  const line = (p) => { const L = parties[p], dawn = L.filter(c => c.registered === 'dawn').length, e = L.filter(enr).length;
+    return `<div class="rrrow"><span>Party <b>${esc(p)}</b> <span class="muted">☀ ${dawn}/${L.length} Dawn · ${e ? (e === L.length ? 'enrolled' : e + ' enrolled') : 'not enrolled'}</span></span></div>`; };
+  return `<div class="whead" style="margin-top:12px"><h2>Seven Signs</h2><span class="muted">moved to the 7 Signs tab</span></div>
+  <div class="box"><div>Period: <b>${esc(period)}</b>${period === 'validation' ? ' · last competition won by <b>' + esc(winner || 'unknown') + '</b>' : ''}${nextTxt ? ' · next change <b>' + esc(nextTxt) + '</b>' : ''}</div>
+    <div class="muted" style="margin:4px 0">Only enrolled parties / characters sign up with the Lords of Dawn by themselves; enroll them, see each character's registration and seal stones, or sign up now on the 7 Signs tab.</div>
+    ${Object.keys(parties).sort().map(line).join('') || '<div class="muted">no data yet</div>'}
+    <a class="btn" href="#/sevensigns" style="display:inline-block;margin-top:6px">Open the 7 Signs tab</a></div>`;
 }
 function otherClanHtml(d, c) {
   const card = `<div class="box clcard"><h3>${GI(UI.clan)} Clan ${esc(c.name)}</h3>
@@ -4291,7 +4419,7 @@ $('tab-clan').addEventListener('click', async (e) => {
   }
 }, true);
 
-$('clWh').onclick = async () => { const L = (CLAN && CLAN.leader) || (STATE && STATE.clanLeader) || ''; if (!L) return; if (STATE && await confirmOrder('char:' + L, '!clanwh', 'Open the clan warehouse and report what is in it')) send('char:' + L, null, '!clanwh'); };
+if ($('clWh')) $('clWh').onclick = async () => { const L = (CLAN && CLAN.leader) || (STATE && STATE.clanLeader) || ''; if (!L) return; if (STATE && await confirmOrder('char:' + L, '!clanwh', 'Open the clan warehouse and report what is in it')) send('char:' + L, null, '!clanwh'); };
 setInterval(() => { if (TAB === 'clan' && !document.hidden) loadClan(); }, 4000);
 
 // --- Spots tab (/api/spots): which party may hunt where, priority per party, on/off, extra dungeon spots ---
@@ -4502,9 +4630,10 @@ function renderRoomEd() {
 async function loadRooms() { try { const l = await api('/api/roomroute'); if (Array.isArray(l)) { ROOMED.list = l; renderRoomPick(); } } catch (e) { } }
 ['rmDun', 'rmFloor', 'rmRoom'].forEach(id => $(id).addEventListener('change', renderRoomPick));
 
-route();
-refresh();
-setInterval(refresh, 4000);
+// 2026-10-12: start AFTER every module script has loaded. Starting here fired the party maps / monster lists / map tiles while 30 module
+// scripts were still queued; the browser's 6 connections filled up and the page hung (and module routes like #/quests did not exist yet).
+function startPage() { route(); refresh(); setInterval(refresh, 4000); }
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startPage); else startPage();
 setInterval(() => { if (TAB === 'tp' && !document.hidden) loadTp(); }, 15000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
 setInterval(() => { if (TAB === 'raids' && !document.hidden) loadRaids(); }, 30000);
@@ -4607,6 +4736,14 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/kamapage.css">
 <script src="/kamapage.js"></script>
 <script>if (window.KamaPage && /^#\/kamaloka(\/|$)/.test(location.hash)) route();</script>
+<!-- NAV ATLAS 2026-10-12: #/navatlas (look up any target: its precomputed route steps on the map + the unreachable / blocked lists). Data: /api/navatlas (Dashboard/navatlas_api.js; served once server.js is restarted). -->
+<!-- ROUTE VIEW 2026-10-12: the shared route block (computed path + saved route + which one the bots use + obstacles + where to get needed items) on the boss page, circuit list, quest page and nav atlas page. Data /api/routeview (Dashboard/routeview_api.js; served once server.js is restarted). -->
+<link rel="stylesheet" href="/routeview.css"><script src="/routeview.js"></script>
+<script src="/navatlas.js"></script>
+<script>if (window.NavAtlasPage && /^#\/navatlas(\/|$)/.test(location.hash)) route();</script>
+<!-- TOWN PATHS 2026-10-12: every town's street graph (+ Giran's recorded routes) as a toggleable layer on the Parties maps, the character mini-map and the Map tab (town picker there). Data: /api/townpaths (Dashboard/townpaths_api.js; served once server.js is restarted). -->
+<script src="/townpaths.js"></script>
+<script>window.addEventListener('townpaths:change', () => { if (TAB === 'parties' && STATE) renderParties(); }); if (MAP && window.TownPaths) TownPaths.attach(MAP, { onPick: () => { $('mapFollow').checked = false; } });</script>
 <!-- CLASS PLANS 2026-10-10: #/classes (every party: class plan per character, approval, group templates) + the "No class plan" badges / banner
      on the Parties tab and the character page. Data: /api/classplans + /api/classtree (Dashboard/classpage_api.js). -->
 <link rel="stylesheet" href="/classpage.css">
@@ -4619,5 +4756,48 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/bufflogic.js"></script>
 <script src="/buffpage.js"></script>
 <script>if (window.BuffPage && /^#\/buffs(\/|$)/.test(location.hash)) route();</script>
+<!-- HANDOVER 2026-10-10: #/trade (who gives, who receives — default the clan leader —, what from the live bags; dry run, then "!handover <id>").
+     Data: /api/trade/* (Dashboard/tradepage_api.js); logic Dashboard/tradelogic.js; bots: Scripts_dev/swarm.js HANDOVER block. -->
+<link rel="stylesheet" href="/tradepage.css">
+<script src="/tradelogic.js"></script>
+<script src="/tradepage.js"></script>
+<script>if (window.TradePage && /^#\/trade(\/|$)/.test(location.hash)) route();</script>
+<!-- ADENA 2026-10-12: #/adena (cross-party adena: on/off, town, who gives, default / party / character targets, live adena, last hand-outs).
+     Data: /api/fundrules (Dashboard/fundpage_api.js -> Scripts/data/fund_rules.json, read by swarm.js fundRules() every 30 s). -->
+<link rel="stylesheet" href="/fundpage.css">
+<script src="/fundpage.js"></script>
+<script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>
+<!-- 7 SIGNS 2026-10-12: #/sevensigns (who signs up with the Lords of Dawn by itself: parties / characters, seal-stone switch; period / cycle /
+     winner, registration per character, seal stones, "Sign up now" = !dawn [name]). Data: /api/sevensigns (Dashboard/sevensigns_api.js ->
+     Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s). -->
+<link rel="stylesheet" href="/sevensigns.css">
+<script src="/sevensigns.js"></script>
+<script>if (window.SevenSignsPage && /^#\/sevensigns(\/|$)/.test(location.hash)) route();</script>
+<!-- SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (each character's enchantable skills, recommended route, chance, expected cost) + a box on #/char/<name>.
+     Data: /api/skillenchant (Dashboard/skillenchant_api.js -> Scripts/data/skill_enchant.json, skill_enchant_settings.json, skill_enchant_plan.json). -->
+<link rel="stylesheet" href="/skillenchantpage.css">
+<script src="/skillenchantpage.js"></script>
+<script>if (window.SkillEnchantPage && /^#\/skillenchant(\/|$)/.test(location.hash)) route();</script>
+<!-- CLAN AUTOMATION 2026-10-12 ("the /clan section has too many manual tasks"): Clan tab overview "Needs you" + "Runs by itself" (one switch +
+     status line per automation), the rest folded. Data: /api/clanauto (Dashboard/clanauto_api.js -> Scripts/data/clan_quests.json clan.auto). -->
+<link rel="stylesheet" href="/clanauto.css">
+<script src="/clanauto.js"></script>
+<link rel="stylesheet" href="/clanranks.css">
+<script src="/clanranks_logic.js"></script>
+<script src="/clanranks.js"></script>
+<!-- QUESTS 2026-10-12: #/quests (every H5 quest: search + filters, steps, NPCs, monsters + drop chances, quest spawns, hunting areas, map, rewards,
+     requirements, per character eligible / in progress / done, start / stop buttons) + the quest farm section. Data: /api/quests* (Dashboard/questpage_api.js). -->
+<link rel="stylesheet" href="/questpage.css">
+<script src="/questpage.js"></script>
+<script>if (window.QuestPage && /^#\/quests(\/|$)/.test(location.hash)) route();</script>
+<!-- ADD ACCOUNT 2026-10-12: "+ Add account" on the Accounts tab (#/accounts): one account or several pasted lines; the password is sent once and
+     stored only encrypted in Settings\<Login>.xml. Data: /api/addaccount (Dashboard/addaccount_api.js). -->
+<link rel="stylesheet" href="/addaccount.css">
+<script src="/addaccount.js"></script>
+<!-- SOUL STAGE PLAN 2026-10-12: Crystals tab -> "Stage plan" (per character: stage by stage which monsters / raid bosses level its crystal, the
+     Alexandria shortcut; custom form). Data: /api/soulstageplan (Dashboard/soulplan_api.js, read-only; logic Dashboard/soullogic.js). -->
+<link rel="stylesheet" href="/soulplan.css">
+<script src="/soullogic.js"></script>
+<script src="/soulplan.js"></script>
 </body>
 </html>

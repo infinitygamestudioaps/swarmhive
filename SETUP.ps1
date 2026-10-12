@@ -171,6 +171,9 @@ foreach ($a in $active) {
     if ($a.party -and -not $chars.ContainsKey($a.party)) { Warn "$($a.login) ($($a.character)): party leader '$($a.party)' is not a character of an enabled account" }
 }
 if ($mainLeader -and -not $chars.ContainsKey($mainLeader)) { Warn "mainLeader '$mainLeader' is not a character of an enabled account" }
+# commanders (TESTERS-2026-10-12): may be characters outside this install (played by hand) - only listed, never an error
+$commanders = @(Val $Cfg 'commanders' @()) | Where-Object { $_ }
+if ($commanders.Count) { Write-Host "   commanders (clan chat / whisper orders to every party leader): $($commanders -join ', ')" -ForegroundColor Gray }
 $ingame = @($active | Where-Object { $_.clientMode -eq 'ingame' })
 if ($ingame.Count -and $l2Client -and -not (Test-Path $l2Client)) { Warn "paths.l2Client '$l2Client' does not exist (needed for the in-game characters $(@($ingame | ForEach-Object character) -join ', '))" }
 
@@ -186,6 +189,11 @@ if (-not (Test-Path $devJs) -and (Test-Path $liveJs)) {
 # a fresh package install has only the source Scripts_dev\swarm.js: deploy it once (L2Swarm is stopped during -Apply)
 if ((Test-Path $devJs) -and -not (Test-Path $liveJs)) {
     Change 'folders' 'deploy Scripts_dev\swarm.js -> Scripts\swarm.js (first install; later updates go through update.ps1 / deploy_swarm.ps1)' 'copy' @($devJs, $liveJs)
+}
+# the new engine's agent (v1.6.0, OFF by default: Scripts\data\brain_host.json "on": false): deployed once so the engine can be tried later
+$devAg = Join-Path $root 'Scripts_dev\agent2.js'; $liveAg = Join-Path $root 'Scripts\agent2.js'
+if ((Test-Path $devAg) -and -not (Test-Path $liveAg)) {
+    Change 'folders' 'deploy Scripts_dev\agent2.js -> Scripts\agent2.js (new engine agent; only used when you switch the new engine on)' 'copy' @($devAg, $liveAg)
 }
 # your data files: the package ships Scripts\data\<name>.example.json; the real file is created once and never overwritten
 foreach ($ex in @(Get-ChildItem (Join-Path $root 'Scripts\data\*.example.json') -ErrorAction SilentlyContinue)) {

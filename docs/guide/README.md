@@ -38,6 +38,7 @@ The same guide as one page with pictures: open [index.html](index.html) in a bro
 - [Rooms (dungeon room walks)](pages/rooms.md)
 - [Shape editor (rooms, zones, spots, field areas)](pages/shape-editor.md)
 - [Gear](pages/gear.md)
+- [Trade (hand items over to the clan leader or anyone)](pages/trade.md)
 - [Accounts](pages/accounts.md)
 - [Plan](pages/plan.md)
 - [PC (L2Swarm program, memory, deploy)](pages/pc.md)

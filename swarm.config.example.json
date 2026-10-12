@@ -21,12 +21,15 @@
 
   "mcp": { "//": "L2Swarm's MCP server port (written into Settings\\settings.xml; Claude Code connects to http://127.0.0.1:<port>).", "port": 8083 },
   "dashboard": { "//": "Dashboard web server (Dashboard\\server.js). keyFile = password for phone/LAN access (?key=...), created by SETUP when missing.", "port": 8090, "keyFile": "Dashboard\\key.txt" },
+  "l2swarm": { "//": "minimizeWindow: true = the MemWatch task (l2swarm_ctl.ps1 watch) minimizes L2Swarm's window every 2 min (old UI-deadlock workaround from before 3.8.14). Default false: the window is left alone.", "minimizeWindow": false },
   "login": { "//": "Seconds between two account logins at start (never below 5: the login server refuses mass logins). SETUP also writes it to Settings\\login_gap.txt.", "gapSeconds": 5 },
 
   "//mainLeader": "Character that leads the main party and may give commands to everyone (swarm.js CONFIG.leader).",
   "mainLeader": "Tankname",
   "//clanLeader": "Character that owns the clan (clan jobs; used when Scripts\\data\\clan_quests.json has no leader).",
   "clanLeader": "Tankname",
+  "//commanders": "Optional: characters (yours, or anyone you trust, also a character you play by hand) whose ! commands every party leader obeys. In game CLAN chat: \"@!level\" (= clan prefix @ + !level) = every party leader runs !level for his party; \"@Leadername !supply\" = only that party (several: \"@Leader1,Leader2 !stop\"). A WHISPER to a party leader (in game: a double quote right before his name, then the command: \"Leadername !town giran) = his party. The leader relays it in party chat like his own order and whispers back ok: <command>. Party leaders must be in the clan to hear clan chat. Read live (30 s), no restart. Empty = off.",
+  "commanders": [],
   "//dailyLeaders": "Party leaders that run the daily Kamaloka (dashboard Kamaloka tab).",
   "dailyLeaders": ["Tankname"],
   "//dailyHallTeam": "Optional, OLD global list: the (max 6) characters that run a Kamaloka HALL (6-man instance) — only for the party whose leader is in it. Prefer kamaloka.hallTeams.",

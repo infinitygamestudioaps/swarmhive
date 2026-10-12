@@ -1,7 +1,57 @@
 # Accounts (`#/accounts`)
 
-The Accounts tab lists every account config of the install, lets you **create a new character** (on a new or an existing account) and
-**move adena and items** from one character to another, including old characters that are not in any party.
+The Accounts tab lists every account config of the install, lets you **add accounts to the swarm** (**+ Add account**), **create a new
+character** (on a new or an existing account) and **move adena and items** from one character to another, including old characters that
+are not in any party.
+
+## Add account (`+ Add account`)
+
+The button at the top right of the Accounts tab opens one form that adds a game account to the swarm in a single step. No SETUP run and
+no file editing are needed.
+
+**One account**
+
+1. **Login** and **Password** of the game account.
+2. **Character**: *Use an existing character* (type its exact name) or *Create a new character* (name + **Race**, **Sex** and
+   **Start class**; only the start classes that exist for that race and sex are offered, e.g. Dwarves have no mystic, Kamael soldiers
+   are male or female by class).
+3. **Party**: an existing party (by its leader) or *New party: this character leads it*.
+4. **Role**: what swarm.js does with it. `auto` (default) = the kind of its current class, re-checked after every class change. The
+   kinds `tank, healer, buffer, melee, archer, dagger, nuker, summoner, spoiler, crafter` work for every class; the named roles
+   (`sk, bishop, shilliensaint, destroyer, doombringer, necromancer, inspector, doomcryer`) have special routines.
+5. **Auto-start**: on = the *L2Swarm Start* task logs it in at every start.
+6. **Log in right away**: when L2Swarm runs, the new account logs in now (several: one by one, `login.gapSeconds` apart). When L2Swarm
+   is not running it logs in at the next start.
+7. **Add** asks once (a styled dialog that never shows the password), then shows the result.
+
+**Several at once**: paste one account per line, `login;password;character;party;role`. Party empty = the character leads a new party
+(other lines of the same list may name it as their party); role empty = `auto`; lines starting with `#` are skipped; tabs work like `;`.
+A password that contains `;` works when the line has all 5 fields. Tick *These characters do not exist yet* to create them all with one
+start class. **Check** only validates and shows what would happen (nothing is changed); **Add all** adds them. After Add the list is
+emptied; lines that failed come back **without** their password so you can fix them and type the password again.
+
+**The result** lists every account: *created*, *already exists* (login or character already in `swarm.config.json`, or an L2Swarm
+config with that login already in `Settings\`) or *error* with the reason (bad login, missing password, unknown role, a party that is
+not a party leader, a start class that does not fit the race / sex, ...).
+
+**What Add does**
+
+1. Makes the L2Swarm account config `Settings\<Login>.xml` from the role's template (`Settings\templates\<role>.xml`, else
+   `default.xml`) with login, character, group (`Party <leader>`), login server and follow settings (members follow their leader;
+   healers do not assist). Tool: `docs\plan\tools\new_account.ps1`.
+2. **The password is stored only encrypted inside that config**, with L2Swarm's own encryption, exactly as L2Swarm does when you add
+   an account in L2Swarm itself. The dashboard passes it to the tool only through an environment variable of that one process; it is
+   never written to `swarm.config.json`, a log, or any other file, and the field is emptied right after.
+3. A **new character** gets a one-off script `Scripts\mkchar_<login>.js`: at the first login it creates the character at character
+   select (progress and "RESULT OK / RESULT FAIL" in `Logs\create_chars.txt`; a taken name gives RESULT FAIL: add it again with
+   another name after removing the account line).
+4. Adds the account to `swarm.config.json` (a backup copy goes to `Settings\backup\swarm_config_history\` first).
+5. Auto-start on: adds the config to `Settings\start_extra.txt` (the start task logs these in after its AutoStart list;
+   `Settings\settings.xml` is not touched while L2Swarm runs). Running `SETUP.cmd -Apply` later also puts it into L2Swarm's own
+   AutoStart list (optional).
+6. One line per account in `Logs\dashboard_commands.log` (never the password).
+
+The other characters of a party learn about a new member at their next script start (next deploy or L2Swarm start).
 
 ## Accounts table (`#/accounts`)
 
@@ -53,8 +103,8 @@ What happens after **Create**:
 
 1. The message line: "*Name* is being created on *login* - it appears here when logged in", or the error.
 
-The new character is not in a party yet. Add it to `swarm.config.json` (login, character, party, role) to make it part of the swarm; see
-[Getting started](../01-getting-started.md).
+The new character is not in a party yet. To add an account to the swarm (party, role, auto-start) in one step, use
+**+ Add account** above instead.
 
 ## Transfer adena / items
 

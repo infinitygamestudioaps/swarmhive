@@ -5,6 +5,8 @@
 //   "_parents": { "<classId>": parentClassId }   (a class without a plan for a grade uses its parent's plan, then the old role preference)
 // Slots: weapon shield head chest legs gloves feet neck earring earring2 ring ring2 belt bracelet talisman cloak. The old per-role entries
 // ({ role: { grade: { slot: id } } }, dashboard Gear tab 2026-10-06) stay untouched and keep working.
+// 2026-10-12 (backlog D2/D3/D10): a slot may be { none: true } = "leave it empty" (the bots buy nothing for it); a FULL armor chest
+// clears the legs slot (shown as "covered by the full armor"); actions applyset (a whole armor set) and fromchar (what a character wears now).
 // Every save: the old file is copied to Scripts/data/gear_prefs_history/ (last 200 kept), the new one is written to a .tmp and renamed.
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -16,6 +18,28 @@ const GRADE_LVL = { NONE: 1, D: 20, C: 40, B: 52, A: 61, S: 76, S80: 80, S84: 84
 const BOT_SLOTS = ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'earring2', 'ring', 'ring2'];   // what swarm.js can buy
 
 let CAT = null, CATM = 0;
+// MASTERWORK 2026-10-12 (forum topic 430): Scripts/data/masterwork_ids.json (docs/plan/tools/masterwork.js) -> { id: "Lightning: Critical rate +54.4" }
+// for every item the page shows (candidates, plan, worn): classPage(...).masterwork. Re-read when the file changes.
+const MWC = { f: '', m: 0, ids: {} };
+function mwIds(DATA) {
+  const f = path.join(DATA, 'masterwork_ids.json');
+  try { const st = fs.statSync(f); if (MWC.f !== f || MWC.m !== st.mtimeMs) { MWC.ids = (JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')) || {}).ids || {}; MWC.f = f; MWC.m = st.mtimeMs; } }
+  catch (e) { MWC.ids = {}; }
+  return MWC.ids;
+}
+/** every item id a class page shows: candidates, plan (+ alternatives), recommendations, what our characters wear */
+function mwPageIds(page) {
+  const s = new Set();
+  Object.values(page.cand || {}).forEach(L => (L || []).forEach(r => s.add(+r.id)));
+  Object.values(Object.assign({}, page.rec || {}, page.plan || {})).forEach(e => { if (e && e.id) s.add(+e.id); ((e && e.alt) || []).forEach(i => s.add(+i)); });
+  (page.chars || []).forEach(ch => Object.values(ch.slots || {}).forEach(x => { if (x && x.worn && x.worn.id) s.add(+x.worn.id); }));
+  return [...s];
+}
+function mwLabels(DATA, ids) {
+  const M = mwIds(DATA), out = {};
+  ids.forEach(i => { const m = M[+i]; if (m) out[+i] = m[0] + (m[1] ? ': ' + m[1] : ''); });
+  return out;
+}
 function catalog(DIR) {
   const f = path.join(DIR, 'data', 'gear_catalog.json');
   let m = 0; try { m = fs.statSync(f).mtimeMs; } catch (e) { return null; }
@@ -110,7 +134,7 @@ function resolvePlan(C, P, classId, grade) {
   for (let i = 0; i < 6 && c != null && !isNaN(c); i++) { chain.push(c); c = (C.byClass[c] || {}).parent; }
   chain.forEach(cid => {
     const g = (((P._class || {})[cid] || {})[grade]) || {};
-    Object.keys(g).forEach(s => { if (SLOTS.includes(s) && !out[s]) { const e = entryOf(g[s]); if (e) out[s] = Object.assign(e, { from: cid }); } });
+    Object.keys(g).forEach(s => { if (SLOTS.includes(s) && !out[s]) { if (g[s] && g[s].none) { out[s] = { none: true, alt: [], from: cid }; return; } const e = entryOf(g[s]); if (e) out[s] = Object.assign(e, { from: cid }); } });
   });
   const role = (C.byClass[classId] || {}).role;
   const rp = role ? (((P[role] || {})[grade]) || {}) : {};
@@ -140,6 +164,7 @@ function nameIndex(C) {
 /** Status of one planned slot for one character: has | buy | manual | none (+ text). */
 function slotStatus(C, G, kit, e, worn, S) {
   if (!e) return { st: 'none', t: 'no choice: automatic pick' };
+  if (e.none) return { st: 'none', t: e.covered ? 'covered by the full armor' : 'left empty (your choice): the bots buy nothing here' };
   const ids = [e.id].concat(e.alt || []);
   const want = new Set();
   ids.forEach(i => { const it = C.items[i]; if (!it) return; want.add(gnorm(it.n)); if (it.cw && C.items[it.cw]) want.add(gnorm(C.items[it.cw].n)); });
@@ -148,6 +173,48 @@ function slotStatus(C, G, kit, e, worn, S) {
   if (!BOT_SLOTS.includes(S)) return { st: 'manual', t: 'the bots do not buy ' + BASE_SLOT(S) + 's: get it by hand' };
   for (const i of ids) { const g = giranGet(C, G, i, e.buy, kit); if (g) return { st: 'buy', t: `will buy ${(C.items[g.id] || {}).n} ${nf(g.price)} at ${g.npc}${g.how === 'change' ? ' (+ Change Weapon)' : ''}`, price: g.price }; }
   return { st: 'manual', t: 'not sold in Giran: ' + srcText(C, e.id) };
+}
+// D8 (user 2026-10-12: "take needed items from the private / clan warehouse, from the gear tab"): what our warehouses hold, as the bots last
+// saw them — private: Logs/wh_private_<Name>.json (swarm.js WHTAKE: written whenever its withdraw list opens), else the stash deposit record
+// Logs/stash_<Name>.json (what it put in; not checked since); clan: Logs/clan_state.json warehouse (the clan leader's !clanwh / !whtake).
+function whKnown(ROOT, readJson) {
+  const LOGS = path.join(ROOT || '', 'Logs'), cs = readJson(path.join(LOGS, 'clan_state.json'), null) || {};
+  const idx = (items) => { const m = {}; (items || []).forEach(i => { const id = +i.id; if (!id) return; m[id] = m[id] || { c: 0, n: i.name || '' }; m[id].c += Math.max(1, +i.count || 1); }); return m; };
+  const W = cs.warehouse;
+  let clan = W && Array.isArray(W.items) ? { by: idx(W.items), at: W.seenAt || '', src: 'clan warehouse as ' + (W.seenBy || 'the clan leader') + ' saw it' } : null;
+  const recKind = (st) => String((st && st.last && st.last.kind) || 'private');
+  if (!clan) {   // nobody looked inside yet: what our characters put in (their stash records whose destination was the clan warehouse)
+    const by = {}; let at = '';
+    try {
+      fs.readdirSync(LOGS).filter(n => /^stash_(?!plan_)[^.]+\.json$/.test(n)).forEach(n => {
+        const st = readJson(path.join(LOGS, n), null); if (!st || !st.kinds || recKind(st) !== 'clan') return;
+        Object.entries(st.kinds).forEach(([id, k]) => { if (+id && (+k.c || 0) > 0) { by[+id] = by[+id] || { c: 0, n: k.n || '' }; by[+id].c += +k.c; } });
+        if (st.last && st.last.at > at) at = st.last.at;
+      });
+    } catch (e) { }
+    if (Object.keys(by).length) clan = { by, at, src: 'what our characters deposited (the clan leader has not looked inside yet: !clanwh)' };
+  }
+  const cache = {};
+  return {
+    clanLeader: cs.leader || '', clan,
+    priv(name) {
+      if (cache[name] !== undefined) return cache[name];
+      let r = null;
+      const p = readJson(path.join(LOGS, 'wh_private_' + name + '.json'), null);
+      if (p && Array.isArray(p.items)) r = { by: idx(p.items), at: p.seenAt || '', src: 'private warehouse list' };
+      else {
+        const st = readJson(path.join(LOGS, 'stash_' + name + '.json'), null);
+        if (st && st.kinds && recKind(st) !== 'clan') { const by = {}; Object.entries(st.kinds).forEach(([id, k]) => { if (+id && (+k.c || 0) > 0) by[+id] = { c: +k.c, n: k.n || '' }; }); r = { by, at: (st.last && st.last.at) || '', src: 'what it deposited (not checked since)' }; }
+      }
+      return (cache[name] = r);
+    },
+  };
+}
+/** the items a planned slot accepts (choice + alternatives + Common / real twin + a Kamael's sword twin) */
+function slotIds(C, e) {
+  const ids = [];
+  [e.id].concat(e.alt || []).forEach(i => { ids.push(+i); const it = C.items[i]; if (it && it.tw) ids.push(+it.tw); if (it && it.cw) ids.push(+it.cw); });
+  return [...new Set(ids.filter(Boolean))];
 }
 function rowOf(C, G, c, kit, id, it, f, extra) {
   const gg = giranGet(C, G, id, 'auto', kit), real = it.common ? null : (G.idx[id] || []).find(o => !o.common);
@@ -163,7 +230,7 @@ function rowOf(C, G, c, kit, id, it, f, extra) {
   if (it.src) r.src = it.src;
   return Object.assign(r, extra || {});
 }
-function classPage(C, P, G, classId, grade, states, autoPick, REC) {
+function classPage(C, P, G, classId, grade, states, autoPick, REC, WHK) {
   const c = C.byClass[classId]; if (!c) return { error: 'unknown class ' + classId };
   if (!GRADES.includes(grade)) return { error: 'unknown grade ' + grade };
   const kit = kitOf(C, c), R = resolvePlan(C, P, classId, grade);
@@ -181,14 +248,17 @@ function classPage(C, P, G, classId, grade, states, autoPick, REC) {
   const recG = (REC && REC.byKey && REC.byKey[REC.classKey[c.id]] && REC.byKey[REC.classKey[c.id]][grade]) || {};
   const rec = {};
   Object.entries(recG).forEach(([s, e]) => { rec[s] = Object.assign({}, e, { from: 'rec', get: giranGet(C, G, e.id, e.buy, kit) }); });
-  const eff = (S) => R.plan[S] || rec[S] || null;
+  // slot 2 rec with botSkip (the epic jewel's partner) only applies while slot 1 is the recommendation too
+  const eff0 = (S) => R.plan[S] || (rec[S] && !(rec[S].botSkip && R.plan[BASE_SLOT(S)]) ? rec[S] : null);
+  const chestE = eff0('chest'), coverBy = chestE && !chestE.none && C.items[chestE.id] && C.items[chestE.id].full ? C.items[chestE.id].n : '';
+  const eff = (S) => S === 'legs' && coverBy ? { none: true, covered: true } : eff0(S);
   // planned + recommended items always in the list (also from another grade / an old role preference)
   Object.entries(Object.assign({}, rec, R.plan)).forEach(([s, e]) => [e.id].concat(e.alt || []).forEach(i => {
     const S = BASE_SLOT(s), it = C.items[i]; if (!it || cand[S].some(x => x.id === +i)) return;
     cand[S].push(rowOf(C, G, c, kit, i, it, { fit: false, ok: true }, { odd: it.g !== grade ? 'grade ' + it.g : 'not for this class' }));
   }));
   const plan = {};
-  Object.entries(R.plan).forEach(([s, e]) => { plan[s] = Object.assign({}, e, { name: (C.items[e.id] || {}).n || ('item ' + e.id), src: srcText(C, e.id), get: giranGet(C, G, e.id, e.buy, kit), altNames: (e.alt || []).map(i => (C.items[i] || {}).n || ('item ' + i)) }); });
+  Object.entries(R.plan).forEach(([s, e]) => { if (e.none) { plan[s] = { none: true, alt: [], altNames: [], from: e.from, name: 'Empty' }; return; } plan[s] = Object.assign({}, e, { name: (C.items[e.id] || {}).n || ('item ' + e.id), src: srcText(C, e.id), get: giranGet(C, G, e.id, e.buy, kit), altNames: (e.alt || []).map(i => (C.items[i] || {}).n || ('item ' + i)) }); });
   // our characters of this class (and of its line)
   const line = new Set(), down = (id) => { C.classes.filter(x => x.parent === id).forEach(x => { line.add(x.id); down(x.id); }); };
   R.chain.forEach(x => line.add(x)); down(+classId);
@@ -197,11 +267,36 @@ function classPage(C, P, G, classId, grade, states, autoPick, REC) {
     const own = s.classId === +classId, slots = {};
     SLOTS.forEach(S => { const worn = wornIds(C, idx, s, S); const ix = /2$/.test(S) ? 1 : 0; const w = worn[ix] || null;
       slots[S] = Object.assign({ worn: w }, own ? slotStatus(C, G, kit, eff(S) || (S.endsWith('2') ? eff(BASE_SLOT(S)) : null), worn, S) : {}); });
-    return { name: s.name, level: s.level, classId: s.classId, cls: (C.byClass[s.classId] || {}).name || s.cls, own, online: s.online, party: s.party, grade: gradeForLevel(s.level), slots };
+    // D8: a missing planned item (to buy / manual) that one of our warehouses holds -> slots[S].wh { kind, id, n, c, at, src }; private first
+    // (the character takes it itself), then clan (the clan leader takes it and trades it over); every piece is promised to one slot only
+    let whPriv = null;
+    if (own && WHK) {
+      const pv = WHK.priv(s.name), cl = WHK.clan, used = {};
+      whPriv = pv ? { at: pv.at, src: pv.src } : null;
+      SLOTS.forEach(S => {
+        const x = slots[S]; if (!x || (x.st !== 'buy' && x.st !== 'manual')) return;
+        const e = eff(S) || (S.endsWith('2') ? eff(BASE_SLOT(S)) : null); if (!e || e.none) return;
+        const ids = slotIds(C, e);
+        for (const [kind, K] of [['private', pv], ['clan', cl]]) {
+          if (!K) continue;
+          const i = ids.find(id => K.by[id] && K.by[id].c - (used[kind + id] || 0) > 0);
+          if (i) { used[kind + i] = (used[kind + i] || 0) + 1; x.wh = { kind, id: i, n: K.by[i].n || (C.items[i] || {}).n || ('item ' + i), c: K.by[i].c, at: K.at, src: K.src }; break; }
+        }
+      });
+    }
+    return { name: s.name, level: s.level, classId: s.classId, cls: (C.byClass[s.classId] || {}).name || s.cls, own, online: s.online, party: s.party, grade: gradeForLevel(s.level), slots, whPriv };
   }).sort((a, b) => (b.own - a.own) || b.level - a.level);
   const setIds = new Set(); Object.values(cand).flat().forEach(r => { if (r.set != null) setIds.add(r.set); });
   const sets = {}; setIds.forEach(i => { sets[i] = C.sets[i]; });
-  return { class: c, kit, grade, plan, fallback: R.fallback, chain: R.chain.map(i => ({ id: i, name: (C.byClass[i] || {}).name })), cand, sets, chars, rec, recAt: REC ? REC.at : '', auto: autoPick || {}, giranAt: G.at,
+  // D2: every armor set of this grade the class can wear (fit = its armor type), for "Apply a set"
+  const setList = Object.entries(C.sets).map(([i, S]) => {
+    if (S.g !== grade || !S.pieces || !S.pieces.chest) return null;
+    const chId = S.pieces.chest.find(x => C.items[x] && fitOf(C, c, C.items[x], 'chest').ok); if (!chId) return null;
+    const ch = C.items[chId], pieces = Object.entries(S.pieces).map(([sl, ids]) => { const id = ids.find(x => C.items[x] && fitOf(C, c, C.items[x], sl).ok); return id ? { slot: sl, id, n: C.items[id].n } : null; }).filter(Boolean);
+    return { id: +i, name: S.name, t: S.t || '', bonus: S.bonus || '', shield: S.shield || '', fit: !!fitOf(C, c, ch, 'chest').fit, full: !!ch.full, pieces };
+  }).filter(Boolean).sort((a, b) => (b.fit - a.fit) || a.name.localeCompare(b.name));
+  return { class: c, kit, grade, plan, fallback: R.fallback, coverBy, setList,
+    wh: WHK ? { clanLeader: WHK.clanLeader, clan: WHK.clan ? { at: WHK.clan.at, src: WHK.clan.src } : null } : null, chain: R.chain.map(i => ({ id: i, name: (C.byClass[i] || {}).name })), cand, sets, chars, rec, recAt: REC ? REC.at : '', auto: autoPick || {}, giranAt: G.at,
     archClasses: C.classes.filter(x => x.arch === c.arch).map(x => ({ id: x.id, name: x.name })) };
 }
 function summary(C, P, states) {
@@ -219,7 +314,7 @@ function atomicSave(DATA, ROOT, P) {
   fs.writeFileSync(tmp, JSON.stringify(P, null, 1));
   fs.renameSync(tmp, F);
 }
-function mutate(C, P, b, G) {
+function mutate(C, P, b, G, states) {
   const cid = String(+b.class), grade = String(b.grade || '').toUpperCase();
   if (!C.byClass[cid]) return 'unknown class';
   if (!GRADES.includes(grade)) return 'unknown grade';
@@ -240,7 +335,49 @@ function mutate(C, P, b, G) {
     const slot = String(b.slot || ''); if (!SLOTS.includes(slot)) return 'unknown slot';
     if (!b.id) { const g = node(); delete g[slot]; clean(); return null; }
     const e = entry(slot, b.id, b.alt, b.buy); if (typeof e === 'string') return e;
-    node()[slot] = e; return null;
+    if (slot === 'legs') { const ch = resolvePlan(C, P, cid, grade).plan.chest, chi = ch && !ch.none && C.items[ch.id]; if (chi && chi.full) return `the chest (${chi.n}) is a full armor and covers the legs: choose an upper-only chest first`; }
+    node()[slot] = e;
+    if (slot === 'chest' && C.items[e.id].full) { const g = node(); if (g.legs) { delete g.legs; return { legsCleared: true }; } }   // D3: a full armor frees the legs slot
+    return null;
+  }
+  // D3: "leave this slot empty" (the bots buy nothing for it; inherited / recommended items no longer apply)
+  if (b.action === 'none') { const slot = String(b.slot || ''); if (!SLOTS.includes(slot)) return 'unknown slot'; node()[slot] = { none: true }; return null; }
+  // D2: a whole armor set: every piece this class can wear (a shield only when the class uses one and the weapon is one-handed)
+  if (b.action === 'applyset') {
+    const S = C.sets[b.set]; if (!S || !S.pieces) return 'unknown set';
+    const R = resolvePlan(C, P, cid, grade), w = R.plan.weapon && !R.plan.weapon.none ? C.items[R.plan.weapon.id] : null, done = [], skipped = [];
+    const buy = ['auto', 'real', 'common'].includes(b.buy) ? b.buy : 'real';
+    Object.entries(S.pieces).forEach(([sl, ids]) => {
+      if (!SLOTS.includes(sl)) return;
+      const ok = ids.filter(x => C.items[x] && fitOf(C, c, C.items[x], sl).ok && !C.items[x].common);
+      if (!ok.length) { skipped.push(`${sl}: ${c.name} cannot wear it`); return; }
+      if (sl === 'shield' && (!fitOf(C, c, C.items[ok[0]], sl).fit || (w && w.two))) { skipped.push('shield: ' + (w && w.two ? 'two-handed weapon' : 'this class uses no shield')); return; }
+      const e = entry(sl, ok[0], ok.slice(1), buy); if (typeof e === 'string') { skipped.push(e); return; }
+      node()[sl] = e; done.push(e.name);
+    });
+    const ch = (node().chest || {}).id;
+    if (ch && C.items[ch] && C.items[ch].full) delete node().legs;
+    if (!done.length) { clean(); return 'nothing of ' + S.name + ' fits ' + c.name; }
+    return { n: done.length, done, skipped };
+  }
+  // D10: what a character wears now becomes this class + grade's plan (only slots it wears something in; dry = preview, nothing saved)
+  if (b.action === 'fromchar') {
+    const ch = (states || []).find(x => x.name === b.name); if (!ch) return 'unknown character ' + b.name;
+    const idx = nameIndex(C), rows = [], plan = {};
+    SLOTS.forEach(sl => {
+      const worn = wornIds(C, idx, ch, sl), w = worn[/2$/.test(sl) ? 1 : 0]; if (!w) return;
+      let id = w.id, it = id ? C.items[id] : null;
+      if (!it) { rows.push({ slot: sl, n: w.n, skip: 'not in the item data' }); return; }
+      if (it.common && it.tw && C.items[it.tw]) { id = it.tw; it = C.items[id]; }       // a Common item -> its real twin (the bots buy either)
+      const f = fitOf(C, c, it, sl); if (!f.ok) { rows.push({ slot: sl, n: w.n, skip: c.name + ' cannot wear it' }); return; }
+      const e = entry(sl, id, [], 'auto'); if (typeof e === 'string') { rows.push({ slot: sl, n: w.n, skip: e }); return; }
+      plan[sl] = e; rows.push({ slot: sl, n: it.n, g: it.g, id: +id, odd: it.g !== grade && BASE_SLOT(sl) !== 'talisman' ? 'grade ' + it.g : '' });
+    });
+    if (b.dry) return { dry: true, rows, char: { name: ch.name, cls: (C.byClass[ch.classId] || {}).name || ch.cls, level: ch.level } };
+    if (!Object.keys(plan).length) return ch.name + ' wears nothing this class can use';
+    const g = node(); Object.assign(g, plan);
+    if (plan.chest && C.items[plan.chest.id].full) delete g.legs;
+    return { n: Object.keys(plan).length, rows };
   }
   if (b.action === 'fallback') { const g = node(); if (b.fallback === 'keep') g._fallback = 'keep'; else delete g._fallback; clean(); return null; }
   if (b.action === 'clear') { if (P._class[cid]) delete P._class[cid][grade]; clean(); return null; }
@@ -254,6 +391,7 @@ function mutate(C, P, b, G) {
       const tc = C.byClass[t];
       P._class[t] = P._class[t] || {}; const g = (P._class[t][grade] = P._class[t][grade] || {});
       Object.entries(R.plan).forEach(([s, e]) => {
+        if (e.none) { g[s] = { none: true }; return; }
         const it = C.items[e.id]; if (!it) return;
         if (!fitOf(C, tc, it, s).ok) { skipped.push(`${tc.name}: ${it.n}`); return; }
         g[s] = { id: e.id, name: it.n, alt: (e.alt || []).filter(i => C.items[i] && fitOf(C, tc, C.items[i], s).ok), buy: e.buy || 'auto', src: srcText(C, e.id) };
@@ -279,7 +417,7 @@ function writeRecFiles(DATA, C, R) {
   const D = path.join(DATA, 'gear_rec'); fs.mkdirSync(D, { recursive: true });
   C.classes.forEach(c => {
     const key = R.classKey[c.id], grades = {};
-    Object.entries(R.byKey[key] || {}).forEach(([g, sl]) => { grades[g] = {}; Object.entries(sl).forEach(([s, e]) => { grades[g][s] = { id: e.id, alt: e.alt, buy: e.buy, name: e.name, src: String(e.src || '').slice(0, 160), why: e.why }; }); });
+    Object.entries(R.byKey[key] || {}).forEach(([g, sl]) => { grades[g] = {}; Object.entries(sl).forEach(([s, e]) => { if (e.botSkip) return; grades[g][s] = { id: e.id, alt: e.alt, buy: e.buy, name: e.name, src: String(e.src || '').slice(0, 160), why: e.why }; if (e.epic) grades[g][s].epic = true; }); });
     const txt = JSON.stringify({ about: 'Recommended gear for ' + c.name + ' (Dashboard/gear_recommend.js). Used by swarm.js when neither the gear planner nor the old role entries chose a slot.', key, grades });
     const f = path.join(D, c.id + '.json');
     let old = ''; try { old = fs.readFileSync(f, 'utf8'); } catch (e) { }
@@ -308,16 +446,20 @@ async function handle(req, res, url, ctx) {
       const role = (C.byClass[cid] || {}).role;
       if (role && ctx.gearCatalog) { const gc = ctx.gearCatalog(role, grade, false); Object.entries(gc.slots || {}).forEach(([s, L]) => { const a = (L || []).find(x => x.auto); if (a) auto[s] = { id: a.id, name: a.name }; }); }
     } catch (e) { auto = {}; }
-    ctx.json(res, 200, classPage(C, P, G, cid, grade, states, auto, recs(ctx, C, G))); return true;
+    let WHK = null; try { WHK = whKnown(ctx.ROOT, ctx.readJson); } catch (e) { WHK = null; }
+    const page = classPage(C, P, G, cid, grade, states, auto, recs(ctx, C, G), WHK);
+    if (page && !page.error) { try { page.masterwork = mwLabels(ctx.DATA, mwPageIds(page)); } catch (e) { page.masterwork = {}; } }   // MASTERWORK 2026-10-12
+    ctx.json(res, 200, page); return true;
   }
   if (p === '/api/gearplanner' && req.method === 'POST') {
     const b = await ctx.body(req), P2 = readPrefs(ctx.DATA, ctx.readJson);
-    const r = mutate(C, P2, b, giranOffers(ctx.DATA, ctx.readJson));
+    const r = mutate(C, P2, b, giranOffers(ctx.DATA, ctx.readJson), states);
     if (typeof r === 'string') { ctx.json(res, 400, { error: r }); return true; }
+    if (r && r.dry) { ctx.json(res, 200, Object.assign({ ok: true }, r)); return true; }   // a preview: nothing written
     P2._updated = new Date().toISOString();
     atomicSave(ctx.DATA, ctx.ROOT, P2);
     ctx.json(res, 200, Object.assign({ ok: true }, r || {})); return true;
   }
   ctx.json(res, 404, { error: 'unknown gear planner call' }); return true;
 }
-module.exports = { handle, _t: { fitOf, resolvePlan, giranGet, slotStatus, mutate, entryOf, catalog, srcText, giranOffers, writeRecFiles, classPage, SLOTS } };
+module.exports = { handle, _t: { mwIds, mwLabels, mwPageIds, fitOf, resolvePlan, giranGet, slotStatus, mutate, entryOf, catalog, srcText, giranOffers, writeRecFiles, classPage, SLOTS, whKnown, slotIds } };

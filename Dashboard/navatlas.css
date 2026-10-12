@@ -1,0 +1,37 @@
+/* NAV ATLAS PAGE (2026-10-12): #/navatlas — Dashboard/navatlas.js. Uses the page tokens (--ink, --muted, --line2, --ok, --warn, --bad, --run, --fs-cap). */
+.na { padding: 12px; min-width: 0; }
+.na h2 { font-size: var(--fs-title, 16px); margin: 0 0 4px; }
+.na .na-sum { font-size: var(--fs-cap, 12px); color: var(--muted); }
+.na .na-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.na .na-tabs button.on { outline: 1px solid var(--gold, #e3c27a); }
+.na .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 6px 0; }
+.na .row input { flex: 1 1 200px; min-width: 0; }
+.na .row select { min-width: 0; max-width: 100%; }
+.na .res { max-height: 300px; overflow: auto; border: 1px solid var(--line2); border-radius: 6px; }
+.na .res.tall { max-height: none; }
+.na td:first-child { min-width: 110px; }
+.na .res > div { padding: 6px 8px; cursor: pointer; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.na .res > div:hover, .na .res > div:focus { background: rgba(255, 255, 255, .06); outline: none; }
+.na .st { font-size: 11px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; color: #000; white-space: nowrap; }
+.na .st.ok { background: var(--ok); } .na .st.unverified { background: var(--warn); } .na .st.conditional { background: var(--run); }
+.na .st.blocked { background: var(--bad); } .na .st.unreachable { background: var(--muted); }
+.na .muted { color: var(--muted); }
+.na .why { color: var(--bad); overflow-wrap: anywhere; }
+.na ol.na-steps { padding-left: 22px; margin: 8px 0; }
+.na ol.na-steps li { margin: 4px 0; overflow-wrap: anywhere; }
+.na ol.na-steps li.door { color: var(--warn); }
+.na ol.na-steps li.door.blocked { color: var(--bad); }
+.na .na-map { width: 100%; max-width: 820px; height: auto; aspect-ratio: 1; background: #111; border-radius: 6px; border: 1px solid var(--line2); display: block; margin-top: 8px; }
+.na .na-legend { font-size: var(--fs-cap, 12px); color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.na .na-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.na table { border-collapse: collapse; width: 100%; font-size: var(--fs-cap, 12px); }
+.na th, .na td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.na .tblwrap { overflow-x: auto; max-width: 100%; }
+.na details { margin: 6px 0; }
+.na .na-kinds { display: flex; flex-wrap: wrap; gap: 6px; }
+.na .na-kinds span { border: 1px solid var(--line2); border-radius: 10px; padding: 1px 8px; font-size: var(--fs-cap, 12px); }
+@media (max-width: 600px) {
+  .na { padding: 8px; }
+  .na .res { max-height: 220px; }
+  .na .hide-sm { display: none; }
+}

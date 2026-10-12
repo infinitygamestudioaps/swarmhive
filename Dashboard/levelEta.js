@@ -16,11 +16,21 @@
 // STATES: ok | idle (no gain for 10+ min: town, travel, waiting) | none (no gains, or only losses) | warmup (window too short to measure)
 //         | stale (no report for 2+ min: offline) | max (level cap) | unknown (no data).
 // ETA = (100 - exp %) / (%/h). Above 48 h it is shown in days.
+// EXP TABLE 2026-10-12 (forum topic 214 = datapack expData.json = the table in L2Swarm.Core.dll that Me.ExpPercent uses; Scripts/data/exp_table.json,
+// built + checked by docs/plan/tools/exp_table.js): the level size (exp points per level) now comes from EXP_TOTAL below, so the rate in points
+// is exact from the first refresh (before: learned from the exp log per browser, unknown until the first same-level kills), a level-up inside
+// the hour window no longer drops the hour source, and the tooltips show the raw exp still needed. CFG.useTable = false = the old learned sizes.
 // Party: party(list) = when the party's LOWEST level goes up = the slowest member at the lowest level (spots are picked by the lowest level).
 (function (root) {
   'use strict';
   const CFG = { maxLevel: 85, minHourMins: 5, minHourGains: 3, busyHourMins: 2, busyHourGains: 15, recentMins: 30, minRecentGains: 3, minRecentSpanMs: 120000,
-    idleMs: 10 * 60000, staleSec: 120, daysAfterH: 48, tauMs: 60000, smoothResetMs: 10 * 60000 };
+    idleMs: 10 * 60000, staleSec: 120, daysAfterH: 48, tauMs: 60000, smoothResetMs: 10 * 60000, useTable: true };
+  // total exp at which level (index + 1) starts, levels 1-87 (85 = max level; 86 = the end of the level-85 bar). Keep equal to Scripts/data/exp_table.json
+  // (docs/plan/tools/exp_table.js --check and docs/plan/tools/test_exptable.js compare them).
+  const EXP_TOTAL = [0, 68, 363, 1168, 2884, 6038, 11287, 19423, 31378, 48229, 71202, 101677, 141193, 191454, 254330, 331867, 426288, 540000, 675596, 835862, 1023784, 1242546, 1495543, 1786379, 2118876, 2497077, 2925250, 3407897, 3949754, 4555796, 5231246, 5981576, 6812513, 7730044, 8740422, 9850166, 11066072, 12395215, 13844951, 15422929, 17137087, 18995665, 21007203, 23180550, 25524868, 28049635, 30764654, 33680052, 36806289, 40154162, 45525133, 51262490, 57383988, 63907911, 70853089, 80700831, 91162654, 102265881, 114038596, 126509653, 146308200, 167244337, 189364894, 212717908, 237352644, 271975263, 308443198, 346827154, 387199547, 429634523, 474207979, 532694979, 606322775, 696381369, 804225364, 931275828, 1151275834, 1511275834, 2044287599, 3075966164, 4295351949, 5766985062, 7793077345, 10235368963, 13180481103, 16890558728, 21138534249];
+  const expTotal = (level) => { const l = Math.floor(Number(level)); return l >= 1 && l <= EXP_TOTAL.length ? EXP_TOTAL[l - 1] : null; };
+  /** exp points in the bar of this level (table) */
+  const tableSize = (level) => { const a = expTotal(level), b = expTotal(Number(level) + 1); return a != null && b != null ? b - a : null; };
   const SIZE = {};   // level -> { v: exp points per level, w: |pct| weight it was learned from }
   const SM = {};     // name -> { r, t, lvl, src } smoothing state
   const LSKEY = 'levelEta.size.v1';
@@ -52,7 +62,27 @@
       if (!cur || b.p >= cur.w || Math.abs(v - cur.v) / cur.v > 0.05) { SIZE[l] = { v: Math.round(v), w: Math.round(b.p * 10000) / 10000 }; saveSizes(); }
     });
   }
-  function levelSize(level) { const s = SIZE[level]; return s && s.v > 0 ? s.v : null; }
+  function learnedSize(level) { const s = SIZE[level]; return s && s.v > 0 ? s.v : null; }
+  function levelSize(level) { return (CFG.useTable && tableSize(level)) || learnedSize(level); }
+  /** raw exp still needed to the next level from 'exp' % into 'level' */
+  function ptsLeft(level, exp) { const s = levelSize(level), p = num(exp); return s && p != null ? Math.max(0, Math.round((100 - p) / 100 * s)) : null; }
+  /** raw exp from 'exp' % into 'level' to the start of level 'target' (table only) */
+  function ptsToLevel(level, exp, target) {
+    const a = expTotal(level), s = tableSize(level), b = expTotal(target), p = num(exp);
+    return a != null && s && b != null && p != null ? Math.max(0, Math.round(b - (a + p / 100 * s))) : null;
+  }
+  /** raw total exp (Me.Exp) -> { level, pct } (table; pct like L2Swarm CalculateExpPercents) */
+  function levelOfExp(total) {
+    const e = num(total); if (e == null || e < 0) return null;
+    let l = 1; while (l < CFG.maxLevel && e >= EXP_TOTAL[l]) l++;
+    const s = tableSize(l); return { level: l, pct: s ? Math.min(100, (e - EXP_TOTAL[l - 1]) * 100 / s) : 0 };
+  }
+  /** NET exp %/h of the current level over swarm.js expHour (deaths count): exp points / level size; the % sum only without a size.
+   *  (swarm.js books a level-up gain as only the % into the new level, so the % sum is too low across a level-up.) null below 3 min */
+  function hourPct(c) {
+    const h = c && c.expHour; if (!h || !(num(h.mins) >= 3)) return null;
+    const s = levelSize(num(c.level)); return s && num(h.amt) != null ? num(h.amt) / s * 100 / h.mins * 60 : num(h.pct) != null ? num(h.pct) / h.mins * 60 : null;
+  }
 
   /**
    * The estimate for one character. o: { now (server ms), skew, exp (a more precise exp % e.g. MCP exp_percent), smooth (default true) }
@@ -71,7 +101,7 @@
     if (age == null && c.updated) { const t = Date.parse(c.updated); if (isFinite(t)) age = (now - t) / 1000; }
     const L = cleanLog(c.expLog);
     learn(L);
-    const size = levelSize(level); r.size = size;
+    const size = levelSize(level); r.size = size; r.sizeSrc = size ? (CFG.useTable && tableSize(level) ? 'table' : 'learned') : ''; r.ptsLeft = ptsLeft(level, exp);
     const gainsAll = L.filter(e => e.amt > 0);
     const lastGain = gainsAll.length ? gainsAll[gainsAll.length - 1].at : null;
     r.lastGainAgoMs = lastGain != null ? Math.max(0, now - lastGain) : null;
@@ -177,7 +207,7 @@
   function title(e) {
     if (!e) return '';
     const L = [`Next level estimate${e.name ? ' for ' + e.name : ''}`];
-    if (e.level) L.push(`Level ${e.level} at ${e.exp != null ? e.exp.toFixed(2) : '?'} % — ${e.exp != null ? Math.max(0, 100 - e.exp).toFixed(2) : '?'} % to go`);
+    if (e.level) L.push(`Level ${e.level} at ${e.exp != null ? e.exp.toFixed(2) : '?'} % — ${e.exp != null ? Math.max(0, 100 - e.exp).toFixed(2) : '?'} % to go${e.ptsLeft != null ? ` (${nf(e.ptsLeft)} of ${nf(e.size)} exp)` : ''}`);
     if (e.pctH != null) L.push(`Rate: ${rateTxt(e.pctH)}${e.ptsH != null ? ` (≈ ${nf(e.ptsH)} exp/h)` : ''} from ${e.src === 'hour' ? 'the last ' + e.windowMin + ' min' : 'the last ' + e.windowMin + ' min of kills at this level'} (${e.gains} gains)`);
     if (e.losses && e.losses.amt < 0) L.push(`${e.losses.n} exp loss${e.losses.n > 1 ? 'es' : ''} in that window (${e.losses.pct} %, death) — already in the exp %, not counted as a slower rate`);
     if (e.status === 'ok') L.push(`Level ${e.next} in ~${dur(e.etaMs)}, at ~${clockOf(e.at)}`);
@@ -271,7 +301,7 @@
   }
 
   const API = { calc, text, short, clock, title, dur, clockOf, rateTxt, shortHtml, lineHtml, markHtml, withMark, party, partyText, partyHtml,
-    levelSize, CFG, _reset() { Object.keys(SIZE).forEach(k => delete SIZE[k]); Object.keys(SM).forEach(k => delete SM[k]); } };
+    levelSize, learnedSize, tableSize, expTotal, ptsLeft, ptsToLevel, levelOfExp, hourPct, EXP_TOTAL, CFG, _reset() { Object.keys(SIZE).forEach(k => delete SIZE[k]); Object.keys(SM).forEach(k => delete SM[k]); } };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   if (root) root.LevelEta = API;
 })(typeof window !== 'undefined' ? window : null);

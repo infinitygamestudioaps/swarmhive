@@ -139,7 +139,10 @@ ok("plan from the old names (Eva's Saint, Scavenger, Artisan, Soul Breaker)", JS
 // ------------------------------------------------------------------------------------------------ 4) swarm.js classChange() with mocks
 section('4) swarm.js classChange() (host part, mocked host calls)');
 {
-  const a = SRC.indexOf('// --- CLASS PLANS, host side'), b = SRC.indexOf('/** Cabinet -> Settings: set the option whose row contains');
+  // the host part ends where the next block starts: since 2026-10-12 the CFG-PURE block (patch_servercfg) follows classGateAllows (the old
+  // Cabinet -> Settings setter it replaced was the end marker before)
+  const a = SRC.indexOf('// --- CLASS PLANS, host side');
+  const b = [SRC.indexOf('// ==== CFG-PURE begin', a), SRC.indexOf('/** Cabinet -> Settings: set the option whose row contains', a)].filter(i => i > a).sort((x, y) => x - y)[0] || -1;
   ok('host part found', a > 0 && b > a);
   const HOST = SRC.slice(a, b);
   const run = async (sc) => {
@@ -219,7 +222,11 @@ function finish() {
   let mig = null;
   // the one-time migration reads the old class table from this install's own backups (Settings/backup): not in a fresh package (2026-10-10)
   if (!fs.existsSync(path.join(ROOT, 'Settings', 'backup'))) console.log('skip: migration check needs this install\'s Settings/backup (dev install only)');
-  else try { mig = M.migrate({ at: '2026-10-10T00:00:00.000Z' }); } catch (e) { ok('migration runs: ' + e.message, false); }
+  else try { mig = M.migrate({ at: '2026-10-10T00:00:00.000Z' }); } catch (e) {
+    // a Settings/backup folder without an old swarm.js (e.g. one another suite created in a fresh install) = nothing to migrate from
+    if (/no old swarm\.js with the class table/.test(e.message)) console.log('skip: migration check: ' + e.message + ' (dev install only)');
+    else ok('migration runs: ' + e.message, false);
+  }
   if (mig) {
     const rows = mig._migration.rows;
     const enabled = (cfg.accounts || []).filter(a => a && a.character && a.enabled !== false);

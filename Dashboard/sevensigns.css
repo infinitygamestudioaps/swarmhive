@@ -1,0 +1,54 @@
+/* 7 SIGNS page #/sevensigns (2026-10-12, Dashboard/sevensigns.js). L2 skin tokens from index.html (--ink, --muted, --gold, --line, --line2,
+   --ok, --bad, --fs-*), the Seven Signs chips (.chip.ssdawn / .ssdusk / .ssnone) from index.html. Phone first (390 px, no horizontal scroll). */
+.s7 { min-width: 0; }
+.s7 .box { margin-top: 10px; min-width: 0; }
+.s7-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 6px; }
+.s7-head h2 { margin: 0 4px 0 0; }
+.s7-intro { flex: 1 1 260px; font-size: var(--fs-cap); }
+.s7-msg { margin: 6px 0; padding: 6px 10px; border: 1px solid #2f5a3c; background: rgba(23, 58, 34, .55); border-radius: 3px; color: #c9f0d2; font-size: var(--fs-cap); }
+.s7-msg.bad { border-color: #8f2f24; background: rgba(74, 23, 20, .7); color: #ffc9bf; }
+.s7-sub { font-size: var(--fs-cap); overflow-wrap: anywhere; }
+.s7-warn { margin-top: 6px; padding: 5px 8px; border: 1px solid #8f7424; background: rgba(120, 90, 20, .25); border-radius: 3px; font-size: var(--fs-cap); }
+.s7-kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; margin-bottom: 4px; }
+.s7-kv > span { color: var(--gold); font-size: var(--fs-cap); font-weight: 700; }
+.s7-per.competition { color: var(--ok); } .s7-per.validation { color: #e3c27a; } .s7-per.unknown { color: var(--muted); }
+.s7-row, .s7-prow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
+.s7-prow { margin: 4px 0 8px; }
+
+/* switch */
+.s7-sw { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; min-height: 34px; user-select: none; position: relative; }
+.s7-sw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.s7-sw .tr { position: relative; width: 40px; height: 22px; border-radius: 11px; background: #3a2a24; border: 1px solid var(--line2); flex: none; transition: background .15s; }
+.s7-sw .tr::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #c8bda0; transition: transform .15s; }
+.s7-sw input:checked + .tr { background: #2f6d2f; border-color: #5fd35f; }
+.s7-sw input:checked + .tr::after { transform: translateX(18px); background: #fff; }
+.s7-sw input:focus-visible + .tr { box-shadow: 0 0 0 2px rgba(227, 194, 122, .7); }
+.s7-sw input:disabled + .tr { opacity: .5; }
+.s7-sw .lb { font: 700 var(--fs-cap) Tahoma, Verdana, sans-serif; }
+@media (prefers-reduced-motion: reduce) { .s7-sw .tr, .s7-sw .tr::after { transition: none; } }
+
+/* parties + members */
+.s7-party > summary { cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 34px; }
+.s7-party.enr { border-color: #8f7424; }
+.s7-tag { font-size: var(--fs-mini); padding: 1px 6px; border-radius: 8px; background: #2f6d2f; color: #fff; }
+.s7-tag.part { background: #4a3d16; color: #ffd866; }
+.s7-mems { display: grid; gap: 4px; }
+.s7-mem { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr) auto; grid-template-areas: "who reg act" "dun stones act"; gap: 2px 10px; align-items: center;
+  padding: 5px 6px; border: 1px solid var(--line); border-radius: 3px; background: rgba(0, 0, 0, .2); min-width: 0; }
+.s7-mem.off { opacity: .7; }
+.s7-who { grid-area: who; min-width: 0; overflow-wrap: anywhere; }
+.s7-reg { grid-area: reg; min-width: 0; }
+.s7-st-txt { font-size: var(--fs-mini); overflow-wrap: anywhere; }
+.s7-dun { grid-area: dun; font-size: var(--fs-mini); min-width: 0; }
+.s7-stones { grid-area: stones; font-size: var(--fs-mini); display: flex; flex-wrap: wrap; gap: 6px; }
+.s7-st { display: inline-flex; align-items: center; gap: 2px; }
+.s7-st img { width: 16px; height: 16px; }
+.s7-act { grid-area: act; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.s7-via { font-size: var(--fs-mini); color: var(--ok); white-space: nowrap; min-height: 34px; display: inline-flex; align-items: center; }
+.s7-btn { min-height: 34px; padding: 4px 10px; }
+.s7-btn.gold { font-weight: 700; }
+.s7-pre { white-space: pre-wrap; overflow-wrap: anywhere; font: var(--fs-mini) Consolas, monospace; max-height: 340px; overflow: auto; margin: 6px 0 0; }
+.s7-helpbody p { margin: 6px 0; font-size: var(--fs-cap); }
+@media (max-width: 560px) {
+  .s7-mem { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who act" "reg act" "dun dun" "stones stones"; }
+}

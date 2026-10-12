@@ -156,6 +156,7 @@ function findPath(a, b, opts = {}) {
   const avoid = (opts.avoid || []).concat(opts.noLearned ? [] : learnedAvoid(a, b, opts.pad || 6000)).map(o => ({ gx: toGeoX(o.x), gy: toGeoY(o.y), r: Math.max(1, Math.round((o.r || 150) / 16)) }));
   const blocked = (gx, gy) => avoid.some(o => Math.hypot(gx - o.gx, gy - o.gy) <= o.r);
   const maxNodes = opts.maxNodes || 4e6, pad = opts.pad || 6000, maxMs = opts.maxMs || 20000;
+  const HW = opts.hWeight > 1 ? opts.hWeight : 1.001;   // opts.hWeight (nav_atlas 2026-10-12): weighted A* for long offline walks (faster, at most hWeight x longer)
   const s = snap(a.x, a.y, a.z), g = snap(b.x, b.y, b.z ?? a.z, 10) || snap(b.x, b.y, b.z ?? a.z, 10, true);   // goal height often unknown: any floor
   if (!s) return { ok: false, reason: 'start is not on walkable geodata', ms: Date.now() - t0 };
   if (!g) return { ok: false, reason: 'goal is not on walkable geodata', ms: Date.now() - t0 };
@@ -184,7 +185,7 @@ function findPath(a, b, opts = {}) {
       const nk = KEY(nx, ny, nl), ng = gc + (dx && dy ? Math.SQRT2 : 1);
       const old = gScore.get(nk);
       if (old !== undefined && old <= ng) continue;
-      gScore.set(nk, ng); from.set(nk, k); open.push(ng + h(nx, ny) * 1.001, nk);
+      gScore.set(nk, ng); from.set(nk, k); open.push(ng + h(nx, ny) * HW, nk);
     }
   }
   if (found < 0) return { ok: false, reason: `no way through (searched ${expanded} cells)`, ms: Date.now() - t0 };

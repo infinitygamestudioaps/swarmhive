@@ -1,0 +1,95 @@
+/* SKILL ENCHANT page #/skillenchant (2026-10-12, Dashboard/skillenchantpage.js) + the character page box (.sen-cbox).
+   L2 skin tokens from index.html (--ink, --muted, --gold, --line, --line2, --ok, --bad, --warn, --fs-*). Phone first (390 px, no horizontal scroll). */
+.sen { padding-bottom: 80px; min-width: 0; }
+.sen .box { margin-top: 10px; min-width: 0; }
+.sen-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.sen-head h2 { margin: 0; display: flex; align-items: center; gap: 6px; }
+.sen-msg { margin-top: 8px; padding: 6px 8px; border: 1px solid #5f7f3f; background: rgba(40, 80, 30, .35); border-radius: 3px; font-size: var(--fs-cap); }
+.sen-msg.bad { border-color: var(--bad); background: rgba(110, 30, 20, .4); }
+.sen-hint { color: var(--muted); font-size: var(--fs-cap); margin: 6px 0; }
+.sen .bad { color: var(--bad); }
+.sen-ok { color: var(--ok); font-weight: 700; font-size: var(--fs-cap); }
+.sen-wait { color: var(--warn, #e0a040); font-size: var(--fs-cap); }
+.sen-warn { color: var(--warn, #e0a040); font-size: var(--fs-cap); margin: 4px 0; }
+
+/* switch (same look as the Adena page) */
+.sen-sw { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; min-height: 34px; user-select: none; }
+.sen-sw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.sen-sw .tr { position: relative; width: 44px; height: 24px; border-radius: 12px; background: #3a2a24; border: 1px solid var(--line2); flex: none; transition: background .15s; }
+.sen-sw .tr::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #c8bda0; transition: transform .15s; }
+.sen-sw input:checked + .tr { background: #2f6d2f; border-color: #5fd35f; }
+.sen-sw input:checked + .tr::after { transform: translateX(20px); background: #fff; }
+.sen-sw input:focus-visible + .tr { box-shadow: 0 0 0 2px rgba(227, 194, 122, .7); }
+.sen-sw .lb { font: 700 var(--fs-cap) Tahoma, Verdana, sans-serif; } .sen-sw .lb.on { color: var(--ok); } .sen-sw .lb.off { color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .sen-sw .tr, .sen-sw .tr::after { transition: none; } }
+
+/* help + settings */
+.sen-help > summary { cursor: pointer; list-style: none; } .sen-help > summary h3 { display: inline; }
+.sen-helpbody { font-size: var(--fs-cap); line-height: 1.45; } .sen-helpbody p { margin: 6px 0; }
+.sen-ul { margin: 6px 0; padding-left: 18px; } .sen-ul li { margin: 4px 0; }
+.sen-book { display: inline-flex; align-items: center; gap: 1px; font-size: var(--fs-mini); white-space: nowrap; vertical-align: middle; }
+.sen-book img { width: 18px; height: 18px; }
+.sen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 10px; }
+.sen-f { display: grid; gap: 2px; min-width: 0; align-content: start; }
+.sen-f .fl { font-size: var(--fs-cap); color: var(--gold); font-weight: 700; }
+.sen-f .fh { font-size: var(--fs-mini); color: var(--muted); }
+.sen-num { width: 100%; min-height: 34px; box-sizing: border-box; text-align: right; font-family: Consolas, monospace; }
+.sen-num.bad { border-color: var(--bad) !important; box-shadow: 0 0 0 1px var(--bad); }
+.sen-filter { width: 100%; max-width: 320px; min-height: 34px; box-sizing: border-box; margin: 4px 0; }
+
+/* character list */
+.sen-party { border: 1px solid var(--line); border-radius: 3px; padding: 4px 8px; margin-top: 8px; background: rgba(0, 0, 0, .22); min-width: 0; }
+.sen-party .ph b { color: var(--gold); font-size: var(--fs-cap); }
+.sen-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who au" "st st" "tp tp"; gap: 2px 8px; padding: 6px 0; border-top: 1px solid var(--line); align-items: center; }
+.sen-row .who { grid-area: who; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; color: var(--ink); text-decoration: none; min-height: 32px; }
+.sen-row .who .lv, .sen-row .who .cls { color: var(--muted); font-size: var(--fs-mini); overflow-wrap: anywhere; }
+.sen-row .st { grid-area: st; min-width: 0; } .sen-row .tp { grid-area: tp; display: flex; flex-wrap: wrap; gap: 3px; align-items: center; font-size: var(--fs-mini); }
+.sen-row .au { grid-area: au; }
+.sen-csel { min-height: 32px; }
+.sen .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #666; flex: none; } .sen .dot.on { background: var(--ok); }
+.sen-ic { width: 22px; height: 22px; vertical-align: middle; } .sen-ic.lg { width: 32px; height: 32px; flex: none; }
+@media (min-width: 760px) { .sen-row { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) auto; grid-template-areas: "who st tp au"; } }
+
+/* character view */
+.sen-back { display: inline-block; min-height: 32px; line-height: 32px; margin-top: 6px; color: var(--gold); }
+.sen-ch h3 { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: baseline; } .sen-ch h3 .muted { font-size: var(--fs-cap); font-weight: 400; }
+.sen-kv { font-size: var(--fs-cap); margin: 4px 0; overflow-wrap: anywhere; }
+.sen-tools { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin: 6px 0; font-size: var(--fs-cap); }
+.sen-tools select, .sen-tools button { min-height: 34px; }
+.sen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 8px; margin-top: 8px; }
+.sen-sk { border: 1px solid var(--line); border-radius: 3px; padding: 6px 8px; background: rgba(0, 0, 0, .25); min-width: 0; }
+.sen-sk .hd { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 4px 8px; align-items: start; }
+.sen-sk .hd .nm { min-width: 0; font-size: var(--fs-cap); } .sen-sk .hd .nm .muted { font-size: var(--fs-mini); }
+.sen-rsel { grid-column: 1 / -1; width: 100%; min-height: 34px; }
+.sen-kind { font-size: var(--fs-mini); color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 0 5px; }
+.sen-have { color: #9fe39f; }
+.sen-routes { display: flex; flex-wrap: wrap; gap: 3px; margin: 5px 0 2px; }
+.sen-route { font-size: var(--fs-mini); padding: 2px 6px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: help; }
+.sen-route.best { border-color: #8f7424; color: #ffe08a; } .sen-route.best::before { content: '★ '; }
+.sen-route.on { background: rgba(120, 90, 20, .45); color: #fff; border-color: #c9a640; }
+.sen-why { font-size: var(--fs-mini); color: var(--muted); margin: 2px 0; }
+.sen-tgt { font-size: var(--fs-cap); margin: 4px 0 2px; }
+.sen-cost { font-size: var(--fs-cap); margin: 2px 0; overflow-wrap: anywhere; } .sen-cost .k { display: inline-block; min-width: 46px; color: var(--gold); font-weight: 700; }
+.sen-more > summary { cursor: pointer; font-size: var(--fs-mini); color: var(--gold); min-height: 30px; padding: 6px 0; }
+.sen-tw { overflow-x: auto; max-width: 100%; }
+.sen-tbl { width: 100%; border-collapse: collapse; font-size: var(--fs-mini); }
+.sen-tbl th, .sen-tbl td { padding: 2px 4px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.sen-tbl td.sen-eff { text-align: left; white-space: normal; min-width: 140px; color: var(--muted); }
+.sen-tbl tr.in td { background: rgba(60, 110, 40, .25); }
+
+/* sticky save bar */
+.sen-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between;
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); background: rgba(14, 12, 8, .96); border-top: 1px solid #8f7424; }
+.sen-bar[hidden] { display: none; }
+.sen-bar .sum { font-size: var(--fs-cap); } .sen-bar .btns { display: flex; gap: 6px; } .sen-bar button { min-height: 38px; }
+
+/* character page box */
+.sen-cbox h3 { display: flex; align-items: center; }
+.sen-cbox .sen-tp { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 4px; }
+.sen-mini { display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-mini); }
+.sen-cbox .sen-ok { color: var(--ok); font-weight: 700; } .sen-cbox .sen-wait { color: var(--warn, #e0a040); }
+/* MANUAL-ONLY 2026-10-12 (user rule: enchanting is never automatic): badge + the per-skill "Enchant +N once" buttons */
+.sen-manual { display: inline-block; padding: 3px 8px; border-radius: 10px; border: 1px solid var(--line2); color: var(--muted); font: 700 var(--fs-cap) Tahoma, Verdana, sans-serif; }
+.sen-act { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.sen-act button { min-height: 36px; }
+.sen-act button[disabled] { opacity: .5; cursor: not-allowed; }

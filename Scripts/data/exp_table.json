@@ -1,0 +1,756 @@
+{
+ "_about": "H5 experience table: total = exp at which the level starts (level 1 = 0), next = total of the next level, toNext = exp in the level bar. Level L while total(L) <= Exp < total(L+1); exp % = (Exp - total(L)) * 100 / toNext(L) (= L2Swarm CalculateExpPercents). Built by docs/plan/tools/exp_table.js.",
+ "_updated": "2026-10-12T14:39:18.573Z",
+ "maxLevel": 85,
+ "tags": {
+  "GUIDE": "forum topic 214 (levels 1-85)",
+  "DATAPACK": "L2J High Five expData.json (levels 1-87)",
+  "L2SWARM": "table compiled into L2Swarm.Core.dll, used by Me.ExpPercent / CalculateExpPercents (levels 1-87)",
+  "INFERRED": "computed from the above"
+ },
+ "sources": {
+  "forum": {
+   "url": "https://community.lineage2toggle.com/index.php?/topic/214-lineage-2-high-five-experience-table/",
+   "topic": 214,
+   "author": "Mantosh (Toggle Staff/Collaborator)",
+   "posted": "2020-08-08",
+   "replies": 0,
+   "pages": 1,
+   "levels": "1-85"
+  },
+  "datapack": {
+   "repo": "github.com/Shagooh/l2j-server-datapack",
+   "file": "src/main/resources/data/stats/expData.json",
+   "commit": "03897cc4ee42361304fb5a96e59bb7fba174c0a8",
+   "levels": "1-87"
+  },
+  "l2swarm": {
+   "file": "L2Swarm.Core.dll",
+   "method": "L2Swarm.Entities.L2User.A(int) (switch, A(n) = start of level n+1), used by CalculateExpPercents() / ExpPercent",
+   "levels": "1-87"
+  }
+ },
+ "checks": {
+  "forum": {
+   "at": "2026-10-12T14:39:18.569Z",
+   "rows": 85,
+   "mismatches": [],
+   "onlyInTable": [
+    86,
+    87
+   ],
+   "onlyInSource": [],
+   "equal": true
+  },
+  "l2swarm": {
+   "at": "2026-10-12T14:39:18.572Z",
+   "rows": 87,
+   "mismatches": [],
+   "onlyInTable": [],
+   "onlyInSource": [],
+   "equal": true
+  },
+  "datapack": {
+   "at": "2026-10-12T14:39:18.572Z",
+   "rows": 87,
+   "commit": "03897cc4ee42361304fb5a96e59bb7fba174c0a8",
+   "note": "the levels are built from this source"
+  }
+ },
+ "differences": [
+  "None in the values: forum, datapack and L2Swarm agree on every level they share.",
+  "Scope only: the forum lists levels 1-85; the datapack and L2Swarm also have 86 (16,890,558,728 = end of the level-85 bar, max level 85) and 87 (21,138,534,249, unused).",
+  "Game client (C:/Lineage2/system): no copy of the table found in plain *.dll/*.exe/*.u/*.int (searched as int32/int64/double/text); the *.dat files are encrypted (Lineage2Ver413), so a copy inside them was not checked.",
+  "Server rates (docs/plan/server_features_kain.md: XP x1, +30 % premium, +50 % vitality, +20 % recommendation) change how fast exp comes, not the table."
+ ],
+ "observations_INFERRED": [
+  "The level bar jumps at 50 (x1.6), 55, 60, 65, 71, 76 (x1.73) and 79 (x1.94).",
+  "Level 76 -> 77 = 220,000,006 exp; 77 -> 78 = exactly 360,000,000."
+ ],
+ "total": {
+  "1": 0,
+  "2": 68,
+  "3": 363,
+  "4": 1168,
+  "5": 2884,
+  "6": 6038,
+  "7": 11287,
+  "8": 19423,
+  "9": 31378,
+  "10": 48229,
+  "11": 71202,
+  "12": 101677,
+  "13": 141193,
+  "14": 191454,
+  "15": 254330,
+  "16": 331867,
+  "17": 426288,
+  "18": 540000,
+  "19": 675596,
+  "20": 835862,
+  "21": 1023784,
+  "22": 1242546,
+  "23": 1495543,
+  "24": 1786379,
+  "25": 2118876,
+  "26": 2497077,
+  "27": 2925250,
+  "28": 3407897,
+  "29": 3949754,
+  "30": 4555796,
+  "31": 5231246,
+  "32": 5981576,
+  "33": 6812513,
+  "34": 7730044,
+  "35": 8740422,
+  "36": 9850166,
+  "37": 11066072,
+  "38": 12395215,
+  "39": 13844951,
+  "40": 15422929,
+  "41": 17137087,
+  "42": 18995665,
+  "43": 21007203,
+  "44": 23180550,
+  "45": 25524868,
+  "46": 28049635,
+  "47": 30764654,
+  "48": 33680052,
+  "49": 36806289,
+  "50": 40154162,
+  "51": 45525133,
+  "52": 51262490,
+  "53": 57383988,
+  "54": 63907911,
+  "55": 70853089,
+  "56": 80700831,
+  "57": 91162654,
+  "58": 102265881,
+  "59": 114038596,
+  "60": 126509653,
+  "61": 146308200,
+  "62": 167244337,
+  "63": 189364894,
+  "64": 212717908,
+  "65": 237352644,
+  "66": 271975263,
+  "67": 308443198,
+  "68": 346827154,
+  "69": 387199547,
+  "70": 429634523,
+  "71": 474207979,
+  "72": 532694979,
+  "73": 606322775,
+  "74": 696381369,
+  "75": 804225364,
+  "76": 931275828,
+  "77": 1151275834,
+  "78": 1511275834,
+  "79": 2044287599,
+  "80": 3075966164,
+  "81": 4295351949,
+  "82": 5766985062,
+  "83": 7793077345,
+  "84": 10235368963,
+  "85": 13180481103,
+  "86": 16890558728,
+  "87": 21138534249
+ },
+ "levels": [
+  {
+   "level": 1,
+   "total": 0,
+   "next": 68,
+   "toNext": 68,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 2,
+   "total": 68,
+   "next": 363,
+   "toNext": 295,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 3,
+   "total": 363,
+   "next": 1168,
+   "toNext": 805,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 4,
+   "total": 1168,
+   "next": 2884,
+   "toNext": 1716,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 5,
+   "total": 2884,
+   "next": 6038,
+   "toNext": 3154,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 6,
+   "total": 6038,
+   "next": 11287,
+   "toNext": 5249,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 7,
+   "total": 11287,
+   "next": 19423,
+   "toNext": 8136,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 8,
+   "total": 19423,
+   "next": 31378,
+   "toNext": 11955,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 9,
+   "total": 31378,
+   "next": 48229,
+   "toNext": 16851,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 10,
+   "total": 48229,
+   "next": 71202,
+   "toNext": 22973,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 11,
+   "total": 71202,
+   "next": 101677,
+   "toNext": 30475,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 12,
+   "total": 101677,
+   "next": 141193,
+   "toNext": 39516,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 13,
+   "total": 141193,
+   "next": 191454,
+   "toNext": 50261,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 14,
+   "total": 191454,
+   "next": 254330,
+   "toNext": 62876,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 15,
+   "total": 254330,
+   "next": 331867,
+   "toNext": 77537,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 16,
+   "total": 331867,
+   "next": 426288,
+   "toNext": 94421,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 17,
+   "total": 426288,
+   "next": 540000,
+   "toNext": 113712,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 18,
+   "total": 540000,
+   "next": 675596,
+   "toNext": 135596,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 19,
+   "total": 675596,
+   "next": 835862,
+   "toNext": 160266,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 20,
+   "total": 835862,
+   "next": 1023784,
+   "toNext": 187922,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 21,
+   "total": 1023784,
+   "next": 1242546,
+   "toNext": 218762,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 22,
+   "total": 1242546,
+   "next": 1495543,
+   "toNext": 252997,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 23,
+   "total": 1495543,
+   "next": 1786379,
+   "toNext": 290836,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 24,
+   "total": 1786379,
+   "next": 2118876,
+   "toNext": 332497,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 25,
+   "total": 2118876,
+   "next": 2497077,
+   "toNext": 378201,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 26,
+   "total": 2497077,
+   "next": 2925250,
+   "toNext": 428173,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 27,
+   "total": 2925250,
+   "next": 3407897,
+   "toNext": 482647,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 28,
+   "total": 3407897,
+   "next": 3949754,
+   "toNext": 541857,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 29,
+   "total": 3949754,
+   "next": 4555796,
+   "toNext": 606042,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 30,
+   "total": 4555796,
+   "next": 5231246,
+   "toNext": 675450,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 31,
+   "total": 5231246,
+   "next": 5981576,
+   "toNext": 750330,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 32,
+   "total": 5981576,
+   "next": 6812513,
+   "toNext": 830937,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 33,
+   "total": 6812513,
+   "next": 7730044,
+   "toNext": 917531,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 34,
+   "total": 7730044,
+   "next": 8740422,
+   "toNext": 1010378,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 35,
+   "total": 8740422,
+   "next": 9850166,
+   "toNext": 1109744,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 36,
+   "total": 9850166,
+   "next": 11066072,
+   "toNext": 1215906,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 37,
+   "total": 11066072,
+   "next": 12395215,
+   "toNext": 1329143,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 38,
+   "total": 12395215,
+   "next": 13844951,
+   "toNext": 1449736,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 39,
+   "total": 13844951,
+   "next": 15422929,
+   "toNext": 1577978,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 40,
+   "total": 15422929,
+   "next": 17137087,
+   "toNext": 1714158,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 41,
+   "total": 17137087,
+   "next": 18995665,
+   "toNext": 1858578,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 42,
+   "total": 18995665,
+   "next": 21007203,
+   "toNext": 2011538,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 43,
+   "total": 21007203,
+   "next": 23180550,
+   "toNext": 2173347,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 44,
+   "total": 23180550,
+   "next": 25524868,
+   "toNext": 2344318,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 45,
+   "total": 25524868,
+   "next": 28049635,
+   "toNext": 2524767,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 46,
+   "total": 28049635,
+   "next": 30764654,
+   "toNext": 2715019,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 47,
+   "total": 30764654,
+   "next": 33680052,
+   "toNext": 2915398,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 48,
+   "total": 33680052,
+   "next": 36806289,
+   "toNext": 3126237,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 49,
+   "total": 36806289,
+   "next": 40154162,
+   "toNext": 3347873,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 50,
+   "total": 40154162,
+   "next": 45525133,
+   "toNext": 5370971,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 51,
+   "total": 45525133,
+   "next": 51262490,
+   "toNext": 5737357,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 52,
+   "total": 51262490,
+   "next": 57383988,
+   "toNext": 6121498,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 53,
+   "total": 57383988,
+   "next": 63907911,
+   "toNext": 6523923,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 54,
+   "total": 63907911,
+   "next": 70853089,
+   "toNext": 6945178,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 55,
+   "total": 70853089,
+   "next": 80700831,
+   "toNext": 9847742,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 56,
+   "total": 80700831,
+   "next": 91162654,
+   "toNext": 10461823,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 57,
+   "total": 91162654,
+   "next": 102265881,
+   "toNext": 11103227,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 58,
+   "total": 102265881,
+   "next": 114038596,
+   "toNext": 11772715,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 59,
+   "total": 114038596,
+   "next": 126509653,
+   "toNext": 12471057,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 60,
+   "total": 126509653,
+   "next": 146308200,
+   "toNext": 19798547,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 61,
+   "total": 146308200,
+   "next": 167244337,
+   "toNext": 20936137,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 62,
+   "total": 167244337,
+   "next": 189364894,
+   "toNext": 22120557,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 63,
+   "total": 189364894,
+   "next": 212717908,
+   "toNext": 23353014,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 64,
+   "total": 212717908,
+   "next": 237352644,
+   "toNext": 24634736,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 65,
+   "total": 237352644,
+   "next": 271975263,
+   "toNext": 34622619,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 66,
+   "total": 271975263,
+   "next": 308443198,
+   "toNext": 36467935,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 67,
+   "total": 308443198,
+   "next": 346827154,
+   "toNext": 38383956,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 68,
+   "total": 346827154,
+   "next": 387199547,
+   "toNext": 40372393,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 69,
+   "total": 387199547,
+   "next": 429634523,
+   "toNext": 42434976,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 70,
+   "total": 429634523,
+   "next": 474207979,
+   "toNext": 44573456,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 71,
+   "total": 474207979,
+   "next": 532694979,
+   "toNext": 58487000,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 72,
+   "total": 532694979,
+   "next": 606322775,
+   "toNext": 73627796,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 73,
+   "total": 606322775,
+   "next": 696381369,
+   "toNext": 90058594,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 74,
+   "total": 696381369,
+   "next": 804225364,
+   "toNext": 107843995,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 75,
+   "total": 804225364,
+   "next": 931275828,
+   "toNext": 127050464,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 76,
+   "total": 931275828,
+   "next": 1151275834,
+   "toNext": 220000006,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 77,
+   "total": 1151275834,
+   "next": 1511275834,
+   "toNext": 360000000,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 78,
+   "total": 1511275834,
+   "next": 2044287599,
+   "toNext": 533011765,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 79,
+   "total": 2044287599,
+   "next": 3075966164,
+   "toNext": 1031678565,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 80,
+   "total": 3075966164,
+   "next": 4295351949,
+   "toNext": 1219385785,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 81,
+   "total": 4295351949,
+   "next": 5766985062,
+   "toNext": 1471633113,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 82,
+   "total": 5766985062,
+   "next": 7793077345,
+   "toNext": 2026092283,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 83,
+   "total": 7793077345,
+   "next": 10235368963,
+   "toNext": 2442291618,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 84,
+   "total": 10235368963,
+   "next": 13180481103,
+   "toNext": 2945112140,
+   "tag": "GUIDE+DATAPACK+L2SWARM"
+  },
+  {
+   "level": 85,
+   "total": 13180481103,
+   "next": 16890558728,
+   "toNext": 3710077625,
+   "tag": "total GUIDE+DATAPACK+L2SWARM; next/toNext DATAPACK+L2SWARM (row 86, the forum stops at 85)"
+  }
+ ]
+}

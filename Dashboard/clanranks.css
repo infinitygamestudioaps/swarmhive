@@ -1,0 +1,32 @@
+/* CLAN NOBILITY RANKS (Dashboard/clanranks.js, user 2026-10-12) — phone first (390 px, no horizontal page scroll; wide tables scroll inside) */
+.crk { min-width: 0; overflow-wrap: anywhere; }
+.crk .crk-head { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: baseline; margin-bottom: 8px; }
+.crk .crk-now { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px; }
+.crk .crk-card { border: 1px solid var(--line, #3b382f); border-radius: 6px; padding: 6px 8px; min-width: 0; }
+.crk .crk-card.crk-wide { grid-column: 1 / -1; font-size: var(--fs-cap, 12px); }
+.crk .crk-rank { font-size: 18px; font-weight: 700; color: var(--gold, #e3c27a); }
+.crk .crk-h { margin: 12px 0 4px; font-size: 14px; color: var(--gold, #e3c27a); }
+.crk .crk-req { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; border-bottom: 1px solid var(--line, #3b382f); min-width: 0; }
+.crk .crk-req:last-of-type { border-bottom: 0; }
+.crk .crk-reqtxt { flex: 1 1 auto; min-width: 0; }
+.crk .crk-num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.crk .crk-chip { flex: none; display: inline-block; min-width: 54px; text-align: center; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 10px; border: 1px solid currentColor; }
+.crk .crk-chip.ok { color: var(--ok, #86cf6e); }
+.crk .crk-chip.bad { color: var(--bad, #ec6a55); }
+.crk .crk-chip.unk { color: var(--warn, #e9b949); }
+.crk .crk-list { margin: 4px 0; padding-left: 18px; }
+.crk .crk-list li { margin: 2px 0; }
+.crk .crk-src { font-size: var(--fs-cap, 12px); margin-top: 4px; }
+.crk .crk-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+.crk .crk-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.crk .crk-tbl th, .crk .crk-tbl td { padding: 3px 5px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line, #3b382f); }
+.crk .crk-ladder td, .crk .crk-ladder th { white-space: nowrap; }
+.crk .crk-ladder tr.crk-cur td { background: rgba(227, 194, 122, .12); outline: 1px solid var(--gold, #e3c27a); }
+.crk .crk-diff { color: var(--warn, #e9b949); cursor: help; }
+.crk details.crk-fold { border: 1px solid var(--line, #3b382f); border-radius: 6px; margin: 8px 0; padding: 0 8px; min-width: 0; }
+.crk details.crk-fold > summary { cursor: pointer; padding: 8px 0; font-weight: 700; }
+.crk details.crk-fold[open] > summary { border-bottom: 1px solid var(--line, #3b382f); margin-bottom: 6px; }
+.crk .crk-mem { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; padding-bottom: 6px; }
+.crk .crk-mrow { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: baseline; padding: 3px 0; border-bottom: 1px solid var(--line, #3b382f); }
+.crk .crk-mrank { margin-left: auto; font-weight: 700; color: var(--gold, #e3c27a); }
+@media (min-width: 720px) { .crk .crk-now { grid-template-columns: 1fr 1fr 2fr; } .crk .crk-card.crk-wide { grid-column: auto; } }

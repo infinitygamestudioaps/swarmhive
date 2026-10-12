@@ -83,6 +83,7 @@ function translate(text) {
     [/^(park|parker|wait at( the)? (grocer|grocery|shop)|vent ved grocer) ?(grocer|warehouse|weapons|start)?/, (m) => '!park ' + (m[4] || 'grocer')],
     [/^(class ?change|klasseskift|change class|profession)/, () => '!classchange'],
     [/^(forward drop)\s+(on|off)$/, (m) => `!cabinet Forward Drop ${m[2]}`],
+    [/^(auto ?level(ing)?|level(ing)?)\s+(stop|off)\b/, () => '!autolevel stop'],   // CMDFIX2-2026-10-12: "autolevel stop" STARTED leveling (the rule below matched first)
     [/^(level|auto ?level|grind|farm xp|lvl)/, () => '!level'],
     [/^(kill|dræb|do|fight)\s+(the\s+)?raid ?boss\s+(.+)$/, (m) => `!mission raid ${m[3]}`],
     [/^(raid|mission raid)\s+(.+)$/, (m) => `!mission raid ${m[2]}`],
@@ -106,7 +107,15 @@ function translate(text) {
 }
 
 function tail(file, n) {
-  try { return fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean).slice(-n); } catch (e) { return []; }
+  // 2026-10-12: read only the end of the file (swarm_buffs.log is 87 MB; /api/state read all of it every 4 s per browser = ~2 s per call)
+  try {
+    const st = fs.statSync(file), want = Math.min(st.size, Math.max(65536, n * 1024));
+    const fd = fs.openSync(file, 'r'), buf = Buffer.alloc(want);
+    try { fs.readSync(fd, buf, 0, want, st.size - want); } finally { fs.closeSync(fd); }
+    let lines = buf.toString('utf8').split(/\r?\n/);
+    if (want < st.size) lines = lines.slice(1);   // the first line may be cut in half
+    return lines.filter(Boolean).slice(-n);
+  } catch (e) { return []; }
 }
 /** Scripts/data/field_areas.json (docs/plan/tools/field_areas.js), cached by its modification time (FIELD AREAS 2026-10-08 22:45) */
 let FA_CACHE = { mt: 0, j: null };
@@ -117,6 +126,20 @@ function readJson(file, fallback) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '')); } catch (e) { return fallback; }
 }
 
+/** RECONNECT BRAKE STATUS (user 2026-10-10: "I don't see any status on when they will try again or why they are not in"): the brake
+ *  (docs/plan/tools/l2swarm_ctl.ps1, MemWatch task every 2 min) writes Logs/reconnect_brake.json { active, phase, why, chars, nextTry,
+ *  offlineSince, stoppedAt, lastProbe, round, doneAt } + "brake:" lines in Logs/l2swarm_ctl.log. -> { phase, why, chars, nextTry, ..., history }
+ *  phase: '' (nothing) | watching | paused | refused | testing | testFailed | serverDown | reopening; done = everyone back (doneAt < 15 min ago) */
+function brakeStatus() {
+  const b = readJson(path.join(LOGS, 'reconnect_brake.json'), {}) || {};
+  const hist = tail(path.join(LOGS, 'l2swarm_ctl.log'), 40).filter(l => / brake/.test(l)).slice(-8)
+    .filter(l => { const m = l.match(/^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)/); return m && Date.now() - new Date(m[1].replace(' ', 'T')).getTime() < 3 * 3600000; });
+  let phase = String(b.phase || (b.active ? 'paused' : b.offlineSince ? 'watching' : ''));
+  if (!phase && b.doneAt && Date.now() - new Date(b.doneAt).getTime() < 15 * 60000) phase = 'done';
+  const chars = Array.isArray(b.chars) ? b.chars.filter(Boolean) : (Array.isArray(b.closed) ? b.closed.map(p => String(p).replace(/^.*[\\/]/, '').replace(/\.xml$/i, '')) : []);
+  return { phase, why: b.why || '', chars, nextTry: b.nextTry || null, offlineSince: b.offlineSince || null, stoppedAt: b.stoppedAt || null,
+    round: b.round || 0, lastProbe: b.lastProbe || null, doneAt: b.doneAt || null, history: hist };
+}
 /** Teams (character -> party leader): swarm.config.json accounts[].party (the source of truth, as in swarm.js SWARM_CFG), plus the
  *  hardcoded swarm.js CONFIG.teams for names the config does not have; everyone else follows the main leader. */
 function teamMap() {
@@ -214,12 +237,16 @@ setInterval(soulWriteTargets, 60000); setTimeout(soulWriteTargets, 5000);
 const CLAN_DISPATCH_F = path.join(LOGS, 'clan_dispatch.json');
 async function clanDispatch() {
   try {
-    const cq = readJson(path.join(DATA, 'clan_quests.json'), null); if (!cq || !cq.clan || !(cq.clan.activeQuests || []).length) return;
+    // CLANAUTO 2026-10-12: switch clan.auto.questDispatch (Clan tab) + questActivate (every quest the clan level allows counts as active)
+    const CA = require('./clanauto_api');
+    const cq = readJson(path.join(DATA, 'clan_quests.json'), null); if (!cq || !cq.clan || !CA.autoOn(cq, 'questDispatch')) return;
+    if (!(cq.clan.activeQuests || []).length && !CA.autoOn(cq, 'questActivate')) return;
     const r = await fetch(SELF + '/api/clan'); const c = await r.json();
+    const activeQ = CA.activeQuests(cq, CA.clanLevelOf(c.state, cq)); if (!activeQ.length) return;
     const sent = readJson(CLAN_DISPATCH_F, {}); const chars = readStates();
     const busy = (leader) => { const st = chars.find(x => x.name === leader); return st && /raid|mission/i.test(String(st.mode || '')); };
     for (const b of c.bosses || []) {
-      if (!(cq.clan.activeQuests || []).map(String).includes(String(b.quest)) || b.alive === false) continue;
+      if (!activeQ.includes(String(b.quest)) || b.alive === false) continue;
       if (sent[b.id] && Date.now() - Date.parse(sent[b.id].at) < 6 * 3600e3) continue;
       const fit = (b.fit || []).find(f => f.ok && !busy(f.team)); if (!fit) continue;
       const post = (cmd, target) => fetch(SELF + '/api/command', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ cmd, target }) }).then(x => x.json()).catch(e => ({ error: String(e) }));
@@ -233,6 +260,8 @@ async function clanDispatch() {
   } catch (e) { }
 }
 setInterval(clanDispatch, 10 * 60000);
+// CLANAUTO 2026-10-12: the clan level quest dispatcher (clan.auto.levelQuests, default OFF) — Dashboard/clanauto_api.js start()
+setTimeout(() => { try { require('./clanauto_api').start({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, commandRun }); } catch (e) { console.error('clanauto', e.message); } }, 5000);
 
 function readStates() {
   const teams = teamMap();
@@ -898,11 +927,26 @@ async function waitInGame(sel, name, ms) {
   }
   return null;
 }
-async function scripts(sel, action) {   // 'stop' every enabled script / 'start' swarm.js again
+// BRAIN CHARACTERS (engine audit #31, 2026-10-12): 'start' starts again exactly what 'stop' stopped on that account. A character that runs
+// in the brain host has agent2.js (not swarm.js) enabled; starting swarm.js after a transfer drove it twice (its brain context + swarm.js
+// inside L2Swarm) and left its agent off. swarm.js is started only when nothing was recorded (old behaviour, e.g. a dashboard restart).
+const SCRIPTS_STOPPED = new Map();   // JSON(selector) -> Set(script names stopped by scripts(sel, 'stop'))
+async function scripts(sel, action) {   // 'stop' every enabled script / 'start' what was stopped (default swarm.js)
   const l = await mcpJ('manage_account_scripts', { ...sel, action: 'list' });
-  for (const sc of (l.scripts || [])) {
-    if (action === 'stop' && sc.enabled) await mcpJ('manage_account_scripts', { ...sel, action: 'stop', script_name: sc.name });
-    if (action === 'start' && sc.name === 'swarm.js' && !sc.enabled) await mcpJ('manage_account_scripts', { ...sel, action: 'start', script_name: 'swarm.js' });
+  const key = JSON.stringify(sel), list = l.scripts || [];
+  if (action === 'stop') {
+    const set = SCRIPTS_STOPPED.get(key) || new Set();
+    for (const sc of list) if (sc.enabled) { await mcpJ('manage_account_scripts', { ...sel, action: 'stop', script_name: sc.name }); set.add(sc.name); }
+    if (set.size) SCRIPTS_STOPPED.set(key, set);
+    return;
+  }
+  if (action === 'start') {
+    const rec = SCRIPTS_STOPPED.get(key); SCRIPTS_STOPPED.delete(key);
+    // nothing recorded (the job failed before it paused this account, e.g. the receiver never reached Giran) and its brain agent is still
+    // running: never start swarm.js next to it (review 2026-10-12: the default drove a brain receiver twice)
+    if (!rec && list.some(sc => sc.enabled && /^agent2(_[A-Za-z0-9]+)?\.js$/i.test(sc.name))) return;
+    const want = rec || new Set(['swarm.js']);
+    for (const sc of list) if (want.has(sc.name) && !sc.enabled) await mcpJ('manage_account_scripts', { ...sel, action: 'start', script_name: sc.name });
   }
 }
 
@@ -1262,6 +1306,9 @@ function routeApi(b, qid) {
   const keep = () => { if (cur) fs.copyFileSync(file, path.join(ROUTES, 'history', `${id}_${Date.now()}.json`)); };   // every change keeps the old version
   const write = (o) => { const tmp = file + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(o), 'utf8'); fs.renameSync(tmp, file); };
   if (b.action === 'delete') { if (cur) { keep(); fs.unlinkSync(file); } return { ...info, route: null, msg: 'deleted — the bots record a new walk next time' }; }
+  // ROUTE USE (user 2026-10-12): which path the bots take when both exist: 'atlas' (nav atlas computed path) | 'custom' (this saved route); '' = default
+  // (custom when locked / manual, else atlas). Read by swarm.js raid travel (patches/swarm_patches_2026-10-12/patch_routeuse.js).
+  if (b.action === 'use') { if (!cur) return { error: 'no saved route for this boss: the bots use the computed path' }; keep(); if (b.use === 'atlas' || b.use === 'custom') cur.use = b.use; else delete cur.use; cur.editedAt = new Date().toISOString(); write(cur); return { ...info, route: cur, msg: cur.use ? `the bots now use the ${cur.use === 'atlas' ? 'computed path (nav atlas)' : 'saved route'}` : 'default: ' + (cur.manual ? 'the saved route (locked)' : 'the computed path') }; }
   if (b.action === 'unlock' || b.action === 'lock') { if (!cur) return { error: 'no route saved for this boss' }; keep(); cur.manual = b.action === 'lock'; cur.editedAt = new Date().toISOString(); write(cur); return { ...info, route: cur }; }
   // save: points [{x,y,z}] (2..500, numbers), landing text = the teleport the bots use to get there (must match, or the route is not used)
   const pts = Array.isArray(b.points) ? b.points.map(p => { const o = { x: Math.round(+p.x), y: Math.round(+p.y), z: Math.round(+p.z) }; if (+p.layer > 0 && +p.layer < 10) o.layer = Math.round(+p.layer); return o; }) : [];
@@ -1279,6 +1326,7 @@ function routeApi(b, qid) {
   keep();
   const now = new Date().toISOString();
   const o = { boss: boss.name, id: boss.id, landing, start, length: routeLen(pts), points: pts, savedAt: (cur && cur.savedAt) || now, editedAt: now, uses: (cur && cur.uses) || 0, lastOk: (cur && cur.lastOk) || null, fails: 0, manual: b.manual !== false };
+  { const u = b.use !== undefined ? b.use : cur && cur.use; if (u === 'atlas' || u === 'custom') o.use = u; }   // ROUTE USE kept across saves
   write(o);
   return { ...info, route: o, msg: o.manual ? 'saved and locked — the bots use exactly this route' : 'saved' };
 }
@@ -1358,21 +1406,61 @@ const MINI = {};                                   // region -> promise while it
 const QUEST_ITEMS = new Set((() => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'questitems.json'), 'utf8')); } catch (e) { return []; } })());
 const supervisor = { last: {} };
 function supLog(m) { try { fs.appendFileSync(path.join(LOGS, 'supervisor.log'), new Date().toISOString() + ' ' + m + '\r\n'); } catch (e) { } }
+// SUPBRAIN-PURE start (engine audit #32, 2026-10-12; test docs/plan/tools/test_engine_ops.js)
+// What the supervisor does with one character. A BRAIN character (Scripts/data/brain_host.json allow list) is driven by Dashboard/brain_host;
+// its swarm.js inside L2Swarm is only STOPPED (still attached, DESIGN §12 4a), so 'start swarm.js' there would make two swarm.js drive one
+// character as soon as the brain is back (double orders / teleports / trades, two writers of its Logs files). For brain characters the pool is
+// asked instead: 'revive' (IPC: restart the worker of its party; refused while quarantined -> alert) or, for a pool without IPC (started by an
+// older dashboard), a pool restart at most once per 15 min. Never the L2Swarm memory guard / 6-per-hour budget: no L2Swarm engine is built.
+// c: { name, ageSec, asyncAge }   x: { now, manual, last, recent[], l2mb, brain: { on, allow[] }, bh: { running, ipc }, lastPoolKill }
+// -> { act: 'none' | 'log' | 'revive' | 'restartPool' | 'restartScript', mark (set last[name]), brain, why }
+function supDecide(c, x) {
+  const dead = c.ageSec >= 90 || (c.ageSec < 30 && c.asyncAge >= 90);   // file stale, or timers alive but async chains dead
+  if (!dead || c.ageSec > 6 * 3600) return { act: 'none' };             // healthy, or long offline
+  if (x.manual) return { act: 'none' };                                  // the user plays this character by hand (2026-10-10)
+  if (x.now - (x.last || 0) < 300000) return { act: 'none' };            // max one action per 5 min per bot
+  const brain = !!(x.brain && x.brain.on && (x.brain.allow || []).indexOf(c.name) >= 0);
+  if (brain) {
+    if (!x.bh || !x.bh.running) return { act: 'log', mark: true, brain, why: c.name + ': brain character, state ' + c.ageSec + ' s old, brain host not running (the dashboard restarts it) — NOT starting swarm.js inside L2Swarm' };
+    if (x.bh.ipc) return { act: 'revive', mark: true, brain };
+    if (x.now - (x.lastPoolKill || 0) < 900000) return { act: 'log', mark: true, brain, why: c.name + ': brain character, state ' + c.ageSec + ' s old; brain pool restarted < 15 min ago — waiting (NOT starting swarm.js inside L2Swarm)' };
+    return { act: 'restartPool', mark: true, brain };
+  }
+  const recent = (x.recent || []).filter(t => x.now - t < 3600e3);
+  if (recent.length >= 6) return { act: 'log', mark: true, why: c.name + ': dead, but 6 restarts in the last hour already — skipping (memory)' };
+  if (x.l2mb > 3000) return { act: 'log', mark: true, why: c.name + ': dead, but L2Swarm uses ' + x.l2mb + ' MB — not restarting scripts' };
+  return { act: 'restartScript', mark: true };
+}
+// SUPBRAIN-PURE end
 setInterval(async () => {
   if (fs.existsSync(path.join(LOGS, 'pause_supervisor'))) return;   // user stopped the bots on purpose: never restart their scripts
+  const brainCfg = bhCfg(), bh = { running: !!bhProc, ipc: !!(bhProc && bhProc.connected) };
   for (const c of readStates()) {
     const asyncAge = c.asyncBeat ? Math.round((Date.now() - Date.parse(c.asyncBeat)) / 1000) : 0;
-    const dead = c.ageSec >= 90 || (c.ageSec < 30 && asyncAge >= 90);   // file stale, or timers alive but async chains dead
-    if (!dead || c.ageSec > 6 * 3600) continue;                          // healthy, or long offline
-    if (Date.now() - (supervisor.last[c.name] || 0) < 300000) continue;   // max one restart per 5 min per bot
     supervisor.recent = (supervisor.recent || []).filter(t => Date.now() - t < 3600e3);
-    if (supervisor.recent.length >= 6) { supLog(c.name + ': dead, but 6 restarts in the last hour already — skipping (memory)'); supervisor.last[c.name] = Date.now(); continue; }
-    if (SYS.l2 && SYS.l2.mb > 3000) { supLog(c.name + ': dead, but L2Swarm uses ' + SYS.l2.mb + ' MB — not restarting scripts'); supervisor.last[c.name] = Date.now(); continue; }
-    supervisor.last[c.name] = Date.now();
-    supervisor.recent.push(Date.now());
+    const d = supDecide({ name: c.name, ageSec: c.ageSec, asyncAge }, { now: Date.now(), manual: fs.existsSync(path.join(LOGS, 'manual_' + c.name)), last: supervisor.last[c.name],
+      recent: supervisor.recent, l2mb: SYS.l2 ? SYS.l2.mb : 0, brain: brainCfg, bh, lastPoolKill: supervisor.lastPoolKill || 0 });
+    if (d.act === 'none') continue;
+    if (d.mark) supervisor.last[c.name] = Date.now();
+    if (d.act === 'log') { supLog(d.why); continue; }
+    if (d.act === 'restartScript') supervisor.recent.push(Date.now());
     try {
       const st = JSON.parse(await mcpCall('get_account_status', { account_name: c.name }));
       if (!st.is_logged_in) { supLog(c.name + ': state ' + c.ageSec + ' s old, but not logged in — leaving it'); continue; }
+      if (d.act === 'revive') {
+        const r = await bhAsk({ k: 'revive', name: c.name, why: 'state ' + c.ageSec + ' s old' });
+        supLog(c.name + ': brain character, state ' + c.ageSec + ' s old while logged in — asked the brain pool to restart its party worker: ' + JSON.stringify(r));
+        if (r && r.why === 'quarantined') supLog('  ALERT: ' + c.name + ' is QUARANTINED in the brain (reflex-only until the pool restarts or swarm.js is redeployed) — see Logs/brain_host.log');
+        else if (r && r.why === 'agent not connected') supLog('  ALERT: ' + c.name + ' has no agent connected to the brain — is agent2.js running on its account?');
+        continue;
+      }
+      if (d.act === 'restartPool') {
+        if (!bhProc) continue;
+        supervisor.lastPoolKill = Date.now();
+        supLog(c.name + ': brain character, state ' + c.ageSec + ' s old while logged in; the brain pool has no IPC — restarting the brain pool (NOT swarm.js inside L2Swarm)');
+        try { bhProc.kill(); } catch (e) { supLog('  pool kill: ' + e.message); }
+        continue;
+      }
       supLog(c.name + ': script dead (state ' + c.ageSec + ' s, async ' + asyncAge + ' s) while logged in — restarting swarm.js');
       await mcpCall('manage_account_scripts', { account_name: c.name, action: 'stop', script_name: 'swarm.js' }).catch(e => supLog('  stop: ' + e.message));
       await new Promise(r => setTimeout(r, 3000));
@@ -1392,6 +1480,125 @@ function startGeoService() {
   } catch (e) { setTimeout(startGeoService, 30000); }
 }
 startGeoService();
+// DATA SERVICE (2026-10-12, central data for the script engines: slim files in Scripts/data/slim + TCP 127.0.0.1:8092): Dashboard/dataservice.js
+// as a child process like the path finder; restarted if it dies (an already running copy holds the port: the child exits 2, retry in 60 s)
+let dataSvc = null;
+function startDataService() {
+  try {
+    dataSvc = require('child_process').fork(path.join(__dirname, 'dataservice.js'), [], { stdio: 'ignore' });
+    dataSvc.on('exit', (code) => { dataSvc = null; setTimeout(startDataService, code === 2 ? 60000 : 5000); });
+  } catch (e) { setTimeout(startDataService, 30000); }
+}
+startDataService();
+// BRAIN (2026-10-12: tiny Scripts/agent.js per character + ONE central brain, Dashboard/brain.js, TCP 127.0.0.1:8093): a child like the data
+// service; restarting it is harmless (agents reconnect within ~3 s and keep their reflexes meanwhile). Control: Scripts/data/brain_parties.json
+// MIGRATE 1.6.0 (2026-10-13): stash_rules.json + spot_learned.json were shipped files up to v1.5.x and are YOUR data files from v1.6.0 on
+// (the package ships *.example.json). The v1.5.x update.ps1 that performs that update saves a changed copy to Logs\update_backup\<time>\ and
+// then creates the file from the example - put the user's copy back once (only while the file still equals the example).
+(function migrateSeeds160() {
+  try {
+    const B = path.join(LOGS, 'update_backup'), flag = path.join(LOGS, 'migrate_160_seeds.done');
+    if (fs.existsSync(flag) || !fs.existsSync(B)) return;
+    const dirs = fs.readdirSync(B).sort().reverse(), done = [];
+    for (const n of ['stash_rules.json', 'spot_learned.json']) {
+      const live = path.join(DATA, n), ex = path.join(DATA, n.replace(/\.json$/, '.example.json'));
+      if (fs.existsSync(live) && !(fs.existsSync(ex) && fs.readFileSync(live, 'utf8') === fs.readFileSync(ex, 'utf8'))) continue;
+      const d = dirs.find(x => fs.existsSync(path.join(B, x, 'Scripts', 'data', n)));
+      if (d) { fs.copyFileSync(path.join(B, d, 'Scripts', 'data', n), live); done.push(n + ' <- Logs/update_backup/' + d); }
+    }
+    fs.writeFileSync(flag, new Date().toISOString() + (done.length ? ' restored: ' + done.join(', ') : ' nothing to restore') + '\r\n');
+  } catch (e) { }
+})();
+let brainSvc = null;
+function startBrain() {
+  try {
+    brainSvc = require('child_process').fork(path.join(__dirname, 'brain.js'), [], { stdio: 'ignore' });
+    brainSvc.on('exit', (code) => { brainSvc = null; setTimeout(startBrain, code === 2 ? 60000 : 5000); });
+  } catch (e) { setTimeout(startBrain, 30000); }
+}
+startBrain();
+// BRAIN HOST (new engine, 2026-10-12; docs/plan/new_engine/DESIGN.md): the UNCHANGED swarm.js for the characters listed in
+// Scripts/data/brain_host.json runs here (Dashboard/brain_host/pool.js: one worker per party + watchdog, --bridge = App events to/from the
+// characters still running swarm.js inside L2Swarm). Their L2Swarm accounts only run Scripts/agent2.js (port 8094). Restarted if it dies and
+// when on / bridge / pool mode change (NOT when the list of characters changes: the pool follows the list live, see RESILIENCE below).
+// { "on": true, "allow": ["Spoiler6", ...], "bridge": true, "pool": true }
+const BH_FILE = path.join(DATA, 'brain_host.json');
+let bhProc = null, bhSig = '';
+const bhWaits = new Map(); let bhSeq = 0;
+/** one IPC question to the brain pool -> its answer, or null (no pool / no IPC / timeout) */
+function bhAsk(m, ms) {
+  return new Promise((r) => {
+    const p = bhProc; if (!p || !p.connected) return r(null);
+    const id = ++bhSeq; bhWaits.set(id, r);
+    try { p.send(Object.assign({ id }, m)); } catch (e) { bhWaits.delete(id); return r(null); }
+    setTimeout(() => { if (bhWaits.has(id)) { bhWaits.delete(id); r(null); } }, ms || 5000);
+  });
+}
+// RESILIENCE (engine audit #26/#35/#38, 2026-10-12; rules in Dashboard/brain_host/supervise.js): the pool re-reads brain_host.json itself
+// (--config, every 5 s), so adding / removing a character NEVER restarts the pool (the other parties keep running); only on / bridge / pool
+// mode / maxRssMb do. An unreadable brain_host.json keeps the last good config (was: {} = on:false = pool killed). A restart that is needed
+// WAITS while a brain party has a live raid / Kamaloka / epic (Logs/*_live_<party>.json < 30 s old; max 45 min). The pool writes
+// Logs/brain_host_stats.json every 10 s (GET /api/brainhost; pool RSS in perf_samples). "maxRssMb" in brain_host.json = the pool's memory
+// guard (alert; above it the biggest worker without a live fight is restarted, at most every 10 min). Default 3000.
+const BHS = require('./brain_host/supervise');
+const BH_STATS = path.join(LOGS, 'brain_host_stats.json');
+let bhLastCfg = null, bhDeferSince = 0, bhDeferLogAt = 0;
+function bhCfg() { const raw = readJson(BH_FILE, null); const c = BHS.readCfg(raw, bhLastCfg); if (raw) bhLastCfg = c; return c; }
+function bhFights(c) { try { const cfg = readJson(path.join(ROOT, 'swarm.config.json'), null) || {}; return BHS.liveFights(LOGS, BHS.fightKeys ? BHS.fightKeys(c.allow, cfg.accounts) : BHS.brainParties(c.allow, cfg.accounts), Date.now(), 30000); } catch (e) { return []; } }
+function startBrainHost() {
+  const c = bhCfg(); bhSig = BHS.restartSig(c);
+  if (!c.on) return;
+  // the DEPLOYED Scripts/swarm.js (engine audit #23/#33): the brain runs what L2Swarm runs; --watch-script reloads it after a deploy (party by party)
+  const args = ['--port', '8094', '--allow', c.allow.join(','), '--script', path.join(ROOT, 'Scripts', 'swarm.js')].concat(c.pool ? ['--watch-script', '5000'] : []).concat(c.bridge ? ['--bridge'] : [])
+    .concat(c.pool ? ['--config', BH_FILE, '--stats-file', BH_STATS, '--max-rss-mb', String(c.maxRssMb || 3000), '--mem-restart'] : []);
+  try {
+    // IPC channel: the supervisor asks the pool for health / revive (engine audit #32)
+    bhProc = require('child_process').spawn(process.execPath, [path.join(__dirname, 'brain_host', c.pool ? 'pool.js' : 'runner.js')].concat(args), { cwd: ROOT, stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true });
+    bhProc.on('message', (m) => { const f = m && bhWaits.get(m.id); if (f) { bhWaits.delete(m.id); f(m.v); } });
+    bhProc.on('error', () => { });
+    bhProc.on('exit', (code) => { bhProc = null; setTimeout(() => { if (!bhProc) startBrainHost(); }, code === 2 ? 60000 : 5000); });
+  } catch (e) { setTimeout(startBrainHost, 30000); }
+}
+setInterval(() => {
+  try {
+    const raw = readJson(BH_FILE, null); if (!raw) return;                 // unreadable / being written: keep everything as it is
+    const c = bhCfg(), fights = bhProc ? bhFights(c) : [];
+    const d = BHS.decide({ running: !!bhProc, sig: bhSig, cfg: c, fights, deferSince: bhDeferSince, maxDeferMs: 45 * 60000 });
+    if (d.act === 'defer') {
+      if (!bhDeferSince) bhDeferSince = Date.now();
+      if (Date.now() - bhDeferLogAt > 60000) { bhDeferLogAt = Date.now(); try { fs.appendFileSync(path.join(LOGS, 'brain_host.log'), `${new Date().toISOString()} [dashboard] brain_host.json changed (on / bridge / pool mode) — pool restart WAITS: ${d.why}\r\n`); } catch (e) { } }
+      return;
+    }
+    bhDeferSince = 0;
+    if (d.act === 'start') { if (d.sig !== bhSig) startBrainHost(); }      // (a crashed pool is restarted by its exit handler)
+    else if (d.act === 'restart' || d.act === 'stop') { const p = bhProc; bhProc = null; p.removeAllListeners('exit'); p.kill(); if (d.act === 'restart') setTimeout(startBrainHost, 3000); else bhSig = d.sig; }
+  } catch (e) { }
+}, 15000);
+startBrainHost();
+// PERF SAMPLES (user 2026-10-12: "how can you compare if you have no monitoring running?!"): every 2 min one line in Logs/perf_samples.jsonl —
+// L2Swarm memory, PC free memory, characters reporting, MB per reporting character, timer lag (median / p90 / max of every character's
+// tickLate), script engines blocked by L2Swarm's watchdog in the last 2 min, big data parsed (Logs/dataload_*.json). Compare runs with
+// docs/plan/tools/perf_compare.js "<start 1>" "<start 2>".
+function perfSample() {
+  try {
+    const { execFileSync } = require('child_process');
+    let mb = null, free = null;
+    try { const o = execFileSync('powershell', ['-NoProfile', '-Command', "$p=Get-Process L2Swarm -ErrorAction SilentlyContinue; if($p){[int]($p.PrivateMemorySize64/1MB)}else{0}; [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)"], { encoding: 'utf8', timeout: 20000 }).trim().split(/\s+/); mb = +o[0]; free = +o[1]; } catch (e) { }
+    const st = readStates(), rep = st.filter(s => s.ageSec < 60), lags = rep.map(s => Number(s.tickLate) || 0).sort((a, b) => a - b);
+    const q = (p) => lags.length ? lags[Math.min(lags.length - 1, Math.floor(lags.length * p))] : null;
+    let wd = 0; try { const t = fs.readFileSync(path.join(LOGS, 'LOG.log'), 'utf8').slice(-400000).split(/\r?\n/), lim = Date.now() - 120000; for (const l of t) { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+ .*ran JS for/.exec(l); if (m && new Date(m[1].replace(' ', 'T')).getTime() > lim) wd++; } } catch (e) { }
+    let parsed = 0, files = 0; try { for (const f of fs.readdirSync(LOGS)) { if (!/^dataload_.+\.json$/.test(f)) continue; const j = readJson(path.join(LOGS, f), null); if (!j || Date.now() - Date.parse(j.at) > 330000) continue; files++; (j.loads || []).forEach(x => { parsed += (x.kb || 0) * (x.n || 0); }); } } catch (e) { }
+    // brain characters run swarm.js in the brain pool, not in L2Swarm: L2Swarm MB per character counts only the others; the pool's own RSS
+    // (Logs/brain_host_stats.json) is logged next to it (engine audit #38, 2026-10-12)
+    const bhs = BHS.readStats(BH_STATS, 60000), bhSet = new Set((bhCfg().allow || []).map(String)), repL2 = rep.filter(s => !bhSet.has(String(s.name)));
+    const s = { at: new Date().toISOString(), l2swarmMB: mb, pcFreeMB: free, chars: st.length, reporting: rep.length, mbPerChar: mb && repL2.length ? Math.round(mb / repL2.length) : null,
+      lagMed: q(0.5), lagP90: q(0.9), lagMax: lags.length ? lags[lags.length - 1] : null, blocked2min: wd, parsedMB: files ? Math.round(parsed / 1000) : null,
+      brainChars: rep.length - repL2.length, brainHostMB: bhs && bhs.fresh ? bhs.rssMb : null, brainMbPerChar: bhs && bhs.fresh && rep.length - repL2.length ? Math.round(bhs.rssMb / (rep.length - repL2.length)) : null,
+      brainAlerts: bhs && bhs.fresh ? (bhs.alerts || []).filter(a => Date.now() - Date.parse(a.at) < 120000).length : null };
+    fs.appendFileSync(path.join(LOGS, 'perf_samples.jsonl'), JSON.stringify(s) + '\n');
+  } catch (e) { }
+}
+setTimeout(perfSample, 20000); setInterval(perfSample, 120000);
 // RAID LOG (user 2026-10-06 "record and document everything"): docs/plan/raid_log.md — kills, respawn timers, attempts, routes with waypoints
 const raidLogTool = path.join(ROOT, 'docs', 'plan', 'tools', 'raid_log.js');
 function rebuildRaidLog() { try { delete require.cache[require.resolve(raidLogTool)]; require(raidLogTool).build(); } catch (e) { console.error('raid log:', e.message); } }
@@ -1442,6 +1649,9 @@ function commandPlan(b, chars) {
   const kind = raw[0] === '!' ? 'swarm' : raw[0] === '/' ? 'bot' : raw[0] === '@' ? 'action' : '';
   if (kind === 'swarm' && !ALLOWED.includes(w)) return { code: 400, error: `${w} is not a swarm command (see docs/plan/dashboard_commands.md)` };
   if (kind === 'bot' && !CMDS.BOT_WORDS.includes(w)) return { code: 400, error: `${w} is not an L2Swarm chat command the dashboard sends` };
+  // CMDFIX2 botparty (2026-10-12): these are EXACT rules in L2Swarm.Core.dll; with extra text L2Swarm does not run them but says the whole
+  // line in PUBLIC chat ("/ignore Bob"), and MCP still answers OK. Same list in swarm.js cmdInboxPlan (file channel).
+  if (kind === 'bot' && BOT_EXACT.has(w) && raw.split(/\s+/).length > 1) return { code: 400, error: `${w} takes no arguments in L2Swarm (with extra text it says the whole line in public chat)` };
   if (kind === 'action' && !/^@(logout|login)$/.test(raw)) return { code: 400, error: 'dashboard actions: @logout | @login' };
   if (!kind) return { code: 400, error: 'a command starts with ! (swarm), / (L2Swarm) or @ (account)' };
   if (kind !== 'swarm' && /pass(word)?|<\s*password/i.test(raw)) return { code: 400, error: 'passwords are never read or set from the dashboard' };
@@ -1455,21 +1665,50 @@ function commandPlan(b, chars) {
   const spec = (kind === 'action' ? CMDS.COMMANDS.find(c => c.tpl === raw) : CMDS.classify(raw)) || null;
   const safety = spec ? spec.safety : 'confirm';
   const tg = cmdTargets(b, chars); if (tg.err) return { code: 400, error: tg.err };
+  // CMDFIX2 raid (2026-10-12): (a) a LEADER command to the clan goes once per party, from its leader — a clan member's line was dropped by
+  // its leader's window, so party Tank1's mission / raid hunt never stopped; (b) '!scout <boss> <name>' goes from the named character
+  // itself — party chat reaches only the target party, a character of another party never heard it
+  let scoutText = '';
+  if (kind === 'swarm' && spec && spec.handler === 'leader' && (Array.isArray(b.targets) && b.targets.length ? b.targets.map(String) : [String(b.target || '')]).includes('clan')) {
+    const viaClan = new Set(clanOf(chars).members.map(m => String(m).toLowerCase())), keep = [];
+    tg.names.forEach(n => { const c = chars.find(x => x.name === n); if (c && viaClan.has(String(n).toLowerCase())) { if (!tg.parties.includes(partyOf(c))) tg.parties.push(partyOf(c)); } else keep.push(n); });
+    tg.names = keep;
+  }
+  if (kind === 'swarm' && spec && spec.id === 'scout') {
+    const words = raw.split(/\s+/), last = words.length > 2 ? words[words.length - 1] : '';
+    const c = last && chars.find(x => String(x.name).toLowerCase() === last.toLowerCase());
+    if (c) { tg.parties = []; tg.names = [c.name]; tg.label = c.name + ' (the named scout)'; scoutText = words.slice(0, -1).concat(c.name).join(' '); }
+  }
+  // CMDFIX2 override (2026-10-12): '!ov <name> ...' is obeyed only by <name>'s window (swarm.js raidOverride), which hears only its own lines
+  // and its party leader's -> always sent from <name> itself (another picked target was reported "sent" while nobody acted); unknown name = error
+  if (kind === 'swarm' && w === '!ov') {
+    const who = raw.split(/\s+/)[1] || '', c = who && chars.find(x => String(x.name).toLowerCase() === who.toLowerCase());
+    if (!c) return { code: 400, error: `!ov: unknown character "${who}" — the name after !ov is the character who acts` };
+    const was = tg.label; tg.parties = []; tg.names = [c.name];
+    tg.label = c.name + (was && was !== c.name ? ` (the named character; picked: ${was})` : '');
+  }
+  // CMDFIX2 raid: catalog nameForChar (!delevel N / !delevel stop) -> a char:/chars: send carries the character's own name, so a party
+  // LEADER's line (heard by his whole party) is obeyed by his window only (before: delevelling one leader delevelled his whole party)
+  const nameText = (n) => scoutText || (spec && spec.nameForChar && raw.split(/\s+/).pop().toLowerCase() !== String(n).toLowerCase() ? raw + ' ' + n : raw);
   const live = (n) => { const c = chars.find(x => x.name === n); return !!(c && c.ageSec <= 30); };
   const sends = [];
   if (kind === 'swarm') {
     const seen = new Set();
-    const add = (from, note) => {
+    const add = (from, note, txt) => {
       if (seen.has(from)) return; seen.add(from);
+      const tx = txt || raw;
       const mates = chars.filter(c => partyOf(c) === partyOf(chars.find(x => x.name === from) || { name: from }));
       const solo = mates.length <= 1;   // no party: party chat never arrives -> normal chat, which its own window reads too (2026-10-07)
-      sends.push({ to: from, via: solo ? 'say' : 'party', text: solo ? raw : '#' + raw, online: live(from), note });
+      sends.push({ to: from, via: solo ? 'say' : 'party', text: solo ? tx : '#' + tx, online: live(from), note });
     };
     tg.parties.forEach(p => add(p, `party ${p}: ${chars.filter(c => partyOf(c) === p).length} characters hear it`));
-    tg.names.forEach(n => { const c = chars.find(x => x.name === n); const isLead = c && partyOf(c) === n && chars.filter(x => partyOf(x) === n).length > 1; add(n, isLead ? `${n} leads party ${n}: the whole party hears it` : `only ${n}'s own window obeys`); });
+    tg.names.forEach(n => { const c = chars.find(x => x.name === n); const isLead = c && partyOf(c) === n && chars.filter(x => partyOf(x) === n).length > 1; const tx = nameText(n); add(n, tx !== raw ? `named: only ${n} acts${isLead ? ` (his party hears it, the name limits it to him)` : ''}` : isLead ? `${n} leads party ${n}: the whole party hears it` : `only ${n}'s own window obeys`, tx); });
   } else {
     const names = new Set(tg.names); tg.parties.forEach(p => chars.filter(c => partyOf(c) === p).forEach(c => names.add(c.name)));
     [...names].forEach(n => sends.push({ to: n, via: kind === 'bot' ? 'command' : raw.slice(1), text: raw, online: live(n) }));
+    // CMDFIX2 botparty: @login on a character that reports in = probably already open; commandRun skips an open account (a 2nd open_account = duplicate session)
+    if (raw === '@login') sends.forEach(s => { if (s.online) s.note = 'reports in right now - already open? (an open account is not opened twice)'; });
+    if (kind === 'bot' && BOT_VIA_FILE.has(w)) sends.forEach(s => { s.note = 'via the file channel: swarm.js only sends L2Swarm\'s sit/stand toggle when it changes something'; });
     if (w === '/config' && /^\/config\s+load/i.test(raw)) {
       const file = raw.split(/\s+/)[2]; const fp = path.join(SETTINGS, file);
       if (!fs.existsSync(fp)) return { code: 400, error: `Settings\\${file} does not exist` };
@@ -1495,6 +1734,13 @@ const CMD_INBOX = path.join(CMD_DIR, 'inbox.json');
 const FILE_BOT = new Set(['/stopcombat', '/startcombat', '/enablebot', '/disablebot', '/moveto', '/target', '/attack', '/loc',
   '/sit', '/stand', '/unstuck', '/leave', '/run', '/walk', '/attackforce', '/attackround', '/invite', '/socialyes', '/socialdance', '/socialhello',
   '/startpoints', '/stoppoints', '/runmacro', '/clicklink', '/buyitem', '/ignore']);
+// CMDFIX2 botparty (2026-10-12): L2Swarm's Exact rules (<Rule Exact=...> in L2Swarm.Core.dll): no arguments allowed (see commandPlan)
+const BOT_EXACT = new Set(['/help', '/?', '/sit', '/stand', '/unstuck', '/loc', '/time', '/run', '/walk', '/leave', '/partyinfo', '/instancezone', '/socialyes',
+  '/socialdance', '/socialhello', '/ignore', '/trade', '/attack', '/attackforce', '/enablebot', '/disablebot', '/stopcombat', '/startcombat', '/startpoints', '/stoppoints', '/attackround']);
+// /sit and /stand are ONE L2Swarm toggle (SitStandHandler = RequestActionUse 0): they always go through the file channel, where swarm.js only
+// sends the toggle when the character is not already sitting / standing. /stopcombat goes to MCP AND the file channel: only swarm.js's
+// stopCombatG() also ends the script's own fight (NNAV.wantCombat in dungeons / raids / solo), which L2Swarm's StopCombat does not touch.
+const BOT_VIA_FILE = new Set(['/sit', '/stand']), BOT_ALSO_FILE = new Set(['/stopcombat']);
 const MCP_DOWN = { until: 0, why: '', at: 0 };
 const fileChannelCan = (kind, text) => kind === 'swarm' || (kind === 'bot' && FILE_BOT.has(CMDS.firstWord(String(text || ''))));
 let cmdSeq = 0;
@@ -1563,13 +1809,21 @@ async function commandRun(b) {
   };
   const sends = await pmap(p.sends, 4, async (s) => {
     if (MCP_DOWN.until > Date.now()) return toFile(s, MCP_DOWN.why);
+    if (p.kind === 'bot' && BOT_VIA_FILE.has(CMDS.firstWord(s.text))) return toFile(s, 'state-aware: L2Swarm\'s sit/stand is one toggle, swarm.js checks first');   // CMDFIX2 botparty
     try {
       let out;
       if (p.kind === 'swarm') out = s.via === 'say' ? await mcpCallCharT('send_game_action', s.to, { action: 'say', params: { message: s.text, chat_type: 'all' } })
         : await mcpCallCharT('run_account_command', s.to, { command: s.text });
       else if (p.kind === 'bot') out = await mcpCallCharT('run_account_command', s.to, { command: s.text });
       else if (s.via === 'logout') out = await mcpCallCharT('close_account', s.to, {});
-      else { const cfg = await configForChar(s.to); if (!cfg) throw new Error('no Settings\\*.xml with <SelectedCharacter>' + s.to); out = await mcpCallT('open_account', { config_path: cfg }); }
+      else {
+        const cfg = await configForChar(s.to); if (!cfg) throw new Error('no Settings\\*.xml with <SelectedCharacter>' + s.to);
+        // CMDFIX2 botparty (2026-10-12): open_account on an account that is already open adds a 2nd session for the same login (they kick each other)
+        let open = null;
+        try { const all = JSON.parse(await mcpCallT('get_accounts_status', {})); const list = Array.isArray(all) ? all : (all.accounts || []); open = list.find(a => a && a.config_path && path.resolve(String(a.config_path)).toLowerCase() === path.resolve(cfg).toLowerCase()) || null; } catch (e) { if (e && e.mcpDown) throw e; }
+        if (open) return { ...s, ok: false, channel: 'mcp', skipped: true, error: `already open in L2Swarm (${open.is_logged_in ? 'logged in' : 'not in game yet - L2Swarm keeps reconnecting it'}) - not opened a 2nd time (two sessions of one login kick each other). Log out first to re-open it.` };
+        out = await mcpCallT('open_account', { config_path: cfg });
+      }
       const txt = String(out || ''); let j = null; try { j = JSON.parse(txt); } catch (e) { }
       const bad = j && typeof j === 'object' ? (j.success === false || j.ok === false || !!j.error) : /^\s*(error|no account matches|failed)/i.test(txt) || /No account matches/i.test(txt);
       return { ...s, ok: !bad, channel: 'mcp', out: txt.slice(0, 300) };
@@ -1579,6 +1833,12 @@ async function commandRun(b) {
       return { ...s, ok: false, channel: 'mcp', error: msg + (e.mcpTimeout ? ' - not re-sent through the file channel (it may still run)' : '') };
     }
   });
+  // CMDFIX2 botparty: /stopcombat also to swarm.js (stopCombatG ends the script's own fight too); fire and forget, the MCP answer counts
+  const alsoFile = p.kind === 'bot' && BOT_ALSO_FILE.has(CMDS.firstWord(p.command)) ? sends.filter(s => s.channel === 'mcp' && s.ok) : [];
+  if (alsoFile.length) {
+    try { cmdInboxWrite(alsoFile.map(s => ({ id: 'c' + Date.now().toString(36) + (++cmdSeq).toString(36) + Math.random().toString(36).slice(2, 6), at: Date.now(), from: 'dashboard', to: [s.to], cmd: s.text, via: 'command' })));
+      alsoFile.forEach(s => { s.out = (s.out ? s.out + ' | ' : '') + 'also queued for swarm.js (ends its own script fight)'; }); } catch (e) { alsoFile.forEach(s => { s.out = (s.out ? s.out + ' | ' : '') + 'swarm.js not told (inbox: ' + e.message + ')'; }); }
+  }
   const viaFile = sends.filter(s => s.channel === 'file');
   if (viaFile.length) {
     try {
@@ -1591,7 +1851,7 @@ async function commandRun(b) {
     } catch (e) { viaFile.forEach(s => { s.ok = false; s.error = 'file channel: could not write Logs\\cmd\\inbox.json: ' + e.message; }); }
   }
   const channel = viaFile.length ? (viaFile.length === sends.length ? 'file' : 'mixed') : 'mcp';
-  const channelNote = viaFile.length ? `sent via file channel - ${MCP_DOWN.why || 'MCP is not answering'}` : undefined;
+  const channelNote = viaFile.length ? `sent via file channel - ${(MCP_DOWN.until > Date.now() && MCP_DOWN.why) || (viaFile[0] && viaFile[0].why) || MCP_DOWN.why || 'MCP is not answering'}` : undefined;   // CMDFIX2 botparty: sit/stand go there on purpose
   try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), `${new Date().toISOString()} ${p.command} -> ${p.target} (${sends.filter(s => s.ok).length}/${sends.length} ok${viaFile.length ? ', ' + viaFile.length + ' via file channel' : ''})${sends.filter(s => !s.ok).map(s => ' [' + s.to + ': ' + (s.error || s.out || '').slice(0, 80) + ']').join('')}\r\n`); } catch (e) { }
   const one = sends.length === 1 ? sends[0] : null;
   return { code: 200, body: { ok: true, command: p.command, kind: p.kind, safety: p.safety, target: p.target, sends, sent: sends.filter(s => s.ok).length, solo: !!(one && one.via === 'say'), channel, channelNote, out: one ? (one.out || one.error) : undefined } };
@@ -1650,6 +1910,7 @@ function raidHuntAll() {
 function raidHuntOf(leader) { const a = raidHuntAll(); return (a.hunts || {})[leader] || {}; }
 http.createServer(async (req, res) => {
   try {
+    try { require('./compress').wrap(req, res); } catch (e) { }   // gzip + ETag for text responses (2026-10-12, Dashboard/compress.js)
     const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
     if (url.pathname.startsWith('/api/')) viewersMark(url);       // DASHBOARD VIEWERS (CPU audit 2026-10-09)
     // Game icons + lookup tables (no secrets) are public so <img> works on the phone without the key
@@ -1758,12 +2019,42 @@ http.createServer(async (req, res) => {
     // KAMALOKA PAGE 2026-10-09 (Dashboard/kamapage_api.js): /kamapage.js|css, /kamalogic.js (public) + GET /api/kamapage (key checked inside):
     // every party, fit / today / next daily pick per Kamaloka (Dashboard/kamalogic.js = swarm.js dailyDue)
     if (await require('./kamapage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, hallTeam, hallSource: hallTeamSource, allowed, json, send })) return;
+    // NAV ATLAS 2026-10-12 (Dashboard/navatlas_api.js): /navatlas.js (public) + GET /api/navatlas (key checked inside): search / one route / unreachable + blocked lists
+    if (await require('./navatlas_api').handle(req, res, url, { DIR: __dirname, DATA, allowed, json, send })) return;
+    // ROUTE VIEW 2026-10-12 (Dashboard/routeview_api.js): /routeview.js + .css (public) + GET /api/routeview?target=..: computed path + saved route + 'use' + obstacles + where to get the items
+    if (await require('./routeview_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;
+    // TOWN PATHS 2026-10-12 (Dashboard/townpaths_api.js): /townpaths.js (public) + GET /api/townpaths (key checked inside): every town's street graph + Giran's recorded routes for the map layers
+    if (await require('./townpaths_api').handle(req, res, url, { DIR: __dirname, DATA, allowed, json, send })) return;
     // CLASS PLANS 2026-10-10 (Dashboard/classpage_api.js): /classpage.js|css, /classlogic.js (public) + GET /api/classtree, GET/POST /api/classplans   (before the key check, like gearpage/kamapage: the page files are public, the API checks the key itself; 2026-10-10 the tab failed on phones = 401 on classpage.js)
     // (key checked inside): per party + character the class plan (Scripts/data/class_plans.json), its status, approval, templates
     if (await require('./classpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // BUFF PLANS 2026-10-10 (Dashboard/buffpage_api.js): /buffpage.js|css, /bufflogic.js (public) + GET/POST /api/buffplans (key checked inside):
     // per party + buffer character which own buffs it casts on whom (Scripts/data/buff_plans.json), song/dance order, templates, overlaps
     if (await require('./buffpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // TRADE / HAND-OVER 2026-10-10 (Dashboard/tradepage_api.js): /tradepage.js|css, /tradelogic.js (public) + /api/trade/* (key checked inside):
+    // pick givers / receiver (clan leader default) / items from the live bags, dry run, then "!handover <id>" (Logs/handover/<id>.json)
+    if (await require('./tradepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;
+    // ADENA 2026-10-12 (Dashboard/fundpage_api.js): /fundpage.js|css (public) + GET/POST /api/fundrules (key checked inside):
+    // cross-party adena rules (Scripts/data/fund_rules.json, read by swarm.js fundRules() every 30 s), live adena per character, Logs/fund_log.json
+    if (await require('./fundpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // 7 SIGNS 2026-10-12 (Dashboard/sevensigns_api.js): /sevensigns.js|css (public) + GET/POST /api/sevensigns (key checked inside): who signs up with the
+    // Lords of Dawn by itself (Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s), period / registration / seal stones per character
+    if (await require('./sevensigns_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // SKILL ENCHANT 2026-10-12 (Dashboard/skillenchant_api.js): /skillenchantpage.js|css, /skillenchant_logic.js (public) + GET/POST /api/skillenchant (key checked inside)
+    if (await require('./skillenchant_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, reloadCfg: () => SC.reload(), allowed, json, send, mcpCallChar })) return;
+    // CLAN AUTOMATION 2026-10-12 (Dashboard/clanauto_api.js): /clanauto.js|css (public) + GET/POST /api/clanauto (key checked inside):
+    // Clan tab "Needs you" + "Runs by itself" (switches in Scripts/data/clan_quests.json clan.auto + Logs/clan_auto.json)
+    if (await require('./clanauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;
+    // CLAN NOBILITY RANKS 2026-10-12 (Dashboard/clanranks_api.js, READ-ONLY): /clanranks.js|css|_logic.js (public) + GET /api/clanranks (key checked inside)
+    if (await require('./clanranks_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, allowed, json, send })) return;
+    // QUESTS 2026-10-12 (Dashboard/questpage_api.js): /questpage.js|css (public) + GET /api/quests, /api/quests/detail?id=, /api/quests/chars,
+    // GET/POST /api/quests/farm (key checked inside): every H5 quest (Scripts/data/quests_h5.json), per character eligibility + Logs/quest_state_<Name>.json, quest farm config
+    if (await require('./questpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, body })) return;
+    // ADD ACCOUNT 2026-10-12 (Dashboard/addaccount_api.js): /addaccount.js|css (public) + GET/POST /api/addaccount (key checked inside):
+    // Accounts tab "+ Add account" -> Settings/<Login>.xml via new_account.ps1 (password only in the child's env), swarm.config.json, start_extra.txt
+    if (await require('./addaccount_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, allowed, json, send, mcpCall })) return;
+    // SOUL STAGE PLAN 2026-10-12 (Dashboard/soulplan_api.js, READ-ONLY): /soullogic.js|soulplan.js|css (public) + GET /api/soulstageplan (key checked inside)
+    if (await require('./soulplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, allowed, json, send })) return;
     if (!allowed(req, url)) return send(res, 401,'text/plain; charset=utf-8', 'Access denied: open the link with ?key=... (see Dashboard\\key.txt on the PC)');
     if (url.pathname === '/' || url.pathname === '/index.html') {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');   // phones kept an old page
@@ -1918,6 +2209,14 @@ http.createServer(async (req, res) => {
           if (b.on) a.add(id); else a.delete(id); cq0.clan.activeQuests = [...a];
         } else if (b.action === 'skillfocus') {
           cq0.clan.skillFocus = b.skill || null;
+        } else if (b.action === 'invite') {
+          // WHO GETS INVITED (user 2026-10-10: "so I control who gets invited"): clan.inviteAllow = the only names the clan leader may
+          // invite (none = nobody). { names: [...], on: true|false }
+          const names = (Array.isArray(b.names) ? b.names : [b.name]).map(n => String(n || '').trim()).filter(n => /^[A-Za-z0-9]{1,20}$/.test(n));
+          if (!names.length) return json(res, 400, { error: 'names needed' });
+          const a = new Set((cq0.clan.inviteAllow || []).map(String));
+          names.forEach(n => { if (b.on) a.add(n); else a.delete(n); });
+          cq0.clan.inviteAllow = [...a].sort();
         } else return json(res, 400, { error: 'unknown action' });
         fs.writeFileSync(CQF, JSON.stringify(cq0, null, 2));
       }
@@ -1969,7 +2268,7 @@ http.createServer(async (req, res) => {
       const cqProgress = {}; Object.keys((cq && cq.levelQuests) || {}).forEach(id => { cqProgress[id] = readJson(path.join(LOGS, `clanquest_${String(id).replace(/W/g, '')}.json`), { steps: {} }); });
       // SEVEN SIGNS (user 2026-10-08): the period/winner (Logs/sevensigns_state.json) + one Logs/sevensigns_<name>.json per character, both
       // written by swarm.js; "view" = what the Ziggurat rule says for that character now (refreshed by the bot every 10 min)
-      const sevenSigns = { state: readJson(path.join(LOGS, 'sevensigns_state.json'), null), chars: chars.map(c => {
+      const sevenSigns = { state: readJson(path.join(LOGS, 'sevensigns_state.json'), null), optin: readJson(path.join(DATA, 'seven_signs.json'), null), chars: chars.map(c => {   // optin: 7 SIGNS tab 2026-10-12
         const r = (/^[A-Za-z0-9]+$/.test(String(c.name || '')) && readJson(path.join(LOGS, `sevensigns_${c.name}.json`), null)) || {}; const v = r.view || {};
         return { name: c.name, party: (typeof c.party === 'string' && c.party) || (typeof c.leader === 'string' && c.leader) || c.name, level: +c.level || 0,
           cycle: r.cycle || '', status: r.status || '', registered: v.registered !== undefined ? v.registered : (/^(signed|member)$/.test(r.status || '') ? 'dawn' : ''), signedAt: r.signedAt || 0, at: r.at || 0,
@@ -1987,6 +2286,12 @@ http.createServer(async (req, res) => {
       const RT = require('./raidteam');
       return json(res, 200, { template: t, match: RT.matchTemplate(t, readStates(), { elementNukers: tpls.elementNukers || {}, offline: url.searchParams.get('offline') === '1' }) });
     }
+    // BRAIN HOST (engine audit #38, 2026-10-12): the pool's stats file (pid, RSS, per-worker heap / ELU / contexts, quarantined, restarts,
+    // alerts) + its IPC health when the dashboard started it + the restart deferral
+    if (url.pathname === '/api/brainhost') {
+      const stats = BHS.readStats(BH_STATS, 60000), health = await bhAsk({ k: 'health' }, 3000);
+      return json(res, 200, { cfg: bhCfg(), running: !!bhProc, ipc: !!(bhProc && bhProc.connected), restartDeferredSince: bhDeferSince ? new Date(bhDeferSince).toISOString() : null, stats, health });
+    }
     if (url.pathname === '/api/state') {
       const chars = readStates();
       return json(res, 200, {
@@ -1995,6 +2300,7 @@ http.createServer(async (req, res) => {
         plan: planFiles(), now: new Date().toISOString(),
         tactics: readJson(path.join(DATA, 'party_tactics.json'), {}),   // hunting pairs per party (Parties tab)
         mainLeader: MAIN_LEADER, clanLeader: SC.clanLeader || '',        // from swarm.config.json (2026-10-09: no hard-coded names in the page)
+        brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
       });
     }
     // --- Raid routes: view / correct / lock the saved walk landing -> boss (user 2026-10-06) ---
@@ -2318,6 +2624,39 @@ http.createServer(async (req, res) => {
       }
       return json(res, 200, { legs });
     }
+    // RECORDING HOLD (user 2026-10-11: "Tank1 KEEPS attacking when you try to record a path"): the route editor's "Record its walk" keeps
+    // Logs/rec_hold_<Name>.txt = "hold until" (ms) fresh every 2 s; swarm.js stops every attack + the bot for that character while it is fresh
+    if (url.pathname === '/api/rechold' && req.method === 'POST') {
+      const b = await body(req);
+      const name = String(b.name || '');
+      if (!/^[A-Za-z0-9]+$/.test(name)) return json(res, 400, { error: 'name required' });
+      const f = path.join(__dirname, '..', 'Logs', 'rec_hold_' + name + '.txt');
+      try { if (b.on) fs.writeFileSync(f, String(Date.now() + 20000)); else if (fs.existsSync(f)) fs.unlinkSync(f); } catch (e) { return json(res, 500, { error: String(e) }); }
+      return json(res, 200, { ok: true, on: !!b.on });
+    }
+    // RELOGIN (user 2026-10-12: "a clear button to log the character in again", 4 users asked): POST { name } -> the account is opened;
+    // an account that is still open in L2Swarm (hanging / reconnecting / script stopped) is closed first, then opened again.
+    if (url.pathname === '/api/relogin' && req.method === 'POST') {
+      const b = await body(req), name = String(b.name || '').trim();
+      if (!/^[A-Za-z0-9_-]{2,32}$/.test(name)) return json(res, 400, { error: 'unknown character name' });
+      const steps = [];
+      try {
+        cfgByChar.at = 0;   // fresh config map
+        const cfg = await configForChar(name); if (!cfg) return json(res, 404, { error: `no Settings\\*.xml selects ${name}` });
+        let open = null;
+        try { const all = JSON.parse(await mcpCallT('get_accounts_status', {})); const list = Array.isArray(all) ? all : (all.accounts || []); open = list.find(a => a && a.config_path && path.resolve(a.config_path).toLowerCase() === path.resolve(cfg).toLowerCase()); } catch (e) { steps.push('status: ' + e.message); }
+        if (open) {
+          steps.push(`was open (${open.is_logged_in ? 'logged in' : 'not in game'}) - closing it`);
+          try { steps.push('close: ' + String(await mcpCallT('close_account', { config_path: cfg })).slice(0, 120)); } catch (e) { steps.push('close: ' + e.message); }
+          await new Promise(r => setTimeout(r, 8000));
+        }
+        const out = String(await mcpCallT('open_account', { config_path: cfg }));
+        steps.push('open: ' + out.slice(0, 160));
+        const bad = /error|fail|no account/i.test(out) && !/success/i.test(out);
+        try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), `${new Date().toISOString()} RELOGIN ${name}: ${steps.join(' | ')}\r\n`); } catch (e) { }
+        return json(res, 200, { ok: !bad, name, steps, note: 'logging in takes 20-60 s; the character reports in again after that' });
+      } catch (e) { return json(res, 200, { ok: false, name, steps, error: e.message }); }
+    }
     // Client mode per character (in-game via L2Swarm's Hook button, or out of game). MemWatch applies it within 2 min.
     if (url.pathname === '/api/clientmode') {
       const CM = path.join(__dirname, '..', 'Settings', 'client_mode.json');
@@ -2436,7 +2775,10 @@ http.createServer(async (req, res) => {
       // else the title "LvL: N"), or - level unknown - a spot within 8000 of the boss spawn.
       const lvlOf = (m) => +m.level || +((String(m.title || '').match(/LvL:\s*(\d+)/i) || [])[1]) || 0;
       const isBoss = (m) => { const b = bosses[m.name]; if (!b) return false; const l = lvlOf(m); if (l) return Math.abs(l - (+b.level || 0)) <= 3; return Math.hypot(m.x - b.x, m.y - b.y) < 8000; };
-      return json(res, 200, { target, mobs: list(t).filter(m => !m.is_dead).map(m => ({ x: Math.round(m.x), y: Math.round(m.y), z: Math.round(m.z || 0), lvl: lvlOf(m) || m.level, n: m.name, raid: isBoss(m), hp: m.hp_percent || null })) });
+      // 2026-10-12 (user: "they should be shown within the z limit they have"): only monsters on the character's own floor (the bots' height limit)
+      const zMe = (() => { const s = readJson(path.join(LOGS, 'swarm_state_' + name + '.json'), null); return s && isFinite(+s.z) ? +s.z : null; })();
+      const zOk = (m) => zMe === null || !isFinite(+m.z) || Math.abs(+m.z - zMe) <= 600 || isBoss(m);
+      return json(res, 200, { target, mobs: list(t).filter(m => !m.is_dead && zOk(m)).map(m => ({ x: Math.round(m.x), y: Math.round(m.y), z: Math.round(m.z || 0), lvl: lvlOf(m) || m.level, n: m.name, raid: isBoss(m), hp: m.hp_percent || null })) });
     }
     if (url.pathname === '/api/char') {
       const name = url.searchParams.get('name') || '';
@@ -2461,7 +2803,8 @@ http.createServer(async (req, res) => {
           type: i.type, grade: i.grade, slot: i.body_part_name, enchant: i.enchant_level, quest: !!i.is_quest || QUEST_ITEMS.has(Number(i.item_id)) })),
         skills: sk ? (sk.skills || sk.items || []) : null, script, error: st.error,
         npcs: npcs.map(n => ({ n: n.name, t: n.title || '', x: Math.round(n.x), y: Math.round(n.y) })),
-        mobs: mobs.map(m => ({ n: m.name, x: Math.round(m.x), y: Math.round(m.y), hp: Math.round(m.hp_percent || 0), dead: !!m.is_dead, lvl: m.level })),
+        mobs: mobs.filter(m => { const s = readJson(path.join(LOGS, 'swarm_state_' + name + '.json'), null); return !s || !isFinite(+s.z) || !isFinite(+m.z) || Math.abs(+m.z - +s.z) <= 600; })   // own floor only (2026-10-12)
+          .map(m => ({ n: m.name, x: Math.round(m.x), y: Math.round(m.y), z: Math.round(m.z || 0), hp: Math.round(m.hp_percent || 0), dead: !!m.is_dead, lvl: m.level })),
       });
     }
     // --- live inventory (straight from the game via MCP) ---
@@ -2482,6 +2825,12 @@ http.createServer(async (req, res) => {
       const name = url.searchParams.get('name') || '';
       const lines = tail(path.join(LOGS, 'swarm_buffs.log'), 6000).filter(l => l.includes(`[${name}]`)).slice(-250);
       return json(res, 200, { name, lines });
+    }
+    // CMDFIX2 override (2026-10-12): the .zmap files '!zone <file>' can load (command center picker): Settings\*.zmap + Settings\zones\*.zmap,
+    // as the path relative to Settings that swarm.js expects
+    if (url.pathname === '/api/zmaps') {
+      const list = (sub) => { try { return fs.readdirSync(path.join(SETTINGS, sub)).filter(f => /\.zmap$/i.test(f)).map(f => (sub ? sub + '\\' : '') + f); } catch (e) { return []; } };
+      return json(res, 200, { zmaps: list('').concat(list('zones')) });
     }
     if (url.pathname === '/api/command' && req.method === 'POST') {
       // command center 2026-10-08 (see commandPlan / commandRun above): one or many targets, '!' swarm / '/' L2Swarm / '@' account

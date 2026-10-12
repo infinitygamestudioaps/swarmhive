@@ -11,7 +11,11 @@ const assert = require('assert');
 const ROOT = path.resolve(__dirname, '..', '..', '..');
 
 // ---- stubs (before server.js is loaded) ----
+// the file command channel goes to a temp folder, NEVER the live Logs\cmd\inbox.json (2026-10-12: /sit, /stand and /stopcombat go through
+// the file channel now - without this the test wrote a real '/stand' for Bishop1 + Necro1 that their live windows ran)
+process.env.SWARM_CMD_DIR = fs.mkdtempSync(path.join(require('os').tmpdir(), 'swarm_cmdcenter_'));
 const MCP_CALLS = [];
+let STATUS_ALL_CONFIGS = false;   // get_accounts_status mock: every Settings/*.xml is an open account (the @login test)
 const realFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt = {}) => {
   const u = String(url);
@@ -21,7 +25,7 @@ globalThis.fetch = async (url, opt = {}) => {
     if (b.method === 'initialize') result = { protocolVersion: '2025-03-26', capabilities: {} };
     else {
       MCP_CALLS.push({ tool: b.params.name, args: b.params.arguments });
-      const t = b.params.name === 'get_accounts_status' ? '[]' : JSON.stringify({ success: true, mock: true });
+      const t = b.params.name === 'get_accounts_status' ? (STATUS_ALL_CONFIGS ? JSON.stringify(fs.readdirSync(path.join(ROOT, 'Settings')).filter(n => /.xml$/i.test(n) && n !== 'settings.xml').map(n => ({ config_path: path.join(ROOT, 'Settings', n), is_logged_in: true }))) : '[]') : JSON.stringify({ success: true, mock: true });
       result = { content: [{ type: 'text', text: t }] };
     }
     const txt = JSON.stringify({ jsonrpc: '2.0', id: b.id, result });
@@ -71,7 +75,9 @@ async function t(name, fn) { try { await fn(); pass++; console.log('  ok  ' + na
     const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
     const inJs = new Set([...src.matchAll(/'(![a-z]+)'/g)].map(m => m[1]).filter(w => w !== '!ready'));
     const allowed = new Set(cat.j.allowed);
-    const missing = [...inJs].filter(w => !allowed.has(w)), extra = [...allowed].filter(w => !inJs.has(w));
+    // public package: the OWNER-ONLY orders (raid circuit / level lock / delevel / spoil-pair loot) leave commands.js through its PRIVATE blocks
+    const OWNER_ONLY = fs.existsSync(path.join(ROOT, 'Dashboard', 'circuitpage.js')) ? [] : ['!levelto', '!lootgive', '!circuit', '!delevel'];
+    const missing = [...inJs].filter(w => !allowed.has(w) && !OWNER_ONLY.includes(w)), extra = [...allowed].filter(w => !inJs.has(w));
     assert.deepStrictEqual(missing, [], 'swarm.js commands missing from ALLOWED: ' + missing);
     assert.deepStrictEqual(extra, [], 'ALLOWED words swarm.js does not handle: ' + extra);
   });
@@ -136,11 +142,48 @@ async function t(name, fn) { try { await fn(); pass++; console.log('  ok  ' + na
     assert.deepStrictEqual([c.args.account_name, c.args.command], ['Tank1', '#!level']);
     assert.ok(LOGW.some(l => l.includes('!level')), 'logged');
   });
-  await t('REAL run (mock MCP): /stand to two characters -> two run_account_command', async () => {
+  await t('REAL run (mock MCP): /socialyes to two characters -> two run_account_command', async () => {
     MCP_CALLS.length = 0;
-    const r = await call('/api/command', { cmd: '/stand', targets: ['chars:Bishop1,Necro1'] });
+    const r = await call('/api/command', { cmd: '/socialyes', targets: ['chars:Bishop1,Necro1'] });
     assert.strictEqual(r.code, 200, r.t); assert.strictEqual(r.j.sent, 2);
-    assert.deepStrictEqual(MCP_CALLS.filter(x => x.tool === 'run_account_command').map(x => x.args.account_name + ' ' + x.args.command).sort(), ['Bishop1 /stand', 'Necro1 /stand']);
+    assert.deepStrictEqual(MCP_CALLS.filter(x => x.tool === 'run_account_command').map(x => x.args.account_name + ' ' + x.args.command).sort(), ['Bishop1 /socialyes', 'Necro1 /socialyes']);
+  });
+  await t('REAL run: /stand -> file channel only (state-aware in swarm.js), never MCP; temp inbox', async () => {
+    MCP_CALLS.length = 0;
+    const r = await call('/api/command', { cmd: '/stand', targets: ['chars:Bishop1,Necro1'], ackWaitMs: 0 });
+    assert.strictEqual(r.code, 200, r.t);
+    assert.strictEqual(MCP_CALLS.filter(x => x.tool === 'run_account_command').length, 0, 'no MCP call');
+    assert.ok(r.j.sends.every(s => s.channel === 'file'), JSON.stringify(r.j.sends));
+    const inbox = JSON.parse(fs.readFileSync(path.join(process.env.SWARM_CMD_DIR, 'inbox.json'), 'utf8'));
+    assert.deepStrictEqual(inbox.filter(e => e.cmd === '/stand').map(e => e.to[0]).sort(), ['Bishop1', 'Necro1']);
+    assert.ok(!/Logs/.test(process.env.SWARM_CMD_DIR));
+  });
+  await t('REAL run: /stopcombat -> MCP AND the (temp) file channel', async () => {
+    MCP_CALLS.length = 0;
+    const r = await call('/api/command', { cmd: '/stopcombat', target: 'char:Bishop1' });
+    assert.strictEqual(r.code, 200, r.t); assert.strictEqual(r.j.sent, 1);
+    assert.ok(MCP_CALLS.some(x => x.tool === 'run_account_command' && x.args.command === '/stopcombat'));
+    const inbox = JSON.parse(fs.readFileSync(path.join(process.env.SWARM_CMD_DIR, 'inbox.json'), 'utf8'));
+    assert.ok(inbox.some(e => e.cmd === '/stopcombat' && e.to[0] === 'Bishop1'), 'queued for swarm.js');
+  });
+  await t('exact L2Swarm words refuse extra text (would be public chat)', async () => {
+    const r = await call('/api/command', { cmd: '/ignore Bob', target: 'char:Bishop1', dryRun: true });
+    assert.strictEqual(r.code, 400, r.t); assert.ok(/no arguments/.test(r.j.error));
+    const ok = await call('/api/command', { cmd: '/ignore', target: 'char:Bishop1', dryRun: true });
+    assert.strictEqual(ok.code, 200, ok.t); assert.strictEqual(ok.j.spec.id, 'b_ignore');
+    const tg = await call('/api/command', { cmd: '/target Elder Blacksmith', target: 'char:Bishop1', dryRun: true });
+    assert.strictEqual(tg.code, 200, tg.t);
+  });
+  await t('REAL run (mock MCP): @login on an account that get_accounts_status lists -> not opened twice', async () => {
+    MCP_CALLS.length = 0;
+    const dry = await call('/api/command', { cmd: '@login', target: 'char:Bishop1', dryRun: true });
+    assert.strictEqual(dry.code, 200, dry.t);
+    STATUS_ALL_CONFIGS = true;
+    const r = await call('/api/command', { cmd: '@login', target: 'char:Bishop1' });
+    STATUS_ALL_CONFIGS = false;
+    assert.strictEqual(r.code, 200, r.t);
+    assert.ok(!MCP_CALLS.some(x => x.tool === 'open_account'), 'no open_account: ' + JSON.stringify(MCP_CALLS.map(x => x.tool)));
+    assert.ok(r.j.sends[0].skipped && /already open/.test(r.j.sends[0].error), JSON.stringify(r.j.sends[0]));
   });
   await t('REAL run (mock MCP): @logout with confirm -> close_account', async () => {
     MCP_CALLS.length = 0;

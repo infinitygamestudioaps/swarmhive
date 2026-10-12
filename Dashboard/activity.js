@@ -64,7 +64,7 @@
     }
     const walking = (r && !r.done) || walkIntent(c);
     const a = A.still[c.name];
-    if (walking && a && !c.combat && !(c.doing && (c.doing.target || c.doing.resting)) && !(c.cast && !c.cast.ended)) {
+    if (walking && a && !c.combat && !(c.doing && (c.doing.target || c.doing.resting)) && !(c.cast && !c.cast.ended && !(window.castGone && castGone(c.cast, srvNow())))) {
       const s = secs(Date.now() - a.since);
       if (s >= 20) return { hard: false, sec: s };
     }
@@ -150,7 +150,7 @@
       return { ic: UI.soe, cls: 'bad', h: `<b>escaping</b> (${esc(ph)})${e.why ? ' — ' + esc(e.why) : ''} · round ${e.round || 1}/5` };
     }
     const k = c.cast;
-    if (k && !k.ended) {
+    if (k && !k.ended && !(window.castGone && castGone(k, srvNow()))) {   // D13: a cast whose time ran out is not "casting" any more
       const left = (T(k.start) + (+k.ms || 0) - now) / 1000;
       const heal = HEALRE.test(k.name || '');
       return { ic: k.kind === 'town' ? UI.map : k.kind === 'soe' ? UI.soe : UI.skill, h: `${heal ? 'healing' : k.kind === 'town' ? 'teleporting:' : 'casting'} <b>${esc(k.name)}</b>${k.target ? ' → ' + esc(k.target) : ''} (${left > 0 ? left.toFixed(1) + ' s left' : 'finishing'})` };

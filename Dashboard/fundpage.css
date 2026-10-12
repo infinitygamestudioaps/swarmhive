@@ -1,0 +1,77 @@
+/* ADENA page #/adena (2026-10-12, Dashboard/fundpage.js). Reuses the Classes page frame (.cpl-* in classpage.css), the Trade page chips
+   (.trd-chip / .trd-row in tradepage.css) and the L2 skin tokens from index.html (--ink, --muted, --gold, --line, --line2, --ok, --bad, --fs-*).
+   Phone first (390 px portrait, no horizontal scroll). */
+.fnd { padding-bottom: 86px; }                                    /* room for the sticky bar */
+.fnd .box { margin-top: 10px; min-width: 0; }
+.fnd-head h2 { margin-right: 4px; }
+.fnd-hint { color: var(--muted); font-size: var(--fs-cap); margin: 2px 0 8px; }
+.fnd-offtxt { color: var(--bad); }
+
+/* on / off switch */
+.fnd-sw { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; min-height: 34px; user-select: none; }
+.fnd-sw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.fnd-sw .tr { position: relative; width: 44px; height: 24px; border-radius: 12px; background: #3a2a24; border: 1px solid var(--line2); flex: none; transition: background .15s; }
+.fnd-sw .tr::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #c8bda0; transition: transform .15s; }
+.fnd-sw input:checked + .tr { background: #2f6d2f; border-color: #5fd35f; }
+.fnd-sw input:checked + .tr::after { transform: translateX(20px); background: #fff; }
+.fnd-sw input:focus-visible + .tr { box-shadow: 0 0 0 2px rgba(227, 194, 122, .7); }
+.fnd-sw .lb { font: 700 var(--fs-cap) Tahoma, Verdana, sans-serif; }
+.fnd-sw .lb.on { color: var(--ok); } .fnd-sw .lb.off { color: var(--bad); }
+.fnd-sw.sm .tr { width: 38px; height: 22px; } .fnd-sw.sm .tr::after { width: 16px; height: 16px; } .fnd-sw.sm input:checked + .tr::after { transform: translateX(16px); }
+@media (prefers-reduced-motion: reduce) { .fnd-sw .tr, .fnd-sw .tr::after { transition: none; } }
+
+/* fields */
+.fnd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 10px; min-width: 0; }
+.fnd-grid.sm { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); margin: 6px 0; }
+.fnd-f { display: grid; gap: 2px; min-width: 0; align-content: start; }
+.fnd-f .fl { font-size: var(--fs-cap); color: var(--gold); font-weight: 700; }
+.fnd-f .fh { font-size: var(--fs-mini); color: var(--muted); overflow-wrap: anywhere; }
+.fnd-f select, .fnd-amt { width: 100%; min-width: 0; min-height: 34px; box-sizing: border-box; }
+.fnd-amt { text-align: right; font-family: Consolas, monospace; }
+.fnd-amt.bad { border-color: var(--bad) !important; box-shadow: 0 0 0 1px var(--bad); color: #ffc9bf; }
+
+/* who gives */
+.fnd-modes { display: grid; gap: 6px; margin-bottom: 8px; }
+.fnd-radio { display: flex; align-items: flex-start; gap: 8px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 3px; background: rgba(0, 0, 0, .22); cursor: pointer; min-height: 34px; }
+.fnd-radio.on { border-color: #8f7424; background: rgba(120, 90, 20, .3); }
+.fnd-radio input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; }
+.fnd-radio > span { display: grid; gap: 1px; min-width: 0; font-size: var(--fs-cap); }
+.fnd-radio .fh { color: var(--muted); font-size: var(--fs-mini); }
+.fnd-givers { padding: 6px; margin-bottom: 8px; border: 1px solid var(--line); border-radius: 3px; background: rgba(0, 0, 0, .18); min-width: 0; }
+.fnd-givers.dim { opacity: .5; }
+.fnd-sub { font-size: var(--fs-mini); color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 4px 0; }
+.fnd-more { margin-top: 6px; } .fnd-more > summary { cursor: pointer; min-height: 30px; line-height: 30px; color: var(--gold); font-size: var(--fs-cap); }
+.fnd-chip { max-width: 100%; }
+.fnd-chip[disabled] { cursor: default; }
+.fnd-cnt { font-size: var(--fs-mini); margin-top: 4px; }
+
+/* parties */
+.fnd-parties { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 8px; }
+.fnd-party { border: 1px solid var(--line); border-radius: 3px; padding: 6px 8px; background: rgba(0, 0, 0, .25); min-width: 0; }
+.fnd-party.off { opacity: .75; border-style: dashed; }
+.fnd-party .ph { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+.fnd-party .ph > b { color: var(--gold); }
+.fnd-party .ph > .muted { font-size: var(--fs-mini); flex: 1 1 auto; min-width: 0; }
+.fnd-need { color: var(--warn); }
+.fnd-mems > summary { cursor: pointer; min-height: 32px; line-height: 32px; color: var(--gold); font-size: var(--fs-cap); }
+.fnd-mem { display: grid; grid-template-columns: minmax(0, 1fr) 104px; grid-template-areas: "who in" "ad in"; gap: 2px 8px; align-items: center; padding: 5px 2px; border-top: 1px solid var(--line); }
+.fnd-mem .who { grid-area: who; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; font-size: var(--fs-cap); }
+.fnd-mem .ad { grid-area: ad; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; font: var(--fs-mini) Consolas, monospace; color: var(--ink); }
+.fnd-mem .ad .gi { width: 14px; height: 14px; }
+.fnd-mem .ad .tg { color: var(--muted); font-family: Tahoma, Verdana, sans-serif; }
+.fnd-mem .ad .tg em { font-style: normal; }
+.fnd-mem .in { grid-area: in; }
+.fnd-mem .lv { color: var(--muted); font-size: var(--fs-mini); }
+.fnd .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #666; flex: none; } .fnd .dot.on { background: var(--ok); }
+
+/* log */
+.fnd-log { display: grid; gap: 2px; }
+.fnd-log > div { display: flex; flex-wrap: wrap; gap: 2px 6px; align-items: baseline; padding: 3px 4px; border-bottom: 1px solid var(--line); font-size: var(--fs-cap); }
+.fnd-log .t { margin-left: auto; color: var(--muted); font-size: var(--fs-mini); }
+
+/* sticky save bar */
+.fnd-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between;
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); background: rgba(14, 12, 8, .96); border-top: 1px solid #8f7424; }
+.fnd-bar .sum { min-width: 0; font-size: var(--fs-cap); color: var(--ink); }
+.fnd-bar .sum b { color: #ffe08a; } .fnd-bar .sum .bad { color: var(--bad); font-weight: 700; }
+.fnd-bar .btns { display: flex; gap: 6px; } .fnd-bar button { min-height: 38px; }

@@ -61,7 +61,7 @@ async function runGo(query, start, opt) {
     walkTo: async (x, y, z) => { W.walks.push([x, y]); me.X = x; me.Y = y - 100; me.Z = z; return true; }, teleportNear: async () => true, rgWalk: async () => ({ ok: true }), isLeader: () => true,
     snapNpcs: () => (W.seen || []), num: Number, openNpc: async (n) => W.page || '<a action="bypass -h 00">Buy</a><a action="bypass -h 01">Sell</a>', npcLinks: (h) => { const out = [], re = /<a\b[^>]*action="bypass\s+(?:-h\s+)?([^"]+)"[^>]*>([\s\S]*?)<\/a>/g; let m; while ((m = re.exec(h))) out.push({ cmd: m[1], text: m[2] }); return out; },
     Send: { ReqBypassToServer: (c) => W.clicks.push(c) }, sleep: async () => { }, setTask: () => { }, intent: (a, b) => W.intents.push(b), intentDone: (a, ok, why) => W.intents.push((ok ? 'OK ' : 'FAIL ') + why), dungeonLog: (m) => W.log.push(m), logError: (m, e) => W.log.push('ERR ' + m + e),
-    townWalkToNpc: async () => false, P: (x, y) => `${Math.round(x)},${Math.round(y)}`, gkFail: '', appearBurst: () => { }, App: { emit: () => { } }, teamRegroupBeforePort: async () => true, floorTeleport: async () => true, teamNames: () => [], lastFloorNpc: null, rgPlan: () => ({ ok: false }), rgFor: () => null,
+    townWalkToNpc: async () => false, P: (x, y) => `${Math.round(x)},${Math.round(y)}`, gkFail: '', appearBurst: () => { }, App: { emit: () => { }, on: () => { } },   // App.on: the cut host block now registers an App event handler at load teamRegroupBeforePort: async () => true, floorTeleport: async () => true, teamNames: () => [], lastFloorNpc: null, rgPlan: () => ({ ok: false }), rgFor: () => null,
   };
   const names = Object.keys(env);
   const api = new Function(...names, HOST + '\nreturn { goToNpc, npcFind };')(...names.map(k => env[k]));

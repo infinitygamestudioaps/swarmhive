@@ -8,13 +8,19 @@
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..', '..');
 const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8').replace(/\r\n/g, '\n');
-const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'epic_tactics.json'), 'utf8'));
+// Scripts/data/epic_tactics.json is OWNER ONLY (not in the public package): without it the boss-tactic checks (Core / Orfen / Queen Ant) skip,
+// the generic scout checks still run (TEST_NO_EPIC=1 simulates the public package)
+const EPIC_FILE = path.join(ROOT, 'Scripts', 'data', 'epic_tactics.json');
+const HAVE_EPIC = !process.env.TEST_NO_EPIC && fs.existsSync(EPIC_FILE);
+// without the file: no bosses, but the role kinds the scout pick needs (same regexes as epic_tactics.json roleKinds)
+const J = HAVE_EPIC ? JSON.parse(fs.readFileSync(EPIC_FILE, 'utf8')) : { version: 1, bosses: {}, roleKinds: { tank: '^(sk|tank)$', healer: 'healer|bishop|shilliensaint', caster: '^(necromancer|nuker|mage|wizard|summoner)$', buffer: '^(doomcryer|warcryer|buffer|meleebuffer)$', melee: '^(destroyer|doombringer|inspector|dagger|melee|archer|spoiler|crafter|gladiator|warlord)$' } };
+if (!HAVE_EPIC) console.log('skip: boss tactic checks (Core / Orfen / Queen Ant) need Scripts/data/epic_tactics.json (dev install only)');
 const RB = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'raidbosses_h5.json'), 'utf8')).bosses;
 let fails = 0, n = 0;
 const check = (ok, what) => { n++; console.log((ok ? 'ok   ' : 'FAIL ') + what); if (!ok) fails++; };
 const PURE = src.slice(src.indexOf('// EPIC-PURE-BEGIN'), src.indexOf('// EPIC-PURE-END'));
 const M = new Function(PURE + '\nreturn { SCOUTP, scoutAllowed, scoutPick, scoutLookouts, scoutVerdict, scoutSrc, scoutSrcParse, epicTacticOf };')();
-const core = M.epicTacticOf(J, 'Core'), orf = M.epicTacticOf(J, 'Orfen'), qa = M.epicTacticOf(J, 'Queen Ant');
+const core = HAVE_EPIC ? M.epicTacticOf(J, 'Core') : null, orf = HAVE_EPIC ? M.epicTacticOf(J, 'Orfen') : null, qa = HAVE_EPIC ? M.epicTacticOf(J, 'Queen Ant') : null;
 
 // ---- 1) pure ------------------------------------------------------------------------------------------------------------------------
 check(M.scoutAllowed({ name: 'A' }).ok && !M.scoutAllowed({ name: 'A', dead: true }).ok && !M.scoutAllowed({ name: 'A', online: false }).ok, 'allowed: alive + online only');
@@ -37,13 +43,15 @@ L = M.scoutLookouts(null, BOSS, { x: 30000, y: 20000 }, { stage: { x: 10000, y: 
 check(L[0].how === 'raid fight area stage point' && L[0].y === 22500, 'look-out: the raid fight area\'s stage point when it is in view and out of aggro');
 L = M.scoutLookouts(null, BOSS, { x: 10500, y: 20000 }, {});
 check(L[0].how === 'already within view' && L[0].x === 10500, 'look-out: already closer than the look-out distance -> stay');
+if (HAVE_EPIC) {
 L = M.scoutLookouts(core, BOSS, { x: 0, y: 0 }, {});
-check(L.length === 1 && L[0].x === 17691 && L[0].y === 111726 && L[0].how === 'tactic look-out', 'Core: the tactic look-out = the Core room landing');
+check(L.length === 1 && L[0].x === 17696 && L[0].y === 111812 && L[0].how === 'tactic look-out', 'Core: the tactic look-out = the Core room landing (live 2026-10-10)');
 check(Math.hypot(L[0].x - 17726, L[0].y - 108915) < (core.scout.viewRange || 3500), 'Core: Core is inside the view range from the landing');
 L = M.scoutLookouts(orf, BOSS, { x: 64328, y: 26803 }, { aggro: 1000 });
 check(L.length === 4 && L.every((p, i) => Math.round(Math.hypot(p.x - p.of.x, p.y - p.of.y)) === 2200 || p.how === 'already within view'), 'Orfen: one look-out per spawn spot, 2200 away (her aggro 1000 + margin)');
 L = M.scoutLookouts(qa, { x: -21610, y: 181594, z: -5734 }, { x: -9959, y: 176184 }, { aggro: 1000 });
 check(Math.round(Math.hypot(L[0].x - -21610, L[0].y - 181594)) === 2800, 'Queen Ant: 2800 from her toward the way in (tactic lookDist)');
+}
 check(M.scoutVerdict({ reached: true, seen: true }).result === 'alive', 'verdict: in sight -> alive');
 check(M.scoutVerdict({ reached: true, seen: false, spotsLooked: 1, spots: 1 }).result === 'not-there', 'verdict: reached + not in sight -> not there');
 check(M.scoutVerdict({ reached: false }).result === 'unknown' && M.scoutVerdict({ reached: false }).alive === null, 'verdict: did not get there -> unknown (no status written)');
@@ -103,7 +111,7 @@ const bossOf = (nm) => RB.find(b => b.name === nm);
     const r = await w.H.scoutRun(b.name, { picked: true, seq: 1 });
     check(r.result === 'not-there' && w.status[0] && w.status[0].alive === false && w.status[0].s === 'scouted by Dag: not there', 'not in sight -> raid_status alive:false "scouted by Dag: not there"'); }
   // c) Orfen: four spots, she is at the third one
-  { const b = bossOf('Orfen'), sp = orf.points.search[2];
+  if (HAVE_EPIC) { const b = bossOf('Orfen'), sp = orf.points.search[2];
     const w = world({ mobs: [{ Name: 'Orfen', X: sp[0], Y: sp[1], Z: sp[2], objId: 7 }], aggro: 1000 });
     const r = await w.H.scoutRun('Orfen', { picked: true, seq: 1 });
     check(r.result === 'alive' && r.looked >= 1 && r.lookouts.length === 4, `Orfen: checks her spawn spots until she is in sight (looked at ${r.looked} of 4)`);
@@ -121,10 +129,10 @@ const bossOf = (nm) => RB.find(b => b.name === nm);
     check(r.result === 'unknown' && !w.status.length && w.esc.length === 1, 'hit at low HP (40 %) -> unknown, nothing written to raid_status, back to town');
     check(w.notes.some(m => /in danger/.test(m)), 'says why (in danger, no fighting)'); }
   // e) Core: the route (Hanna via the floors, solo) + the two links, look from the room landing
-  { const w = world({ mobs: [{ Name: 'Core', X: 17726, Y: 108915, Z: -6480 }] });
+  if (HAVE_EPIC) { const w = world({ mobs: [{ Name: 'Core', X: 17726, Y: 108915, Z: -6480 }] });
     const r = await w.H.scoutRun('Core', { picked: true, seq: 1 });
-    check(w.trips.join() === '30486 solo' && w.links.join() === 'Go to the 3rd floor.,Teleport into The Core room.', 'Core: solo trip to Hanna (Cruma floors), then Hanna + the Teleportation Cubic');
-    check(r.result === 'alive' && w.Me.X === 17691 && w.tps.length === 0, 'Core: seen from the Core room landing (no teleport-near)');
+    check(w.trips.join() === '30486 solo' && w.links.join() === 'Go to the 3rd floor.,I am ready to face Core!', 'Core: solo trip to Hanna (Cruma floors), then Hanna + the Teleportation Cubic');
+    check(r.result === 'alive' && w.Me.X === 17696 && w.tps.length === 0, 'Core: seen from the Core room landing (no teleport-near)');
     check(w.esc.length === 1, 'Core: leaves with .town at once after the look'); }
   // f) refusals
   { const w = world({ state: { mode: 'raid' } });
@@ -146,7 +154,7 @@ const bossOf = (nm) => RB.find(b => b.name === nm);
 
   // ---- 3) wiring ---------------------------------------------------------------------------------------------------------------
   check(/case '!scout':[\s\S]{0,200}scoutCommand\(parts\)/.test(src), "party chat: case '!scout' -> scoutCommand");
-  check(/function benched\(n\) \{ return benchedHall\(n\) \|\| \(typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs\(n \|\| Me\.Name\)\); \}/.test(src), 'benched(): a scout away counts as benched for its party (no split watchdog / left-behind / stuck follow)');
+  check(/function benched\(n\) \{ return benchedHall\(n\) \|\| \(typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs\(n \|\| Me\.Name\)\)( \|\| qeAwayIs\(n \|\| Me\.Name\))?; \}/.test(src), 'benched(): a scout away counts as benched for its party (no split watchdog / left-behind / stuck follow)');
   check(!/if \(benched\(\)\) \{\n\s+note\(`bench: not in the Hall team/.test(src), 'the Hall bench code itself uses benchedHall() (a scout never leaves the party)');
   const cmds = require(path.join(ROOT, 'Dashboard', 'commands.js')).COMMANDS;
   check(cmds.some(c => c.id === 'scout' && c.tpl === '!scout {boss}[ {name}]'), 'command catalog: scout entry');

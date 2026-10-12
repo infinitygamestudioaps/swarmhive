@@ -11036,5 +11036,293 @@
    "type": "L2GrandBoss",
    "spotSource": "raidbosses_h5.json"
   }
- ]
+ ],
+ "itemsAll": {
+  "red": {
+   "0": 4629,
+   "1": 4630,
+   "2": 4631,
+   "3": 4632,
+   "4": 4633,
+   "5": 4634,
+   "6": 4635,
+   "7": 4636,
+   "8": 4637,
+   "9": 4638,
+   "10": 4639,
+   "11": 5577,
+   "12": 5580,
+   "13": 5908,
+   "14": 9570,
+   "15": 10480,
+   "16": 13071,
+   "17": 15541,
+   "18": 15826
+  },
+  "green": {
+   "0": 4640,
+   "1": 4641,
+   "2": 4642,
+   "3": 4643,
+   "4": 4644,
+   "5": 4645,
+   "6": 4646,
+   "7": 4647,
+   "8": 4648,
+   "9": 4649,
+   "10": 4650,
+   "11": 5578,
+   "12": 5581,
+   "13": 5911,
+   "14": 9572,
+   "15": 10482,
+   "16": 13073,
+   "17": 15543,
+   "18": 15828
+  },
+  "blue": {
+   "0": 4651,
+   "1": 4652,
+   "2": 4653,
+   "3": 4654,
+   "4": 4655,
+   "5": 4656,
+   "6": 4657,
+   "7": 4658,
+   "8": 4659,
+   "9": 4660,
+   "10": 4661,
+   "11": 5579,
+   "12": 5582,
+   "13": 5914,
+   "14": 9571,
+   "15": 10481,
+   "16": 13072,
+   "17": 15542,
+   "18": 15827
+  }
+ },
+ "buy": {
+  "mark": "DATAPACK (multisell 300984002); L2Toggle Kain price/list NOT verified live",
+  "npc": {
+   "id": 30098,
+   "name": "Alexandria",
+   "title": "Armor Merchant",
+   "town": "Giran",
+   "region": "Giran outskirts",
+   "x": 79599,
+   "y": 145457,
+   "z": -3494
+  },
+  "multisell": 300984002,
+  "note": "Paid with grade crystals (Crystal: D 1458 / C 1459 / B 1460 = what crystallizing gear gives), NOT adena. The forum guide (topic 503) says \"for crystal stage 10 go to the Giran luxury shop, Alexandria, Purchase Specialty Items\". A bought crystal only levels when quest 350 is STARTED and it is the only crystal in the bag.",
+  "offers": [
+   {
+    "stage": 7,
+    "ids": {
+     "red": 4636,
+     "green": 4647,
+     "blue": 4658
+    },
+    "cost": [
+     {
+      "id": 1459,
+      "name": "Crystal (C-Grade)",
+      "count": 100
+     },
+     {
+      "id": 1458,
+      "name": "Crystal (D-Grade)",
+      "count": 500
+     }
+    ]
+   },
+   {
+    "stage": 8,
+    "ids": {
+     "red": 4637,
+     "green": 4648,
+     "blue": 4659
+    },
+    "cost": [
+     {
+      "id": 1459,
+      "name": "Crystal (C-Grade)",
+      "count": 120
+     },
+     {
+      "id": 1458,
+      "name": "Crystal (D-Grade)",
+      "count": 567
+     }
+    ]
+   },
+   {
+    "stage": 9,
+    "ids": {
+     "red": 4638,
+     "green": 4649,
+     "blue": 4660
+    },
+    "cost": [
+     {
+      "id": 1460,
+      "name": "Crystal (B-Grade)",
+      "count": 44
+     },
+     {
+      "id": 1459,
+      "name": "Crystal (C-Grade)",
+      "count": 135
+     }
+    ]
+   },
+   {
+    "stage": 10,
+    "ids": {
+     "red": 4639,
+     "green": 4650,
+     "blue": 4661
+    },
+    "cost": [
+     {
+      "id": 1460,
+      "name": "Crystal (B-Grade)",
+      "count": 50
+     },
+     {
+      "id": 1459,
+      "name": "Crystal (C-Grade)",
+      "count": 150
+     }
+    ]
+   }
+  ]
+ },
+ "q350Code": {
+  "mark": "DATAPACK (Q00350_EnhanceYourWeapon.java levelSoulCrystals / getSCForPlayer / levelCrystal; L2J H5)",
+  "rules": [
+   "getSCForPlayer: quest 350 must be STARTED, and the bag must hold exactly ONE item that is a soul crystal of any colour, stage 0-18 (two or more = null = no roll at all, no message from the script).",
+   "LAST_HIT monsters (every regular monster): the KILLER must be in the monster's absorber list (= he used the crystal on it) and his crystal use must have been at <= 50 % of the monster's max HP; else nothing. Only the killer's crystal rolls.",
+   "So a character that never lands killing blows (our healers only heal) can NOT level a crystal on regular monsters: its crystal use only costs MP. Healers level on FULL_PARTY bosses, buy (Alexandria, stage 7-10) or get one levelled by a damage dealer (trade / warehouse).",
+   "Party monsters (any non-LAST_HIT entry = all bosses): the killer's party is checked (no distance check in the script); maxSCLevel = the highest member crystal stage the boss accepts; no crystal use needed.",
+   "FULL_PARTY: every member holding one valid crystal rolls. PARTY_ONE_RANDOM: ONE member is drawn from ALL members (also those without a crystal); a member without a valid crystal = nobody levels (the code comment calls it retail behaviour).",
+   "PARTY_RANDOM is declared but used by no entry in levelUpCrystalData.xml.",
+   "Roll: getRandom(100) <= chance, so chance N = (N+1) %. Success = the crystal is replaced by the next stage (974). Fail = 975. Stage not accepted = 978. The crystal never breaks in H5 (976 unused).",
+   "The boss must be killed by OUR party (killer.getParty()); another party's kill gives us nothing."
+  ]
+ },
+ "forum503": {
+  "mark": "GUIDE (community.lineage2toggle.com topic 503, Arthose 2023-01-02; a copy of an rpg-club x50 guide, NOT L2Toggle data; 3 of the 4 \"other raid boss\" images and the NPC screenshots are lost)",
+  "steps": [
+   "Take quest 350 at the Magic Guild in Giran or Aden (the datapack also has Gideon in Oren).",
+   "Stage 10 crystals: Giran luxury shop, Alexandria, \"Purchase Specialty Items\" (the datapack multisell sells stage 7-10 for grade crystals).",
+   "Raid boss table colours: RED = 100 %, every party member levels; YELLOW = random chance, each member rolls; GREEN = one random party member levels. The forum column = the stage the crystal REACHES (datapack accepted stage + 1)."
+  ],
+  "conflicts": [
+   "Anakazel 78: forum YELLOW (every member rolls), datapack 25338 PARTY_ONE_RANDOM 15 % [12,13] (green). Stages agree. The forum leaves out Anakazel 68 (25337, 5 % PARTY_ONE_RANDOM [10,11]).",
+   "Scarlet van Halisha and Freya (normal): the forum shows a GREEN stage 17; the datapack stops at accepted stage 15 (gives up to 16).",
+   "Lost Captain / Lost Warden (81): forum GREEN 11-14; not in levelUpCrystalData.xml at all (no absorb on stock L2J).",
+   "Zaken: forum \"night time 60\" = datapack 29022 (100 % FULL_PARTY [10,11], 10 % [12,13]); forum \"daytime HARD 83\" = 29181 (PARTY_ONE_RANDOM 20/10/3 %). The datapack XML COMMENT swaps day/night; npcs_h5.json names all three plain \"Zaken\". 29176 (60, 10 % one random [10,11]) is not on the forum.",
+   "Forum names: Orphen = Orfen, Anays = Anais, Takeurakan = Taklacan, Darnel = Darnels, Cannibalistic Leader Stakato = Cannibalistic Stakato Chief, Ant Queen = Queen Ant.",
+   "The forum gives no percentages; Ice Knight Captain (25699/25700) and the mid-level bosses are not on the surviving images.",
+   "Not verified on L2Toggle Kain: rates and lists may differ (first kills: watch messages 974/975/978 in Logs/soul.log)."
+  ],
+  "mostImportant": [
+   [
+    "Queen Ant",
+    40,
+    "Y 11"
+   ],
+   [
+    "Orfen",
+    50,
+    "Y 11-13"
+   ],
+   [
+    "Core",
+    50,
+    "Y 11-13"
+   ],
+   [
+    "Zaken (night) 29022",
+    60,
+    "R 11-12, Y 13-14"
+   ],
+   [
+    "Baium",
+    75,
+    "R 11-12, Y 13"
+   ],
+   [
+    "Anakazel",
+    78,
+    "Y 13-14 (datapack: one random)"
+   ],
+   [
+    "Lilith",
+    80,
+    "R 11-12, Y 13-14"
+   ],
+   [
+    "Ember",
+    80,
+    "Y 11-14"
+   ],
+   [
+    "Anakim",
+    80,
+    "R 11-12, Y 13-14"
+   ],
+   [
+    "Ekimus",
+    82,
+    "Y 13-17"
+   ],
+   [
+    "Tiat",
+    82,
+    "Y 13-17"
+   ],
+   [
+    "Beleth",
+    83,
+    "Y 13-17"
+   ],
+   [
+    "Zaken (daytime hard) 29181",
+    83,
+    "G 13-17"
+   ],
+   [
+    "Scarlet van Halisha",
+    85,
+    "R 13-14, Y 15-16, G 17 (datapack: no 17)"
+   ],
+   [
+    "Freya (normal)",
+    85,
+    "R 13-15, Y 16, G 17 (datapack: no 17)"
+   ],
+   [
+    "Freya (extreme)",
+    85,
+    "R 13-16, Y 17-18"
+   ],
+   [
+    "Antharas",
+    85,
+    "R 13-17, Y 18"
+   ],
+   [
+    "Valakas",
+    85,
+    "R 13-17, Y 18"
+   ]
+  ]
+ },
+ "extended": {
+  "at": "2026-10-12T15:05:43.146Z",
+  "tool": "docs/plan/tools/soul_crystals_extend.js"
+ }
 }

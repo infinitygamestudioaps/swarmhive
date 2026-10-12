@@ -53,6 +53,15 @@ Otherwise copy `swarm.config.example.json` to `swarm.config.json` and edit it. E
 - `server`: login IP/port and server id of your Lineage 2 server (the example is L2Toggle).
 - `mcp.port` (8083), `dashboard.port` (8090): change them only if those ports are taken.
 - `mainLeader`, `clanLeader`, `dailyLeaders`: character names.
+- `commanders` (optional): characters whose `!` commands every party leader obeys over **clan chat** or a **whisper**, so one
+  person can lead several parties while playing. Empty = off. Read live (within 30 s, no restart). In the game client:
+  - `@!level` (clan chat prefix `@` + the command) = every party leader runs `!level` for his party;
+  - `@Leadername !supply` = only that party (several: `@Leader1,Leader2 !stop`; `@all !stop` = everyone);
+  - `"Leadername !town giran` (a whisper) = that leader's party.
+
+  The leader relays the command in party chat exactly as if he had typed it and whispers back `ok: <command>` (a whisper to
+  a party member answers with the name of its leader). Party leaders must be in the clan to hear clan chat; otherwise whisper
+  them. Only the listed names are obeyed; clan / whisper lines of anyone else change nothing. Log: `Logs\commander.log`.
 - `accounts`: one line per game account:
   ```json
   { "login": "mylogin1", "character": "Tankname", "party": "Tankname", "role": "sk" },
@@ -104,9 +113,35 @@ What SETUP does:
   (use your `mcp.port`). Then start Claude Code in the install folder; `CLAUDE.md` is its operating guide.
 - Optional 24/7 laptop settings (lid/sleep/Windows Update off): `SETUP_PC_ALWAYS_ON.cmd` (admin). Undo: `docs\plan\tools\pc_restore.ps1`.
 
-## 6. Adding an account later
+## Optional features (all OFF on a fresh install)
 
-Add a line to `accounts` in `swarm.config.json`, run `SETUP.cmd` (check) and `SETUP.cmd -Apply` with L2Swarm stopped, then start
+Each of these ships as `Scripts\data\<name>.example.json`; SETUP / `update.cmd` create your own `<name>.json` from it once and never
+overwrite it again. Switch them on on the dashboard (or in the file - read live, no restart):
+
+| Feature | File | Default | Switch on |
+|---|---|---|---|
+| **New engine** (swarm.js runs in the dashboard's brain host, L2Swarm only runs the small `Scripts\agent2.js`; much less memory per character) | `brain_host.json` | `"on": false`, no character | `"on": true` + the characters in `"allow"`; those accounts run `agent2.js` instead of `swarm.js`. Design, steps and rollback: `docs\plan\new_engine\DESIGN.md` |
+| **Commanders** (orders over clan chat / whisper) | `swarm.config.json` `commanders` | `[]` = off | names of the characters whose `!` commands every party leader obeys (see section 3) |
+| **Seven Signs** sign-up with Dawn + seal stones | `seven_signs.json` | nobody enrolled | dashboard **7 Signs** tab (per party / character); `!dawn [name]` is always manual |
+| **Quest farm** (repeatable adena quests, items to one collector) | `quest_farm.json` | `"on": false` | dashboard **Quests** page |
+| **Cross-party adena** (rich parties top up poor ones) | `fund_rules.json` | `"on": false` | dashboard **Adena** page |
+| **Gear upgrades** | `gear_auto.json` | off | dashboard **Gear** page |
+| **Skill enchanting** | `skill_enchant_plan.json` | never automatic | dashboard **Skill enchant** page; one attempt per `!skillenchant` order |
+
+SETUP also deploys `Scripts_dev\agent2.js` to `Scripts\agent2.js` (unused until you switch the new engine on); `update.cmd` keeps it current.
+The dashboard builds small lookup files in `Scripts\data\slim\` by itself (not shipped, not tracked).
+
+## 6. Adding accounts
+
+**Easiest: the dashboard.** Accounts tab -> **+ Add account**: login, password, the character (an existing one, or a new one with race,
+sex and start class), party, role, auto-start, "log in right away". Several accounts at once: paste lines
+`login;password;character;party;role`, press **Check**, then **Add all**. It creates `Settings\<Login>.xml` with `new_account.ps1`
+(the password is stored **only encrypted** inside that config, with L2Swarm's own encryption, like L2Swarm itself does; it is never
+written to `swarm.config.json`, a log or another file), adds the account to `swarm.config.json` (backup first) and to
+`Settings\start_extra.txt` (logged in by the start task), and logs it in now when L2Swarm runs. No SETUP run and no restart needed.
+Details: `docs\guide\pages\accounts.md`.
+
+**By hand:** add a line to `accounts` in `swarm.config.json`, run `SETUP.cmd` (check) and `SETUP.cmd -Apply` with L2Swarm stopped, then start
 again. swarm.js reads the roster (character -> role and party) from `swarm.config.json` when the script starts, so no swarm.js
 edit is needed. Characters that do not exist yet: create them in game (or with the dashboard's "add account"), then fill in
 `character`.

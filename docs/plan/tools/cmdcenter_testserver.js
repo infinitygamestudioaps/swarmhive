@@ -18,7 +18,9 @@ globalThis.fetch = async (url, opt = {}) => {
     if (b.method === 'initialize') result = { protocolVersion: '2025-03-26', capabilities: {} };
     else {
       process.stdout.write('MCP ' + b.params.name + ' ' + JSON.stringify(b.params.arguments) + '\n');
-      const t = b.params.name === 'get_accounts_status' ? '[]' : JSON.stringify({ success: true, mock: true });
+      // SANDBOX_INVENTORY (2026-10-10, Trade page UI test): a JSON file { "<character>": [MCP inventory rows] } answers get_account_data inventory
+      let fx = null; try { if (process.env.SANDBOX_INVENTORY && b.params.name === 'get_account_data' && b.params.arguments.type === 'inventory') fx = JSON.parse(fs.readFileSync(process.env.SANDBOX_INVENTORY, 'utf8'))[b.params.arguments.account_name] || null; } catch (e) { }
+      const t = fx ? JSON.stringify({ items: fx }) : b.params.name === 'get_accounts_status' ? '[]' : JSON.stringify({ success: true, mock: true });
       result = { content: [{ type: 'text', text: t }] };
     }
     const txt = JSON.stringify({ jsonrpc: '2.0', id: b.id, result });

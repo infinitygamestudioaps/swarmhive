@@ -53,7 +53,9 @@
   setInterval(() => { const t = Date.now(); Object.keys(XSEEN).forEach(k => { if (t - XSEEN[k] > 120000) delete XSEEN[k]; }); }, 60000);
   function expRate(c) {
     const h = c.expHour; if (!h || !(h.mins >= 3) || !h.n) return '';
-    const r = h.pct / h.mins * 60, k = h.n / h.mins * 60;
+    // EXP TABLE 2026-10-12: exp points / the level size (LevelEta.hourPct); the plain % sum is too low across a level-up
+    const hp = window.LevelEta && LevelEta.hourPct ? LevelEta.hourPct(c) : null;
+    const r = hp != null ? hp : h.pct / h.mins * 60, k = h.n / h.mins * 60;
     return `≈${r >= 0 ? '+' : ''}${Math.abs(r) >= 1 ? r.toFixed(1) : r.toFixed(2)} %/h · ${Math.round(k)} kills/h`;
   }
 
@@ -217,7 +219,7 @@
   function castIcon(c, a) {
     const k = c.cast;
     if (c.dead) return '<span class="rlh-ci dead">✝</span>';
-    if (k && !k.ended && live(c)) {
+    if (k && !k.ended && live(c) && !(window.castGone && castGone(k, srvNow()))) {
       const el = Math.max(0, srvNow() - Date.parse(k.start)), ms = +k.ms || 0;
       const src = k.kind === 'soe' ? itemIcon(k.id || 736) : k.kind === 'town' ? '/icons/' + UI.map + '.png' : skIc(k.skill || k.id);
       return `<span class="rlh-ci${ms ? ' casting' : ''}"${ms ? ` data-t0="${Math.round((Date.now() - el) / 250) * 250}" data-dur="${ms}" style="--p:${Math.min(100, Math.round(100 * el / ms))}%"` : ''}><img src="${src}" alt=""></span>`;
@@ -228,7 +230,7 @@
   }
   /** cast bar with the time left (index.html animates .castbar[data-start] every 200 ms) */
   function castBar(c) {
-    const k = c.cast; if (!k || !live(c) || (k.ended && srvNow() - Date.parse(k.endedAt || k.start) > 8000)) return '';
+    const k = c.cast; if (!k || !live(c) || (k.ended && srvNow() - Date.parse(k.endedAt || k.start) > 8000) || (!k.ended && window.castGone && castGone(k, srvNow()))) return '';
     const cls = k.ended ? (/interrupt|refused|resist|fail|no teleport/.test(k.ended) ? 'int' : 'ok') : '';
     return `<div class="lp-cast"><span class="nm">${k.kind === 'town' ? 'Teleport ' : ''}<b>${esc(k.name || skName(k.skill || k.id))}</b>${k.target ? ' → ' + esc(k.target) : ''}</span>
       <div class="castbar ${cls}" data-start="${esc(k.start)}" data-ms="${+k.ms || 0}" data-ended="${esc(k.ended || '')}"><i></i><span></span></div></div>`;
@@ -551,7 +553,7 @@
       const fill = c.dead ? '#3a0d0d' : !lv ? '#666' : D.resting ? '#5aa9ff' : col;
       if (sel) s += `<circle cx="${c.x}" cy="${c.y}" r="${r0 + 9 * u}" fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="${1.5 * u}"/>`;
       if (st) s += `<circle class="lp-pulse" cx="${c.x}" cy="${c.y}" r="${r0 + 6 * u}" fill="none" stroke="${st.hard ? '#e0483c' : '#ff9f43'}" stroke-width="${2.4 * u}"/>`;
-      const k = c.cast;
+      const k0 = c.cast, k = k0 && !(window.castGone && castGone(k0, srvNow(), 8000)) ? k0 : null;   // D13: no arc / ⌛ for a cast whose time ran out
       s += `<circle cx="${c.x}" cy="${c.y}" r="${r0}" fill="${fill}" stroke="${fight ? '#ff5a45' : '#fff'}" stroke-width="${(fight ? 2.4 : 1.3) * u}"/>`;
       if (lv && k && !k.ended && +k.ms > 0) s += `<circle class="lp-arc" data-start="${esc(k.start)}" data-ms="${+k.ms}" cx="${c.x}" cy="${c.y}" r="${r0 + 3.5 * u}" fill="none" stroke="#ffcf4d" stroke-width="${2.6 * u}" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 ${c.x} ${c.y})"/>`;   // cast arc AFTER the dot = drawn on top of it (user 2026-10-09 10:05)
       if (isL) s += label(c.x, c.y + 3.6 * u, '★', 9, '#fff', 'middle');

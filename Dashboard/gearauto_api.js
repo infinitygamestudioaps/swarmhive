@@ -2,13 +2,16 @@
 // (Full Plate, shield) ..."). Dashboard Gear page box "Auto gear upgrades". File: Scripts/data/gear_auto.json (env SWARM_GEARAUTO_FILE for
 // the tests), read live by swarm.js GEARGUARD (ggPolicy). No file = auto upgrades OFF for everyone (new installs / imported accounts).
 //   GET  /api/gearauto     { exists, default, sameGradeSwap, keepArmorType, parties: [{ leader, auto, members: [{ name, auto, lock, eff, from }] }] }
-//   POST /api/gearauto     { action: 'set', scope: 'default' | 'party' | 'char' | 'policy', name, auto: true|false|null, lock, sameGradeSwap, keepArmorType, confirm }
+//   POST /api/gearauto     { action: 'set', scope: 'default' | 'party' | 'char' | 'policy', name, auto: true|false|null, lock, sameGradeSwap, keepArmorType, starterGear, confirm }
+//                          starterGear (TESTERS-2026-10-12): sell (default) | destroy | keep = what happens to a replaced starter piece (swarm.js STARTERGEAR)
 //                          turning auto upgrades ON needs confirm: true (the page asks first). Atomic write (tmp + rename), history copy (last 30),
 //                          one line in Logs/dashboard_commands.log.
 'use strict';
 const fs = require('fs'), path = require('path');
 const fileOf = (ctx) => process.env.SWARM_GEARAUTO_FILE || path.join(ctx.DATA, 'gear_auto.json');
 const DEF = { auto: false, sameGradeSwap: false, keepArmorType: true };   // = swarm.js GEARGUARD.defaults (test_gear_guard.js compares)
+const STARTER_MODES = ['sell', 'destroy', 'keep'];                         // = swarm.js STARTERGEAR.modes (sgMode: anything else = 'sell')
+const starterOf = (F) => STARTER_MODES.includes(String((F && F.starterGear) || '').toLowerCase()) ? String(F.starterGear).toLowerCase() : 'sell';
 function read(ctx) { try { const t = fs.readFileSync(fileOf(ctx), 'utf8'); return { exists: true, data: JSON.parse(t.replace(/^﻿/, '')) || {} }; } catch (e) { return { exists: false, data: {} }; } }
 /** the same resolution as swarm.js ggPolicy (character > party > file default > off) */
 function policy(F, name, party) {
@@ -29,7 +32,7 @@ function cfgParties(ctx) {
 function info(ctx) {
   const R = read(ctx), F = R.data;
   return { exists: R.exists, default: typeof F.default === 'boolean' ? F.default : DEF.auto, sameGradeSwap: typeof F.sameGradeSwap === 'boolean' ? F.sameGradeSwap : DEF.sameGradeSwap,
-    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : DEF.keepArmorType,
+    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : DEF.keepArmorType, starterGear: starterOf(F),
     parties: cfgParties(ctx).map(p => ({ leader: p.leader, auto: typeof ((F.parties || {})[p.leader] || {}).auto === 'boolean' ? F.parties[p.leader].auto : null,
       members: p.names.map(n => { const c = (F.chars || {})[n] || {}, e = policy(F, n, p.leader); return { name: n, auto: typeof c.auto === 'boolean' ? c.auto : null, lock: c.lock === true, eff: e.auto, from: e.from }; }) })) };
 }
@@ -62,9 +65,10 @@ function post(ctx, b) {
     if (!Object.keys(c).length) delete F.chars[name];
   } else if (scope === 'policy') {
     let n = 0; ['sameGradeSwap', 'keepArmorType'].forEach(k => { if (typeof b[k] === 'boolean') { F[k] = b[k]; n++; } });
-    if (!n) return { code: 400, error: 'sameGradeSwap / keepArmorType must be true or false' };
+    if (b.starterGear !== undefined) { if (!STARTER_MODES.includes(String(b.starterGear))) return { code: 400, error: 'starterGear: sell | destroy | keep' }; F.starterGear = String(b.starterGear); n++; }
+    if (!n) return { code: 400, error: 'sameGradeSwap / keepArmorType must be true or false, starterGear sell | destroy | keep' };
   } else return { code: 400, error: 'scope: default | party | char | policy' };
-  write(ctx, F, `${scope} ${name} ${JSON.stringify({ auto: v, lock: b.lock, sameGradeSwap: b.sameGradeSwap, keepArmorType: b.keepArmorType })}`);
+  write(ctx, F, `${scope} ${name} ${JSON.stringify({ auto: v, lock: b.lock, sameGradeSwap: b.sameGradeSwap, keepArmorType: b.keepArmorType, starterGear: b.starterGear })}`);
   return Object.assign({ code: 200, ok: true }, info(ctx));
 }
 async function handle(req, res, url, ctx) {
@@ -75,4 +79,4 @@ async function handle(req, res, url, ctx) {
   try { const r = post(ctx, b || {}); const c = r.code || 200; delete r.code; ctx.json(res, c, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, post, policy, DEF, fileOf };
+module.exports = { handle, info, post, policy, DEF, fileOf, STARTER_MODES, starterOf };

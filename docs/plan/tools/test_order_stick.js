@@ -321,7 +321,7 @@ function makeEnv(o) {
   const gnpc = blk("if (String(parts[1] || '').toLowerCase() === 'npc')", "gotoPlace(parts.slice(1).join(' '))");
   check(/orderWaitControl\('!goto npc', seq\)/.test(gnpc) && /orderRetry\(`!goto npc \$\{query\}`/.test(gnpc) && /max: 3/.test(gnpc), 'source: !goto npc waits for control and retries (3)');
   has(/case '!supply':[\s\S]{0,200}orderSupply\('!supply'\)/, '!supply goes through orderSupply');
-  has(/cmd === '!restock'\) \{ if \(isLeader\(\)\) orderSupply\('!restock'\)/, '!restock (lead mode) goes through orderSupply');
+  has(/cmd === '!restock'\) \{ if \(isLeader\(\)\) (\{ setLeadPaused\(false\); )?orderSupply\('!restock'\)/, '!restock (lead mode) goes through orderSupply');   // CMDFIX2-SUPPLY: may clear the lead pause first (like !supply)
   has(/return 'no-giran';/, "leadSupply says 'no-giran' when the Giran regroup failed");
   const ll = blk('async function leadLevel(why) {', '// --- Supplies');
   check(/orderRetry\(`level \(\$\{why\}\)`/.test(ll) && !/try again', true\)/.test(ll), 'source: leadLevel retries the Giran regroup (no "try again")');

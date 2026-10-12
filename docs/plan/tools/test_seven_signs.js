@@ -193,7 +193,10 @@ const mem = (name, rec, base) => ({ name, rec: rec || {}, base: !!base });
   U.setSS({ state, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '', why: '' }, { name: 'Nuker11', party: 'Tank3', cycle: '', status: '', why: '' }] });
   const g = U.ssGateParty('Tank3', 'Necropolis of Sacrifice', T('2026-10-08T19:50:00Z')), x = U.ssGateText(g);
   check(g.state === 'closed' && x.cls === 'bad' && /^closed: Seven Signs validation — only Dusk winners until Mon 12 Oct \d\d:00 \(local\)$/.test(x.t), `picker: "${x.t}"`);
+  // 7 SIGNS OPT-IN (2026-10-12): not enrolled -> closed + the hint; the party enrolled (seven_signs.json via /api/clan optin) -> sign-up first
   U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }] });
+  { const gn = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z')); check(gn.state === 'closed' && /not enrolled .*7 Signs tab/.test(U.ssGateText(gn).t), `picker, party not enrolled: "${U.ssGateText(gn).t}"`); }
+  U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, optin: { parties: ['Tank3'], chars: [] }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }] });
   const gs = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z'));
   check(gs.state === 'signup' && /^needs sign-up \(Dawn\) first — competition period/.test(U.ssGateText(gs).t), `picker in the competition period: "${U.ssGateText(gs).t}"`);
   U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '2026-10-12', status: 'signed' }] });

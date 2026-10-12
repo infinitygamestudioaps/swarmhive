@@ -56,6 +56,19 @@ function McpJson($tool, $toolArgs) {
 $brakeFile = "$root\Logs\reconnect_brake.json"
 function Brake-Load { try { return (Get-Content $brakeFile -Raw -ErrorAction Stop | ConvertFrom-Json) } catch { return [pscustomobject]@{ active = $false; offlineSince = $null; round = 0; nextTry = $null; closed = @() } } }
 function Brake-Save($b) { $b | ConvertTo-Json -Depth 5 | Set-Content $brakeFile -Encoding UTF8 }
+# STATUS for the dashboard (user 2026-10-10: "I don't see any status on when they will try again or why they are not in"): phase + why + times
+function Brake-Set($b, $k, $v) { $b | Add-Member -NotePropertyName $k -NotePropertyValue $v -Force }
+# LOGIN SERVER PROBE (2026-10-10): after a mass reconnect the login server's flood protection accepts the TCP connection and hangs up without its
+# greeting (0 bytes). One plain connection = how many greeting bytes it sends (0 = still refusing us, -1 = unreachable). Cheap, no login.
+function LoginGreets {
+    try {
+        $c = New-Object Net.Sockets.TcpClient; $task = $c.ConnectAsync($SwarmLoginIp, $SwarmLoginPort)
+        if (-not ($task.Wait(5000) -and $c.Connected)) { $c.Close(); return -1 }
+        $s = $c.GetStream(); $s.ReadTimeout = 3000; $buf = New-Object byte[] 512; $n = 0
+        try { $n = $s.Read($buf, 0, 512) } catch { $n = 0 }
+        $c.Close(); return $n
+    } catch { return -1 }
+}
 function InGameChars { try { $m = Get-Content "$root\Settings\client_mode.json" -Raw | ConvertFrom-Json; return @($m.PSObject.Properties | Where-Object { $_.Value -eq 'ingame' } | ForEach-Object { $_.Name }) } catch { return @() } }
 function CharOfConfig($cfg) { try { $x = Get-Content $cfg -Raw -ErrorAction Stop; if ($x -match '<SelectedCharacter>([^<]+)<') { return $Matches[1] } } catch { }; return '' }
 function Reconnect-Brake {
@@ -66,23 +79,38 @@ function Reconnect-Brake {
         try { $accs = @(McpJson 'get_accounts_status' @{}) } catch { return }
         $ingame = InGameChars
         $off = @($accs | Where-Object { $_.config_path -and -not $_.is_logged_in -and ($ingame -notcontains (CharOfConfig $_.config_path)) })
-        if ($off.Count -lt 3) { if ($b.offlineSince) { $b.offlineSince = $null; Brake-Save $b }; return }
+        if ($off.Count -lt 3) { if ($b.offlineSince -or $b.phase) { $b.offlineSince = $null; Brake-Set $b 'phase' ''; Brake-Set $b 'chars' @(); Brake-Save $b }; return }
+        Brake-Set $b 'phase' 'watching'; Brake-Set $b 'chars' @($off | ForEach-Object { CharOfConfig $_.config_path })
+        Brake-Set $b 'why' "$($off.Count) characters lost the connection - L2Swarm is reconnecting them by itself (the brake steps in after 3 min)"
         if (-not $b.offlineSince) { $b.offlineSince = $now.ToString('s'); Brake-Save $b; Log $ctlLog "brake: $($off.Count) accounts offline - watching"; return }
+        Brake-Save $b
         $mins = ($now - [datetime]$b.offlineSince).TotalMinutes
         $port = GamePortOpen
         if ($mins -lt 3 -and $port) { return }                     # L2Swarm usually gets them back within a minute or two by itself
         foreach ($a in $off) { try { [void](Mcp 'close_account' @{ account_id = $a.account_id }) } catch { } }
-        $b = [pscustomobject]@{ active = $true; offlineSince = $b.offlineSince; round = 1; nextTry = $now.AddMinutes(3).ToString('s'); closed = @($off | ForEach-Object { $_.config_path }) }
+        $b = [pscustomobject]@{ active = $true; offlineSince = $b.offlineSince; round = 1; nextTry = $now.AddMinutes(2).ToString('s'); closed = @($off | ForEach-Object { $_.config_path });
+            phase = 'paused'; chars = @($off | ForEach-Object { CharOfConfig $_.config_path }); stoppedAt = $now.ToString('s');
+            why = "L2Swarm could not get them back in for $([int]$mins) min (the login server refuses logins after many reconnects in a row) - closed them so the retries stop, the brake checks the login server every 2 min" }
         Brake-Save $b
-        Log $ctlLog "brake: MASS DROP - $($off.Count) accounts offline $([int]$mins) min (game port $(if ($port) { 'open' } else { 'CLOSED' })) - closed them, first retry in 3 min"
+        Log $ctlLog "brake: MASS DROP - $($off.Count) accounts offline $([int]$mins) min (game port $(if ($port) { 'open' } else { 'CLOSED' })) - closed them, first check in 2 min"
         return
     }
     if ($now -lt [datetime]$b.nextTry) { return }
-    $wait = [math]::Min(30, 3 * [math]::Pow(2, $b.round))          # 6, 12, 24, 30, 30 â€¦ minutes
+    $wait = [math]::Min(30, 3 * [math]::Pow(2, $b.round))          # 6, 12, 24, 30, 30 … minutes
     if (-not (GamePortOpen)) {
-        $b.round++; $b.nextTry = $now.AddMinutes($wait).ToString('s'); Brake-Save $b
-        Log $ctlLog "brake: game port 7778 still closed - next try in $wait min (round $($b.round))"; return
+        $b.round++; $b.nextTry = $now.AddMinutes($wait).ToString('s'); Brake-Set $b 'phase' 'serverDown'
+        Brake-Set $b 'why' "the game server does not answer (port $SwarmGamePort closed) - it is probably down or restarting"; Brake-Save $b
+        Log $ctlLog "brake: game port $SwarmGamePort still closed - next try in $wait min (round $($b.round))"; return
     }
+    # 2026-10-10: the login server first (a plain connection, no login): while it still refuses us, check again in 2 min instead of a blind 6+ min wait
+    $g = LoginGreets
+    Brake-Set $b 'lastProbe' ([pscustomobject]@{ at = $now.ToString('s'); bytes = $g })
+    if ($g -le 0) {
+        $b.nextTry = $now.AddMinutes(2).ToString('s'); Brake-Set $b 'phase' 'refused'
+        Brake-Set $b 'why' $(if ($g -lt 0) { "the login server ($SwarmLoginIp port $SwarmLoginPort) cannot be reached" } else { 'the login server still hangs up on this PC without answering (its flood protection after the mass reconnect) - usually 5 to 20 min' })
+        Brake-Save $b; Log $ctlLog "brake: login server still refusing (greeting $g bytes) - next check in 2 min"; return
+    }
+    Brake-Set $b 'phase' 'testing'; Brake-Set $b 'why' 'the login server answers again - logging ONE character in as a test'; Brake-Save $b
     # the test login + the staggered logins take minutes: run them in their own process so this watch run (memory!) goes on
     Start-Process powershell.exe -WindowStyle Hidden -ArgumentList @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-Action', 'reopen')
     Log $ctlLog 'brake: game port open - started the test login (separate process)'
@@ -102,13 +130,16 @@ function Brake-Reopen {
         try { $in = [bool](@(McpJson 'get_accounts_status' @{}) | Where-Object { $_.config_path -eq $first -and $_.is_logged_in }) } catch { }
         if (-not $in) {
             try { $a = @(McpJson 'get_accounts_status' @{}) | Where-Object { $_.config_path -eq $first } | Select-Object -First 1; if ($a) { [void](Mcp 'close_account' @{ account_id = $a.account_id }) } } catch { }
-            $b.round++; $b.nextTry = (Get-Date).AddMinutes($wait).ToString('s'); Brake-Save $b
-            Log $ctlLog "brake: test login failed - closed it again, next try in $wait min (round $($b.round))"; return
+            $b.round++; $b.nextTry = (Get-Date).AddMinutes([math]::Min($wait, 4)).ToString('s'); Brake-Set $b 'phase' 'testFailed'
+            Brake-Set $b 'why' "the test login with $(CharOfConfig $first) did not get in - trying again soon"; Brake-Save $b
+            Log $ctlLog "brake: test login failed - closed it again, next try in $([math]::Min($wait, 4)) min (round $($b.round))"; return
         }
         Log $ctlLog "brake: test login OK - logging the other $(@($b.closed).Count - 1) in one by one"
         $rest = @($b.closed | Select-Object -Skip 1)
-        Brake-Save ([pscustomobject]@{ active = $false; offlineSince = $null; round = 0; nextTry = $null; closed = @() })
+        Brake-Save ([pscustomobject]@{ active = $false; offlineSince = $null; round = 0; nextTry = $null; closed = @(); phase = 'reopening'; chars = @($rest | ForEach-Object { CharOfConfig $_ });
+            why = "the test login worked - logging the other $(@($rest).Count) in one by one (20 s apart)" })
         Open-Configs $rest
+        Brake-Save ([pscustomobject]@{ active = $false; offlineSince = $null; round = 0; nextTry = $null; closed = @(); phase = ''; chars = @(); doneAt = (Get-Date).ToString('s') })
         Log $ctlLog 'brake: done - everyone is back'
     } finally { Release-StartLock }
 }
@@ -279,11 +310,13 @@ switch ($Action) {
             exit 0
         }
         try { Reconnect-Brake } catch { Log $ctlLog "brake error: $_" }
-        # MINIMIZE until patch v6 is installed (2026-10-08 10:15, user away from home): the UI deadlock needs L2Swarm's window to be drawing
-        # the shown account's mob grid / world map; a minimized WPF window does not render. Re-minimized at every run if restored; remove this
-        # block (or create Logs\keep_window_open.flag) once v6 is installed.
+        # MINIMIZE (2026-10-08 10:15, old UI-deadlock workaround: the deadlock needed L2Swarm's window to be drawing the mob grid / world map;
+        # a minimized WPF window does not render). 2026-10-12 (backlog D5): 3.8.14+ fixed the deadlock, so this is now an OPTION, default OFF:
+        # swarm.config.json  "l2swarm": { "minimizeWindow": true }  turns it back on. Logs\keep_window_open.flag still forces it off.
+        $minimizeWin = $false
+        try { $minimizeWin = [bool](SwarmCfgValue $SwarmCfg 'l2swarm.minimizeWindow' $false) } catch { $minimizeWin = $false }
         try {
-            if (-not (Test-Path "$root\Logs\keep_window_open.flag") -and $p.MainWindowHandle -ne [IntPtr]::Zero) {
+            if ($minimizeWin -and -not (Test-Path "$root\Logs\keep_window_open.flag") -and $p.MainWindowHandle -ne [IntPtr]::Zero) {
                 if (-not ('L2Win' -as [type])) { Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class L2Win { [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr h, int cmd); [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h); }' }
                 if (-not [L2Win]::IsIconic($p.MainWindowHandle)) { [void][L2Win]::ShowWindowAsync($p.MainWindowHandle, 6); Log $ctlLog "window: minimized L2Swarm (deadlock risk until patch v6)" }
             }
@@ -326,7 +359,16 @@ switch ($Action) {
             $ok = [L2PT]::Off($p.Handle); $ptf = "$root\Logs\power_throttling_pid.txt"
             if ((Get-Content $ptf -ErrorAction SilentlyContinue) -ne "$($p.Id)") { Set-Content $ptf "$($p.Id)"; Log $ctlLog "power throttling (EcoQoS) off for L2Swarm pid $($p.Id): $ok" }
         } catch { Log $ctlLog "power throttling error: $_" }
-        # client modes (Settings\client_mode.json, user request 2026-10-04): in-game via L2Swarm's Hook button
+        # HEAP CENSUS ON REQUEST (user OK 2026-10-12 "Hook"; docs/plan/memory_2026-10-09.md step 1): Logs\heapstat.request (content: optional
+        # "<topN> <typeRegex>") -> HeapStat.exe (ClrMD, AttachFlag.Passive = L2Swarm is NOT paused) writes Logs\heapstat_<time>.txt. Needs this
+        # elevated task because L2Swarm runs as admin. One census at a time, below-normal priority.
+        try { $hr = "$root\Logs\heapstat.request"; $hx = "$root\patches\tools\mem\HeapStat.exe"
+              if ((Test-Path $hr) -and (Test-Path $hx) -and -not (Get-Process HeapStat -ErrorAction SilentlyContinue)) {
+                $req = ((Get-Content $hr -Raw) + '').Trim(); Remove-Item $hr -Force; $parts = @($req -split '\s+', 2 | Where-Object { $_ })
+                $hargs = @("$($p.Id)", "`"$root\Logs\heapstat_$(Get-Date -Format 'yyyyMMdd_HHmmss').txt`"", $(if ($parts.Count -ge 1) { $parts[0] } else { '80' })); if ($parts.Count -ge 2) { $hargs += "`"$($parts[1])`"" }
+                $hp = Start-Process $hx -ArgumentList $hargs -WindowStyle Hidden -PassThru; try { $hp.PriorityClass = 'BelowNormal' } catch { }
+                Log $ctlLog "heapstat: started pid $($hp.Id) ($req)" } } catch { Log $ctlLog "heapstat error: $_" }
+        # client modes (Settings\client_mode.json, user request 2026-10-04): in-game via L2Swarm's Hook button (may wait for an idle PC: after the census)
         try { if (Test-Path "$root\Logs\uia_probe.flag") { Remove-Item "$root\Logs\uia_probe.flag" -Force; & "$root\docs\plan\tools\client_mode.ps1" -Probe } else { & "$root\docs\plan\tools\client_mode.ps1" } } catch { Log $ctlLog "client_mode error: $_" }
         $mb     = [int]($p.PrivateMemorySize64 / 1MB)
         $freeMB = [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)

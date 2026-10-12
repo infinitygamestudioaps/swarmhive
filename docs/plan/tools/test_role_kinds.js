@@ -79,6 +79,7 @@ if (cfg) {
   const parties = {};
   acc.forEach(a => {
     // any class: a legacy name never looks at the class
+    if (!M.rkIsLegacy(a.role)) { check(!!M.rkResolve(a.role, 0, T).role, `live ${a.character}: role ${a.role} (a role kind, 2026-10-11 accounts) resolves`); return; }   // the 2026-10-11 accounts use role kinds (tank / healer / nuker ...)
     [0, 14, 17, 33, 116].forEach(cls => { const r = M.rkResolve(a.role, cls, T); if (!(r.role === a.role && r.legacy)) check(false, `live ${a.character}: role ${a.role} -> ${r.role}`); });
     check(M.rkIsLegacy(a.role), `live ${a.character} (${a.role}): a legacy role = exactly today's behaviour`);
     (parties[a.party || a.character] = parties[a.party || a.character] || []).push(a.role);

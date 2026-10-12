@@ -119,9 +119,11 @@ function HookCharacter($name) {
     if (-not $cfg) { Log "hook ${name}: no config with <SelectedCharacter>$name< in Settings - not pressing Hook"; return $false }
     $exe = ''; try { if ((Get-Content $cfg -Raw) -match '<L2ExePath>([^<]+)<') { $exe = $Matches[1] } } catch { }
     if (-not $exe -or -not (Test-Path $exe)) { Log "hook ${name}: $(Split-Path $cfg -Leaf) has no valid <L2ExePath> ('$exe') - L2Swarm would open a modal 'Select L2.exe' dialog; set the path first (close account, edit XML, open) - not pressing Hook"; return $false }
-    $btn = $win.FindFirst([Windows.Automation.TreeScope]::Descendants, (New-Object Windows.Automation.PropertyCondition($AE::AutomationIdProperty, 'btnHook')))
-    if (-not $btn) { Log "hook ${name}: no btnHook found (run with -Probe)"; return $false }
-    if (-not $btn.Current.IsEnabled) { Log "hook ${name}: the Hook button is disabled - another hooked client is still running (L2Swarm allows ONE hooked client at a time; the button comes back when that l2.exe exits)"; return $false }
+    # 2026-10-10 (L2Swarm 3.8.14): the account detail panel with btnHook only exists AFTER an account is selected (before that the main
+    # area is a LoadingAnimation) -> the button is looked up after the selection below; here only "another hooked client" when it shows
+    $hookCond = New-Object Windows.Automation.PropertyCondition($AE::AutomationIdProperty, 'btnHook')
+    $btn = $win.FindFirst([Windows.Automation.TreeScope]::Descendants, $hookCond)
+    if ($btn -and -not $btn.Current.IsEnabled) { Log "hook ${name}: the Hook button is disabled - another hooked client is still running (L2Swarm allows ONE hooked client at a time; the button comes back when that l2.exe exits)"; return $false }
     $idle = UserIdleSec
     if ($idle -ge 0 -and $idle -lt 60) { Log "hook ${name}: waiting - the user was active $([int]$idle) s ago (the Hook auto-login types the password with global keystrokes into the front window)"; return $false }
     # 1) select the account in L2Swarm's account list (a list item whose text contains the character name)
@@ -131,14 +133,36 @@ function HookCharacter($name) {
         $items = FindAll ([Windows.Automation.Condition]::TrueCondition) | Where-Object { $_.Current.ControlType.ProgrammaticName -match 'ListItem|DataItem' } | Where-Object {
             ($_.FindAll([Windows.Automation.TreeScope]::Descendants, [Windows.Automation.Condition]::TrueCondition) | Where-Object { $_.Current.Name -match "\b$([regex]::Escape($name))\b" }) }
     }
-    $item = @($items)[0]
-    if (-not $item) { Log "hook ${name}: account not found in the L2Swarm list (run with -Probe and check Logs\uia_dump.txt)"; return $false }
-    try { $item.GetCurrentPattern([Windows.Automation.SelectionItemPattern]::Pattern).Select() } catch { try { $item.SetFocus() } catch {} }
-    Start-Sleep -Milliseconds 1500
-    # safety: the window title shows the selected account ("SWARM <ROLE> - <Name>", set by swarm.js); never hook the wrong one
-    # (the window title is whatever swarm.js set last, so check the list item's own selection state instead)
-    $sel = $false; try { $sel = $item.GetCurrentPattern([Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected } catch {}
+    if (-not @($items).Count) {
+        # 2026-10-12 (59 accounts, Tank1 "not found" for an hour): the list is VIRTUALIZED - rows out of view do not exist for UI Automation.
+        # Scroll every scrollable container top -> bottom in steps and look again after each step.
+        $match = { FindAll ([Windows.Automation.Condition]::TrueCondition) | Where-Object { $_.Current.ControlType.ProgrammaticName -match 'ListItem|DataItem' } | Where-Object {
+            $_.Current.Name -match [regex]::Escape($name) -or ($_.FindAll([Windows.Automation.TreeScope]::Descendants, [Windows.Automation.Condition]::TrueCondition) | Where-Object { $_.Current.Name -match "\b$([regex]::Escape($name))\b" }) } }
+        $scrollers = @(FindAll ([Windows.Automation.Condition]::TrueCondition) | Where-Object { try { $_.GetCurrentPattern([Windows.Automation.ScrollPattern]::Pattern).Current.VerticallyScrollable } catch { $false } })
+        foreach ($sc in $scrollers) {
+            $sp = $sc.GetCurrentPattern([Windows.Automation.ScrollPattern]::Pattern)
+            for ($v = 0; $v -le 100 -and -not @($items).Count; $v += 8) { try { $sp.SetScrollPercent([Windows.Automation.ScrollPattern]::NoScroll, [double]$v); Start-Sleep -Milliseconds 250 } catch { break }; $items = & $match }
+            if (@($items).Count) { Log "hook ${name}: found after scrolling the account list"; break }
+        }
+    }
+    if (-not @($items).Count) { Log "hook ${name}: account not found in the L2Swarm list (run with -Probe and check Logs\uia_dump.txt)"; return $false }
+    # 2026-10-10 (Dagger1 after a close/open sat at the bottom of a 39-account list: "could not select"): scroll each matching row into
+    # view, select it, and take the first one that really reports IsSelected (another list can show the same name). Safety: never hook
+    # the wrong one - the list item's own selection state must say so (the window title is whatever swarm.js set last).
+    $sel = $false; $item = $null
+    foreach ($cand in @($items)) {
+        try { $cand.GetCurrentPattern([Windows.Automation.ScrollItemPattern]::Pattern).ScrollIntoView(); Start-Sleep -Milliseconds 400 } catch { }
+        try { $cand.GetCurrentPattern([Windows.Automation.SelectionItemPattern]::Pattern).Select() } catch { try { $cand.SetFocus() } catch {} }
+        Start-Sleep -Milliseconds 1500
+        $ok = $false; try { $ok = $cand.GetCurrentPattern([Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected } catch {}
+        if ($ok) { $sel = $true; $item = $cand; break }
+    }
+    if ($sel) { Log "hook ${name}: selected its row in the account list ($(@($items).Count) matching rows)" }
     if (-not $sel) { Log "hook ${name}: could not select $name in the account list - not pressing Hook"; return $false }
+    # the selected account's panel loads now: wait up to 15 s for its Hook button
+    $btn = $null; for ($w = 0; $w -lt 15 -and -not $btn; $w++) { Start-Sleep 1; $btn = $win.FindFirst([Windows.Automation.TreeScope]::Descendants, $hookCond) }
+    if (-not $btn) { Log "hook ${name}: selected, but no btnHook appeared within 15 s (run with -Probe)"; return $false }
+    if (-not $btn.Current.IsEnabled) { Log "hook ${name}: the Hook button is disabled - another hooked client is still running"; return $false }
     # 2) press the Hook button (x:Name btnHook -> AutomationId)
     $before = @(Get-Process l2 -ErrorAction SilentlyContinue | ForEach-Object Id)
     try { $btn.GetCurrentPattern([Windows.Automation.InvokePattern]::Pattern).Invoke() } catch { Log "hook ${name}: pressing Hook failed: $($_.Exception.Message)"; return $false }

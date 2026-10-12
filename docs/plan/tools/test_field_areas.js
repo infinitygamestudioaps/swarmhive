@@ -423,7 +423,7 @@ function grab(name) {
   hasT('maxWalk: CONFIG.travel.maxWalk, landingBad: (k) => spotBad(k)', 'fieldAreaAutoSpot passes maxWalk + the landing ban to faAutoPick');
   hasT('!faEntryWhy(h.a, CONFIG.travel.maxWalk) && !spotBad(faLandingKey(h.R.id, h.a))', 'zoneAreaSpot: only reachable areas with a working landing');
   hasT("try { geoBlockLearn(`route walk gave up stuck (waypoint ${i + 1}/${r.points.length})`, { x, y }); } catch (e) { }", 'geoWalk: a give-up records the stuck spot (learned blocked spots)');
-  hasT('if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return;', 'huntTarget: never a monster standing in a blocked spot');
+  hasT('if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return no(mb);', 'huntTarget: never a monster standing in a blocked spot');
   hasT('const lf = spotLearnFailHost(spot, gkFail || ', 'the 2nd could-not-reach of the day skips the spot for every party until 06:30');
 }
 console.log(`\n${n - fails}/${n} passed${fails ? ', ' + fails + ' FAILED' : ''}`);

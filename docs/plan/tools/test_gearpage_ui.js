@@ -270,7 +270,9 @@ function writeFixtures() {
         ok('fallback "keep what they wear" saved', await waitFor(`GearPage._gp.data.fallback === 'keep'`, 6000) && prefs()._class['46'].C._fallback === 'keep');
         // copy to the similar classes (confirm accepted)
         acceptDialogs = true; await UID.set(ev, true);
-        await ev(`document.querySelector('[data-gpcopy]').click()`);
+        // D9 (2026-10-12): "Copy to similar" is a panel now (classes of the same weapon kind ticked by default) -> open it, then copy
+        await ev(`document.querySelector('[data-gptool="copy"]').click()`); await waitFor(`!!document.querySelector('[data-gpcopygo]')`, 3000);
+        await ev(`document.querySelector('[data-gpcopygo]').click()`);
         ok('Copy to similar classes: Orc Raider + Titan get the plan', await waitFor(`true`, 100) && (await (async () => { for (let i = 0; i < 40; i++) { const p = prefs(); if (p._class && p._class['113'] && p._class['113'].C && p._class['45'] && p._class['45'].C) return true; await sleep(150); } return false; })()), Object.keys(prefs()._class || {}).join(','));
         acceptDialogs = false; await UID.set(ev, false);
         ok('copied plan keeps the order + buy rule', prefs()._class['113'].C.chest.buy === 'real' && prefs()._class['113'].C.chest.id === prefs()._class['46'].C.chest.id);

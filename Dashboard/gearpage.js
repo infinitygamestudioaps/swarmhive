@@ -11,11 +11,19 @@
 // Slot tap = picker (bottom sheet on phones, side panel on wide screens) with search, "fits this class" / all, sold in Giran, S.A. versions,
 // sort, and per item: stats, set + bonus, Common twin, S.A. options, every source (Giran price, other shops, craft, exchange, drop, spoil).
 // Uses index.html globals: esc, api, go, patch, GI, UI, itemIcon, classIcon, STATE, TAB, stopChar, GD.
+// 2026-10-12 (backlog D2/D3/D9/D10/D11): plan tools above the doll (GP.tool): "Apply a set" (every piece of an armor set in one go),
+// "Copy what is equipped" (a character's worn gear -> this class + grade, preview first), "Copy to similar" (tick the classes; grouped by
+// weapon kind so daggers, bows and other fighters never mix); "Leave empty" per slot ({ none: true }); a full armor chest shows the legs
+// as "covered by the full armor"; epic boss jewels are the recommendation for their grade (chip "epic").
 (function () {
   'use strict';
   const SEC = 'tab-gearpage';
   const GP = { open: false, cls: null, grade: 'C', meta: null, data: null, pick: null, q: '', all: false, giran: false, sa: false, sort: 'best', exp: null,
-    classQ: '', drawer: false, busy: false, msg: '', msgBad: false, timer: 0, loadSeq: 0, buy: 'auto' };
+    classQ: '', drawer: false, busy: false, msg: '', msgBad: false, timer: 0, loadSeq: 0, buy: 'auto',
+    tool: null, setSel: null, setBuy: 'real', eqSel: '', copySel: null };
+  // D9: "copy to similar" stays inside one weapon kind (user 2026-10-12: "separate daggers / archers")
+  const WGROUP = (arch) => arch === 'dagger' ? 'dagger' : (arch === 'archer' || arch === 'kamaelBow') ? 'bow' : ['mystic', 'nuker', 'summoner', 'healer', 'buffer'].includes(arch) ? 'mystic' : /^kamael/.test(arch || '') ? 'kamael' : 'fighter';
+  const WGROUP_LABEL = { dagger: 'dagger users', bow: 'bow / crossbow users', mystic: 'mystics', kamael: 'Kamael melee', fighter: 'other fighters (no dagger or bow classes)' };
   const $id = (i) => document.getElementById(i);
   const nf = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
   const short = (n) => { n = Number(n) || 0; return n >= 1e9 ? (n / 1e9).toFixed(2) + 'B' : n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 1 : 2) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : nf(n); };
@@ -48,8 +56,8 @@
       <div class="gp-layout">
         <aside class="gp-side" id="gpSide"><input id="gpClsQ" type="search" placeholder="find a class…" aria-label="find a class"><div id="gpClsList" class="gp-clslist"></div></aside>
         <div class="gp-main">
-          <div class="box gp-plan"><h3><span id="gpPlanT">Plan</span><span class="gp-sp"></span><span id="gpPlanAct" class="gp-act"></span></h3><div id="gpPlan"></div></div>
-          <div class="box gp-ours"><h3><span>Our characters</span><span class="gp-sp"></span><span class="gp-key"><i class="has"></i>has it <i class="buy"></i>will buy <i class="man"></i>manual <i class="non"></i>no choice</span></h3><div id="gpOurs"></div></div>
+          <div class="box gp-plan"><h3><span id="gpPlanT">Plan</span><span class="gp-sp"></span><span id="gpPlanAct" class="gp-act"></span></h3><div id="gpTool"></div><div id="gpPlan"></div></div>
+          <div class="box gp-ours"><h3><span>Our characters</span><span class="gp-sp"></span><span class="gp-key"><i class="has"></i>has it <i class="buy"></i>will buy <i class="man"></i>manual <i class="non"></i>no choice <b class="gp-whdot k">W</b>in a warehouse</span></h3><div id="gpOurs"></div></div>
           <details class="box gp-auto" id="gpAutoBox"><summary><h3><span>Auto gear upgrades</span><span class="gp-sp"></span><span class="muted" id="gpAutoSum"></span></h3></summary><div id="gpAuto"><div class="muted">Loading…</div></div></details>
           <details class="box gp-help"><summary><h3>How it works</h3></summary><div class="gp-helpbody">
             <p>Pick a class and a grade, then tap a slot to choose the item they should wear. Every item of that grade is listed, also the ones no shop in Giran sells: the bots buy what Giran sells (the cheap <b>Common</b> twin when there is one, a caster's armor as the real set piece) and report <b>manual</b> for the rest (drop, craft, exchange) in <code>!gearplan</code>.</p>
@@ -120,6 +128,7 @@
     el.innerHTML = `<div class="gp-autotop">${sw(A.default, 'data-gpauto="default"', 'Everyone: ' + (A.default ? 'ON' : 'OFF'))}
         <label class="gp-autoopt"><input type="checkbox" data-gpautopol="sameGradeSwap" ${A.sameGradeSwap ? 'checked' : ''}> swap items of the same grade</label>
         <label class="gp-autoopt"><input type="checkbox" data-gpautopol="keepArmorType" ${A.keepArmorType ? 'checked' : ''}> keep the armor type (heavy / light / robe)</label>
+        <label class="gp-autoopt" title="Squire's Sword / Shirt / Pants, Apprentice's Wand / Tunic / Stockings, Training Gloves, Guild Member's Club: what happens to the starter piece an upgrade replaced. Never quest, enchanted or S.A. items.">replaced starter gear <select data-gpautostarter="1" aria-label="replaced starter gear">${[['sell', 'sell it (destroy if the shop refuses)'], ['destroy', 'destroy it'], ['keep', 'keep it in the bag']].map(([v, t]) => `<option value="${v}" ${(A.starterGear || 'sell') === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
         ${A.exists ? '' : '<span class="muted">no gear_auto.json yet: OFF for everyone</span>'}</div>
       ${A.parties.map(p => `<div class="gp-autop"><div class="gp-autoph"><b>Party ${esc(p.leader)}</b>
           <select data-gpautoparty="${esc(p.leader)}" aria-label="party ${esc(p.leader)} auto upgrades"><option value="" ${p.auto === null ? 'selected' : ''}>as everyone</option><option value="on" ${p.auto === true ? 'selected' : ''}>ON</option><option value="off" ${p.auto === false ? 'selected' : ''}>OFF</option></select></div>
@@ -128,7 +137,7 @@
             <label title="nothing is bought, put on or swapped"><input type="checkbox" data-gpautolock="${esc(m.name)}" ${m.lock ? 'checked' : ''}> lock what is equipped</label></div>`).join('')}</div></div>`).join('')}`;
   }
   async function saveAuto(body, okText, askOn) {
-    if (askOn && !await uiConfirm({ title: 'Turn auto gear upgrades ON?', body: [uiP(askOn), uiList(['They buy better gear in Giran in every supply run, with their own adena', 'Never another weapon type, never a lower grade, never a shield next to a two-handed weapon', 'Your choices on this page always win']), uiNote('Lock a character to keep exactly what it wears.')], confirmText: 'Turn ON', cancelText: 'Cancel' })) { renderAuto(); return; }
+    if (askOn && !await uiConfirm({ title: 'Turn auto gear upgrades ON?', body: [uiP(askOn), uiList(['They buy better gear in Giran in every supply run, with their own adena', 'Never another weapon type (the starter weapon a character was created with excepted), never a lower grade, never a shield next to a two-handed weapon', 'Your choices on this page always win']), uiNote('Lock a character to keep exactly what it wears.')], confirmText: 'Turn ON', cancelText: 'Cancel' })) { renderAuto(); return; }
     try {
       const r = await api('/api/gearauto', { method: 'POST', body: JSON.stringify(Object.assign({ confirm: !!askOn }, body)) });
       if (!r || r.error) { flash((r && r.error) || 'not saved', true); await loadAuto(); return; }
@@ -159,6 +168,7 @@
     try {
       const r = await api('/api/gearplanner', { method: 'POST', body: JSON.stringify(Object.assign({ class: GP.cls, grade: GP.grade }, body)) });
       if (!r || r.error) { flash((r && r.error) || 'not saved', true); return; }
+      if (r.legsCleared) okText += ' · full armor: the legs choice was removed';
       flash(okText + (r.skipped && r.skipped.length ? ` — skipped (cannot wear): ${r.skipped.join(', ')}` : '') + ' · the bots use it from their next gear upgrade (no restart).');
       GP.metaAt = 0; await loadMeta();
     } catch (e) { flash('Not saved: ' + e.message, true); }
@@ -214,14 +224,21 @@
     const k = d.kit || {}, p = {}; ORDER.forEach(x => { p[x] = eff(d, x); });
     if (s === 'shield' && !k.sh && !k.sig) return d.class.race === 'KAMAEL' ? 'Kamael: no shield' : 'no shield for this class';
     if (s === 'shield') { const w = p.weapon && candOf(d, 'weapon', p.weapon.id); if (w && w.two) return 'two-handed weapon'; }
-    if (s === 'legs') { const ch = p.chest && candOf(d, 'chest', p.chest.id); if (ch && ch.full) return 'full armor: no lower part'; }
+    if (s === 'legs' && d.coverBy) return 'covered by the full armor (' + d.coverBy + ')';
     if (!(d.cand[base(s)] || []).length && !p[s]) return 'nothing at this grade';
     return '';
   };
   const candOf = (d, s, id) => (d.cand[base(s)] || []).find(x => x.id === +id) || null;
   /** what a slot holds: the user's choice (own class, parent line, old role choice) or else the RECOMMENDED item (from: 'rec') */
-  const eff = (d, s) => (d.plan || {})[s] || ((d.rec || {})[s] ? Object.assign({}, d.rec[s], { from: 'rec' }) : null) ||
-    (/2$/.test(s) && !(d.plan || {})[s] ? (() => { const b = eff(d, base(s)); return b ? Object.assign({}, b, { same: true }) : null; })() : null);   // earring 2 / ring 2: the same item worn twice
+  //  (legs under a full armor chest = nothing; slot 2's botSkip rec = the epic jewel's partner, only while slot 1 is not the user's own choice)
+  const eff = (d, s) => {
+    if (s === 'legs' && d.coverBy) return null;
+    const P = d.plan || {}, R = d.rec || {};
+    if (P[s]) return P[s];
+    if (R[s] && !(R[s].botSkip && P[base(s)])) return Object.assign({}, R[s], { from: 'rec' });
+    if (/2$/.test(s)) { const b = eff(d, base(s)); return b && !b.none ? Object.assign({}, b, { same: true }) : null; }   // earring 2 / ring 2: the same item worn twice
+    return null;
+  };
   function statLine(r, slot) {
     const o = [];
     if (r.pa) o.push('P.Atk ' + r.pa); if (r.ma) o.push('M.Atk ' + r.ma); if (r.cr) o.push('Crit ' + r.cr); if (r.spd) o.push('Spd ' + r.spd);
@@ -234,12 +251,18 @@
     if (r.two) o.push('2h'); if (r.full) o.push('full armor'); if (r.mw) o.push('magic');
     return o.join(' ');
   }
+  /** MASTERWORK 2026-10-12 (forum topic 430): "MW" chip with the bonus (d.masterwork from Scripts/data/masterwork_ids.json); '' for plain items */
+  function mwChip(d, id) {
+    const m = d && d.masterwork && d.masterwork[+id];
+    return m ? ` <span class="gp-c mwk" title="Masterwork weapon: ${esc(m)} (L2J H5 datapack; forum topic 430). The bots never swap it for a plain weapon of the same grade unless that one is clearly better.">MW · ${esc(m)}</span>` : '';
+  }
   /** The chip that says how the bots get the planned item: Giran (gold) or manual (grey). */
   function getChip(d, s, e) {
     if (!e) {
       const a = (d.auto || {})[base(s)];
       return a ? `<span class="gp-c auto" title="no choice: the bots' automatic pick">auto: ${esc(a.name)}</span>` : `<span class="gp-c auto">automatic</span>`;
     }
+    if (e.none) return '<span class="gp-c man" title="the bots buy nothing for this slot">left empty</span>';
     if (!BOT.has(s)) return `<span class="gp-c man" title="${esc(e.src || '')}">manual · bots do not buy ${esc(SHORT[s].toLowerCase())}s</span>`;
     const g = e.get;
     if (g) return `<span class="gp-c buy" title="the bots buy this in Giran">Giran ${short(g.price)} · ${esc(g.npc)}${g.how === 'common' ? ' (Common)' : g.how === 'change' ? ' (sword + Change Weapon)' : ''}</span>`;
@@ -249,7 +272,8 @@
   function cell(d, s) {
     if (!s) return '<span class="gp-cell gp-blank" aria-hidden="true"></span>';
     const e = eff(d, s), off = slotOff(d, s);
-    if (off && !e) return `<span class="gp-cell off" title="${esc(SLOT_LABEL[s])}: ${esc(off)}"><i class="lbl">${esc(SHORT[s])}</i></span>`;
+    if (off && !e) return `<span class="gp-cell off" title="${esc(SLOT_LABEL[s])}: ${esc(off)}"><i class="lbl">${esc(SHORT[s])}</i>${s === 'legs' && d.coverBy ? '<i class="plus">⛨</i>' : ''}</span>`;
+    if (e && e.none) return `<button class="gp-cell none" data-gpslot="${s}" title="${esc(SLOT_LABEL[s])}: left empty (your choice) · tap to change"><i class="lbl">${esc(SHORT[s])}</i><i class="plus">∅</i></button>`;
     if (!e) return `<button class="gp-cell" data-gpslot="${s}" title="${esc(SLOT_LABEL[s])}: tap to choose"><i class="lbl">${esc(SHORT[s])}</i><i class="plus">+</i></button>`;
     const r = candOf(d, s, e.id) || { g: '' }, st = e.get ? 'buy' : 'man', isRec = e.from === 'rec', inh = !isRec && e.from !== d.class.id;
     return `<button class="gp-cell has ${BOT.has(s) ? st : 'man'}${inh ? ' inh' : ''}${isRec ? ' rec' : ''}" data-gpslot="${s}" title="${esc(SLOT_LABEL[s] + ': ' + e.name + (inh ? ' (from ' + fromName(d, e.from) + ')' : ''))}"><img src="${icon(e.id)}" alt="">${grade(r.g)}</button>`;
@@ -258,15 +282,16 @@
   function slotRow(d, s) {
     const e = eff(d, s), off = slotOff(d, s);
     if (off && !e) return `<div class="gp-row off"><span class="gp-sl">${esc(SLOT_LABEL[s])}</span><span class="muted">${esc(off)}</span></div>`;
+    if (e && e.none) { const inhN = e.from !== d.class.id; return `<button class="gp-row empty none" data-gpslot="${s}" title="tap to choose an item"><span class="gp-ic empty">∅</span><span class="gp-sl">${esc(SLOT_LABEL[s])}</span><span class="gp-nm"><b>Empty</b> <span class="gp-c mine">your choice</span>${inhN ? ` <span class="gp-c inh">from ${esc(fromName(d, e.from))}</span>` : ''} ${getChip(d, s, e)}</span></button>`; }
     if (!e) return `<button class="gp-row empty" data-gpslot="${s}" title="tap to choose"><span class="gp-ic empty">+</span><span class="gp-sl">${esc(SLOT_LABEL[s])}</span><span class="gp-nm">${getChip(d, s, null)}</span></button>`;
     const r = candOf(d, s, e.id) || {}, isRec = e.from === 'rec', inh = !isRec && e.from !== d.class.id, rc = (d.rec || {})[s];
     const set = r.set != null && d.sets[r.set] ? d.sets[r.set] : null;
-    const tag = isRec ? ' <span class="gp-c rec" title="nobody chose this slot: the planner\'s recommendation (the bots use it)">recommended</span>'
-      : ` <span class="gp-c mine" title="your choice wins over the recommendation">your choice</span>${rc && rc.id !== e.id ? ` <span class="gp-c rec" title="${esc(rc.why || '')}">rec.: ${esc(rc.name)}</span>` : ''}`;
+    const tag = (e.epic ? ' <span class="gp-c epic" title="epic boss jewel: recommended for this grade (its normal alternative is bought until someone has it)">epic</span>' : '') + (isRec ? ' <span class="gp-c rec" title="nobody chose this slot: the planner\'s recommendation (the bots use it)">recommended</span>'
+      : ` <span class="gp-c mine" title="your choice wins over the recommendation">your choice</span>${rc && rc.id !== e.id ? ` <span class="gp-c rec" title="${esc(rc.why || '')}">rec.: ${esc(rc.name)}${rc.epic ? ' (epic)' : ''}</span>` : ''}`);
     const why = isRec && !e.same ? `<small class="gp-why">${esc(e.why || '')}</small>` : '';
     const same = e.same ? ' <span class="gp-c" title="nothing chosen for this slot: the first slot\'s item is worn twice">same as slot 1</span>' : '';
     return `<button class="gp-row" data-gpslot="${s}"><img class="gp-ic" src="${icon(e.id)}" alt=""><span class="gp-sl">${esc(SLOT_LABEL[s])}</span>
-      <span class="gp-nm"><b>${esc(e.name)}</b> ${grade(r.g)}${tag}${same}${e.buy && e.buy !== 'auto' ? ` <span class="gp-c">${e.buy === 'real' ? 'real only' : 'Common only'}</span>` : ''}${inh ? ` <span class="gp-c inh">from ${esc(fromName(d, e.from))}</span>` : ''}${(e.alt || []).length ? ` <span class="gp-c">+${e.alt.length} alt.</span>` : ''}
+      <span class="gp-nm"><b>${esc(e.name)}</b> ${grade(r.g)}${mwChip(d, e.id)}${tag}${same}${e.buy && e.buy !== 'auto' ? ` <span class="gp-c">${e.buy === 'real' ? 'real only' : 'Common only'}</span>` : ''}${inh ? ` <span class="gp-c inh">from ${esc(fromName(d, e.from))}</span>` : ''}${(e.alt || []).length ? ` <span class="gp-c">+${e.alt.length} alt.</span>` : ''}
         <small>${esc([statLine(r, s), set ? 'set: ' + set.name : ''].filter(Boolean).join(' · '))}</small>${why}</span>${getChip(d, s, e)}</button>`;
   }
   function render() {
@@ -276,7 +301,9 @@
     $id('gpPlanT').textContent = `${c.name} · ${GRADE_LABEL[d.grade]}${d.grade !== 'NONE' ? '-grade' : ''}`;
     patch($id('gpPlanAct'), `<label class="gp-fb" title="What the bots do while a chosen item cannot be bought">if not for sale
         <select id="gpFallback"><option value="auto"${d.fallback !== 'keep' ? ' selected' : ''}>buy the auto pick</option><option value="keep"${d.fallback === 'keep' ? ' selected' : ''}>keep what they wear</option></select></label>
-      ${archN > 1 ? `<button data-gpcopy title="Copy this plan to every class of the same kind">Copy to ${archN - 1} similar</button>` : ''}
+      <button data-gptool="set" class="${GP.tool === 'set' ? 'on' : ''}" aria-expanded="${GP.tool === 'set'}" title="Put every piece of an armor set into this plan">Apply a set…</button>
+      <button data-gptool="eq" class="${GP.tool === 'eq' ? 'on' : ''}" aria-expanded="${GP.tool === 'eq'}" title="Take what one of our characters wears now into this plan">Copy equipped…</button>
+      <button data-gptool="copy" class="${GP.tool === 'copy' ? 'on' : ''}" aria-expanded="${GP.tool === 'copy'}" title="Copy this plan to other classes of the same weapon kind">Copy to similar…</button>
       <button data-gpclear title="Remove your choices for this class at this grade: the recommended plan takes over">Reset grade to recommended</button>
       <button data-gpreset="class" title="Remove your choices for every grade of this class">… all grades</button>
       <button data-gpreset="all" title="Remove your choices for EVERY class and grade (the old per-role choices stay)">… all classes</button>`);
@@ -284,8 +311,55 @@
     patch($id('gpPlan'), `<div class="gp-planwrap"><div class="gp-doll">${DOLL.map(row => row.map(s => cell(d, s)).join('')).join('')}</div>
       <div class="gp-rows">${ORDER.map(s => slotRow(d, s)).join('')}</div></div>${chainTxt}
       <div class="gp-foot muted">${esc(kitText(d))}${d.giranAt ? ' · Giran prices from the shop scan of ' + esc(String(d.giranAt).slice(0, 10)) : ''}</div>`);
+    renderTool();
     renderOurs();
     if (GP.pick) renderPick();
+  }
+  // =========================================================================================== plan tools (D2 set, D10 equipped, D9 copy)
+  function copyTargets(d) {
+    const M = GP.meta || {}, g = WGROUP(d.class.arch);
+    return (M.classes || []).filter(x => x.id !== d.class.id && WGROUP(x.arch) === g);
+  }
+  function renderTool() {
+    const d = GP.data, el = $id('gpTool'); if (!d || !el) return;
+    if (!GP.tool) { patch(el, ''); return; }
+    const head = (t) => `<div class="gp-toolh"><b>${t}</b><span class="gp-sp"></span><button class="closebtn" data-gptool="${GP.tool}" aria-label="close"></button></div>`;
+    if (GP.tool === 'set') {
+      const L = d.setList || [];
+      if (!L.length) { patch(el, `<div class="gp-tool">${head('Apply a set')}<div class="muted">No armor set at ${esc(GRADE_LABEL[d.grade])} grade that ${esc(d.class.name)} can wear.</div></div>`); return; }
+      if (GP.setSel == null || !L.some(x => x.id === +GP.setSel)) GP.setSel = (L.find(x => x.fit) || L[0]).id;
+      const S = L.find(x => x.id === +GP.setSel);
+      patch(el, `<div class="gp-tool">${head('Apply a set')}
+        <div class="gp-toolr"><select id="gpSetSel" aria-label="armor set">${L.map(x => `<option value="${x.id}"${x.id === S.id ? ' selected' : ''}>${esc(x.name)} (${esc((x.t || '').toLowerCase().replace('magic', 'robe'))}${x.full ? ', full armor' : ''})${x.fit ? '' : ' — not this class\'s armor type'}</option>`).join('')}</select>
+          <select id="gpSetBuy" aria-label="buy as" title="How the bots buy the pieces"><option value="real"${GP.setBuy === 'real' ? ' selected' : ''}>real pieces (set bonus)</option><option value="auto"${GP.setBuy === 'auto' ? ' selected' : ''}>auto (cheap Common twin when sold)</option></select>
+          <button class="go" data-gpsetapply>Apply</button></div>
+        <div class="gp-setp">${S.pieces.map(p => `<span class="gp-c"><img src="${icon(p.id)}" alt="">${esc(SHORT[p.slot] || p.slot)}: ${esc(p.n)}</span>`).join(' ')}</div>
+        <small class="muted">Set bonus: ${esc(S.bonus || '—')}${S.shield ? ' · with shield: ' + esc(S.shield) : ''}${S.full ? ' · full armor: the legs slot is freed' : ''}</small></div>`);
+      return;
+    }
+    if (GP.tool === 'eq') {
+      const ours = ((GP.meta || {}).ours || []).filter(o => o.classId != null), line = new Set((d.chars || []).map(c => c.name));
+      ours.sort((a, b) => (line.has(b.name) - line.has(a.name)) || (b.level - a.level));
+      if (!ours.length) { patch(el, `<div class="gp-tool">${head('Copy what is equipped')}<div class="muted">No character reports its gear right now.</div></div>`); return; }
+      if (!GP.eqSel || !ours.some(o => o.name === GP.eqSel)) GP.eqSel = ours[0].name;
+      const cn = (id) => (((GP.meta || {}).classes || []).find(c => c.id === id) || {}).name || '';
+      patch(el, `<div class="gp-tool">${head('Copy what is equipped')}
+        <div class="gp-toolr"><select id="gpEqSel" aria-label="character">${ours.map(o => `<option value="${esc(o.name)}"${o.name === GP.eqSel ? ' selected' : ''}>${esc(o.name)} · ${esc(cn(o.classId))} ${o.level}${line.has(o.name) ? '' : ' (other class)'}</option>`).join('')}</select>
+          <button class="go" data-gpeqcopy>Preview &amp; copy</button></div>
+        <small class="muted">Every slot the character wears something in becomes ${esc(d.class.name)}'s ${esc(GRADE_LABEL[d.grade])}-grade choice (Common items as their real twin). Empty slots stay as they are.</small></div>`);
+      return;
+    }
+    if (GP.tool === 'copy') {
+      const T = copyTargets(d), g = WGROUP(d.class.arch), M = GP.meta || {};
+      if (!GP.copySel) GP.copySel = new Set(T.filter(x => x.arch === d.class.arch).map(x => x.id));
+      const byArch = {}; T.forEach(x => { (byArch[x.arch] = byArch[x.arch] || []).push(x); });
+      const n = T.filter(x => GP.copySel.has(x.id)).length;
+      patch(el, `<div class="gp-tool">${head('Copy to similar classes')}
+        <small class="muted">Only ${esc(WGROUP_LABEL[g])} are offered${g === 'fighter' ? ' — dagger and bow classes have their own lists' : ''}. Ticked by default: the same kind as ${esc(d.class.name)}.</small>
+        <div class="gp-toolr"><button data-gpcopypick="same">same kind</button><button data-gpcopypick="all">all ${esc(WGROUP_LABEL[g].split(' (')[0])}</button><button data-gpcopypick="none">none</button></div>
+        <div class="gp-copyl">${Object.entries(byArch).map(([a, L]) => `<div class="gp-copyg"><div class="gp-rh">${esc(((M.arch || {})[a] || {}).label || a)}</div>${L.map(x => `<label class="gp-copyc"><input type="checkbox" data-gpcopyc="${x.id}"${GP.copySel.has(x.id) ? ' checked' : ''}>${clsIcon(x.id)}<span>${esc(x.name)}</span></label>`).join('')}</div>`).join('') || '<div class="muted">No other class of this kind.</div>'}</div>
+        <div class="gp-toolr"><button class="go" data-gpcopygo${n ? '' : ' disabled'}>Copy to ${n} class${n === 1 ? '' : 'es'}</button></div></div>`);
+    }
   }
   function kitText(d) {
     const k = d.kit || {}, w = (k.w || []).map(t => t === 'MAGIC' ? 'magic weapons' : t === 'DUAL' ? 'dual swords' : t === 'ANCIENTSWORD' ? 'ancient swords' : t.toLowerCase() + 's').join(', ');
@@ -297,19 +371,60 @@
     if (!L.length) { patch(el, `<div class="muted">None of our characters is a ${esc(d.class.name)} (or in its class line) right now.</div>`); return; }
     const slots = ORDER.filter(s => !slotOff(d, s) || eff(d, s));
     patch(el, L.map(ch => {
-      const cnt = { has: 0, buy: 0, man: 0, cost: 0 };
+      const cnt = { has: 0, buy: 0, man: 0, cost: 0, wh: 0 };
       const strip = slots.map(s => {
         const x = ch.slots[s] || {}, st = ch.own ? (x.st === 'manual' ? 'man' : x.st || 'none') : 'none';
         if (ch.own && cnt[st] != null) cnt[st]++; if (ch.own && st === 'buy') cnt.cost += x.price || 0;
-        const w = x.worn;
-        return `<span class="gp-s ${st}" title="${esc(SLOT_LABEL[s] + ': ' + (w ? w.n : 'nothing') + (x.t ? ' — ' + x.t : ''))}">${w && w.id ? `<img src="${icon(w.id)}" alt="">` : `<i>${esc(SHORT[s].slice(0, 2))}</i>`}</span>`;
+        const w = x.worn, wh = ch.own && x.wh, mwk = w && w.id && d.masterwork ? d.masterwork[+w.id] : '';   // MASTERWORK 2026-10-12
+        if (wh) cnt.wh++;
+        return `<span class="gp-s ${st}${wh ? ' wh' : ''}" title="${esc(SLOT_LABEL[s] + ': ' + (w ? w.n : 'nothing') + (mwk ? ' — Masterwork: ' + mwk : '') + (x.t ? ' — ' + x.t : '') + (wh ? ` — ${wh.n} is in the ${wh.kind} warehouse (x${wh.c})` : ''))}">${w && w.id ? `<img src="${icon(w.id)}" alt="">` : `<i>${esc(SHORT[s].slice(0, 2))}</i>`}${wh ? '<b class="gp-whdot" aria-hidden="true">W</b>' : ''}${mwk ? '<b class="gp-mwdot" aria-hidden="true">MW</b>' : ''}</span>`;
       }).join('');
       const sum = ch.own ? [cnt.has ? `<span class="ok">${cnt.has} ok</span>` : '', cnt.buy ? `<span class="warn">${cnt.buy} to buy (${short(cnt.cost)})</span>` : '', cnt.man ? `<span class="muted">${cnt.man} manual</span>` : ''].filter(Boolean).join(' · ') || '<span class="muted">nothing chosen yet</span>'
         : `<span class="muted">${esc(ch.cls)} — same class line, uses its own plan</span>`;
+      const whRow = cnt.wh ? `<div class="gp-whrow">${whChips(ch)}<button class="gp-whbtn" data-gpwhtake="${esc(ch.name)}" title="Send ${esc(ch.name)} (private) / the clan leader (clan) to the warehouse keeper to take these out">Take from warehouse</button></div>` : '';
       const gNote = ch.own && ch.grade !== d.grade ? ` <span class="gp-c" title="the bots buy for the grade of their level">wears ${esc(GRADE_LABEL[ch.grade])} now</span>` : '';
       return `<div class="gp-char${ch.own ? '' : ' line'}"><a class="gp-cn" href="#/char/${encodeURIComponent(ch.name)}">${clsIcon(ch.classId, 'sm')}<b>${esc(ch.name)}</b><span class="lvl">${ch.level}</span>${ch.online ? '' : '<span class="gp-c">offline</span>'}${gNote}</a>
-        <div class="gp-strip">${strip}</div><div class="gp-sum">${sum}</div></div>`;
+        <div class="gp-strip">${strip}</div><div class="gp-sum">${sum}</div>${(() => { const ww = ((ch.slots || {}).weapon || {}).worn; return ww && ww.id ? mwChip(d, ww.id).replace(' <span', '<span') : ''; })()}${whRow}</div>`;   // MASTERWORK: the worn weapon's bonus (phones show no titles)
     }).join(''));
+  }
+  // ---- D8 (user 2026-10-12): "take needed items from the private / clan warehouse (the clan leader grants rights), from the gear tab" ----
+  // the API marks a missing planned item that a warehouse holds (slots[S].wh); the button sends "!whtake <id>:<n>,... private|clan <name>"
+  // (swarm.js WHTAKE): private = the character itself walks to the keeper; clan = only the clan leader may take it out (L2Toggle), so the
+  // order goes to him and he trades it to the character (hand-over).
+  function whNeeds(ch) {
+    const by = { private: {}, clan: {} };
+    ORDER.forEach(s => { const w = ch.slots[s] && ch.slots[s].wh; if (!w) return; const e = by[w.kind][w.id] = by[w.kind][w.id] || { id: w.id, n: w.n, c: 0, have: w.c, slots: [], at: w.at, src: w.src }; e.c++; e.slots.push(SLOT_LABEL[s]); });
+    return { private: Object.values(by.private), clan: Object.values(by.clan) };
+  }
+  function whChips(ch) {
+    const N = whNeeds(ch);
+    return ['private', 'clan'].filter(k => N[k].length).map(k => `<span class="gp-c wh" title="${esc(N[k].map(e => `${e.n} x${e.c} (${e.have} there) for ${e.slots.join(', ')}`).join(' · ') + (N[k][0].src ? ' — ' + N[k][0].src + (N[k][0].at ? ', ' + String(N[k][0].at).slice(0, 16).replace('T', ' ') : '') : ''))}">in ${k} warehouse x${N[k].reduce((a, e) => a + e.c, 0)}</span>`).join(' ');
+  }
+  async function whTakeClick(name) {
+    const d = GP.data, ch = d && (d.chars || []).find(c => c.name === name); if (!ch) return;
+    const N = whNeeds(ch), cl = (d.wh && d.wh.clanLeader) || '';
+    const line = (e) => `${e.n}${e.c > 1 ? ' x' + e.c : ''} — for ${e.slots.join(', ')}`;
+    const body = [uiP('Missing planned gear that our warehouses hold (as the bots last saw them):')];
+    if (N.private.length) body.push(uiH(`Private warehouse (${name} walks to the keeper itself)`), uiList(N.private.map(line)));
+    if (N.clan.length) body.push(uiH(`Clan warehouse (${cl || 'the clan leader'} takes it out and trades it to ${name})`), uiList(N.clan.map(line)));
+    body.push(uiNote('In a town: the nearest warehouse keeper (Giran: Taurin). In the field a party leader takes the team to Giran first; a member is brought to a town by its leader (Park → warehouse) and then sent again. Equipping is up to the gear upgrade / you.'));
+    if (N.clan.length && name !== cl) body.push(uiWarn('Only the clan leader can take items out of the clan warehouse on this server — he walks there and then brings them over.'));
+    if (!await uiConfirm({ title: `Take from warehouse — ${name}`, body, confirmText: 'Send', cancelText: 'Cancel' })) return;
+    const ids = (L) => L.map(e => `${e.id}:${e.c}`).join(',');
+    const sends = [];
+    if (N.private.length) sends.push({ cmd: `!whtake ${ids(N.private)} private ${name}`, to: name });
+    if (N.clan.length) sends.push({ cmd: `!whtake ${ids(N.clan)} clan ${name}`, to: cl || name });
+    const out = [];
+    for (const s of sends) {
+      try {
+        const r = await api('/api/command', { method: 'POST', body: JSON.stringify({ cmd: s.cmd, targets: ['char:' + s.to] }) });
+        const one = r && (r.sends || [])[0];
+        if (!r || r.error) out.push({ ok: false, t: `${s.to}: not sent — ${(r && r.error) || 'error'}` });
+        else if (one && one.ok === false && !one.pending) out.push({ ok: false, t: `${s.to}: ${one.error || 'failed'}` });
+        else out.push({ ok: true, t: `${s.to}: "${s.cmd}" sent${one && one.channel === 'file' ? ' (file channel)' : ''}` });
+      } catch (e) { out.push({ ok: false, t: `${s.to}: not sent — ${e.message}` }); }
+    }
+    flash(out.map(o => o.t).join(' · ') + (out.every(o => o.ok) ? ' — they report in party chat (Logs/whtake.log).' : ''), !out.every(o => o.ok));
   }
 
   // =========================================================================================== picker
@@ -334,7 +449,7 @@
     const S = base(GP.pick.slot), q = GP.q.trim().toLowerCase();
     let L = (d.cand[S] || []).slice();
     const saCount = {}; L.forEach(r => { if (r.base) saCount[r.base] = (saCount[r.base] || 0) + 1; });
-    const plan = d.plan[GP.pick.slot], chosen = new Set(plan ? [plan.id].concat(plan.alt || []) : []);
+    const plan = d.plan[GP.pick.slot], chosen = new Set(plan && !plan.none ? [plan.id].concat(plan.alt || []) : []);
     L = L.filter(r => chosen.has(r.id) || ((GP.all || r.fit) && (GP.sa || !r.base || q) && (!GP.giran || giranPrice(r) != null) && (!q || r.n.toLowerCase().includes(q))));
     const by = GP.sort === 'price' ? (a, b) => (giranPrice(a) == null) - (giranPrice(b) == null) || (giranPrice(a) || 0) - (giranPrice(b) || 0) || score(b, d) - score(a, d)
       : GP.sort === 'name' ? (a, b) => a.n.localeCompare(b.n) : (a, b) => score(b, d) - score(a, d) || (giranPrice(a) || 9e12) - (giranPrice(b) || 9e12);
@@ -378,17 +493,20 @@
     const d = GP.data, P = GP.pick, el = $id('gpPanel'); if (!d || !P || !el) return;
     const { L, saCount, chosen, plan } = pickList(d);
     const S = base(P.slot), total = (d.cand[S] || []).length, fits = (d.cand[S] || []).filter(r => r.fit && !r.base).length;
-    const cur = plan ? `<div class="gp-cur"><span class="muted">Chosen:</span> ${[plan.id].concat(plan.alt || []).map((id, i) => {
+    const cur = plan && plan.none ? `<div class="gp-cur"><span class="muted">Chosen:</span> <span class="gp-chosen"><b>Empty</b> — the bots buy nothing here${plan.from === d.class.id ? '<button class="icon" data-gpuserec title="remove: back to the recommended item" aria-label="remove">✕</button>' : ` <span class="gp-c inh">from ${esc(fromName(d, plan.from))}</span>`}</span></div>`
+      : plan ? `<div class="gp-cur"><span class="muted">Chosen:</span> ${[plan.id].concat(plan.alt || []).map((id, i) => {
         const r = candOf(d, P.slot, id) || { n: (i ? plan.altNames[i - 1] : plan.name) };
         return `<span class="gp-chosen">${i ? `<small>alt ${i}</small>` : '<small>1st</small>'}<img src="${icon(id)}" alt="">${esc(r.n)}${i ? `<button class="icon" data-gpup="${id}" title="try earlier" aria-label="move up">↑</button>` : ''}<button class="icon" data-gpdrop="${id}" title="${i ? 'remove this alternative' : 'remove the choice (back to automatic)'}" aria-label="remove">✕</button></span>`;
       }).join('')}${plan.from !== d.class.id ? ` <span class="gp-c inh">from ${esc(fromName(d, plan.from))} — choosing here makes it this class's own</span>` : ''}</div>` : '<div class="gp-cur muted">Nothing chosen by you: the bots use the recommended item below (or their automatic pick).</div>';
     const rc = (d.rec || {})[P.slot] || (/2$/.test(P.slot) ? (d.rec || {})[base(P.slot)] : null);
-    const recLine = rc ? `<div class="gp-recl"><span class="gp-c rec">recommended</span><img src="${icon(rc.id)}" alt=""><b>${esc(rc.name)}</b>${(rc.altNames || []).length ? ` <span class="muted">(then ${esc(rc.altNames.join(', '))})</span>` : ''}
-        ${plan && plan.from === d.class.id ? '<button data-gpuserec title="remove your choice for this slot: the recommendation takes over">Use recommended</button>' : plan ? '' : '<span class="gp-c ok">in use</span>'}
+    const recLine = rc ? `<div class="gp-recl"><span class="gp-c rec">recommended</span>${rc.epic ? '<span class="gp-c epic">epic</span>' : ''}<img src="${icon(rc.id)}" alt=""><b>${esc(rc.name)}</b>${(rc.altNames || []).length ? ` <span class="muted">(then ${esc(rc.altNames.join(', '))})</span>` : ''}
+        ${plan && !plan.none && plan.from === d.class.id ? '<button data-gpuserec title="remove your choice for this slot: the recommendation takes over">Use recommended</button>' : plan ? '' : '<span class="gp-c ok">in use</span>'}
         <small class="gp-why">${esc(rc.why || '')}</small></div>`
       : `<div class="gp-recl muted">No recommendation for this slot at this grade${/2$/.test(P.slot) ? ' (the first slot\'s item is worn twice)' : ''}.</div>`;
+    const cover = P.slot === 'legs' && d.coverBy ? `<div class="gp-recl warn">The chest (${esc(d.coverBy)}) is a full armor and covers the legs: choose an upper-only chest first.</div>` : '';
+    const emptyBtn = plan && plan.none && plan.from === d.class.id ? '' : '<button data-gpnone title="the bots buy nothing for this slot (also no recommended / inherited item)">Leave this slot empty</button>';
     const html = `<div class="gp-ph"><h3>${esc(SLOT_LABEL[P.slot])} <small>${esc(d.class.name)} · ${esc(GRADE_LABEL[d.grade])}</small></h3><button class="closebtn" data-gpclose aria-label="close"></button></div>
-      ${recLine}${cur}
+      ${cover}${recLine}${cur}<div class="gp-tg">${emptyBtn}</div>
       <div class="gp-pbar"><input id="gpQ" type="search" placeholder="find an item…" value="${esc(GP.q)}" aria-label="find an item">
         <select id="gpSort" aria-label="sort"><option value="best"${GP.sort === 'best' ? ' selected' : ''}>best stats</option><option value="price"${GP.sort === 'price' ? ' selected' : ''}>Giran price</option><option value="name"${GP.sort === 'name' ? ' selected' : ''}>name</option></select></div>
       <div class="gp-tg">
@@ -401,9 +519,9 @@
         const isC = chosen.has(r.id), first = plan && plan.id === r.id, open = GP.exp === r.id, isRec = !!(rc && rc.id === r.id);
         const sas = (d.cand[S] || []).filter(x => x.base === r.id);
         return `<div class="gp-it${isC ? ' sel' : ''}${first ? ' first' : ''}${r.fit ? '' : ' nofit'}${open ? ' open' : ''}" data-gpit="${r.id}">
-          <div class="gp-ir" data-gpexp="${r.id}"><img src="${icon(r.id)}" alt=""><div class="gp-in"><div class="t"><b>${esc(r.n)}</b> ${grade(r.g)}${r.sa ? ` <span class="gp-c">S.A. ${esc(r.sa)}</span>` : ''}${saCount[r.id] ? ` <span class="gp-c">${saCount[r.id]} S.A.</span>` : ''}${r.set != null ? ' <span class="gp-c set">set</span>' : ''}${r.change ? ' <span class="gp-c">→ ' + esc(r.change) + '</span>' : ''}${r.odd ? ` <span class="gp-c man">${esc(r.odd)}</span>` : ''}${isRec ? ' <span class="gp-c rec">recommended</span>' : ''}${isC ? ` <span class="gp-c ok">${first ? 'chosen' : 'alternative'}</span>` : ''}</div>
+          <div class="gp-ir" data-gpexp="${r.id}"><img src="${icon(r.id)}" alt=""><div class="gp-in"><div class="t"><b>${esc(r.n)}</b> ${grade(r.g)}${mwChip(d, r.id)}${r.sa ? ` <span class="gp-c">S.A. ${esc(r.sa)}</span>` : ''}${saCount[r.id] ? ` <span class="gp-c">${saCount[r.id]} S.A.</span>` : ''}${r.set != null ? ' <span class="gp-c set">set</span>' : ''}${r.change ? ' <span class="gp-c">→ ' + esc(r.change) + '</span>' : ''}${r.odd ? ` <span class="gp-c man">${esc(r.odd)}</span>` : ''}${isRec ? ' <span class="gp-c rec">recommended</span>' : ''}${isC ? ` <span class="gp-c ok">${first ? 'chosen' : 'alternative'}</span>` : ''}</div>
             <div class="s">${esc([typeLine(r), statLine(r)].filter(Boolean).join(' · '))}</div><div class="w">${whereChips(r)}</div></div></div>
-          ${open ? `${detail(r, d, sas)}<div class="gp-acts">${first ? '<span class="gp-c ok">chosen</span>' : `<button class="go" data-gpchoose="${r.id}">Choose</button>`}${!isC && plan ? `<button data-gpalt="${r.id}">Add as alternative</button>` : ''}</div>` : ''}
+          ${open ? `${detail(r, d, sas)}<div class="gp-acts">${first ? '<span class="gp-c ok">chosen</span>' : `<button class="go" data-gpchoose="${r.id}">Choose</button>`}${!isC && plan && !plan.none ? `<button data-gpalt="${r.id}">Add as alternative</button>` : ''}</div>` : ''}
         </div>`;
       }).join('') || '<div class="muted gp-empty">Nothing matches. Try "all items" or clear the search.</div>'}${L.length > 250 ? `<div class="muted gp-empty">${L.length - 250} more: refine the search.</div>` : ''}</div>`;
     patch(el, html);
@@ -414,13 +532,14 @@
     const t = e.target;
     const ga = t.closest('[data-gpauto]'); if (ga) { const to = !(GP.auto && GP.auto.default); await saveAuto({ scope: 'default', auto: to }, 'Auto gear upgrades for everyone: ' + (to ? 'ON' : 'OFF'), to ? 'Every character without its own choice buys gear upgrades by itself.' : ''); return; }
     if (t.closest('#gpClsBtn')) { GP.drawer = !GP.drawer; renderHead(); if (GP.drawer) { const q = $id('gpClsQ'); if (q && window.matchMedia('(pointer: fine)').matches) q.focus({ preventScroll: true }); } return; }
-    const cl = t.closest('[data-gpcls]'); if (cl) { GP.cls = +cl.dataset.gpcls; GP.drawer = false; GP.data = null; closePick(); load(true); return; }
+    const cl = t.closest('[data-gpcls]'); if (cl) { GP.cls = +cl.dataset.gpcls; GP.drawer = false; GP.data = null; GP.copySel = null; GP.setSel = null; closePick(); load(true); return; }
     const gr = t.closest('[data-gpgrade]'); if (gr) { GP.grade = gr.dataset.gpgrade; closePick(); load(true); return; }
+    const wt = t.closest('[data-gpwhtake]'); if (wt && GP.data) { await whTakeClick(wt.dataset.gpwhtake); return; }
     const sl = t.closest('[data-gpslot]'); if (sl && GP.data) { openPick(sl.dataset.gpslot); return; }
     if (t.closest('[data-gpclose]') || t.id === 'gpPick') { closePick(); return; }
     const tg = t.closest('[data-gptg]'); if (tg) { GP[tg.dataset.gptg] = !GP[tg.dataset.gptg]; renderPick(); return; }
     const ch = t.closest('[data-gpchoose]'); if (ch) {
-      const P = GP.pick, plan = GP.data.plan[P.slot], own = plan && plan.from === GP.data.class.id;
+      const P = GP.pick, plan = GP.data.plan[P.slot], own = plan && !plan.none && plan.from === GP.data.class.id;
       const alt = own ? [plan.id].concat(plan.alt || []).filter(i => i !== +ch.dataset.gpchoose) : [];
       save({ action: 'set', slot: P.slot, id: +ch.dataset.gpchoose, alt, buy: GP.buy }, `${SLOT_LABEL[P.slot]}: ${(candOf(GP.data, P.slot, ch.dataset.gpchoose) || {}).n || 'item'} chosen`).then(() => { GP.exp = null; renderPick(); });
       return;
@@ -455,12 +574,42 @@
       save({ action: 'reset', scope: all ? 'all' : 'class' }, all ? 'Every class uses the recommended plan again' : `${GP.data.class.name}: every grade back to recommended`);
       return;
     }
+    const tl = t.closest('[data-gptool]'); if (tl) { GP.tool = GP.tool === tl.dataset.gptool ? null : tl.dataset.gptool; GP.copySel = null; render(); return; }
+    if (t.closest('[data-gpnone]')) {
+      const P = GP.pick; if (!P) return;
+      save({ action: 'none', slot: P.slot }, `${SLOT_LABEL[P.slot]}: left empty`).then(() => renderPick());
+      return;
+    }
+    if (t.closest('[data-gpsetapply]')) {
+      const d = GP.data, S = (d.setList || []).find(x => x.id === +GP.setSel); if (!S) return;
+      const own = ['chest', 'legs', 'head', 'gloves', 'feet', 'shield'].filter(sl => (d.plan[sl] || {}).from === d.class.id && !(d.plan[sl] || {}).none && S.pieces.some(p => p.slot === sl));
+      if (!await uiConfirm({ title: 'Apply ' + S.name + '?', body: [uiP('Every piece goes into the ', uiEm(d.class.name), ` ${GRADE_LABEL[d.grade]}-grade plan:`), uiList(S.pieces.map(p => (SLOT_LABEL[p.slot] || p.slot) + ': ' + p.n)),
+        S.full ? 'Full armor: the legs slot is freed.' : '', own.length ? uiNote('Replaces your choices for: ' + own.map(x => SLOT_LABEL[x]).join(', ') + '.') : '', GP.setBuy === 'real' ? 'The bots buy the real pieces (set bonus) where Giran sells them.' : 'The bots buy the cheap Common twin where sold (no set bonus).'], confirmText: 'Apply set' })) return;
+      save({ action: 'applyset', set: S.id, buy: GP.setBuy }, S.name + ' applied');
+      return;
+    }
+    if (t.closest('[data-gpeqcopy]')) {
+      const d = GP.data, nm = GP.eqSel; if (!nm) return;
+      let r; try { r = await api('/api/gearplanner', { method: 'POST', body: JSON.stringify({ class: GP.cls, grade: GP.grade, action: 'fromchar', name: nm, dry: true }) }); } catch (e) { flash('Could not read ' + nm + ': ' + e.message, true); return; }
+      if (!r || r.error) { flash((r && r.error) || 'no answer', true); return; }
+      const ok = r.rows.filter(x => !x.skip), sk = r.rows.filter(x => x.skip);
+      if (!ok.length) { await uiAlert({ title: 'Nothing to copy', body: [`${nm} wears nothing ${d.class.name} can use.`, sk.length ? uiList(sk.map(x => `${SLOT_LABEL[x.slot]}: ${x.n} — ${x.skip}`)) : ''] }); return; }
+      if (!await uiConfirm({ title: 'Copy what ' + nm + ' wears?', body: [uiP('Into the ', uiEm(d.class.name), ` ${GRADE_LABEL[d.grade]}-grade plan (${r.char.cls} ${r.char.level}):`), uiList(ok.map(x => `${SLOT_LABEL[x.slot]}: ${x.n}${x.odd ? ' (' + x.odd + ')' : ''}`)),
+        sk.length ? uiNote('Skipped: ' + sk.map(x => `${SLOT_LABEL[x.slot]} ${x.n} (${x.skip})`).join('; ')) : '', 'Your choices for these slots are replaced; other slots stay as they are.'], confirmText: `Copy ${ok.length} slots` })) return;
+      save({ action: 'fromchar', name: nm }, `${nm}'s gear copied (${ok.length} slots)`);
+      return;
+    }
+    const cp = t.closest('[data-gpcopypick]'); if (cp && GP.data) {
+      const T = copyTargets(GP.data), k = cp.dataset.gpcopypick;
+      GP.copySel = new Set(k === 'none' ? [] : T.filter(x => k === 'all' || x.arch === GP.data.class.arch).map(x => x.id)); renderTool(); return;
+    }
     const ex = t.closest('[data-gpexp]'); if (ex) { GP.exp = GP.exp === +ex.dataset.gpexp ? null : +ex.dataset.gpexp; renderPick(); return; }
-    if (t.closest('[data-gpcopy]')) {
-      const d = GP.data, to = (d.archClasses || []).filter(x => x.id !== d.class.id);
+    if (t.closest('[data-gpcopygo]')) {
+      const d = GP.data, sel = GP.copySel || new Set(), to = copyTargets(d).filter(x => sel.has(x.id));
+      if (!to.length) { flash('Tick at least one class.', true); return; }
       if (!Object.keys(d.plan).length) { flash('Nothing chosen yet for this class and grade.', true); return; }
       if (!await uiConfirm({ title: 'Copy the gear plan?', body: [uiP(`Copy the ${GRADE_LABEL[d.grade]}-grade plan of `, uiEm(d.class.name), ` (${Object.keys(d.plan).length} slots) to:`), uiList(to.map(x => x.name)), 'Their own choices for these slots at this grade are replaced. Items a class cannot wear are skipped.'], confirmText: `Copy to ${to.length} classes` })) return;
-      save({ action: 'copy', to: to.map(x => x.id) }, `Copied to ${to.length} classes`);
+      save({ action: 'copy', to: to.map(x => x.id) }, `Copied to ${to.length} classes`).then(() => { GP.tool = null; GP.copySel = null; render(); });
       return;
     }
     if (t.closest('[data-gpclear]')) {
@@ -478,11 +627,23 @@
       saveAuto({ scope: char ? 'char' : 'party', name: nm, auto: v }, (char ? nm : 'party ' + nm) + ': auto gear upgrades ' + (v === null ? 'as ' + (char ? 'its party' : 'everyone') : v ? 'ON' : 'OFF'), v === true ? (char ? nm + ' buys gear upgrades by itself.' : 'Every member of party ' + nm + ' without its own choice buys gear upgrades by itself.') : ''); return; }
     if (d.gpautolock !== undefined) { saveAuto({ scope: 'char', name: d.gpautolock, lock: e.target.checked }, d.gpautolock + ': ' + (e.target.checked ? 'equipment LOCKED (nothing is bought or swapped)' : 'lock removed'), ''); return; }
     if (d.gpautopol) { saveAuto({ scope: 'policy', [d.gpautopol]: e.target.checked }, 'saved', ''); return; }
+    if (d.gpautostarter !== undefined) {                                          // TESTERS-2026-10-12: replaced starter gear sell | destroy | keep
+      const v = e.target.value, txt = { sell: 'sold at Helvetia (destroyed when the shop refuses it)', destroy: 'destroyed', keep: 'kept in the bag' }[v] || v;
+      (async () => {
+        if (v === 'destroy' && !await uiConfirm({ title: 'Destroy replaced starter gear?', body: [uiP("After a gear upgrade the starter piece it replaced (Squire's Sword, Apprentice's Wand, Squire's Shirt ...) is destroyed right away instead of sold."), uiNote('Only no-grade starter pieces that were just replaced. Never quest items, enchanted or S.A. items.')], confirmText: 'Destroy them', cancelText: 'Cancel', danger: true })) { renderAuto(); return; }
+        saveAuto({ scope: 'policy', starterGear: v }, 'Replaced starter gear: ' + txt, '');
+      })();
+      return;
+    }
+    if (d.gpcopyc !== undefined) { GP.copySel = GP.copySel || new Set(); if (e.target.checked) GP.copySel.add(+d.gpcopyc); else GP.copySel.delete(+d.gpcopyc); renderTool(); return; }
+    if (e.target.id === 'gpSetSel') { GP.setSel = +e.target.value; renderTool(); return; }
+    if (e.target.id === 'gpSetBuy') { GP.setBuy = e.target.value; return; }
+    if (e.target.id === 'gpEqSel') { GP.eqSel = e.target.value; return; }
     if (e.target.id === 'gpSort') { GP.sort = e.target.value; renderPick(); }
     if (e.target.id === 'gpBuy') {
       GP.buy = e.target.value;
       const P = GP.pick, plan = P && GP.data.plan[P.slot];
-      if (plan && plan.from === GP.data.class.id) save({ action: 'set', slot: P.slot, id: plan.id, alt: plan.alt || [], buy: GP.buy }, 'Buy rule changed');
+      if (plan && !plan.none && plan.from === GP.data.class.id) save({ action: 'set', slot: P.slot, id: plan.id, alt: plan.alt || [], buy: GP.buy }, 'Buy rule changed');
     }
     if (e.target.id === 'gpFallback') save({ action: 'fallback', fallback: e.target.value }, e.target.value === 'keep' ? 'They keep what they wear until a chosen item can be bought' : 'They buy the automatic pick meanwhile');
   }

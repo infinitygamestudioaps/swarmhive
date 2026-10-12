@@ -54,7 +54,7 @@ if (HAS_LIVE && liveF.default === true) check(M.ggPolicy(liveF, 'Tank1', 'Tank1'
 const ex = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'gear_auto.example.json'), 'utf8'));
 check(ex.default === false && ex.keepArmorType === true, 'the shipped example says OFF');
 const RBF = path.join(__dirname, 'release_build.js');
-if (fs.existsSync(RBF)) check(/'gear_auto\.json'\]\)/.test(fs.readFileSync(RBF, 'utf8')), 'release_build.js never ships the live gear_auto.json');
+if (fs.existsSync(RBF)) check(/DATA_EXCLUDE = new Set\(\[[^\]]*'gear_auto\.json'/.test(fs.readFileSync(RBF, 'utf8')), 'release_build.js never ships the live gear_auto.json');
 // ---- the dashboard API on a scratch file ----
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'gearauto-')); process.env.SWARM_GEARAUTO_FILE = path.join(TMP, 'gear_auto.json');
 const API = require(path.join(ROOT, 'Dashboard', 'gearauto_api.js'));

@@ -1,0 +1,58 @@
+/* QUEST LIVE 2026-10-12 (Dashboard/questlive.js): live progress per character on #/quests/<id> (#qpLive) and the "Live quests" box on #/quests
+   (#qpLiveAll). L2 skin tokens from index.html (--gold, --muted, --line, --line2, --ok, --bad, --fs-*). Phone first: 390 px, no sideways scroll. */
+.ql-h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0 0 6px; }
+.ql-h3 small { font-weight: 400; }
+.ql-pulse { width: 9px; height: 9px; border-radius: 50%; background: #5fd35f; box-shadow: 0 0 0 0 rgba(95, 211, 95, .7); animation: qlPulse 1.8s infinite; flex: none; }
+@keyframes qlPulse { 0% { box-shadow: 0 0 0 0 rgba(95, 211, 95, .7); } 70% { box-shadow: 0 0 0 7px rgba(95, 211, 95, 0); } 100% { box-shadow: 0 0 0 0 rgba(95, 211, 95, 0); } }
+@media (prefers-reduced-motion: reduce) { .ql-pulse { animation: none; } }
+
+/* list box: one row per character */
+.ql-rows { display: flex; flex-direction: column; gap: 3px; }
+.ql-row { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr); grid-template-areas: "who q" "who dn"; gap: 1px 8px; padding: 5px 8px; align-items: center;
+  border: 1px solid var(--line); background: rgba(0, 0, 0, .2); border-radius: 3px; color: inherit; text-decoration: none; min-width: 0; }
+.ql-row:hover { border-color: var(--line2); background: rgba(255, 255, 255, .04); }
+.ql-row.ended, .ql-card.ended { opacity: .55; }
+.ql-row.off:not(.ended), .ql-card.off { opacity: .8; }
+.ql-who { grid-area: who; display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; }
+.ql-who b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ql-q { grid-area: q; display: flex; flex-wrap: wrap; gap: 3px 6px; align-items: center; min-width: 0; font-size: var(--fs-cap); }
+.ql-dn { grid-area: dn; font-size: var(--fs-mini); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ql-sb { color: #d6b3ff; border-color: #4b3a6b; }
+@media (max-width: 640px) {
+  .ql-row { grid-template-columns: minmax(0, 1fr); grid-template-areas: "who" "q" "dn"; }
+  .ql-dn { white-space: normal; }
+}
+
+/* detail: cards */
+.ql-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 8px; margin-bottom: 8px; }
+.ql-card { border: 1px solid var(--line2); border-radius: 3px; padding: 6px 8px; background: rgba(0, 0, 0, .25); font-size: var(--fs-cap); min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.ql-card.dead { border-color: #8f2f24; }
+.ql-hd { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 5px; }
+.ql-rep { color: #7be0a0; border-color: #3f5e34; }
+.ql-step { display: flex; gap: 8px; align-items: baseline; padding: 4px 6px; border-left: 3px solid var(--gold); background: rgba(240, 192, 64, .07); }
+.ql-no { font: 700 var(--fs-cap) Consolas, monospace; color: var(--gold); white-space: nowrap; }
+.ql-no small { color: var(--muted); font-weight: 400; }
+.ql-st { display: flex; flex-wrap: wrap; gap: 3px 6px; align-items: center; }
+.ql-bars { display: flex; flex-direction: column; gap: 3px; }
+.ql-bar { position: relative; display: flex; justify-content: space-between; gap: 8px; padding: 2px 6px; border: 1px solid var(--line); border-radius: 2px; background: rgba(0, 0, 0, .35); overflow: hidden; min-width: 0; }
+.ql-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #3a5f8f, #5aa9ff); opacity: .45; z-index: 0; transition: width .6s; }
+.ql-bar.full i { background: linear-gradient(90deg, #2f6d2f, #5fd35f); }
+.ql-bl, .ql-bv { position: relative; z-index: 1; }
+.ql-bl { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ql-bv { font: 600 var(--fs-mini) Consolas, monospace; white-space: nowrap; align-self: center; }
+.ql-now { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 6px; align-items: baseline; }
+.ql-k { font-size: var(--fs-mini); color: var(--gold); text-transform: uppercase; letter-spacing: .03em; }
+.ql-task { font-size: var(--fs-mini); padding-left: 70px; }
+.ql-hpmp { display: flex; flex-direction: column; gap: 1px; height: 7px; background: rgba(0, 0, 0, .4); border-radius: 2px; overflow: hidden; }
+.ql-hpmp i { display: block; height: 3px; }
+.ql-hpmp .hp { background: #c0392b; } .ql-hpmp .mp { background: #2e7bd6; }
+.ql-msg { font-size: var(--fs-mini); color: #ffcf9a; }
+.ql-ev ul { list-style: none; margin: 2px 0 0; padding: 0; font-size: var(--fs-mini); }
+.ql-ev li { padding: 1px 0; border-top: 1px dashed rgba(255, 255, 255, .06); }
+.ql-ev time { font-family: Consolas, monospace; color: var(--muted); margin-right: 4px; }
+.ql-mv > summary { cursor: pointer; margin-top: 3px; }
+.ql-mapbar { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+.ql-mapbar button.on { border-color: var(--gold); color: var(--gold); }
+.ql-map { max-width: 560px; }
+.ql-nomap { padding: 10px; }
+@media (max-width: 640px) { .ql-task { padding-left: 0; } }

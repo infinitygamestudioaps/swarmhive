@@ -14,7 +14,15 @@ param(
   [string] $Character = '',
   [string] $Template = '',     # default: Settings\templates\default.xml, else Settings\Mylogin10.xml
   [string] $Scripts = '',      # script files in <install>\Scripts that start with the account (2026-10-07: mkchar_<login>.js + swarm.js)
-  [string] $OutFile = ''       # default: Settings\<Login with a capital first letter>.xml
+  [string] $OutFile = '',      # default: Settings\<Login with a capital first letter>.xml
+  # 2026-10-12 (dashboard "Add account", Dashboard/addaccount_api.js): optional, the same fields SETUP.ps1 writes for an account.
+  # Empty = the old behaviour (no follow, group / login server from the template).
+  [string] $Group = '',        # L2Swarm account-list group, e.g. "Party Tankname"
+  [string] $FollowName = '',   # party leader to follow (a member); empty = no follow (a leader)
+  [string] $FollowAtk = '',    # 'true' | 'false' (assist the leader's target; healers false); empty = false
+  [string] $LoginIp = '',
+  [string] $LoginPort = '',
+  [string] $ServerId = ''
 )
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path "$PSScriptRoot\..\..\..").Path
@@ -60,6 +68,20 @@ $o.SelectSingleNode('Password').InnerText = $encrypted
 $o.SelectSingleNode('SelectedCharacter').InnerText = $Character
 foreach ($k in 'ActiveFollow', 'FollowAtk') { $n = $o.SelectSingleNode($k); if ($n) { $n.InnerText = 'false' } }
 $fn = $o.SelectSingleNode('FollowName'); if ($fn) { $fn.InnerText = '' }
+if ($FollowName) {
+  $n = $o.SelectSingleNode('ActiveFollow'); if ($n) { $n.InnerText = 'true' }
+  if ($fn) { $fn.InnerText = $FollowName }
+  $n = $o.SelectSingleNode('FollowAtk'); if ($n) { $n.InnerText = $(if ($FollowAtk -eq 'true') { 'true' } else { 'false' }) }
+}
+foreach ($kv in @(@('Group', $Group), @('LoginServerIP', $LoginIp), @('LoginServerPort', $LoginPort))) {
+  if (-not $kv[1]) { continue }
+  $n = $o.SelectSingleNode($kv[0])
+  if (-not $n) { $n = $x.CreateElement($kv[0]); [void]$o.AppendChild($n) }
+  $n.InnerText = $kv[1]
+}
+if ($ServerId) { $n = $o.SelectSingleNode('SelectedServer/id'); if ($n) { $n.InnerText = $ServerId } }
+# L2Swarm 3.8.14 validates the file: an EMPTY LastLoadedUtc fails (same fix as SETUP.ps1, 2026-10-10)
+$n = $o.SelectSingleNode('LastLoadedUtc'); if ($n -and -not $n.InnerText.Trim()) { $n.InnerText = '2000-01-01T00:00:00Z' }
 $sl = $o.SelectSingleNode('ScriptsList'); if ($sl) { while ($sl.HasChildNodes) { [void]$sl.RemoveChild($sl.FirstChild) } }
 foreach ($sc in @($Scripts -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })) {
   if (-not $sl) { break }

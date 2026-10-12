@@ -128,7 +128,7 @@ check(/raidDebuffGate\(/.test(body('async function raidDebuffStep(')) && /raidDe
 check(/LIVEP\.skill/.test(body('async function raidDebuffCast(')) && /raidKeepPauseUntil/.test(body('async function raidDebuffCast(')), 'raidDebuffCast checks that the cast started and pauses the spacing for a step-in');
 check(/aggroSpamHold\(/.test(src) && /raidOwnsTargeting\(\{ inRaid: inRaid\(\), raidRunning: !!\(raidSeq && raidSeq\.running\), tank: .*dealer: MELEE_DD/.test(src), 'aggro spam hold + self-defence ownership are wired');
 check(/followResumeOk\(\{ noNativeNav:/.test(src) && /nnFollowThreshold\(\{ casting:/.test(src), 'follow check + script follow use the pure rules');
-check(/chantOfLifeDue\(healTargets\(\)/.test(src) && /doomcryerChantDue\(/.test(body('async function raidDoomcryer(')), 'Chant of Life + doomcryer chants use the pure rules');
+check(/chantOfLifeDue\(ht, HEAL\.drainEmergencyBelow\)/.test(src) && /doomcryerChantDue\(/.test(body('async function raidDoomcryer(')), 'Chant of Life + doomcryer chants use the pure rules');
 check(/raidSeq\.running = true/.test(body('async function runRaidSequence(')) && /finally \{ if \(raidSeq\.runs === myRun\) raidSeq\.running = false; \}/.test(src), 'runRaidSequence marks the routine running (and clears it)');
 check(!/\x08/.test(src), 'no backspace characters in swarm.js');
 

@@ -1,0 +1,48 @@
+/* ROUTE VIEW (2026-10-12, Dashboard/routeview.js): the shared route block (computed path + saved route + obstacles + items). Phone first. */
+.rv { min-width: 0; font-size: var(--fs-cap, 12px); overflow-wrap: anywhere; }
+.rv.rv-busy { opacity: .6; }
+.rv .muted { color: var(--muted, #9a9488); }
+.rv-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 2px 0; }
+.rv-chain { margin: 2px 0 4px; }
+.rv-sub { margin: 2px 0 6px; }
+.rv-st { display: inline-block; font-size: var(--fs-mini, 11px); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 0 5px; border-radius: 3px; background: #1d5a3a; color: #bff5d2; }
+.rv-st.unverified, .rv-st.conditional { background: #5a4a14; color: #ffe39a; }
+.rv-st.bad, .rv-st.unreachable, .rv-st.blocked { background: #6a1d1d; color: #ffc4bd; }
+.rv-box { padding: 6px 8px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, .15); margin: 4px 0; }
+.rv-box.none { color: var(--muted, #9a9488); }
+.rv-why { margin: 4px 0 4px 16px; padding: 0; }
+.rv-why.bad li { color: #ffb3a8; }
+.rv-use { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 6px 0; padding: 6px 8px; border: 1px solid rgba(255, 211, 77, .35); border-radius: 4px; background: rgba(255, 211, 77, .06); }
+.rv-seg { display: inline-flex; border: 1px solid rgba(255, 255, 255, .25); border-radius: 4px; overflow: hidden; }
+.rv-seg button { border: 0; border-radius: 0; margin: 0; min-height: 34px; padding: 4px 10px; background: transparent; color: inherit; }
+.rv-seg button.on { background: #2c5f73; color: #fff; font-weight: 700; }
+.rv-steps { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+.rv-steps button { flex: 0 0 auto; max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 32px; }
+.rv-steps button.on { outline: 2px solid #3ee0ff; }
+.rv-map { position: relative; width: 100%; max-width: 640px; aspect-ratio: 1 / 1; margin: 6px 0 2px; border-radius: 4px; overflow: hidden; background: #0d2a33; }
+.rv-map svg { display: block; width: 100%; height: 100%; }
+.rv-zoom { position: absolute; right: 6px; top: 6px; display: flex; flex-direction: column; gap: 4px; }
+.rv-zoom button { width: 36px; height: 36px; padding: 0; font-size: 18px; line-height: 1; border-radius: 4px; background: rgba(0, 0, 0, .6); color: #fff; border: 1px solid rgba(255, 255, 255, .3); }
+.rv-legend { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--fs-mini, 11px); color: var(--muted, #9a9488); margin-bottom: 4px; }
+.rv-legend i { display: inline-block; width: 14px; height: 3px; margin-right: 4px; vertical-align: 3px; }
+.rv-legend i.d { width: 8px; height: 8px; transform: rotate(45deg); vertical-align: 0; }
+.rv-sec { margin: 8px 0 3px; font-weight: 700; }
+.rv-obs { list-style: none; margin: 0; padding: 0; }
+.rv-obs li { display: flex; gap: 6px; align-items: flex-start; padding: 4px 0; border-top: 1px solid rgba(255, 255, 255, .07); }
+.rv-obs li.bad b { color: #ffb3a8; }
+.rv-dot { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 3px; color: #000; font-style: normal; font-weight: 700; font-size: 11px; }
+.rv-needs { margin: 0 0 0 16px; padding: 0; }
+.rv-item { padding: 5px 7px; margin: 4px 0; border-radius: 4px; border: 1px solid rgba(255, 255, 255, .12); }
+.rv-item ul { margin: 2px 0 0 16px; padding: 0; }
+.rv-ok { color: #8fe0a8; }
+.rv-warn { color: #ffe39a; }
+.rv-bad { color: #ffb3a8; font-weight: 700; }
+.rv-nomap { padding: 8px 0; }
+.rcp-rv { margin: 4px 0 6px 28px; padding: 6px 8px; border-left: 2px solid #3ee0ff; }
+@media (max-width: 420px) { .rcp-rv { margin-left: 0; } .rv-seg button { padding: 4px 8px; } }
+.rv-sheetbg { position: fixed; inset: 0; z-index: 9000; background: rgba(0, 0, 0, .55); display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; }
+.rv-sheet { width: min(720px, 100%); min-height: 100%; background: var(--panel, #1b1914); color: var(--ink, #e8e2d0); padding: 0 12px 24px; box-sizing: border-box; }
+@media (min-width: 760px) { .rv-sheetbg { padding: 24px 0; } .rv-sheet { min-height: 0; border-radius: 6px; border: 1px solid rgba(255, 255, 255, .15); } }
+.rv-sheethead { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 10px; padding: 8px 0; background: inherit; border-bottom: 1px solid rgba(255, 255, 255, .1); margin-bottom: 6px; }
+.rv-sheethead b { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rv-sheethead button { min-width: 40px; min-height: 40px; }

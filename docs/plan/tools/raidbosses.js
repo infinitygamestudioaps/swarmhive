@@ -122,6 +122,13 @@ for (const band of bands) {
     .sort((a, c) => c.score - a.score).slice(0, 8).map(x => ({ id: x.b.id, name: x.b.name, level: x.b.level, score: Math.round(x.score * 10) / 10 }));
 }
 
+// USER LEVEL CORRECTIONS (2026-10-10: Core is level 40 on L2Toggle, the datapack says 50): an entry with levelNote keeps its level,
+// curseLevel, zoneLevelCap and datapackLevel when the list is rebuilt
+try {
+  const old = JSON.parse(fs.readFileSync(`${D}/raidbosses_h5.json`, 'utf8').replace(/^﻿/, ''));
+  (old.bosses || []).filter(o => o && o.levelNote).forEach(o => { const b = out.find(x => x.id === o.id); if (!b) return;
+    b.datapackLevel = b.level; ['level', 'curseLevel', 'zoneLevelCap', 'levelNote'].forEach(k => { if (o[k] !== undefined) b[k] = o[k]; }); });
+} catch (e) { }
 fs.writeFileSync(`${D}/raidbosses_h5.json`, JSON.stringify({
   generated: new Date().toISOString(),
   note: 'L2J High Five datapack defaults (respawn = respawn_delay +/- respawn_random; grand boss = interval + 0..random from grandboss.properties). L2Toggle may differ. Live status must come from in-game observation.',

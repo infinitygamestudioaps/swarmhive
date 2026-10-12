@@ -92,6 +92,8 @@
       ['casting', sv('<circle cx="8" cy="6" r="4.6" fill="none" stroke="#ffcf4d" stroke-width="2" stroke-dasharray="18 30"/>')],
       ['NPC', sv('<rect x="5" y="3" width="6" height="6" fill="#5aa9ff" stroke="#000" transform="rotate(45 8 6)"/>')],
       ['hunting area', sv('<rect x="2" y="2" width="12" height="8" fill="rgba(227,194,122,.15)" stroke="#e3c27a" stroke-dasharray="3 2"/>')],
+      ['town paths', sv('<path d="M1 10 L5 4 L10 7 L15 2 M5 4 L6 11" fill="none" stroke="#4da3ff" stroke-width="1.3"/>')],   // TOWN PATHS 2026-10-12
+      ['Giran recorded route', sv('<polyline points="1,9 8,5 15,7" fill="none" stroke="#ff9f1c" stroke-width="2"/>')],
     ].map(([t, s]) => `<span>${s}${t}</span>`).join('');
   }
 
@@ -209,12 +211,12 @@
       x.dead ? `<span class="chip bad">${GI(UI.dead, 'sm')}dead</span>` : '',
       d.sitting ? `<span class="chip">${GI(UI.sit, 'sm')}sitting</span>` : '',
       d.zoneType ? `<span class="chip">${esc(String(d.zoneType).toLowerCase().replace(/zone$/, ' zone').replace('peace zone', 'town (peace)'))}</span>` : '',
-      x.ageSec > 30 ? `<span class="chip bad">last report ${fmt(x.ageSec)} ago</span>` : '',
+      x.ageSec > 30 ? `<span class="chip bad">last report ${fmt(x.ageSec)} ago</span> <button class="reloginbtn" data-relogin="${esc(x.name)}" title="Log in again (a hanging session is closed first)">Log in again</button>` : '',
     ].join('');
     const xd = (() => { try { return window.LiveParty ? LiveParty.xpDelta(x, CP.skew, true) : ''; } catch (e) { return ''; } })();
     // LEVEL ETA 2026-10-09 (Dashboard/levelEta.js): a 30-min marker on the EXP bar + the line under the bars (ETA, clock, rate, window)
     const LE = window.LevelEta, leo = { exp, skew: CP.skew }, le = LE ? LE.calc(x, leo) : null;
-    const rate = le && le.pctH != null ? LE.rateTxt(le.pctH) : x.expHour && x.expHour.mins >= 3 && x.expHour.n ? `${(x.expHour.pct / x.expHour.mins * 60).toFixed(2)} %/h` : '';
+    const rate = le && le.pctH != null ? LE.rateTxt(le.pctH) : x.expHour && x.expHour.mins >= 3 && x.expHour.n ? `${((LE && LE.hourPct ? LE.hourPct(x) : null) ?? x.expHour.pct / x.expHour.mins * 60).toFixed(2)} %/h` : '';   // EXP TABLE 2026-10-12: points / level size
     const g = (k, p, lab, cls) => `<div class="cp-g"><span class="k">${k}</span>${gauge(k.toLowerCase() === 'exp' ? 'xp' : k.toLowerCase(), p ?? 0, lab, ((cls || '') + (p == null ? ' unk' : '')).trim())}</div>`;
     const peers = mates().sort((a, b) => (b.name === party) - (a.name === party) || a.name.localeCompare(b.name)).map(m =>
       `<button class="cp-peer ${m.dead ? 'dead' : ''} ${live(m) ? '' : 'stale'}" data-char="${esc(m.name)}" title="${esc((m.cls || '') + ' · lvl ' + (m.level ?? '?') + ' · HP ' + (m.hp ?? '?') + '%')}"><span>${esc(m.name)}</span><i style="width:${Math.max(0, Math.min(100, +m.hp || 0))}%"></i></button>`).join('');
@@ -225,7 +227,7 @@
         <div class="cp-id"><h2>${esc(CP.name)}${isLeader ? ' ' + GI(UI.star, 'sm', 'party leader') : ''}</h2>
           <div class="cp-sub">${esc(gc.class_name || x.cls || '')}${x.role ? ' · ' + esc(x.role) : ''}${party ? ` · party <a href="#/live/${encodeURIComponent(party)}">${esc(party)}</a>` : ''}${d.account ? ' · ' + esc(d.account) : ''}${window.ClassPlans ? ' ' + ClassPlans.charBadge(CP.name) : ''}</div></div>
         <div class="cp-chips">${chips}</div>
-        <div class="cp-acts">${party && window.LiveParty ? LiveParty.button(party) : ''}<button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
+        <div class="cp-acts">${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) : ''}<button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
       </div>
       <div class="cp-bars">
         ${g('CP', cpp, gc.max_cp ? nf(gc.cp) + ' / ' + nf(gc.max_cp) : (cpp != null ? cpp + '%' : 'CP ?'))}
@@ -259,6 +261,7 @@
     const verb = k.kind === 'town' ? 'Teleporting' : /heal|recharge|cure|purify|resurrect|restore|vitalize/i.test(k.name || '') ? 'Healing with' : 'Casting';
     const age = (srvNow() - (Date.parse(k.endedAt || k.start) || 0)) / 1000;
     if (done && age > 6) return '';
+    if (!done && window.castGone && castGone(k, srvNow())) return '';   // D13: ran out without an end message
     return `<div class="cp-cast ${done ? (/interrupt|refused|resist|fail/.test(k.ended) ? 'int' : 'okd') : 'going'}" data-start="${esc(k.start)}" data-ms="${+k.ms || 0}" data-ended="${esc(k.ended || '')}">
       <span class="cp-ci"><img src="${icon}" alt="" onerror="this.style.visibility='hidden'"><i class="cp-sweep"></i>
         <svg class="cp-ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="trk" cx="24" cy="24" r="21"/><circle class="arc" cx="24" cy="24" r="21" pathLength="100" stroke-dasharray="0 100"/></svg></span>
@@ -440,13 +443,15 @@
     const h = x.expHour, L = Array.isArray(x.expLog) ? x.expLog : [];
     const deaths = L.filter(e => e && e.why === 'death').length;
     const prog = [
-      ['Exp / hour', h && h.mins >= 3 ? `${(h.pct / h.mins * 60).toFixed(2)} %` : '—'],
+      ['Exp / hour', h && h.mins >= 3 ? `${((window.LevelEta && LevelEta.hourPct ? LevelEta.hourPct(x) : null) ?? h.pct / h.mins * 60).toFixed(2)} %` : '—'],   // EXP TABLE 2026-10-12: points / level size
       ...(window.LevelEta ? [(() => { const e = LevelEta.calc(x, { exp: Number(gc.exp_percent ?? x.exp ?? 0), skew: CP.skew }); return ['Next level', e.status === 'ok' ? `<span title="${esc(LevelEta.title(e))}">${esc(LevelEta.dur(e.etaMs, true))} · ${esc(LevelEta.clockOf(e.at))}</span>` : `<span class="muted" title="${esc(LevelEta.title(e))}">${esc(LevelEta.short(e) || '—')}</span>`]; })()] : []),
       ['Kills / hour', h && h.mins >= 3 && h.n ? Math.round(h.n / h.mins * 60) : '—'],
       ['Kills (5 min)', D.autolevel ? D.autolevel.kills5m : '—'],
       ['Exp (last hour)', h ? nf(h.amt) : '—'],
       ['Deaths (recent)', deaths || 0],
       ['Level', `${gc.level || x.level || '?'} · ${Number(gc.exp_percent ?? x.exp ?? 0).toFixed(2)} %`],
+      // EXP TABLE 2026-10-12: raw exp still needed (Scripts/data/exp_table.json, copy in levelEta.js)
+      ...(window.LevelEta && LevelEta.ptsLeft ? [(() => { const lv = Number(gc.level || x.level), left = LevelEta.ptsLeft(lv, Number(gc.exp_percent ?? x.exp ?? 0)); return ['Exp to next level', left != null && lv < LevelEta.CFG.maxLevel ? `<span title="${esc('Level ' + lv + ' bar: ' + nf(LevelEta.levelSize(lv)) + ' exp (H5 table)')}">${nf(left)}</span>` : '—']; })()] : []),
     ];
     const sup = supplies().map(([n, v, low, ic]) => `<span class="cp-sup ${v <= low ? 'low' : ''}" title="${n}${v <= low ? ' — low' : ''}">${GI(ic, 'sm')}<span>${n}</span><b>${nf(v)}</b></span>`).join('');
     const kv = [['P.Atk', gc.p_atk], ['M.Atk', gc.m_atk], ['P.Def', gc.p_def], ['M.Def', gc.m_def], ['Atk.Spd', gc.p_atk_spd], ['Cast.Spd', gc.m_atk_spd], ['Accuracy', gc.accuracy], ['Evasion', gc.evasion_rate],
@@ -704,6 +709,17 @@
       if (zp) { const xs = zp.map(p => p[0]), ys = zp.map(p => p[1]); s += `<polygon points="${zp.map(p => p[0] + ',' + p[1]).join(' ')}" fill="rgba(227,194,122,.12)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(Math.min(...xs), Math.min(...ys) - 6 * u, (z.area ? 'area: ' : z.room ? 'room: ' : '') + (z.name || z.room || ''), false, '#e3c27a'); }
       else if (z.r) { const h = z.r / 2; s += `<rect x="${z.x - h}" y="${z.y - h}" width="${z.r}" height="${z.r}" fill="rgba(227,194,122,.07)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(z.x - h + 4 * u, z.y - h - 5 * u, 'hunting: ' + (z.name || ''), false, '#e3c27a'); }
     }
+    // TOWN PATHS 2026-10-12 (Dashboard/townpaths.js): every street of a town in view (+ Giran's recorded routes), under my route. The zoom-independent
+    // part sits in its own group (rebuilt only when the town / walked Giran route changes), the labels go into the overlay; toggle under the zoom buttons
+    if (window.TownPaths) {
+      try {
+        const T = TownPaths.layer({ x0, y0, W, H, u }, { active: TownPaths.activeOf(c), fs: FS - 1 });
+        let tg = $id('cpTown'); if (!tg) { tg = document.createElementNS('http://www.w3.org/2000/svg', 'g'); tg.id = 'cpTown'; svg.insertBefore(tg, $id('cpOver')); }
+        if (tg._tpk !== T.key) { tg._tpk = T.key; tg.innerHTML = T.base; }
+        s += T.labels;
+        const zb = document.querySelector('#cpMap .cp-zoom'); if (zb && !zb.querySelector('[data-tptoggle]')) zb.insertAdjacentHTML('beforeend', TownPaths.toggleHtml('tp-icon'));
+      } catch (e) { }
+    }
     // NPCs (from my client): shops / gatekeepers labelled
     const imp = /gatekeeper|grocer|trader|warehouse|blacksmith|master|priest|magister|merchant|guard captain/i;
     const npcs = ((CP.char && CP.char.npcs) || []).filter(n => inV(n.x, n.y, 100));
@@ -752,7 +768,7 @@
       const g = groups.find(o => Math.hypot(o.x - m.x, o.y - m.y) < 40 * u); if (g) g.n.push(m.name); else groups.push({ x: m.x, y: m.y, n: [m.name] });
     });
     groups.forEach(g => { s += label(g.x + 8 * u, g.y + 4 * u, g.n.length > 2 ? g.n[0] + ' +' + (g.n.length - 1) : g.n.join(', '), false, '#e9f1ff'); });
-    const k = c.cast, r0 = 7 * u, fight = live(c) && (c.combat || (c.doing && c.doing.target));
+    const k = c.cast && !(window.castGone && castGone(c.cast, srvNow(), 6000)) ? c.cast : null, r0 = 7 * u, fight = live(c) && (c.combat || (c.doing && c.doing.target));
     s += `<circle class="cp-pulse" cx="${c.x}" cy="${c.y}" r="${r0 + 6 * u}" fill="none" stroke="#fff" stroke-width="${1.5 * u}"/>`;
     if (live(c) && k && !k.ended && +k.ms > 0) s += `<circle class="cp-arc" data-start="${esc(k.start)}" data-ms="${+k.ms}" cx="${c.x}" cy="${c.y}" r="${r0 + 3.5 * u}" fill="none" stroke="#ffcf4d" stroke-width="${2.6 * u}" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 ${c.x} ${c.y})"/>`;
     s += `<circle cx="${c.x}" cy="${c.y}" r="${r0}" fill="${c.dead ? '#3a0d0d' : !live(c) ? '#666' : (c.doing && c.doing.resting) ? '#5aa9ff' : col}" stroke="${fight ? '#ff5a45' : '#fff'}" stroke-width="${(fight ? 2.4 : 1.8) * u}"/>`;
@@ -810,6 +826,7 @@
     window.addEventListener('resize', () => { if (!CP.open) return; layout(); if (CP.follow) fit(); schedule(); });
   }
 
+  window.addEventListener('townpaths:change', () => { if (CP.open) schedule(); });   // TOWN PATHS 2026-10-12: a town's graph arrived / the layer was switched
   window.CharPage = { route, open, close, _cp: CP, version: '2026-10-09' };
   // the page may already be on #/char/<name> (index.html's first route() ran before this script loaded)
   try { const [k, a] = location.hash.replace(/^#\/?/, '').split('/'); if (k === 'char' && a) open(decodeURIComponent(a)); } catch (e) { }

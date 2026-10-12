@@ -177,3 +177,38 @@ html.gp-modal { overflow: hidden; }
 .gp-autor.lock b { text-decoration: underline dotted; }
 .gp-autor.off b { opacity: .75; }
 .gp-autor select { max-width: 100%; }
+/* 2026-10-12 (backlog D2/D3/D9/D10/D11): plan tools (apply a set, copy equipped, copy to similar), empty slots, epic chip */
+.gp-act button.on { color: var(--gold); border-color: #8a7444; }
+.gp-tool { display: grid; gap: 6px; margin: 4px 0 8px; padding: 6px 8px; border: 1px solid var(--line2); background: rgba(0, 0, 0, .28); min-width: 0; }
+.gp-toolh { display: flex; align-items: center; gap: 6px; }
+.gp-toolh .closebtn { flex: none; }
+.gp-toolr { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0; }
+.gp-toolr select { min-height: 32px; max-width: 100%; min-width: 0; flex: 1 1 200px; font-size: var(--fs-cap); }
+.gp-toolr button { min-height: 32px; padding: 0 10px; }
+.gp-setp { display: flex; flex-wrap: wrap; gap: 4px; }
+.gp-setp img { width: 16px; height: 16px; }
+.gp-copyl { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 6px 10px; }
+.gp-copyg { min-width: 0; }
+.gp-copyc { display: flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 4px; cursor: pointer; font-size: var(--fs-cap); }
+.gp-copyc input { width: 18px; height: 18px; flex: none; }
+.gp-copyc span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gp-c.epic { color: #ffb07a; border-color: #8a4b1f; background: rgba(150, 70, 20, .25); font-weight: 700; }
+.gp-cell.none { border-style: dashed; border-color: #6a6a6a; }
+.gp-row.none .gp-nm b { color: var(--muted); }
+.gp-recl.warn { border-color: #8a6d12; background: rgba(138, 109, 18, .16); color: #ffd98a; }
+/* D8 2026-10-12: missing planned gear that a warehouse holds (Our characters) + "Take from warehouse" */
+.gp-s { position: relative; }
+.gp-s.wh { box-shadow: 0 0 0 1px #4fb3d9 inset; }
+.gp-whdot { position: absolute; right: -3px; bottom: -3px; min-width: 13px; height: 13px; line-height: 13px; font-size: 11px; font-weight: 700; text-align: center; color: #001018; background: #4fb3d9; border-radius: 6px; padding: 0 2px; }
+.gp-whdot.k { position: static; display: inline-block; margin: 0 3px 0 6px; vertical-align: middle; }
+.gp-c.wh { color: #9fdcf2; border-color: #2f6f8a; background: rgba(40, 110, 140, .22); }
+.gp-whrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: var(--fs-cap); }
+.gp-whbtn { min-height: 34px; padding: 4px 12px; }
+@media (max-width: 600px) { .gp-whbtn { flex: 1 1 100%; min-height: 40px; } }
+
+/* MASTERWORK 2026-10-12 (forum topic 430): MW chip + the corner dot on a worn masterwork weapon */
+.gp-c.mwk { color: #ffd76a; border-color: #8a6a1f; background: rgba(150, 110, 20, .22); white-space: normal; }
+.gp-mwdot { position: absolute; left: -3px; top: -3px; height: 12px; line-height: 12px; font-size: 9px; font-weight: 700; color: #1a1200; background: #ffd76a; border-radius: 5px; padding: 0 2px; }
+/* TESTERS-2026-10-12: replaced starter gear select in the auto box (wraps on phones) */
+.gp-autoopt { flex-wrap: wrap; max-width: 100%; }
+.gp-autoopt select { max-width: 100%; min-height: 32px; }

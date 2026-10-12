@@ -202,7 +202,8 @@ async function flow(name, setup) {
   check(/'enchant', 'stash', 'unload loot'/.test(src), 'party status step list has "stash"');
   check(/case '!stashplan':/.test(src) && /case '!stash': \{/.test(src), 'commands !stash / !stashplan');
   check(/st\.stash = sp/.test(src), 'swarm_state.stash for the dashboard');
-  check(/Send\.SendHex\(stashHex\(objs\.map/.test(src), 'soulStore deposits with the hex packet too');
+  // CMDFIX2-SUPPLY-2026-10-12: soulStore deposits through stashDepositAt (the stash path), which sends the hex packet
+  check(/async function soulStore\(\)[\s\S]{0,2500}?await stashDepositAt\(npc, rows, kind\)/.test(src) && /async function stashDepositAt\([\s\S]{0,3000}?Send\.SendHex\(stashHex\(batch\)\)/.test(src), 'soulStore deposits with the hex packet too (via stashDepositAt)');
   check(!/new Map\(/.test(PURE) && !/new Map\(/.test(blk(src, 'const STASH = { busy: false', '// --- CLAN (user 2026-10-07')), 'no new Map() in the stash code');
   check(!/[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(blk(src, '// WAREHOUSE STASH (user 2026-10-09 16:05: "warehouse deposit', '// --- CLAN (user 2026-10-07')), 'no control characters in the stash code');
   const G = rd('Scripts/data/giran_routes.json').routes.warehouse;

@@ -110,7 +110,7 @@ if (C) {
   ok1(13, 'C', 'chest', (it, e) => /Demon/.test(it.n) && e.buy === 'real', "Necromancer C: the real Demon's set (INT)");
   ok1(16, 'C', 'weapon', it => it.mw, 'Bishop: a magic weapon');
   ok1(46, 'D', 'chest', (it, e) => e.buy === 'auto' && /sold in Giran/.test(e.why), 'Destroyer D: a set sold in Giran, bought as Common (No-grade / D rule)');
-  ok1(46, 'B', 'ring', (it, e) => !/Queen Ant/.test(it.n), 'epic boss jewels are never the plan (only an alternative)');
+  ok1(46, 'B', 'ring', (it, e) => /Queen Ant/.test(it.n), 'D11 2026-10-12 (Discord user): the epic boss jewel of the grade IS the recommendation (Ring of Queen Ant for B)');
   ok1(33, 'C', 'belt', it => /Belt/.test(it.n), 'belts: a real belt');
   check(Object.values(RA.byKey).every(k => Object.values(k).every(sl => Object.values(sl).every(e => e.why && e.why.length > 10))), 'every recommendation has a one-line WHY');
   // a sold set wins over a better unsold one, the better one becomes the first alternative
