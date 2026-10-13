@@ -98,7 +98,7 @@ const spawnsById = new globalThis.Map();
 const atlasById = new globalThis.Map(); for (const a of (ATLAS.npcs || [])) atlasById.set(a.id, a);
 const rooms = []; (Array.isArray(DR) ? DR : (DR.dungeons || [])).forEach(d => (d.floors || []).forEach(fl => (fl.rooms || []).forEach(r => { if (r.center) rooms.push({ d: d.name || d.key, fl: fl.name, r: r.name, c: r.center, z: fl.z }); })));
 const regionName = (x, y, z) => { const tx = Math.floor(x / 32768) + 20, ty = Math.floor(y / 32768) + 18;
-  const L = MAPREG.filter(m => m.tx === tx && m.ty === ty && m.name); const m = L.find(m => z >= m.zmin && z <= m.zmax) || L[0]; return m ? m.name : null; };
+  const L = MAPREG.filter(m => m.tx === tx && m.ty === ty && m.name); const m = L.find(m => z >= m.zmin && z <= m.zmax); return m ? m.name : null; };   // own height layer only (2026-10-13: "|| L[0]" named surface places after the underground layer, docs/plan/raid_zone_names_fix.md)
 const nearestLanding = (x, y) => { let b = null; for (const t of TPS) { const d = Math.hypot(t.x - x, t.y - y); if (!b || d < b.dist) b = { desc: t.desc || t.name || '', x: t.x, y: t.y, z: t.z, dist: Math.round(d) }; } return b; };
 const placeOf = (x, y, z) => {
   let best = null; rooms.forEach(o => { if (o.z && (z < o.z[0] - 200 || z > o.z[1] + 200)) return; const dd = Math.hypot(o.c[0] - x, o.c[1] - y); if (dd < 2500 && (!best || dd < best.dd)) best = Object.assign({ dd }, o); });

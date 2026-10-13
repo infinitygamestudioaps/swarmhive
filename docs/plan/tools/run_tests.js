@@ -12,7 +12,7 @@ for (const f of files) {
   try { out = execFileSync(process.execPath, [path.join(dir, f)], { cwd: root, encoding: 'utf8', timeout: 900000, stdio: ['ignore', 'pipe', 'pipe'] }); }
   catch (e) { ok = false; out = String((e.stdout || '') + (e.stderr || '')); }
   const last = out.trim().split(/\r?\n/).pop() || '';
-  if (!ok || /fail/i.test(last) && !/0 failed/i.test(last)) { ok = false; failed++; }
+  if (!ok || /fail/i.test(last) && !/\b0 fail(ed)?\b/i.test(last)) { ok = false; failed++; }   // "148 ok, 0 FAIL" (test_npc_dialog) is a pass too
   rows.push(`${ok ? 'OK  ' : 'FAIL'} ${f}: ${last.slice(0, 150)}`);
 }
 const head = `${new Date().toISOString()} ${files.length - failed}/${files.length} test files passed${failed ? ' — ' + failed + ' FAILED' : ''}`;

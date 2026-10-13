@@ -115,10 +115,15 @@ function run(A, n) { const out = []; for (let i = 0; i < n; i++) { const t0 = Da
   ok(norm(An.mirror.party) === norm(Ao.mirror.party), 'B4 party identical');
   ok(JSON.stringify(An.mirror.me) === JSON.stringify(Ao.mirror.me), 'B5 Me identical');
   const crO = Ao.mirror.cr, crN = An.mirror.cr; let mobSame = 0, plDiff = 0, other = 0;
-  for (const [id, c] of crO) { const n = crN.get(id); if (!n) { other++; continue; } const same = JSON.stringify(c) === JSON.stringify(n); if (c.crtType === 2 || c.crtType === 1) { if (same) mobSame++; else other++; } else if (!same) plDiff++; }
-  ok(crN.size === crO.size && mobSame === 100 && other === 0, `B6 creatures: ${crN.size} (old ${crO.size}); all 50 monsters + 50 NPCs identical (live fields incl.)`);
-  const mate = crN.get(200007);
-  ok(mate && mate.TargetObjId === Wb.cr.find(c => c.objId === 200007).TargetObjId, 'B7 a party member far away keeps its live TargetObjId');
+  // ENGINELAT-2026-10-13: the new agent no longer reads IsStunned / IsSleeping / IsParalyzed / IsOutOfControl / TargetObjId live (L2Swarm 3.8.18
+  // does not expose them on CreaturesList items: always undefined there, ~230 us per failed read); this fake host does expose them, so those 5 fields
+  // are compared apart: the new agent must send false / 0 for them (what the brain always got live)
+  const LIVE5 = ['IsStunned', 'IsSleeping', 'IsParalyzed', 'IsOutOfControl', 'TargetObjId']; let liveDefault = 0, liveN = 0;
+  const strip5 = (c) => { const r = Object.assign({}, c); LIVE5.forEach(k => delete r[k]); return r; };
+  for (const [id, n] of crN) if (n.crtType !== 1) { liveN++; if (n.IsStunned === false && n.IsSleeping === false && n.IsParalyzed === false && n.IsOutOfControl === false && Number(n.TargetObjId) === 0) liveDefault++; }
+  for (const [id, c] of crO) { const n = crN.get(id); if (!n) { other++; continue; } const same = JSON.stringify(strip5(c)) === JSON.stringify(strip5(n)); if (c.crtType === 2 || c.crtType === 1) { if (same) mobSame++; else other++; } else if (!same) plDiff++; }
+  ok(crN.size === crO.size && mobSame === 100 && other === 0, `B6 creatures: ${crN.size} (old ${crO.size}); all 50 monsters + 50 NPCs identical (snapshot fields)`);
+  ok(liveN > 0 && liveDefault === liveN, `B7 (ENGINELAT) every monster / player gets IsStunned..false / TargetObjId 0 without a live read (${liveDefault}/${liveN})`);
   console.log(`   players whose live fields are capped to 'none' (beyond the nearest ${40} within 3000): ${plDiff}`);
   // ---------------------------------------------------------------- C: host reads per second
   console.log('\n== C  host reads standing in town (16 ticks = 1 s of agent time, after the first full report)');

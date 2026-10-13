@@ -46,6 +46,7 @@
 'use strict';
 const net = require('net'), fs = require('fs'), path = require('path'), vm = require('vm'), crypto = require('crypto');
 const { Worker } = require('worker_threads');
+const { monitorEventLoopDelay } = require('perf_hooks');
 const SUP = require('./supervise');
 const ROOT = path.resolve(__dirname, '..', '..');
 
@@ -392,6 +393,7 @@ class Pool {
     const k = s.mtimeMs + ':' + s.size + '|' + (rs ? rs.mtimeMs + ':' + rs.size : '-'); if (!force && k === this.cfgKey) return null;
     let j; try { j = JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')); } catch (e) { if (this.cfgBad !== k) { this.cfgBad = k; this.log(`config ${f} unreadable (${e.message.slice(0, 120)}) — the allow list stays as it is`); } return null; }
     if (!j || typeof j !== 'object') { this.cfgKey = k; return null; }
+    try { this.applyAgentCfg(j); } catch (e) { this.log('agent config: ' + e.message); }
     let next;
     if (j.allowAll === true) {
       const acc = SUP.readRoster(this.rosterFile);
@@ -444,13 +446,36 @@ class Pool {
       const out = { at: new Date(t).toISOString(), pid: s.pid, port: this.o.port, rssMb, heapMb: Math.round(s.mem.heapUsed / 1048576), st: s.st, script: this.srcHash || '',
         allow: this.o.allow, quarantined: Array.from(this.quarantined).map(n => ({ name: n, until: this.quarUntil.has(n) ? new Date(this.quarUntil.get(n)).toISOString() : null })),
         alerts: this.alerts.slice(-20), restarts: Array.from(this.fails.entries()).map(([p, a]) => ({ party: p, last2min: a.filter(x => t - x < 120000).length })),
-        workers: s.workers.map(w => ({ party: w.party, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
+        mainLag: this.mainLag(), workers: s.workers.map(w => ({ party: w.party, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), lag: w.lag || null, hot: w.hot || 0, contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
         missingWorkers: Array.from(this.workers.values()).filter(W => !W.dead && !s.workers.some(w => w.party === W.party)).map(W => W.party) };
-      this.memGuard(rssMb, out);
+      this.memGuard(rssMb, out); this.lagLog(out);
       if (this.o.statsFile) { const tmp = this.o.statsFile + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(out)); fs.renameSync(tmp, this.o.statsFile); }
       this.lastStats = out;
     } catch (e) { this.log('stats file: ' + e.message); }
     finally { this.statsBusy = false; }
+  }
+  // ENGINELAT-2026-10-13: event-loop delay of the main thread (it copies every agent byte) and of each party worker (stats file "mainLag" /
+  // workers[].lag, ms p50 / p99 / max over the last stats window) + one LAG line in brain_host.log every 5 min (the worst window seen)
+  mainLag() {
+    if (!this.eld) { try { this.eld = monitorEventLoopDelay({ resolution: 10 }); this.eld.enable(); } catch (e) { this.eld = false; } return null; }
+    const h = this.eld; const r = { p50: +(h.percentile(50) / 1e6).toFixed(1), p99: +(h.percentile(99) / 1e6).toFixed(1), max: +(h.max / 1e6).toFixed(1) }; h.reset(); return r;
+  }
+  lagLog(out) {
+    const t = Date.now(), W = this.lagWorst || (this.lagWorst = {});
+    const keep = (k, l, elu) => { if (!l) return; const o = W[k]; if (!o || l.p99 > o.p99) W[k] = Object.assign({ elu }, l); };
+    keep('main', out.mainLag, null); (out.workers || []).forEach(w => keep(w.party, w.lag, w.elu));
+    if (!this.lagAt) { this.lagAt = t; return; } if (t - this.lagAt < (this.o.lagLogMs || 300000)) return; this.lagAt = t;
+    const parts = Object.keys(W).sort((a, b) => W[b].p99 - W[a].p99).map(k => `${k} p50/p99/max=${W[k].p50}/${W[k].p99}/${W[k].max}${W[k].elu != null ? ' elu=' + W[k].elu + '%' : ''}`);
+    this.lagWorst = {}; if (parts.length) this.log('LAG (worst 10 s window, ms) ' + parts.join(' | '));
+  }
+  /** ENGINELAT live switches from brain_host.json: "agentPush": true | [names] (orders pushed to the agent by its async read), "partyHot": false
+   *  turns the fight hint off. Sent to every worker now; new workers get them in their runner options. */
+  applyAgentCfg(j) {
+    const push = j.agentPush === true ? true : Array.isArray(j.agentPush) ? j.agentPush.map(String) : false, hot = j.partyHot !== false;
+    const sig = JSON.stringify([push, hot]); if (sig === this.agentCfgSig) return; this.agentCfgSig = sig;
+    this.o.runner = Object.assign({}, this.o.runner || {}, { agentPush: push, partyHot: hot });
+    for (const W of this.workers.values()) if (!W.dead) W.w.postMessage({ k: 'agentcfg', agentPush: push, partyHot: hot });
+    this.log(`agent config: push ${push === true ? 'ALL' : push.length ? push.join(', ') : 'off'}, party fight hint ${hot ? 'on' : 'off'}`);
   }
   /** MEMORY GUARD: above maxRssMb an ALERT; with memRestart the worker with the biggest heap (never a party with a live fight) restarts */
   memGuard(rssMb, out) {

@@ -2,6 +2,32 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.5 (2026-10-13)
+
+- Engine much faster in fights: the agent no longer reads 5 creature fields L2Swarm 3.8.18 does not have (each failed read cost ~230 us on up to 100 creatures every report) - about 9x less CPU per fighting character, ticks of 2-3 ms instead of 25-100 ms, orders run between report jobs, the whole party switches to fast ticks while one member fights, and a cast is only called 'no answer' once the agent really sent it (optional instant 'push' orders: brain_host.json agentPush)
+- Party plan (new): a Plan button on every party card - a timeline of steps (level up to N at a place, quests with rewards, class change with an approved plan, town / supplies / gear up, raid boss, wait for my order), drag to reorder, 'Suggest a plan', templates for other parties
+- the party follows it when started
+- Loot rule per party (new, off by default): hand loot to a collector, keep it, only non-gear, or keep valuable grades / enchanted / special-ability items, never-give and always-give lists
+- Party purse (new): Settings -> Money has 'Inside the party - the leader pays his members gear and supplies' (switch per party, leader keeps at least / at most per member) next to 'Between parties'
+- a 'needs X adena - Give it now' card on the party when the switch is off
+- members keep only 5k pocket money below level 20 (50k below 40, 150k below 60), so low-level gear is affordable
+- Healing (new): Recharge works again for every healer (it never fired since 1.6.2), every heal is picked by its real power (Self Heal only when nothing else is known), and your own heal / MP schemes per character or class (character page -> Healing, or party Settings -> Healing)
+- Resurrection (new): a dead member is raised by a res skill or by anyone with a Scroll of Resurrection who walks to the body (healers first, a dead healer may be scrolled even in a raid), then it rebuffs before anything else
+- Resurrect / Res all dead buttons
+- Move together (new, on by default): every member walks the same waypoints and the leader waits for everyone at every waypoint, also in water
+- stuck members get help, nobody is left in the water
+- No raid pull while the healer or more than one member is missing
+- Raid focus skips minions that take no damage (a party hit an invulnerable 'Slave' for minutes)
+- Casters use their strongest nuke by real power (Spellhowler: Hurricane / Shadow Flare first, Death Link only at low HP, element resistances in raids)
+- No fighting bare-handed: a character always wears its best weapon, a failed purchase puts the old weapon back on
+- 'not enough adena' notes say how much is missing
+- Forge of the Gods: hunted room by room on the Top level (walks in from the Goddard landing), unreachable levels are not picked, no more Giran loop
+- S80 / S84 weapons use S-grade soulshots / spiritshots (they used none)
+- a drawn hunting area is hunted as your exact polygon (the map and the members used a big square around it), and with 0 monsters inside the party stays inside, rests and waits for respawns instead of walking out
+- Move together: per-party numbers (longest wait at a waypoint, go on without a stuck member after, pace gap, stuck seconds) and dungeon team walks also wait at every centreline point
+- Dashboard much faster (pages and data in milliseconds instead of seconds, map tiles cached, page cached in the browser)
+- Simple view hides the expert pages
+
 ## v1.6.4 (2026-10-13)
 
 - Shops (URGENT fix): buying works again on the new engine - the brain read the merchant's SELL part (your own items) instead of his buy list, so supplies said ''not sold here'' and gear said ''not in X's list any more''

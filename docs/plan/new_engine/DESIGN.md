@@ -457,3 +457,25 @@ Test: `node docs/plan/tools/test_engine_default.js`. Owner's install: an explici
   (a `!stop` that cleared it is never undone).
 - Test: `node docs/plan/tools/test_engine_resilience.js` (51 checks, ~28 s; `--bh <dir> --agent <file> --swarm <file>` runs it against the
   backups in `Settings/backup/engine_fixes_2026-10-12/timing/`, where the checks of every finding fail).
+
+## 16. Engine latency review (ENGINELAT-2026-10-13; AUTOMATION_LOG.md 2026-10-13 22:15)
+- **Root cause of the casts' "no answer":** agent2's creature job read IsStunned / IsSleeping / IsParalyzed / IsOutOfControl / targetCrt on CreaturesList
+  items. L2Swarm 3.8.18 does not expose them there (L2Mob : L2Creature has none; L2Character's are hidden by ClearScript's type restriction to
+  L2Creature) -> always undefined, ~230 us per failed read -> ~390 ms CPU per second per fighting agent -> L2Swarm saturated the PC -> 3-6 s agent
+  ticks -> orders and events waited. Removed (same values, no reads). `patches/tools/perf/AgentBench.exe` runs the real agent2.js in the real
+  ClearScript with real L2Swarm.Core entities (cost per tick / per job, micro costs, order latency tick vs push).
+- **Protocol additions (all backward compatible; an old agent ignores them, an old brain never sends them):**
+
+| direction | message / field | meaning |
+|---|---|---|
+| brain -> agent | `call.ts` | brain send time (same PC clock): the agent's `lat ord` |
+| brain -> agent | `{ a: 'cfg', push: bool }` | async socket read on / off (brain_host.json `agentPush`) |
+| brain -> agent | `{ a: 'hot' }` | my party fights: fast ticks (runner.partyHot, every 4 s, held 15 s; `partyHot: false` = off) |
+| agent -> brain | `hello.caps` + `ack`, `push`, `hot` | the agent understands the above |
+| agent -> brain | `res.xt` | when the call ran in the agent (host `__sendAck` / link `callAck` -> `{ sent, xt, got }`) |
+| agent -> brain | `ev.at` | when L2Swarm handed the event to the agent (runner `LAT ... ev=`) |
+
+- **Live switches:** `Scripts/data/brain_host.json` `"agentPush": true | ["Name", ...]`, `"partyHot": false` (pool polls every 5 s; no restart).
+- **Probes:** agent_perf.log `lat[p50/p95/max ms]=ord / cast / gap` + `push=`; brain_host.log `LAT <name>` (5 min) and `LAG (worst 10 s window, ms)`
+  (main + every party worker event-loop delay); brain_host_stats.json `mainLag`, `workers[].lag`, `workers[].hot`.
+- Test: `node docs/plan/tools/test_engine_latency.js` (52 checks).

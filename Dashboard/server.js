@@ -18,6 +18,10 @@ const LOGS = path.join(ROOT, 'Logs');
 const PLAN = path.join(ROOT, 'docs', 'plan');
 const DATA = path.join(ROOT, 'Scripts', 'data');
 const SETTINGS = path.join(ROOT, 'Settings');
+// DASHPERF 2026-10-13 (Dashboard/perfmon.js): request times, event-loop lag and slow timer callbacks -> Logs/dashboard_perf.log, GET /api/perf
+const PERF = require('./perfmon');
+const SV = require('./staticver');
+PERF.install({ file: process.env.SWARM_PERF_LOG || path.join(LOGS, 'dashboard_perf.log') });
 // MAP FLOORS 2026-10-13 (Dashboard/mapfloors.js): which dungeon floor / the surface a point is on; compact model of dungeon_rooms.json, cached by mtime
 const MapFloors = require('./mapfloors.js');
 const mapFloors = () => MapFloors.load(path.join(DATA, 'dungeon_rooms.json'));
@@ -130,9 +134,12 @@ let FA_CACHE = { mt: 0, j: null };
 function fieldAreasData() {
   try { const f = path.join(DATA, 'field_areas.json'), mt = fs.statSync(f).mtimeMs; if (FA_CACHE.mt !== mt) FA_CACHE = { mt, j: readJson(f, null) }; return FA_CACHE.j; } catch (e) { return null; }
 }
-function readJson(file, fallback) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '')); } catch (e) { return fallback; }
-}
+// DASHPERF 2026-10-13: unchanged files are not read again (Dashboard/fscache.js, keyed by mtime + size); a new object every call as before
+const FSC = require('./fscache');
+function readJson(file, fallback) { return FSC.readJson(file, fallback); }
+// swarm.config.json: same answer (a fresh object), read only when it changed. Only the ORIGINAL loader is replaced (UI tests stub SC.reload
+// with their sandbox roster before loading server.js - that stub must stay)
+if (/readCfg\(/.test(String(SC.reload))) SC.reload = () => FSC.readJson(SC.CONFIG_FILE, null);
 
 /** CURSED WEAPON HOLDERS (2026-10-13, Nuker19 picked up Blood Sword Akamanah; the user saw "2 characters not reporting: Akamanah, Nuker19"):
  *  the server renames the holder to the weapon's name, so the bots cannot drive it. Every 60 s the open accounts are checked: an account whose
@@ -171,13 +178,24 @@ function brakeStatus() {
 }
 /** Teams (character -> party leader): swarm.config.json accounts[].party (the source of truth, as in swarm.js SWARM_CFG), plus the
  *  hardcoded swarm.js CONFIG.teams for names the config does not have; everyone else follows the main leader. */
+// DASHPERF 2026-10-13: swarm.js (2.8 MB) was read + searched on EVERY teamMap() call (several per request, ~70 % of the server's CPU in the
+// profile): its teams block is parsed once per change of the file now (stat at most every 5 s)
+let SWJ_TEAMS = { m: -1, s: -1, at: 0, v: {} };
+function swarmJsTeams() {
+  if (Date.now() - SWJ_TEAMS.at < 5000) return SWJ_TEAMS.v;
+  const f = path.join(ROOT, 'Scripts', 'swarm.js');
+  try {
+    const st = fs.statSync(f); SWJ_TEAMS.at = Date.now();
+    if (st.mtimeMs === SWJ_TEAMS.m && st.size === SWJ_TEAMS.s) return SWJ_TEAMS.v;
+    const v = {}, m = fs.readFileSync(f, 'utf8').match(/teams:\s*\{([^}]*)\}/);
+    if (m) for (const p of m[1].matchAll(/(\w+)\s*:\s*'(\w+)'/g)) v[p[1]] = p[2];
+    SWJ_TEAMS = { m: st.mtimeMs, s: st.size, at: Date.now(), v };
+  } catch (e) { SWJ_TEAMS.at = Date.now(); }
+  return SWJ_TEAMS.v;
+}
 function teamMap() {
   const map = {};
-  try {
-    const src = fs.readFileSync(path.join(ROOT, 'Scripts', 'swarm.js'), 'utf8');
-    const m = src.match(/teams:\s*\{([^}]*)\}/);
-    if (m) for (const p of m[1].matchAll(/(\w+)\s*:\s*'(\w+)'/g)) map[p[1]] = p[2];
-  } catch (e) { }
+  try { Object.assign(map, swarmJsTeams()); } catch (e) { }
   try { const cur = SC.reload(); if (cur && Array.isArray(cur.accounts)) cur.accounts.forEach(a => { if (a && a.character && a.enabled !== false) map[a.character] = String(a.party || a.character); }); } catch (e) { }
   return map;
 }
@@ -188,7 +206,8 @@ function teamMap() {
 // Frenzy, so they do not have to hit each other to drain), casters/healers Acumen, tank Health. Data: Scripts/data/soul_sa.txt (user's table).
 // Output Scripts/data/soul_targets.json (read live by swarm.js); plan Scripts/data/soul_plan.json (edited on the dashboard Crystals tab).
 const SOUL_PLAN_F = path.join(DATA, 'soul_plan.json'), SOUL_TARGETS_F = path.join(DATA, 'soul_targets.json');
-function soulTable() {
+function soulTable() { return FSC.memo('soulTable', 30000, soulTableFresh); }   // DASHPERF 2026-10-13: read once per pick before (several per character)
+function soulTableFresh() {
   const out = [];
   try { fs.readFileSync(path.join(DATA, 'soul_sa.txt'), 'utf8').split(/\r?\n/).forEach(l => { if (!l || l[0] === '#') return; const [grade, type, name, stage, red, green, blue] = l.split('|'); out.push({ grade, type, name, stage: +stage, sa: { red, green, blue } }); }); } catch (e) { }
   return out;
@@ -319,11 +338,23 @@ function splitNpcTarget(s) {
   d.npc = { name: String(t.name), dist: t.dist != null ? t.dist : null };
   d.target = null;
 }
+// DASHPERF 2026-10-13: every API handler calls readStates() (often twice per request; every open page polls every 1-4 s) and each call listed
+// the 2100 files of Logs + read ~70 state files: the list is built at most once per second now (file names at most every 3 s), each caller
+// gets its own shallow copies (handlers add / change top-level fields) with a fresh ageSec
+let RS_CACHE = { at: 0, list: null }, RS_DIR = { at: 0, names: [] };
 function readStates() {
+  if (!RS_CACHE.list || Date.now() - RS_CACHE.at > 1000) RS_CACHE = { at: Date.now(), list: readStatesFresh() };
+  const now = Date.now();
+  return RS_CACHE.list.map(s => Object.assign({}, s, { ageSec: Math.round((now - Date.parse(s.updated)) / 1000) }));
+}
+function stateFileNames() {
+  if (Date.now() - RS_DIR.at > 3000) { try { RS_DIR = { at: Date.now(), names: fs.readdirSync(LOGS).filter(f => /^swarm_state_.+\.json$/.test(f)) }; } catch (e) { RS_DIR.at = Date.now(); } }
+  return RS_DIR.names;
+}
+function readStatesFresh() {
   const teams = teamMap();
   const out = [];
-  for (const f of fs.readdirSync(LOGS)) {
-    if (!/^swarm_state_.+\.json$/.test(f)) continue;
+  for (const f of stateFileNames()) {
     const s = readJson(path.join(LOGS, f), null);
     if (!s || !s.name) continue;
     if (f !== `swarm_state_${s.name}.json`) continue;   // e.g. swarm_state_null.json written during a disconnect (a ghost character)
@@ -386,7 +417,8 @@ function parseIntents(lines) {
   return out.reverse();
 }
 
-function planFiles() {
+function planFiles() { return FSC.memo('planFiles', 60000, planFilesFresh).slice(); }   // DASHPERF 2026-10-13: walked + stat'ed ~1800 files per /api/state
+function planFilesFresh() {
   const list = [];
   const walk = (dir, prefix) => {
     for (const f of fs.readdirSync(dir)) {
@@ -668,7 +700,8 @@ function dailyInfo() {
   const kamaloka = tsvLines(path.join(LOGS, 'kamaloka.log')).slice(-20).map(([at, id, ...result]) => ({ at, id, result: result.join(' ') }));
   return { enabled: readJson(process.env.SWARM_DAILY_FILE || path.join(LOGS, 'daily_enabled.json'), {}) || {}, leaders: DAILY_LEADERS, kinds: DAILY_KINDS, progress, log, kamaloka };   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
 }
-function raidReports() {
+function raidReports() { return FSC.memo('raidReports', 15000, raidReportsFresh); }   // DASHPERF 2026-10-13: ~0.6 s to build (312 reports + heal/loot logs)
+function raidReportsFresh() {
   const heals = tsvLines(path.join(LOGS, 'raid_heals.log')).map(([at, healer, skill, target, hp]) => ({ t: Date.parse(at), healer, skill, target, hp: +hp }))
     .filter(h => h.t && h.healer);
   const loot = tsvLines(path.join(LOGS, 'raid_loot.log')).map(([at, boss, ch, id, name, count]) => ({ t: Date.parse(at), boss, ch, id: +id, name, count: +count || 1 }))
@@ -802,7 +835,7 @@ function hallTeam() {
 }
 function hallTeamSource() { try { const cur = SC.reload(); if (cur && Array.isArray(cur.dailyHallTeam)) return 'swarm.config.json dailyHallTeam'; } catch (e) { } return Array.isArray(SC.cfg.dailyHallTeam) ? 'swarm.config.json dailyHallTeam' : 'swarm.js default (CONFIG.daily.hallTeam)'; }
 function hallTeamDefault() {
-  try { const m = fs.readFileSync(path.join(ROOT, 'Scripts', 'swarm.js'), 'utf8').match(/hallTeam:\s*\[([^\]]*)\]/); return m ? [...m[1].matchAll(/'([^']+)'/g)].map(x => x[1]) : []; } catch (e) { return []; }
+  try { const m = FSC.readText(path.join(ROOT, 'Scripts', 'swarm.js')).match(/hallTeam:\s*\[([^\]]*)\]/); return m ? [...m[1].matchAll(/'([^']+)'/g)].map(x => x[1]) : []; } catch (e) { return []; }
 }
 function kamalokaLive(leader) {
   // running = a run in progress; finished = the last run ended < 15 min ago (the tab keeps showing its result + trail)
@@ -818,14 +851,14 @@ const POLYEDIT = require('./polyedit_api')({ DATA, ROOT, LOGS, SETTINGS: path.jo
 function accounts(states) {
   const auto = new Set();
   try {
-    const st = fs.readFileSync(path.join(SETTINGS, 'settings.xml'), 'utf8');
+    const st = FSC.readText(path.join(SETTINGS, 'settings.xml'));
     for (const m of st.matchAll(/configPath="([^"]+)"[^>]*enabled="true"/g)) auto.add(path.basename(m[1]).toLowerCase());
   } catch (e) { }
   const byName = {};
   states.forEach(s => { byName[s.name] = s; });
   return fs.readdirSync(SETTINGS).filter(f => f.endsWith('.xml') && !/^(settings|mylogin1)\.xml$/i.test(f)).map(f => {
     let xml = '';
-    try { xml = fs.readFileSync(path.join(SETTINGS, f), 'utf8'); } catch (e) { }
+    try { xml = FSC.readText(path.join(SETTINGS, f)); } catch (e) { }   // DASHPERF: 70 XML files per /api/state -> read only when changed
     const tag = (t) => { const m = xml.match(new RegExp(`<${t}>([^<]*)</${t}>`)); return m ? m[1] : ''; };
     const ch = tag('SelectedCharacter');
     const st = byName[ch];
@@ -1430,7 +1463,7 @@ pollSystem(); setInterval(pollSystem, 60000);
 function systemInfo() {
   const deploy = tail(path.join(LOGS, 'deploy_swarm.log'), 5);
   let devDiffers = null;
-  try { devDiffers = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8') !== fs.readFileSync(path.join(ROOT, 'Scripts', 'swarm.js'), 'utf8'); } catch (e) { }
+  try { devDiffers = FSC.readText(path.join(ROOT, 'Scripts_dev', 'swarm.js')) !== FSC.readText(path.join(ROOT, 'Scripts', 'swarm.js')); } catch (e) { }   // DASHPERF: 2 x 2.8 MB per call -> read only when changed
   return { ...SYS, deploy, devDiffers, mem: tail(path.join(LOGS, 'memwatch.log'), 5), ctl: tail(path.join(LOGS, 'l2swarm_ctl.log'), 5),
     limits: ctlLimits() };
 }
@@ -1671,15 +1704,20 @@ startBrainHost();
 // L2Swarm memory, PC free memory, characters reporting, MB per reporting character, timer lag (median / p90 / max of every character's
 // tickLate), script engines blocked by L2Swarm's watchdog in the last 2 min, big data parsed (Logs/dataload_*.json). Compare runs with
 // docs/plan/tools/perf_compare.js "<start 1>" "<start 2>".
-function perfSample() {
+// DASHPERF 2026-10-13: async (execFileSync powershell froze the dashboard ~1-3 s every 2 min) + only the last 400 KB of LOG.log are read (was the whole file)
+function tailText(file, bytes) {
+  let fd = null;
+  try { fd = fs.openSync(file, 'r'); const size = fs.fstatSync(fd).size, n = Math.min(size, bytes), buf = Buffer.alloc(n); fs.readSync(fd, buf, 0, n, size - n); return buf.toString('utf8'); }
+  catch (e) { return ''; } finally { if (fd !== null) try { fs.closeSync(fd); } catch (e) { } }
+}
+async function perfSample() {
   try {
-    const { execFileSync } = require('child_process');
     let mb = null, free = null;
-    try { const o = execFileSync('powershell', ['-NoProfile', '-Command', "$p=Get-Process L2Swarm -ErrorAction SilentlyContinue; if($p){[int]($p.PrivateMemorySize64/1MB)}else{0}; [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)"], { encoding: 'utf8', timeout: 20000 }).trim().split(/\s+/); mb = +o[0]; free = +o[1]; } catch (e) { }
+    try { const o = (await ps("$p=Get-Process L2Swarm -ErrorAction SilentlyContinue; if($p){[int]($p.PrivateMemorySize64/1MB)}else{0}; [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)")).split(/\s+/); if (o.length >= 2) { mb = +o[0]; free = +o[1]; } } catch (e) { }
     const st = readStates(), rep = st.filter(s => s.ageSec < 60), lags = rep.map(s => Number(s.tickLate) || 0).sort((a, b) => a - b);
     const q = (p) => lags.length ? lags[Math.min(lags.length - 1, Math.floor(lags.length * p))] : null;
-    let wd = 0; try { const t = fs.readFileSync(path.join(LOGS, 'LOG.log'), 'utf8').slice(-400000).split(/\r?\n/), lim = Date.now() - 120000; for (const l of t) { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+ .*ran JS for/.exec(l); if (m && new Date(m[1].replace(' ', 'T')).getTime() > lim) wd++; } } catch (e) { }
-    let parsed = 0, files = 0; try { for (const f of fs.readdirSync(LOGS)) { if (!/^dataload_.+\.json$/.test(f)) continue; const j = readJson(path.join(LOGS, f), null); if (!j || Date.now() - Date.parse(j.at) > 330000) continue; files++; (j.loads || []).forEach(x => { parsed += (x.kb || 0) * (x.n || 0); }); } } catch (e) { }
+    let wd = 0; try { const t = tailText(path.join(LOGS, 'LOG.log'), 400000).split(/\r?\n/), lim = Date.now() - 120000; for (const l of t) { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+ .*ran JS for/.exec(l); if (m && new Date(m[1].replace(' ', 'T')).getTime() > lim) wd++; } } catch (e) { }
+    let parsed = 0, files = 0; try { for (const f of await fs.promises.readdir(LOGS)) { if (!/^dataload_.+\.json$/.test(f)) continue; const j = readJson(path.join(LOGS, f), null); if (!j || Date.now() - Date.parse(j.at) > 330000) continue; files++; (j.loads || []).forEach(x => { parsed += (x.kb || 0) * (x.n || 0); }); } } catch (e) { }
     // brain characters run swarm.js in the brain pool, not in L2Swarm: L2Swarm MB per character counts only the others; the pool's own RSS
     // (Logs/brain_host_stats.json) is logged next to it (engine audit #38, 2026-10-12)
     // (2026-10-13: brain = an agent really connected to the pool; with "allowAll" the config names accounts that may still run swarm.js)
@@ -1694,7 +1732,13 @@ function perfSample() {
 setTimeout(perfSample, 20000); setInterval(perfSample, 120000);
 // RAID LOG (user 2026-10-06 "record and document everything"): docs/plan/raid_log.md — kills, respawn timers, attempts, routes with waypoints
 const raidLogTool = path.join(ROOT, 'docs', 'plan', 'tools', 'raid_log.js');
-function rebuildRaidLog() { try { delete require.cache[require.resolve(raidLogTool)]; require(raidLogTool).build(); } catch (e) { console.error('raid log:', e.message); } }
+// DASHPERF 2026-10-13: built in a child process (it read + parsed every raid log synchronously = 0.3-0.5 s of a frozen dashboard every 5 min)
+let raidLogBusy = false;
+function rebuildRaidLog() {
+  if (raidLogBusy) return; raidLogBusy = true;
+  try { execFile(process.execPath, [raidLogTool], { cwd: ROOT, windowsHide: true, timeout: 120000 }, (err) => { raidLogBusy = false; if (err) console.error('raid log:', err.message); }); }
+  catch (e) { raidLogBusy = false; console.error('raid log:', e.message); }
+}
 rebuildRaidLog(); setInterval(rebuildRaidLog, 5 * 60 * 1000);
 
 // ===========================================================================================================================
@@ -2049,11 +2093,23 @@ function raidHuntAll() {
   return Object.assign({}, first, { hunts, activeLeaders: on.map(h => h.leader) });   // top level = the newest active hunt (older pages keep working)
 }
 function raidHuntOf(leader) { const a = raidHuntAll(); return (a.hunts || {})[leader] || {}; }
+let STATE_CACHE = { at: 0, body: null, gen: 0 }, POST_GEN = 0;   // DASHPERF 2026-10-13: the shared /api/state answer
+const PMOBS_CACHE = {};                                            // DASHPERF 2026-10-13: /api/partymobs MCP answer per character (2 s)
 http.createServer(async (req, res) => {
   try {
+    try { PERF.req(req, res); } catch (e) { }                       // DASHPERF 2026-10-13: request time + bytes -> Logs/dashboard_perf.log
+    if (req.method !== 'GET' && req.method !== 'HEAD') { POST_GEN++; RS_CACHE.at = 0; RS_DIR.at = 0; }   // DASHPERF: a change drops the cached /api/state + state list
     try { require('./compress').wrap(req, res); } catch (e) { }   // gzip + ETag for text responses (2026-10-12, Dashboard/compress.js)
     const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
     if (url.pathname.startsWith('/api/')) viewersMark(url);       // DASHBOARD VIEWERS (CPU audit 2026-10-09)
+    // DASHPERF 2026-10-13: the page's big inline style + main script, served as cached files (Dashboard/staticver.js; public like every other page script)
+    if (url.pathname.startsWith('/_inline/')) {
+      let f = SV.inline(url.pathname);
+      if (!f) { try { SV.page(path.join(__dirname, 'index.html'), __dirname); } catch (e) { } f = SV.inline(url.pathname); }
+      if (!f) return send(res, 404, 'text/plain', 'old page version: reload the page');
+      res.writeHead(200, { 'Content-Type': f.type, 'Cache-Control': 'public, max-age=31536000, immutable' });
+      return res.end(f.body);
+    }
     // Game icons + lookup tables (no secrets) are public so <img> works on the phone without the key
     if (url.pathname.startsWith('/icons/')) {
       const rel = decodeURIComponent(url.pathname.slice(7)).replace(/\\/g, '/');
@@ -2080,7 +2136,7 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/api/maplayersz') {
       const have = {}; try { fs.readdirSync(path.join(__dirname, '..', 'Maps', 'high')).forEach(n => { const m = n.match(/^(\d+_\d+)_(\d)\.jpg$/); if (m) (have[m[1]] = have[m[1]] || []).push(+m[2]); }); } catch (e) { }
       const out = {};
-      (readJson(path.join(DATA, 'dungeon_rooms.json'), []) || []).forEach(d => {
+      (FSC.readJsonShared(path.join(DATA, 'dungeon_rooms.json'), []) || []).forEach(d => {
         const byRegion = {};
         (d.floors || []).forEach(F => (F.rooms || []).forEach(r => { if (!r.center || !F.z) return; const k = (Math.floor(r.center[0] / 32768) + 20) + '_' + (Math.floor(r.center[1] / 32768) + 18); (byRegion[k] = byRegion[k] || {})[F.z.join(',')] = F.z; }));
         Object.entries(byRegion).forEach(([k, zs]) => {
@@ -2109,7 +2165,9 @@ http.createServer(async (req, res) => {
       if (!fs.existsSync(p)) {
         if (!MINI[mm[1]]) MINI[mm[1]] = new Promise((resolve) => execFile('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
           path.join(PLAN, 'tools', 'make_minitiles.ps1'), '-Region', mm[1]], { windowsHide: true, timeout: 120000 }, () => resolve()));
-        await MINI[mm[1]];
+        // DASHPERF 2026-10-13: every region is pre-cut now (Dashboard/minitiles, 4016 pieces); a new one is cut in the background and the map
+        // waits at most 3 s (was: up to 2 min per request while PowerShell ran)
+        await Promise.race([MINI[mm[1]], new Promise(r => setTimeout(r, 3000))]);
       }
       if (!fs.existsSync(p)) return send(res, 404, 'text/plain', 'no map for this region');
       res.writeHead(200, { 'Content-Type': 'image/jpeg', 'Cache-Control': 'public, max-age=31536000, immutable' });
@@ -2183,6 +2241,11 @@ http.createServer(async (req, res) => {
     // RUN SWITCH 2026-10-13 (Dashboard/runstate_api.js): /runswitch.js|css (public) + GET/POST /api/runstate (key checked inside): the manual Start / Stop per
     // party / character (Scripts/data/run_state.json, read by swarm.js every 2 s; default OFF), Start / Stop also send !start / !stop to the party
     if (await require('./runstate_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun })) return;
+    // PARTY PLAN 2026-10-13 (Dashboard/partyplan_api.js): /partyplan.js|css, /planlogic.js (public) + GET/POST /api/partyplans (key checked inside): the plan builder per party
+    if (await require('./partyplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun })) return;
+    // HEAL SCHEMES 2026-10-13 (Dashboard/healschemes_api.js): /healschemes.js|css, /heallogic.js (public) + GET/POST /api/healschemes (key checked inside):
+    // per character / class which heal skill at which HP %, who first, Recharge, mana potion line (Scripts/data/heal_schemes.json, read by swarm.js; missing = automatic)
+    if (await require('./healschemes_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send })) return;
     if (await require('./tradepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;
     // ADENA 2026-10-12 (Dashboard/fundpage_api.js): /fundpage.js|css (public) + GET/POST /api/fundrules (key checked inside):
     // cross-party adena rules (Scripts/data/fund_rules.json, read by swarm.js fundRules() every 30 s), live adena per character, Logs/fund_log.json
@@ -2190,6 +2253,13 @@ http.createServer(async (req, res) => {
     // PARTY AUTOMATIONS 2026-10-13 (Dashboard/partyauto_api.js): GET/POST /api/partyauto (key checked inside): the per-party / per-character switches of the
     // supply watch, selling and symbols (Scripts/data/party_auto.json, read by swarm.js every 5 s; missing = OFF); the party settings popup's Supplies section
     if (await require('./partyauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // RESURRECTION 2026-10-13 (Dashboard/resrules_api.js): /respanel.js (public: the Resurrect dialog + party card) + GET/POST /api/resrules (key checked
+    // inside): automatic res on/off, scrolls, scrolls on healers in raids, who may read scrolls, how far a resser walks (Scripts/data/res_rules.json, read by swarm.js every 5 s)
+    if (await require('./resrules_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // LOOT RULES 2026-10-13 (Dashboard/lootrules_api.js): /lootlogic.js (public: the decision logic) + GET/POST /api/lootrules (key checked inside): what a
+    // party's loot does — hand it to a collector (clan leader / a character), keep it, only non-gear, keep S-grade / enchanted / special gear, never / always lists
+    // (Scripts/data/loot_rules.json, read live by swarm.js; missing = OFF); the party settings popup's Loot section
+    if (await require('./lootrules_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // UI KIT 2026-10-13 (Dashboard/uikit_api.js, UX audit B1): /ui_kit.css, /ui_kit.js, /plainwords.js (public, no secrets)
     if (await require('./uikit_api').handle(req, res, url, { DIR: __dirname })) return;
     // STORAGE 2026-10-13 (Dashboard/storagepage_api.js): /storagepage.js|css (public) + GET/POST /api/storage, GET /api/storage/plan (key checked inside):
@@ -2215,8 +2285,11 @@ http.createServer(async (req, res) => {
     if (await require('./soulplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, allowed, json, send })) return;
     if (!allowed(req, url)) return send(res, 401,'text/plain; charset=utf-8', 'Access denied: open the link with ?key=... (see Dashboard\\key.txt on the PC)');
     if (url.pathname === '/' || url.pathname === '/index.html') {
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');   // phones kept an old page
-      return send(res, 200, 'text/html; charset=utf-8', fs.readFileSync(path.join(__dirname, 'index.html')));
+      // DASHPERF 2026-10-13: versioned scripts + the big inline blocks as cached files (Dashboard/staticver.js); "no-cache" = the phone ALWAYS asks
+      // again (it kept an old page with no rule at all), an unchanged page answers 304 via its ETag (compress.js) instead of 520 KB
+      let page; try { page = SV.page(path.join(__dirname, 'index.html'), __dirname); } catch (e) { page = fs.readFileSync(path.join(__dirname, 'index.html')); }
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache, must-revalidate' });
+      return res.end(page);
     }
     // Crystals tab: table, plan, targets, live crystals per character (Logs/soul_<name>.json, written by swarm.js every minute)
     if (url.pathname === '/api/soul') {
@@ -2477,9 +2550,13 @@ http.createServer(async (req, res) => {
       if (engineJob.running) return json(res, 409, { error: 'a run is going on already (started ' + engineJob.startedAt + ') — see the log below' });
       return json(res, 200, engineRun(b.action === 'move'));
     }
+    if (url.pathname === '/api/perf') return json(res, 200, Object.assign(PERF.stats(), { fscache: FSC.info() }));   // DASHPERF 2026-10-13
     if (url.pathname === '/api/state') {
+      // DASHPERF 2026-10-13: built at most once per 1.5 s and shared by every open page (each polls every 4 s, 1.5 s while someone casts);
+      // any POST (an order, a switch) drops the cached copy so the next poll shows the change at once
+      if (STATE_CACHE.body && Date.now() - STATE_CACHE.at < 1500 && STATE_CACHE.gen === POST_GEN) return send(res, 200, 'application/json', STATE_CACHE.body);
       const chars = readStates();
-      return json(res, 200, {
+      const body = JSON.stringify({
         chars, accounts: accounts(chars), tasks: TASKS, classes: Object.keys(START_CLASSES),
         log: tail(path.join(LOGS, 'swarm_buffs.log'), 60), errors: tail(path.join(LOGS, 'swarm_errors.log'), 12),
         plan: planFiles(), now: new Date().toISOString(),
@@ -2488,7 +2565,10 @@ http.createServer(async (req, res) => {
         brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
         cursed: cursedStatus(),                                            // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
         run: require('./runstate_api').summary({ DATA, LOGS, ROOT, readJson, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER }, chars),   // RUNSTATE 2026-10-13: the manual Start / Stop per party (Parties tab)
+        plans: (() => { try { return require('./partyplan_api').summary({ DIR: __dirname, DATA, LOGS, ROOT, readJson }, chars); } catch (e) { return {}; } })(),   // PARTY PLAN 2026-10-13: 'step 3/9: ...' on the party card
       });
+      STATE_CACHE = { at: Date.now(), body, gen: POST_GEN };
+      return send(res, 200, 'application/json', body);
     }
     // --- Raid routes: view / correct / lock the saved walk landing -> boss (user 2026-10-06) ---
     // ROUTESWITCH-2026-10-13 (Dashboard/routestore.js): /api/route?type=<raid|epic|npc|quest|area|room|dungeon>&id= — known raid bosses (also an epic boss in
@@ -2700,7 +2780,7 @@ http.createServer(async (req, res) => {
     // one dungeon for the room picker / room maps: floors with room polygons, levels, monsters, safe spots (no walk routes: they are big)
     if (url.pathname === '/api/dungeonmap') {
       const name = url.searchParams.get('name') || '';
-      const d = (readJson(path.join(DATA, 'dungeon_rooms.json'), []) || []).find(x => x.name === name);
+      const d = (FSC.readJsonShared(path.join(DATA, 'dungeon_rooms.json'), []) || []).find(x => x.name === name);
       if (!d) return json(res, 404, { error: 'unknown dungeon' });
       return json(res, 200, { name: d.name, levelRange: d.levelRange, catacomb: !!d.catacomb, bbox: d.bbox, mapLayers: d.mapLayers || [],
         floors: (d.floors || []).map(F => ({ name: F.name, z: F.z, levelRange: F.levelRange || null, safeSpots: F.safeSpots || [],
@@ -2731,16 +2811,16 @@ http.createServer(async (req, res) => {
     // dungeon for the room maps / party map: per floor the vertices [id, x, y, kind] and the edges [a, b, [x,y, x,y, ...] waypoints]
     if (url.pathname === '/api/dungeongraph') {
       const name = url.searchParams.get('name') || '';
-      const d = (readJson(path.join(DATA, 'dungeon_rooms.json'), []) || []).find(x => x.name === name || x.key === name);
+      const d = (FSC.readJsonShared(path.join(DATA, 'dungeon_rooms.json'), []) || []).find(x => x.name === name || x.key === name);
       if (!d) {
         // a TOWN street graph (docs/plan/tools/town_graph.js -> Scripts/data/town_graph/<key>.json, 2026-10-09): one floor "streets"
-        const ti = ((readJson(path.join(DATA, 'town_graph', 'index.json'), { towns: [] }) || {}).towns || []).find(t => t.town === name || t.key === String(name).toLowerCase() || 'town-' + t.key === name);
-        const T = ti && readJson(path.join(DATA, 'town_graph', ti.key + '.json'), null);
+        const ti = ((FSC.readJsonShared(path.join(DATA, 'town_graph', 'index.json'), { towns: [] }) || {}).towns || []).find(t => t.town === name || t.key === String(name).toLowerCase() || 'town-' + t.key === name);
+        const T = ti && FSC.readJsonShared(path.join(DATA, 'town_graph', ti.key + '.json'), null);
         if (!T) return json(res, 404, { error: 'unknown dungeon / town' });
         return json(res, 200, { name: T.town, town: true, built: T.built, floors: [{ name: 'streets', z: [T.z[0] - 200, T.z[1] + 200], v: T.v.map(v => [v[0], v[1], v[2], v[5]]),
           e: T.e.map(e => { const p = []; for (let k = 0; k < (e[4] || []).length; k += 3) p.push(e[4][k], e[4][k + 1]); return [e[0], e[1], p]; }) }], unreachable: T.unreachable || [] });
       }
-      const G = readJson(path.join(DATA, 'dungeon_graph', d.key + '.json'), null);
+      const G = FSC.readJsonShared(path.join(DATA, 'dungeon_graph', d.key + '.json'), null);
       if (!G) return json(res, 200, { name: d.name, floors: [] });
       return json(res, 200, { name: d.name, built: G.built, floors: (G.floors || []).map((F, i) => {
         const g = F.graph; if (!g) return { name: F.name, z: (d.floors[i] || {}).z || null, v: [], e: [] };
@@ -2796,7 +2876,7 @@ http.createServer(async (req, res) => {
     // places the spot editor can jump to + their named floors (dungeon_rooms.json floors, catacombs.json insides), towns, teleport landings
     if (url.pathname === '/api/spotplaces') {
       const out = [];
-      (readJson(path.join(DATA, 'dungeon_rooms.json'), []) || []).forEach(d => {
+      (FSC.readJsonShared(path.join(DATA, 'dungeon_rooms.json'), []) || []).forEach(d => {
         if (d.catacomb) return;                              // catacombs/necropolises: listed below from catacombs.json (rooms added 2026-10-08)
         const cs = (d.floors || []).flatMap(F => (F.rooms || []).filter(r => r.center).map(r => r.center));
         const e = d.entrance || {};
@@ -2958,10 +3038,14 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/api/partymobs') {
       const name = url.searchParams.get('name') || '';
       const list = (t) => { try { const j = JSON.parse(t); return Array.isArray(j) ? j : (j.mobs || []); } catch (e) { return []; } };
-      const t = await mcpCallChar('get_account_data', name, { type: 'mobs', range: 12000 }).catch(() => '[]');
+      // DASHPERF 2026-10-13: every party map asks every ~1-4 s (17 calls in 17 s from ONE page): one MCP call per character per 2 s,
+      // shared by every caller (also those still waiting for it); L2Swarm is asked far less often
+      const PM = PMOBS_CACHE[name] || (PMOBS_CACHE[name] = { at: 0, t: '[]', p: null });
+      if (Date.now() - PM.at > 2000 && !PM.p) PM.p = mcpCallChar('get_account_data', name, { type: 'mobs', range: 12000 }).catch(() => '[]').then(x => { PM.t = x; PM.at = Date.now(); PM.p = null; return x; });
+      const t = PM.p ? await PM.p : PM.t;
       // raid bosses are marked (user 2026-10-05: "show and mark the raid boss on the map"); the leader's current raid target is sent as well,
       // so the map can show where it should be even when nobody sees it (the client only sees monsters within ~3400)
-      const db = readJson(path.join(DATA, 'raidbosses_h5.json'), { bosses: [] });
+      const db = FSC.readJsonShared(path.join(DATA, 'raidbosses_h5.json'), { bosses: [] });
       const bosses = {}; (db.bosses || db || []).forEach(b => { bosses[b.name] = b; });
       const rh = raidHuntOf(name);   // 2026-10-10: this leader's own hunt (was the one shared raidhunt.json)
       const live = (() => { const a = raidLive(name); return a.boss ? a : raidLive(''); })();   // LIVE PER PARTY 2026-10-09: this leader's raid (was the one shared raid_live.json)

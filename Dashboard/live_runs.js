@@ -6,11 +6,12 @@
 // ?leader=<name>) and kamapage_api.js (pinned live box). Test: docs/plan/tools/test_live_runs.js.
 'use strict';
 const fs = require('fs'), path = require('path');
+let FSC = null; try { FSC = require('./fscache'); } catch (e) { }   // DASHPERF 2026-10-13: the Logs listing (2100 files) at most every 1.5 s
 
 /** All live files of one kind ('kamaloka_live' | 'raid_live') -> [{ leader, d, upd, file }], one per leader. */
 function readRuns(LOGS, base, readJson) {
   let names = [];
-  try { names = fs.readdirSync(LOGS).filter(n => n === base + '.json' || (n.startsWith(base + '_') && n.endsWith('.json'))); } catch (e) { }
+  try { names = (FSC ? FSC.listDir(LOGS, 1500) : fs.readdirSync(LOGS)).filter(n => n === base + '.json' || (n.startsWith(base + '_') && n.endsWith('.json'))); } catch (e) { }
   const by = {};
   names.forEach(n => {
     const d = readJson(path.join(LOGS, n), null);

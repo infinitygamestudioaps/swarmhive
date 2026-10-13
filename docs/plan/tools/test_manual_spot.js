@@ -151,7 +151,7 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(fail > 0 && pf > fail && pf < ban, 'a trip interrupted for the dashboard choice continues BEFORE any spot ban');
   check(/manualSpotOnPick\(spot\);/.test(body) && /manualSpotOnTravel\(spot, true\);/.test(body), 'status hooks after the pick and on arrival');
   const tts = src.slice(src.indexOf('async function travelToSpot'), src.indexOf('async function autoLevelLoop'));
-  check(/!sameFloorRoom && (!viaGiran && )?(!nonstopOn\(\) && )?Math\.hypot\(spot\.center\.x - Me\.X/.test(tts),'travelToSpot: no Giran regroup for a room on the floor we stand on');
+  check(/!sameFloorRoom && (!atLandingNow && )?(!viaGiran && )?(!nonstopOn\(\) && )?Math\.hypot\(spot\.center\.x - Me\.X/.test(tts),'travelToSpot: no Giran regroup for a room on the floor we stand on');
   check(/manualSpot: \(isLeader\(\) \|\| soloChar\(\)\) \? \(\(\) => \{ try \{ return manualSpotPublic\(\)/.test(src), 'swarm_state carries manualSpot');
   check(/if \(now\(\) - manualState\.at > 5000\)/.test(src), 'party_spots.json is re-read every 5 s');
 }

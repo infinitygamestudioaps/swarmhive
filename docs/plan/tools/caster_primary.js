@@ -67,6 +67,9 @@ function info(id) {
     name: d.name, element: EL[set('attributeType')] || '', scope: set('affectScope') || 'SINGLE', target: set('targetType'), op: set('operateType'),
     reuse: Number(set('reuseDelay')) || 0, hit: Number(set('hitTime')) || 0, range: rng[rng.length - 1], abnormal: set('abnormalType'),
     maxMagicLvl: ml[ml.length - 1], effects, undeadOnly: !!(cond && /race="UNDEAD"/.test(cond[0])), needsAbnormal: !!(cond && /checkAbnormal|active_effect_id/.test(cond[0])),
+    // CASTPRIO REAL POWER (owner 2026-10-13 21:00): power + MP per skill level (base levels; enchant routes are not in the table)
+    pw: (() => { const p = /<param power="([^"]*)"/.exec(b); return p ? (val(p[1]) || []) : []; })(),
+    mpl: (() => { const m1 = val(set('mpConsume1')), m2 = val(set('mpConsume2')); const n = Math.max((m1 || []).length, (m2 || []).length); const o = []; for (let i = 0; i < n; i++) o.push(((m1 || [])[Math.min(i, (m1 || []).length - 1)] || 0) + ((m2 || [])[Math.min(i, (m2 || []).length - 1)] || 0)); return o; })(),
   };
 }
 const DMG = /^(MagicalAttack|MagicalAttackRange|MagicalSoulAttack|MagicalAttackByAbnormal|InstantMagicalAttackOverHit|HpDrain|DeathLink)$/;   // not MagicalAttackMp (mana burn)
@@ -103,7 +106,8 @@ for (const cid of Object.keys(LINES).map(Number).sort((a, b) => a - b)) {
     const s = info(id); if (!s) return;
     const c = classify(Number(id), s, lineEl, kind); if (!c) return;
     rows.push({ skillId: Number(id), name: s.name, learnLevel: first[id].get, element: c.element || s.element, aoe: !!c.aoe || s.scope !== 'SINGLE',
-      role: c.role, kind: c.kind, reuseMs: s.reuse, range: s.range, maxMagicLvl: s.maxMagicLvl });
+      role: c.role, kind: c.kind, reuseMs: s.reuse, range: s.range, maxMagicLvl: s.maxMagicLvl, hitMs: s.hit,
+      ...(c.role !== 'debuff' && s.pw.length ? { pw: s.pw, mpl: s.mpl } : {}) });   // pw[lvl-1] = datapack power at skill level lvl (swarm.js cpPowerAt)
   });
   // fallbacks: line element first, then the primaries of an ancestor line (Blaze = the Wizard's nuke, for the Necromancer), then reach >= 600, then newest
   const anc = {}; chain.slice(0, -1).forEach(c => { const le = (LINES[c] || [''])[0]; if (le && le !== lineEl) rows.forEach(r => { if (r.role === 'fallback' && r.kind === 'nuke' && r.element === le && r.reuseMs <= 3000 && r.range >= 600) anc[r.skillId] = true; }); });
@@ -134,7 +138,12 @@ md.push('# Caster attack skills per class line (H5)', '',
   'highest learn level first; the older primaries are its fallbacks (cooldown / MP / range); then the other fallbacks (line element first, newest first).',
   'AoE only when 3+ monsters stand at the target. Drains move to the front below 60 % HP; 5-minute "burst" nukes only on long-lived targets (raid boss,',
   'minion, monster with lots of HP). Vortex/combo skills (77+) are not automated yet. Surrender = team element rule (one caster per party).', '',
-  'Primary = single target, the line element, reuse <= 3 s, range >= 600, no side debuff, no condition.', '');
+  'Primary = single target, the line element, reuse <= 3 s, range >= 600, no side debuff, no condition.', '',
+  '**Real power (owner 2026-10-13 21:00):** swarm.js reads each skill’s datapack power AT ITS LEARNED LEVEL (`pw` in the json) and ranks by it:',
+  'the strongest known primary first, then every other single-target nuke by power (ties: more power per MP). At cast time a skill is worth',
+  'power x targets x element factor (raids: the boss’s element defence) x HP factor (Death Link: 2 - 2 x HP%, nothing at full HP) per cast',
+  'second; the primary is waited for when that pays more than the best ready fallback. Example Spellhowler 53: Hurricane L8 = Death Spike L3 =',
+  'Vampiric Claw L8 = Curse Death Link L2 = power 72 (MP 48 / 30 / 85 / 48), Shadow Flare L4 89 (8 s reuse, 5 s cast), Twister L8 44, Wind Strike L5 21.', '');
 for (const [title, ids] of LINE_GROUPS) {
   md.push(`## ${title}`, '');
   for (const cid of ids) {
@@ -142,8 +151,8 @@ for (const [title, ids] of LINE_GROUPS) {
     md.push(`### ${meta.name} (${cid})${meta.element ? ' - line element ' + meta.element : ''}${meta.note ? ' - ' + meta.note : ''}`, '');
     const prim = rows.filter(r => r.role === 'primary').sort((a, b) => b.learnLevel - a.learnLevel);
     md.push(`Primary chain: ${prim.length ? prim.map(r => `**${r.name}** (${r.learnLevel})`).join(' > ') : '(none)'}`, '');
-    md.push('| Role | Kind | Skill | Id | Learn lvl | Element | Reuse s | Range |', '|---|---|---|---|---|---|---|---|');
-    rows.forEach(r => md.push(`| ${r.role} | ${r.kind} | ${r.name} | ${r.skillId} | ${r.learnLevel} | ${r.element || '-'} | ${(r.reuseMs / 1000).toFixed(1)} | ${r.range || '-'} |`));
+    md.push('| Role | Kind | Skill | Id | Learn lvl | Element | Reuse s | Cast s | Range | Power lvl 1 -> max (MP) |', '|---|---|---|---|---|---|---|---|---|---|');
+    rows.forEach(r => md.push(`| ${r.role} | ${r.kind} | ${r.name} | ${r.skillId} | ${r.learnLevel} | ${r.element || '-'} | ${(r.reuseMs / 1000).toFixed(1)} | ${((r.hitMs || 0) / 1000).toFixed(1)} | ${r.range || '-'} | ${r.pw && r.pw.length ? `${r.pw[0]} -> ${r.pw[r.pw.length - 1]} (${(r.mpl || [])[0] || '?'} -> ${(r.mpl || [])[(r.mpl || []).length - 1] || '?'})` : '-'} |`));
     md.push('');
   }
 }

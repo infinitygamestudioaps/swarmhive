@@ -240,13 +240,15 @@ async function main() {
     const mob = { objId: 7001, Id: 20134, Name: 'Hatar Ratman', crtType: 2, X: 1500, Y: 1500, Z: -3000, HP: 100, MaxHP: 100, HpPercent: 100, Level: 40, IsDead: false, TargetObjId: 1002, IsStunned: true, IsSleeping: false, IsParalyzed: false, IsOutOfControl: false };
     const C = makeChar('Far', { creatures: [mob] }); await C.tick(20);
     const v = () => C.global.CreaturesList.GetItemByObjectID(7001);
-    ok(v() && Number(v().TargetObjId) === 1002 && v().IsStunned === true, `inside the box: TargetObjId ${v() && v().TargetObjId}, stunned ${v() && v().IsStunned}`);
+    // ENGINELAT-2026-10-13: L2Swarm 3.8.18 has no TargetObjId / IsStunned on CreaturesList items (L2Mob: not at all; L2Character: hidden by
+    // ClearScript's type restriction): the agent no longer reads them (~230 us per failed read) and sends the 'none' values everywhere
+    ok(v() && Number(v().TargetObjId || 0) === 0 && v().IsStunned === false, `inside the box: TargetObjId ${v() && v().TargetObjId}, stunned ${v() && v().IsStunned} (none: not readable in L2Swarm)`);
     mob.X = 9000; mob.TargetObjId = 1003; mob.IsStunned = false; await C.tick(20);
     ok(v() && Number(v().TargetObjId || 0) !== 1002, `outside the box the old target is gone (TargetObjId ${v() && v().TargetObjId})`);
     ok(v() && !v().IsStunned, `outside the box the old stun is gone (IsStunned ${v() && v().IsStunned})`);
     ok(v() && v().targetCrt === null, 'targetCrt no longer resolves the old target');
     mob.X = 1600; await C.tick(20);
-    ok(v() && Number(v().TargetObjId) === 1003, `back inside: the live target again (${v() && v().TargetObjId})`);
+    ok(v() && Number(v().TargetObjId || 0) === 0, `back inside: still none (${v() && v().TargetObjId})`);
   }
 
   // ---------------------------------------------------------------- #6 pet buffs

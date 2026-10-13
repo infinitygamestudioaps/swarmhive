@@ -38,8 +38,11 @@ const fs = require('fs'), path = require('path'), os = require('os'), cp = requi
 try { os.setPriority(process.pid, os.constants.priority.PRIORITY_LOW); } catch (e) { }
 const ROOT = path.resolve(__dirname, '..', '..', '..');
 const DATA = path.join(ROOT, 'Scripts', 'data'), OUTDIR = path.join(DATA, 'nav_atlas'), LOGS = path.join(ROOT, 'Logs');
-const CACHE = path.join(OUTDIR, '_walks.json'), JOBS = path.join(LOGS, 'nav_atlas_jobs.json'), PROGRESS = path.join(LOGS, 'nav_atlas_progress.json');
 const ARG = process.argv.slice(2), has = (f) => ARG.includes(f), argv = (f, d) => { const i = ARG.indexOf(f); return i >= 0 && ARG[i + 1] ? ARG[i + 1] : d; };
+// FOGREACH-2026-10-13: --tag <name> = own job list + progress file (Logs/nav_atlas_jobs_<name>.json), so a --keys run can go next to another
+// running atlas batch (raid_routes.js) without sharing its job list; the walk cache + the type files are merged as before
+const RUNTAG = String(argv('--tag', '') || '').replace(/[^A-Za-z0-9_-]/g, '');
+const CACHE = path.join(OUTDIR, '_walks.json'), JOBS = path.join(LOGS, RUNTAG ? `nav_atlas_jobs_${RUNTAG}.json` : 'nav_atlas_jobs.json'), PROGRESS = path.join(LOGS, RUNTAG ? `nav_atlas_progress_${RUNTAG}.json` : 'nav_atlas_progress.json');
 const J = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 const tryJ = (f, d) => { try { return J(f); } catch (e) { return d; } };
 const atomic = (f, s) => { const t = f + '.tmp' + process.pid; fs.writeFileSync(t, s); fs.renameSync(t, f); };
@@ -60,7 +63,11 @@ if (has('--worker')) {
   const jobs = tryJ(JOBS, { jobs: [] }).jobs;
   let cache = tryJ(CACHE, { walks: {} }); cache.walks = cache.walks || {};
   let n = 0, since = 0; const t0 = Date.now();
-  const flush = () => { const disk = tryJ(CACHE, { walks: {} }); Object.assign(disk.walks = disk.walks || {}, cache.walks); disk.updated = new Date().toISOString(); atomic(CACHE, JSON.stringify(disk)); cache = disk; since = 0; };
+  // MINE-ONLY FLUSH (2026-10-13 datafix): merge ONLY the walks this worker computed into the disk copy. Before, the whole in-memory cache was
+  // written over the disk, so a worker that started earlier (raid_routes.js batch) put its stale failed entries back over walks another run
+  // (--keys --tag) had just solved.
+  const mine = new Set();
+  const flush = () => { const disk = tryJ(CACHE, { walks: {} }); disk.walks = disk.walks || {}; for (const k of mine) if (cache.walks[k]) disk.walks[k] = cache.walks[k]; disk.updated = new Date().toISOString(); atomic(CACHE, JSON.stringify(disk)); cache = disk; mine.clear(); since = 0; };
   const todo = jobs.filter(j => !cache.walks[j.k] || (has('--retry-failed') && !cache.walks[j.k].ok));
   const rk = (p) => ((p.x + 294912) >> 15) * 64 + ((p.y + 262144) >> 15); todo.sort((x, y) => rk(x.a) - rk(y.a) || rk(x.b) - rk(y.b));   // same geodata regions back to back
   if (has('--reverse')) todo.reverse();                               // a 2nd worker from the other end (both skip what the other did: 'at' > start)
@@ -83,9 +90,16 @@ if (has('--worker')) {
           : pa < 60000 ? { ok: false, reason: `the start is a closed pocket of ${pa} cells on the geodata (platform / island / sealed room: no walk out)` } : pb < 60000 ? { ok: false, reason: `the goal is a closed pocket of ${pb} cells on the geodata (no walk in)` }
           : geo.findPath(j.a, j.b, { maxNodes: Math.min(P.maxNodes, Math.round(1.6 * ((Math.abs(j.a.x - j.b.x) + (straight > 20000 ? 6000 : 10000)) / 16) * ((Math.abs(j.a.y - j.b.y) + (straight > 20000 ? 6000 : 10000)) / 16))), maxMs: P.maxMs, maxLeg: P.maxLeg, hWeight: P.hWeight, pad: straight > 20000 ? 3000 : 5000, noLearned: false, avoid: j.avoid || [] });
         r = p.ok ? Object.assign({ ok: true, pts: [].concat(...p.points.map(q => [q.x, q.y, q.z])), len: p.lengthUnits || 0, ms: p.ms }, p.swimUnits ? { swimLen: p.swimUnits, maxSwim: p.maxSwimRun } : {}) : { ok: false, why: String(p.reason || 'no way'), ms: p.ms };
+        // FLOOD ON GIVE-UP (2026-10-13 datafix, Rune guild / Aden castle NPCs): the A* node cap ("gave up after N cells") is no proof that there is
+        // no way: flood the geodata (geopath_fast.findPathFlood, the raid policy's hard-leg search) before writing the walk off as straight
+        if (!p.ok && /gave up after/.test(String(p.reason || '')) && geo.findPathFlood) {
+          const f = geo.findPathFlood(j.a, j.b, { maxNodes: 4000000, maxMs: P.maxMs * 2, maxLeg: P.maxLeg, pad: straight > 20000 ? 6000 : 3000, avoid: j.avoid || [] });
+          if (f.ok) r = Object.assign({ ok: true, pts: [].concat(...f.points.map(q => [q.x, q.y, q.z])), len: f.lengthUnits || 0, ms: (p.ms || 0) + (f.ms || 0), flood: true }, f.swimUnits ? { swimLen: f.swimUnits, maxSwim: f.maxSwimRun } : {});
+          else r.why += `; flood: ${f.reason || 'no way'}`;
+        }
       }
     } catch (e) { r = { ok: false, why: 'error: ' + e.message }; }
-    r.at = Date.now(); r.by = process.pid; cache.walks[j.k] = r; n++; since++;
+    r.at = Date.now(); r.by = process.pid; cache.walks[j.k] = r; mine.add(j.k); n++; since++;
     if (since >= 15) flush();
     const rss = process.memoryUsage().rss / 1048576;
     if (n % 5 === 0) progress({ phase: 'walks', done: jobs.length - todo.length + n, total: jobs.length, rssMB: Math.round(rss), sec: Math.round((Date.now() - t0) / 1000) });
@@ -110,7 +124,7 @@ if (!has('--plan')) {
   if (!(st === 0 && !has('--no-walks') && njobs)) break;
   {
     for (let round = 0; round < 400; round++) {
-      const r = cp.spawnSync(process.execPath, ['--max-old-space-size=' + Math.max(400, MEM_MB - 200), __filename, '--worker', '--mem', String(MEM_MB), '--free-min', String(FREE_MIN_MB)].concat(has('--retry-failed') && pass2 === 0 ? ['--retry-failed'] : []), { stdio: 'inherit', windowsHide: true });
+      const r = cp.spawnSync(process.execPath, ['--max-old-space-size=' + Math.max(400, MEM_MB - 200), __filename, '--worker', '--mem', String(MEM_MB), '--free-min', String(FREE_MIN_MB)].concat(RUNTAG ? ['--tag', RUNTAG] : [], has('--retry-failed') && pass2 === 0 ? ['--retry-failed'] : []), { stdio: 'inherit', windowsHide: true });
       if (r.status === 75) { console.log(`nav_atlas: worker restarted (memory > ${MEM_MB} MB), round ${round + 1}`); continue; }
       if (r.status === 76) { console.log(`nav_atlas: the PC stayed below ${FREE_MIN_MB} MB free for 10 min — walks paused (run again later; the cache keeps what was done)`); paused = true; break; }
       if (r.status !== 0) console.log(`nav_atlas: worker ended with ${r.status} ${r.signal || ''}`);
@@ -674,7 +688,8 @@ const routeFile = (id) => tryJ(path.join(DATA, 'routes', 'raid', `${id}.json`), 
 const RSTORE = require(path.join(ROOT, 'Dashboard', 'routestore.js'));   // ROUTESWITCH 2026-10-13: floorCheck / segments of saved routes (same rules as swarm.js)
 // --keys raid:25395,npc:...  (ROUTESWITCH 2026-10-13): plan ONLY these targets and merge them into the existing type files + index (every other
 // route stays as it is; the per-target files are rewritten by nav_atlas_split.js only where they changed). Without --keys: the whole atlas.
-const KEYS = argv('--keys', '') ? argv('--keys', '').split(',').map(x => x.trim()).filter(Boolean) : null;
+const KEYS = argv('--keys', '') ? argv('--keys', '').split(/,(?=\s*[a-z]+:)/i)   // npc keys hold a comma (npc:31321@38368,-46912): split only before the next '<type>:' (2026-10-13)
+    .map(x => x.trim()).filter(Boolean) : null;
 if (want('raid')) for (const b of RAIDS) {
   T.push({ key: `raid:${b.id}`, type: (b.type === 'raid' ? 'raid' : 'epic'), id: b.id, name: b.name, x: b.x, y: b.y, z: b.z, level: b.level, boss: b, epic: EPIC[b.id] || null });
 }
@@ -715,6 +730,15 @@ function planTarget(t) {
       }
     }
     CUR_POL = null;
+    return out;
+  }
+  // TALK SPOTS (2026-10-13 datafix): an NPC that stands on a fenced platform / behind a counter is a closed pocket on the geodata (Rune guild:
+  // Innocentin, Kayan ...): the walk ends at its talk spot (nav_atlas_extra.json npcTalkSpots, docs/plan/tools/npc_talk_spots.js: the nearest
+  // open cell within talking range); the arrive step keeps the NPC's own position + talkFrom
+  const ts = t.type === 'npc' && EXTRA.npcTalkSpots && EXTRA.npcTalkSpots[t.key];
+  if (ts && Array.isArray(ts.at)) {
+    const out = planTarget0(Object.assign({}, t, { x: ts.at[0], y: ts.at[1], z: ts.at[2] }));
+    (out || []).forEach(m => { const a = m && m.steps && m.steps.find(s => s.do === 'arrive'); if (a) Object.assign(a, { x: t.x, y: t.y, z: t.z, talkFrom: ts.at.slice(0, 3) }); if (m && m.target) Object.assign(m.target, { x: t.x, y: t.y, z: t.z }); });
     return out;
   }
   return planTarget0(t);

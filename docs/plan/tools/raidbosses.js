@@ -68,10 +68,32 @@ function nearestTp(b) {
   const [from, to] = best.desc.split('->').map(s => s.trim());
   return { from, to, desc: best.desc, x: best.x, y: best.y, z: best.z, price: best.price, walkDist: Math.round(bd) };
 }
-function zoneOf(b) {
-  const tx = Math.floor(b.x / 32768) + 20, ty = Math.floor(b.y / 32768) + 18;
-  const r = regions.filter(r => r.tx === tx && r.ty === ty && r.name && b.z >= r.zmin && b.z <= r.zmax);
-  return (r[0] || regions.find(r => r.tx === tx && r.ty === ty && r.name) || {}).name || '';
+// ZONE NAMES (fixed 2026-10-13, docs/plan/raid_zone_names_fix.md): the old zoneOf took ANY named Maps layer of the tile when the boss's own
+// height layer had no caption (Nakondas / Sejarr's Servitor got the underground "Matyrdom Necropolis (Mobs 60-70)"). Now zone_names.js:
+// client zone names per tile + height (client_zones.json), the client hunting-zone guide positions, the same-monsters check, the own-layer
+// Maps caption only. ZONE_OVERRIDE: bosses whose datapack position is a special place the client files do not name.
+const ZN = require('./zone_names').makeZoneNamer();
+const ZONE_OVERRIDE = { 29028: "Hall of Flames (Valakas' lair)" };
+function zoneOf(b, prev) {
+  if (ZONE_OVERRIDE[b.id]) return ZONE_OVERRIDE[b.id];
+  if (b.x == null || (!b.x && !b.y)) return prev != null ? prev : '';           // no world position (instance / 0,0): keep what the list had
+  return ZN.zoneOf(b.x, b.y, b.z).name;
+}
+
+// --- ZONES ONLY (2026-10-13): recompute zoneName in the EXISTING list (every field the verify / route tools added stays), rewrite the markdown
+//     node docs/plan/tools/raidbosses.js --zones-only [--dry]   prints old -> new for every changed boss
+const OLD = new globalThis.Map(); try { (JSON.parse(read(`${D}/raidbosses_h5.json`)).bosses || []).forEach(b => OLD.set(b.id, b)); } catch (e) { }
+if (process.argv.includes('--zones-only')) {
+  const MG = require('./manual_guard'), file = `${D}/raidbosses_h5.json`, dry = process.argv.includes('--dry'), changed = [];
+  const apply = () => { const raw = fs.readFileSync(file, 'utf8'), fmtJ = MG.formatOf(raw), j = JSON.parse(raw.replace(/^﻿/, ''));
+    (j.bosses || []).forEach(b => { const nz = zoneOf(b, b.zoneName); if (nz !== b.zoneName) { changed.push({ id: b.id, name: b.name, level: b.level, x: b.x, y: b.y, z: b.z, old: b.zoneName, new: nz }); b.zoneName = nz; } });
+    j.zoneNamesNote = 'zoneName rebuilt ' + new Date().toISOString() + ' by raidbosses.js --zones-only (docs/plan/tools/zone_names.js; docs/plan/raid_zone_names_fix.md)';
+    if (!dry && changed.length) MG.atomicWrite(file, MG.stringifyLike(j, fmtJ)); return j; };
+  const j = dry ? apply() : MG.withLock(file, apply, { who: 'raidbosses.js --zones-only' });
+  changed.forEach(c => console.log(`${c.id}	${c.name}	${c.level}	${c.old || '(empty)'}	->	${c.new || '(empty)'}`));
+  console.log(`${changed.length} zone names changed${dry ? ' (dry run, nothing written)' : ''}`);
+  if (!dry) { writeMd(j.bosses || [], j.ranking || {}); fs.writeFileSync(`${__ROOT}/Logs/raid_zone_names_changes.json`, JSON.stringify(changed, null, 1)); }
+  process.exit(0);
 }
 
 // --- build ------------------------------------------------------------------------
@@ -91,7 +113,7 @@ for (const s of spawns) {
   danger.push(`raid curse if a player is >8 levels above the boss (keep the party <= ${level + 8})`);
   out.push({
     id: s.id, name: n.n || `npc ${s.id}`, title: p.title, level, type, hp: p.hp || n.hp || 0, pdef: p.pdef, mdef: p.mdef, patk: p.patk,
-    x: s.x, y: s.y, z: s.z, zoneName: zoneOf(s),
+    x: s.x, y: s.y, z: s.z, zoneName: zoneOf(s, (OLD.get(s.id) || {}).zoneName),
     respawnMinH: s.respawnMinH, respawnMaxH: s.respawnMaxH,
     nearestTeleport: tp, minions: p.minions, notableDrops: p.notable, dangerNotes: danger.join('; '),
     recommendedPartyLevel: { min: Math.max(1, level - 3), max: level + 8 },
@@ -136,25 +158,28 @@ fs.writeFileSync(`${D}/raidbosses_h5.json`, JSON.stringify({
 }, null, 1));
 
 // --- markdown ---------------------------------------------------------------------
-const fmt = (h) => h == null ? '?' : (Number.isInteger(h) ? `${h}` : h.toFixed(1));
-const tpTxt = (t) => t ? `${t.desc} (${t.price}a), walk ${t.walkDist}` : '—';
-let md = `# Raid bosses (High Five)\n\nGenerated ${new Date().toISOString().slice(0, 10)} by \`docs/plan/tools/raidbosses.js\` from the L2J H5 datapack.\n` +
-  `Data: \`Scripts/data/raidbosses_h5.json\` (${out.length} entries: ${out.filter(b => b.type === 'raid').length} raid, ${out.filter(b => b.type !== 'raid').length} grand/epic).\n\n` +
-  `- **Respawn** = datapack defaults: raid bosses respawn_delay ± respawn_random (usually 12–60 h); grand bosses interval + 0..random. L2Toggle may use other values.\n` +
-  `- **Live status** (spawned/alive) is not in the datapack: the dashboard must learn it from what the bots see (boss in view = alive; killed time → next window).\n` +
-  `- **Raid curse:** a player more than 8 levels above the boss gets silenced/paralysed. Keep the party at or below boss level + 8.\n\n`;
-md += `## Good first targets per level band (9-man party, board buffs)\n\n`;
-for (const [band, list] of Object.entries(ranking)) {
-  md += `### ${band}\n\n| # | Boss | Lvl | Where | Teleport | Notable drops |\n|---|---|---|---|---|---|\n`;
-  list.forEach((r, i) => { const b = out.find(x => x.id === r.id); md += `| ${i + 1} | ${b.name} (${b.id}) | ${b.level} | ${b.zoneName} (${b.x},${b.y},${b.z}) | ${tpTxt(b.nearestTeleport)} | ${b.notableDrops.slice(0, 5).join(', ') || '—'} |\n`; });
-  md += '\n';
+function writeMd(out, ranking) {
+  const fmt = (h) => h == null ? '?' : (Number.isInteger(h) ? `${h}` : h.toFixed(1));
+  const tpTxt = (t) => t ? `${t.desc} (${t.price}a), walk ${t.walkDist}` : '—';
+  let md = `# Raid bosses (High Five)\n\nGenerated ${new Date().toISOString().slice(0, 10)} by \`docs/plan/tools/raidbosses.js\` from the L2J H5 datapack.\n` +
+    `Data: \`Scripts/data/raidbosses_h5.json\` (${out.length} entries: ${out.filter(b => b.type === 'raid').length} raid, ${out.filter(b => b.type !== 'raid').length} grand/epic).\n\n` +
+    `- **Respawn** = datapack defaults: raid bosses respawn_delay ± respawn_random (usually 12–60 h); grand bosses interval + 0..random. L2Toggle may use other values.\n` +
+    `- **Live status** (spawned/alive) is not in the datapack: the dashboard must learn it from what the bots see (boss in view = alive; killed time → next window).\n` +
+    `- **Raid curse:** a player more than 8 levels above the boss gets silenced/paralysed. Keep the party at or below boss level + 8.\n\n`;
+  md += `## Good first targets per level band (9-man party, board buffs)\n\n`;
+  for (const [band, list] of Object.entries(ranking)) {
+    md += `### ${band}\n\n| # | Boss | Lvl | Where | Teleport | Notable drops |\n|---|---|---|---|---|---|\n`;
+    list.forEach((r, i) => { const b = out.find(x => x.id === r.id); md += `| ${i + 1} | ${b.name} (${b.id}) | ${b.level} | ${b.zoneName} (${b.x},${b.y},${b.z}) | ${tpTxt(b.nearestTeleport)} | ${b.notableDrops.slice(0, 5).join(', ') || '—'} |\n`; });
+    md += '\n';
+  }
+  md += `## Grand / epic bosses\n\n| Boss | Lvl | Where | Respawn (h) | Notes |\n|---|---|---|---|---|\n`;
+  out.filter(b => b.type !== 'raid').forEach(b => { md += `| ${b.name} (${b.id}) | ${b.level} | ${b.instance ? 'instance' : `${b.zoneName} (${b.x},${b.y},${b.z})`} | ${fmt(b.respawnMinH)}–${fmt(b.respawnMaxH)} | ${b.dangerNotes} |\n`; });
+  md += `\n## All raid bosses\n\n| Boss | Lvl | HP | Zone | Coords | Respawn (h) | Nearest teleport | Minions | Notable drops | 9-man |\n|---|---|---|---|---|---|---|---|---|---|\n`;
+  out.filter(b => b.type === 'raid').forEach(b => {
+    md += `| ${b.name} (${b.id}) | ${b.level} | ${b.hp.toLocaleString('en')} | ${b.zoneName} | ${b.x},${b.y},${b.z} | ${fmt(b.respawnMinH)}–${fmt(b.respawnMaxH)} | ${tpTxt(b.nearestTeleport)} | ${b.minions.join(', ') || '—'} | ${b.notableDrops.slice(0, 6).join(', ') || '—'} | ${b.recommendedFor9Man ? 'yes' : 'no'} |\n`;
+  });
+  fs.writeFileSync(__ROOT + '/docs/plan/raidbosses.md', md);
 }
-md += `## Grand / epic bosses\n\n| Boss | Lvl | Where | Respawn (h) | Notes |\n|---|---|---|---|---|\n`;
-out.filter(b => b.type !== 'raid').forEach(b => { md += `| ${b.name} (${b.id}) | ${b.level} | ${b.instance ? 'instance' : `${b.zoneName} (${b.x},${b.y},${b.z})`} | ${fmt(b.respawnMinH)}–${fmt(b.respawnMaxH)} | ${b.dangerNotes} |\n`; });
-md += `\n## All raid bosses\n\n| Boss | Lvl | HP | Zone | Coords | Respawn (h) | Nearest teleport | Minions | Notable drops | 9-man |\n|---|---|---|---|---|---|---|---|---|---|\n`;
-out.filter(b => b.type === 'raid').forEach(b => {
-  md += `| ${b.name} (${b.id}) | ${b.level} | ${b.hp.toLocaleString('en')} | ${b.zoneName} | ${b.x},${b.y},${b.z} | ${fmt(b.respawnMinH)}–${fmt(b.respawnMaxH)} | ${tpTxt(b.nearestTeleport)} | ${b.minions.join(', ') || '—'} | ${b.notableDrops.slice(0, 6).join(', ') || '—'} | ${b.recommendedFor9Man ? 'yes' : 'no'} |\n`;
-});
-fs.writeFileSync(__ROOT + '/docs/plan/raidbosses.md', md);
+writeMd(out, ranking);
 console.log(`bosses: ${out.length}`);
 for (const [band, list] of Object.entries(ranking)) console.log(band, '->', list.map(r => `${r.name}(${r.level})`).join(', '));

@@ -48,6 +48,12 @@ raidRows.forEach(t => {
 });
 ok(checked === raidRows.length, `every raid row has a route (${checked}/${raidRows.length})`);
 ok(errs === 0, 'no exceptions over all raid routes');
+// FOGREACH-2026-10-13 (public tester: FoG unreachable): the Top-level rooms have a verified route from the Goddard landing, the Lower level has none
+{ const R = J(path.join(ATLAS, 'room.json')).routes, top = Object.keys(R).filter(k => /^room:forge-1-/.test(k)), low = Object.keys(R).filter(k => /^room:forge-2-/.test(k));
+  ok(top.length === 29 && top.every(k => R[k].status === 'ok' && !F.raSummary(R[k]).bad), 'FoG: all 29 Top-level rooms have an ok route (' + top.filter(k => R[k].status === 'ok').length + ')');
+  const fs1 = J(path.join(ATLAS, 't', 'room_forge-1-straight-a.json')), gk = (fs1.steps || []).find(q => q.do === 'gk'), w = (fs1.steps || []).filter(q => q.do === 'walk' && q.points.length > 6)[0];
+  ok(gk && gk.desc === 'Goddard -> Forge of the Gods' && gk.landing[0] === 169018 && w && w.points[0] === 169018 && w.points[w.points.length - 1] < -3500, 'FoG: room route = .goddard, Tatiana -> Forge of the Gods (landing 169018,-116303), then a walk from the landing down to the Top level (z ' + (w ? w.points[w.points.length - 1] : '?') + ')');
+  ok(low.length === 12 && low.every(k => R[k].status !== 'ok'), 'FoG: no Lower-level room has a verified route from the landing (' + low.map(k => R[k].status).filter((v, i, A) => A.indexOf(v) === i).join('/') + ') — the leveling does not offer them (test_fog_reach.js)'); }
 ok(bad >= 1, 'at least one unreachable / blocked raid (Benom: castle doors)');
 ok(kinds.floor > 0 && kinds.door > 0 && kinds.enter > 0, 'floor / door / enter markers seen ' + JSON.stringify(kinds));
 const till = routes['raid:25484'];

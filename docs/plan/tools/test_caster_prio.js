@@ -150,5 +150,94 @@ tr[77] = { at: 1000, dur: 30 };
 check(!M.surrenderDue(tr, 77, 11000, 30) && !M.surrenderDue(tr, 77, 28000, 30) && M.surrenderDue(tr, 77, 29500, 30), 'on the target: recast only 2 s before the 30 s run out');
 check(M.surrenderDue(tr, 78, 11000, 30), 'another target -> due');
 
+// ---- 6) REAL POWER (owner 2026-10-13 21:00: "Spellhowlers are not using their most powerful skill either") ------------------------------
+// datapack power per skill LEVEL (caster_primary.json pw / mpl) ranks the attack list; castPick (CASTLOOP block) values Death Link by my HP and
+// a raid boss's element defence; damage casters leave hurt teammates to the healers (support heal gate); the cast start wait learns the latency
+const la = src.indexOf('// CASTLOOP-BEGIN'), lb = src.indexOf('// CASTLOOP-END');
+const L = new Function(src.slice(la, lb) + '\nreturn { CASTLOOP, castPick, castValue, castEstMs, castStartWaitMs, castLatLearn };')();
+const R = new Function(src.slice(a, b) + '\nreturn { casterOrder, castOrder, attackOrderText, cpPowerAt, cpMpAt, elementMulFrom, supportHealAllowed, SUPPORT_GATE };')();
+// the live skill levels of our casters (Logs/swarm_state_<name>.json ov.skills, 2026-10-13 19:17)
+const LIVE = {
+  spellhowler53: { cls: 40, sk: { 1239: [8, 48], 1178: [8, 30], 1177: [5, 15], 1148: [3, 30], 1267: [4, 59], 1266: [3, 38], 1172: [8, 30], 1234: [8, 85], 1147: [6, 40], 1159: [2, 48], 1176: [4, 70], 1181: [3, 40] } },
+  spellsinger42: { cls: 27, sk: { 1235: [4, 39], 1175: [8, 30], 1177: [5, 15], 1265: [2, 49], 1264: [3, 38], 1275: [2, 20], 1172: [8, 30], 1274: [4, 15], 1181: [3, 40] } },
+  necromancer58: { cls: 13, sk: { 1148: [5, 36], 1220: [8, 30], 1177: [5, 15], 1172: [8, 30], 1274: [4, 15], 1234: [12, 97], 1147: [6, 40], 1159: [6, 54], 1382: [1, 70], 1181: [3, 40] } },
+  soulbreaker58: { cls: 128, sk: { 1436: [14, 35], 1433: [10, 25], 1431: [6, 15], 1438: [1, 55], 1437: [10, 69], 1434: [4, 42] } },
+  wizard22: { cls: 11, sk: { 1220: [2, 20], 1177: [5, 15], 1172: [2, 20], 1274: [1, 10], 1147: [4, 35], 1181: [1, 29] } },
+};
+const liveAttacks = (k, extra) => { const d = LIVE[k]; return (CP[d.cls] || []).filter(r => d.sk[r.skillId] && r.role !== 'debuff').map(r => ({ id: r.skillId, name: r.name, lvl: d.sk[r.skillId][0], mp: d.sk[r.skillId][1],
+  scope: r.aoe ? 'RANGE' : 'SINGLE', power: 30, magic: true, hit: r.hitMs || 4000, range: r.range || 600 })).concat(extra || []); };
+const H = CP[40].find(r => r.skillId === 1239), DS = CP[40].find(r => r.skillId === 1148), CDL = CP[40].find(r => r.skillId === 1159);
+check(R.cpPowerAt(H, 8) === 72 && R.cpMpAt(H, 8) === 48 && R.cpPowerAt(DS, 3) === 72 && R.cpMpAt(DS, 3) === 30 && R.cpPowerAt(CDL, 2) === 72,
+  'datapack at the live levels: Hurricane L8 = Death Spike L3 = Curse Death Link L2 = power 72 (MP 48 / 30 / 48)');
+check(R.cpPowerAt(H, 101) === 108 && R.cpPowerAt(H, 99) === 108 && R.cpPowerAt(H, 0) === 0 && R.cpPowerAt({}, 5) === 0, 'enchanted level (101+) = the top base power; unknown level / no table = 0');
+check(['primary', 'fallback', 'aoe'].every(role => Object.keys(CP).filter(k => k[0] !== '_').every(c => CP[c].filter(r => r.role === role).every(r => Array.isArray(r.pw) && r.pw.length > 0))),
+  'every primary / fallback / aoe row of every class has a power table');
+// Spellhowler 53 (Nuker7, Nuker8, Nuker9, Nuker10, Nuker11): Hurricane first, then by real power - Twister 44 / Wind Strike 21 no longer before Death Spike 72
+let ro = R.casterOrder(liveAttacks('spellhowler53'), CP[40], false);
+check(ro[0].name === 'Hurricane' && ro[0].power === 72, 'Spellhowler 53: Hurricane (72) first: ' + R.attackOrderText(ro));
+const ix = (n) => ro.findIndex(x => x.name === n);
+check(ix('Shadow Flare') === 1 && ix('Death Spike') === 2 && ix('Death Spike') < ix('Twister') && ix('Twister') < ix('Wind Strike'), 'Spellhowler 53: Shadow Flare 89 > Death Spike 72 > ... > Twister 44 > Wind Strike 21');
+check(ix(AOE_1176) > ix('Wind Strike') && ix('Curse Death Link') > ix(AOE_1176) && ix('Curse Death Link') < ix('Vampiric Claw'), 'Spellhowler 53: the wind AoE after the singles; Death Link / drains last (Death Link before Vampiric Claw: same power, 48 vs 85 MP)');
+// the pick (CASTLOOP): Casting Spd 1100, monsters 500 away
+const SPD = 1100;
+const cand = (o, live) => Object.assign({}, o, { ready: true, reuseLeftMs: 0, castMs: L.castEstMs(o.hit || 4000, SPD, 0) }, live || {});
+const cands = (order, live) => order.map(o => cand(o, (live || {})[o.name]));
+const cx = (o) => Object.assign({ mp: 1500, hpPct: 100, dist: 500, mobs: 1, aoeMinMobs: 3, worth: false, blocked: {}, now: 1000 }, o);
+let pk = L.castPick(cands(ro), cx());
+check(pk.skill && pk.skill.name === 'Hurricane' && pk.why === 'primary', 'Spellhowler 53, all ready: Hurricane');
+pk = L.castPick(cands(ro, { Hurricane: { ready: false, reuseLeftMs: 400 } }), cx());
+check(pk.skill && pk.skill.name === 'Death Spike', 'Hurricane 0.4 s on cooldown: Death Spike (the same 72 power, 30 MP) - not Curse Death Link (nothing at full HP), not Vampiric Claw (85 MP): ' + (pk.skill && pk.skill.name));
+pk = L.castPick(cands(ro, { Hurricane: { ready: false, reuseLeftMs: 400 }, 'Death Spike': { ready: false, reuseLeftMs: 900 }, 'Shadow Flare': { ready: false, reuseLeftMs: 6000 } }), cx());
+check(pk.skill && pk.skill.name !== 'Curse Death Link' && pk.skill.name !== 'Wind Strike', 'Hurricane + Death Spike on cooldown at full HP: never Curse Death Link, never Wind Strike (' + (pk.skill ? pk.skill.name : pk.why) + ')');
+pk = L.castPick(cands(ro.filter(x => x.name === 'Curse Death Link')), cx());
+check(!pk.skill, 'only Curse Death Link ready at 100 % HP: nothing cast (' + pk.why + ')');
+check(L.castValue(cand(ro[ix('Curse Death Link')]), 1, { hpPct: 30 }) > L.castValue(cand(ro[ix('Death Spike')]), 1, { hpPct: 30 }), 'at 30 % HP Curse Death Link (x1.4) is worth more than Death Spike');
+pk = L.castPick(cands(ro, { Hurricane: { ready: false, reuseLeftMs: 400 } }), cx({ hpPct: 45 }));
+check(pk.skill && pk.skill.cpKind === 'drain', 'below 60 % HP: a drain first (' + (pk.skill && pk.skill.name) + ')');
+pk = L.castPick(cands(ro), cx({ mobs: 4 }));
+check(pk.skill && pk.skill.name === AOE_1176, '4 monsters at the target: the wind AoE (36 x 4) beats Hurricane');
+pk = L.castPick(cands(ro), cx({ mobs: 2 }));
+check(pk.skill && pk.skill.name === 'Hurricane', '2 monsters: no AoE (3+ rule)');
+// Dark Wizard 32 style list (older primary, weaker fallback): Wind Strike now vs Twister 0.5 s later -> wait for Twister
+const dw = [{ id: 1178, name: 'Twister', power: 38, mp: 27, range: 750, cpRole: 'primary', cpKind: 'nuke', scope: 'SINGLE' }, { id: 1177, name: 'Wind Strike', power: 21, mp: 15, range: 600, cpRole: 'primary', cpKind: 'nuke', scope: 'SINGLE' }];
+pk = L.castPick(cands(dw, { Twister: { ready: false, reuseLeftMs: 500 } }), cx());
+check(!pk.skill && pk.wait === 500, 'Twister ready in 0.5 s, only Wind Strike ready: wait for Twister (' + pk.why + ')');
+pk = L.castPick(cands(dw, { Twister: { ready: false, reuseLeftMs: 1500 } }), cx());
+check(pk.skill && pk.skill.name === 'Wind Strike', 'Twister 1.5 s away: Wind Strike meanwhile (never idle that long)');
+// raid boss element defence (raid_templates.json): Zaken's Chief Mate Tillion dark 53 / holy -32
+const tillion = { name: 'Tillion', attrDefence: { fire: 20, water: 20, wind: 20, earth: 20, holy: -32, dark: 53 }, weakTo: 'holy', avoidElement: 'dark' };
+const em = R.elementMulFrom(tillion);
+check(em && em.dark < 0.9 && em.wind === 1 && em.holy > 1.15, 'Tillion: dark x' + (em && em.dark.toFixed(2)) + ', wind x1, holy x' + (em && em.holy.toFixed(2)));
+const noNum = R.elementMulFrom({ weakTo: 'fire', avoidElement: 'water' });
+check(noNum.fire === 1.15 && noNum.water === 0.85 && R.elementMulFrom({ name: 'x' }) === null, 'no numbers: weakTo x1.15, avoidElement x0.85; nothing known = null');
+pk = L.castPick(cands(ro), cx({ worth: true, elMul: em, primaryId: 1148 }));
+check(pk.skill && pk.skill.name === 'Hurricane', 'raid on a dark-resistant boss: Hurricane even when the caller named another primary');
+pk = L.castPick(cands(ro), cx({ worth: true, elMul: em, dist: 120 }));
+check(pk.skill && pk.skill.name === 'Hurricane', 'raid, standing 120 from the boss: still Hurricane, never Aura Burn (range 150) as the raid primary');
+const darkWeak = R.elementMulFrom({ attrDefence: { fire: 20, water: 20, wind: 53, earth: 20, holy: 20, dark: -32 } });
+pk = L.castPick(cands(ro), cx({ worth: true, elMul: darkWeak }));
+check(pk.skill && pk.skill.name === 'Death Spike', 'boss weak to dark, strong vs wind: Death Spike becomes the primary');
+// other caster lines at their live levels: the strongest primary first, then singles by power
+ro = R.casterOrder(liveAttacks('spellsinger42'), CP[27], false);
+check(ro[0].name === 'Hydro Blast' && ro[0].power === 58 && ro.findIndex(x => x.name === 'Solar Flare') < ro.findIndex(x => x.name === 'Aqua Swirl'), 'Spellsinger 42: ' + R.attackOrderText(ro));
+ro = R.casterOrder(liveAttacks('necromancer58'), CP[13], false);
+check(ro[0].name === 'Death Spike' && ro[0].power === 82 && ro.findIndex(x => x.name === 'Blaze') < ro.findIndex(x => x.name === 'Wind Strike') && ro.findIndex(x => x.name === 'Curse Death Link') > ro.findIndex(x => x.name === 'Wind Strike'), 'Necromancer 58: ' + R.attackOrderText(ro));
+const phys2 = [{ id: 485, name: 'Shining Edge', power: 1200, mp: 40, magic: false, scope: 'SINGLE' }];
+ro = R.casterOrder(liveAttacks('soulbreaker58', phys2), CP[128], true);
+check(ro[0].name === 'Shining Edge' && ro[1].name === 'Soul of Pain' && ro[1].power === 82 && ro[2].name === 'Abyssal Blaze', 'Soul Breaker 58 (inspector role): physical first, then Soul of Pain 82 > Abyssal Blaze 46: ' + R.attackOrderText(ro));
+ro = R.casterOrder(liveAttacks('wizard22'), CP[11], false);
+check(ro[0].name === 'Blaze' && ro[0].power === 26 && ro.findIndex(x => x.name === 'Wind Strike') < ro.findIndex(x => x.name === 'Energy Bolt'), 'Human Wizard 22 (Nuker13 & co): ' + R.attackOrderText(ro));
+ro = R.casterOrder(attacksFor(40, SH), CP[40], false);
+check(names(ro).startsWith('Hurricane > Twister > Wind Strike'), 'no skill levels (old callers): the learn-level order stays');
+// support heal gate
+const G = R.supportHealAllowed;
+check(G({ caster: false, hp: 45, healerNear: true }) && G({ caster: true, self: true, hp: 45, healerNear: true, claimed: true }), 'non-casters and my own HP: unchanged');
+check(!G({ caster: true, hp: 45, healerNear: true }) && G({ caster: true, hp: 25, healerNear: true }), 'a healer next to the tank: casters keep nuking unless he is below 30 %');
+check(G({ caster: true, hp: 45, healerNear: false }) && !G({ caster: true, hp: 45, healerNear: false, claimed: true }), 'healer dead / far: ONE caster heals (the claim keeps the other four nuking)');
+// cast start wait (latency learned from my OnMagicSkillUse)
+check(L.castStartWaitMs(0) === 700 && L.castStartWaitMs(300) === 740 && L.castStartWaitMs(900) === 1820 && L.castStartWaitMs(5000) === 2000, 'start wait: 700 ms base, lag x1.8 + 200, at most 2 s');
+let lat = 0; lat = L.castLatLearn(lat, 400); const up = L.castLatLearn(lat, 1200), down = L.castLatLearn(1200, 300);
+check(lat === 400 && up === 720 && down === 1110, 'latency learning: first sample, fast up (' + up + '), slow down (' + down + ')');
+
 console.log(fails ? `\n${fails} FAILED` : '\nall ok');
 process.exit(fails ? 1 : 0);

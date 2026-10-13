@@ -127,3 +127,44 @@ html.ps-lock, html.ps-lock body { overflow: hidden; }
 .ps-item .uk-switch { justify-content: flex-start; padding: 2px 0; height: auto; max-width: 100%; box-sizing: border-box; }
 .ps-item .uk-switch .uk-sl { flex: 1 1 auto; min-width: 0; }
 .ps-scroll, .ps-body { overflow-x: hidden; }
+
+/* PURSE 2026-10-13: the Money section in two blocks + the "Needs you" card (party card on the Parties tab, character page) */
+.ps-blk { border: 1px solid var(--line, #3b382f); border-radius: 8px; padding: 8px 10px 10px; margin: 6px 0 10px; background: rgba(0, 0, 0, .18); }
+.ps-blkh { font-weight: 700; color: var(--gold, #e3c27a); font-size: var(--fs-body, 13px); line-height: 1.4; }
+.ps-needs { margin: 6px 0; }
+.ps-need { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 8px; padding: 5px 0; border-top: 1px dashed var(--line, #3b382f); font-size: var(--fs-cap, 12px); }
+.ps-need > span { flex: 1 1 200px; min-width: 0; }
+.pn-card { border: 1px solid #a8862f; border-radius: 8px; background: rgba(227, 194, 122, .08); padding: 8px 10px; margin: 6px 0; color: var(--ink, #d9cfb6); }
+.pn-h { font-size: var(--fs-body, 13px); color: var(--gold, #e3c27a); margin-bottom: 2px; }
+.pn-sub { color: var(--muted, #8e8879); font-weight: 400; }
+.pn-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; padding: 6px 0; border-top: 1px dashed var(--line, #3b382f); }
+.pn-t { flex: 1 1 240px; min-width: 0; font-size: var(--fs-body, 13px); line-height: 1.4; }
+.pn-give { min-height: 40px; white-space: nowrap; }
+.pn-acts { padding-top: 6px; }
+.pn-acts .uk-btn { min-height: 40px; }
+.pn-what { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); margin-top: 4px; }
+.pn-card button.uk-btn { min-height: 40px; }
+
+/* LOOT RULES 2026-10-13: the Loot section (examples, kept lately, never / always lists) */
+.ps-lootex { margin: 8px 0; border: 1px solid var(--line, #3b382f); border-radius: 8px; padding: 6px 10px; background: rgba(0, 0, 0, .18); }
+.ps-lootrow { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; border-bottom: 1px dashed rgba(255, 255, 255, .07); font-size: var(--fs-body, 13px); line-height: 1.4; }
+.ps-lootrow:last-child { border-bottom: 0; }
+.ps-lootic { flex: 0 0 22px; text-align: center; }
+.ps-lootrow.give .ps-lootic { color: var(--ok, #86cf6e); }
+.ps-lootrow.keep .ps-lootic { color: #e9b949; }
+.ps-loott { min-width: 0; overflow-wrap: anywhere; }
+.ps-loott > span { display: block; color: var(--muted, #8e8879); font-size: var(--fs-cap, 12px); }
+.ps-loott small { color: var(--muted, #8e8879); font-weight: 400; }
+.ps-lootlist { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; min-height: 24px; align-items: center; }
+.ps-lootchip { display: inline-flex; align-items: center; gap: 2px; padding: 0 0 0 10px; border-radius: 18px; border: 1px solid var(--line2, #575141); font-size: var(--fs-cap, 12px); max-width: 100%; }
+.ps-lootchip > span { overflow-wrap: anywhere; }
+.ps-lootdel { min-width: 36px; min-height: 34px; border: 0; background: transparent; color: var(--muted, #8e8879); cursor: pointer; font: inherit; border-radius: 18px; }
+.ps-lootdel:hover, .ps-lootdel:focus-visible { color: var(--bad, #ec6a55); }
+.ps-lootadd { display: flex; gap: 8px; align-items: stretch; margin-bottom: 6px; }
+.ps-lootadd input { flex: 1 1 auto; min-width: 0; min-height: 40px; box-sizing: border-box; font: inherit; font-size: 15px; padding: 4px 8px; border-radius: 6px;
+  background: rgba(0, 0, 0, .45); color: var(--ink, #d9cfb6); border: 1px solid var(--line2, #575141); }
+.ps-lootadd .uk-btn { flex: 0 0 auto; min-height: 40px; }
+.ps-lootmode .ps-seg { display: grid; grid-template-columns: 1fr 1fr; }
+.ps-lootmode .ps-seg button { border-bottom: 1px solid var(--line2, #575141); }
+.ps-lootmode .ps-seg button:nth-child(2n) { border-right: 0; }
+.ps-lootmode .ps-seg button:nth-child(n+3) { border-bottom: 0; }

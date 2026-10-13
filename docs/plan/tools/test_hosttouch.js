@@ -1,5 +1,5 @@
 // HOSTTOUCH (2026-10-12, docs/plan/host_touch_audit.md): offline test of the "JSON rows instead of host walks" change in swarm.js.
-// Extracts rowsWith / partyRows / invRows / partyMember / escapeItemCounts / nearestMonster / findMobByName and the resurrection pick from
+// Extracts rowsWith / partyRows / invRows / partyMember / escapeItemCounts / nearestMonster / findMobByName and resGather (RES-HOST: who is dead) from
 // Scripts_dev/swarm.js (or $SWARM_SRC) and runs them against mocks: same results as the old live walks, fewer host touches, and the old walk
 // whenever the rows are missing or lack a field. Skips (0 failed) while the HOSTTOUCH patch is not in the file yet.
 'use strict';
@@ -107,30 +107,36 @@ const P = (n, x, extra) => Object.assign({ Name: n, X: x, Y: 2, Z: 3, IsDead: fa
   ok(c.nearestMonster(0, 0, 1000) === null, 'nearestMonster: winner gone from view -> null (as before)');
 }
 
-// ---- 5. resurrection pick (the 4 s hive job): rows find the dead, the LIVE object is returned, revived ones skipped
+// ---- 5. resurrection: who is dead (RES-HOST resGather, 2026-10-13; replaced the old 4 s hive "res pick" block of 2026-10-12)
+//      the party rows find the dead + their body position / object id (one snapshot, no host walk); the live PartyList walk only when the rows
+//      are missing or lack a field; a fresh teammate report (livePos) wins for the position; a dead row's objId is the one the res targets.
 {
-  const a = src.indexOf('// HOSTTOUCH (2026-10-12): the dead are looked for'), b = src.indexOf('\n', src.indexOf('try { (pr || PartyList).forEach(p => { if (!dead && p.IsDead', a));
-  ok(a > 0 && b > a, 'res pick block found');
-  const block = src.slice(a, b);
-  const run = (live, rows, hasLookup) => {
-    const cnt = { walks: 0, items: 0, lookups: 0, refs: 0 }, coll = hostColl(live, cnt);
-    if (!hasLookup) delete coll.GetItemByObjectID;
-    const c = vm.createContext({ Math, Me: { Name: 'Me', X: 0, Y: 0 }, livePos: {}, resDone: {}, rd: 4000, now: () => 1000000, PartyList: coll, partyRows: () => rows });
-    vm.runInContext('var dead = null;\n' + block + '\nthis.__dead = dead;', c);
-    return { dead: c.__dead, cnt };
-  };
-  const live = [P('Aa', 100, { IsDead: true }), P('Bb', 200, { IsDead: true })];
-  let r = run(live, live.map(o => Object.assign({}, o)), true);
-  ok(r.dead === live[0] && r.cnt.walks === 0 && r.cnt.lookups === 1, 'res pick: first dead row -> its live object, one lookup');
-  const revived = [P('Aa', 100, { IsDead: false }), P('Bb', 200, { IsDead: true })];
-  r = run(revived, [P('Aa', 100, { IsDead: true }), P('Bb', 200, { IsDead: true })], true);
-  ok(r.dead === revived[1], 'res pick: a row still dead but the live one revived -> the next dead one');
-  r = run(live, null, true);
-  ok(r.dead === live[0] && r.cnt.walks === 1, 'res pick: no rows -> the live walk');
-  r = run(live, live.map(o => Object.assign({}, o)), false);
-  ok(r.dead === live[0] && r.cnt.walks === 1, 'res pick: no GetItemByObjectID -> the live walk');
-  r = run([P('Aa', 9000, { IsDead: true })], [P('Aa', 9000, { IsDead: true })], true);
-  ok(r.dead === null, 'res pick: out of reach -> nobody');
+  let have = true; try { fnSrc('resGather'); } catch (e) { have = false; }
+  ok(have, 'resGather found (RES-HOST)');
+  if (have) {
+    const run = (live, rows, lp) => {
+      const cnt = { walks: 0, items: 0, lookups: 0, refs: 0 }, coll = hostColl(live, cnt);
+      let snapCalls = 0;
+      const c = load(ctx({ Me: { Name: 'Me', X: 0, Y: 0, Z: 0, IsDead: false }, livePos: lp || {}, PartyList: coll, CONFIG: { roster: {} }, state: { role: 'nuker' },
+        HEALER_ROLES: /bishop|healer|saint/, ROLE_RE: { tank: /^sk$|tank/ }, RES: { claims: {} }, isHealerRole: () => false, resMeBusy: () => false,
+        resKit: () => ({ skill: null, mass: null, sor: 0, sorId: 0, bsor: 0, bsorId: 0 }), teamNames: () => ['Me'].concat(live.map(o => o.Name)),
+        partyRows: () => { snapCalls++; return rows; } }), ['resGather']);
+      return { g: c.resGather(), cnt, snapCalls };
+    };
+    const live = [P('Aa', 100, { IsDead: true }), P('Bb', 200, { IsDead: true })];
+    let r = run(live, live.map(o => Object.assign({}, o)));
+    ok(r.g.dead.map(d => d.name).join() === 'Aa,Bb' && r.g.dead[0].objId === 100 && r.g.dead[0].x === 100, 'res gather: the dead from the rows, with body position + object id');
+    ok(r.cnt.walks === 0 && r.cnt.items === 0 && r.snapCalls === 1, 'res gather: one party snapshot, no host walk');
+    const revived = [P('Aa', 100, { IsDead: false }), P('Bb', 200, { IsDead: true })];
+    r = run(revived, revived.map(o => Object.assign({}, o)));
+    ok(r.g.dead.map(d => d.name).join() === 'Bb', 'res gather: a revived teammate is not on the dead list');
+    r = run(live, null);
+    ok(r.g.dead.length === 2 && r.cnt.walks === 1, 'res gather: no rows -> the live walk (once)');
+    r = run(live, live.map(o => Object.assign({}, o)), { Aa: { X: 555, Y: 2, Z: 3, at: 1000000 - 1000, IsDead: true } });
+    ok(r.g.dead[0].x === 555 && r.g.dead[0].objId === 100, 'res gather: a fresh teammate report gives the position, the row the object id');
+    r = run([P('Aa', 0, { IsDead: true, Y: 0 })], [P('Aa', 0, { IsDead: true, Y: 0 })]);
+    ok(r.g.dead.length === 0, 'res gather: a body at 0,0 (no position known) -> nobody');
+  }
 }
 
 // ---- 6. every HOSTTOUCH edit is in the file

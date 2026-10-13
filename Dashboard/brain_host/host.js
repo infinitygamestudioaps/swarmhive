@@ -97,7 +97,7 @@ function createHost(o) {
     return null;
   }
   /** forward a host call; want=true -> Promise of the agent's result */
-  function fwd(fn, args, want) {
+  function fwd(fn, args, want, ack) {
     count(fn);
     const raw = Array.from(args || []); while (raw.length && raw[raw.length - 1] === undefined) raw.pop();   // f(x, undefined) = f(x) in L2Swarm (optional parameters); JSON would make it null
     // 2026-10-12 diagnostics: Send.Action / Send.Attack without an object id -> who called it (one line per call site per 10 min)
@@ -106,6 +106,7 @@ function createHost(o) {
     const fns = {}; const strip = (x) => { if (x && typeof x === 'object') { if (x.$fn) { fns[x.$fn] = x._f; delete x._f; } else if (!Array.isArray(x)) Object.values(x).forEach(strip); else x.forEach(strip); } };
     a.forEach(strip);
     if (!link.connected()) { count('(dropped: agent not connected) ' + fn); return want ? Promise.reject(new Error('agent not connected')) : undefined; }   // like Send.* in a disconnected L2Swarm
+    if (ack && typeof link.callAck === 'function') return link.callAck(fn, a);   // ENGINELAT: { sent, xt, got } when the agent ran it
     return link.call(fn, a, want, fns);
   }
 
@@ -387,6 +388,16 @@ function createHost(o) {
   // an older agent: wait one bag cadence (1 s report + margin). Resolves true when fresh, false otherwise (never rejects).
   // DIALOG-2026-10-13: swarm.js's NPC dialog engine (DIALOG-PURE) bases its safety net on the agent: ms since its last message (state report or
   // pong) and the last ping round trip (runner.js). connected false / a big age = the agent is behind -> the dialog waits on, never re-clicks.
+  // ENGINELAT-2026-10-13 CAST ACK: castNow (swarm.js, typeof-guarded) sends its skill request through this and starts its "did the server start
+  // it?" window when the AGENT RAN the request, not when the brain queued it: an agent that is behind (slow tick, sleeping) no longer turns into
+  // a false 'no answer' + a fallback cast queued behind the late primary. -> promise { sent, xt, got } | rejects when not connected / timed out.
+  local.__sendAck = (fn, args, ms) => newPromise((res, rej) => {
+    const f = String(fn || ''); if (!/^Send.w+$/.test(f)) { rej(new Error('__sendAck: Send.* only')); return; }
+    const p = fwd(f, Array.from(args || []), true, true);
+    if (!p || typeof p.then !== 'function') { rej(new Error(f + ': no agent')); return; }
+    let done = false; const to = T.setTimeout(() => { if (!done) { done = true; rej(new Error(f + ': no ack')); } }, Math.max(500, Number(ms) || 5000));
+    p.then(v => { if (done) return; done = true; T.clearTimeout(to); res(v); }, e => { if (done) return; done = true; T.clearTimeout(to); rej(e instanceof Error ? e : new Error(String(e))); });
+  });
   local.__agentLink = () => ({ connected: !!link.connected(), age: mirror.at ? Math.max(0, Date.now() - Math.max(mirror.at, mirror.pongAt || 0)) : 0, rtt: mirror.rtt == null ? 0 : mirror.rtt });
   local.__bagSync = (ms) => newPromise((res) => {
     const lim = Math.max(200, Number(ms) || 3000);

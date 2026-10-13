@@ -94,6 +94,32 @@ if (M.ammoFor) {
   check(/function OnShopList\(shopId, list\) \{[^\n]*(items\(BuyList\)|buyRows\(\))[^\n]*ev\('OnShopList', \[num\(shopId\), items\(list\), b\]\)/.test(AG2) && /section\('buy'/.test(AG2), 'agent2.js: L2Swarm\'s real BuyList goes along with OnShopList + in the 1 s report');
   check(/OnShopList: \(a\) => \{ if \(Array\.isArray\(a\[2\]\) && a\[2\]\.length\) mirror\.buy = a\[2\]/.test(HJ), 'brain host: BuyList = the agent\'s real BuyList (old agents: as before)');
 }
+// ---- WEAPONWATCH (tester 2026-10-13: YellowNine, Orc Raider lvl 20, fighting bare-handed with a bow + a 2h weapon in the bag) ----
+{
+  const a3 = src.indexOf('// ==== WEAPONWATCH-PURE begin'), b3 = src.indexOf('// ==== WEAPONWATCH-PURE end');
+  check(a3 > 0 && b3 > a3, 'WEAPONWATCH-PURE block present');
+  if (a3 > 0 && b3 > a3) {
+    const W = new Function(src.slice(a3, b3) + '\nreturn { wwPick };')();
+    const e = (objId, n) => ({ objId, info: find(n) });
+    const bag = [e(11, 'Composite Bow'), e(12, 'Common Item - Two-Handed Sword'), e(13, 'Training Gloves'), e(14, 'Common Item - Staff of Mana')];
+    const destroyerOk = (i) => ['SWORD', 'BLUNT'].includes(i.t) && !i.mw && !!i.two, usable = (i) => i.g === 'NONE' || i.g === 'D';
+    check(W.wwPick(bag, { lastObjId: 11, stat: 'pa', roleOk: destroyerOk, usable }).objId === 11, 'the weapon I wore last goes back on (the bow the player chose)');
+    check(W.wwPick(bag, { lastObjId: 0, stat: 'pa', roleOk: destroyerOk, usable }).objId === 12, 'unknown last weapon: the one my role plan uses (Common Two-Handed Sword), never a magic staff');
+    check(W.wwPick([e(11, 'Composite Bow'), e(14, 'Common Item - Staff of Mana')], { stat: 'pa', roleOk: destroyerOk, usable }).objId === 11, 'no role weapon: the best fighter weapon (bow) before a magic staff');
+    check(W.wwPick([e(14, 'Common Item - Staff of Mana'), e(11, 'Composite Bow')], { stat: 'ma', roleOk: () => false, usable }).objId === 14, 'a caster: a magic weapon first');
+    check(W.wwPick(bag, { lastObjId: 99, stat: 'pa', roleOk: destroyerOk, usable, lockOnly: true }) === null && W.wwPick(bag, { lastObjId: 12, stat: 'pa', usable, lockOnly: true }).objId === 12, 'equipment locked: only the weapon I wore last');
+    check(W.wwPick([e(15, 'Long Bow')], { stat: 'pa', usable: (i) => i.g === 'NONE' }) === null && W.wwPick([], { stat: 'pa' }) === null, 'a weapon above my grade / an empty bag: nothing');
+  }
+  const ww = src.slice(src.indexOf('function weaponWatch('), src.indexOf('function weaponWatch(') + 2500);
+  check(/DLV\.on/.test(ww) && /tradeState/.test(ww) && /\+\+WW\.miss < 2/.test(ww) && /Send\.UseItem\(num\(pick\.objId\)\)/.test(ww), 'weaponWatch: not while deleveling / trading; two looks before it acts (Kamael Change Weapon); puts the pick on');
+  check(/setInterval\(\(\) => \{ weaponWatch\('weapon watch'\); \}, 10000\)/.test(src), 'weapon watch runs every 10 s');
+  const ep = src.slice(src.indexOf('async function equipPiece('), src.indexOf('async function equipBought('));
+  check(/if \(worn0\) \{ keep\.add\(oid\); return true; \}/.test(ep) && ep.indexOf('worn0') < ep.indexOf('Send.UseItem(oid)'), 'equipPiece never uses a piece that is already worn (that takes it OFF)');
+  const gu3 = src.slice(src.indexOf('async function gearUpgrade('), src.indexOf('// --- DYES / SYMBOLS'));
+  check(/weaponWatch\('after the gear buy', true\)/.test(gu3), 'gearUpgrade: right after equipping the buys, a weapon is on again (failed buy / equip)');
+  const gps = src.slice(src.indexOf('async function gearPlanStep('), src.indexOf('async function gearPlanStep(') + 2500);
+  check(/adenaAsk\(plan\.short\)/.test(gps) && /App\.emit\('swarm\.adena\.ask'/.test(src) && /adenaTargetFor\(a\.name, target\)/.test(src), 'cannot afford: the member asks its leader (swarm.adena.ask), the leader\'s adena run tops it up to what it asked for');
+}
 // ---- lock + policy ----
 check(/locked/.test(M.ggCheck({ slot: 'head', cand: { s: 'head', g: 'S' }, worn: [], policy: Object.assign({}, ON, { lock: true }) })), 'locked: nothing at all');
 const P0 = M.ggPolicy(null, 'X', 'P');

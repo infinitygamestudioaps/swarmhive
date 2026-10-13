@@ -46,6 +46,7 @@
     if (!d || d.error) { flash((d && d.error) || 'no answer', true); render(); return; }
     if (d.broken) flash(`stash_rules.json does not parse (${d.broken}) — saving is blocked until it is fixed or restored from Scripts/data/history/.`, true);
     SP.info = d;
+    api('/api/lootrules').then(x => { SP.loot = x && !x.error ? x : null; renderLoot(); }).catch(() => { SP.loot = null; renderLoot(); });   // LOOT RULES 2026-10-13: the per-party loot line
     if (!keepEdits || !dirty()) { SP.orig = clone(d.rules); SP.cur = clone(SP.orig); SP.rev = d.rev; SP.err = {}; }
     else if (d.rev !== SP.rev) flash('Someone else saved the storage settings meanwhile. Undo your changes to see theirs, or save to overwrite (you will be asked).', true);
     render();
@@ -60,6 +61,7 @@
       <div class="cpl-msg" id="stgMsg" role="status" hidden></div>
       <div class="box"><h3>Defaults (every character)</h3><div class="fnd-hint">A party's own setting beats these; a character's own setting beats its party's. Blank = the next level decides.</div><div id="stgDef"></div></div>
       <div class="box"><h3>Event letters</h3><div id="stgLet"></div></div>
+      <div class="box"><h3>Loot from hunting</h3><div id="stgLoot"></div></div>
       <div class="box"><h3>Per party and character</h3><div class="fnd-parties" id="stgParties"></div></div>
       <details class="box cpl-help"><summary><h3>How it works</h3></summary><div class="cpl-helpbody">
         <p><b>Warehouse.</b> <i>Clan</i> = the clan warehouse (only clan members can put items in; <b>only the clan leader can take items out</b> on L2Toggle, and untradeable items never go in). <i>Own</i> = the character's private warehouse. <i>Auto</i> = clan for clan members, otherwise its own. A character set to <i>Clan</i> that is not in a clan uses its own warehouse.</p>
@@ -135,7 +137,15 @@
   function render() {
     if (!SP.open) return;
     if (!SP.cur) { ['stgDef', 'stgLet', 'stgParties'].forEach(i => { const e = $id(i); if (e) e.innerHTML = '<div class="muted">Loading…</div>'; }); renderBar(); return; }
-    renderDef(); renderLetters(); renderParties(); renderBar();
+    renderDef(); renderLetters(); renderLoot(); renderParties(); renderBar();
+  }
+  /** LOOT RULES 2026-10-13: one line per party + "⚙ Loot settings" (the party settings popup, Loot section; Dashboard/partysettings.js) */
+  function renderLoot() {
+    const el = $id('stgLoot'); if (!el) return;
+    const L = SP.loot, P = (SP.info && SP.info.parties) || [];
+    const rows = P.map(p => { const x = L && (L.parties || []).find(q => q.leader === p.leader), sum = x ? x.summary : L ? 'Off — everyone keeps what it finds.' : '…';
+      return `<div class="stg-lootrow"><span><b>Party ${h(p.leader)}</b> — ${h(sum)}</span><button type="button" class="psbtn sm" data-psopen="${h(p.leader)}" data-psopensec="loot" title="Party ${h(p.leader)}: what happens to its loot">⚙ Loot settings</button></div>`; }).join('');
+    el.innerHTML = `<div class="fnd-hint">What happens to the loot a party picks up — hand it to a collector (the clan leader or a character you choose) or keep it on the character that found it — is set per party in <b>⚙ Settings → Loot</b>. A party without a loot rule: everyone keeps what it finds.${L ? '' : ' (The loot rules appear after a dashboard server restart.)'}</div>${rows}`;
   }
   function renderDef() {
     const el = $id('stgDef'); if (!el) return;

@@ -1328,7 +1328,7 @@ function memberRow(c) {
   // LAYOUT. The warning chips (stuck / not moving / low supplies) live in .wrn, never inside the task text. Empty cells stay EMPTY (no spaces: :empty).
   const tc = window.PartyStatus ? PartyStatus.taskCell(c, { split: true }) : null;
   const taskHtml = (tc && tc.html) || `<div class="task">${statusIcon(c)} ${esc(niceTask(c.task))}${esc(tgt)}</div>`;
-  const warn = ((tc && tc.chips) || '') + low;
+  const warn = ((tc && tc.chips) || '') + low + (window.ResPanel ? ResPanel.rowButton(c) : '');   // RESURRECTION 2026-10-13: a dead member's row -> Resurrect
   const bdg = (window.ClassPlans ? ClassPlans.memberBadge(c) : '') + ssMark(c.name);
   const eta = window.LevelEta ? LevelEta.shortHtml(c) : '';
   return `<div class="mem2 ${c.dead ? 'dead' : ''} ${live ? '' : 'stale'} ${probs ? 'problem' : ''} ${fighting ? 'fight' : ''}" data-char="${esc(c.name)}" title="Open ${esc(c.name)}">
@@ -1519,7 +1519,7 @@ function partyMap(leader, list) {
     // a dungeon room (swarm.js ROOM POLYS patch, 2026-10-08): the room's outline instead of the square
     const xs = zpoly.map(p => p[0]), ys = zpoly.map(p => p[1]);
     over += `<polygon points="${zpoly.map(p => p[0] + ',' + p[1]).join(' ')}" fill="rgba(227,194,122,.12)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` +
-      label(Math.min(...xs) + 4 * u, Math.min(...ys) - 5 * u, (zone.local ? 'local fallback room: ' : zone.area ? 'area: ' : 'room: ') + (zone.name || zone.room || '') + (zone.manual ? ' (your choice)' : '') + (L.spotClaim && L.spotClaim.claimed ? ' (claimed)' : ''), 9, '#e3c27a');
+      label(Math.min(...xs) + 4 * u, Math.min(...ys) - 5 * u, (zone.local ? 'local fallback room: ' : zone.drawn ? 'hunting (drawn area): ' : zone.area ? 'area: ' : 'room: ') + (zone.name || zone.room || '') + (zone.manual ? ' (your choice)' : '') + (L.spotClaim && L.spotClaim.claimed ? ' (claimed)' : ''), 9, '#e3c27a');
   } else if (zone) {
     const h = zone.r / 2;
     over += `<rect x="${zone.x - h}" y="${zone.y - h}" width="${zone.r}" height="${zone.r}" fill="rgba(227,194,122,.07)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(zone.x - h + 4 * u, zone.y - h + 12 * u, (zone.local ? 'local fallback square (the chosen spot was not reached)' : 'hunting: ' + (zone.name || '')) + (L.spotClaim && L.spotClaim.claimed ? ' (claimed)' : ''), 9, '#e3c27a');
@@ -2281,7 +2281,7 @@ function renderParties() {
     return `<div class="win pcard">
       <div class="whead phead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
@@ -2293,10 +2293,12 @@ function renderParties() {
           <button data-quick="${tgt}|!hunthere|Hunt here 24/7 (around the leader, no town trips; !hunthere off ends it)" title="Hunt around the spot where the leader stands now, around the clock: no supply runs, no Giran trips; after a death it comes back here">Hunt here 24/7</button>
           <div class="pdo"><select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button></div>
         </div></div>
-      <div class="pbanners">${window.RunSwitch ? RunSwitch.partyLine(leader) : ''}<!-- RUNSTATE: fixed-height running / stopped line -->${window.OrdersView ? OrdersView.partyBanner(leader) : ''}
+      <div class="pbanners">${window.RunSwitch ? RunSwitch.partyLine(leader) : ''}<!-- RUNSTATE: fixed-height running / stopped line -->${window.PartyPlan ? PartyPlan.partyLine(leader) : ''}<!-- PARTY PLAN 2026-10-13: fixed-height 'Plan step 3/9: ...' line (only when the party has a plan) -->${window.OrdersView ? OrdersView.partyBanner(leader) : ''}
       ${window.PartyStatus ? PartyStatus.banner(leader, list) : ''}
       ${alertsHtml(alerts, list)}
       ${queue}</div>
+      ${window.ResPanel ? ResPanel.partyHtml(leader, list) : ''}<!-- RESURRECTION 2026-10-13: dead members + who raises them + Res all dead -->
+      ${window.PurseCard ? PurseCard.partyHtml(leader, list) : ''}<!-- PURSE 2026-10-13: 'Needs you' card (Dashboard/partysettings.js PurseCard), below the fixed-height banner strip: a member cannot afford its gear while 'Leader pays' is off -->
       ${tacticsHtml(leader, list)}
       ${spotPickHtml(leader, list)}
       <div class="pwrap">${partyMap(leader, list)}<div class="members">${list.map(memberRow).join('')}${ghostRows(leader, list)}</div></div></div>`;
@@ -4980,6 +4982,18 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
      the character page = one popup over the existing settings APIs (adena, gear, storage, tactics, route rules, daily, 7 Signs, clan invites, run switch). -->
 <link rel="stylesheet" href="/partysettings.css">
 <script src="/partysettings.js"></script>
+<!-- PARTY PLAN 2026-10-13 (owner: "make a plan for a character and choose e.g. quests along the way ... a lovely way to do it"): "📋 Plan" on every party card =
+     the plan builder (Dashboard/partyplan.js + planlogic.js, /api/partyplans -> Scripts/data/party_plans.json); the bots run it when the party is started. -->
+<link rel="stylesheet" href="/partyplan.css">
+<script src="/planlogic.js"></script>
+<script src="/partyplan.js"></script>
+<script src="/lootlogic.js"></script><!-- LOOT RULES 2026-10-13: window.LootLogic (Dashboard/lootlogic.js, served by lootrules_api.js) for the Loot section's examples -->
+<script src="/respanel.js"></script><!-- RESURRECTION 2026-10-13: Resurrect dialog + dead card (Dashboard/respanel.js, served by resrules_api.js) -->
+<!-- HEAL SCHEMES 2026-10-13 (public tester: "let me set my own heal / MP schemes"): "✚ Healing" on the character page + section "Healing" in the party
+     settings popup = one sheet per character / class (Dashboard/healschemes.js, /api/healschemes, Scripts/data/heal_schemes.json; automatic until changed). -->
+<link rel="stylesheet" href="/healschemes.css">
+<script src="/heallogic.js"></script>
+<script src="/healschemes.js"></script>
 <script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>
 <!-- 7 SIGNS 2026-10-12: #/sevensigns (who signs up with the Lords of Dawn by itself: parties / characters, seal-stone switch; period / cycle /
      winner, registration per character, seal stones, "Sign up now" = !dawn [name]). Data: /api/sevensigns (Dashboard/sevensigns_api.js ->

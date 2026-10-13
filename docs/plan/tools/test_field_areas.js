@@ -425,6 +425,12 @@ function grab(name) {
   hasT("try { geoBlockLearn(`route walk gave up stuck (waypoint ${i + 1}/${r.points.length})`, { x, y }); } catch (e) { }", 'geoWalk: a give-up records the stuck spot (learned blocked spots)');
   hasT('if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return no(mb);', 'huntTarget: never a monster standing in a blocked spot');
   hasT('const lf = spotLearnFailHost(spot, gkFail || ', 'the 2nd could-not-reach of the day skips the spot for every party until 06:30');
+  // FOGREACH-2026-10-13 (public tester: FoG 'no path to farming zone' -> Giran loop; full test: docs/plan/tools/test_fog_reach.js)
+  hasT("{ let dn = ''; try { dn = zoneDungeonOf(dungeonRooms(), z); }", "zoneSpot: a zone at a dungeon's way in (Forge of the Gods landing) is hunted as that dungeon's reachable rooms, never as field areas / a landing square");
+  hasT('if (spot.area && spot.area.landingKey && !(lfd && !lfd.banZone))', 'a failed field-area trip AT its landing bans the siblings only after FOGREACH.landFailMax failures (no Giran loop)');
+  hasT('!sameFloorRoom && !atLandingNow && !viaGiran', "travelToSpot: no Giran regroup when the party already stands at the spot's landing / way in");
+  { const FA = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'field_areas.json'), 'utf8').replace(/^﻿/, '')); const m = FA.zones && FA.zones['169018,-116303'];
+    check(!!m && !(m.areaIds || []).length && !(FA.regions || []).some(R => /forge of the gods/i.test(R.name || '')), 'Forge of the Gods has no field areas (a dungeon: its rooms are in dungeon_rooms.json) — zoneAreaSpot gives undefined, FOGREACH takes the rooms'); }
 }
 console.log(`\n${n - fails}/${n} passed${fails ? ', ' + fails + ' FAILED' : ''}`);
 process.exit(fails ? 1 : 0);

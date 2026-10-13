@@ -89,9 +89,9 @@ function agConnect() {
   try {
     const c = new TcpClient(); c.NoDelay = true; c.SendTimeout = 1000; c.ReceiveTimeout = 500;
     c.Connect(AG.host, AG.port);
-    AG.sock = c; AG.st = c.GetStream(); AG.buf = ''; AG.utail = []; AG.pinged = false; AG.lastRx = now(); AG.silentSince = 0; if (!AG.rx) AG.rx = Encoding.UTF8.GetBytes(' '.repeat(65536));
+    AG.sock = c; AG.st = c.GetStream(); AG.buf = ''; AG.utail = []; AG.pr = false; AG.pinged = false; AG.lastRx = now(); AG.silentSince = 0; if (!AG.rx) AG.rx = Encoding.UTF8.GetBytes(' '.repeat(65536));
     let acc = ''; try { acc = String(App.self().accountId || ''); } catch (e) { }
-    agSend({ t: 'hello', v: AG.v, caps: ['bridge', 'assume', 'invsync', 'enumopt'], name: String(Me.Name || ''), objId: num(Me.objId), accountId: acc, version: String(typeof __VERSION__ !== 'undefined' ? __VERSION__ : ''), cls: num(Me.ClassId), level: num(Me.Level) });
+    agSend({ t: 'hello', v: AG.v, caps: ['bridge', 'assume', 'invsync', 'enumopt', 'ack', 'push', 'hot'], name: String(Me.Name || ''), objId: num(Me.objId), accountId: acc, version: String(typeof __VERSION__ !== 'undefined' ? __VERSION__ : ''), cls: num(Me.ClassId), level: num(Me.Level) });
     AG.full = true; AG.last = { me: {}, cr: {}, sec: {}, skr: {}, fl: {}, opt: {}, q: {}, tgt: -1, html: '' }; AG.pend = [];   // AGENTPERF: jobs of the old connection are moot (the full report re-queues all)
   } catch (e) { agDrop(); }
 }
@@ -113,8 +113,41 @@ function agSend(o) {
 }
 function agRead() {
   if (!AG.st) return;
-  try { for (let i = 0; i < 20 && AG.st.DataAvailable; i++) { const n = AG.st.Read(AG.rx, 0, AG.rx.Length); if (n <= 0) { agDrop(); return; } AG.buf += utf8Chunk(AG.rx, n); } }
-  catch (e) { AG.errors++; agDrop(); return; }
+  if (!AG.pr) {                                        // ENGINELAT PUSH: while an async read is pending the socket belongs to it (never two reads at once)
+    try { for (let i = 0; i < 20 && AG.st.DataAvailable; i++) { const n = AG.st.Read(AG.rx, 0, AG.rx.Length); if (n <= 0) { agDrop(); return; } AG.buf += utf8Chunk(AG.rx, n); } }
+    catch (e) { AG.errors++; agDrop(); return; }
+  }
+  agLines();
+}
+// ENGINELAT-2026-10-13 PUSH (opt-in: the brain sends { a: 'cfg', push: true }; Scripts/data/brain_host.json "agentPush"): orders are read by an
+// ASYNC socket read (NetworkStream.ReadAsync -> a .NET Task, which L2Swarm's engine flag EnableTaskPromiseConversion turns into a promise). Its
+// continuation runs the moment the brain's bytes arrive, so an order no longer waits for the next tick (62 ms fast / 250 ms calm / 1 s asleep).
+// AgentBench (real ClearScript 7.5.1 + L2Swarm.Core 3.8.18) checked the mechanism. Safety: one read at a time (agRead skips the socket while
+// AG.pr); a pending read that delivers nothing while the brain pings (> pushDeadMs) = the mechanism does not work in this L2Swarm -> push off for
+// this engine's lifetime, reconnect, plain tick reads as before.
+AG.push = false; AG.pr = false; AG.prAt = 0; AG.pushN = 0; AG.pushErr = ''; AG.pushOff = false; AG.pushDeadMs = 4000;
+function pushArm() {
+  if (!AG.push || AG.pushOff || AG.pr || !AG.st) return false;
+  const st = AG.st; let p = null;
+  try { p = st.ReadAsync(AG.rx, 0, AG.rx.Length); } catch (e) { p = null; AG.pushErr = String(e && e.message || e).slice(0, 120); }
+  if (!p || typeof p.then !== 'function') { AG.pushOff = true; if (!AG.pushErr) AG.pushErr = 'ReadAsync gave no promise'; agSend({ t: 'log', text: 'push read unavailable (' + AG.pushErr + '): tick reads' }); return false; }
+  AG.pr = true; AG.prAt = now();
+  p.then((n) => {
+    if (st !== AG.st) return;                            // an old connection's read finishing late
+    AG.pr = false; const k = num(n); if (k <= 0) { agDrop(); return; }
+    AG.pushN++; AG.buf += utf8Chunk(AG.rx, k);
+    try { agLines(); } catch (e) { AG.errors++; }
+    pushArm();
+  }, (e) => { if (st !== AG.st) return; AG.pr = false; AG.errors++; AG.pushErr = String(e && e.message || e).slice(0, 120); agDrop(); });
+  return true;
+}
+/** a pending push read that never delivers although the brain pings every second: push does not work here -> off + reconnect (tick reads) */
+function pushCheck() {
+  if (!AG.pr || !AG.st || !AG.pinged) return;
+  const t = now(); if (t - AG.lastRx < AG.pushDeadMs || t - AG.prAt < AG.pushDeadMs) return;
+  AG.pushOff = true; AG.pushErr = 'pending read silent ' + (t - AG.lastRx) + ' ms'; agSend({ t: 'log', text: 'push read delivered nothing for ' + (t - AG.lastRx) + ' ms: push OFF, reconnecting with tick reads' }); agDrop();
+}
+function agLines() {
   let k;
   while ((k = AG.buf.indexOf('\n')) >= 0) {
     const line = AG.buf.slice(0, k); AG.buf = AG.buf.slice(k + 1);
@@ -222,11 +255,13 @@ function agDo(m) {
       if (fn.indexOf('Send.') === 0) { isSend = true; try { f = Send[fn.slice(5)]; } catch (e) { f = null; } } else f = FN[fn];
       if (!f || (typeof f !== 'function' && typeof f !== 'object')) { if (m.want) agSend({ t: 'res', id: m.id, ok: false, err: 'not callable here: ' + fn }); else agSend({ t: 'log', text: 'call ' + fn + ': not callable here' }); return; }
       const args = (m.args || []).map(x => unmarshal(x, m.id));
+      if (m.ts) latNote('ord', now() - num(m.ts));            // ENGINELAT: brain call -> executed here (same PC clock)
+      if (fn === 'Send.RequestMagicSkillUse') AG.castReq[num(m.args && m.args[0])] = now();
       let r; const tc0 = Date.now(); AGCUR.w = 'call ' + fn; AGCUR.at = tc0;   // SLOWTRACE
       try { r = isSend ? callArgs(Send, fn.slice(5), args) : callFn(f, args); agSlow('call ' + fn, tc0, ''); } catch (e) { agSlow('call ' + fn, tc0, e && e.message || e); const er = String(e && e.message || e).slice(0, 300); if (m.want) agSend({ t: 'res', id: m.id, ok: false, err: er }); else agSend({ t: 'log', text: 'call ' + fn + ' failed: ' + er }); return; }   // 2026-10-12: fire-and-forget errors were swallowed
       if (!m.want) return;
       if (r && typeof r.then === 'function') { r.then(v => agSend({ t: 'res', id: m.id, ok: true, v: ser(v, 1) }), e => agSend({ t: 'res', id: m.id, ok: false, err: String(e && e.message || e).slice(0, 300) })); return; }
-      agSend({ t: 'res', id: m.id, ok: true, v: ser(r, 1) }); return;
+      agSend({ t: 'res', id: m.id, ok: true, v: ser(r, 1), xt: tc0 }); return;   // ENGINELAT: xt = when it ran here (the brain's cast ack)
     }
     case 'set': {
       const p = String(m.path || ''); if (p.indexOf('Options.') !== 0) return;
@@ -267,6 +302,8 @@ function agDo(m) {
       return;
     }
     case 'resync': AG.full = true; return;
+    case 'cfg': if (m.push !== undefined) { AG.push = !!m.push; if (AG.push) pushArm(); } return;   // ENGINELAT PUSH switch from the brain
+    case 'hot': wake('hot'); return;                     // ENGINELAT: my party fights (brain hint) -> fast ticks
     case 'ping': agSend({ t: 'pong', id: m.id, at: now() }); return;
     case 'bye': agDrop(); AG.connAt = now() + 60000; return;
   }
@@ -393,37 +430,30 @@ const KIND = { Char: 0, Npc: 1, Mob: 2, Summon: 3 };
 // were done for EVERY monster AND player in the 3000 box (Giran: hundreds of players, 2-4 times a second). Now: the nearest CR_CAP.mobs
 // monsters / summons, my party members, and players only near me (hunting: nearest 40 within 3000, for "someone else fights this monster";
 // no monster near = a town: nearest 10 within 1000). The rest get 'none' (false / 0) like creatures outside the box always did (#5/#14).
-const CR_CAP = { box: 3000, mobs: 60, plHunt: 40, plTown: 10, plTownR: 1000 };
+// ENGINELAT-2026-10-13 CRTYPED (owner 22:10 "the agents' delay"): that live supplement is GONE. In L2Swarm 3.8.18 those members do not exist for
+// monsters (L2Mob derives from L2Creature, not L2Character: no IsStunned / IsSleeping / IsParalyzed / IsOutOfControl / targetCrt at all), and for
+// players ClearScript hides them (CreaturesList is an L2EntityCollection<L2Creature>: type restriction to L2Creature). Every one of those reads came
+// back undefined (= the false / 0 the brain always got) and cost ~230 us on ClearScript's failed-member path (patches/tools/perf/AgentBench.exe
+// micro, real ClearScript 7.5.1 + the live L2Swarm.Core: mob.HP 9 us, mob.IsStunned 234 us, mob.targetCrt 248 us). 60 monsters x 5 reads = ~70 ms
+// per creature job, 4 jobs a second per fighting agent = 0.3-0.4 core EACH: with two or three parties fighting L2Swarm saturated the PC, agent
+// ticks took 3-6 s (agent_slow.log 18:40-19:20: 'cr=3000-6400 ms' in 98 % of the slow ticks), orders waited for those ticks and casts got
+// 'no answer'. Now: the same values without a single read. Bench (field, 60 monsters): creature job 87 ms -> ~4 ms.
+const CR_CAP = { box: 3000 };                          // kept for old readers; nothing reads creatures live any more
 function creatures() {
   let arr = snapArr(CreaturesList); AG.hr++;
   if (!arr) { arr = []; try { CreaturesList.forEach(o => { const r = pick(o, 'objId Id Name X Y Z HP MaxHP HpPercent MP MaxMP MpPercent Level IsDead Title IsInCombat ClassId IsSpoiled IsSitting'.split(' ')); AG.hr += 20; let t = 3; try { const s = String(o.crtType); t = KIND[s] !== undefined ? KIND[s] : num(o.crtType); } catch (e) { } r.crtType = t; arr.push(r); }); } catch (e) { } }
   // L2Swarm 3.8.10+ snapshotJson lacks a few fields swarm.js reads on monsters / players near me (DESIGN.md §2.2): read them from the live object
   const sup = arr.length && !('IsStunned' in arr[0]), supT = arr.length && !('TargetObjId' in arr[0]);
-  const mx = num(Me.X), my = num(Me.Y);
-  const out = {}, mobC = [], plC = [];
+  const out = {};
   for (let i = 0; i < arr.length; i++) {
     const c = arr[i]; if (!c || c.objId === undefined) continue;
     const r = {}; for (const k in c) { if (CR_DROP[k]) continue; const v = c[k]; if (v === null || typeof v !== 'object') r[k] = v; }
     if (typeof r.crtType === 'string') r.crtType = KIND[r.crtType] !== undefined ? KIND[r.crtType] : 3;
     const id = num(c.objId);
-    if ((sup || supT) && r.crtType !== 1) {
-      if (sup) { r.IsStunned = false; r.IsSleeping = false; r.IsParalyzed = false; r.IsOutOfControl = false; } if (supT) r.TargetObjId = 0;   // 'none' unless read below
-      const dx = Math.abs(num(r.X) - mx), dy = Math.abs(num(r.Y) - my);
-      if (dx < CR_CAP.box && dy < CR_CAP.box) (r.crtType === 0 ? plC : mobC).push({ id, r, d: dx * dx + dy * dy });
+    if ((sup || supT) && r.crtType !== 1) {             // ENGINELAT CRTYPED: the values the brain always got (see creatures() above), no host reads
+      if (sup) { r.IsStunned = false; r.IsSleeping = false; r.IsParalyzed = false; r.IsOutOfControl = false; } if (supT) r.TargetObjId = 0;
     }
     out[id] = r;
-  }
-  if (sup || supT) {
-    const live = (e, pl) => { try { const o = CreaturesList.GetItemByObjectID(e.id); AG.hr += 1 + (sup && !pl ? 4 : 0) + (supT ? 2 : 0); if (!o) return; const r = e.r; if (sup && !pl) {   /* players: TargetObjId only (swarm.js reads the CC flags on monsters / the boss only) */ r.IsStunned = !!o.IsStunned; r.IsSleeping = !!o.IsSleeping; r.IsParalyzed = !!o.IsParalyzed; r.IsOutOfControl = !!o.IsOutOfControl; /* v3 */ } if (supT) { const t = o.targetCrt; r.TargetObjId = t ? num(t.objId) : 0; } } catch (e) { } };
-    const byD = (a, b) => a.d - b.d;
-    if (mobC.length > CR_CAP.mobs) mobC.sort(byD);
-    for (let i = 0; i < mobC.length && i < CR_CAP.mobs; i++) live(mobC[i]);
-    const hunting = mobC.length > 0, lim = hunting ? CR_CAP.plHunt : CR_CAP.plTown, r2 = hunting ? CR_CAP.box * CR_CAP.box : CR_CAP.plTownR * CR_CAP.plTownR;
-    const mates = [], others = [];
-    plC.forEach(e => { if (AG.partyIds[e.id]) mates.push(e); else if (e.d <= r2) others.push(e); });
-    mates.forEach(e => live(e, true));
-    if (others.length > lim) others.sort(byD);
-    for (let i = 0; i < others.length && i < lim; i++) live(others[i], true);
   }
   return out;
 }
@@ -500,6 +530,7 @@ function runPend(msg) {
   let ran = 0;
   while (AG.pend.length) {
     if (ran && Date.now() - AG.tk0 > AG.budgetMs) { AG.deferred++; break; }
+    if (ran && AG.st && !AG.pr) agRead();             // ENGINELAT: an order that came in meanwhile runs now, not after the whole report
     const j = AG.pend.shift(), t0 = Date.now(); AGCUR.w = 'job ' + j.k;
     try { JOBS[j.k](msg, j.force); } catch (e) { AG.errors++; }
     const ms = Date.now() - t0; if (ms >= 3) AG.tp[j.k] = (AG.tp[j.k] || 0) + ms; ran++;
@@ -532,7 +563,7 @@ function report() {
 }
 
 // ---------------------------------------------------------------- events -> brain
-function ev(h, a) { if (AG.st) agSend({ t: 'ev', h, a }); }
+function ev(h, a) { if (AG.st) agSend({ t: 'ev', h, a, at: now() }); }   // ENGINELAT: at = when L2Swarm handed it to me (the brain measures the rest)
 function OnLogin() { ev('OnLogin', []); AG.full = true; }
 function OnLogout() { ev('OnLogout', []); }
 function OnSay(charName, text, messageType) { /* WAKE2: chat never wakes (bots post party status lines; an order typed in chat reaches the brain at once as this event, and the brain's order then wakes) */ ev('OnSay', [String(charName), String(text), num(messageType)]); }
@@ -545,7 +576,7 @@ function OnAttack(atkId, targetId, isAOE) { if (num(atkId) === AG.myId) wake('ev
 function OnMagicSkillUse(objId, targetId, skillId) {
   if (num(objId) === AG.myId) wake('ev:myCast'); else if (num(targetId) === AG.myId && !AG.partyIds[num(objId)]) wake('ev:castOnMe');   // a teammate's buff / heal on me does not wake (WAKE2)
   ev('OnMagicSkillUse', [num(objId), num(targetId), num(skillId)]);
-  try { if (num(objId) === num(Me.objId)) { AG.last.me.IsCasting = null; const id = num(skillId); AG.cdAt[id] = now(); AG.last.skr[id] = 2; } } catch (e) { }   // cdAt: skEl (cooldown start of my own cast)
+  try { if (num(objId) === num(Me.objId)) { AG.last.me.IsCasting = null; const id = num(skillId); AG.cdAt[id] = now(); AG.last.skr[id] = 2; const q = AG.castReq[id]; if (q) { delete AG.castReq[id]; if (now() - q < 5000) latNote('cast', now() - q); } } } catch (e) { }   // ENGINELAT: my request ran -> server started it   // cdAt: skEl (cooldown start of my own cast)
 }
 function OnTargetSelected(objId, targetObjId) { if (num(objId) === AG.myId && num(targetObjId) && num(targetObjId) !== AG.last.tgt && !AG.partyIds[num(targetObjId)]) wake('ev:myTarget');   /* WAKE2: a re-select / cancel / teammate target does not */ ev('OnTargetSelected', [num(objId), num(targetObjId)]); try { if (num(objId) === num(Me.objId)) AG.last.tgt = -1; } catch (e) { } }
 function OnTeleportToLocation(objId, X, Y, Z) { if (num(objId) === num(Me.objId)) { AG.full = true; wake('ev:teleport'); } ev('OnTeleportToLocation', [num(objId), num(X), num(Y), num(Z)]); }
@@ -601,6 +632,15 @@ function repGapTicks() {
 // AGENTPERF: one line per agent every 5 min (Logs/agent_perf.log + the brain log): ticks, average / max tick ms, host reads per second,
 // jobs deferred to a later tick, jobs still waiting. Evidence for the next "the agents are slow" question.
 AG.ps = { at: Date.now(), ticks: 0, ms: 0, max: 0, hr: 0, def: 0 };
+// ENGINELAT-2026-10-13 timing probes (agent_perf.log + the brain log, per 5 min): ord = brain call -> run here (the brain stamps ts), cast = my
+// RequestMagicSkillUse ran -> my OnMagicSkillUse (server + L2Swarm), gap = time between two tick starts (L2Swarm timer / engine lock / CPU)
+AG.lat = { ord: [], cast: [], gap: [] }; AG.castReq = {}; AG.lastTk = 0;
+function latNote(k, ms) { const a = AG.lat[k]; if (!a) return; if (a.length < 400) a.push(Math.max(0, Math.round(ms))); else a[Math.floor(Math.random() * 400)] = Math.max(0, Math.round(ms)); }
+function latSum() {
+  const out = [];
+  for (const k in AG.lat) { const a = AG.lat[k].sort((x, y) => x - y); if (a.length) out.push(k + '=' + a[a.length >> 1] + '/' + a[Math.floor(a.length * 0.95)] + '/' + a[a.length - 1] + '(' + a.length + ')'); AG.lat[k] = []; }
+  return out.join(' ') || '-';
+}
 function modeSecs() { const m = Object.assign({}, AG.modeMs); m[AG.mode] = (m[AG.mode] || 0) + (now() - AG.modeAt); AG.modeMs = { fast: 0, calm: 0, sleep: 0 }; AG.modeAt = now(); return 'f' + Math.round(m.fast / 1000) + '/c' + Math.round(m.calm / 1000) + '/s' + Math.round(m.sleep / 1000); }
 function wakeSum() { const w = AG.wk; AG.wk = {}; return Object.keys(w).sort((a, b) => w[b] - w[a]).slice(0, 12).map(k => k.replace(/[ ,]/g, '_') + 'x' + w[k]).join(',') || '-'; }
 function perfLine() {
@@ -608,7 +648,7 @@ function perfLine() {
   if (sec < 300) return;
   let nm = ''; try { nm = String(Me.Name || ''); } catch (e) { }
   const line = new Date(t).toISOString() + ' [' + nm + '] perf ticks=' + P.ticks + ' avgMs=' + (P.ticks ? Math.round(P.ms / P.ticks) : 0) + ' maxMs=' + P.max +
-    ' hostReads/s=' + Math.round((AG.hr - P.hr) / sec) + ' deferred=' + (AG.deferred - P.def) + ' pend=' + AG.pend.length + ' sent=' + AG.sent + ' mode=' + AG.mode + ' modeSec=' + modeSecs() + ' rearms=' + AG.rearms + ' wakes=' + wakeSum();
+    ' hostReads/s=' + Math.round((AG.hr - P.hr) / sec) + ' deferred=' + (AG.deferred - P.def) + ' pend=' + AG.pend.length + ' sent=' + AG.sent + ' mode=' + AG.mode + ' modeSec=' + modeSecs() + ' rearms=' + AG.rearms + ' lat[p50/p95/max ms]=' + latSum() + ' push=' + (AG.pushOff ? 'off:' + AG.pushErr.replace(/s/g, '_') : AG.push ? 'on:' + AG.pushN : 'no') + ' wakes=' + wakeSum();
   AG.ps = { at: t, ticks: 0, ms: 0, max: 0, hr: AG.hr, def: AG.deferred };
   try { File.AppendAllText(__DIR__ + String.fromCharCode(92) + 'Logs' + String.fromCharCode(92) + 'agent_perf.log', line + String.fromCharCode(13, 10)); } catch (e) { }
   try { if (AG.st) agSend({ t: 'log', text: line.slice(line.indexOf('perf')) }); } catch (e) { }
@@ -641,6 +681,7 @@ const WAKE_FN = { GoToPoint: 1, MoveToPoint: 1, MoveToNpc: 1, GoToNpc: 1, Attack
 const WAKE_SEND = /^Send\.(MoveBackwardToLocation|MoveToLocation|Attack|AttackRequest|Action|RequestAction|RequestMagicSkillUse|UseItem|RequestUseItem|ReqBypassToServer|RequestBypassToServer|RequestLinkHtml|RequestTutorialLinkHtml|RequestBuyItem|RequestSellItem|RequestPreviewItem|TradeRequest|AddTradeItem|TradeDone|AnswerTradeRequest|RequestJoinParty|RequestAnswerJoinParty|RequestActionUse|RequestPetUseItem|RequestRestartPoint|RequestPrivateStore.*|SendItemList|RequestEnchantItem|RequestDestroyItem|RequestDropItem|RequestCrystallizeItem|RequestPackageSend|RequestWithdrawalPackage|SendWareHouseDepositList|SendWareHouseWithDrawList|RequestGetItem|RequestItemList|NewCharacter|CharacterCreate|CharacterSelect)$/;
 function orderName(m) { return m ? (m.a === 'call' ? String(m.fn || '') : m.a === 'set' ? 'set ' + String(m.path || '').replace(/^Options\./, '') : String(m.a || '')) : '?'; }
 function orderWake(m) {
+  if (m && m.a === 'hot') return 'hot';                // ENGINELAT: the brain says my party fights
   if (!m || m.a !== 'call') return null;               // set / watch / bridge / appemit / resync / bye: never
   const fn = String(m.fn || '');
   if (WAKE_FN[fn]) return 'order:' + fn;
@@ -655,12 +696,14 @@ function tickMode() {
   if (want !== AG.mode) rearm(want);
 }
 function agTick() {
-  if (now() < AG.nextTick) { if (AG.sock) { try { agRead(); } catch (e) { AG.errors++; } } return; }   // ADAPT: back off after a slow tick; AGENTPERF: orders are still picked up (socket only, no state reads)
+  if (now() < AG.nextTick) { if (AG.sock) { try { agRead(); fastEdges(); } catch (e) { AG.errors++; } } return; }   // ENGINELAT: the cheap fast edges (cast end, HP, target) go out during a back-off too   // ADAPT: back off after a slow tick; AGENTPERF: orders are still picked up (socket only, no state reads)
   const tk0 = Date.now(); AGCUR.w = 'tick'; AGCUR.at = tk0; AG.tk0 = tk0; AG.tp = {}; AG.hrTick = AG.hr;   // SLOWTRACE
   try {
     AG.tick++;
     if (!IsCharacterReady()) return;
     if (!AG.sock) { agConnect(); reflex(); return; }
+    if (AG.lastTk) latNote('gap', tk0 - AG.lastTk); AG.lastTk = tk0;
+    pushCheck(); if (!AG.sock) return;
     agRead();
     if (AG.sock && AG.pinged) reflex();               // a silent (stuck) brain: potions meanwhile (brainSilent decides)
     if (++AG.sinceRep >= TMODE[AG.mode].rep || AG.full) {   // a report every 4th tick fast (250 ms), every 2nd calm (500 ms), every tick asleep (1 s)

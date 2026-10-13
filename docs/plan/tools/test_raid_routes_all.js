@@ -160,7 +160,7 @@ vm.createContext(ctxP); vm.runInContext(SRC.slice(pa, pb) + '\n;globalThis.__Z =
   const ctxR = { Math, JSON, String, Number, Object, Array, isFinite, console }; vm.createContext(ctxR);
   vm.runInContext(SRC.slice(pa, SRC.indexOf('// ROUTESM-PURE-END') + 20) + '\n;globalThis.__Q = { RSM_RULES, rsmRules, rsmRouteBan, rsmDoorBan };', ctxR);
   const Q = ctxR.__Q, FILE = J(path.join(DATA, 'route_rules.json'), null);
-  ok(FILE && Array.isArray(FILE.rules) && FILE.rules.every(r => r.key in Q.RSM_RULES && typeof r.default === 'boolean' && r.label && r.help), 'route_rules.json: every rule has a label, a default and a help text (shown in the UI)');
+  ok(FILE && Array.isArray(FILE.rules) && FILE.rules.every(r => r.key in Q.RSM_RULES && typeof r.default === typeof Q.RSM_RULES[r.key] && r.label && r.help), 'route_rules.json: every rule has a label, a default and a help text (shown in the UI)');
   ok(Object.keys(Q.RSM_RULES).every(k => FILE.rules.some(r => r.key === k && r.default === Q.RSM_RULES[k])), 'the file defaults = the built-in defaults');
   const d = Q.rsmRules(FILE, 'Nobody');
   ok(d.buyKeys === true && d.tryFortressGates === false && d.swim === true && d.heineWalkOut === true, 'defaults (owner 19:10): buy the keys a route needs ON, fortress gates OFF, swim / Heine walk-out on');

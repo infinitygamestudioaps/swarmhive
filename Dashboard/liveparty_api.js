@@ -34,7 +34,7 @@ function trim(s) {
   KEEP.forEach(k => { if (s[k] !== undefined) o[k] = s[k]; });
   if (o.notes) o.notes = o.notes.slice(-4);
   // the leader's hunting zone: polygon + name only (the rotation list stays on the Parties tab)
-  if (s.zone) o.zone = { x: s.zone.x, y: s.zone.y, r: s.zone.r, name: s.zone.name, poly: s.zone.poly, room: s.zone.room, area: s.zone.area, region: s.zone.region, local: s.zone.local };
+  if (s.zone) o.zone = { x: s.zone.x, y: s.zone.y, r: s.zone.r, name: s.zone.name, poly: s.zone.poly, room: s.zone.room, area: s.zone.area, region: s.zone.region, local: s.zone.local, drawn: s.zone.drawn || undefined };   // ZONEPOLY 2026-10-13: a drawn custom zone
   // skills on cooldown + ready (swarm_state.ov, for the key-skill sweeps on the cards); the bag lists stay on the character page
   if (s.ov && Array.isArray(s.ov.skills)) o.ovSkills = s.ov.skills.filter(k => !k.tog).slice(0, 48).map(k => ({ id: k.id, ready: !!k.ready, cd: +k.cd || 0 }));
   if (o.escape && o.escape.steps) o.escape = Object.assign({}, o.escape, { steps: o.escape.steps.slice(-3) });

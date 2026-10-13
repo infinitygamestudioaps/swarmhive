@@ -185,7 +185,10 @@
     const p = st.rulesParty && R.parties.includes(st.rulesParty) ? st.rulesParty : (st.opts.party && R.parties.includes(st.opts.party) ? st.opts.party : R.parties[0]); st.rulesParty = p;
     const val = R.values[p] || {}, own = (R.own || {})[p] || {};
     return `<details class="rv-rules"${st.rulesOpen ? ' open' : ''}><summary>Route rules for party <select data-rvrules="party" aria-label="party">${R.parties.map(x => `<option${x === p ? ' selected' : ''}>${E(x)}</option>`).join('')}</select> <span class="muted">— what the bots may do on the way (read live, no deploy)</span></summary>
-      <ul class="rv-rulelist">${R.rules.map(r => { const on = !!val[r.key], set = r.key in own; return `<li><button type="button" role="switch" aria-checked="${on}" data-rv="rule" data-k="${E(r.key)}" class="rv-sw ${on ? 'on' : ''}">${on ? 'on' : 'off'}</button> <b>${E(r.label)}</b> <span class="muted">(default ${r.default ? 'on' : 'off'}${set ? ' · your choice' : ''})</span>${set ? ` <button type="button" class="rv-reset" data-rv="rulereset" data-k="${E(r.key)}">back to default</button>` : ''}<div class="muted">${E(r.help || '')}</div></li>`; }).join('')}</ul></details>`;
+      <ul class="rv-rulelist">${R.rules.map(r => { const on = !!val[r.key], set = r.key in own;
+        // MOVETOGETHER step 2 (2026-10-13): a number rule = a field + Save (default and range said next to it)
+        if (r.type === 'number') return `<li><input type="number" inputmode="numeric" class="rv-num" min="${E(r.min)}" max="${E(r.max)}" step="1" value="${E(val[r.key])}" data-rvnum="${E(r.key)}" aria-label="${E(r.label)}" style="width:5.5em"> ${E(r.unit || '')} <button type="button" class="rv-reset" data-rv="rulenum" data-k="${E(r.key)}">save</button> <b>${E(r.label)}</b> <span class="muted">(default ${E(r.default)}${r.unit ? ' ' + E(r.unit) : ''}, ${E(r.min)} to ${E(r.max)}${set ? ' · your choice' : ''})</span>${set ? ` <button type="button" class="rv-reset" data-rv="rulereset" data-k="${E(r.key)}">back to default</button>` : ''}<div class="muted">${E(r.help || '')}</div></li>`;
+        return `<li><button type="button" role="switch" aria-checked="${on}" data-rv="rule" data-k="${E(r.key)}" class="rv-sw ${on ? 'on' : ''}">${on ? 'on' : 'off'}</button> <b>${E(r.label)}</b> <span class="muted">(default ${r.default ? 'on' : 'off'}${set ? ' · your choice' : ''})</span>${set ? ` <button type="button" class="rv-reset" data-rv="rulereset" data-k="${E(r.key)}">back to default</button>` : ''}<div class="muted">${E(r.help || '')}</div></li>`; }).join('')}</ul></details>`;
   }
   async function loadRules(el) { const st = ST.get(el); if (!st) return; try { st.rules = await apiGet('/api/routerules'); } catch (e) { st.rules = { error: 'needs a dashboard server restart (' + e.message + ')' }; } render(el); }
   function query(st) {
@@ -207,9 +210,15 @@
     if (a === 'zin' || a === 'zout') { if (st.view) { st.view.R = Math.min(90000, Math.max(500, st.view.R * (a === 'zin' ? 0.6 : 1.7))); render(el); } return; }
     if (a === 'fit') { st.view = null; render(el); return; }
     if (a === 'lvl') { st.level = b.dataset.k; st.view = null; render(el); return; }   // DUNGEON STEPS: surface / dungeon floor tab
-    if ((a === 'rule' || a === 'rulereset') && st.rules && st.rulesParty) {   // ROUTERULES-2026-10-13: one switch per rule and party
+    if ((a === 'rule' || a === 'rulereset' || a === 'rulenum') && st.rules && st.rulesParty) {   // ROUTERULES-2026-10-13: one switch per rule and party
       const k = b.dataset.k, cur = !!((st.rules.values[st.rulesParty] || {})[k]);
-      let d; try { d = await api('/api/routerules', { method: 'POST', body: JSON.stringify({ party: st.rulesParty, key: k, value: a === 'rulereset' ? null : !cur }) }); } catch (er) { d = { error: er.message }; }
+      let value = a === 'rulereset' ? null : !cur;
+      if (a === 'rulenum') {   // MOVETOGETHER step 2: a number rule, checked here and again by the server
+        const inp = el.querySelector(`[data-rvnum="${k}"]`), r = (st.rules.rules || []).find(x => x.key === k) || {}, n = Number(inp && inp.value);
+        if (!(inp && String(inp.value).trim() !== '' && isFinite(n) && n >= r.min && n <= r.max)) { if (typeof uiError === 'function') uiError(`${r.label || k}: a number from ${r.min} to ${r.max}`); return; }
+        value = Math.round(n);
+      }
+      let d; try { d = await api('/api/routerules', { method: 'POST', body: JSON.stringify({ party: st.rulesParty, key: k, value }) }); } catch (er) { d = { error: er.message }; }
       if (d && d.error) { if (typeof uiError === 'function') uiError(d.error); return; }
       st.rules = d; st.rulesOpen = true; render(el); return;
     }

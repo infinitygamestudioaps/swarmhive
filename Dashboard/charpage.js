@@ -230,7 +230,7 @@
         <div class="cp-id"><h2>${esc(CP.name)}${isLeader ? ' ' + GI(UI.star, 'sm', 'party leader') : ''}</h2>
           <div class="cp-sub">${esc(gc.class_name || x.cls || '')}${x.role ? ' · ' + esc(x.role) : ''}${party ? ` · party <a href="#/live/${encodeURIComponent(party)}">${esc(party)}</a>` : ''}${d.account ? '<span data-adv> · ' + esc(d.account) + '</span>' : ''}${window.ClassPlans ? ' ' + ClassPlans.charBadge(CP.name) : ''}</div></div>
         <div class="cp-chips">${chips}</div>
-        <div class="cp-acts">${window.RunSwitch ? RunSwitch.charBlock(CP.name) : ''}${party && window.PartySettings ? PartySettings.button(party, true) : ''}${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) : ''}<button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
+        <div class="cp-acts">${window.ResPanel ? ResPanel.button(CP.name, true) : ''}${window.RunSwitch ? RunSwitch.charBlock(CP.name) : ''}${party && window.PartySettings ? PartySettings.button(party, true) : ''}${window.HealSchemes && HealSchemes.canHeal(CP.name, x) ? HealSchemes.button(CP.name, true) : ''}${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) : ''}<button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
       </div>
       <div class="cp-bars">
         ${g('CP', cpp, gc.max_cp ? nf(gc.cp) + ' / ' + nf(gc.max_cp) : (cpp != null ? cpp + '%' : 'CP ?'))}
@@ -240,6 +240,7 @@
         ${LE ? LE.lineHtml(x, leo) : ''}
       </div>
       <div class="cp-money"><span>${GI(UI.adena, 'sm')}<b>${nf(d.adena ?? x.adena ?? 0)}</b> adena</span><span>SP <b>${nf(gc.sp || 0)}</b></span>${rate ? `<span>exp <b>${rate}</b></span>` : ''}${(isFinite(x.x) ? `<span class="muted" data-adv>${Math.round(x.x)}, ${Math.round(x.y)}, ${Math.round(x.z)}</span>` : '')}</div>
+      ${window.PurseCard ? PurseCard.charHtml(CP.name) : ''}
       ${peers ? `<div class="cp-peers">${peers}</div>` : ''}
       ${d.error ? `<div class="alert bad">${GI(UI.warn, 'sm')} live game data unavailable: ${esc(d.error)} — showing what the script last reported</div>` : ''}`);
   }

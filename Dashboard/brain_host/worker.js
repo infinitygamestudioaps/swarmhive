@@ -17,7 +17,10 @@
 'use strict';
 const { parentPort, workerData } = require('worker_threads');
 const { EventEmitter } = require('events');
-const vm = require('vm'), v8 = require('v8'), { performance } = require('perf_hooks');
+const vm = require('vm'), v8 = require('v8'), { performance, monitorEventLoopDelay } = require('perf_hooks');
+// ENGINELAT-2026-10-13: event-loop delay of this party's thread (every timer / event / order of its contexts waits this long), per stats window
+const eld = (() => { try { const h = monitorEventLoopDelay({ resolution: 10 }); h.enable(); return h; } catch (e) { return null; } })();
+const eldMs = () => { if (!eld) return null; const r = { p50: +(eld.percentile(50) / 1e6).toFixed(1), p99: +(eld.percentile(99) / 1e6).toFixed(1), max: +(eld.max / 1e6).toFixed(1) }; eld.reset(); return r; };
 const { Runner } = require('./runner');
 
 const W = workerData || {};
@@ -97,10 +100,11 @@ parentPort.on('message', (m) => {
     }
     case 'stats': {
       const r = runner.report(), h = v8.getHeapStatistics(), elu = performance.eventLoopUtilization(lastElu); lastElu = performance.eventLoopUtilization();
-      post({ k: 'stats', id: m.id, party: W.party, heapUsed: h.used_heap_size, heapTotal: h.total_heap_size, elu: elu.utilization, st: r.st, bus: r.bus,
+      post({ k: 'stats', id: m.id, party: W.party, heapUsed: h.used_heap_size, heapTotal: h.total_heap_size, elu: elu.utilization, lag: eldMs(), hot: r.st.hot || 0, st: r.st, bus: r.bus,
         contexts: r.contexts.map(c => ({ name: c.name, booted: c.booted, connected: c.connected, timers: c.timers, title: c.title })), missing: Array.from(r.missing.entries()), errors: Array.from(r.errors.entries()) });
       break;
     }
+    case 'agentcfg': if (m.agentPush !== undefined) runner.setAgentPush(m.agentPush); if (m.partyHot !== undefined) runner.o.partyHot = m.partyHot; break;   // ENGINELAT live switches
     case 'stop': runner.stop('pool stop').then(() => post({ k: 'stopped' })); break;
     case 'drop': {                                 // live allow list (audit #26/#35): this character leaves the brain; its agent is still connected,
       const C = runner.ctxs.get(m.name);           // so OnBeforeScriptStop's L2Swarm writes (combat skills back on) reach it before main says 'bye'

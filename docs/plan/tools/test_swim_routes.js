@@ -6,7 +6,7 @@
 //     bots, geopath_fast.js for the atlas) find the route from the REAL landing (Giran -> Devil Isle, teleports_h5.json); every leg passes
 //     the server move check (legOk: wall check on land, water check + <= 700 for a swim), the swim passes the Light Bringer spawns the
 //     user saw in the water, and it ends on Tillion's beach;
-//  4) the saved computed route routes/raid/25484.json (unlocked) and the atlas entry t/raid_25484.json (after the rebuild) carry it;
+//  4) the saved route routes/raid/25484.json (unlocked: the computed copy, or the team's own recorded walk that replaces it) and the atlas entry t/raid_25484.json (after the rebuild) carry it;
 //  5) Plains of Lizardmen area 33 stays unreachable: no water zone, and the cells that can walk INTO the pit are a closed set (pocketIn);
 //  6) a dry route is unchanged by the swim rules; 7) swarm.js (Scripts_dev): navAtlasPts marks swim points, swimPlan + the #297 guard exist.
 // Use: node docs/plan/tools/test_swim_routes.js            (about 30-60 s: geodata searches)
@@ -17,6 +17,9 @@ const J = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 let pass = 0, fail = 0;
 const ok = (c, m) => { if (c) { pass++; console.log('ok  ', m); } else { fail++; console.log('FAIL', m); } };
 const WATER = require('./water_zones'), geo = require('./geopath'), fast = require('./geopath_fast');
+// PKGSKIP-2026-10-13: the public package ships no Geodata (it comes from the user's L2Swarm install) -> the geodata searches are skipped there
+const HAS_GEO = (() => { try { return fs.readdirSync(process.env.GEO_DIR || path.join(ROOT, 'Geodata')).some(f => /\.l2j$/.test(f)); } catch (e) { return false; } })();
+const noGeo = (what) => console.log(`  skipped: ${what} needs Geodata (your L2Swarm install)`);
 
 // ---- 1. water zones
 const Z = WATER.load();
@@ -28,12 +31,13 @@ ok(WATER.zonesAt(96088, 85688).length === 0, 'Plains of Lizardmen area 33 has no
 // ---- 2. swim model
 const SW = WATER.swimGraph(fast.internals.SWACC), I = fast.internals;
 const cellOf = (x, y) => [I.toGeoX(x), I.toGeoY(y)];
-{ const [gx, gy] = cellOf(44120, 217928), s = SW.info(gx, gy); ok(!!s && s.some(o => o.open && o.z <= -3779 && o.z >= -4779), 'open sea cell = a swim slot whose swim height lies inside the zone'); }
+if (!HAS_GEO) noGeo('the swim slots of the sea cells (2)');
+else { const [gx, gy] = cellOf(44120, 217928), s = SW.info(gx, gy); ok(!!s && s.some(o => o.open && o.z <= -3779 && o.z >= -4779), 'open sea cell = a swim slot whose swim height lies inside the zone'); }
 { const s = WATER.cellWater(44120, 217928, [-3900, -4576]);       // a floor under another floor below the surface (a tunnel / cave under the sea floor)
   ok(!!s && s.length === 1 && s[0].h === -3900 && s[0].open, 'a floor under another floor below the surface is walked (geodata rules), only the open one is swum'); }
 { const s = WATER.cellWater(44120, 217928, [-3500, -4000]);       // a rock / jetty top 279 above the surface over open water: the water below is swum
   ok(!!s && s.length === 1 && s[0].h === -4000, 'water under a floor high above the surface is still open water'); }
-{ const [gx, gy] = cellOf(42232, 192312);
+if (HAS_GEO) { const [gx, gy] = cellOf(42232, 192312);
   ok(!!SW.info(gx, gy), 'the sea channel west of Giran Harbor (sea floor -4576, nothing above it in the geodata) is open water'); }
 
 // ---- 3. Tillion
@@ -41,7 +45,9 @@ const TP = J(path.join(DATA, 'teleports_h5.json')).find(e => e.desc === 'Giran -
 ok(!!TP && TP.x === 43408 && TP.y === 206881, 'start = the real landing Giran -> Devil Isle (teleports_h5.json)');
 const RB = J(path.join(DATA, 'raidbosses_h5.json')).bosses.find(b => b.id === 25484);
 const L = { x: TP.x, y: TP.y, z: TP.z }, T = { x: RB.x, y: RB.y, z: RB.z };
-const dry = fast.findPath(L, T, { swim: false, maxNodes: 6e6, maxMs: 120000, pad: 6000 });
+if (!HAS_GEO) noGeo('the Tillion route search (3)');
+else {
+const dry =fast.findPath(L, T, { swim: false, maxNodes: 6e6, maxMs: 120000, pad: 6000 });
 ok(!dry.ok, `land-only: no way to Tillion (${dry.reason || ''}) — why the atlas said "closed pocket"`);
 ok(fast.pocket(T.x, T.y, T.z, 60000, { swim: false }) < 60000 && fast.pocket(T.x, T.y, T.z, 60000) >= 60000, 'Tillion\'s beach: a closed pocket on land, open with swimming');
 const rs = geo.findPath(L, T, { maxNodes: 1.5e7, maxMs: 300000, pad: 6000 }), rf = fast.findPath(L, T, { maxNodes: 1.5e7, maxMs: 300000, pad: 6000 });
@@ -64,15 +70,27 @@ if (rs.ok) {
   const LB = J(path.join(DATA, 'spawns_h5.json')).filter(s => s.name === 'Light Bringer');
   ok(LB.length > 0 && rs.points.some(q => q.swim && LB.some(s => Math.hypot(s.x - q.x, s.y - q.y) < 1000)), 'the swim passes the Light Bringer spawns the user met in the water (screenshot 13:44)');
 }
+}
 
 // ---- 4. saved computed route + atlas entry
 const rf25484 = path.join(DATA, 'routes', 'raid', '25484.json');
 if (fs.existsSync(rf25484)) {
+  // The file changes hands (2026-10-13): raid_routes.js writes a COMPUTED unlocked copy, and swarm.js's raid route memory replaces it with the
+  // team's own recorded walk after a successful landing -> boss walk (raid_routes.js then keeps the recording). Both are valid; check each by its kind.
   const r = J(rf25484);
-  ok(r.manual !== true && r.computed, 'routes/raid/25484.json is a computed, UNLOCKED route');
-  ok(r.start && r.start.kind === 'gk' && r.start.desc === 'Giran -> Devil Isle' && r.points[0].x === TP.x && r.points[0].y === TP.y, 'saved route starts at the Devil Isle landing');
-  let p = r.points[0], bad = 0; r.points.slice(1).forEach(q => { if (!geo.legOk(p, q)) bad++; p = q; });
-  ok(bad === 0, `saved route: every leg passes legOk (${r.points.length} points, ${r.points.filter(q => q.swim).length} swim)`);
+  ok(r.manual !== true, 'routes/raid/25484.json is UNLOCKED (a computed copy or a bot recording, never a locked route)');
+  if (r.computed) {
+    ok(r.start && r.start.kind === 'gk' && r.start.desc === 'Giran -> Devil Isle' && r.points[0].x === TP.x && r.points[0].y === TP.y, 'computed route starts at the Devil Isle landing');
+    if (!HAS_GEO) noGeo('the leg check of the computed route (4)');
+    else { let p = r.points[0], bad = 0; r.points.slice(1).forEach(q => { if (!geo.legOk(p, q)) bad++; p = q; });
+      ok(bad === 0, `computed route: every leg passes legOk (${r.points.length} points, ${r.points.filter(q => q.swim).length} swim)`); }
+  } else {
+    const pts = Array.isArray(r.points) ? r.points : [], last = pts[pts.length - 1];
+    ok(r.landing === 'Giran -> Devil Isle' && pts.length >= 2 && !!(r.by || r.lastBy) && !!r.lastOk,
+      `routes/raid/25484.json is a bot's recorded walk from the Devil Isle landing (by ${r.lastBy || r.by}, last ok ${r.lastOk}, ${pts.length} points)`);
+    ok(!!last && Math.hypot(last.x - T.x, last.y - T.y) < 3000, `the recording ends within 3000 of Tillion (a raid needs the team within 3000; ${last ? Math.round(Math.hypot(last.x - T.x, last.y - T.y)) : '?'} away)`);
+    console.log('  (recorded walk: positions the team really walked, so no geodata leg check — the computed path lives in the atlas entry below)');
+  }
 } else ok(false, 'routes/raid/25484.json exists');
 const at = path.join(DATA, 'nav_atlas', 't', 'raid_25484.json');
 if (fs.existsSync(at)) {
@@ -86,10 +104,10 @@ if (fs.existsSync(at)) {
 
 // ---- 5. Plains of Lizardmen area 33
 const A33 = { x: 96088, y: 85688, z: -3728 };
-ok(fast.pocketIn(A33.x, A33.y, A33.z, 60000) < 60000 && fast.pocketIn(A33.x, A33.y, A33.z, 60000, { swim: false }) < 60000, `area 33: only ${fast.pocketIn(A33.x, A33.y, A33.z, 60000)} cells can walk into the pit (closed set): unreachable`);
+if (!HAS_GEO) noGeo("the area 33 pocket check (5)"); else ok(fast.pocketIn(A33.x, A33.y, A33.z, 60000) < 60000 && fast.pocketIn(A33.x, A33.y, A33.z, 60000, { swim: false }) < 60000, `area 33: only ${fast.pocketIn(A33.x, A33.y, A33.z, 60000)} cells can walk into the pit (closed set): unreachable`);
 
 // ---- 6. a dry route is not changed by the swim rules (Gludin -> Abandoned Camp -> Greyclaw Kutus)
-{ const a = { x: -49853, y: 147089, z: -2784 }, b = { x: -54416, y: 146480, z: -2887 };
+if (!HAS_GEO) noGeo("the dry route compare (6)"); else { const a = { x: -49853, y: 147089, z: -2784 }, b = { x: -54416, y: 146480, z: -2887 };
   const w = geo.findPath(a, b, { maxLeg: 1000 }), d = geo.findPath(a, b, { maxLeg: 1000, swim: false });
   ok(w.ok && d.ok && w.lengthUnits === d.lengthUnits && !w.swimUnits && w.points.length === d.points.length, `dry route identical with and without swimming (${w.lengthUnits})`); }
 

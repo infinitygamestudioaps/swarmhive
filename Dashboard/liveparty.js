@@ -508,7 +508,7 @@
     if (z && isFinite(z.x) && (!MF || MF.zone(ref, z))) {
       let zp = Array.isArray(z.poly) && z.poly.length > 2 ? z.poly : null;
       try { if (!zp && z.room) zp = roomPolyFor(String(z.name || '').split(':')[0].trim(), z.room); } catch (e) { }
-      if (zp) { const xs = zp.map(p => p[0]), ys = zp.map(p => p[1]); s += poly(zp, 'rgba(227,194,122,.12)', '#e3c27a', [8, 5]) + label(Math.min(...xs), Math.min(...ys) - 6 * u, (z.area ? 'area: ' : z.room ? 'room: ' : '') + (z.name || z.room || ''), 10, '#e3c27a'); }
+      if (zp) { const xs = zp.map(p => p[0]), ys = zp.map(p => p[1]); s += poly(zp, 'rgba(227,194,122,.12)', '#e3c27a', [8, 5]) + label(Math.min(...xs), Math.min(...ys) - 6 * u, (z.drawn ? 'hunting (drawn area): ' : z.area ? 'area: ' : z.room ? 'room: ' : '') + (z.name || z.room || ''), 10, '#e3c27a'); }
       else if (z.r) { const h = z.r / 2; s += `<rect x="${z.x - h}" y="${z.y - h}" width="${z.r}" height="${z.r}" fill="rgba(227,194,122,.07)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(z.x - h + 4 * u, z.y - h - 5 * u, 'hunting: ' + (z.name || ''), 10, '#e3c27a'); }
     }
     const ms = L && L.manualSpot;

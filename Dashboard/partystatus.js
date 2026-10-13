@@ -188,12 +188,15 @@
   const RS_WORDS = { TRAVEL_TOWN: 'to the town', GK_TELEPORT: 'gatekeeper', BUY_KEY: 'buying keys', WALK_LEG: 'walking', SWIM_LEG: 'swimming', DROP: 'drop off a ledge', DOOR_WAIT: 'timed door', DOOR_OPEN_NPC: 'door (NPC)', DOOR_OPEN_SKILL: 'door (Unlock)', DOOR_OPEN_ITEM: 'door (key)', FLOOR_TELEPORT: 'floor teleport', ENTER: 'entering', MANUAL: 'by hand', ARRIVED: 'arrived', BLOCKED: 'blocked', FAILED: 'failed', START: 'starting' };
   function routeLine(leader) {
     try {
-      const L = byName(leader), m = L && L.routeSM; if (!m || !m.state) return '';
+      const L = byName(leader), m = L && L.routeSM, mt = L && L.moveTogether;   // MOVETOGETHER-2026-10-13: the team walk ('point i/N · waiting for A, B (stuck: ...)')
+      const mtTxt = mt && mt.line && ((AC() && AC().srvNow) ? AC().srvNow() : Date.now()) - (mt.at || 0) < 60000 ? mt.line : '';
+      if ((!m || !m.state) && mtTxt) return `<span class="psb-route" title="${esc((mt.label || '') + ': ' + mtTxt)}">together to ${esc(mt.label || '')} · ${esc(mtTxt)}</span>`;
+      if (!m || !m.state) return '';
       const now = (AC() && AC().srvNow) ? AC().srvNow() : Date.now();
       if (m.final && now - (m.at || 0) > 600000) return '';
       const bad = m.state === 'BLOCKED' || m.state === 'FAILED', ok = m.state === 'ARRIVED';
       const key = String(m.key || ''), href = /^raid:\d+$/.test(key) ? '#/raid/' + key.split(':')[1] + '/route' : '#/navatlas/' + encodeURIComponent(key);
-      const txt = `route ${esc(m.name || key)} · <b>${esc(m.state)}</b> ${esc(RS_WORDS[m.state] || '')}${m.sub ? ' (' + esc(m.sub) + ')' : ''} · ${(m.i || 0) + 1}/${m.n || '?'} ${esc(m.label || '')}${bad && m.why ? ' — ' + esc(m.why) : ''}`;
+      const txt = `route ${esc(m.name || key)} · <b>${esc(m.state)}</b> ${esc(RS_WORDS[m.state] || '')}${m.sub ? ' (' + esc(m.sub) + ')' : ''} · ${(m.i || 0) + 1}/${m.n || '?'} ${esc(m.label || '')}${bad && m.why ? ' — ' + esc(m.why) : ''}${mtTxt && !m.final ? ' · ' + esc(mtTxt) : ''}`;
       return `<a class="psb-route${bad ? ' bad' : ok ? ' ok' : ''}" href="${href}" title="${esc((m.name || '') + ': ' + (m.state || '') + ' ' + (m.label || '') + (m.why ? ' — ' + m.why : ''))}">${txt}</a>`;
     } catch (e) { return ''; }
   }

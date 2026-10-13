@@ -54,18 +54,29 @@
   function section() {
     let s = $id(SEC); if (s) return s;
     s = document.createElement('section'); s.id = SEC; s.className = 'win cpl fnd'; s.hidden = true;
+    // PURSE 2026-10-13 (tester: "the Adena tab sounds like it is for giving to a DIFFERENT party"): two separate blocks in plain words —
+    // (1) inside the party: the leader pays his members' gear (parties.<leader>.purse + memberKeep), (2) between parties: the old hand-outs
     s.innerHTML = `<div class="cpl-headrow fnd-head"><h2><img class="gi" src="${ico('icon/etc_adena_i00')}" alt=""> Adena</h2>
-        <label class="fnd-sw" title="Switch cross-party adena on or off for every bot"><input type="checkbox" id="fndOn" data-fnd="on"><span class="tr" aria-hidden="true"></span><span class="lb" id="fndOnTxt"></span></label>
         <span class="muted cpl-intro" id="fndIntro"></span></div>
       <div class="cpl-msg" id="fndMsg" role="status" hidden></div>
-      <div class="box"><h3>General</h3><div class="fnd-grid" id="fndGen"></div></div>
-      <div class="box"><h3>Who gives</h3><div id="fndGive"></div></div>
-      <div class="box"><h3>Targets</h3><div class="fnd-hint">A character is topped up to its target when it has more than the slack less. A character's own target beats its party's, the party's beats these defaults.</div><div class="fnd-grid" id="fndDef"></div></div>
-      <div class="box"><h3>Per party</h3><div class="fnd-hint">Blank = the default above. Open a party for its characters: blank = party / default, <b>0 = never receives</b>.</div><div class="fnd-parties" id="fndParties"></div></div>
-      <div class="box"><h3>Recent hand-outs</h3><div id="fndLog"></div></div>
+      <div class="box fnd-blk" id="fndBlk1"><h3>1 · Inside the party — the leader pays his members' gear and supplies</h3>
+        <div class="fnd-hint" id="fndPurseEx"></div>
+        <div class="fnd-parties" id="fndPurse"></div>
+        <details class="fnd-more fnd-keep"><summary>Pocket money each character keeps when it buys gear <span class="muted">(all parties)</span></summary>
+          <div class="fnd-hint">A character never spends this on gear (it is for scrolls and repairs). Low levels keep little, so their first gear is affordable.</div><div class="fnd-grid" id="fndKeep"></div></details>
+      </div>
+      <div class="box fnd-blk" id="fndBlk2"><h3>2 · Between parties — a rich character of one party helps another party</h3>
+        <div class="fnd-hint" id="fndBetweenEx"></div>
+        <label class="fnd-sw" title="Switch the hand-outs between parties on or off for every bot"><input type="checkbox" id="fndOn" data-fnd="on"><span class="tr" aria-hidden="true"></span><span class="lb" id="fndOnTxt"></span></label>
+        <h4>General</h4><div class="fnd-grid" id="fndGen"></div>
+        <h4>Who gives</h4><div id="fndGive"></div>
+        <h4>Targets</h4><div class="fnd-hint">A character is topped up to its target when it has more than the slack less. A character's own target beats its party's, the party's beats these defaults.</div><div class="fnd-grid" id="fndDef"></div>
+        <h4>Per party</h4><div class="fnd-hint">Blank = the default above. Open a party for its characters: blank = party / default, <b>0 = never receives</b>.</div><div class="fnd-parties" id="fndParties"></div>
+        <h4>Recent hand-outs</h4><div id="fndLog"></div>
+      </div>
       <details class="box cpl-help"><summary><h3>How it works</h3></summary><div class="cpl-helpbody">
-        <p>A giver (a party leader that has more than "always keeps at least", or only the characters you tick) who stands in the chosen town outside a raid hands adena to characters of <b>other</b> parties that are in the same town at that moment and more than the slack below their target. Nobody is called away from hunting for it.</p>
-        <p>Each character gets at most one hand-out per "every" minutes, never less than the minimum hand-out. "Broke below": characters under this amount go first.</p>
+        <p><b>1 · Inside the party.</b> With "Leader pays" on, the party leader trades each member the difference between its planned gear upgrades (+ its pocket money) and the adena it has — in Giran, before anybody shops: in supply runs, with "Better gear now" and with "Give it now". Then the members buy, then the leader buys his own. He never goes below "keeps at least" and gives at most "at most per member" (and "at most per run" for the whole party). Supplies (shots, scrolls, potions) the leader buys himself in the supply run and hands out. Off = nothing is paid; a member that cannot afford its gear shows a "Needs you" card on the Parties tab.</p>
+        <p><b>2 · Between parties.</b> A giver (a party leader that has more than "always keeps at least", or only the characters you tick) who stands in the chosen town outside a raid hands adena to characters of <b>other</b> parties that are in the same town at that moment and more than the slack below their target. Nobody is called away from hunting for it. Each character gets at most one hand-out per "every" minutes, never less than the minimum hand-out. "Broke below": characters under this amount go first.</p>
         <p>Amounts accept <code>8m</code>, <code>300k</code>, <code>8,000,000</code>. Saving writes Scripts/data/fund_rules.json (a copy of the old one goes to Scripts/data/history/); the bots read it within 30 seconds, no restart.</p>
       </div></details>
       <div class="fnd-bar" id="fndBar"></div>`;
@@ -137,14 +148,52 @@
   // ============================================================================================ render
   function render() {
     if (!FP.open) return;
-    if (!FP.cur) { ['fndGen', 'fndGive', 'fndDef', 'fndParties', 'fndLog'].forEach(i => { const e = $id(i); if (e) e.innerHTML = '<div class="muted">Loading…</div>'; }); renderBar(); return; }
-    renderHead(); renderGen(); renderGive(); renderDef(); renderParties(); renderLog(); renderBar();
+    if (!FP.cur) { ['fndPurse', 'fndKeep', 'fndGen', 'fndGive', 'fndDef', 'fndParties', 'fndLog'].forEach(i => { const e = $id(i); if (e) e.innerHTML = '<div class="muted">Loading…</div>'; }); renderBar(); return; }
+    renderHead(); renderPurse(); renderKeep(); renderGen(); renderGive(); renderDef(); renderParties(); renderLog(); renderBar();
   }
   function renderHead() {
     const r = FP.cur, on = $id('fndOn');
     if (on) on.checked = !!r.on;
-    const t = $id('fndOnTxt'); if (t) { t.textContent = r.on ? 'On' : 'Off'; t.className = 'lb ' + (r.on ? 'on' : 'off'); }
-    const i = $id('fndIntro'); if (i) i.innerHTML = `A rich party leader in <b>${h(r.town)}</b> hands adena to characters of OTHER parties that stand in the same town below their target.${r.on ? '' : ' <b class="fnd-offtxt">Off — nothing happens until you switch it on.</b>'}`;
+    const t = $id('fndOnTxt'); if (t) { t.textContent = r.on ? 'Between parties: on' : 'Between parties: off — nothing happens until you switch it on'; t.className = 'lb ' + (r.on ? 'on' : 'off'); }
+    const i = $id('fndIntro'); if (i) i.innerHTML = 'Two separate kinds of help, each with its own switches: <b>1 · inside a party</b> (the leader pays his own members\' gear) and <b>2 · between parties</b> (a rich character helps another party).';
+    const ex = examplePeople();
+    const e1 = $id('fndPurseEx'); if (e1) e1.innerHTML = `Example: <b>${h(ex.leader)}</b> (${h(ex.leaderAdena)}) pays <b>${h(ex.member)}</b> the 52k its D-grade armour costs, before anybody shops in Giran. One switch per party — off until you switch it on.`;
+    const e2 = $id('fndBetweenEx'); if (e2) e2.innerHTML = `Example: <b>${h(ex.rich)}</b> (${h(ex.richAdena)}, another party) tops <b>${h(ex.poor)}</b> up to 8m when both stand idle in <b>${h(r.town)}</b>.`;
+  }
+  // PURSE 2026-10-13: names for the examples (real ones when known)
+  function examplePeople() {
+    const P = (FP.info && FP.info.parties) || [], adOf = (p, n) => { const m = (p.members || []).find(x => x.name === n); return m && m.adena != null ? Number(m.adena) : null; };
+    const p1 = P.find(p => (p.members || []).some(m => m.name !== p.leader && m.purse && m.purse.need > 0)) || P.find(p => (p.members || []).length > 1) || P[0];
+    const leader = p1 ? p1.leader : 'JadeLeader', member = p1 ? ((p1.members || []).find(m => m.name !== p1.leader) || { name: 'JadeTwo' }).name : 'JadeTwo';
+    const la = p1 ? adOf(p1, leader) : null;
+    const rich = P.slice().sort((a, b) => (adOf(b, b.leader) || 0) - (adOf(a, a.leader) || 0))[0], poor = P.find(p => !rich || p.leader !== rich.leader);
+    return { leader, member, leaderAdena: la != null ? short(la) : '37m', rich: rich ? rich.leader : 'a rich leader', richAdena: rich && adOf(rich, rich.leader) != null ? short(adOf(rich, rich.leader)) : '120m', poor: poor ? poor.leader : 'JadeLeader' };
+  }
+  const PURSE_DEF = { leaderKeep: 2000000, memberCap: 5000000 };
+  const KEEP_DEF = [[20, 5000], [40, 50000], [60, 150000], [999, 300000]];
+  const purseOf = (leader) => { const p = FP.cur.parties[leader]; return p && p.purse && typeof p.purse === 'object' ? p.purse : {}; };
+  function renderPurse() {
+    const el = $id('fndPurse'); if (!el) return;
+    const P = (FP.info && FP.info.parties) || [];
+    el.innerHTML = P.map(p => {
+      const L = p.leader, pu = purseOf(L), on = pu.on === true, lead = (p.members || []).find(m => m.name === L) || {};
+      const keep = has(pu.leaderKeep) ? Number(pu.leaderKeep) : PURSE_DEF.leaderKeep, spare = Math.max(0, (Number(lead.adena) || 0) - keep);
+      const needs = (p.members || []).filter(m => m.name !== L && m.purse && !m.purse.lock && m.purse.need > 0);
+      const rows = needs.map(m => `<div class="fnd-need-row"><span><b>${h(m.name)}</b> needs <b>${fmt(m.purse.need)}</b> for its ${m.purse.grade && m.purse.grade !== 'NONE' ? h(m.purse.grade) + '-grade ' : ''}gear <span class="muted">(has ${fmt(m.adena || 0)}, keeps ${fmt(m.purse.keep)})</span></span>${!on && m.purse.need <= spare ? `<button type="button" class="fnd-give" data-quick="party:${h(L)}|!purse give ${h(m.name)}|${h(L)} gives ${h(m.name)} ${fmt(m.purse.need)} adena now (in Giran), then ${h(m.name)} buys its upgrades">Give it now</button>` : on ? '<span class="muted">paid at the next supply run / "Better gear now"</span>' : `<span class="muted">${h(L)} cannot spare it</span>`}</div>`).join('');
+      return `<div class="fnd-party ${on ? '' : 'off'}">
+        <div class="ph"><b>Party ${h(L)}</b><span class="muted">${lead.adena != null ? 'leader has ' + short(lead.adena) : 'leader not reporting'}${needs.length ? ` · <span class="fnd-need">${needs.length} need gear money</span>` : ''}</span>
+          <label class="fnd-sw sm"><input type="checkbox" data-fndpurse="${h(L)}" ${on ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${on ? 'on' : 'off'}">${on ? 'Leader pays' : 'Leader pays: off'}</span></label></div>
+        <div class="fnd-grid sm">${field('Leader keeps at least', amountInput('parties|' + L + '|purse|leaderKeep', pu.leaderKeep, { blank: true, ph: 'default ' + short(PURSE_DEF.leaderKeep), label: L + ' leader keeps at least' }))}
+          ${field('At most per member', amountInput('parties|' + L + '|purse|memberCap', pu.memberCap, { blank: true, ph: 'default ' + short(PURSE_DEF.memberCap), label: L + ' at most per member' }), '0 = no limit')}
+          ${field('At most per run', amountInput('parties|' + L + '|purse|budget', pu.budget, { blank: true, ph: 'no limit', label: L + ' at most per run' }), 'whole party; 0 = no limit')}</div>
+        ${rows || '<div class="muted fnd-cnt">Nobody of this party misses adena for its planned gear right now.</div>'}
+      </div>`;
+    }).join('') || '<div class="muted">No parties in swarm.config.json.</div>';
+  }
+  function renderKeep() {
+    const el = $id('fndKeep'); if (!el) return;
+    const t = Array.isArray(FP.cur.memberKeep) && FP.cur.memberKeep.length ? FP.cur.memberKeep : KEEP_DEF;
+    el.innerHTML = t.map((x, i) => { const from = i ? t[i - 1][0] : 1, lab = i === t.length - 1 ? `Level ${from}+` : `Level ${from}–${x[0] - 1}`; return field(lab, amountInput('memberKeep|' + i + '|1', x[1], { label: 'pocket money ' + lab })); }).join('');
   }
   function renderGen() {
     const el = $id('fndGen'); if (!el) return;
@@ -242,12 +291,13 @@
     setTimeout(() => {
       if (!FP.open) return;
       if (typingHere()) { FP.pending = true; return; }
-      FP.pending = false; const y = window.scrollY; renderParties(); renderDef(); window.scrollTo(0, y);
+      FP.pending = false; const y = window.scrollY; renderPurse(); renderParties(); renderDef(); window.scrollTo(0, y);
     }, 0);
   }
   function onInput(e) {
     const t = e.target; if (!t || !t.dataset || !t.dataset.fndpath) return;
     const p = t.dataset.fndpath, n = parseAmount(t.value), blank = !!t.dataset.blank;
+    if (/^memberKeep\|/.test(p) && !Array.isArray(FP.cur.memberKeep)) FP.cur.memberKeep = KEEP_DEF.map(x => x.slice());   // PURSE: the default table, written only once edited
     let bad = '';
     if (n === null && !blank) bad = 'needed';
     else if (n !== null && Number.isNaN(n)) bad = 'not a number (e.g. 8m, 300k, 8000000)';
@@ -260,13 +310,14 @@
     const t = e.target; if (!t) return;
     if (t.dataset.fndpath) {   // blur: show the amount with thousands separators, redraw the derived parts
       if (!FP.err[t.dataset.fndpath]) { const n = parseAmount(t.value); t.value = n === null ? '' : fmt(n); }
-      if (/^(chars|parties|defaults|slack)/.test(t.dataset.fndpath)) softRender();
+      if (/^(chars|parties|defaults|slack|memberKeep)/.test(t.dataset.fndpath)) softRender();
       renderBar(); return;
     }
     const f = t.dataset.fnd;
     if (f === 'on') { FP.cur.on = !!t.checked; renderHead(); renderBar(); return; }
     if (f === 'town') { FP.cur.town = t.value; renderHead(); renderBar(); return; }
     if (f === 'mode') { FP.cur.givers.mode = t.value; renderGive(); renderBar(); return; }
+    if (t.dataset.fndpurse) { const k = t.dataset.fndpurse, p0 = FP.cur.parties[k] || {}; FP.cur.parties[k] = Object.assign({}, p0, { purse: Object.assign({}, p0.purse || {}, { on: !!t.checked }) }); renderPurse(); renderBar(); return; }   // PURSE
     if (t.dataset.fndrecv) { const k = t.dataset.fndrecv; FP.cur.parties[k] = Object.assign({}, FP.cur.parties[k] || {}, { receive: !!t.checked }); renderParties(); renderBar(); return; }
   }
   async function onClick(e) {
@@ -283,7 +334,8 @@
   /** the human list of what changes (for the confirm dialog) */
   function changes() {
     const a = FP.orig, b = FP.cur, out = [], amt = (v) => has(v) ? fmt(v) : 'blank';
-    if (a.on !== b.on) out.push(`Adena hand-outs: ${b.on ? 'ON' : 'OFF'}`);
+    if (JSON.stringify(a.memberKeep || null) !== JSON.stringify(b.memberKeep || null)) out.push(`Pocket money by level: ${(b.memberKeep || KEEP_DEF).map(x => fmt(x[1])).join(' / ')}`);   // PURSE
+    if (a.on !== b.on) out.push(`Adena hand-outs between parties: ${b.on ? 'ON' : 'OFF'}`);
     if (a.town !== b.town) out.push(`Town: ${a.town} → ${b.town}`);
     [['everyMin', 'Every (min)'], ['minGive', 'Minimum hand-out'], ['slack', 'Top-up slack'], ['brokeBelow', 'Broke below']].forEach(([k, l]) => { if (String(a[k]) !== String(b[k])) out.push(`${l}: ${amt(a[k])} → ${amt(b[k])}`); });
     const MODE = { auto: 'any rich party leader', list: 'only the ticked characters', none: 'nobody' };
@@ -293,7 +345,10 @@
     [['leaderTarget', 'Default leader target'], ['memberTarget', 'Default member target'], ['clanLeaderTarget', 'Default clan leader target']].forEach(([k, l]) => { if (String(a.defaults[k]) !== String(b.defaults[k])) out.push(`${l}: ${amt(a.defaults[k])} → ${amt(b.defaults[k])}`); });
     new Set(Object.keys(a.parties).concat(Object.keys(b.parties))).forEach(k => {
       const x = a.parties[k] || {}, y = b.parties[k] || {};
-      if ((x.receive !== false) !== (y.receive !== false)) out.push(`Party ${k}: ${y.receive === false ? 'receives nothing' : 'receives'}`);
+      const xp = x.purse || {}, yp = y.purse || {};   // PURSE
+      if ((xp.on === true) !== (yp.on === true)) out.push(`Party ${k}: leader pays his members' gear ${yp.on === true ? 'ON' : 'OFF'}`);
+      [['leaderKeep', 'leader keeps at least'], ['memberCap', 'at most per member'], ['budget', 'at most per run']].forEach(([q, l]) => { if (String(xp[q]) !== String(yp[q])) out.push(`Party ${k} ${l}: ${amt(xp[q])} → ${amt(yp[q])}`); });
+      if ((x.receive !== false) !== (y.receive !== false)) out.push(`Party ${k}: ${y.receive === false ? 'receives nothing from other parties' : 'receives from other parties'}`);
       if (String(x.leaderTarget) !== String(y.leaderTarget)) out.push(`Party ${k} leader target: ${amt(x.leaderTarget)} → ${amt(y.leaderTarget)}`);
       if (String(x.memberTarget) !== String(y.memberTarget)) out.push(`Party ${k} member target: ${amt(x.memberTarget)} → ${amt(y.memberTarget)}`);
     });

@@ -30,17 +30,19 @@ class AgentLink {
     const line = JSON.stringify(o) + '\n'; this.st.sent++; this.st.bytesOut += line.length;
     this.sock.write(line); return true;
   }
-  call(fn, args, want, fns) {
+  call(fn, args, want, fns, ack) {
     const id = ++CALL_SEQ; this.st.calls++;
     const hasFns = fns && Object.keys(fns).length > 0;
-    const m = { a: 'call', id, fn, args }; if (want) m.want = 1;
+    const m = { a: 'call', id, fn, args, ts: Date.now() }; if (want) m.want = 1;   // ENGINELAT-2026-10-13: ts = sent (the agent measures brain -> run)
     if (!want && !hasFns) { this.write(m); return undefined; }
     let res, rej; const p = want ? new Promise((a, b) => { res = a; rej = b; }) : null;
-    this.pending.set(id, { fn, res, rej, fns: fns || {}, at: Date.now(), want: !!want });
+    this.pending.set(id, { fn, res, rej, fns: fns || {}, at: Date.now(), want: !!want, ack: !!ack });
     this.write(m);
     return p || undefined;
   }
   set(path, v) { this.write({ a: 'set', path, v }); }
+  /** ENGINELAT: an order whose answer says WHEN the agent ran it -> promise { sent, xt, got } (castNow's start window counts from xt) */
+  callAck(fn, args) { return this.call(fn, args, true, null, true); }
   watch(kind, key) {
     if (kind === 'packets') { this.watched.packets = !!key; this.write({ a: 'watch', kind, key: !!key }); return; }
     const s = this.watched[kind]; if (!s || s.has(key)) return; s.add(key); this.write({ a: 'watch', kind, key });
@@ -53,7 +55,8 @@ class AgentLink {
   onResult(m) {
     const p = this.pending.get(m.id); if (!p) { this.st.stale++; return; }
     this.st.results++;
-    if (p.want) { if (m.ok) p.res(m.v); else p.rej(new Error(String(m.err || p.fn + ' failed'))); }
+    // ENGINELAT ack: { sent (brain), xt (when the agent ran it; an older agent: when its answer came), got (answer here) }
+    if (p.want) { if (p.ack) { const got = Date.now(); if (m.ok) p.res({ sent: p.at, xt: Number(m.xt) > 0 ? Number(m.xt) : got, got }); else p.rej(new Error(String(m.err || p.fn + ' failed'))); } else if (m.ok) p.res(m.v); else p.rej(new Error(String(m.err || p.fn + ' failed'))); }
     if (!Object.keys(p.fns).length) this.pending.delete(m.id); else p.answered = true;
   }
   onCallback(m) {

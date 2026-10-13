@@ -170,6 +170,12 @@ if (M.sgIsStarter) {
     check(!weaponBuy(r), `enchanted D Long Bow +3: never replaced by another D bow (${(weaponBuy(r) || {}).info ? weaponBuy(r).info.n : 'kept'})`); }
   { const { r } = plan({ classId: 4, role: 'tank', level: 45, worn: ['Crystallized Ice Bow - Guidance'], policy: { default: true, sameGradeSwap: true, keepArmorType: true } });
     check(!weaponBuy(r), `S.A. C bow at 45: never replaced by a C bow, also with sameGradeSwap (${weaponBuy(r) ? weaponBuy(r).info.n : 'kept'})`); }
+  // ADENA SHORT (tester 2026-10-13: "a few bots only had 40k adena"): the reason in plain words
+  { const { r } = plan({ classId: 45, role: 'destroyer', worn: BOWKIT, budget: 42369 - 300000 });
+    check(!r.buys.length && /^needs 375,744 adena for Common Item - Light Crossbow \(75,744 \+ 300,000 kept for supplies\), has 42,369 — upgrade skipped \(all \d+ planned pieces: [\d,]+\)$/.test(r.why) && r.short && r.short.missing > 0,
+      `YellowNine with 42,369 adena: "${r.why}" (missing ${r.short && r.short.missing})`); }
+  { const { r } = plan({ classId: 45, role: 'destroyer', worn: BOWKIT, budget: 80000 });
+    check(r.buys.some(p => p.slot === 'weapon') && (r.notes || []).some(t => /^adena: needs [\d,]+ more for .+ — those skipped$/.test(t)), `some bought, the rest skipped: "${(r.notes || []).find(t => /^adena/.test(t)) || 'no adena note'}"`); }
   // the gear upgrade message carries the decisions and the buy problems
   const gu2 = src.slice(src.indexOf('async function gearUpgrade('), src.indexOf('// --- DYES / SYMBOLS'));
   check(/plan\.notes/.test(gu2) && /not bought: /.test(gu2), 'gearUpgrade: the note says the decisions (plan.notes) and why a piece was NOT bought');

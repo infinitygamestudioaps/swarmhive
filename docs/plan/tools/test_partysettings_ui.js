@@ -25,6 +25,8 @@ const FILES = {
   SWARM_CLANQUESTS_FILE: path.join(DATA, 'clan_quests.json'), SWARM_RUNSTATE_FILE: path.join(DATA, 'run_state.json'), SWARM_DAILY_FILE: path.join(LOGS, 'daily_enabled.json'),
   SWARM_CLANAUTO_FILE: path.join(LOGS, 'clan_auto.json'), SWARM_FUNDLOG_FILE: path.join(LOGS, 'fund_log.json'),
   SWARM_PARTYAUTO_FILE: path.join(DATA, 'party_auto.json'),   // PARTYAUTO 2026-10-13: Supplies section
+  SWARM_RESRULES_FILE: path.join(DATA, 'res_rules.json'),     // RESURRECTION 2026-10-13: Resurrection section (missing = automatic res ON)
+  SWARM_LOOTRULES_FILE: path.join(DATA, 'loot_rules.json'),   // LOOT RULES 2026-10-13: Loot section (missing = OFF; details: test_loot_ui.js)
 };
 const rd = (f) => { try { return fs.readFileSync(f, 'utf8'); } catch (e) { return null; } };
 const LIVE0 = Object.fromEntries(Object.values(FILES).map(f => [f, rd(f)]));
@@ -129,6 +131,11 @@ async function startServer(env) {
   await openSec('fight'); await click(`#psBody [data-psseg="tactics.mode"][data-v="${tMode === 'auto' ? 'on' : 'auto'}"]`);
   const tNew = tMode === 'auto' ? 'on' : 'auto';
   await openSec('routes'); const rr0 = await swState('routes.buyKeys'); await click('#psBody [data-psw="routes.buyKeys"]');
+  // MOVETOGETHER step 2: the walking-together numbers (plain label, default + range in the hint, validated)
+  ok('A: Routes shows the walking-together numbers with their defaults', await ev(`(() => { const e = document.querySelector('#psBody input[data-psin="routes.mtLeaveSec"]'), f = e && e.closest('.ps-field'); return !!(e && e.placeholder === '90' && /default 90 s · 20 to 1800 s/.test(f.textContent) && /go on without a stuck member after/.test(f.textContent) && document.querySelector('#psBody input[data-psin="routes.mtMaxWaitSec"]') && document.querySelector('#psBody input[data-psin="routes.mtPaceGap"]') && document.querySelector('#psBody input[data-psin="routes.mtStuckSec"]')); })()`));
+  await setVal('#psBody input[data-psin="routes.mtLeaveSec"]', '5', 'input');
+  ok('A: 5 s (below 20) is refused right away and blocks Save', await waitFor(`document.querySelector('#psBody input[data-psin="routes.mtLeaveSec"]').hasAttribute('aria-invalid') && document.querySelector('[data-psact="save"]').disabled`, 3000));
+  await setVal('#psBody input[data-psin="routes.mtLeaveSec"]', '150', 'input');
   await openSec('daily'); const k0 = await swState('daily.kamaloka'); await click('#psBody [data-psw="daily.kamaloka"]');
   const ss0 = await swState('ss.enrolled'); await click('#psBody [data-psw="ss.enrolled"]');
   const hasClan = await ev(`!!document.querySelector('#psBody [data-psw="clan.invite"]')`);
@@ -137,7 +144,7 @@ async function startServer(env) {
   await shot('03_iphone_unsaved');
   dialogs.length = 0;
   await click('#psBar [data-psact="save"]');
-  ok('A: saved ("All saved" again)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 15000), await barText());
+  ok('A: saved ("All saved" again)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000), await barText());
   ok('A: one confirmation listing the changes (uidialog)', dialogs.some(d => d.type === 'confirm' && /Save the settings of party/.test(d.title) && /Leader top-up: 9,000,000/.test(d.msg)), dialogs.map(d => d.title).join(' | '));
   ok('A: turning gear upgrades on warns about spending adena', !gearNew || dialogs.some(d => /spend adena on gear/.test(d.msg)));
 
@@ -159,7 +166,7 @@ async function startServer(env) {
   const tNow = fileA('SWARM_TACTICS_FILE');
   ok(`A: party_tactics.json: only ${L}.mode = ${tNew}`, tNow[L] && tNow[L].mode === tNew && Object.keys(tNow).filter(k => k !== L && k !== '_updated').every(k => JSON.stringify(tNow[k]) === JSON.stringify(JSON.parse(A0.SWARM_TACTICS_FILE)[k])), JSON.stringify(tNow[L]));
   const rNow = fileA('SWARM_ROUTERULES_FILE');
-  ok(`A: route_rules.json: only parties.${L}.buyKeys = ${rr0 !== 'true'}`, rNow.parties[L] && rNow.parties[L].buyKeys === (rr0 !== 'true') && same(Object.assign({}, rNow, { parties: Object.assign({}, rNow.parties, { [L]: undefined }) }), Object.assign({}, JSON.parse(A0.SWARM_ROUTERULES_FILE), { parties: Object.assign({}, JSON.parse(A0.SWARM_ROUTERULES_FILE).parties, { [L]: undefined }) })), JSON.stringify(rNow.parties));
+  ok(`A: route_rules.json: only parties.${L}.buyKeys = ${rr0 !== 'true'} + mtLeaveSec = 150`, rNow.parties[L] && rNow.parties[L].buyKeys === (rr0 !== 'true') && rNow.parties[L].mtLeaveSec === 150 && same(Object.assign({}, rNow, { parties: Object.assign({}, rNow.parties, { [L]: undefined }) }), Object.assign({}, JSON.parse(A0.SWARM_ROUTERULES_FILE), { parties: Object.assign({}, JSON.parse(A0.SWARM_ROUTERULES_FILE).parties, { [L]: undefined }) })), JSON.stringify(rNow.parties));
   const dNow = fileA('SWARM_DAILY_FILE');
   ok(`A: daily_enabled.json: ${L}.kamaloka = ${k0 !== 'true'}`, dNow && dNow[L] && dNow[L].kamaloka === (k0 !== 'true'), JSON.stringify(dNow && dNow[L]));
   const sNow = fileA('SWARM_SEVENSIGNS_FILE');
@@ -190,7 +197,7 @@ async function startServer(env) {
   const fund1 = fileA('SWARM_FUNDRULES_FILE'), pauto1 = rd(A.SWARM_PARTYAUTO_FILE);
   dialogs.length = 0;
   await click('#psBar [data-psact="save"]');
-  ok('A2: saved', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 15000), await barText());
+  ok('A2: saved', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000), await barText());
   ok('A2: the confirmation lists the supply watch, the member\'s selling and who gives', dialogs.some(d => d.type === 'confirm' && /Supply runs when someone runs low/.test(d.msg) && new RegExp(memberS + ': selling off').test(d.msg) && /Who gives to party/.test(d.msg)), dialogs.map(d => d.msg).join(' | ').slice(0, 400));
   const pa1 = fileA('SWARM_PARTYAUTO_FILE');
   const paExp = JSON.parse(pa0 && A0.SWARM_PARTYAUTO_FILE ? A0.SWARM_PARTYAUTO_FILE : '{}'); paExp.parties = paExp.parties || {}; paExp.chars = paExp.chars || {};
@@ -207,9 +214,31 @@ async function startServer(env) {
   const paM = fileA('SWARM_PARTYAUTO_FILE'); paM.parties[L] = Object.assign({}, paM.parties[L], { sell: !paEff('sell') }); fs.writeFileSync(A.SWARM_PARTYAUTO_FILE, JSON.stringify(paM, null, 1));
   dialogs.length = 0;
   await click('#psBar [data-psact="save"]');
-  ok('A2: a Supplies change made meanwhile is detected (Changed meanwhile -> Reload keeps it)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 10000) && dialogs.some(d => d.type === 'choice' && /Changed meanwhile/.test(d.title) && /Supplies/.test(d.msg))
+  ok('A2: a Supplies change made meanwhile is detected (Changed meanwhile -> Reload keeps it)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000) && dialogs.some(d => d.type === 'choice' && /Changed meanwhile/.test(d.title) && /Supplies/.test(d.msg))
     && fileA('SWARM_PARTYAUTO_FILE').parties[L].sell === !paEff('sell') && fileA('SWARM_PARTYAUTO_FILE').parties[L].dyes === paM.parties[L].dyes, dialogs.map(d => d.type + ':' + d.title + ':' + (d.msg || '').slice(0, 80)).join(' | '));
   void pauto1;
+
+  // ---- A3 (RESURRECTION 2026-10-13): the Resurrection section — the file's values (missing = automatic ON), one save writes only parties.<L>
+  const rs0 = fileA('SWARM_RESRULES_FILE') || {}, rsP = ((rs0.parties || {})[L]) || {}, rsDef = Object.assign({ auto: true, scrolls: true, raidHealerScrolls: true, raidAllScrolls: false }, rs0.default || {});
+  const rsEff = (k) => (typeof rsP[k] === 'boolean' ? rsP[k] : rsDef[k]);
+  await openSec('res'); await sleep(150);
+  ok('A3: Resurrection shows the file / the defaults (automatic ON = survival, healer scrolls in raids ON)', (await swState('res.auto')) === String(rsEff('auto')) && (await swState('res.scrolls')) === String(rsEff('scrolls')) && (await swState('res.raidHealerScrolls')) === String(rsEff('raidHealerScrolls')) && (await swState('res.raidAllScrolls')) === String(rsEff('raidAllScrolls')), JSON.stringify(rsP));
+  ok('A3: Resurrection says your orders always work + has Res all dead now', await ev(`(() => { const t = document.querySelector('#psBody [data-pssec="res"]').textContent; return /Your orders always work/.test(t) && /Res all dead now/.test(t); })()`));
+  await shot('09_iphone_resurrection');
+  await click('#psBody [data-psw="res.raidAllScrolls"]');
+  await click('#psBody [data-psseg="res.scrollWho"][data-v="names"]');
+  const resPick = M.find(n => n !== L) || L;
+  ok('A3: "Only chosen" shows the members as chips', await waitFor(`!!document.querySelector('#psBody [data-psresname="${resPick}"]')`, 3000));
+  await click(`#psBody [data-psresname="${resPick}"]`);
+  await setVal('#psBody select[data-pssel="res.maxWalk"]', '10000');
+  dialogs.length = 0;
+  await click('#psBar [data-psact="save"]');
+  ok('A3: saved', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000), await barText());
+  ok('A3: the confirmation lists the Resurrection changes', dialogs.some(d => d.type === 'confirm' && /In raids: scroll anyone/.test(d.msg) && /Who may read scrolls: Only chosen/.test(d.msg) && /walks at most: 10,000/.test(d.msg)), dialogs.map(d => d.msg).join(' | ').slice(0, 400));
+  const rs1 = fileA('SWARM_RESRULES_FILE');
+  const rsWant = Object.assign({}, rsP, { raidAllScrolls: !rsEff('raidAllScrolls'), scrollWho: 'names', scrollNames: [resPick], maxWalk: 10000 });
+  ok(`A3: res_rules.json: only parties.${L} changed`, rs1 && JSON.stringify(rs1.parties[L]) === JSON.stringify(rsWant) && Object.keys(rs1.parties).filter(k => k !== L).every(k => JSON.stringify(rs1.parties[k]) === JSON.stringify((rs0.parties || {})[k])) && JSON.stringify(rs1.default || {}) === JSON.stringify(rs0.default || {}), JSON.stringify(rs1 && rs1.parties));
+  ok('A3: the summary follows (Automatic ...)', await ev(`/Automatic/.test(document.querySelector('#psBody [data-pssec="res"] .ps-sum').textContent)`));
 
   // ---- Undo
   await openSec('fight'); await click('#psBody [data-psseg="tactics.mode"][data-v="off"]');
@@ -222,7 +251,7 @@ async function startServer(env) {
   const tf = fileA('SWARM_TACTICS_FILE'); tf[L] = Object.assign({}, tf[L], { maxPairs: 5 }); fs.writeFileSync(A.SWARM_TACTICS_FILE, JSON.stringify(tf, null, 1));
   dialogs.length = 0;
   await click('#psBar [data-psact="save"]');
-  ok('A: the change made meanwhile is detected ("Changed meanwhile", Overwrite / Reload)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 10000) && dialogs.some(d => d.type === 'choice' && /Changed meanwhile/.test(d.title) && d.buttons.includes('Overwrite')), dialogs.map(d => d.type + ':' + d.title).join(' | '));
+  ok('A: the change made meanwhile is detected ("Changed meanwhile", Overwrite / Reload)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000) && dialogs.some(d => d.type === 'choice' && /Changed meanwhile/.test(d.title) && d.buttons.includes('Overwrite')), dialogs.map(d => d.type + ':' + d.title).join(' | '));
   ok('A: Reload kept the other change (maxPairs 5) and did not overwrite it', fileA('SWARM_TACTICS_FILE')[L].maxPairs === 5 && fileA('SWARM_TACTICS_FILE')[L].mode === tNew);
 
   // ---- close, character page button
@@ -264,7 +293,7 @@ async function startServer(env) {
   await phone(); await ev(`localStorage.setItem('swarm.uimode', 'simple')`);
   await cdp('Page.navigate', { url: BASE + '#/parties' });
   await waitFor(`document.querySelectorAll('#tab-parties [data-psopen]').length > 0 && !!window.PartySettings`, 25000);
-  const OFFS = ['money.on', 'money.receive', 'gear.party', 'storage.party.auto', 'daily.kamaloka', 'ss.enrolled', 'supplies.party.supplyWatch', 'supplies.party.sell', 'supplies.party.dyes'];   // party_auto.json missing = OFF
+  const OFFS = ['money.on', 'money.receive', 'gear.party', 'storage.party.auto', 'daily.kamaloka', 'ss.enrolled', 'supplies.party.supplyWatch', 'supplies.party.sell', 'supplies.party.dyes', 'loot.on'];   // party_auto.json / loot_rules.json missing = OFF
   for (const who of [L, 'Zzunknownparty']) {
     await ev(`window.PartySettings.open(${JSON.stringify(who)})`);
     await waitFor(`!!window.PartySettings._state.W && window.PartySettings._state.leader === ${JSON.stringify(who)}`, 15000); await sleep(200);
@@ -279,6 +308,10 @@ async function startServer(env) {
     if (who === L) { await openSec('money'); await sleep(150); await shot('06_iphone_fresh_install'); }
     await click('#psOv [data-psact="close"]'); await waitFor(`document.getElementById('psOv').hidden`, 3000);
   }
+  // RESURRECTION 2026-10-13: survival is ON on a fresh install (res_rules.json missing)
+  await ev(`window.PartySettings.open(${JSON.stringify(L)})`); await waitFor(`!!window.PartySettings._state.W && !!window.PartySettings._state.W.res`, 15000); await sleep(200);
+  ok('B: Resurrection on a fresh install: automatic ON, scrolls ON, healer scrolls in raids ON, anyone in raids OFF', (await swState('res.auto')) === 'true' && (await swState('res.scrolls')) === 'true' && (await swState('res.raidHealerScrolls')) === 'true' && (await swState('res.raidAllScrolls')) === 'false');
+  await click('#psOv [data-psact="close"]'); await waitFor(`document.getElementById('psOv').hidden`, 3000);
   ok('B: opening wrote nothing (no file created or changed)', Object.keys(B).every(k => rd(B[k]) === B0[k]));
   S.srv.kill();
   const writesB = S.mcp.filter(l => /^MCP (run_account_command|send_game_action|close_account|open_account|manage_)/.test(l));

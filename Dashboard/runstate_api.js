@@ -32,6 +32,12 @@ function runEffective(j, me, leader) {
 }
 function runStartPlan(x) {
   const s = x || {}, sp = s.spot && typeof s.spot === 'object' ? s.spot : null, solo = !!s.solo;
+  // PLAN-2026-10-13: a plan that is switched on and not finished = Start runs the plan (x.plan = planStartInfo)
+  if (s.plan && s.plan.on && s.plan.left > 0) {
+    if (s.plan.running) return { act: 'already', solo, text: `already running your plan (${s.plan.text}) — nothing new started` };
+    if (s.plan.status === 'waiting') return { act: 'plan', solo, text: `your plan waits for you at ${s.plan.text} — press Continue in 📋 Plan` };
+    return { act: 'plan', solo, text: `your plan${s.plan.name ? ' "' + s.plan.name + '"' : ''}: ${s.plan.text}` };
+  }
   if (s.busy) return { act: 'already', solo, text: `already running (${s.busy}) — nothing new started` };
   if (s.circuit && s.circuit.on && Number(s.circuit.bosses) > 0) return { act: 'circuit', solo, text: `the raid circuit (${s.circuit.bosses} boss${Number(s.circuit.bosses) === 1 ? '' : 'es'} on its list)` };
   const ns = sp && sp.nonstop ? ' — nonstop: no automatic town / supply trips' : '';
@@ -52,7 +58,16 @@ function startPlanFor(ctx, leader, solo) {
   let circuit = null;
   try { const rc = rj('raid_circuits.json', null), p = rc && rc.parties ? rc.parties[leader] : null; if (p) { const on = Object.assign({ on: false }, rc.defaults || {}, p).on === true; circuit = { on, bosses: (Array.isArray(p.bosses) ? p.bosses : []).filter(b => b != null && !(typeof b === 'object' && b.off === true)).length }; } } catch (e) { }
   const spots = rj('party_spots.json', {}) || {};
-  return runStartPlan({ circuit, spot: spots[leader] || null, solo: !!solo, busy: '' });
+  let plan = null;   // PLAN-2026-10-13: the party's plan as Start sees it (Dashboard/partyplan_api.js; the step text in the bots' short words)
+  try {
+    const PA = require('./partyplan_api'), P = PA.readPlans(ctx), pl = P.data && P.data.parties[leader];
+    if (pl && pl.steps.length) {
+      const PLg = require('./planlogic'), prog = PA.readProgress(ctx, leader) || {}, idx = PLg.planCursor(pl, prog), n = pl.steps.length;
+      plan = { on: !!pl.on, name: pl.name, n, left: Math.max(0, n - idx), idx, status: String(prog.status || 'idle'), running: false,
+        text: idx < n ? `step ${idx + 1}/${n}: ${PLg.stepText(pl.steps[idx], {})}` : 'finished' };
+    }
+  } catch (e) { }
+  return runStartPlan({ circuit, spot: spots[leader] || null, solo: !!solo, busy: '', plan });
 }
 /** the parties (leader -> member names): from the bots' state files (party = teamMap), plus parties known only from swarm.config.json */
 function partiesOf(ctx, chars) {

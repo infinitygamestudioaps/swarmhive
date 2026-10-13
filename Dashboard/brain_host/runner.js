@@ -85,7 +85,7 @@ class Runner {
     if (C) return C;
     const runner = this, mirror = new Mirror(name); mirror.now = () => this.clock.now();
     let link = new NullLink();
-    const linkRef = { connected: () => link.connected(), call: (f, a, w, fns) => link.call(f, a, w, fns), set: (p, v) => link.set(p, v), watch: (k, key) => link.watch(k, key) };
+    const linkRef = { connected: () => link.connected(), call: (f, a, w, fns) => link.call(f, a, w, fns), callAck: (f, a) => link.callAck(f, a), set: (p, v) => link.set(p, v), watch: (k, key) => link.watch(k, key) };
     const invoke = this.makeInvoke(name, () => C && C.ctx);
     const timers = this.clock.forOwner(name, (e) => this.noteError(`${name} timer`, e), invoke);
     const host = createHost({ name, accountId: accountId || `brain:${name}`, mirror, link: linkRef, timers, clock: this.clock, Date: makeDate(this.clock), vfs: this.vfs, bus: this.bus,
@@ -123,6 +123,7 @@ class Runner {
     C.attachedAt = this.clock.now(); C.awaitSt = true;   // App events for this context wait for its first state report (injectFor)
     try { C.host.onAttach(); } catch (e) { this.noteError(`${C.name} onAttach`, e); }
     L.write({ a: 'resync' });
+    if (this.pushFor(C)) L.write({ a: 'cfg', push: true });   // ENGINELAT PUSH (opt-in per character: brain_host.json "agentPush")
     this.linkState(C, true);                         // a brain account (again): the pool / every worker's brain list
     if (this.o.bridge) this.bridgeHello();
     return L;
@@ -195,6 +196,34 @@ class Runner {
     if (this.o.bridge && !quiet) this.bridgeHello();
     return true;
   }
+  // ---------------------------------------------------------------- ENGINELAT-2026-10-13
+  /** PUSH opt-in: o.agentPush = true (everybody) | [names] | false/undefined (nobody) */
+  pushFor(C) { const p = this.o.agentPush; return p === true || (Array.isArray(p) && p.includes(C.name)); }
+  /** live switch (pool: brain_host.json "agentPush" changed): tell every connected agent its push state */
+  setAgentPush(p) {
+    const old = this.o.agentPush; this.o.agentPush = p;
+    for (const C of this.ctxs.values()) { const was = old === true || (Array.isArray(old) && old.includes(C.name)), now = this.pushFor(C); if (was !== now && C.link.connected()) C.link.write({ a: 'cfg', push: now }); }
+  }
+  /** PARTY HOT: while anyone of this runner's contexts (pool: one worker = one party) fights, every agent of it keeps fast ticks (healers / casters
+   *  waiting for their first order no longer sit in calm 250 ms / sleep 1 s ticks). Hint every hotEveryMs, held hotHoldMs after the last fight. */
+  partyHot() {
+    if (this.o.partyHot === false) return;
+    const t = Date.now(); let fight = false;
+    for (const C of this.ctxs.values()) { const m = C.mirror; if (m && m.fl && (m.fl.IsInCombat || m.fl.IsAttacking || (m.me && m.me.IsCasting))) { fight = true; break; } }
+    if (fight) this.hotUntil = t + (this.o.hotHoldMs || 15000);
+    if (!this.hotUntil || t > this.hotUntil) return;
+    for (const C of this.ctxs.values()) {
+      if (!C.link.connected() || !(Array.isArray(C.mirror.agentCaps) && C.mirror.agentCaps.includes('hot'))) continue;
+      if (t - (C.hotAt || 0) < (this.o.hotEveryMs || 4000)) continue;
+      C.hotAt = t; C.link.write({ a: 'hot' }); this.st.hot = (this.st.hot || 0) + 1;
+    }
+  }
+  /** one LAT line per context every latEveryMs (brain_host.log): event delay agent -> brain, hook time, ping round trip */
+  latLog() {
+    const t = Date.now(), every = this.o.latEveryMs || 300000;
+    if (!this.latAt) { this.latAt = t; return; } if (t - this.latAt < every) return; this.latAt = t;
+    for (const C of this.ctxs.values()) { const s = latSum(C); if (s) this.log(`LAT ${C.name} ${s} rtt=${C.mirror.rtt == null ? '-' : C.mirror.rtt} hot=${C.hotAt ? Math.round((t - C.hotAt) / 1000) + 's ago' : '-'}`); }
+  }
   sweepLinks() { for (const C of Array.from(this.ctxs.values())) this.linkState(C); }
   handle(sock) {
     sock.setNoDelay(true); sock.setEncoding('utf8');
@@ -224,7 +253,7 @@ class Runner {
     const C = getC(); if (!C || C.disposed) return;
     switch (m.t) {
       case 'st': this.st.stateMsgs++; this.st.stateBytes += bytes; C.mirror.apply(m, bytes); if (C.awaitSt) this.flushHeld(C); break;
-      case 'ev': this.st.events++; C.host.dispatch(String(m.h), Array.isArray(m.a) ? m.a : [], C.ctx); break;
+      case 'ev': { this.st.events++; const t0 = Date.now(); if (m.at) latAdd(C, 'ev', t0 - Number(m.at)); C.host.dispatch(String(m.h), Array.isArray(m.a) ? m.a : [], C.ctx); const d = Date.now() - t0; if (d >= 2) latAdd(C, 'hook', d); break; }   // ENGINELAT: ev = L2Swarm handed it to the agent -> here; hook = the handler's own time
       case 'ae': C.host.appEvent(String(m.name), m.d); break;
       case 'res': getL() && getL().onResult(m); break;
       case 'cb': getL() && getL().onCallback(m); break;
@@ -252,7 +281,7 @@ class Runner {
     const pingMs = this.o.pingMs === undefined ? 1000 : Number(this.o.pingMs) || 0;
     if (pingMs > 0) {                                  // on the runner's clock: virtual time in the simulator (agents measure silence on it too)
       this.pingSeq = 0; this.pingT = this.clock.forOwner('runner:ping', (e) => this.noteError('ping', e));
-      this.pingT.setInterval(() => { for (const C of this.ctxs.values()) { try { if (C.link.connected()) { const id = ++this.pingSeq; C.pingOut = { id, at: Date.now() }; C.link.write({ a: 'ping', id }); } } catch (e) { } } }, pingMs);
+      this.pingT.setInterval(() => { for (const C of this.ctxs.values()) { try { if (C.link.connected()) { const id = ++this.pingSeq; C.pingOut = { id, at: Date.now() }; C.link.write({ a: 'ping', id }); } } catch (e) { } } try { this.partyHot(); this.latLog(); } catch (e) { this.noteError('partyHot', e); } }, pingMs);
     }
     if (this.o.port === null) { this.log(`brain host (headless, pid ${process.pid}) ready`); return Promise.resolve(this); }   // worker pool: the main thread owns the sockets
     return new Promise((res, rej) => {
@@ -341,6 +370,9 @@ function appEventNames(src) {
   for (const m of src.matchAll(/(['"`])(swarm\.[a-z][A-Za-z0-9._:-]*)\1/g)) set.add(m[2]);   // names held in variables / ternaries (emit(ev, data))
   return Array.from(set).filter(n => !/\.(js|json|log|txt)$/i.test(n)).sort();
 }
+// ENGINELAT: latency samples per context (bounded reservoir), summarised + cleared by latSum
+function latAdd(C, k, ms) { const L = C.lat || (C.lat = {}); const a = L[k] || (L[k] = []); const v = Math.max(0, Math.round(ms)); if (a.length < 500) a.push(v); else a[Math.floor(Math.random() * 500)] = v; }
+function latSum(C) { const L = C.lat || {}; const out = []; for (const k of Object.keys(L)) { const a = L[k].sort((x, y) => x - y); if (a.length) out.push(`${k}=${a[a.length >> 1]}/${a[Math.floor(a.length * 0.95)]}/${a[a.length - 1]}(${a.length})`); } C.lat = {}; return out.join(' '); }
 function quickHash(o) { const s = JSON.stringify(o); let h = 0; for (let i = 0; i < s.length; i += 7) h = (h * 31 + s.charCodeAt(i)) | 0; return h + ':' + s.length; }
 
 module.exports = { Runner, quickHash, appEventNames };

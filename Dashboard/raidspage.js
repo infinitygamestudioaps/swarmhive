@@ -1190,7 +1190,11 @@
     if (!LISTS.p) LISTS.p = Promise.all(['unreachable', 'blocked'].map(st => api('/api/navatlas?list=' + st).catch(() => ({ rows: [] })))).then(rs => {
       const m = {};
       rs.forEach((d, i) => { const cols = d.cols || [], ki = Math.max(0, cols.indexOf('key')), wi = cols.indexOf('why'); (d.rows || []).forEach(row => { const k = String(row[ki] || ''); if (!/^raid:/.test(k)) return; m[k.slice(5)] = { status: i ? 'blocked' : 'unreachable', why: wi >= 0 ? String(row[wi] || '') : '' }; }); });
+      // OWNROUTE-2026-10-13 (owner: Nakondas showed 'atlas: blocked' on the Circuit list although his own Giran route is locked and used): a boss
+      // whose route choice is the player's own route is not 'unreachable' - the bots walk that route
+      return api('/api/routes?type=raid').then(rr => { ((rr && rr.routes) || []).forEach(r => { if (r && r.choice === 'custom' && m[String(r.id)]) delete m[String(r.id)]; }); }).catch(() => { }).then(() => {
       LISTS.map = m; LISTS.at = Date.now(); LISTS.p = null; try { onReady && onReady(); } catch (e) { }
+      });
     });
     return LISTS.map || {};
   }

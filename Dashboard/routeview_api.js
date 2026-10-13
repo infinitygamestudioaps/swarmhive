@@ -286,14 +286,17 @@ function view(ctx, q) {
 // ROUTERULES-2026-10-13 (owner: "everything must be configurable manually; nothing automatic unless you ask for it — many people play their own
 // way"): GET /api/routerules -> { rules [{ key, label, default, help }], parties [leader], own { leader: { key: bool } }, values { leader: effective } }
 // POST /api/routerules { party, key, value: true | false | null (= back to the default) } -> Scripts/data/route_rules.json (read live by swarm.js)
-const RR_BUILTIN = { openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false };   // = swarm.js RSM_RULES
+const RR_BUILTIN = { openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 600, mtStuckSec: 8 };   // = swarm.js RSM_RULES
+// MOVETOGETHER step 2 (2026-10-13): number rules + their limits (= swarm.js RSM_LIMITS); POST value = a number inside the limits
+const RR_LIMITS = { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [200, 3000], mtStuckSec: [3, 60] };
+const rrOk = (k, v) => typeof v === typeof RR_BUILTIN[k] && (typeof v !== 'number' || (isFinite(v) && (!RR_LIMITS[k] || (v >= RR_LIMITS[k][0] && v <= RR_LIMITS[k][1]))));
 function rrFile(ctx) { return process.env.SWARM_ROUTERULES_FILE || path.join(ctx.DATA, 'route_rules.json'); }   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
 function rrRead(ctx) { const f = J(rrFile(ctx)) || {}; f.rules = Array.isArray(f.rules) ? f.rules : []; f.parties = f.parties && typeof f.parties === 'object' ? f.parties : {}; return f; }
-function rrEffective(f, party) { const o = Object.assign({}, RR_BUILTIN); f.rules.forEach(r => { if (r && r.key in RR_BUILTIN && typeof r.default === 'boolean') o[r.key] = r.default; }); const put = (x) => { if (x) Object.keys(RR_BUILTIN).forEach(k => { if (typeof x[k] === 'boolean') o[k] = x[k]; }); }; put(f.defaults); put(f.parties[party]); return o; }
+function rrEffective(f, party) { const o = Object.assign({}, RR_BUILTIN); f.rules.forEach(r => { if (r && r.key in RR_BUILTIN && rrOk(r.key, r.default)) o[r.key] = r.default; }); const put = (x) => { if (x) Object.keys(RR_BUILTIN).forEach(k => { if (rrOk(k, x[k])) o[k] = x[k]; }); }; put(f.defaults); put(f.parties[party]); return o; }
 function rrView(ctx) {
   const f = rrRead(ctx), cfg = J(path.join(ctx.ROOT, 'swarm.config.json')) || { accounts: [] };
   const parties = [...new Set((cfg.accounts || []).map(a => a.party).filter(Boolean))].sort();
-  const rules = Object.keys(RR_BUILTIN).map(k => Object.assign({ key: k, label: k, default: RR_BUILTIN[k], help: '' }, f.rules.find(r => r && r.key === k) || {}));
+  const rules = Object.keys(RR_BUILTIN).map(k => Object.assign({ key: k, label: k, default: RR_BUILTIN[k], help: '' }, RR_LIMITS[k] ? { type: 'number', min: RR_LIMITS[k][0], max: RR_LIMITS[k][1] } : {}, f.rules.find(r => r && r.key === k) || {}));
   return { rules, parties, own: f.parties, values: Object.fromEntries(parties.map(p => [p, rrEffective(f, p)])) };
 }
 async function handle(req, res, url, ctx) {
@@ -307,7 +310,8 @@ async function handle(req, res, url, ctx) {
         const v0 = rrView(C), party = String(b.party || ''), key = String(b.key || '');
         if (!v0.parties.includes(party)) { ctx.json(res, 400, { error: 'unknown party ' + party }); return true; }
         if (!(key in RR_BUILTIN)) { ctx.json(res, 400, { error: 'unknown rule ' + key }); return true; }
-        if (!(b.value === true || b.value === false || b.value === null)) { ctx.json(res, 400, { error: 'value must be true, false or null' }); return true; }
+        if (RR_LIMITS[key]) { if (typeof b.value === 'string' && b.value.trim() !== '') b.value = Number(b.value); if (!(b.value === null || rrOk(key, b.value))) { ctx.json(res, 400, { error: `${key}: a number from ${RR_LIMITS[key][0]} to ${RR_LIMITS[key][1]}, or null (= back to the default)` }); return true; } }
+        else if (!(b.value === true || b.value === false || b.value === null)) { ctx.json(res, 400, { error: 'value must be true, false or null' }); return true; }
         const f = rrRead(C), own = Object.assign({}, f.parties[party] || {});
         if (b.value === null) delete own[key]; else own[key] = b.value;
         if (Object.keys(own).length) f.parties[party] = own; else delete f.parties[party];
@@ -324,4 +328,4 @@ async function handle(req, res, url, ctx) {
   catch (e) { ctx.json(res, 500, { error: 'routeview: ' + e.message }); }
   return true;
 }
-module.exports = { rrView, rrEffective, RR_BUILTIN, handle, view, resolve, obstaclesOf, itemInfo, questTargets, atlasRoute, quests };   // ROUTESWITCH-2026-10-13: + atlasRoute, quests (Dashboard/routestore.js)
+module.exports = { rrView, rrEffective, RR_BUILTIN, RR_LIMITS, handle, view, resolve, obstaclesOf, itemInfo, questTargets, atlasRoute, quests };   // ROUTESWITCH-2026-10-13: + atlasRoute, quests (Dashboard/routestore.js)

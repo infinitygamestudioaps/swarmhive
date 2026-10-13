@@ -68,7 +68,7 @@ function fundSanitize(input, prev) {
   };
   const out = {};
   // unknown top-level keys travel along (future fields), the known ones are rebuilt below
-  Object.keys(r).forEach(k => { if (!/^(on|town|everyMin|minGive|slack|brokeBelow|givers|defaults|parties|chars|_readme|_updated)$/.test(k) && k.length <= 40) out[k] = r[k]; });
+  Object.keys(r).forEach(k => { if (!/^(on|town|everyMin|minGive|slack|brokeBelow|givers|defaults|parties|chars|memberKeep|_readme|_updated)$/.test(k) && k.length <= 40) out[k] = r[k]; });
   out._readme = typeof old._readme === 'string' && old._readme ? old._readme : typeof r._readme === 'string' && r._readme ? r._readme.slice(0, 1000) : README;
   out.on = r.on === undefined ? true : !!r.on;
   const tw = String(r.town || 'Giran').trim(), town = TOWN_KEYS.find(t => t.toLowerCase() === tw.toLowerCase());
@@ -105,8 +105,36 @@ function fundSanitize(input, prev) {
         o.givers = { mode: pm, list: pm === 'list' ? pl : [] };
       }
     }
+    // PURSE 2026-10-13: "Leader pays his members' gear & supplies" = parties.<leader>.purse { on, leaderKeep, memberCap (0 = no cap), budget (0 = no limit) };
+    // missing = OFF (the bots' default). Amounts blank = the bots' defaults (2,000,000 / 5,000,000 / no limit).
+    if (p.purse !== undefined && p.purse !== null) {
+      const q = p.purse && typeof p.purse === 'object' && !Array.isArray(p.purse) ? p.purse : null;
+      if (!q) errors.push(`party ${k} purse: must be an object`);
+      else {
+        const pu = { on: q.on === true };
+        const lk = amt(q.leaderKeep, `party ${k} leader keeps at least`, { blank: true }), mc = amt(q.memberCap, `party ${k} at most per member`, { blank: true }), bu = amt(q.budget, `party ${k} at most per run`, { blank: true });
+        if (lk !== null) pu.leaderKeep = lk; if (mc !== null) pu.memberCap = mc; if (bu !== null) pu.budget = bu;
+        o.purse = pu;
+      }
+    }
     out.parties[k] = o;
   });
+  // PURSE 2026-10-13: the pocket money each character keeps when it buys gear, by level: [[below level, keep], ...] (missing = the bots' default
+  // 5k <20, 50k <40, 150k <60, 300k after). Rows sorted by level; the last row covers every higher level.
+  if (r.memberKeep !== undefined && r.memberKeep !== null) {
+    if (!Array.isArray(r.memberKeep) || !r.memberKeep.length || r.memberKeep.length > 20) errors.push('pocket money by level: 1 to 20 rows');
+    else {
+      const rows = [];
+      r.memberKeep.forEach((x, i) => {
+        if (!Array.isArray(x) || x.length !== 2) { errors.push(`pocket money row ${i + 1}: [below level, keep]`); return; }
+        const lv = Number(x[0]); if (!Number.isInteger(lv) || lv < 2 || lv > 999) { errors.push(`pocket money row ${i + 1}: level "${String(x[0]).slice(0, 10)}" (2 to 999)`); return; }
+        const kp = amt(x[1], `pocket money below level ${lv}`); rows.push([lv, kp]);
+      });
+      rows.sort((a, b) => a[0] - b[0]);
+      if (rows.some((x, i) => i && x[0] === rows[i - 1][0])) errors.push('pocket money: the same level twice');
+      out.memberKeep = rows;
+    }
+  }
   out.chars = {};
   const C = r.chars && typeof r.chars === 'object' && !Array.isArray(r.chars) ? r.chars : {};
   if (Object.keys(C).length > 1000) errors.push('characters: at most 1000');
@@ -127,7 +155,9 @@ function info(ctx) {
   const member = (n) => {
     const s = states[n] || {}, x = Number(s.x), y = Number(s.y);
     return { name: n, adena: s.adena != null && isFinite(Number(s.adena)) ? Number(s.adena) : null, online: s.ageSec != null && s.ageSec <= 90, ageSec: s.ageSec != null ? s.ageSec : null,
-      level: s.level != null ? Number(s.level) : null, cls: s.cls || '', town: Number.isFinite(x) && Number.isFinite(y) && (x || y) ? townNear(x, y) : '' };
+      level: s.level != null ? Number(s.level) : null, cls: s.cls || '', town: Number.isFinite(x) && Number.isFinite(y) && (x || y) ? townNear(x, y) : '',
+      // PURSE 2026-10-13 (swarm_state.purse): what its planned gear upgrades miss + its pocket money; the leader's copy carries the party rule as the bot reads it
+      purse: s.purse && typeof s.purse === 'object' ? { need: Number(s.purse.need) || 0, want: Number(s.purse.want) || 0, keep: Number(s.purse.keep) || 0, grade: String(s.purse.grade || ''), lock: !!s.purse.lock, auto: s.purse.auto !== false, rule: s.purse.rule || null } : null };
   };
   const P = parties(ctx).map(({ leader, names }) => ({ leader, members: names.map(member) }));
   const CL = clanLeader(ctx, cfg);
@@ -142,7 +172,7 @@ function bad(code, error, extra) { return Object.assign({ code, error }, extra |
 function summary(a, b) {
   const ch = [], f = (v) => v === undefined ? '-' : JSON.stringify(v);
   ['on', 'town', 'everyMin', 'minGive', 'slack', 'brokeBelow'].forEach(k => { if (f(a[k]) !== f(b[k])) ch.push(`${k} ${f(a[k])}->${f(b[k])}`); });
-  ['givers', 'defaults'].forEach(k => { if (f(a[k]) !== f(b[k])) ch.push(`${k} ${f(b[k])}`); });
+  ['givers', 'defaults', 'memberKeep'].forEach(k => { if (f(a[k]) !== f(b[k])) ch.push(`${k} ${f(b[k])}`); });
   const keys = (o) => Object.keys(o || {});
   new Set(keys(a.parties).concat(keys(b.parties))).forEach(k => { if (f((a.parties || {})[k]) !== f((b.parties || {})[k])) ch.push(`party ${k} ${f((b.parties || {})[k])}`); });
   new Set(keys(a.chars).concat(keys(b.chars))).forEach(k => { if (f((a.chars || {})[k]) !== f((b.chars || {})[k])) ch.push(`${k} ${f(((b.chars || {})[k] || {}).target)}`); });

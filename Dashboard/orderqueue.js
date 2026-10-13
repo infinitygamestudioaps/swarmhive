@@ -106,7 +106,8 @@ function nudgeDue(e, m, win, now) {
 }
 
 // ---- file side ----------------------------------------------------------------------------------------------------------------
-function readJson(f) { try { let t = fs.readFileSync(f, 'utf8'); if (t.charCodeAt(0) === 0xFEFF) t = t.slice(1); return JSON.parse(t); } catch (e) { return null; } }
+let FSC = null; try { FSC = require("./fscache"); } catch (e) { }   // DASHPERF 2026-10-13: unchanged queue files are not read again (mtime + size)
+function readJson(f) { try { let t = FSC ? FSC.readText(f) : fs.readFileSync(f, "utf8"); if (t.charCodeAt(0) === 0xFEFF) t = t.slice(1); return JSON.parse(t); } catch (e) { return null; } }
 function writeAtomic(f, obj) { const tmp = f + '.' + process.pid + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(obj, null, 1)); fs.renameSync(tmp, f); }
 const safeName = (n) => /^[A-Za-z0-9_-]{1,32}$/.test(String(n || '')) ? String(n) : null;
 
@@ -126,7 +127,9 @@ function create(o) {
     return st || (c ? c.st : null);
   }
   const win = (n, now) => windowOf(botState(n), now || Date.now());
-  const readQ = (n) => readJson(qFile(n));
+  // DASHPERF 2026-10-13: list() asked status() for every order x recipient = ~600 queue-file reads per GET /api/orders (0.7-4.6 s live):
+  // inside one list() call each character's queue file is read once (list / status only read it)
+  const readQ = (n) => { if (S.qmemo && S.qmemo.has(n)) return S.qmemo.get(n); const v = readJson(qFile(n)); if (S.qmemo) S.qmemo.set(n, v); return v; };
   function mergedFor(n, now) { const st = botState(n), w = windowOf(st, now), bo = (st && st.orders) || {}; return (e) => merge(n, e, bo[e.id], w, now); }
   function logLine(t) { try { fs.appendFileSync(path.join(dir(), 'orders.log'), new Date().toISOString() + ' ' + t + '\r\n'); } catch (e) { } if (o.log) { try { o.log(t); } catch (e) { } } }
   function noteState(n, e, m) {
@@ -213,7 +216,8 @@ function create(o) {
     return done;
   }
   /** the Orders view: newest first; filter = { names: Set | null } */
-  function list(filter, limit, now) {
+  function list(filter, limit, now) { S.qmemo = new Map(); try { return listFresh(filter, limit, now); } finally { S.qmemo = null; } }
+  function listFresh(filter, limit, now) {
     now = now || Date.now();
     const idx = index().slice().reverse(), out = [];
     for (const x of idx) {
