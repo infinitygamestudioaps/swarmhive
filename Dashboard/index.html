@@ -300,20 +300,58 @@ details.tact > summary b { color: var(--gold); }
 .res { font-size: var(--fs-mini); font-weight: 700; white-space: nowrap; }
 .res.ok { color: var(--ok); } .res.bad { color: var(--bad); } .res.run { color: var(--run); } .res.muted { color: var(--muted); font-weight: 400; }
 
-/* ---- compact member rows (2026-10-04: phone portrait first) ---- */
-.mem2 { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; min-width: 0; grid-template-areas: "ic top xp" "ic bars bars" "ic task ad";
-  gap: 1px 6px; align-items: center; padding: 3px 6px; border: 1px solid var(--line); background: var(--box); cursor: pointer; }
+/* ---- compact member rows (2026-10-04: phone portrait first) ----
+   PARTY LAYOUT 2026-10-13 (user 09:56: "the formation of parties respecting the width ... on wide screens HP and MP fill the entire width ...
+   on mobile all fields need their own width; buttons and labels should not push the content"): a FIXED named-column grid per row. Every
+   cell has its own width (min 0 + ellipsis), the badges ('☀ Dawn', class plan) and the warning chips have their own slots, the bars are capped.
+   The layout follows the width of the member list (container 'mem'), not the screen: narrow lists (phone, map beside the rows, 2+ columns of
+   rows) use the 'narrow' areas, a list >= 420 px the 'wide' areas; a very wide party card puts the rows in 2 / 3 columns (container pcard below). */
+.members { container: mem / inline-size; display: grid; gap: 3px 6px; align-content: start; grid-template-columns: minmax(0, 1fr); }
+.mem2 { display: grid; min-width: 0; gap: 1px 6px; align-items: center; padding: 3px 6px; border: 1px solid var(--line); background: var(--box); cursor: pointer;
+  grid-template-columns: 24px 24px minmax(0, 1fr) 50px 54px;
+  grid-template-areas: "ic lvl nm xp ad" "ic bars bars eta eta" "ic task task bdg bdg" "ic wrn wrn wrn wrn"; }
+.mem2:has(> .bdg:empty) { grid-template-areas: "ic lvl nm xp ad" "ic bars bars eta eta" "ic task task task task" "ic wrn wrn wrn wrn"; }
+.mem2:has(> .wrn:empty) { grid-template-areas: "ic lvl nm xp ad" "ic bars bars eta eta" "ic task task bdg bdg"; }
+.mem2:has(> .wrn:empty):has(> .bdg:empty) { grid-template-areas: "ic lvl nm xp ad" "ic bars bars eta eta" "ic task task task task"; }
+.mem2 > .wrn:empty, .mem2 > .bdg:empty, .mem2 > .eta:empty { display: none; }
+.mem2:has(> .eta:empty) > .bars { grid-column: 2 / -1; }   /* no time-to-level text: the bars take its place (still capped) */
+@container mem (min-width: 420px) {
+  .mem2 { grid-template-columns: 26px 26px minmax(0, 1fr) 112px 54px 60px;
+    grid-template-areas: "ic lvl nm bdg xp ad" "ic bars bars bars eta eta" "ic task task task wrn wrn"; }
+  .mem2:has(> .bdg:empty) { grid-template-areas: "ic lvl nm nm xp ad" "ic bars bars bars eta eta" "ic task task task wrn wrn"; }
+  .mem2:has(> .wrn:empty) { grid-template-areas: "ic lvl nm bdg xp ad" "ic bars bars bars eta eta" "ic task task task task task"; }
+  .mem2:has(> .wrn:empty):has(> .bdg:empty) { grid-template-areas: "ic lvl nm nm xp ad" "ic bars bars bars eta eta" "ic task task task task task"; }
+}
+.mem2 > * { min-width: 0; }
 .mem2 .ic { grid-area: ic; align-self: start; } .mem2 .ic .gi.role { width: 24px; height: 24px; }
-.mem2 .top { grid-area: top; display: flex; align-items: center; gap: 4px; min-width: 0; white-space: nowrap; font-size: var(--fs-body); }
-.mem2 .top .n { font-weight: 700; color: #f1e7cb; } .mem2 .top .c { font-size: var(--fs-mini); color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
-.mem2 .xp { grid-area: xp; font: 700 var(--fs-mini) Consolas, monospace; color: var(--gold); white-space: nowrap; }
-.mem2 .bars { grid-area: bars; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
-.mem2 .bars .gauge { --h: 7px; } .mem2 .bars .gauge span { display: none; }
-.mem2 .task { grid-area: task; font-size: var(--fs-cap); color: #e9dfc4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.mem2 .ad { grid-area: ad; font: var(--fs-mini) Consolas, monospace; color: var(--muted); white-space: nowrap; }
-.mem2 .ad .chip { padding: 0 3px; font-size: var(--fs-mini); }
+.mem2 > .lvl { grid-area: lvl; margin: 0; min-width: 0; padding: 0; justify-self: stretch; }
+.mem2 .nm { grid-area: nm; display: flex; align-items: center; gap: 4px; overflow: hidden; white-space: nowrap; font-size: var(--fs-body); }
+.mem2 .nm .n { flex: 0 1 auto; min-width: 2.5em; overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: #f1e7cb; }
+.mem2 .nm .gi { flex: none; }
+.mem2 .nm .c { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-mini); color: var(--muted); }
+.mem2 .bdg { grid-area: bdg; display: flex; justify-content: flex-end; align-items: center; gap: 3px; overflow: hidden; white-space: nowrap; }
+.mem2 .bdg > * { flex: 0 1 auto; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; margin: 0 !important; }
+.mem2 .bdg .cpbadge .lg { display: none; } .mem2 .bdg .cpbadge .sh { display: inline; }
+.mem2 .xp { grid-area: xp; text-align: right; font: 700 var(--fs-mini) Consolas, monospace; color: var(--gold); white-space: nowrap; }
+.mem2 .ad { grid-area: ad; text-align: right; font: var(--fs-mini) Consolas, monospace; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mem2 .bars { grid-area: bars; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 100%; max-width: 420px; }
+.mem2 .bars .gauge { --h: 7px; min-width: 0; } .mem2 .bars .gauge span { display: none; }
+.mem2 .eta { grid-area: eta; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.1; }
+.mem2 .eta .le-s { margin-left: 0; }
+.mem2 .task { grid-area: task; font-size: var(--fs-cap); color: #e9dfc4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mem2 .wrn { grid-area: wrn; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 2px 3px; }
+.mem2 .wrn .chip { margin: 0; padding: 0 4px; font-size: var(--fs-mini); max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .mem2.dead { border-color: #6b3128; background: rgba(120, 30, 20, .25); } .mem2.stale { opacity: .5; } .mem2.problem { border-left: 3px solid var(--bad); }
-.mem2.fight .top .n { color: #ff9b8a; }
+.mem2.fight .nm .n { color: #ff9b8a; }
+/* GHOST SLOTS 2026-10-13: every row (real or empty) has the same minimum height, so a card is always 9 rows tall; content stays centred */
+.members > .mem2 { min-height: 70px; align-content: center; }
+@container mem (min-width: 420px) { .members > .mem2 { min-height: 60px; } }
+.mem2.ghost { display: flex; align-items: center; justify-content: center; cursor: default; background: transparent; border: 1px dashed rgba(160, 138, 90, .35); opacity: .7; }
+.mem2.ghost .gh { font-size: var(--fs-mini); color: var(--muted); letter-spacing: .5px; }
+.mem2.ghost .ghn { display: none; }
+/* phones: all free slots of a party collapse into ONE thin line ("8 free slots of 9"), no 9 long rows per party */
+@media (max-width: 480px) { .members > .mem2.ghost { min-height: 0; padding: 0 6px; } .members > .mem2.ghost:not(.gfirst) { display: none; }
+  .mem2.ghost .gh { display: none; } .mem2.ghost .ghn { display: inline; font-size: var(--fs-mini); color: var(--muted); line-height: 16px; } }
 /* LIVE CAST + ESCAPE under a member row (2026-10-08): SoE / .town / long casts as a bar, escape from a fight with a small live map */
 .mem2 .live { grid-column: 1 / -1; min-width: 0; margin-top: 3px; cursor: default; }
 .castrow { display: flex; align-items: center; gap: 5px; min-width: 0; font-size: var(--fs-cap); }
@@ -339,7 +377,28 @@ main { grid-template-columns: minmax(0, 1fr); } main > section { min-width: 0; }
 .redmap svg { max-height: none !important; touch-action: none; cursor: crosshair; }
 .pmlegend { display: flex; flex-wrap: wrap; gap: 3px 10px; font-size: var(--fs-mini); color: var(--muted); padding: 3px 6px; }
 .pmlegend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 3px; vertical-align: -1px; }
-@media (min-width: 900px) { .pwrap { display: grid; grid-template-columns: minmax(300px, 420px) 1fr; gap: 8px; align-items: start; } .pmap svg { max-height: 420px; } }
+/* PARTY LAYOUT 2026-10-13: the party cards share the width (2 columns from ~1420 px, 3 from ~2130 px); inside a card the map sits beside the rows
+   when the card is >= 680 px wide (container 'pcard'), else above them (shorter); the party buttons form a grid, the task picker its own line */
+#tab-parties { display: grid; gap: 10px; align-items: stretch; grid-template-columns: repeat(auto-fill, minmax(min(100%, 700px), 1fr)); }
+#tab-parties > :not(.win) { grid-column: 1 / -1; min-width: 0; }
+#tab-parties .win.pcard { container: pcard / inline-size; }
+.pwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; align-items: start; }
+.pwrap .pmap svg { max-height: 360px; }
+@container pcard (min-width: 680px) { .pwrap { grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); } .pwrap .pmap svg { max-height: 340px; } }
+@container pcard (min-width: 1220px) { .members { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container pcard (min-width: 1660px) { .members { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.win > .whead.phead { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; justify-content: stretch; }
+.whead.phead > h2 { min-width: 0; overflow-wrap: anywhere; }
+.whead.phead > .act { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 4px; align-items: stretch; width: 100%; }
+.whead.phead > .act > button, .whead.phead > .act > a { display: block; min-width: 0; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-left: 4px; padding-right: 4px; text-align: center; box-sizing: border-box; }
+.whead.phead > .act > button .gi, .whead.phead > .act > a .gi { vertical-align: -3px; }
+/* the Trade link looks and sits like the buttons next to it */
+.whead.phead > .act > a { display: flex; align-items: center; justify-content: center; gap: 4px; color: #efe6cf; text-decoration: none; font-size: var(--fs-cap); min-height: 26px;
+  border: 6px solid transparent; border-image: url('/icons/L2UI_CT1/Button_DF.png') 9 fill / 6px stretch; background: none; }
+@media (max-width: 760px) { .whead.phead > .act > a { min-height: 38px; font-size: var(--fs-title); } }
+.whead.phead > .act > .pdo { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 4px; min-width: 0; }
+.whead.phead > .act > .pdo > * { min-width: 0; width: 100%; max-width: none; }
+.whead.phead > .act > .pdo > button { width: auto; }
 
 /* ---- intent timeline ---- */
 .tl { display: grid; gap: 0; }
@@ -794,6 +853,14 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <div class="box"><h3>Memory watch</h3><pre class="log" id="pcMem"></pre></div>
       <div class="box"><h3>Start/stop + deploys</h3><pre class="log" id="pcCtl"></pre></div>
     </div>
+    <div class="box" style="margin-top:10px"><h3>New engine</h3>
+      <div id="pcEngine" class="muted">Loading…</div>
+      <div class="act" style="margin:8px 0">
+        <button data-eng="check" title="Dry run: lists which accounts still run swarm.js inside L2Swarm (changes nothing)">Check accounts</button>
+        <button data-eng="move" title="Stops swarm.js and starts the small agent, one account at a time">Move accounts to the new engine</button>
+      </div>
+      <pre class="log" id="pcEngineLog"></pre>
+    </div>
   </section>
   <section id="tab-char" class="win" hidden><div id="charBox"></div></section>
   <section id="tab-raid" class="win" hidden><div id="raidBox"></div></section>
@@ -818,7 +885,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
 </main>
 
 <script src="/vendor/morphdom.min.js"></script>
-<link rel="stylesheet" href="/uidialog.css"><script src="/uidialog.js"></script><!-- UIDIALOG 2026-10-10: the one shared dialog (uiConfirm / uiAlert / uiPrompt / uiChoice), before every page module -->
+<link rel="stylesheet" href="/uidialog.css"><script src="/uidialog.js"></script><script src="/mapfloors.js"></script><!-- MAP FLOORS 2026-10-13: the same-floor rule of every map (window.MapFloors) --><!-- UIDIALOG 2026-10-10: the one shared dialog (uiConfirm / uiAlert / uiPrompt / uiChoice), before every page module -->
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -936,13 +1003,34 @@ const gauge = (kind, pct, label, cls) => `<div class="gauge ${kind} ${cls || ''}
 // --- game data (real L2 icons) ---
 let GD = { items: {}, skills: {}, classes: {} };
 // underground map layer for a point (catacombs, necropolises, dungeons: z < -4500 and the region has a layer) — user 2026-10-07
+// MAP ART per floor (user 2026-10-13 10:25: "when you teleport into a catacomb or another dungeon, the map must switch by itself"): the 5 live
+// maps (party map, escape map, character mini-map, character page, live party) take every map piece from the viewer's CURRENT stable floor
+// (MapFloors.view: a teleport switches at once, stairs / slopes need 2 looks, no flicker); a floor without map art = its room outlines on the
+// dark background (never the surface art under an underground position). id = one viewer ('pmap:<leader>', 'esc:<name>', ...).
+function floorTiles(id, p, x0, y0, W, H, u) {
+  const MF = window.MapFloors, ok = !!(p && isFinite(p.x) && isFinite(p.y) && p.z != null && isFinite(p.z));
+  const lv = MF && ok ? MF.view(id, p) : null;
+  let imgs = '', plain = false;
+  for (let gx = Math.floor(x0 / MT); gx * MT < x0 + W; gx++) for (let gy = Math.floor(y0 / MT); gy * MT < y0 + H; gy++) {
+    const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, cc = gx - Math.floor(gx / 4) * 4, rr = gy - Math.floor(gy / 4) * 4;
+    const sfx = MF ? MF.tile(lv, RX, RY, ok ? p : null) : ugLayer(RX, RY, ok ? p.z : null, ok ? p.x : null, ok ? p.y : null);
+    if (sfx === null) { plain = true; continue; }
+    imgs += `<image href="/minitile/${RX}_${RY}${sfx}_${cc}_${rr}.jpg" x="${gx * MT}" y="${gy * MT}" width="${MT}" height="${MT}" preserveAspectRatio="none"/>`;
+  }
+  return { imgs: (plain && MF ? MF.plainLayer(lv, u) : '') + imgs, lv, plain, key: (lv ? lv.k : '') + '|' + (plain ? 'p' : '') };
+}
 function ugLayer(rx, ry, z, x, y) {
   const Z = (window.MAP_ZMAP || {})[rx + '_' + ry];
   if (Z && z != null) { const b = Z.find(t => +z >= t[0] && +z <= t[1] && (x == null || t.length < 7 || (x >= t[3] && y >= t[4] && x <= t[5] && y <= t[6]))); if (b) return '_L' + b[2]; }   // stacked floors (Cruma Tower ...), only inside the dungeon's area
   const L = window.MAP_LAYERS || {}; return (z != null && +z < -4500 && L[rx + '_' + ry]) ? '_L1' : '';
 }
-fetch('/api/maplayersz').then(r => r.json()).then(j => { window.MAP_ZMAP = j || {}; }).catch(() => { });
-fetch('/api/maplayers').then(r => r.json()).then(j => { window.MAP_LAYERS = j || {}; }).catch(() => { });
+// MAP FLOORS 2026-10-13: both layer tables are retried until they arrive (a page opened during a server restart kept drawing floor 2 on the
+// floor-1 map art, so floor-2 monsters looked like they stood in walls / on another floor)
+(function loadLayers(tries) {
+  Promise.all([fetch('/api/maplayersz').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }), fetch('/api/maplayers').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })])
+    .then(([z, l]) => { window.MAP_ZMAP = z || {}; window.MAP_LAYERS = l || {}; try { if (typeof TAB !== 'undefined' && TAB === 'parties' && typeof STATE !== 'undefined' && STATE) renderParties(); } catch (e) { } })
+    .catch(() => setTimeout(() => loadLayers(tries + 1), Math.min(30000, 2000 * (tries + 1))));
+})(0);
 // game data for icons / names; retried until it arrives (2026-10-10: a page open during a server restart kept "?" icons for good)
 (function loadGD(tries) {
   Promise.all(['items', 'skills', 'classes'].map(n => fetch('/gamedata/' + n + '.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })))
@@ -1024,6 +1112,7 @@ function nowLine(c) {
   if (d.escort) parts.push(d.escort.owner === c.name ? 'its own class quest — the team escorts it' : 'helping ' + d.escort.owner + ' with a class quest');
   if (d.autolevel) parts.push('leveling at ' + d.autolevel.spot + ' · ' + d.autolevel.kills5m + ' kills in 5 min');
   if (d.target) parts.push('target ' + d.target.name + ' (' + d.target.hp + '% HP)');
+  else if (d.npc) parts.push((d.npc.dist > 300 ? 'going to ' : 'at ') + d.npc.name);   // NPC TARGETS 2026-10-13
   if (d.resting) parts.push('resting');
   if (d.escaping) parts.push('using Scroll of Escape');
   if (d.trading) parts.push('trading');
@@ -1201,15 +1290,27 @@ function memberRow(c) {
     c.soe < 2 && `<span class="chip bad" title="Scroll of Escape">SoE ${c.soe}</span>`,
     c.shots <= 100 && `<span class="chip bad" title="shots">shots ${c.shots}</span>`,
     c.buffs < 10 && `<span class="chip bad" title="buffs">buffs ${c.buffs}</span>`,
-  ].filter(Boolean).join(' ');
-  const tgt = c.doing && c.doing.target ? ' · ' + c.doing.target.name + ' ' + c.doing.target.hp + '%' : '';
+  ].filter(Boolean).join('');
+  const tgt = c.doing && c.doing.target ? ' · ' + c.doing.target.name + ' ' + c.doing.target.hp + '%' : c.doing && c.doing.npc ? ' · ' + (c.doing.npc.dist > 300 ? 'going to ' : 'at ') + c.doing.npc.name : '';
+  // PARTY LAYOUT 2026-10-13 (user: "fields need their own width ... buttons and labels should not push the content"): every field has its own grid
+  // cell (icon | lvl | name + class | badges | exp | adena, then bars + time to level, then the task + a reserved warning slot); CSS block PARTY
+  // LAYOUT. The warning chips (stuck / not moving / low supplies) live in .wrn, never inside the task text. Empty cells stay EMPTY (no spaces: :empty).
+  const tc = window.PartyStatus ? PartyStatus.taskCell(c, { split: true }) : null;
+  const taskHtml = (tc && tc.html) || `<div class="task">${statusIcon(c)} ${esc(niceTask(c.task))}${esc(tgt)}</div>`;
+  const warn = ((tc && tc.chips) || '') + low;
+  const bdg = (window.ClassPlans ? ClassPlans.memberBadge(c) : '') + ssMark(c.name);
+  const eta = window.LevelEta ? LevelEta.shortHtml(c) : '';
   return `<div class="mem2 ${c.dead ? 'dead' : ''} ${live ? '' : 'stale'} ${probs ? 'problem' : ''} ${fighting ? 'fight' : ''}" data-char="${esc(c.name)}" title="Open ${esc(c.name)}">
     <div class="ic">${classIcon(c)}</div>
-    <div class="top"><span class="lvl">${c.level}</span><span class="n">${esc(c.name)}</span>${c.leader ? GI(UI.star, 'sm', 'party leader') : ''}<span class="c">${esc(c.cls)}${live ? '' : ' · offline ' + fmt(c.ageSec)}</span>${ssMark(c.name)}${window.ClassPlans ? ClassPlans.memberBadge(c) : ''}</div>
-    <div class="xp" title="experience">${window.LiveParty ? LiveParty.xpDelta(c) : ''}${(Math.round((Number(c.exp) || 0) * 10) / 10).toFixed(1)}%${window.LevelEta ? LevelEta.shortHtml(c) : ''}</div>
+    <span class="lvl" title="level">${c.level}</span>
+    <div class="nm" title="${esc(c.name + ' · ' + (c.cls || ''))}"><span class="n">${esc(c.name)}</span>${c.leader ? GI(UI.star, 'sm', 'party leader') : ''}<span class="c">${esc(c.cls)}${live ? '' : ' · offline ' + fmt(c.ageSec)}</span></div>
+    <div class="bdg">${bdg}</div>
+    <div class="xp" title="experience">${window.LiveParty ? LiveParty.xpDelta(c) : ''}${(Math.round((Number(c.exp) || 0) * 10) / 10).toFixed(1)}%</div>
+    <div class="ad" title="adena">${adenaShort(c.adena)}</div>
     <div class="bars">${gauge('hp', c.hp, 'HP ' + c.hp + '%', c.hp < 30 ? 'warn' : '')}${gauge('mp', c.mp, 'MP ' + c.mp + '%')}</div>
-    ${(window.PartyStatus && PartyStatus.taskCell(c)) || `<div class="task">${statusIcon(c)} ${esc(niceTask(c.task))}${esc(tgt)}</div>`}
-    <div class="ad">${low ? low + ' ' : ''}${adenaShort(c.adena)}</div>${liveUnder(c)}</div>`;
+    <div class="eta">${eta}</div>
+    ${taskHtml}
+    <div class="wrn">${warn}</div>${liveUnder(c)}</div>`;
 }
 // ---------- LIVE CAST + ESCAPE under a member row (user 2026-10-08 18:05 / 18:07) ----------
 // swarm_state.cast   = { kind: 'soe'|'town'|'skill'|'cc', id, skill, name, start (ISO), ms, target, ended, endedAt }  (my long cast right now)
@@ -1258,17 +1359,21 @@ function escStatus(e) {
 }
 function escMap(c, e) {
   const me = e.me; if (!me || !isFinite(me.x)) return '';
+  // MAP FLOORS 2026-10-13: only my floor (the bot already sends only monsters within 400 in height; a z, when sent, is checked here too) and the
+  // leader's dot only when he stands on my floor (else the arrow says which floor he is on)
+  const MF = window.MapFloors;
+  e = Object.assign({}, e, { mobs: (e.mobs || []).filter(m => !MF || m.z == null || MF.same(me, m, MF.MOB_DZ)) });
+  const LC = e.leader && typeof STATE !== 'undefined' && STATE && STATE.chars ? STATE.chars.find(x => x.name === e.leader.name) : null;
+  const Lpos = e.leader && LC && isFinite(LC.z) ? { x: e.leader.x, y: e.leader.y, z: LC.z } : null;
+  const leaderHere = !e.leader || !MF || !Lpos || MF.same(me, Lpos, MF.CHAR_DZ);
+  const leaderLvl = !leaderHere && Lpos ? MF.name(Lpos) : '';
   const pts = [[me.x, me.y]];
   if (e.target) { pts.push([e.target.x, e.target.y]); (e.target.path || []).forEach(p => pts.push(p)); }
   (e.mobs || []).forEach(m => { if (Math.hypot(m.x - me.x, m.y - me.y) < 1600) pts.push([m.x, m.y]); });
-  if (e.leader && e.leader.d < 3000) pts.push([e.leader.x, e.leader.y]);
+  if (e.leader && leaderHere && e.leader.d < 3000) pts.push([e.leader.x, e.leader.y]);
   let R = 700; pts.forEach(([x, y]) => { R = Math.max(R, Math.abs(x - me.x) + 250, Math.abs(y - me.y) + 250); }); R = Math.min(R, 3500);
   const W = 2 * R, x0 = me.x - R, y0 = me.y - R, u = W / 300, EDGE = x0 + W - 4 * u;   // EDGE: a label that would run past it is right-aligned instead (mobile fix 2026-10-08)
-  let imgs = '';
-  for (let gx = Math.floor(x0 / MT); gx * MT < x0 + W; gx++) for (let gy = Math.floor(y0 / MT); gy * MT < y0 + W; gy++) {
-    const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, cc = gx - Math.floor(gx / 4) * 4, rr = gy - Math.floor(gy / 4) * 4;
-    imgs += `<image href="/minitile/${RX}_${RY}${ugLayer(RX, RY, me.z, me.x, me.y)}_${cc}_${rr}.jpg" x="${gx * MT}" y="${gy * MT}" width="${MT}" height="${MT}" preserveAspectRatio="none"/>`;
-  }
+  let imgs = floorTiles('esc:' + c.name, me, x0, y0, W, W, u).imgs;   // MAP ART per floor 2026-10-13
   const label = (x, y, t, size, fill, R = x + String(t).length * (size || 10) * 0.56 * u > EDGE) => `<text x="${R ? x - 18 * u : x}" y="${y}"${R ? ' text-anchor="end"' : ''} font-size="${(size || 10) * u}" fill="${fill || '#fff'}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
   let over = '';
   (e.polys || []).forEach(p => { over += `<polygon points="${p.map(q => q[0] + ',' + q[1]).join(' ')}" fill="rgba(224,72,60,.10)" stroke="#e0483c" stroke-width="${1 * u}" stroke-dasharray="${4 * u} ${3 * u}"/>`; });
@@ -1287,10 +1392,10 @@ function escMap(c, e) {
   const col = partyColor(c.party);
   over += `<circle cx="${me.x}" cy="${me.y}" r="${7 * u}" fill="${col}" stroke="#fff" stroke-width="${2 * u}"/>` + label(me.x + 9 * u, me.y + 14 * u, c.name, 9.5);
   if (e.leader) {
-    const L = e.leader, inView = L.x > x0 && L.x < x0 + W && L.y > y0 && L.y < y0 + W;
+    const L = e.leader, inView = leaderHere && L.x > x0 && L.x < x0 + W && L.y > y0 && L.y < y0 + W;
     if (inView) over += `<circle cx="${L.x}" cy="${L.y}" r="${6 * u}" fill="#5aa9ff" stroke="#fff" stroke-width="${1.5 * u}"/>` + label(L.x + 8 * u, L.y + 4 * u, '★ ' + L.name + (L.coming ? ' (coming)' : ''), 9, '#9fd0ff');
     else { const a = Math.atan2(L.y - me.y, L.x - me.x), ex = me.x + Math.cos(a) * R * 0.85, ey = me.y + Math.sin(a) * R * 0.85;
-      over += `<line x1="${me.x}" y1="${me.y}" x2="${ex}" y2="${ey}" stroke="#5aa9ff" stroke-width="${1.5 * u}" stroke-dasharray="${3 * u} ${3 * u}" opacity=".8"/>` + label(ex - 30 * u, ey, '★ ' + L.name + ' ' + km(L.d) + (L.coming ? ' coming' : ''), 8.5, '#9fd0ff'); }
+      over += `<line x1="${me.x}" y1="${me.y}" x2="${ex}" y2="${ey}" stroke="#5aa9ff" stroke-width="${1.5 * u}" stroke-dasharray="${3 * u} ${3 * u}" opacity=".8"/>` + label(ex - 30 * u, ey, '★ ' + L.name + ' ' + km(L.d) + (leaderLvl ? ' (' + leaderLvl + ')' : '') + (L.coming ? ' coming' : ''), 8.5, '#9fd0ff'); }
   }
   return `<div class="escmap"><svg viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg></div>`;
 }
@@ -1327,15 +1432,20 @@ function loadPartyMobs(leader) {
   const p = PMOBS[leader]; if (p && Date.now() - p.at < 7000) return;
   PMOBS[leader] = { at: Date.now(), mobs: (p && p.mobs) || [] };
   // only the leader's FLOOR (2026-10-07: in Cruma Tower the monsters of floors 2 and 3 were drawn onto floor 1's map, in the walls)
-  api('/api/partymobs?name=' + encodeURIComponent(leader)).then(d => { const lc = (typeof STATE !== 'undefined' && STATE ? STATE.chars : []).find(c => c.name === leader); const lz = (lc && lc.z != null) ? +lc.z : null; PMOBS[leader] = { at: Date.now(), mobs: (d.mobs || []).filter(m => lz == null || !m.z || Math.abs(+m.z - lz) < 600), target: d.target || null }; }).catch(() => { });
+  // MAP FLOORS 2026-10-13: the server already sends only the leader's dungeon floor (Dashboard/mapfloors.js); checked here again on the latest position
+  api('/api/partymobs?name=' + encodeURIComponent(leader)).then(d => { PMOBS[leader] = { at: Date.now(), mobs: d.mobs || [], target: d.target || null }; }).catch(() => { });
 }
+window.addEventListener('mapfloors:ready', () => { try { if (TAB === 'parties' && STATE) renderParties(); } catch (e) { } });
 function partyMap(leader, list) {
   const L = list.find(c => c.name === leader) || list[0];
   if (!L || !isFinite(L.x)) return '';
   loadPartyMobs(leader);
   const col = partyColor(leader);
-  const near = list.filter(c => isFinite(c.x) && Math.hypot(c.x - L.x, c.y - L.y) < 20000);
-  const zone = L.zone && Math.hypot(L.zone.x - L.x, L.zone.y - L.y) < 30000 ? L.zone : null;
+  // MAP FLOORS (user 2026-10-13 09:37): only what is on the leader's floor / level — members, other parties, monsters, rooms, areas
+  // (Dashboard/mapfloors.js: dungeon_rooms.json floor bands; on the surface the old height rule). Members elsewhere go to the 'far away' line.
+  const MF = window.MapFloors, onLvl = (p, tol) => !MF || MF.same(L, p, tol == null ? MF.CHAR_DZ : tol);
+  const near = list.filter(c => isFinite(c.x) && Math.hypot(c.x - L.x, c.y - L.y) < 20000 && (c === L || onLvl(c)));
+  const zone = L.zone && Math.hypot(L.zone.x - L.x, L.zone.y - L.y) < 30000 && (!MF || MF.zone(L, L.zone)) ? L.zone : null;
   // ROOM POLYGON (user 2026-10-08 19:55): the room the party hunts (zone.poly, else looked up by its id in /api/dungeonmap) and the room chosen on
   // the dashboard that the party is not in yet (swarm_state.manualSpot, else party_spots.json) — on the leader's floor only
   let zpoly = zone && Array.isArray(zone.poly) && zone.poly.length >= 3 ? zone.poly : null;
@@ -1343,7 +1453,7 @@ function partyMap(leader, list) {
   const ms = L.ageSec <= 60 ? L.manualSpot : null, pe = ((PSPOT.data || {}).spots || {})[leader];
   const chosen = ms && ms.mode === 'manual' && ms.room ? { dungeon: ms.dungeon, room: ms.room, poly: ms.poly }
     : !ms && pe && pe.mode === 'manual' && pe.kind === 'rooms' && pe.roomId && pe.roomId !== 'any' ? { dungeon: pe.dungeon || pe.spot, room: pe.roomId, poly: null } : null;
-  let cpoly = chosen && !(zone && zone.room === chosen.room) && !(ms && ms.status === 'arrived') ? ((chosen.poly && chosen.poly.length >= 3) ? chosen.poly : roomPolyFor(chosen.dungeon, chosen.room)) : null;
+  let cpoly = chosen && !(zone && zone.room === chosen.room) && !(ms && ms.status === 'arrived') && !(MF && MF.room(L, chosen.room) === false) ? ((chosen.poly && chosen.poly.length >= 3) ? chosen.poly : roomPolyFor(chosen.dungeon, chosen.room)) : null;
   if (cpoly) { const cx = cpoly.reduce((a, p) => a + p[0], 0) / cpoly.length, cy = cpoly.reduce((a, p) => a + p[1], 0) / cpoly.length; if (Math.hypot(cx - L.x, cy - L.y) > 15000) cpoly = null; }
   // square view around the leader, big enough for the team + the hunting square
   let R = 2500;
@@ -1353,11 +1463,7 @@ function partyMap(leader, list) {
   if (cpoly) cpoly.forEach(p => { R = Math.max(R, Math.abs(p[0] - L.x) + 300, Math.abs(p[1] - L.y) + 300); });
   R = Math.min(R, 16000);
   const W = 2 * R, x0 = L.x - R, y0 = L.y - R, u = W / 360;
-  let imgs = '';
-  for (let gx = Math.floor(x0 / MT); gx * MT < x0 + W; gx++) for (let gy = Math.floor(y0 / MT); gy * MT < y0 + W; gy++) {
-    const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, cc = gx - Math.floor(gx / 4) * 4, rr = gy - Math.floor(gy / 4) * 4;
-    imgs += `<image href="/minitile/${RX}_${RY}${ugLayer(RX, RY, L.z, L.x, L.y)}_${cc}_${rr}.jpg" x="${gx * MT}" y="${gy * MT}" width="${MT}" height="${MT}" preserveAspectRatio="none"/>`;
-  }
+  let imgs = floorTiles('pmap:' + leader, L, x0, y0, W, W, u).imgs;   // MAP ART per floor 2026-10-13
   const label = (x, y, t, size, fill) => `<text x="${x}" y="${y}" font-size="${(size || 10) * u}" fill="${fill || '#fff'}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
   let over = '';
   if (cpoly) {
@@ -1381,12 +1487,13 @@ function partyMap(leader, list) {
   { const dn = (L.route && L.route.dungeon) || (zone && zone.room ? String(zone.name || '').split(':')[0].trim() : '') || (chosen && chosen.dungeon) || '';
     const g = dn ? graphFor(dn, () => { if (TAB === 'parties' && STATE) renderParties(); }) : null;
     // TOWN PATHS 2026-10-12 (Dashboard/townpaths.js): every street of a town in view (+ Giran's recorded routes), under the routes; it replaces the walked-town graph
-    if (window.TownPaths) { TPL = TownPaths.layer({ x0, y0, W, H: W, u }, { active: TownPaths.activeOf(L), fs: 8.5 }); over += TPL.base + TPL.labels; }
+    if (window.TownPaths && !(MF && /#/.test(MF.key(L) || ''))) { TPL = TownPaths.layer({ x0, y0, W, H: W, u }, { active: TownPaths.activeOf(L), fs: 8.5 }); over += TPL.base + TPL.labels; }
     if (g && !(g.town && window.TownPaths && TownPaths.isOn())) { const fi = L.route && isFinite(L.route.floor) && L.route.floor >= 0 ? L.route.floor : graphFloorAt(g, L.z); if (fi >= 0) over += graphLayer(g, fi, u); }
     near.forEach(c => { over += routeLayer(c, u, col, c.name === leader, label); }); }
   // ROTATION (several rooms / field areas, 2026-10-08 22:45): the other chosen ones, numbered; the current one is the gold outline above
   const MU = zone && zone.multi && Array.isArray(zone.multi.list) && zone.multi.list.length > 1 ? zone.multi : null;
   if (MU) MU.list.forEach(t => {
+    if (MF && (MU.kind === 'field' ? /#/.test(MF.key(L) || '') : MF.room(L, t.id) === false)) return;   // rooms / areas of another floor / level
     const P = MU.kind === 'field' ? fieldPolyFor(zone.region || '', t.id) : roomPolyFor(MU.place, t.id);
     if (!P) return;
     const cx = P.reduce((a, p) => a + p[0], 0) / P.length, cy = P.reduce((a, p) => a + p[1], 0) / P.length;
@@ -1405,12 +1512,13 @@ function partyMap(leader, list) {
   }
   mobsNow.forEach(m => {
     if (!(m.x > x0 && m.x < x0 + W && m.y > y0 && m.y < y0 + W)) return;
+    if (m.z != null && !m.raid && !onLvl(m, MF ? MF.MOB_DZ : 600)) return;
     if (m.raid) over += `<circle cx="${m.x}" cy="${m.y}" r="${9 * u}" fill="#f0c040" stroke="#000" stroke-width="${1.4 * u}"/>` + label(m.x - 5 * u, m.y + 4 * u, '♛', 10, '#000') + label(m.x + 12 * u, m.y + 4 * u, m.n + (m.hp != null ? ' ' + Math.round(m.hp) + '%' : ''), 10, '#f0c040');
     else over += `<circle cx="${m.x}" cy="${m.y}" r="${2.6 * u}" fill="#e0483c" stroke="#000" stroke-width="${0.6 * u}"/>`;
   });
   // OTHER PARTIES in view (user 2026-10-07: "see them on each other's maps — it is the same big map"): their colour, smaller, one label per
   // group with the party leader's name
-  const others = ((STATE && STATE.chars) || []).filter(c => !list.includes(c) && isFinite(c.x) && c.ageSec <= 120 && c.x > x0 && c.x < x0 + W && c.y > y0 && c.y < y0 + W);
+  const others = ((STATE && STATE.chars) || []).filter(c => !list.includes(c) && isFinite(c.x) && c.ageSec <= 120 && c.x > x0 && c.x < x0 + W && c.y > y0 && c.y < y0 + W && onLvl(c));
   const ogroups = [];
   others.forEach(c => {
     const pc = partyColor(c.party);
@@ -1432,7 +1540,7 @@ function partyMap(leader, list) {
   groups.forEach(g => { over += label(g.x + 7 * u, g.y + 3.5 * u, g.names.length > 3 ? g.names[0] + ' +' + (g.names.length - 1) : g.names.join(', '), 9.5); });
   if (window.PartyStatus) over += PartyStatus.mapLayer(leader, list, u);   // PARTY STATUS 2026-10-09: animated giver -> receiver line per trade
   const far = list.filter(c => !near.includes(c) && isFinite(c.x));
-  if (far.length) over += label(x0 + 6 * u, y0 + 14 * u, 'far away: ' + far.map(c => c.name + ' ' + km(Math.hypot(c.x - L.x, c.y - L.y))).join(', '), 9, '#ffd34d');
+  if (far.length) over += label(x0 + 6 * u, y0 + 14 * u, 'far away / other floor: ' + far.map(c => c.name + ' ' + (Math.hypot(c.x - L.x, c.y - L.y) < 20000 && MF ? '(' + (MF.name(c) || 'other level') + ')' : km(Math.hypot(c.x - L.x, c.y - L.y)))).join(', ').slice(0, 220), 9, '#ffd34d');
   const sm = Math.pow(10, Math.floor(Math.log10(R / 2))), sb = R / 2 > 5 * sm ? 5 * sm : R / 2 > 2 * sm ? 2 * sm : sm;
   over += `<g transform="translate(${x0 + 8 * u} ${y0 + W - 8 * u})"><line x1="0" y1="0" x2="${sb}" y2="0" stroke="#fff" stroke-width="${2 * u}"/>${label(0, -4 * u, km(sb), 9)}</g>`;
   return `<div class="pmap"><svg viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg>
@@ -1649,6 +1757,14 @@ function ssgOne(cur, m, kind, o) {
 function ssGateDecide(cur, members, kind, o) {
   o = o || {};
   if (o.enabled === false) return { state: 'enter', ok: true, why: 'the Seven Signs check is off (CONFIG.sevenSigns.blockDungeons)', until: 0, need: [], who: [] };
+  // TRY MODE (2026-10-13, tester: 'it says I need to sign with the Priest of Dawn but the party fails, yet I can manually teleport into the catacombs'):
+  // L2Toggle lets characters that are NOT signed up through the Ziggurat (seen 2026-10-07 with Dagger1 too). o.mode 'try' = go and let the
+  // Ziggurat decide; only a refusal it really gave this period (rec.denied, ssMarkDenied) closes it until the period change. No mode = the old rule.
+  if (o.mode === 'try') {
+    const den = (members || []).filter(m => { const dn = ((m && m.rec) || {}).denied; return dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind); });
+    if (den.length) return { state: 'closed', ok: false, why: 'the Ziggurat refused ' + den.map(m => m.name).join(', ') + ' this period (Seven Signs)', until: cur.nextChange || 0, need: [], who: den.map(m => m.name) };
+    return { state: 'enter', ok: true, why: 'Seven Signs gate "try": the Ziggurat decides (no sign-up needed first)', until: 0, need: [], who: [] };
+  }
   const all = (members || []).map(m => ssgOne(cur, m, kind, o));
   const closed = all.filter(a => a.state === 'closed');
   if (closed.length) {
@@ -1693,8 +1809,8 @@ function ssGateParty(party, dungeon, t) {
   const mem = (S.chars || []).filter(c => c.party === party).map(c => ({ name: c.name, rec: { cycle: c.cycle, status: c.status, denied: c.denied }, base: /1st class transfer/.test(c.why || '') }));
   if (!mem.length) return null;
   // 7 SIGNS OPT-IN 2026-10-12 (= swarm.js ssoGate): a sign-up / priest read for characters that are not enrolled = closed + the hint
-  const O = S.optin || {}, lc = (x) => String(x || '').toLowerCase(), enr = (n) => (O.chars || []).some(x => lc(x) === lc(n)) || (O.parties || []).some(x => lc(x) === lc(party));
-  let g = ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 99 });
+  const O = S.optin || {}, lc = (x) => String(x || '').toLowerCase(), enr = (n) => true || (O.chars || []).some(x => lc(x) === lc(n)) || (O.parties || []).some(x => lc(x) === lc(party));   // SSGATE2-2026-10-13: picking a catacomb = consent to its Dawn sign-up (swarm.js ssChosenDungeon)
+  let g = ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 99, mode: String(O.gate || '').toLowerCase() === 'try' ? 'try' : 'strict' });   // SSGATE2: strict = the default
   const hint = 'enroll on the 7 Signs tab for the automatic sign-up (or send !dawn)';
   if (g.state === 'signup') { const no = (g.need || []).filter(n => !enr(n)); if (no.length) g = { state: 'closed', ok: false, optin: true, why: 'competition period: ' + no.join(', ') + (no.length === 1 ? ' is' : ' are') + ' not signed up and not enrolled — ' + hint, until: 0, need: [], who: no }; }
   else if (g.state === 'check' && !mem.some(m => enr(m.name))) g = { state: 'closed', ok: false, optin: true, why: g.why + ' — nobody of the team is enrolled: ' + hint, until: 0, need: [], who: [] };
@@ -1901,7 +2017,7 @@ function dungeonPickHtml() {
   (F.links || []).forEach(l => { if (!l.at) return; const c2 = l.verified === true ? '#ff5cf0' : '#c38bd0';
     over += `<rect x="${l.at.x - 6 * u}" y="${l.at.y - 6 * u}" width="${12 * u}" height="${12 * u}" rx="${2 * u}" fill="${c2}" stroke="#fff" stroke-width="${u}"><title>${esc((l.npc || l.kind) + ' -> ' + l.toName + (l.text ? ': ' + l.text : '') + (l.verified === true ? ' (seen live)' : ''))}</title></rect>` + label(l.at.x + 8 * u, l.at.y + 4 * u, (l.npc || (l.kind === 'walk' ? 'stairs' : l.kind)) + ' → ' + l.toName + (l.verified === true ? ' ✓' : ''), PH ? 10 : 8.5, c2); });
   (F.safeSpots || []).forEach(sp => { over += `<path d="M ${sp.x - 7 * u} ${sp.y - 8 * u} h ${14 * u} v ${9 * u} l ${-7 * u} ${8 * u} l ${-7 * u} ${-8 * u} z" fill="#28c850" stroke="#fff" stroke-width="${u}"><title>${esc(sp.id + ' ' + sp.name)}</title></path>`; });
-  ((STATE && STATE.chars) || []).filter(c => isFinite(c.x) && c.ageSec <= 60 && c.x > x0 && c.x < x1 && c.y > y0 && c.y < y1 && Math.abs((c.z || 0) - zm) < 1500)
+  ((STATE && STATE.chars) || []).filter(c => isFinite(c.x) && c.ageSec <= 60 && c.x > x0 && c.x < x1 && c.y > y0 && c.y < y1 && (window.MapFloors ? MapFloors.same({ x: c.x, y: c.y, z: zm }, { x: c.x, y: c.y, z: c.z || 0 }, 1500) : Math.abs((c.z || 0) - zm) < 1500))   /* MAP FLOORS 2026-10-13: the map's floor */
     .forEach(c => { over += `<circle cx="${c.x}" cy="${c.y}" r="${4 * u}" fill="${partyColor(c.party)}" stroke="#fff" stroke-width="${u}"/>` + label(c.x + 6 * u, c.y + 4 * u, c.name, 8); });
   const R = SPK.room && rooms.find(r => r.id === SPK.room);
   const info = R ? `<b>${esc(R.name)}</b> · monsters lvl ${(R.levelRange || []).join('–')} · suits party lvl ${(R.suits || []).join('–')} · outline: ${esc(R.quality || 'circle')}${R.reachable ? '' : ' · <span class="st-dead">no walk route from the floor entry</span>'}
@@ -2039,7 +2155,7 @@ function fieldPickHtml() {
   // the focused (last tapped) area's way in from its landing
   const A = SPK.focus && areas.find(a => a.id === SPK.focus);
   if (A && A.entry && Array.isArray(A.entry.route) && A.entry.route.length > 1) over += `<polyline points="${A.entry.route.map(p => p[0] + ',' + p[1]).join(' ')}" fill="none" stroke="#9fd0ff" stroke-width="${1.6 * u}" stroke-dasharray="${5 * u} ${4 * u}"/>`;
-  ((STATE && STATE.chars) || []).filter(c => isFinite(c.x) && c.ageSec <= 60 && c.x > x0 && c.x < x1 && c.y > y0 && c.y < y1 && Math.abs((c.z || 0) - zm) < 3000)
+  ((STATE && STATE.chars) || []).filter(c => isFinite(c.x) && c.ageSec <= 60 && c.x > x0 && c.x < x1 && c.y > y0 && c.y < y1 && (window.MapFloors ? MapFloors.same({ x: c.x, y: c.y, z: zm }, { x: c.x, y: c.y, z: c.z || 0 }, 3000) : Math.abs((c.z || 0) - zm) < 3000))   /* MAP FLOORS 2026-10-13: the map's floor */
     .forEach(c => { over += `<circle cx="${c.x}" cy="${c.y}" r="${4 * u}" fill="${partyColor(c.party)}" stroke="#fff" stroke-width="${u}"/>` + label(c.x + 6 * u, c.y + 4 * u, c.name, 8); });
   const info = A ? `<b>${esc(A.name)}</b> · monsters lvl ${A.levelRange.join('–')}${A.levelAll && A.levelAll[1] > A.levelRange[1] ? ' (up to ' + A.levelAll[1] + ')' : ''} · suits party lvl ${(A.suits || []).join('–')} · ${A.spawns} monsters, ${Math.round((A.aggressiveShare || 0) * 100)} % aggressive${A.respawnSec ? ', respawn ~' + A.respawnSec + ' s' : ''}
       <div class="muted">${esc((A.monsters || []).join(', '))}</div>
@@ -2097,6 +2213,15 @@ document.addEventListener('input', (e) => {
   if (e.target.id === 'spkall') { SPK.all = e.target.checked; renderSpotPicker(); }
   if (e.target.id === 'spkstay') SPK.stay = e.target.checked;
 });
+// GHOST SLOTS (user 2026-10-13 11:30: "ghost places for a full party: a group can be up to 9 people ... so the boxes don't overlap all the
+// time"): every party card shows the party's full size (STATE.partySizes[leader] when the server sends one, else 9 = the L2 maximum): real
+// members first (offline ones stay their own dimmed row), then faint empty rows of the same height, so the cards keep one height and line up.
+const PARTY_SLOTS = 9;
+function ghostRows(leader, list) {
+  const size = Math.max(list.length, (STATE && STATE.partySizes && +STATE.partySizes[leader]) || PARTY_SLOTS);
+  const free = Math.max(0, size - list.length), a = { length: free };
+  return Array.from({ length: free }, (_, i) => `<div class="mem2 ghost${i ? '' : ' gfirst'}" aria-hidden="true" title="free party slot ${list.length + i + 1}/${size}"><span class="gh">empty slot</span>${i ? '' : `<span class="ghn">${a.length} free slot${a.length === 1 ? '' : 's'} of ${size}</span>`}</div>`).join('');
+}
 function renderParties() {
   const parties = {};
   STATE.chars.forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
@@ -2110,8 +2235,8 @@ function renderParties() {
     const queue = eq && eq.order && eq.order.length ? '<div class="queue">' + GI(UI.quest, 'sm') + ' <b>Class-quest escort</b> (one at a time, the whole party helps): ' +
       eq.order.map(n => n === eq.current ? '<b class="cur">▶ ' + esc(n) + '</b>' : esc(n)).join(' → ') + '</div>' : '';
     const alerts = list.flatMap(problems);
-    return `<div class="win">
-      <div class="whead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
+    return `<div class="win pcard">
+      <div class="whead phead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
           ${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
@@ -2124,14 +2249,14 @@ function renderParties() {
           <button data-quick="${tgt}|!formation rows|Formation in front of the landing (rows; wedge / line from the Commands sheet)" title="Line up in front of the town landing, side by side, each party its own lane">Formation</button>
           <button data-quick="${tgt}|!hunthere|Hunt here 24/7 (around the leader, no town trips; !hunthere off ends it)" title="Hunt around the spot where the leader stands now, around the clock: no supply runs, no Giran trips; after a death it comes back here">Hunt here 24/7</button>
           <button data-quick="${tgt}|!stop|STOP everything" title="Stop everything">Stop</button>
-          <select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…" style="max-width:150px"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button>
+          <div class="pdo"><select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button></div>
         </div></div>
       ${window.PartyStatus ? PartyStatus.banner(leader, list) : ''}
       ${alertsHtml(alerts, list)}
       ${queue}
       ${tacticsHtml(leader, list)}
       ${spotPickHtml(leader, list)}
-      <div class="pwrap">${partyMap(leader, list)}<div class="members">${list.map(memberRow).join('')}</div></div></div>`;
+      <div class="pwrap">${partyMap(leader, list)}<div class="members">${list.map(memberRow).join('')}${ghostRows(leader, list)}</div></div></div>`;
   }).join('') || '<div class="win muted">No characters are reporting yet. Is L2Swarm running with swarm.js loaded?</div>');
 }
 
@@ -3548,6 +3673,7 @@ function charStory(me, sc, qp) {
     lines.push([UI.quest, '', `Escort: helping ${d.escort.owner} with a class quest`]);
   }
   if (d.target) lines.push([UI.attack, 'bad', `Fighting ${d.target.name} (${d.target.hp}% HP, ${d.target.dist} away)`]);
+  else if (d.npc) lines.push([UI.menuAction, '', d.npc.dist > 300 ? `Going to ${d.npc.name} (${km(d.npc.dist)} away)` : `At ${d.npc.name}`]);   // NPC TARGETS 2026-10-13
   if (d.resting) lines.push([UI.sit, '', 'Sitting down to regenerate HP/MP']);
   if (d.escaping) lines.push([UI.soe, '', 'Using a Scroll of Escape']);
   const step = qp && qp.steps && qp.steps[qp.leg];
@@ -3559,7 +3685,8 @@ function charStory(me, sc, qp) {
   return { lines, marks };
 }
 function miniMap(me, story) {
-  const team = (STATE ? STATE.chars : []).filter(c => c.party === me.party && c.name !== me.name && c.ageSec < 6 * 3600);
+  const MF = window.MapFloors, onLvl = (p, tol) => !MF || p.z == null || MF.same(me, p, tol == null ? MF.CHAR_DZ : tol);   // MAP FLOORS 2026-10-13: my floor only
+  const team = (STATE ? STATE.chars : []).filter(c => c.party === me.party && c.name !== me.name && c.ageSec < 6 * 3600 && onLvl(c));
   // view: me + what I head for (if not absurdly far) + teammates close by
   const pts = [{ x: me.x, y: me.y }];
   story.marks.forEach(m => { if (Math.hypot(m.x - me.x, m.y - me.y) < 20000) pts.push(m); });
@@ -3569,14 +3696,8 @@ function miniMap(me, story) {
   R = Math.min(R, 14000);
   const H = 2 * R, W = H * 4 / 3, x0 = me.x - W / 2, y0 = me.y - R;
   // map pieces under the view
-  let imgs = '';
-  for (let gx = Math.floor(x0 / MT); gx * MT < x0 + W; gx++) {
-    for (let gy = Math.floor(y0 / MT); gy * MT < y0 + H; gy++) {
-      const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, c = gx - Math.floor(gx / 4) * 4, r = gy - Math.floor(gy / 4) * 4;
-      imgs += `<image href="/minitile/${RX}_${RY}${ugLayer(RX, RY, me.z, me.x, me.y)}_${c}_${r}.jpg" x="${gx * MT}" y="${gy * MT}" width="${MT}" height="${MT}" preserveAspectRatio="none"/>`;
-    }
-  }
   const u = W / 330;                                // ≈ 1 screen px on a phone: dots and labels keep the same size at every zoom
+  const imgs = floorTiles('mini:' + me.name, me, x0, y0, W, H, u).imgs;   // MAP ART per floor 2026-10-13
   const col = partyColor(me.party);
   const label = (x, y, t, cls, size) => `<text x="${x}" y="${y}" font-size="${(size || 11) * u}" class="${cls || ''}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
   // arrows to off-screen points end at the edge
@@ -3590,7 +3711,7 @@ function miniMap(me, story) {
   const inView = (p) => p.x > x0 && p.x < x0 + W && p.y > y0 && p.y < y0 + H;
   const questNpc = String((CH.qp && CH.qp.steps && CH.qp.steps[CH.qp.leg] && (CH.qp.steps[CH.qp.leg].npc || (CH.qp.steps[CH.qp.leg].to || {}).name)) || '').toLowerCase();
   const important = /gatekeeper|grocer|trader|warehouse|blacksmith|master|priest|magister|prefect|merchant|guard captain/i;
-  const npcs = ((CH.d && CH.d.npcs) || []).filter(inView);
+  const npcs = ((CH.d && CH.d.npcs) || []).filter(n => inView(n) && onLvl(n, MF ? MF.MOB_DZ : 600));
   npcs.forEach(n => {
     const isQ = questNpc && questNpc.includes(n.n.toLowerCase());
     const imp = isQ || important.test(n.t) || /gatekeeper/i.test(n.n);
@@ -3598,7 +3719,7 @@ function miniMap(me, story) {
     over += `<rect x="${n.x - 3 * u}" y="${n.y - 3 * u}" width="${6 * u}" height="${6 * u}" fill="${fill}" stroke="#000" stroke-width="${1 * u}" transform="rotate(45 ${n.x} ${n.y})"/>`;
     if (imp && npcs.length < 60 || isQ) over += label(n.x + 6 * u, n.y + 3.5 * u, n.n + (n.t ? ' · ' + n.t : ''), isQ ? 'quest' : 'npc', 9);
   });
-  ((CH.d && CH.d.mobs) || []).filter(m => !m.dead && inView(m)).forEach(m => {
+  ((CH.d && CH.d.mobs) || []).filter(m => !m.dead && inView(m) && onLvl(m, MF ? MF.MOB_DZ : 600)).forEach(m => {
     over += `<circle cx="${m.x}" cy="${m.y}" r="${3 * u}" fill="#e0483c" stroke="#000" stroke-width="${0.8 * u}"/>`;
   });
   // teammates standing together share one label ("Saint1 +3"); none on top of me
@@ -3660,8 +3781,35 @@ async function loadSystem() {
     `<br>${ram}` + (s.devDiffers === true ? '<br><span class="warn">Scripts_dev/swarm.js has changes that are not deployed yet</span>' : s.devDiffers === null ? '<br>No Scripts_dev copy yet' : ''));
   $('pcMem').textContent = (s.mem || []).slice().reverse().join('\n') || 'no entries yet';
   $('pcCtl').textContent = [...(s.ctl || []), ...(s.deploy || [])].sort().reverse().join('\n') || 'no entries yet';
+  loadEngine();
+}
+// NEW ENGINE (2026-10-13, the default): swarm.js runs in the dashboard's brain, L2Swarm accounts only run the small agent2.js.
+// Scripts/data/brain_host.json "on" + "allowAll" (every character of swarm.config.json). An updated install still has swarm.js on its
+// accounts: "Move" switches them one by one (docs/plan/tools/attach_agent.js --all --apply). Back: brain_host.json "on": false + --back.
+let ENG_POLL = null;
+async function loadEngine() {
+  let g; try { g = await api('/api/engine'); } catch (e) { if ($('pcEngine')) $('pcEngine').textContent = 'no answer (' + e.message + ')'; return; }
+  if (!$('pcEngine')) return;
+  if (g.error) { $('pcEngine').textContent = g.error; return; }
+  const who = g.allowAll ? `every character of swarm.config.json${g.except && g.except.length ? ' except ' + g.except.join(', ') : ''}` : 'the characters listed in "allow"';
+  const conn = g.connected == null ? 'brain pool not running' + (g.on ? ' (restart the dashboard if this stays)' : '') : `${g.connected} connected to the brain`;
+  const wait = g.waiting && g.waiting.length ? ` · not connected yet: ${g.waiting.slice(0, 12).join(', ')}${g.waiting.length > 12 ? ' …' : ''} (still on swarm.js? press Check)` : '';
+  patch($('pcEngine'), g.on
+    ? `<b class="st-alive">New engine ON</b> for ${esc(who)}: ${g.brain} of ${g.roster} characters · ${esc(conn)}${esc(wait)}`
+    : `<b class="st-maybe">New engine OFF</b> (Scripts/data/brain_host.json "on": false) — every account runs swarm.js inside L2Swarm`);
+  $('pcEngineLog').textContent = (g.log || []).slice().reverse().join('\n') || 'no runs yet';
+  document.querySelectorAll('#tab-pc [data-eng]').forEach(b => { b.disabled = !!g.job || !g.on; });
+  clearTimeout(ENG_POLL); if (g.job) ENG_POLL = setTimeout(loadEngine, 3000);
+}
+async function engineAction(a) {
+  if (a === 'move' && !await uiConfirm({ title: 'Move the accounts to the new engine?', body: [uiP('Each account that still runs swarm.js inside L2Swarm gets swarm.js stopped and the small agent started — one account at a time, a few seconds apart. Accounts already moved are left alone.'),
+    uiNote('Refused during a raid / Kamaloka and while the brain pool is not running. Back to the old engine: Scripts/data/brain_host.json "on": false, then attach_agent.js --back (docs/plan/INSTALL.md).')], confirmText: 'Move accounts' })) return;
+  const d = await api('/api/engine', { method: 'POST', body: JSON.stringify({ action: a }) });
+  $('msg').innerHTML = (d.ok ? GI(UI.yes, 'sm') : GI(UI.warn, 'sm')) + ' ' + esc(d.out || d.error || '');
+  setTimeout(loadEngine, 1000);
 }
 $('tab-pc').onclick = async (e) => {
+  const eng = e.target.dataset && e.target.dataset.eng; if (eng) return engineAction(eng);
   const a = e.target.dataset.sys; if (!a) return;
   if ((a === 'stop' || a === 'restart') && !await uiConfirm(a === 'stop' ? { title: 'Stop L2Swarm?', body: 'All characters log out.', confirmText: 'Stop L2Swarm', danger: true } : { title: 'Restart L2Swarm?', body: 'All characters log out and back in (about 1 min).', confirmText: 'Restart L2Swarm', danger: true })) return;
   $('msg').textContent = a + '…';
@@ -3985,11 +4133,12 @@ function renderTab() {
 // brake's phase (server.js brakeStatus <- Logs/reconnect_brake.json, written by l2swarm_ctl.ps1 every 2 min) as a banner under the header
 const BRAKE_TITLE = { watching: 'Characters lost the connection — reconnecting', paused: 'Logins paused by the reconnect brake', refused: 'Login server is refusing us — waiting',
   testing: 'Test login running', testFailed: 'Test login failed — trying again soon', serverDown: 'Game server is down', reopening: 'Logging them back in', done: 'Everyone is back in' };
-function renderBrake(B, stale) {
+function renderBrake(B, stale, cursed) {
   const el = $('brakeBar'); if (!el) return;
+  const cuHtml = (cursed || []).map(x => '<div class="bk-t" style="color:#ff6b6b">☠ ' + esc(x.holder || x.login) + ' holds the cursed weapon ' + esc(x.weapon) + ' (the server renamed it ' + esc(x.weapon) + ') — the bots cannot drive it. It is kicked from its party and anyone may kill it; it ends when it dies or the weapon expires. Never picked up again: Scripts/data/pickup_rules.json.</div>').join('');
   B = B || {}; const ph = B.phase || '';
   const names = (B.chars && B.chars.length ? B.chars : (ph ? [] : stale || []));
-  if (!ph && !names.length) { el.hidden = true; el.innerHTML = ''; return; }
+  if (!ph && !names.length) { if (cuHtml) { el.className = 'brakebar bad'; el.innerHTML = cuHtml; el.hidden = false; return; } el.hidden = true; el.innerHTML = ''; return; }
   const hm = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); };
   const inMin = (iso) => { const m = Math.round((Date.parse(iso) - Date.now()) / 60000); return m <= 0 ? 'any moment now' : 'in ' + m + ' min'; };
   const title = ph ? BRAKE_TITLE[ph] || ph : `${names.length} character${names.length === 1 ? '' : 's'} not reporting`;
@@ -4001,7 +4150,7 @@ function renderBrake(B, stale) {
   if (ph === 'done' && B.doneAt) bits.push('back at ' + hm(B.doneAt));
   const hist = (B.history || []).map(l => esc(l.replace(/^\d{4}-\d\d-\d\d /, '').replace(' brake:', ''))).join('<br>');
   el.className = 'brakebar ' + (ph === 'done' ? 'ok' : /serverDown|refused|testFailed/.test(ph) ? 'bad' : 'warn');
-  el.innerHTML = `<div class="bk-t">${ph === 'done' ? '✓' : '⚠'} ${esc(title)}${names.length ? `: <span class="bk-n">${names.map(esc).join(', ')}</span>` : ''}</div>` +
+  el.innerHTML = cuHtml + `<div class="bk-t">${ph === 'done' ? '✓' : '⚠'} ${esc(title)}${names.length ? `: <span class="bk-n">${names.map(esc).join(', ')}</span>` : ''}</div>` +
     (why ? `<div class="bk-w">${esc(why)}</div>` : '') + (bits.length ? `<div class="bk-b">${bits.join(' · ')}</div>` : '') +
     (hist ? `<details class="bk-h"><summary>What the brake did</summary><div>${hist}</div></details>` : '');
   el.hidden = false;
@@ -4012,7 +4161,8 @@ async function refresh() {
     STATE = await api('/api/state');
     const alive = STATE.chars.filter(c => c.ageSec <= 30).length;
     $('sum').textContent = `${alive}/${STATE.chars.length} characters reporting · updated ${clock(STATE.now)}`;
-    try { renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30).map(c => c.name)); } catch (e) { }
+    // CURSED 2026-10-13: a cursed weapon holder (renamed Zariche / Akamanah by the server) gets its own red line instead of 'not reporting'
+    try { const cu = STATE.cursed || [], skip = new Set(cu.map(x => x.holder).concat(cu.map(x => x.weapon), ['Zariche', 'Akamanah'])); renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30 && !skip.has(c.name)).map(c => c.name), cu); } catch (e) { }
     fillTargets();
     renderTab();
     if (TAB === 'logs' && Date.now() - LG.at > 8000) loadLogChar();
@@ -4555,7 +4705,7 @@ function roomMapSvg() {
   if (L) over += `<rect x="${L[0] - 7 * u}" y="${L[1] - 7 * u}" width="${14 * u}" height="${14 * u}" fill="#5aa9ff" stroke="#000" stroke-width="${u}"/>` + label(L[0] + 10 * u, L[1] - 8 * u, 'floor entry', 9, '#5aa9ff');
   if (P.length > 1) over += `<polyline points="${P.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="#ffd34d" stroke-width="${2.2 * u}" stroke-linejoin="round"/>`;
   P.forEach((p, i) => { const s = i === ROOMED.sel; over += `<circle data-i="${i}" cx="${p.x}" cy="${p.y}" r="${(s ? 6 : 4) * u}" fill="${s ? '#ff5a45' : '#ffd34d'}" stroke="#000" stroke-width="${0.9 * u}" style="cursor:grab"/>` + label(p.x + 6 * u, p.y - 5 * u, String(i + 1), 8, s ? '#ff5a45' : '#ffd34d'); });
-  ((STATE && STATE.chars) || []).filter(ch => isFinite(ch.x) && ch.ageSec <= 60 && ch.x > x0 && ch.x < x0 + W && ch.y > y0 && ch.y < y0 + W && Math.abs((ch.z || 0) - zm) < 1500)
+  ((STATE && STATE.chars) || []).filter(ch => isFinite(ch.x) && ch.ageSec <= 60 && ch.x > x0 && ch.x < x0 + W && ch.y > y0 && ch.y < y0 + W && (window.MapFloors ? MapFloors.same({ x: ch.x, y: ch.y, z: zm }, { x: ch.x, y: ch.y, z: ch.z || 0 }, 1500) : Math.abs((ch.z || 0) - zm) < 1500))   /* MAP FLOORS 2026-10-13: the map's floor */
     .forEach(ch => { over += `<circle cx="${ch.x}" cy="${ch.y}" r="${4 * u}" fill="${partyColor(ch.party)}" stroke="#fff" stroke-width="${u}"/>` + label(ch.x + 6 * u, ch.y + 4 * u, ch.name, 8); });
   return `<div class="pmap redmap"><svg id="rmSvg" viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice" style="cursor:crosshair;touch-action:none"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg>
     <div class="pmlegend"><span><i style="background:#5aa9ff"></i>floor entry</span><span><i style="background:#aaa"></i>computed route (dashed)</span><span><i style="background:#ffd34d"></i>your points</span><span><i style="background:#ff5a45"></i>selected</span><span style="color:#ec6a55">○ room</span><span>tap = new point after the selected one · drag a point = move it · drag the map = pan · wheel = zoom</span></div></div>`;

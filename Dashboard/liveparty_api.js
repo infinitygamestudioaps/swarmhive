@@ -9,6 +9,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const MapFloors = require('./mapfloors.js');   // MAP FLOORS 2026-10-13: the leader's dungeon floor decides which monsters are sent
 
 const MOBC = {};                    // leader -> { at, list, target, src, pending }
 
@@ -40,7 +41,7 @@ function trim(s) {
   return o;
 }
 
-async function mobsFor(leader, z, ctx) {
+async function mobsFor(leader, at, ctx) {
   const c = MOBC[leader] || (MOBC[leader] = { at: 0, list: [], target: null, src: 'none', pending: null });
   if (Date.now() - c.at > 3000 && !c.pending) {
     c.pending = (async () => {
@@ -50,7 +51,7 @@ async function mobsFor(leader, z, ctx) {
         const arr = Array.isArray(j) ? j : (j && j.mobs) || null;
         if (arr) {
           const lvlOf = (m) => +m.level || +((String(m.title || '').match(/LvL:\s*(\d+)/i) || [])[1]) || 0;
-          c.list = arr.filter(m => !m.is_dead).map(m => ({ id: m.obj_id || m.object_id || m.id || null, x: Math.round(m.x), y: Math.round(m.y), z: Math.round(m.z || 0), lvl: lvlOf(m), n: m.name,
+          c.list = arr.filter(m => !m.is_dead).map(m => ({ id: m.obj_id || m.object_id || m.id || null, x: Math.round(m.x), y: Math.round(m.y), z: m.z !== null && m.z !== undefined && isFinite(+m.z) ? Math.round(m.z) : null, lvl: lvlOf(m), n: m.name,
             hp: m.hp_percent != null ? Math.round(m.hp_percent) : null, fight: !!m.is_in_combat, ag: /\bA\b/.test(String(m.title || '')),
             tgt: m.target_id || m.target_obj_id || m.target_object_id || null }));
           c.src = 'mcp';
@@ -60,7 +61,9 @@ async function mobsFor(leader, z, ctx) {
     })();
   }
   if (c.pending) await Promise.race([c.pending, new Promise(r => setTimeout(r, 2500))]);
-  const list = c.list.filter(m => z == null || !m.z || Math.abs(m.z - z) < 600);   // only the leader's floor (Cruma Tower lesson, 2026-10-07)
+  // only the leader's floor (Cruma Tower lesson, 2026-10-07; MAP FLOORS 2026-10-13: by the dungeon_rooms.json floor bands, |dz| < 600 outside dungeons)
+  const FM = ctx.DATA ? MapFloors.load(path.join(ctx.DATA, 'dungeon_rooms.json')) : null;
+  const list = c.list.filter(m => !at || at.z == null || MapFloors.sameLevel(FM, at, m, 600));
   return { list, src: c.src, age: c.at ? Math.round((Date.now() - c.at) / 1000) : null };
 }
 
@@ -76,7 +79,7 @@ async function live(party, ctx) {
     o.intents = ctx.parseIntents(tailBytes(path.join(ctx.LOGS, 'intent_' + s.name + '.log'), 24000).slice(-60)).slice(0, 6);
     return o;
   });
-  const mobs = lead && isFinite(lead.x) && lead.ageSec < 300 ? await mobsFor(lead.name, lead.z, ctx) : { list: [], src: 'none', age: null };
+  const mobs = lead && isFinite(lead.x) && lead.ageSec < 300 ? await mobsFor(lead.name, { x: +lead.x, y: +lead.y, z: lead.z != null && isFinite(+lead.z) ? +lead.z : null }, ctx) : { list: [], src: 'none', age: null };
   // the raid target (if this party hunts one), like /api/partymobs
   let target = null;
   try {

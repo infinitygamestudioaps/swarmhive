@@ -182,6 +182,9 @@
     return Object.assign({ name: CP.name }, st || {}, m || {});
   }
   const mates = () => (CP.live ? (CP.live.members || []) : ((typeof STATE !== 'undefined' && STATE && STATE.chars) || []).filter(c => partyOfC(c) === CP.party)).filter(c => c.name !== CP.name);
+  // MAP FLOORS 2026-10-13 (user: the maps showed other floors): the map draws only what is on MY floor / level (Dashboard/mapfloors.js)
+  const onMyLevel = (p, tol) => { const MF = window.MapFloors, c = me(); return !MF || !c || p == null || p.z == null || MF.same(c, p, tol == null ? MF.CHAR_DZ : tol); };
+  const matesHere = () => mates().filter(m => onMyLevel(m));
 
   // =========================================================================================== render
   function renderAll() { renderHead(); renderLive(true); renderGear(); renderInv(); renderSkills(); renderBuffs(); renderStats(); renderOrders(); renderPrio(); }
@@ -247,6 +250,7 @@
     if (!live(c)) return { ic: UI.idle, cls: 'bad', h: '<b>not reporting</b>' };
     if (c.dead) return { ic: UI.dead, cls: 'bad', h: '<b>dead</b>' };
     const D = c.doing || {};
+    if (D.npc && D.npc.name) return { ic: UI.menuAction || UI.idle, h: `${(D.npc.dist != null && D.npc.dist > 300 ? 'going to' : 'at')} <b>${esc(D.npc.name)}</b>` };   // NPC TARGETS 2026-10-13: a visit, not a fight
     if (D.target) return { ic: UI.attack, h: `fighting <b>${esc(D.target.name)}</b> (${D.target.hp}% HP)` };
     return { ic: UI.idle, h: esc(typeof niceTask === 'function' ? niceTask(c.task) : c.task || 'idle') };
   }
@@ -625,7 +629,7 @@
     const w = walkTo(c); if (w && Math.hypot(w[0] - c.x, w[1] - c.y) < 9000) pts.push(w);
     aggroOf(c).forEach(m => pts.push([m.x, m.y]));
     if (c.tpos && isFinite(c.tpos.x)) pts.push([c.tpos.x, c.tpos.y]);
-    mates().forEach(m => { if (isFinite(m.x) && Math.hypot(m.x - c.x, m.y - c.y) < 2500) pts.push([m.x, m.y]); });
+    matesHere().forEach(m => { if (isFinite(m.x) && Math.hypot(m.x - c.x, m.y - c.y) < 2500) pts.push([m.x, m.y]); });
     const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
     const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
     const b = box(), pad = 450;
@@ -661,17 +665,17 @@
   }
   function allMobs() {
     const out = [], c = me() || {};
-    const add = (m, on) => { if (!m || !isFinite(m.x)) return; let o = out.find(x => (m.id && x.id && +x.id === +m.id) || (x.n === m.n && Math.hypot(x.x - m.x, x.y - m.y) < 80)); if (!o) { o = Object.assign({}, m, { on: [] }); out.push(o); } if (on && !o.on.includes(on)) o.on.push(on); if (m.hp != null) o.hp = m.hp; };
+    const add = (m, on) => { if (!m || !isFinite(m.x) || (!m.raid && !onMyLevel(m, 600))) return; let o = out.find(x => (m.id && x.id && +x.id === +m.id) || (x.n === m.n && Math.hypot(x.x - m.x, x.y - m.y) < 80)); if (!o) { o = Object.assign({}, m, { on: [] }); out.push(o); } if (on && !o.on.includes(on)) o.on.push(on); if (m.hp != null) o.hp = m.hp; };
     ((CP.live && CP.live.mobs) || []).forEach(m => add(m));
     ((CP.char && CP.char.mobs) || []).filter(m => !m.dead && (!isFinite(c.z) || true)).forEach(m => add(m));
-    [c].concat(mates()).forEach(p => { if (live(p) && !p.dead) aggroOf(p).forEach(a => add(a, p.name)); });
+    [c].concat(matesHere()).forEach(p => { if (live(p) && !p.dead) aggroOf(p).forEach(a => add(a, p.name)); });
     return out;
   }
   function tap(p) {
     if (!CP.view) return;
     const R = viewRect(), gx = R.x0 + p.x * R.u, gy = R.y0 + p.y * R.u;
     let best = null, bd = 18 * R.u;
-    [me()].concat(mates()).forEach(c => { if (!c || !isFinite(c.x)) return; const d = Math.hypot(c.x - gx, c.y - gy); if (d < bd) { bd = d; best = c; } });
+    [me()].concat(matesHere()).forEach(c => { if (!c || !isFinite(c.x)) return; const d = Math.hypot(c.x - gx, c.y - gy); if (d < bd) { bd = d; best = c; } });
     if (best && best.name !== CP.name) { go('#/char/' + encodeURIComponent(best.name)); return; }
     let mb = null; bd = 14 * R.u;
     allMobs().forEach(m => { const d = Math.hypot(m.x - gx, m.y - gy); if (d < bd) { bd = d; mb = m; } });
@@ -680,13 +684,17 @@
   }
   function drawMap() {
     const c = me(); if (!CP.open || !c || !isFinite(c.x)) return;
+    // MAP ART per floor 2026-10-13: a switch of floor (teleport into / out of a dungeon, floor teleporter, death -> town) re-centres the view on me
+    try { const lv0 = window.MapFloors && c.z != null && isFinite(c.z) ? MapFloors.view('cp:' + CP.name, c) : null; if (lv0 && lv0.changed && CP.view) { CP.follow = true; fit(); } } catch (e) { }
     if (!CP.view) fit(); if (!CP.view) return;
     const R = viewRect(), { x0, y0, W, H, u } = R, FS = fsMap();
     const svg = $id('cpSvg');
     svg.setAttribute('viewBox', `${x0} ${y0} ${W} ${H}`);
     const bg = $id('cpBg'); bg.setAttribute('x', x0 - W); bg.setAttribute('y', y0 - H); bg.setAttribute('width', 3 * W); bg.setAttribute('height', 3 * H);
     let key = '', imgs = '';
-    if (typeof MT !== 'undefined' && W < 90000) {
+    if (typeof MT !== 'undefined' && W < 90000 && typeof floorTiles === 'function') {   // MAP ART per floor 2026-10-13 (index.html floorTiles)
+      const T = floorTiles('cp:' + CP.name, c, x0, y0, W, H, u); imgs = T.imgs; key = T.key + (T.plain ? u.toFixed(2) : '') + imgs.length + imgs.slice(0, 120) + imgs.slice(-160);
+    } else if (typeof MT !== 'undefined' && W < 90000) {
       for (let gx = Math.floor(x0 / MT); gx * MT < x0 + W; gx++) for (let gy = Math.floor(y0 / MT); gy * MT < y0 + H; gy++) {
         const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, cc = gx - Math.floor(gx / 4) * 4, rr = gy - Math.floor(gy / 4) * 4;
         let lay = ''; try { lay = ugLayer(RX, RY, c.z, c.x, c.y); } catch (e) { }
@@ -703,7 +711,7 @@
     // hunting zone of the leader (room / area polygon or square)
     const lead = CP.live && (CP.live.members || []).find(m => m.name === CP.live.leader);
     const z = lead && lead.zone;
-    if (z && isFinite(z.x) && Math.hypot(z.x - c.x, z.y - c.y) < 20000) {
+    if (z && isFinite(z.x) && Math.hypot(z.x - c.x, z.y - c.y) < 20000 && (!window.MapFloors || MapFloors.zone(c, z))) {
       let zp = Array.isArray(z.poly) && z.poly.length > 2 ? z.poly : null;
       try { if (!zp && z.room) zp = roomPolyFor(String(z.name || '').split(':')[0].trim(), z.room); } catch (e) { }
       if (zp) { const xs = zp.map(p => p[0]), ys = zp.map(p => p[1]); s += `<polygon points="${zp.map(p => p[0] + ',' + p[1]).join(' ')}" fill="rgba(227,194,122,.12)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(Math.min(...xs), Math.min(...ys) - 6 * u, (z.area ? 'area: ' : z.room ? 'room: ' : '') + (z.name || z.room || ''), false, '#e3c27a'); }
@@ -722,14 +730,14 @@
     }
     // NPCs (from my client): shops / gatekeepers labelled
     const imp = /gatekeeper|grocer|trader|warehouse|blacksmith|master|priest|magister|merchant|guard captain/i;
-    const npcs = ((CP.char && CP.char.npcs) || []).filter(n => inV(n.x, n.y, 100));
+    const npcs = ((CP.char && CP.char.npcs) || []).filter(n => inV(n.x, n.y, 100) && onMyLevel(n, 600));
     npcs.forEach(n => {
       const fill = /gatekeeper/i.test(n.t + n.n) ? '#5aa9ff' : /grocer|trader|merchant|warehouse|blacksmith/i.test(n.t) ? '#6fd36f' : '#d8d8d8';
       s += `<rect x="${n.x - 3 * u}" y="${n.y - 3 * u}" width="${6 * u}" height="${6 * u}" fill="${fill}" stroke="#000" stroke-width="${u}" transform="rotate(45 ${n.x} ${n.y})"/>`;
       if ((imp.test(n.t) || /gatekeeper/i.test(n.n)) && npcs.length < 60 && W < 9000) s += label(n.x + 6 * u, n.y + 3.5 * u, n.n + (n.t ? ' · ' + n.t : ''), false, '#cfe2ff');
     });
     // routes / walks / escape of me (bright) and teammates (dim)
-    [c].concat(mates()).forEach(m => {
+    [c].concat(matesHere()).forEach(m => {
       if (!isFinite(m.x) || !live(m)) return;
       const mine = m.name === CP.name, r = routeOf(m), op = mine ? .95 : .4;
       if (r && !r.done) {
@@ -743,9 +751,9 @@
       if (mine && e && e.on && e.target) s += `<polyline points="${[[m.x, m.y]].concat(e.target.path && e.target.path.length ? e.target.path : [[e.target.x, e.target.y]]).map(p => p[0] + ',' + p[1]).join(' ')}" fill="none" stroke="#ffd34d" stroke-width="${2 * u}" stroke-dasharray="${6 * u} ${4 * u}"/>` + label(e.target.x + 8 * u, e.target.y - 6 * u, 'escape: ' + (e.target.label || 'safe spot'), false, '#ffd34d');
     });
     // monsters + aggro lines + target lines
-    const mobs = allMobs(), byName = {}; [c].concat(mates()).forEach(m => { byName[m.name] = m; });
+    const mobs = allMobs(), byName = {}; [c].concat(matesHere()).forEach(m => { byName[m.name] = m; });
     mobs.forEach(m => m.on.forEach(n => { const p = byName[n]; if (p && isFinite(p.x)) s += `<line x1="${m.x}" y1="${m.y}" x2="${p.x}" y2="${p.y}" stroke="#ff7a45" stroke-width="${(n === CP.name ? 2.6 : 1.3) * u}" opacity="${n === CP.name ? .95 : .55}"/>`; }));
-    [c].concat(mates()).forEach(m => {
+    [c].concat(matesHere()).forEach(m => {
       if (!live(m) || m.dead || !isFinite(m.x)) return;
       let tp = m.tpos && isFinite(m.tpos.x) ? m.tpos : null;
       if (!tp && m.doing && m.doing.target) { let bd = 1e9; mobs.forEach(o => { if (o.n !== m.doing.target.name) return; const d = Math.hypot(o.x - m.x, o.y - m.y); if (d < bd && d < 1600) { bd = d; tp = o; } }); }
@@ -761,7 +769,7 @@
     });
     // teammates (grouped labels), then me on top
     const groups = [];
-    mates().forEach(m => {
+    matesHere().forEach(m => {
       if (!isFinite(m.x) || !inV(m.x, m.y, 100)) return;
       s += `<circle cx="${m.x}" cy="${m.y}" r="${4.6 * u}" fill="${m.dead ? '#3a0d0d' : live(m) ? col : '#666'}" stroke="${live(m) && (m.combat || (m.doing && m.doing.target)) ? '#ff5a45' : '#fff'}" stroke-width="${1.3 * u}"/>`;
       if (Math.hypot(m.x - c.x, m.y - c.y) < 34 * u) return;

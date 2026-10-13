@@ -124,6 +124,7 @@
         ${period === 'validation' ? `<span>Last winner</span><b>${h(cur.winner || 'unknown')}</b>` : ''}
         <span>Next change</span><b>${h(when(cur.nextChange))}</b></div>
       <div class="muted s7-sub">${st.checkedAt ? `Priest of Dawn read ${h(ago(st.checkedAt))}${st.by ? ' by ' + h(st.by) : ''}${cur.stale ? ' (the period is carried over the Monday change)' : ''}` : 'no Priest of Dawn read yet'} · <b>${dawn}</b> of ${all.length} characters signed up with Dawn this cycle · <b>${enr}</b> enrolled</div>
+      <div class="s7-row"><button class="s7-btn gold" data-s7signall="1" ${S7.busy ? 'disabled' : ''} title="send !dawn to every party leader whose party is not fully signed up: each takes his party to the Priest of Dawn in Giran, everyone signs up with the Lords of Dawn, then they go back to what they did">☀ Sign up ALL parties now (to town + Dawn)</button></div>
       ${period === 'validation' ? '<div class="s7-warn">Seal validation period: nobody can sign up until the next change. Only characters signed up in the last competition (on the winning side) may use a Ziggurat now.</div>' : ''}
       ${period === 'unknown' ? '<div class="s7-warn">The period is not known yet: an enrolled character reads it at the Priest of Dawn, or press Sign up now.</div>' : ''}`;
     set.innerHTML = `<div class="s7-row">${sw('data-s7="stones"', d.cfg.contributeStones, d.cfg.contributeStones ? 'Hand in seal stones: on' : 'Hand in seal stones: off', 'competition period: enrolled characters that are signed up give all their seal stones to the Priest of Dawn on a town visit (points for Dawn)')}
@@ -169,6 +170,24 @@
     }
   }
   async function onClick(e) {
+    // SIGNALL 2026-10-13 (user: 'a button to send every bot back to town and sign up with Dawn'): !dawn to every party that is not fully signed up
+    const ba = e.target.closest('[data-s7signall]');
+    if (ba && S7.d) {
+      e.preventDefault();
+      const todo = (S7.d.parties || []).filter(p => p.members.some(m => m.registered !== 'dawn'));
+      if (!todo.length) { flash('Every party is signed up with Dawn this cycle already.', false); return; }
+      const body = [P(`${todo.length} part${todo.length === 1 ? 'y' : 'ies'} (${todo.map(p => p.leader).join(', ')}): each leader takes his party to the Priest of Dawn in Giran and everyone who is not signed up yet signs up with the Lords of Dawn (never Dusk).`),
+        P('This is your order: it runs even for parties that are not enrolled. Not during a raid, mission or instance; a character in a quest is skipped. Leveling resumes afterwards.')];
+      if ((S7.d.cur || {}).period === 'validation' && typeof uiWarn === 'function') body.push(uiWarn('It is the seal validation period: nobody can sign up now — the bots will only say so.'));
+      if (!(await uiConfirm({ title: 'Sign up ALL parties with Dawn now?', body, confirmText: `Send !dawn to ${todo.length} part${todo.length === 1 ? 'y' : 'ies'}`, cancelText: 'Cancel' }))) return;
+      let sent = 0, failed = [];
+      for (const p of todo) {
+        try { const rr = await api('/api/command', { method: 'POST', body: JSON.stringify({ target: 'party:' + p.leader, cmd: '!dawn' }) }); if (rr && rr.ok && rr.sent !== 0) sent++; else failed.push(p.leader); } catch (er) { failed.push(p.leader); }
+        await new Promise(res => setTimeout(res, 1500));   // the parties port to Giran a little apart
+      }
+      flash(`!dawn sent to ${sent} of ${todo.length} parties${failed.length ? ' — not taken: ' + failed.join(', ') : ''}. Results show up in the log below within a few minutes.`, failed.length > 0);
+      return;
+    }
     const b = e.target.closest('[data-s7sign]'); if (!b || !S7.d) return;
     e.preventDefault();
     const tg = b.dataset.s7sign, i = tg.indexOf(':'), kind = tg.slice(0, i), name = tg.slice(i + 1);

@@ -16,6 +16,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const { execFile } = require('child_process');
+const BHS = require('./brain_host/supervise');   // ENGINE DEFAULT (2026-10-13): a brain character's account runs agent2.js, not swarm.js
 
 const STATIC = { '/addaccount.js': 'application/javascript; charset=utf-8', '/addaccount.css': 'text/css; charset=utf-8' };
 // swarm.js ROLEKIND.kinds + 'auto' + the named roles with special routines (swarm.config.example.json "accounts" help)
@@ -364,6 +365,9 @@ async function add(ctx, b) {
   const healers = Array.isArray(cfg.healerRoles) && cfg.healerRoles.length ? cfg.healerRoles.map(String) : DEFAULT_HEALERS;
   const server = cfg.server && typeof cfg.server === 'object' ? cfg.server : {};
   const scripts = Array.isArray(cfg.scripts) && cfg.scripts.length ? cfg.scripts.map(String) : ['swarm.js'];
+  // NEW ENGINE (2026-10-13, the default): Scripts/data/brain_host.json "allowAll" = every character of swarm.config.json, so a character added
+  // here is a brain character at once (adding: true): its config gets agent2.js instead of swarm.js (never both)
+  let bhRaw = null; try { bhRaw = JSON.parse(fs.readFileSync(path.join(ctx.DATA || path.join(ctx.ROOT, 'Scripts', 'data'), 'brain_host.json'), 'utf8').replace(/^﻿/, '')); } catch (e) { }
   const rootFwd = String(ctx.ROOT).replace(/\\/g, '/');
   const created = [], failedLeaders = new Set();
   ok.sort((x, y) => (x.party === x.character ? 0 : 1) - (y.party === y.character ? 0 : 1) || (x.line || 0) - (y.line || 0));   // new leaders first
@@ -381,7 +385,7 @@ async function add(ctx, b) {
       const isLeader = r.party === r.character;
       const kindHealer = healers.includes(r.role) || r.role === 'healer';
       const o = { login: r.login, password: r.password, character: r.character, outFile: r.file, template: templateFor(ctx, cfg, r.role),
-        scripts: (mk ? [mk] : []).concat(scripts), group: groupOf(cfg, r.party), followName: isLeader ? '' : r.party, followAtk: !isLeader && !kindHealer,
+        scripts: BHS.engineScripts((mk ? [mk] : []).concat(scripts), BHS.isBrainChar(r.character, bhRaw, accountsOf(cfg), { adding: true })), group: groupOf(cfg, r.party), followName: isLeader ? '' : r.party, followAtk: !isLeader && !kindHealer,
         loginIp: server.loginIp || '', loginPort: server.loginPort || '', serverId: server.serverId != null ? server.serverId : '' };
       const out = await run(o);
       o.password = null;

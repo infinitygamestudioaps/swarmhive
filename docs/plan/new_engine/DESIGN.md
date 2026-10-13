@@ -336,7 +336,19 @@ Pick the party on the dashboard; note its characters (`swarm.config.json` `accou
    `revive` = restart that party's worker; quarantined = alert in `Logs/supervisor.log`), or restarts a pool without IPC at most every 15 min.
    The new arguments + IPC apply from the next dashboard restart. Test: `node docs/plan/tools/test_engine_ops.js`.
 
+**Since 2026-10-13 (engine default, v1.6.2) the steps above are automated** for whole installs: `Scripts/data/brain_host.json`
+`"allowAll": true` (the package default) = every character of `swarm.config.json` (+ `"allow"`, minus `"except"`; rules in
+`Dashboard/brain_host/supervise.js`, the dashboard and `pool.js --roster` re-read the roster live). Running accounts are moved one by one
+with `node docs/plan/tools/attach_agent.js --all --apply` (dashboard PC tab -> New engine; swarm.js stopped and checked stopped before each
+agent starts; refused in a live raid / Kamaloka and without a running pool); with L2Swarm stopped `SETUP.cmd -Apply` switches the account
+configs (`docs/plan/tools/engine_mode.ps1`). Until an account is moved, the dashboard supervisor treats it as an L2Swarm character (it
+restarts its swarm.js) even though the config names it. `update.ps1` migrates only an untouched old default (`engine_default.js --migrate`).
+Test: `node docs/plan/tools/test_engine_default.js`. Owner's install: an explicit `"allow"` list (no `allowAll`) keeps working unchanged.
+
 ## 13. Rollback
+
+- **Everything (2026-10-13):** `brain_host.json` `"on": false`, then `attach_agent.js --back --names A,B,... --apply` (stop the agent -
+  checked - then start swarm.js), or `SETUP.cmd -Apply` with L2Swarm stopped. One character with `allowAll`: put it in `"except"`.
 
 - **One character:** `manage_account_scripts stop agent2.js` (or its `agent2_<Name>.js`), then `start swarm.js` on it (seconds; swarm.js resumes
   from its Logs files). The brain stops counting that account as a brain account ~10-15 s after its agent went (runner `linkGraceMs` +

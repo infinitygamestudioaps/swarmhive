@@ -13,10 +13,10 @@ How a command travels (server.js `commandPlan`):
 - **@login / @logout**: MCP open_account (the character's config) / close_account.
 - Passwords are never read or set (any / command naming a password is refused); `/config save` never takes a file name (it would re-point the account).
 
-Counts: 158 catalog entries — 116 swarm (80 distinct !words = every !command swarm.js handles except the internal !ready),
+Counts: 159 catalog entries — 117 swarm (81 distinct !words = every !command swarm.js handles except the internal !ready),
 34 L2Swarm chat-box (32 distinct /words), 8 dashboard actions.
 Hidden (not offered in the command center, still typed by hand): return, clancreate, b_runmacro, farm, camp, go, raidold, career, escort, queststop_old, gear, shop, kamaold.
-Safety: 23 safe, 118 confirm, 17 destructive.
+Safety: 23 safe, 119 confirm, 17 destructive.
 
 ## Move / Travel
 
@@ -171,6 +171,7 @@ Safety: 23 safe, 118 confirm, 17 destructive.
 | `!clanlevel` | — | clan leader only | one character | needs confirm | palette · character sheet (clan leader / his party) | Clan level up now: The clan leader raises the clan level if SP/adena/items allow. |
 | `!clanlevel auto {on}` | <on>: onoff | clan leader only | one character | needs confirm | palette · character sheet (clan leader / his party) | Clan level automatic on/off: Automatic clan level-ups. |
 | `!clanquest {quest}[ {step}]` | <quest>: clanquest, [step]: text | clan leader only | one character, party | needs confirm | palette · party sheet + character sheet (clan leader / his party) | Clan quest step: Run the next (or a given) step of a clan level quest; "reset" starts over. Hunt steps are run by a party leader. |
+| `!clanhand` | — | every window that hears it | one character, several characters, party | needs confirm | palette · party sheet + character sheet | Clan level item to the clan leader now: The character walks / ports to the clan leader and trades him the item the NEXT clan level needs (only as many as he still lacks). Automatic by itself when both are in a town (Clan tab switch "Clan level item hand-over"); this sends it now, wherever he is. Never in a raid / mission / instance / quest / another order of yours. |
 | `!clanskill` | — | clan leader only | one character | needs confirm | palette · character sheet (clan leader / his party) | Learn the clan focus skill: The clan leader learns the focus skill picked on the Clan tab at a village master (here or Gesto / Kusto / Angus in Giran); every clan skill needs clan level 5+. |
 | `!clanwh` | — | clan leader only | one character | needs confirm | palette · character sheet (clan leader / his party) | Look in the clan warehouse: The clan leader stops leveling, goes to the Giran warehouse, opens the clan warehouse and reports what is in it, then levels again. |
 | `!clancreate` | — | clan leader only | one character | needs confirm | **hidden** in the command center (the clan MyClan exists (it answers "already in a clan"); the Clan tab shows its own button when there is no clan); typing it still works | Create the clan: Only when there is no clan yet (the code refuses a second clan). |

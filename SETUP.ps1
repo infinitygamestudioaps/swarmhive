@@ -176,6 +176,14 @@ $commanders = @(Val $Cfg 'commanders' @()) | Where-Object { $_ }
 if ($commanders.Count) { Write-Host "   commanders (clan chat / whisper orders to every party leader): $($commanders -join ', ')" -ForegroundColor Gray }
 $ingame = @($active | Where-Object { $_.clientMode -eq 'ingame' })
 if ($ingame.Count -and $l2Client -and -not (Test-Path $l2Client)) { Warn "paths.l2Client '$l2Client' does not exist (needed for the in-game characters $(@($ingame | ForEach-Object character) -join ', '))" }
+# NEW ENGINE (2026-10-13, the default): which characters the dashboard's brain drives (their configs get agent2.js instead of swarm.js).
+# Scripts\data\brain_host.json, on a fresh package its .example.json (SETUP creates the real file from it below).
+. (Join-Path $here 'docs\plan\tools\engine_mode.ps1')
+$bhCfg = Read-BrainHost $root
+$rosterNames = @($active | Where-Object { $_.character -and $_.login } | ForEach-Object { [string]$_.character })
+$brainNames = @($rosterNames | Where-Object { Test-BrainChar $bhCfg $_ $rosterNames })
+if ($bhCfg -and $bhCfg.PSObject.Properties['__unreadable']) { Warn "$($bhCfg.__unreadable) is unreadable - the account scripts (swarm.js / agent2.js) are left as they are" }
+else { Write-Host ("   new engine: " + $(if ($brainNames.Count) { "ON for $($brainNames.Count) of $($rosterNames.Count) characters (their configs run agent2.js; switch: Scripts\data\brain_host.json)" } else { 'OFF (every config runs swarm.js; switch: Scripts\data\brain_host.json)' })) -ForegroundColor Gray }
 
 # ---------------------------------------------------------------- folders
 foreach ($d in 'Logs', 'Scripts_dev', 'Settings\backup', 'Settings\templates') {
@@ -190,10 +198,10 @@ if (-not (Test-Path $devJs) -and (Test-Path $liveJs)) {
 if ((Test-Path $devJs) -and -not (Test-Path $liveJs)) {
     Change 'folders' 'deploy Scripts_dev\swarm.js -> Scripts\swarm.js (first install; later updates go through update.ps1 / deploy_swarm.ps1)' 'copy' @($devJs, $liveJs)
 }
-# the new engine's agent (v1.6.0, OFF by default: Scripts\data\brain_host.json "on": false): deployed once so the engine can be tried later
+# the new engine's agent (the DEFAULT since 2026-10-13: Scripts\data\brain_host.json "on" + "allowAll"): every brain character's account runs it
 $devAg = Join-Path $root 'Scripts_dev\agent2.js'; $liveAg = Join-Path $root 'Scripts\agent2.js'
 if ((Test-Path $devAg) -and -not (Test-Path $liveAg)) {
-    Change 'folders' 'deploy Scripts_dev\agent2.js -> Scripts\agent2.js (new engine agent; only used when you switch the new engine on)' 'copy' @($devAg, $liveAg)
+    Change 'folders' 'deploy Scripts_dev\agent2.js -> Scripts\agent2.js (the new engine''s agent: the accounts of the brain characters run it instead of swarm.js)' 'copy' @($devAg, $liveAg)
 }
 # your data files: the package ships Scripts\data\<name>.example.json; the real file is created once and never overwritten
 foreach ($ex in @(Get-ChildItem (Join-Path $root 'Scripts\data\*.example.json') -ErrorAction SilentlyContinue)) {
@@ -283,6 +291,12 @@ function Set-AccountXml([string]$file, $a, [bool]$write) {
     if ($z -and $z.InnerText) { $leaf = Split-Path $z.InnerText -Leaf; $want = Join-Path $settings $leaf; if ((Test-Path $want) -and $z.InnerText -ne $want) { [void]$diff.Add("ZmapLocation '$($z.InnerText)' -> '$want'"); $z.InnerText = $want } }
     $sl = $o.SelectSingleNode('ScriptsList')
     if ($sl) {
+        # NEW ENGINE (2026-10-13, the default): exactly ONE driver per character. A brain character (Scripts\data\brain_host.json, rule in
+        # docs\plan\tools\engine_mode.ps1) runs agent2.js (or the agent2_<Name>.js attach_agent.js gave it) and keeps swarm.js attached but OFF
+        # (the switch back); every other character runs swarm.js and an agent it still has is switched OFF. brain_host.json unreadable: the
+        # drivers are left exactly as they are.
+        $brain = Test-BrainChar $bhCfg $a.character $rosterNames
+        $wanted = if ($null -eq $brain) { $scriptsWanted } else { Convert-EngineScripts $scriptsWanted ([bool]$brain) }
         $have = @{}
         foreach ($s in @($sl.SelectNodes('Script'))) {
             $pn = $s.SelectSingleNode('Path'); if (-not $pn) { continue }
@@ -290,7 +304,33 @@ function Set-AccountXml([string]$file, $a, [bool]$write) {
             $want = Join-Path $root "Scripts\$leaf"
             if ($pn.InnerText -ne $want) { [void]$diff.Add("Script path '$($pn.InnerText)' -> '$want'"); $pn.InnerText = $want }
         }
-        foreach ($sc in $scriptsWanted) {
+        if ($null -ne $brain) {
+            $leafOf = { param($s) $p = $s.SelectSingleNode('Path'); if ($p) { Split-Path $p.InnerText -Leaf } else { '' } }
+            $isOn = { param($s) $e = $s.SelectSingleNode('IsEnabled'); [bool]($e -and $e.InnerText -eq 'true') }
+            $setOn = {
+                param($s, [bool]$on, [string]$why)
+                $e = $s.SelectSingleNode('IsEnabled'); $v = if ($on) { 'true' } else { 'false' }
+                if (-not $e) { $e = $x.CreateElement('IsEnabled'); [void]$s.PrependChild($e) }
+                if ($e.InnerText -ne $v) { $e.InnerText = $v; [void]$diff.Add($why) }
+            }
+            $nodes = @($sl.SelectNodes('Script'))
+            $agents = @($nodes | Where-Object { (& $leafOf $_) -match '^agent2(_[A-Za-z0-9]+)?\.js$' })
+            $swarms = @($nodes | Where-Object { (& $leafOf $_) -ieq 'swarm.js' })
+            if ($brain) {
+                if ($agents.Count) {
+                    $keep = @($agents | Where-Object { & $isOn $_ } | Select-Object -First 1)
+                    $keep = if ($keep.Count) { $keep[0] } else { $agents[0] }
+                    foreach ($g in $agents) { & $setOn $g ([object]::ReferenceEquals($g, $keep)) "$(& $leafOf $g) $(if ([object]::ReferenceEquals($g, $keep)) { 'ON' } else { 'OFF (one agent per account)' }) (new engine)" }
+                    $have['agent2.js'] = $true
+                }
+                foreach ($s in $swarms) { & $setOn $s $false "swarm.js OFF (the new engine drives $($a.character): Scripts\data\brain_host.json; switch back there)" }
+            } else {
+                $agentWasOn = @($agents | Where-Object { & $isOn $_ }).Count -gt 0
+                foreach ($g in $agents) { & $setOn $g $false "$(& $leafOf $g) OFF ($($a.character) is not a new-engine character in Scripts\data\brain_host.json)" }
+                if ($agentWasOn) { foreach ($s in $swarms) { & $setOn $s $true 'swarm.js ON again (back from the new engine)' } }
+            }
+        }
+        foreach ($sc in $wanted) {
             if ($have[$sc.ToLower()]) { continue }
             $e = $x.CreateElement('Script')
             foreach ($kv in @(@('IsEnabled', 'true'), @('guid', [guid]::NewGuid().ToString()), @('Name', $sc), @('Path', (Join-Path $root "Scripts\$sc")))) { $c = $x.CreateElement($kv[0]); $c.InnerText = $kv[1]; [void]$e.AppendChild($c) }

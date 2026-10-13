@@ -5017,7 +5017,26 @@ function safeSpot() {
 // a script reload.
 var TEAMJOIN = { callAfterMs: 30000, callEveryMs: 45000, walkAfterMs: 75000, walkEveryMs: 60000, walkMax: 8000, townPortAfterMs: 180000,
   fieldGiveUpMs: 300000, offlineMs: 120000, deadSkipMs: 300000, tripNear: 3000, tripFar: 15000, tripMaxMs: 600000, tripHubAfterMs: 20000,
-  rejoinFar: 15000, rejoinAfterMs: 30000, rejoinAfterReloadMs: 8000, reloadWindowMs: 180000, rejoinGapMs: 120000, holdReuseMs: 90000 };
+  rejoinFar: 15000, rejoinAfterMs: 30000, rejoinAfterReloadMs: 8000, reloadWindowMs: 180000, rejoinGapMs: 120000, holdReuseMs: 90000,
+  // RETURN BACKOFF (2026-10-13, party Tank2: Nuker6 + Chanter3 re-tried "travel to Tank2 (181k)" every ~50 s while he stood in a
+  // Kamaloka): a failed return trip waits 10 min, then 20, 40, max 60 (same target); the count is kept in Logs/backtrip_<name>.json (reloads)
+  returnBackoffBaseMs: 600000, returnBackoffMaxMs: 3600000, returnSameTarget: 20000, returnForgetMs: 7200000, instanceZ: -7000 };
+/** How long a member waits after `fails` failed return trips to the same place before it tries again (10, 20, 40, 60 min). */
+function returnBackoffMs(fails) {
+  const f = Math.max(1, Math.floor(Number(fails) || 1));
+  return Math.min(TEAMJOIN.returnBackoffMaxMs, TEAMJOIN.returnBackoffBaseMs * Math.pow(2, Math.min(10, f - 1)));
+}
+/** The failure count after one more failed return trip. prev = { fails, failedAt, x, y } (or null), to = { x, y }, t = now. A different place
+ *  (> returnSameTarget away) or an old failure (> returnForgetMs) starts again at 1. */
+function returnFailCount(prev, to, t) {
+  if (!prev || !prev.failedAt || t - prev.failedAt > TEAMJOIN.returnForgetMs) return 1;
+  if (to && isFinite(prev.x) && isFinite(prev.y) && Math.hypot(to.x - prev.x, to.y - prev.y) > TEAMJOIN.returnSameTarget) return 1;
+  return Math.max(0, Math.floor(Number(prev.fails) || 0)) + 1;
+}
+/** Is a teammate at height z inside an instance (Kamaloka / Pailaka / ...: the far-north instance band deep underground, z < -7000) rather than
+ *  on a dungeon floor we know (Cruma, Pagan Temple, catacombs also lie that deep: onDungeonFloor = dzFloor found a floor there)?
+ *  Nobody gets into another party's instance from outside: a member does not travel there, it waits until the leader comes out. */
+function leaderInsideInstance(z, onDungeonFloor) { return z !== null && z !== undefined && isFinite(z) && Number(z) < TEAMJOIN.instanceZ && !onDungeonFloor; }
 /** Split a 'missing' list: who still counts, who is skipped (offline = no own report for offlineMs; dead for deadSkipMs). */
 function teamJoinSplit(list) {
   const keep = [], skip = [];
@@ -5068,10 +5087,12 @@ function rejoinPlan(o) {
   if ((o.farFor || 0) < (fresh ? TEAMJOIN.rejoinAfterReloadMs : TEAMJOIN.rejoinAfterMs)) return { act: 'wait', why: `far for ${Math.round((o.farFor || 0) / 1000)} s` };
   if (o.now - (o.lastAt || 0) < TEAMJOIN.rejoinGapMs) return { act: 'wait', why: 'tried less than 2 min ago' };
   if (o.leaderTown && o.leaderTown !== o.myTown) return { act: 'town', town: o.leaderTown, report: false, why: `${fresh ? 'after a restart: ' : ''}${Math.round(o.d / 1000)}k from the leader, he is in ${o.leaderTown} — joining him there` };
+  // the leader is inside an instance (2026-10-13 Tank2 in a Kamaloka): no route leads in there -> wait (no trip, no hub regroup) until he is out
+  if (o.leaderInInstance) return { act: 'wait', instance: true, why: `the leader is inside an instance (${Math.round(o.d / 1000)}k away) — waiting until he comes out` };
   // RETURN TRIP (user 2026-10-09 13:04, Chanter1 respawned in town and the whole party left Cruma floor 2 for Giran): the team is in the
   // field / a dungeon -> I travel back to it on my own (rebuff, .town -> gatekeeper -> floors / rooms -> the leader); the hub regroup only
   // when no route back exists or the last return trip failed within 10 min
-  if (!(o.returnFailedAt && o.now - o.returnFailedAt < 600000)) return { act: 'return', report: false, why: `${fresh ? 'after a restart: ' : ''}the team is ${Math.round(o.d / 1000)}k away in the field — travelling back to it` };
+  if (!(o.returnFailedAt && o.now - o.returnFailedAt < (o.returnBackoffMs || TEAMJOIN.returnBackoffBaseMs))) return { act: 'return', report: false, why: `${fresh ? 'after a restart: ' : ''}the team is ${Math.round(o.d / 1000)}k away in the field — travelling back to it` };
   return { act: 'town', town: o.hub, report: true, why: `${fresh ? 'after a restart: ' : ''}the leader is ${Math.round(o.d / 1000)}k away in the field and my way back failed${o.returnWhy ? ' (' + o.returnWhy + ')' : ''} — regroup in ${o.hub}` };
 }
 /** May the team keep hunting while teammates travel back to it? o = { here: [{ role, dead }] (with the leader, near him), total } — a living
@@ -5942,6 +5963,11 @@ function rescuePlan(D, from, to, opts) {
     if (E.length) { const e = E[0]; const steps = [{ do: 'town', town: e.town, label: `.${String(e.town).toLowerCase()}`, sec: RESC.townSec }, { do: 'gk', dest: e.dest, town: e.town, label: `${e.town} gatekeeper -> ${e.dest}`, sec: RESC.gkSec }];
       fin.sec = walkSec(e.land, to); steps.push(fin); return out('floors', steps, `${nodeName(tm.d, ld.fi)} -> .${String(e.town).toLowerCase()} -> ${e.dest} -> ${o.name}`, { dungeon: tm.d.name, fromFloor: ld.fi, toFloor: -1 }); }
   }
+  // inside an instance (z < -7000 and on no known dungeon floor: Kamaloka / Pailaka / ... in the far-north instance band): no route leads in
+  // from outside (2026-10-13: Nuker6 + Chanter3 planned "travel (.town / gatekeeper / walk)" to Tank2 in a Kamaloka, 181k, every 50 s)
+  // (I stand in the same instance myself — deep too and close: the walk below)
+  const sameDeep = isFinite(from.z) && from.z < -7000 && Math.hypot(to.x - from.x, to.y - from.y) < 30000;
+  if (isFinite(to.z) && to.z < -7000 && !(tm && tm.fi >= 0) && !sameDeep) return out('none', [], '', { instance: true, why: `${o.name} is inside an instance (z ${Math.round(to.z)}, no dungeon floor there) — no way in from outside` });
   // open world
   const dist = Math.hypot(to.x - from.x, to.y - from.y), dz = Math.abs((to.z || 0) - (from.z || 0));
   // right above / below me and no floor data covers it (a dungeon not in dungeon_rooms.json): walking there = the old "walk into the floor" bug
@@ -7994,6 +8020,10 @@ async function geoWalk(x, y, z, dist, timeoutMs, abort, onLeg) {
 }
 async function walkToInner(x, y, z, dist, timeoutMs, abort) {
   const until = now() + timeoutMs;
+  // HARD LIMIT here too (2026-10-13, party Tank2 worker killed 6x by the brain-host watchdog): a return trip's 'travel' step handed a 181k
+  // target to this walker after its teleport did nothing; the path finder searched 15 s for nothing, the old walker gave up at once (maxWalk)
+  // and the recorded-route fallback then merged every team walk file (69 MB, 160k cells) in ONE synchronous run (~8-10 s). Never walk that far.
+  if (distTo(x, y) > CONFIG.travel.maxWalk) { note(`walking: ${P(x, y)} is ${Math.round(distTo(x, y) / 1000)}k away — too far to walk (max ${Math.round(CONFIG.travel.maxWalk / 1000)}k), needs a teleport`); return false; }
   // -1) inside a dungeon with a room graph: the centreline route, room by room (user 2026-10-09: "never a straight line")
   if (!state.rgInWalk && distTo(x, y) > 500) { const rg = await rgWalkInside(x, y, z, dist, until, abort); if (rg !== null) return rg; }
   // 0) our own wall-aware route first (whole way, around walls and gates)
@@ -10087,15 +10117,65 @@ function onAppEvent(name, cb) {
 // The documented name is 'TradeRequested' (docs/js-api/appevents.txt); 'TradeInviteReceived' was a guess — every trade since ~15:57 failed
 // with "did not open the trade". Listen to both, and the receiver also keeps answering "yes" while it waits (see receiveItems).
 const tradeReqAt = {};                             // receiver -> last Send.TradeRequest (throttle, freeze audit finding 6)
-const acceptTrade = () => { if (tradeState && tradeState.role === 'take' && now() < tradeState.until) { try { Send.AnswerTradeRequest(1); } catch (e) { } } };
-onAppEvent('TradeRequested', acceptTrade);
-onAppEvent('TradeInviteReceived', acceptTrade);
-onAppEvent('TradeStarted', () => { if (tradeState) tradeState.started = true; });
-onAppEvent('TradeSessionStarted', () => { if (tradeState) tradeState.started = true; });
-onAppEvent('TradeCompleted', () => { if (tradeState) tradeState.done = tradeState.done || 'completed'; });
-onAppEvent('TradeClosed', () => { if (tradeState) tradeState.done = tradeState.done || 'closed'; });
-globalThis.OnTrade = () => { if (tradeState) tradeState.started = true; };   // trade-vinduet åbnede
-globalThis.OnWindowOpenTrade = () => { if (tradeState) tradeState.started = true; };
+// TRADEEV-2026-10-13 (clan item hand-over Destroyer1 -> Dagger1 failed 3 times with "trade closed (server: #120 You begin trading ...)"):
+// ROOT CAUSE: trade events of an EARLIER trade arrive late (brain host <-> agent2.js ticks of 3-6 s, Logs/brain_host.log "SLOW ... tick") and
+// landed in the NEXT trade session. 09:25:25 the first batch ended (#22 out of range) with Send.TradeDone(0); its TradeClosed event reached the
+// brain seconds later, when the single retry had already started -> tradeState.done = 'closed' was set BEFORE the retry's trade opened, so
+// right after "#120 You begin trading" waitTrade('done') returned 'closed' at once (1.7 s after the open, no cancel message). On the receiver the
+// same late close ended its new receiveItems() at once (bot back on, shots on), so nobody confirmed the trade the server's Quick Trade opened.
+// Now: (1) every session end starts a quiet window (late started/closed/completed events are ignored + logged), (2) closed / completed count
+// only after THIS trade opened, (3) the receiver answers blindly at most every 4 s and never after the trade opened, (4) both sides re-confirm
+// every 3 s until the server says done (a confirm before the giver's item landed is reset by the server), (5) the giver confirms only within
+// 110 of the receiver (L2J RequestTradeDone cancels beyond 150; the walk target used MY z), (6) a trade the receiver's window did not expect
+// (late take) still gets confirmed. Every step: Logs/trade.log.
+// TRADEEV-PURE-BEGIN (no host calls in here: docs/plan/tools/test_clan_handover.js runs this block in node)
+const TRADEEV = { quietMs: 6000, acceptGapMs: 4000, reconfirmMs: 3000, reconfirmMax: 6, near: 110, nearZ: 400 };
+/** a trade event ('started' | 'closed' | 'completed') at time t for session st -> { apply, set?, why? } */
+function tradeEvDecide(st, ev, t, quietUntil) {
+  if (!st) return { apply: false, why: `${ev}: no trade running` };
+  if (t < (Number(quietUntil) || 0)) return { apply: false, why: `${ev}: a late event of the previous trade (quiet ${Math.ceil((quietUntil - t) / 1000)} s more)` };
+  if (ev === 'started') return st.started ? { apply: false, why: 'started: already open' } : { apply: true, set: { started: true, startedAt: t } };
+  if (!st.started) return { apply: false, why: `${ev} before this trade opened — an earlier trade's event arriving late` };
+  if (st.done) return { apply: false, why: `${ev}: already ${st.done}` };
+  return { apply: true, set: { done: ev } };
+}
+/** receiver: say "yes" now? (blind answers only while nothing opened, max one per acceptGapMs; a real request event answers at once) */
+function tradeAcceptDecide(st, t, lastAnsAt, begun, real) {
+  if (!st || st.role !== 'take' || t >= st.until || st.started || begun || st.added) return false;
+  return !!real || t - (Number(lastAnsAt) || 0) >= TRADEEV.acceptGapMs;
+}
+/** giver before the confirm: me / other = { x, y, z } -> { act: 'ok' | 'walk' | 'unknown', d, to? } (to = a point `near`*0.4 short of him, HIS z) */
+function tradeRangeDecide(me, other, near) {
+  const N = Number(near) || TRADEEV.near;
+  if (!me || !other || !isFinite(Number(other.x)) || !isFinite(Number(other.y))) return { act: 'unknown', d: null };
+  const dx = Number(other.x) - Number(me.x), dy = Number(other.y) - Number(me.y), dz = Math.abs((Number(other.z) || 0) - (Number(me.z) || 0)), d = Math.round(Math.hypot(dx, dy));
+  if (d <= N && dz < TRADEEV.nearZ) return { act: 'ok', d };
+  const k = d > 0 ? Math.max(0, d - N * 0.4) / d : 0;
+  return { act: 'walk', d, dz: Math.round(dz), to: { x: Math.round(Number(me.x) + dx * k), y: Math.round(Number(me.y) + dy * k), z: Math.round(Number(other.z != null ? other.z : me.z)) } };
+}
+// TRADEEV-PURE-END
+let tradeQuietUntil = 0, tradeAnsAt = 0;
+function tradeLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\trade.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
+function tradeEv(ev) {
+  const r = tradeEvDecide(tradeState, ev, now(), tradeQuietUntil);
+  if (r.apply) { Object.assign(tradeState, r.set); if (ev !== 'started' || tradeState.role === 'take') tradeLog(`${tradeState.role} ${tradeState.other}: ${ev}`); }
+  else if (tradeState || ev !== 'started') tradeLog(`ignored ${r.why}`);
+}
+function tradeBegun() { const st = tradeState; return !!(st && lastSysMsg && lastSysMsg.at >= st.since && /begin trading with/i.test(String(lastSysMsg.text))); }
+const acceptTrade = (real) => {
+  if (!tradeAcceptDecide(tradeState, now(), tradeAnsAt, tradeBegun(), real === true)) return;
+  tradeAnsAt = now(); try { Send.AnswerTradeRequest(1); } catch (e) { }
+};
+onAppEvent('TradeRequested', () => acceptTrade(true));
+onAppEvent('TradeInviteReceived', () => acceptTrade(true));
+onAppEvent('TradeStarted', () => tradeEv('started'));
+onAppEvent('TradeSessionStarted', () => tradeEv('started'));
+onAppEvent('TradeCompleted', () => tradeEv('completed'));
+onAppEvent('TradeClosed', () => tradeEv('closed'));
+globalThis.OnTrade = () => tradeEv('started');   // trade-vinduet åbnede
+globalThis.OnWindowOpenTrade = () => tradeEv('started');
+/** end of a trade session (giver / receiver finally): late events of it are ignored for TRADEEV.quietMs */
+function tradeQuiet() { tradeQuietUntil = now() + TRADEEV.quietMs; }
 /**
  * A trade left open on the server blocks EVERYTHING: NPC clicks get system msg 149 ("You cannot pick up or use items while trading")
  * and new trades get 142 ("You are already trading with someone"). That was the hidden cause of "Helvetia/Richlin did not answer" and of
@@ -10107,12 +10187,28 @@ function clearStuckTrade(why) {
   lastTradeClear = now();
   try { Send.TradeDone(0); } catch (e) { }
   try { Send.RequestBuySellUIClose(); } catch (e) { }
+  tradeQuiet();                                                       // TRADEEV: its close event arrives late
   note(`trade: cancelled a hanging trade (${why})`);
 }
 setTimeout(() => { try { if (IsCharacterReady()) clearStuckTrade('script start'); } catch (e) { } }, 8000);
 
 App.on('swarm.trade.added', (event) => {
-  if (tradeState && tradeState.role === 'take') { tradeState.started = true; tradeStage('confirm'); const w = event && event.data && event.data.what; if (w && !tradeState.what) tradeState.what = String(w).slice(0, 90); Send.TradeDone(1); }
+  const d = (event && event.data) || {};
+  if (tradeState && tradeState.role === 'take') {
+    if (!tradeState.started) { tradeState.started = true; tradeState.startedAt = now(); }
+    tradeState.added = now(); tradeStage('confirm'); const w = d.what; if (w && !tradeState.what) tradeState.what = String(w).slice(0, 90);
+    tradeLog(`take ${tradeState.other}: the giver added ${String(d.what || '?').slice(0, 80)} — confirming`);
+    Send.TradeDone(1);
+    return;
+  }
+  // TRADEEV: a trade the server's Quick Trade opened while my receiver session had already ended (a late event ended it) -> confirm it anyway,
+  // but only for one of our own characters that is handing items to me right now (hand-over hold) or a team trade step
+  try {
+    if (!tradeState && d.giver && CONFIG.roster[d.giver] && ((HOV.host.givers[d.giver] || 0) > now() || d.team)) {
+      tradeLog(`take ${d.giver}: items added but no receiver session was running — starting one and confirming`);
+      receiveItems({ giver: d.giver, what: d.what || '', step: 'late', added: true }).catch(e => logError('late receive', e));
+    }
+  } catch (e) { }
 });
 
 async function waitTrade(field, ms) {
@@ -10131,10 +10227,14 @@ async function giveItems(d) {
     stopCombatG();
     if (IsEnabled) DisableBot();
     const p = partyMember(d.receiver);
-    if (p) await walkTo(p.X, p.Y, Me.Z, 120, 20000);
+    const zOf = (q) => (q && q.Z != null && isFinite(Number(q.Z)) && Math.abs(Number(q.Z) - Me.Z) < 600 ? Number(q.Z) : Me.Z);   // TRADEEV: HIS z (Giran square: -3408 vs -3472)
+    tradeLog(`give ${d.receiver}: ${tradeWhat(d.items)} (${d.step || ''})`);
+    if (p) await walkTo(p.X, p.Y, zOf(p), 120, 20000);
     const adenaBefore = itemCount(57);
     const stackBefore = {};                          // stackables (supplies): judge success by the count, the stack objId stays
     d.items.forEach(i => { if (i.stack && i.id) stackBefore[i.id] = itemCount(i.id); });
+    const gone0 = () => { try { const left = new Set(); Inventory.forEach(it => left.add(String(it.objId)));
+      return d.items.every(i => i.adena ? itemCount(57) <= adenaBefore - i.count + 1 : i.stack && i.id ? itemCount(i.id) <= stackBefore[i.id] - i.count : !left.has(String(i.objId))); } catch (e) { return false; } };
     // the receiver's objId straight from the party list (tested 2026-10-03: that trade opened in 0.2 s and completed).
     // The objId passed in the team-step ack (.NET long -> BigInt -> JSON) was the reason every trade since ~15:57 failed.
     let pm = null;
@@ -10144,11 +10244,11 @@ async function giveItems(d) {
     // because partyMember() had no fresh position for other teams since swarm.pos goes to other teams only every 15 s)
     const liveChar = () => { let o = null; try { snapChars().forEach(c => { if (!o && String(c.Name) === d.receiver) o = c.ref; }); } catch (e) { } return o; };
     if (!pm) pm = liveChar();
-    if (!p && pm) { try { await walkTo(pm.X, pm.Y, Me.Z, 120, 20000); } catch (e) { } }
+    if (!p && pm) { try { await walkTo(pm.X, pm.Y, zOf(pm), 120, 20000); } catch (e) { } }
     // System message 142 = "the other player is on another task" (fx a shop window still open): ask again a few times
     let opened = false;
     for (let tryN = 0; tryN < 5 && !opened; tryN++) {
-      { const q = partyMember(d.receiver) || liveChar(); if (q && Math.hypot(q.X - Me.X, q.Y - Me.Y) > 150) await walkDirect(q.X, q.Y, Me.Z, 100, 8000, null, true); }
+      { const q = partyMember(d.receiver) || liveChar(); if (q && Math.hypot(q.X - Me.X, q.Y - Me.Y) > 150) await walkDirect(q.X, q.Y, zOf(q), 100, 8000, null, true); }
       // freeze audit finding 6: every TradeRequest parks a pool thread for up to 15 s in L2Swarm (L2User.IsWaitingAnswer) -> at most one
       // request per receiver every 10 s (the retries used to come every ~8.5 s)
       { const gap = 10000 - (now() - (tradeReqAt[d.receiver] || 0)); if (gap > 0) await sleep(gap); tradeReqAt[d.receiver] = now(); }
@@ -10157,7 +10257,8 @@ async function giveItems(d) {
       Send.TradeRequest(Number(pm ? pm.objId : d.receiverObjId));
       opened = await waitTrade('started', Math.min(T, 6000));
       // the server's own word counts too (2026-10-07: "#120 You begin trading with Destroyer8." but no trade event reached the script)
-      if (!opened && lastSysMsg && lastSysMsg.at >= asked && /begin trading with/i.test(String(lastSysMsg.text))) { opened = true; if (tradeState) tradeState.started = true; }
+      if (!opened && lastSysMsg && lastSysMsg.at >= asked && /begin trading with/i.test(String(lastSysMsg.text))) { opened = true; if (tradeState) { tradeState.started = true; tradeState.startedAt = now(); } }
+      tradeLog(`give ${d.receiver}: request ${tryN + 1} -> ${opened ? 'open' : 'not open'}${lastSysMsg && lastSysMsg.at >= asked ? ' (server: ' + lastSysMsg.text + ')' : ''}`);
       if (!opened && lastSysMsg && lastSysMsg.at >= asked) note(`trade -> ${d.receiver}: server said "${lastSysMsg.text}" — asking again`);
       if (!opened) await sleep(2500);
     }
@@ -10168,10 +10269,27 @@ async function giveItems(d) {
     d.items.forEach(it => { if (!it.objId) { const inv = Inventory.GetItemByID(it.adena ? 57 : it.id); if (inv) it.objId = String(inv.objId); } });
     for (const it of d.items) { Send.AddTradeItem(Number(it.objId), Number(it.count || 1)); await sleep(400); }   // numbers: a string objId threw "invalid arguments" (2026-10-04)
     await sleep(800);
+    // TRADEEV: confirm only within reach (the server cancels a confirm beyond 150): settle, measure against HIS live position, step closer
+    for (let k = 0; k < 3 && tradeState && !tradeState.done; k++) {
+      const q = liveChar() || partyMember(d.receiver);
+      const rg = tradeRangeDecide({ x: Me.X, y: Me.Y, z: Me.Z }, q ? { x: q.X, y: q.Y, z: q.Z } : null);
+      if (rg.act !== 'walk') { tradeLog(`give ${d.receiver}: distance before the confirm ${rg.d == null ? 'unknown' : rg.d}`); break; }
+      tradeLog(`give ${d.receiver}: ${rg.d} away (dz ${rg.dz}) — stepping closer before the confirm`);
+      try { await walkDirect(rg.to.x, rg.to.y, rg.to.z, 40, 6000, null, true); Send.StopMove(); } catch (e) { }
+      await sleep(1200);
+    }
     Send.TradeDone(1);
     tradeStage('confirm');
     App.emitTo(d.receiverAccountId, 'swarm.trade.added', { giver: Me.Name, what: tradeState ? tradeState.what : '' });
-    const done = await waitTrade('done', T);
+    // TRADEEV: wait for the server (or my bag) — and confirm again every 3 s (a confirm that came before my item landed is reset)
+    let done = null; { const tEnd = now() + T; let rc = 0, lastRc = now();
+      while (now() < tEnd && tradeState && !tradeState.done) {
+        await sleep(250);
+        if (gone0()) { done = 'completed'; if (tradeState) tradeState.done = 'completed'; tradeLog(`give ${d.receiver}: my bag shows the items gone`); break; }
+        if (now() - lastRc >= TRADEEV.reconfirmMs && rc < TRADEEV.reconfirmMax) { rc++; lastRc = now(); try { Send.TradeDone(1); } catch (e) { } }
+      }
+      done = done || (tradeState && tradeState.done) || null; }
+    tradeLog(`give ${d.receiver}: ${done || 'timeout'}`);
     await sleep(800);
     // Lykkedes det? Tingene skal være væk fra min taske.
     const gone = () => {
@@ -10191,6 +10309,7 @@ async function giveItems(d) {
     return tradeEnd({ ok, msg: ok ? 'given' : `trade ${done || 'timeout'}` });
   } finally {
     if (!tradeState || !tradeState.done) { try { Send.TradeDone(0); } catch (e) { } }   // never leave a trade hanging (it blocks all NPCs)
+    tradeQuiet();                                                     // TRADEEV: this session's late events must not end the next one
     tradeFinish();
     tradeState = null;
     if (wasEnabled && !IsEnabled) EnableBot();
@@ -10210,13 +10329,25 @@ async function receiveItems(d) {
     try { Send.RequestBuySellUIClose(); } catch (e) { }
     try { Send.StopMove(); Options.ActiveFollow = false; } catch (e) { }   // stand still for the trade (moving receivers answered #22)
     standUp();
-    // keep saying "yes" until the window is open (harmless when no request is pending) — the request event can be missed
-    const acceptLoop = setInterval(() => { if (tradeState && !tradeState.started) acceptTrade(); }, 1500);
+    // keep saying "yes" until the window is open — TRADEEV: at most every 4 s and never once it opened (#120 / trade.added): with 3-6 s
+    // agent ticks the old 1.5 s loop kept answering into the open trade (the server answers that with a TradeDone(0) to my client)
+    tradeLog(`take ${d.giver}: waiting for the trade${d.added ? ' (it is already open: confirming)' : ''}`);
+    if (d.added && tradeState) { tradeState.started = true; tradeState.startedAt = now(); tradeState.added = now(); try { Send.TradeDone(1); } catch (e) { } }
+    let rc = 0;
+    const acceptLoop = setInterval(() => {
+      if (!tradeState) return;
+      if (tradeBegun() && !tradeState.started) { tradeState.started = true; tradeState.startedAt = now(); }
+      if (!tradeState.started) { acceptTrade(); return; }
+      // re-confirm every 3 s after the giver added its items until the server says done (a confirm before the item landed is reset)
+      if (tradeState.added && !tradeState.done && now() - (tradeState.rcAt || tradeState.added) >= TRADEEV.reconfirmMs && rc < TRADEEV.reconfirmMax) { rc++; tradeState.rcAt = now(); try { Send.TradeDone(1); } catch (e) { } }
+    }, 1000);
     let done;
     try { done = await waitTrade('done', T * 2); } finally { SCHED.clear(acceptLoop); }
+    tradeLog(`take ${d.giver}: ${done || 'timeout'}`);
     return tradeEnd({ ok: !!done, msg: done || 'timeout' });
   } finally {
     if (!tradeState || !tradeState.done) { try { Send.TradeDone(0); } catch (e) { } }   // never leave a trade hanging (it blocks all NPCs)
+    tradeQuiet();                                                     // TRADEEV: this session's late events must not end the next one
     tradeFinish();
     tradeState = null;
     if (wasEnabled && !IsEnabled) EnableBot();
@@ -10848,60 +10979,116 @@ setInterval(() => {
   catch (e) { myWalk.dirty = true; }
 }, 30000);
 
-/** Hele holdets optagne kort (alle vinduers filer flettet). Genindlæses højst hvert 2. minut. */
-let teamWalk = null, teamWalkAt = 0;
-function teamWalkGraph() {
-  if (teamWalk && now() - teamWalkAt < 120000) return teamWalk;
-  const g = { nodes: {}, edges: {} };
-  for (const name of Object.keys(CONFIG.roster)) {
-    let j = null;
-    if (name === Me.Name) j = myWalk;
-    else { try { j = JSON.parse(File.ReadAllText(`${WALK.dir}\\walk_${name}.json`)); } catch (e) { } }
+// WALKREC-PURE-BEGIN (no host calls in here: docs/plan/tools/test_return_trip_block.js runs this block in node with the real Logs/walkpaths files)
+// RECORDED ROUTES WITHOUT A FREEZE (2026-10-13, the brain-host watchdog killed party Tank2's worker 6x in 7 min: "after an await ... 7.8 s"):
+// the old teamWalkGraph merged EVERY roster walk file (61 files, 69 MB, 160k cells, Array.includes per edge) in ONE synchronous run (10.2 s in
+// node), nearestNode scanned all 160k cells (0.5 s each) and the A* picked the next cell by scanning its whole open set. Now: only the cells in
+// the box around start + target (+ margin), edges as Sets, a 1000-unit grid for the nearest cell, the A* on a binary heap with an iteration +
+// time cap, and every loop hands control back (io.yield) at least every WALKREC.sliceMs - one file parse (<= ~250 ms) is the longest slice.
+var WALKREC = { margin: 15000, gridCell: 1000, sliceMs: 25, maxIter: 60000, maxMs: 4000, ttl: 120000 };
+/** [x0, x1, y0, y1] around two points + margin */
+function recBox(ax, ay, bx, by, margin) { const m = margin === undefined || margin === null ? WALKREC.margin : margin; return [Math.min(ax, bx) - m, Math.max(ax, bx) + m, Math.min(ay, by) - m, Math.max(ay, by) + m]; }
+function recBoxHas(outer, inner) { return !!outer && !!inner && outer[0] <= inner[0] && outer[1] >= inner[1] && outer[2] <= inner[2] && outer[3] >= inner[3]; }
+function recIn(b, x, y) { return x >= b[0] && x <= b[1] && y >= b[2] && y <= b[3]; }
+/** The recorded walk cells inside box, merged from every walk file. io = { names: [..], read: (name) -> { nodes, edges } | null, yield: async fn,
+ *  clock: () -> ms, sliceMs }. -> { nodes: { key: [x,y,z] }, edges: { key: Set(key) }, grid: { 'gx_gy': [key] }, box, files, cells } */
+async function recGraphBuild(box, io) {
+  const g = { nodes: {}, edges: {}, grid: {}, box, files: 0, cells: 0 };
+  const slice = io.sliceMs || WALKREC.sliceMs; let t0 = io.clock();
+  const tick = async () => { if (io.clock() - t0 >= slice) { await io.yield(); t0 = io.clock(); } };
+  for (const name of io.names || []) {
+    await io.yield(); t0 = io.clock();                                // one file per slice
+    let j = null; try { j = io.read(name); } catch (e) { j = null; }
     if (!j) continue;
-    Object.assign(g.nodes, j.nodes || {});
-    for (const [a, list] of Object.entries(j.edges || {})) list.forEach(b => addEdge(g.edges, a, b));
+    g.files++;
+    await tick();
+    const nodes = j.nodes || {}; let n = 0;
+    for (const k in nodes) {
+      const p = nodes[k];
+      if (p && recIn(box, p[0], p[1]) && !g.nodes[k]) {
+        g.nodes[k] = p; g.cells++;
+        const gk = `${Math.floor(p[0] / WALKREC.gridCell)}_${Math.floor(p[1] / WALKREC.gridCell)}`; (g.grid[gk] = g.grid[gk] || []).push(k);
+      }
+      if ((++n & 2047) === 0) await tick();
+    }
+    const edges = j.edges || {};
+    for (const a in edges) {
+      if (g.nodes[a]) {
+        const list = edges[a] || [];
+        for (let i = 0; i < list.length; i++) { const b = list[i]; if (!g.nodes[b] || b === a) continue; (g.edges[a] = g.edges[a] || new Set()).add(b); (g.edges[b] = g.edges[b] || new Set()).add(a); }
+      }
+      if ((++n & 2047) === 0) await tick();
+    }
   }
-  teamWalk = g; teamWalkAt = now();
   return g;
 }
-
-function nearestNode(g, x, y, maxD) {
+/** the connected cell nearest (x,y) within maxD (grid lookup) */
+function recNearest(g, x, y, maxD) {
+  const c = WALKREC.gridCell, r = Math.ceil(maxD / c), gx = Math.floor(x / c), gy = Math.floor(y / c);
   let best = null, bd = maxD;
-  for (const [k, n] of Object.entries(g.nodes)) {
-    const d = Math.hypot(n[0] - x, n[1] - y);
-    if (d < bd && g.edges[k]) { bd = d; best = k; }
+  for (let i = gx - r; i <= gx + r; i++) for (let j = gy - r; j <= gy + r; j++) {
+    const list = g.grid[`${i}_${j}`]; if (!list) continue;
+    for (const k of list) { const n = g.nodes[k], d = Math.hypot(n[0] - x, n[1] - y); if (d < bd && g.edges[k]) { bd = d; best = k; } }
   }
   return best;
 }
-
-/** A* over de optagne celler. Returnerer [[x,y,z], ...] eller null. */
-function recordedRoute(x, y) {
-  const g = teamWalkGraph();
-  const s = nearestNode(g, Me.X, Me.Y, 500), t = nearestNode(g, x, y, 700);
-  if (!s || !t) return null;
-  if (s === t) return [g.nodes[t]];
-  const h = (k) => Math.hypot(g.nodes[k][0] - x, g.nodes[k][1] - y);
-  const open = new Set([s]), from = {}, gs = { [s]: 0 }, fs = { [s]: h(s) };
-  let guard = 0;
-  while (open.size && guard++ < 60000) {
-    let cur = null, best = Infinity;
-    open.forEach(k => { if (fs[k] < best) { best = fs[k]; cur = k; } });
-    if (cur === t) {
-      const path = [t];
-      while (from[path[0]]) path.unshift(from[path[0]]);
-      return path.map(k => g.nodes[k]);
+/** A* from cell s to cell t on a binary heap. io = { yield, clock, sliceMs, maxIter, maxMs }. -> { path: [key] | null, why, iter, ms } */
+async function recAStar(g, s, t, io) {
+  const T = g.nodes[t], h = (k) => Math.hypot(g.nodes[k][0] - T[0], g.nodes[k][1] - T[1]);
+  const hf = [], hk = [];
+  const push = (f, k) => { let i = hf.length; hf.push(f); hk.push(k); while (i > 0) { const p = (i - 1) >> 1; if (hf[p] <= hf[i]) break; [hf[p], hf[i]] = [hf[i], hf[p]]; [hk[p], hk[i]] = [hk[i], hk[p]]; i = p; } };
+  const pop = () => {
+    const k = hk[0], lf = hf.pop(), lk = hk.pop();
+    if (hf.length) { hf[0] = lf; hk[0] = lk; let i = 0; for (;;) { const l = 2 * i + 1, r = l + 1; let m = i; if (l < hf.length && hf[l] < hf[m]) m = l; if (r < hf.length && hf[r] < hf[m]) m = r; if (m === i) break; [hf[m], hf[i]] = [hf[i], hf[m]]; [hk[m], hk[i]] = [hk[i], hk[m]]; i = m; } }
+    return k;
+  };
+  const gs = { [s]: 0 }, from = {}, closed = {};
+  const slice = io.sliceMs || WALKREC.sliceMs, maxIter = io.maxIter || WALKREC.maxIter, maxMs = io.maxMs || WALKREC.maxMs;
+  const start = io.clock(); let t0 = start, iter = 0;
+  push(h(s), s);
+  while (hk.length) {
+    if (++iter > maxIter) return { path: null, why: `gave up after ${maxIter} cells`, iter, ms: io.clock() - start };
+    if ((iter & 255) === 0 && io.clock() - t0 >= slice) {
+      if (io.clock() - start > maxMs) return { path: null, why: `gave up after ${maxMs} ms`, iter, ms: io.clock() - start };
+      await io.yield(); t0 = io.clock();
     }
-    open.delete(cur);
-    for (const nb of g.edges[cur] || []) {
-      if (!g.nodes[nb]) continue;
-      const step = Math.hypot(g.nodes[nb][0] - g.nodes[cur][0], g.nodes[nb][1] - g.nodes[cur][1]);
-      const tentative = gs[cur] + step;
-      if (tentative < (gs[nb] ?? Infinity)) {
-        from[nb] = cur; gs[nb] = tentative; fs[nb] = tentative + h(nb); open.add(nb);
-      }
+    const cur = pop(); if (closed[cur]) continue; closed[cur] = 1;
+    if (cur === t) { const path = [t]; let k = t; while (from[k] !== undefined) { k = from[k]; path.push(k); } return { path: path.reverse(), why: '', iter, ms: io.clock() - start }; }
+    const nb = g.edges[cur]; if (!nb) continue;
+    const C = g.nodes[cur];
+    for (const k of nb) {
+      if (closed[k]) continue;
+      const N = g.nodes[k], tg = gs[cur] + Math.hypot(N[0] - C[0], N[1] - C[1]);
+      if (gs[k] === undefined || tg < gs[k]) { gs[k] = tg; from[k] = cur; push(tg + h(k), k); }
     }
   }
-  return null;
+  return { path: null, why: 'not connected', iter, ms: io.clock() - start };
+}
+// WALKREC-PURE-END
+/** Hele holdets optagne kort (alle vinduers filer flettet) i området omkring box — genbruges i 2 min når det dækker boxen. */
+const recWalk = { g: null, at: 0, building: null };
+const recIo = () => ({ yield: () => sleep(0), clock: () => Date.now() });
+async function teamWalkGraphFor(box) {
+  if (recWalk.g && now() - recWalk.at < WALKREC.ttl && recBoxHas(recWalk.g.box, box)) return recWalk.g;
+  if (recWalk.building) { try { const g0 = await recWalk.building; if (g0 && recBoxHas(g0.box, box)) return g0; } catch (e) { } }
+  loadMyWalk();
+  const big = [box[0] - WALKREC.margin, box[1] + WALKREC.margin, box[2] - WALKREC.margin, box[3] + WALKREC.margin];
+  const io = Object.assign(recIo(), { names: Object.keys(CONFIG.roster), read: (name) => name === Me.Name ? myWalk : JSON.parse(String(File.ReadAllText(`${WALK.dir}\\walk_${name}.json`))) });
+  const p = recWalk.building = recGraphBuild(big, io);
+  try { const g = await p; Object.assign(recWalk, { g, at: now() }); return g; } finally { if (recWalk.building === p) recWalk.building = null; }
+}
+// the merged graph is dropped 3 min after its last build (memory: it used to stay forever)
+setInterval(() => { if (recWalk.g && !recWalk.building && now() - recWalk.at > 180000) recWalk.g = null; }, 60000);
+
+/** A* over de optagne celler. Returnerer [[x,y,z], ...] eller null. */
+async function recordedRoute(x, y) {
+  const mx = num(Me.X), my = num(Me.Y);
+  const g = await teamWalkGraphFor(recBox(mx, my, x, y, 3000));
+  const s = recNearest(g, mx, my, 500), t = recNearest(g, x, y, 700);
+  if (!s || !t) return null;
+  if (s === t) return [g.nodes[t]];
+  const r = await recAStar(g, s, t, recIo());
+  return r.path ? r.path.map(k => g.nodes[k]) : null;
 }
 
 /** Tynd ruten ud: behold hvert ~4. punkt + knæk. */
@@ -10918,7 +11105,8 @@ function thinRoute(pts) {
 
 /** Følg en optaget rute. true hvis vi kom til sidste punkt. */
 async function walkRecorded(x, y, until, abort) {
-  const route = recordedRoute(x, y);
+  if (distTo(x, y) > CONFIG.travel.maxWalk) return false;            // never a walk that long (2026-10-13: the 181k return trip)
+  const route = await recordedRoute(x, y);
   if (!route || route.length < 2) return false;
   const pts = thinRoute(route);
   note(`walking recorded route: ${pts.length} points`);
@@ -15629,9 +15817,10 @@ const HOV_ID_RE = /^[a-z0-9][a-z0-9_-]{3,40}$/i;
 function hovRoleOf(o, me) { if (!o || !me) return ''; if (o.receiver === me) return 'receiver'; return o.givers && o.givers[me] ? 'giver' : ''; }
 /** the order's rows vs my LIVE bag -> { give: [{ objId, id, name, count, stack, adena? }], skip: [{ name, why }] }.
  *  bag rows: { objId, id, name, count, equipped, quest, stackable }. Never: equipped, quest, notrade ids, adena outside its own amount. */
-function hovResolve(rows, adena, bag, notrade) {
+function hovResolve(rows, adena, bag, notrade, allowQuest) {
   const give = [], skip = [], used = {};
   const NT = notrade instanceof Set ? notrade : new Set((notrade || []).map(Number));
+  const AQ = allowQuest instanceof Set ? allowQuest : new Set((allowQuest || []).map(Number));   // CLANHAND-2026-10-13: protected ids THIS order may trade (clan level items)
   const byObj = {}, byId = {};
   (bag || []).forEach(b => { byObj[Number(b.objId)] = b; (byId[Number(b.id)] = byId[Number(b.id)] || []).push(b); });
   (rows || []).forEach(r => {
@@ -15643,7 +15832,7 @@ function hovResolve(rows, adena, bag, notrade) {
     if (!b) { skip.push({ name, why: 'not in my bag any more' }); return; }
     if (used[b.objId]) { skip.push({ name, why: 'listed twice' }); return; }
     if (b.equipped) { skip.push({ name, why: 'worn (equipped)' }); return; }
-    if (b.quest) { skip.push({ name, why: 'quest item' }); return; }
+    if (b.quest && !AQ.has(id)) { skip.push({ name, why: 'quest item' }); return; }
     if (NT.has(id)) { skip.push({ name, why: 'the server does not allow trading it' }); return; }
     used[b.objId] = 1;
     const count = Math.min(want, Math.max(1, Number(b.count) || 1));
@@ -15753,8 +15942,10 @@ function hovBusyWhy() {
   return '';
 }
 function hovHere(id) {
-  return { id, name: Me.Name, x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), town: currentTownKey() || '', dead: !!Me.IsDead, busy: hovBusyWhy(),
+  const o = { id, name: Me.Name, x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), town: currentTownKey() || '', dead: !!Me.IsDead, busy: hovBusyWhy(),
     objId: num(Me.objId), accountId: App.self().accountId, slots: num(Inventory.Count) };
+  try { Object.assign(o, clanHandHereExtra()); } catch (e) { }          // CLANHAND-2026-10-13: order / quest / solo / idle + my clan level item counts
+  return o;
 }
 App.on('swarm.handover.where', (e) => { const d = e.data || {}; if (d.to !== Me.Name || !state.role || !IsCharacterReady()) return; try { App.emit('swarm.handover.here', hovHere(d.id)); } catch (er) { } });
 App.on('swarm.handover.here', (e) => { const d = e.data || {}; if (d.name) HOV.here[d.name] = Object.assign({}, d, { at: now() }); });
@@ -15902,7 +16093,7 @@ async function hovGive(o) {
     stopCombatG();
     if (!isLeader()) { try { Options.ActiveFollow = false; } catch (e) { } }
     away(now() + 120000); awayT = setInterval(() => away(now() + 120000), 30000);
-    const r0 = hovResolve(mine.items, mine.adena, hovBag(), hovNotrade());
+    const r0 = hovResolve(mine.items, mine.adena, hovBag(), hovNotrade(), hovAllow(o));
     res.skipped = r0.skip.slice();
     if (!r0.give.length) { save({ state: 'done', msg: `nothing to give${r0.skip.length ? ' (' + r0.skip.slice(0, 3).map(s => s.name + ': ' + s.why).join('; ') + ')' : ''}` }); note(`handover ${id}: ${res.msg}`, true); return res; }
     note(`handover ${id}: ${r0.give.length} kind${r0.give.length === 1 ? '' : 's'} for ${o.receiver}${r0.skip.length ? `, ${r0.skip.length} skipped (${r0.skip.slice(0, 2).map(s => s.name + ': ' + s.why).join('; ')})` : ''} — on my way`, true);
@@ -15916,7 +16107,7 @@ async function hovGive(o) {
     const hold = () => { try { App.emitTo(rv.accountId, 'swarm.handover.hold', { id, giver: Me.Name, to: o.receiver }); } catch (e) { try { App.emit('swarm.handover.hold', { id, giver: Me.Name, to: o.receiver }); } catch (e2) { } } };
     hold(); await sleep(2000);
     save({ state: 'trading', step: `trading with ${o.receiver}` });
-    const todo = hovResolve(mine.items, mine.adena, hovBag(), hovNotrade());
+    const todo = hovResolve(mine.items, mine.adena, hovBag(), hovNotrade(), hovAllow(o));
     todo.skip.forEach(s => { if (!res.skipped.some(x => x.name === s.name)) res.skipped.push(s); });
     const batches = hovBatches(todo.give, o.batch || HOV_CFG.batch), retry = [];
     const book = (mv, why) => mv.forEach(m => {
@@ -15980,6 +16171,262 @@ function hovCommand(parts) {
     return;
   }
   hovGive(o).catch(e => logError('!handover', e));
+}
+
+// --- CLAN LEVEL ITEM TO THE CLAN LEADER (CLANHAND, user 2026-10-13: "Some of the clan members have the required item to level up the clan, they
+// should automatically trade it to the leader."). The item(s) the NEXT clan level needs (Scripts/data/clan_data.json levels[clan level + 1].items:
+// 3 = Blood Mark 1419, 4 = Alliance Manifesto 3874, 5 = Seal of Aspiration 3870) go from whoever holds them to the CURRENT clan leader
+// (clanLeaderName()), only as many as he still lacks (his live bag in the where-answer, else Logs/bag_<leader>.json). Every window but the clan
+// leader's checks once a minute (switch: clan_quests.json clan.auto.itemHandover, default ON; the dashboard Clan tab row "Clan level item
+// hand-over"). It never disturbs: not while I or he run a raid / mission / instance / quest / user order / a more important task / a hand-over /
+// a fight; automatically only when BOTH are in the same town (my party passing by his town on a supply run / Giran regroup), or I am on my own
+// and idle (then I go to him), or HE is on his own and idle in a town (then he comes to mine: 'swarm.clanhand.come'). "!clanhand [name]" (the
+// Clan tab's "Hand it over now" button) = do it now, wherever he is (only the busy checks stay). The trade itself is the HANDOVER block: an order
+// file Logs/handover/clanlvl_<name>_<t>.json with allowIds = these items (hovAllow: protected items are tradeable ONLY in such an order to the
+// clan leader; qeProtected keeps them from every sell / stash / destroy path). Status for the dashboard: Logs/clanhand_<name>.json
+// { state none|waiting|calling|handing|handed|failed, text, why, items, receiver }; log Logs/clan_handover.log + Logs/clan.log; party chat.
+// CLANHAND-PURE-BEGIN (no host calls in here: docs/plan/tools/test_clan_handover.js runs this block in node)
+const CLANHAND_CFG = { tickMs: 60000, startDelayMs: 180000, failBackoffMs: 30 * 60000, callGapMs: 15 * 60000, comeStayMs: 10 * 60000, statusRefreshMs: 5 * 60000, handedShowMs: 30 * 60000 };
+/** the items the NEXT clan level needs: clan_data.json levels -> [{ id, name, need }] */
+function clanHandNeeds(levels, clvl) {
+  const L = (levels || []).find(l => Number(l && l.level) === Number(clvl) + 1);
+  return ((L && L.items) || []).map(i => ({ id: Number(i.id), name: String(i.name || ('item ' + i.id)), need: Math.max(1, Number(i.count) || 1) })).filter(i => i.id > 0);
+}
+/** s = { me: { name, town, busy, idle }, leader, recv: where-answer | null ({ town, dead, busy, order, quest, solo, idle, stale }), needs, clvl,
+ *        leaderHas: { id: count } (null = unknown = 0), bag: [{ id, objId, name, count, equipped, stackable }] (my bag rows of these ids),
+ *        notrade: Set | ids, manual, solo (I have no teammates), last: { state, at, why } | null, lastCall (ms), now (ms) }
+ *  -> { act: 'none' | 'wait' | 'give' | 'call', why, items: [{ objId, id, name, count, stack }], text ('1 × Blood Mark'), blocked? } */
+function clanHandDecide(s) {
+  s = s || {};
+  const me = s.me || {}, leader = String(s.leader || ''), r = s.recv || null, now = Number(s.now) || 0;
+  const NT = s.notrade instanceof Set ? s.notrade : new Set((s.notrade || []).map(Number));
+  const out = (act, why, extra) => Object.assign({ act, why, items: [], text: '' }, extra || {});
+  if (!leader) return out('none', 'no clan leader known');
+  if (me.name === leader) return out('none', 'I am the clan leader');
+  const needs = s.needs || [];
+  if (!needs.length) return out('none', `clan level ${s.clvl != null ? s.clvl : '?'}: the next clan level needs no item`);
+  const has = s.leaderHas || {}, items = [], blocked = [], parts = [];
+  needs.forEach(n => {
+    const id = Number(n.id), still = Math.max(0, (Number(n.need) || 1) - (Number(has[id]) || 0));
+    const mine = (s.bag || []).filter(b => Number(b.id) === id && !b.equipped);
+    const total = mine.reduce((a, b) => a + Math.max(1, Number(b.count) || 1), 0);
+    if (!still || !total) return;
+    if (NT.has(id)) { blocked.push(n.name); return; }
+    let left = Math.min(still, total), given = 0;
+    mine.forEach(b => {
+      if (left <= 0) return;
+      const cnt = Math.max(1, Number(b.count) || 1), c = Math.min(left, cnt);
+      items.push({ objId: Number(b.objId), id, name: String(b.name || n.name), count: c, stack: cnt > 1 || !!b.stackable });
+      left -= c; given += c;
+    });
+    parts.push(`${given} × ${n.name}`);
+  });
+  if (!items.length) return out('none', blocked.length ? `${blocked.join(', ')} cannot be traded (the server refuses it) — ${leader} must get it himself` : `${leader} already has what clan level ${Number(s.clvl) + 1} needs, or I hold none of it`, { blocked });
+  const text = parts.join(' + ');
+  const W = (why) => out('wait', why, { items, text });
+  if (me.busy) return W(`not now: I am busy (${me.busy})`);
+  if (!r) return W(`${leader} is offline (or his swarm.js does not answer)`);
+  if (r.stale && !s.manual) return W(`${leader}'s window does not answer (only his position is known)`);
+  if (r.dead) return W(`${leader} is dead`);
+  if (r.busy) return W(`${leader} is busy (${r.busy})`);
+  if (r.order) return W(`${leader} runs your order "${r.order}"`);
+  if (r.quest) return W(`${leader} runs a quest`);
+  if (s.manual) return out('give', 'your order ("Hand it over now")', { items, text });
+  const last = s.last || null;
+  if (last && last.state === 'failed' && now - (Number(last.at) || 0) < CLANHAND_CFG.failBackoffMs)
+    return W(`the last try failed (${String(last.why || '?').slice(0, 120)}) — next try in ${Math.max(1, Math.ceil((CLANHAND_CFG.failBackoffMs - (now - Number(last.at))) / 60000))} min, or press "Hand it over now"`);
+  if (!me.town) return W(`until I am in a town (${leader} is ${r.town ? 'in ' + r.town : 'out in the field'})`);
+  if (!r.town) return W(`until ${leader} is in a town (I am in ${me.town})`);
+  if (me.town === r.town) return out('give', `both in ${me.town}`, { items, text });
+  if (s.solo && me.idle) return out('give', `I am on my own and idle in ${me.town}: going to ${leader} in ${r.town}`, { items, text });
+  if (r.solo && r.idle) {
+    if (now - (Number(s.lastCall) || 0) < CLANHAND_CFG.callGapMs) return W(`asked ${leader} ${Math.max(1, Math.round((now - Number(s.lastCall)) / 60000))} min ago to come from ${r.town} to ${me.town} — waiting for him`);
+    return out('call', `${leader} is idle on his own in ${r.town}: asking him to come to ${me.town}`, { items, text });
+  }
+  return W(`until my party passes by ${r.town} (${leader}'s town) — or press "Hand it over now"`);
+}
+// CLANHAND-PURE-END
+const CLANHAND = { busy: false, cur: '', curAt: 0, curText: '', curTo: '', curLvl: 0, last: null, callAt: 0, coming: false, sig: '', wroteAt: 0, ids: null, idsAt: 0, cfg: null, cfgAt: 0 };
+/** clan_quests.json, cached 60 s (clanLevelNow / clanLvlItemIds run often) */
+function clanCfgCached() { if (!CLANHAND.cfg || now() - CLANHAND.cfgAt > 60000) { CLANHAND.cfgAt = now(); const c = clanCfg(); if (c) CLANHAND.cfg = c; } return CLANHAND.cfg; }
+/** every clan level item id (clan_data.json levels[].items + clan_quests.json levelQuests[].item), cached 10 min */
+function clanLvlItemIds() {
+  if (!CLANHAND.ids || now() - CLANHAND.idsAt > 600000) {
+    const S = new Set();
+    try { (clanData().levels || []).forEach(l => (l.items || []).forEach(i => { if (num(i.id)) S.add(num(i.id)); })); } catch (e) { }
+    try { const c = clanCfgCached(); Object.values((c && c.levelQuests) || {}).forEach(q => { if (q && num(q.item)) S.add(num(q.item)); }); } catch (e) { }
+    CLANHAND.ids = S; CLANHAND.idsAt = now();
+  }
+  return CLANHAND.ids;
+}
+/** protected ids that THIS hand-over order may trade: only a clanlvl_ order to the current clan leader, only clan level items */
+function hovAllow(o) {
+  try {
+    if (!o || !/^clanlvl_/.test(String(o.id || '')) || !Array.isArray(o.allowIds) || o.receiver !== clanLeaderName()) return null;
+    const S = clanLvlItemIds(); return new Set(o.allowIds.map(Number).filter(id => S.has(id)));
+  } catch (e) { return null; }
+}
+/** extra fields of my where-answer (hovHere): what the clan item hand-over needs to know about the receiver */
+function clanHandHereExtra() {
+  const ci = {}; clanLvlItemIds().forEach(id => { const c = itemCount(id); if (c > 0) ci[id] = c; });
+  let qp = false; try { qp = !!(questRun.active || questwalkPending()); } catch (e) { }
+  return { order: userOrder.name || '', quest: qp ? 'quest' : '', ctl: control.owner || '', solo: ssSolo(), clanItems: ci,
+    idle: !autoLvl.active && !control.owner && !userOrder.name && !qp && !HOV.busy && !Me.IsDead };
+}
+/** '' = free for the automatic clan item hand-over; else why not */
+function clanHandBusyWhy() {
+  try {
+    if (Me.IsDead) return 'dead';
+    if (inRaid()) return 'in a raid';
+    if (inKamaInstance() || (inst && inst.on)) return 'in an instance';
+    if (state.mode === 'mission') return 'on a mission';
+    if (questRun.active) return 'a quest runs';
+    try { if (questwalkPending()) return 'a quest waits to resume'; } catch (e) { }
+    if (userOrder.name) return `your order "${userOrder.name}" runs`;
+    if (control.owner && control.level <= PRIO.ORDER) return `"${control.owner}" (P${control.level}) holds control`;
+    if (HOV.busy) return `hand-over ${HOV.id} runs`;
+    if (STASH.busy || WH.busy) return 'busy at the warehouse';
+    if (tradeState) return 'trading';
+    if (leadRunBusy) return "my party's supply run / trip runs";
+    if (regroupRun) return 'a regroup runs';
+    if (ESC.on || state.escaping) return 'escaping';
+    if (IsInCombat || now() - lastAttackerOnMe.at < 8000) return 'fighting';
+  } catch (e) { }
+  return '';
+}
+/** the clan leader's bag as last reported (Logs/bag_<leader>.json, max 30 min old): { id: count } of clan level items, null = unknown */
+function clanHandLeaderBag(leader) {
+  try {
+    const b = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Logs\\bag_${leader}.json`));
+    if (!b || !Array.isArray(b.items) || Date.now() - Date.parse(b.at) > 1800000) return null;
+    const S = clanLvlItemIds(), o = {}; b.items.forEach(it => { if (S.has(num(it.id))) o[num(it.id)] = (o[num(it.id)] || 0) + Math.max(1, num(it.count)); }); return o;
+  } catch (e) { return null; }
+}
+function clanHandFile() { return `${SWARM_ROOT}\\Logs\\clanhand_${Me.Name}.json`; }
+/** the dashboard status (written when it changes, refreshed every 5 min while something is pending; 'none' only clears an existing file) */
+function clanHandStatus(o) {
+  try {
+    const sig = `${o.state}|${o.text || ''}|${o.why || ''}`;
+    if (o.state === 'none') { if (CLANHAND.sig === sig) return; CLANHAND.sig = sig; if (!File.Exists(clanHandFile())) return; }
+    else { if (CLANHAND.sig === sig && now() - CLANHAND.wroteAt < CLANHAND_CFG.statusRefreshMs) return; CLANHAND.sig = sig; }
+    CLANHAND.wroteAt = now();
+    File.WriteAllText(clanHandFile(), JSON.stringify(Object.assign({ name: Me.Name, at: new Date().toISOString() }, o)));
+  } catch (e) { }
+}
+function clanHandLog(msg) { clanLog(`clan item hand-over: ${msg}`); try { appendShared(`${SWARM_ROOT}\\Logs\\clan_handover.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
+/** start the hand-over order (the HANDOVER block does the walk + trade) */
+function clanHandStart(d, leader, clvl, why) {
+  const id = `clanlvl_${String(Me.Name).toLowerCase()}_${Date.now().toString(36)}`;
+  const ids = [...new Set(d.items.map(i => num(i.id)))];
+  try { File.WriteAllText(`${HOV_DIR}\\${id}.json`, JSON.stringify({ id, receiver: leader, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: d.items.map(i => ({ objId: i.objId, id: i.id, name: i.name, count: i.count, stack: !!i.stack })), adena: 0 } },
+    allowIds: ids, kind: 'clanlevel', clanLevel: clvl, by: Me.Name, why: `clan level item: ${why}`, created: new Date().toISOString() }, null, 1)); }
+  catch (e) { logError('clanhand order', e); CLANHAND.last = { state: 'failed', at: now(), why: 'could not write the order file' }; return false; }
+  Object.assign(CLANHAND, { cur: id, curAt: now(), curText: d.text, curTo: leader, curLvl: clvl });
+  clanHandStatus({ state: 'handing', text: `handing ${d.text} to ${leader}`, why, items: d.items, receiver: leader, order: id, level: clvl });
+  try { SayToParty(`[clan] handing ${d.text} to ${leader} (clan level ${clvl + 1} needs it)`); } catch (e) { }
+  intent('clanhand', `${d.text} to ${leader} for clan level ${clvl + 1} (${why})`);
+  clanHandLog(`${d.text} -> ${leader} (clan level ${clvl} -> ${clvl + 1}; ${why}; order ${id})`);
+  try { App.emit('swarm.hovcall', { id }); } catch (e) { }                // the receiver's window: "expecting items"
+  hovCommand(['!handover', id]);
+  return true;
+}
+/** a running order's result (the giver's state file) -> handed / failed */
+function clanHandFollow() {
+  const id = CLANHAND.cur; if (!id) return;
+  let s = null; try { s = JSON.parse(File.ReadAllText(`${HOV_DIR}\\${id}_${Me.Name}.json`)); } catch (e) { }
+  let st = String((s && s.state) || '');
+  if (!/^(done|failed|stopped)$/.test(st)) {
+    if (HOV.busy && HOV.id === id) return;
+    if (now() - CLANHAND.curAt < 120000) return;                         // not started yet (waiting for control)
+    st = 'failed'; s = Object.assign({}, s, { msg: (s && s.msg) || 'the hand-over did not run (no result)' });
+  }
+  const ids = clanLvlItemIds(), got = ((s && s.given) || []).filter(g => ids.has(num(g.id)));
+  const to = CLANHAND.curTo, lvl = CLANHAND.curLvl;
+  CLANHAND.cur = '';
+  if (st === 'done' && got.length) {
+    const what = got.map(g => `${g.count} × ${g.name}`).join(' + ');
+    CLANHAND.last = { state: 'done', at: now() };
+    clanHandStatus({ state: 'handed', text: `handed ${what} to ${to}`, why: `clan level ${lvl + 1} can be raised now (if SP / adena are there)`, receiver: to, order: id, level: lvl });
+    try { SayToParty(`[clan] handed ${what} to ${to} — clan level ${lvl + 1} needs it`); } catch (e) { }
+    intentDone('clanhand', true, `handed ${what} to ${to}`);
+    clanHandLog(`handed ${what} -> ${to} (order ${id})`);
+  } else {
+    const why = String((s && s.msg) || st || 'no result').slice(0, 200);
+    CLANHAND.last = { state: 'failed', at: now(), why };
+    clanHandStatus({ state: 'failed', text: `could not hand ${CLANHAND.curText} to ${to}`, why, receiver: to, order: id, level: lvl });
+    note(`[clan] clan level item to ${to} FAILED: ${why} — next automatic try in 30 min`, true);
+    intentDone('clanhand', false, why);
+    clanHandLog(`FAILED ${CLANHAND.curText} -> ${to}: ${why} (order ${id})`);
+  }
+}
+/** one check (automatic every minute; manual = "!clanhand"). -> { act, msg } */
+async function clanHandTick(manual) {
+  if (CLANHAND.busy) return { act: 'busy', msg: 'already checking' };
+  CLANHAND.busy = true;
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name) return { act: 'none', msg: 'not ready' };
+    if (!CLANHAND.loaded) {                                              // after a script reload: pick up my last status (running order, last failure)
+      CLANHAND.loaded = true;
+      try { const j = JSON.parse(File.ReadAllText(clanHandFile())); const at = Date.parse(j.at) || 0;
+        if (j.state === 'handing' && j.order && now() - at < HOV_CFG.maxMs + 15 * 60000) Object.assign(CLANHAND, { cur: String(j.order), curAt: at, curText: String(j.text || '').replace(/^handing | to .*$/g, ''), curTo: String(j.receiver || ''), curLvl: num(j.level) });
+        else if (j.state === 'failed' && now() - at < CLANHAND_CFG.failBackoffMs) CLANHAND.last = { state: 'failed', at, why: String(j.why || '') };
+        else if (j.state === 'handed' && now() - at < CLANHAND_CFG.handedShowMs) CLANHAND.last = { state: 'done', at };
+      } catch (e) { }
+    }
+    if (CLANHAND.cur) { clanHandFollow(); if (CLANHAND.cur) return { act: 'busy', msg: `hand-over ${CLANHAND.cur} runs (${CLANHAND.curText} to ${CLANHAND.curTo})` }; }
+    const leader = clanLeaderName();
+    if (!leader || Me.Name === leader) { clanHandStatus({ state: 'none' }); return { act: 'none', msg: 'I am the clan leader' }; }
+    const clvl = clanLevelNow(), needs = clanHandNeeds(clanData().levels, clvl), ids = new Set(needs.map(n => n.id)), bag = [];
+    if (ids.size) Inventory.forEach(it => { const id = num(it.Id); if (!ids.has(id)) return; let stk = false; try { stk = !!it.IsStackable; } catch (e) { }
+      bag.push({ id, objId: num(it.objId), name: String(it.Name || ''), count: Math.max(1, num(it.Count)), equipped: !!it.IsEquiped, stackable: stk }); });
+    const keepHanded = () => CLANHAND.last && CLANHAND.last.state === 'done' && now() - CLANHAND.last.at < CLANHAND_CFG.handedShowMs;
+    if (!bag.length) { if (!keepHanded()) clanHandStatus({ state: 'none' }); return { act: 'none', msg: needs.length ? `I have no ${needs.map(n => n.name).join(' / ')}` : `clan level ${clvl}: the next level needs no item` }; }
+    const recv = await hovWhere(leader, 'clanhand');
+    const leaderHas = recv && !recv.stale && recv.clanItems ? recv.clanItems : clanHandLeaderBag(leader);
+    let meIdle = false; try { meIdle = !autoLvl.active && !leadRunBusy; } catch (e) { }
+    const d = clanHandDecide({ me: { name: Me.Name, town: currentTownKey() || '', busy: clanHandBusyWhy(), idle: meIdle }, leader, recv, needs, clvl, leaderHas, bag,
+      notrade: hovNotrade(), manual: !!manual, solo: ssSolo(), last: CLANHAND.last, lastCall: CLANHAND.callAt, now: now() });
+    if (d.act === 'none') { if (!keepHanded()) clanHandStatus({ state: 'none' }); return { act: 'none', msg: d.why }; }
+    if (d.act === 'wait') { clanHandStatus({ state: 'waiting', text: `${d.text} for ${leader}`, why: d.why, items: d.items, receiver: leader, level: clvl }); return { act: 'wait', msg: `${d.text} for ${leader} waits: ${d.why}` }; }
+    if (d.act === 'call') {
+      CLANHAND.callAt = now();
+      try { App.emit('swarm.clanhand.come', { to: leader, giver: Me.Name, town: currentTownKey() || '', what: d.text }); } catch (e) { }
+      clanHandStatus({ state: 'calling', text: `${d.text} for ${leader}`, why: d.why, items: d.items, receiver: leader, level: clvl });
+      clanHandLog(`${d.why} (${d.text})`);
+      return { act: 'call', msg: d.why };
+    }
+    clanHandStart(d, leader, clvl, d.why);
+    return { act: 'give', msg: `handing ${d.text} to ${leader} (${d.why})` };
+  } catch (e) { logError('clanhand', e); return { act: 'error', msg: 'error: ' + (e && e.message || e) }; }
+  finally { CLANHAND.busy = false; }
+}
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || now() - scriptStartAt < CLANHAND_CFG.startDelayMs) return;
+    if (!CLANHAND.cur && !clanAutoFlag('itemHandover', true)) { clanHandStatus({ state: 'none' }); return; }
+    clanHandTick(false).catch(e => logError('clanhand tick', e));
+  } catch (e) { }
+}, CLANHAND_CFG.tickMs);
+// the clan leader (on his own, idle, in a town): a holder in another town asks him over -> .<town>, then he waits there (the holder walks over)
+App.on('swarm.clanhand.come', (e) => { const d = e.data || {}; if (d.to !== Me.Name || !state.role) return; clanHandCome(d).catch(er => logError('clanhand come', er)); });
+async function clanHandCome(d) {
+  if (CLANHAND.coming || Me.Name !== clanLeaderName() || !IsCharacterReady()) return;
+  const town = townKeyFor(String(d.town || '')) || '', here = currentTownKey() || '';
+  if (!town || here === town) return;
+  const busy = clanHandBusyWhy();
+  const why = busy || (!ssSolo() ? 'I lead a party (it would come along)' : autoLvl.active ? 'I am leveling' : control.owner ? `"${control.owner}" holds control` : !here ? 'I am not in a town' : '');
+  if (why) { note(`clan item: ${d.giver} asks me to come to ${town} — not now (${why})`); clanHandLog(`${d.giver} asked me to ${town}: not now (${why})`); return; }
+  const name = `clan item from ${d.giver}`;
+  if (takeControl(name, PRIO.UPKEEP) === false) return;
+  CLANHAND.coming = true;
+  try {
+    note(`clan item: ${d.giver} has ${d.what || 'a clan level item'} for me — going to ${town}`, true);
+    intent('clanhand', `.${town} to take ${d.what || 'a clan level item'} from ${d.giver}`);
+    lastTownCmd = 0;
+    const ok = await townCommand(name, town);
+    clanHandLog(`went ${here} -> ${town} for ${d.giver} (${d.what || '?'}): ${ok ? 'arrived — waiting there' : 'the .town did not work (' + townFailWhy() + ')'}`);
+    intentDone('clanhand', !!ok, ok ? `in ${town}, waiting for ${d.giver}` : townFailWhy());
+  } finally { CLANHAND.coming = false; releaseControl(name); }
 }
 
 // --- WAREHOUSE TAKE (D8, user 2026-10-12: "take needed items from the private / clan warehouse (the clan leader grants rights), from the
@@ -16257,7 +16704,7 @@ setInterval(() => {
   if (!IsCharacterReady() || Me.Name !== clanLeaderName()) return;
   try {
     let st = {}; try { st = JSON.parse(File.ReadAllText(`${__DIR__}\\Logs\\clan_state.json`)); } catch (e) { }
-    let clan = null; try { const C = Me.Clan; if (C) clan = { name: String(C.Name || C.ClanName || ''), level: num(C.Level), id: num(C.ClanId || C.Id || 0), ally: String(C.AllyName || '') }; } catch (e) { }
+    let clan = null; try { const C = Me.Clan; if (C) clan = { name: String(C.Name || C.ClanName || ''), level: clanLevelNow(), rawLevel: num(C.Level), id: num(C.ClanId || C.Id || 0), ally: String(C.AllyName || '') }; } catch (e) { }   // CLANHAND-2026-10-13: one clan level (rawLevel = what L2Swarm reports)
     try { st.nextLevel = clanLevelNeeds(); st.clanInfo = clanInfo(); st.clanAuto = clanAutoOn(); try { st.clanSkills = clanSkillsLearned(); st.skillCheck = clanSkillPrecheck(); st.auto = CLANAUTO.status; st.whDirty = clanWhDirty(); } catch (e2) { }   /* CLANAUTO */ } catch (e) { }   // Clan tab: next level checklist, reputation (2026-10-07)
     Object.assign(st, { leader: Me.Name, at: new Date().toISOString(), clan, level: num(Me.Level), cls: String(Me.ClassName || ''), hp: Math.round(num(Me.HpPercent)), mp: Math.round(num(Me.MpPercent)),
       x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), town: currentTownKey() || null, task: String(state.task || ''), mode: String(state.mode || ''), dead: !!Me.IsDead, adena: itemCount(57), sp: num(Me.SP || 0) });
@@ -16534,7 +16981,16 @@ async function clanCreate() {
 // "!clanlevel auto on|off": in a town, not busy, needs met -> do it (default OFF, Logs/clan_auto.json).
 let clanDataCache = null;
 function clanData() { if (!clanDataCache) { try { clanDataCache = JSON.parse(File.ReadAllText(`${__DIR__}\\Scripts\\data\\clan_data.json`).replace(/^﻿/, '')); } catch (e) { clanDataCache = { levels: [] }; } } return clanDataCache; }
-function clanLevelNow() { return Math.max(myClanLevel(), num(clanIntel && clanIntel.level)); }
+// CLANHAND-2026-10-13 (one source of truth for the clan level): L2Swarm reports Me.Clan.Level 0 for MyClan (level 2) and the clan intel
+// (0x4D member list) did not parse on L2Toggle (name "(clan <id>)", level 0) -> the level-up row read "level 0 -> 1", the skills row "the clan is
+// level 0", while the dashboard (clan_quests.json clan.level = 2) said 2. The level is now the HIGHEST of: L2Swarm's Me.Clan.Level, the clan
+// intel, and clan_quests.json clan.level (written at the founding and after every level-up; only when its clan id matches mine). A clan level
+// never drops by itself, so the highest known value is the right one. Everything (needs, invites, skills, sieges, clanInfo) uses this.
+function clanLevelNow() {
+  let l = Math.max(myClanLevel(), num(clanIntel && clanIntel.level));
+  try { const C = (clanCfgCached() || {}).clan, id = myClanId(); if (C && num(C.level) > l && (myClanId() || myClanName()) && (!id || !num(C.id) || num(C.id) === id)) l = num(C.level); } catch (e) { }
+  return l;
+}
 /** What the next clan level needs and what I have. null = not in a clan. */
 function clanLevelNeeds() {
   if (!myClanId() && !myClanName()) return null;
@@ -16608,7 +17064,7 @@ async function clanLevelUp(why) {
   if (!N) return 'not in a clan';
   if (!N.ok) { const m = `clan level ${N.level} -> ${N.next || '?'}: missing ${N.missing.join('; ')}`; clanLog(m); return m; }
   clanLog(`clan level ${N.level} -> ${N.next} (${why}): everything there — going to a village master`);
-  const before = N.level;
+  const before = N.level, spBefore = num(Me.SP || 0), spNeed = num(N.sp && N.sp.need), itemsBefore = (N.items || []).map(i => ({ id: i.id, have: itemCount(i.id), need: i.need }));
   const r = await atVillageMaster('clan level up', async (npc) => {
     const a = await villageMasterClick(npc, [/increase.*(clan|level)|(clan|pledge).*level ?up|level up|raise.*level|upgrade.*clan/i], 'levelup');
     if (!a.ok) { clanLog(a.msg); return null; }                            // next village master
@@ -16627,10 +17083,18 @@ async function clanLevelUp(why) {
       if (lastSysMsg && lastSysMsg.at >= t0) said = lastSysMsg.text;
     }
     await sleep(1500); await clanIntelRequest('after level up');
-    const now2 = clanLevelNow();
+    let now2 = clanLevelNow();
     const txt = htmlText(String(html || '')).slice(0, 200);
+    // CLANHAND-2026-10-13: Me.Clan.Level / the intel may not show the new level (both read 0 on L2Toggle) -> the level-up is proven by what it
+    // cost: the clan leader's SP dropped by the level's SP, or the level item left his bag, or the server said the clan level rose
+    if (now2 <= before) {
+      const spPaid = spNeed > 0 && spBefore - num(Me.SP || 0) >= spNeed * 0.9;
+      const itemPaid = itemsBefore.length > 0 && itemsBefore.every(i => i.have - itemCount(i.id) >= i.need);
+      const saidUp = !!said && /clan.{0,30}level.{0,20}(increas|rais|grown|up)|level.{0,15}clan.{0,20}increas/i.test(said) && !/skill|not|cannot|can.t|fail|insufficient|lack|enough/i.test(said);
+      if (spPaid || itemPaid || saidUp) { clanLog(`level-up proven by ${[spPaid ? 'the SP cost' : '', itemPaid ? 'the level item leaving the bag' : '', saidUp ? 'the server message' : ''].filter(Boolean).join(' + ')} (L2Swarm still reports level ${myClanLevel()})`); now2 = before + 1; }
+    }
     if (now2 > before) {
-      try { const c2 = clanCfg(); if (c2 && c2.clan) { c2.clan.level = now2; File.WriteAllText(`${__DIR__}\\Scripts\\data\\clan_quests.json`, JSON.stringify(c2, null, 2)); } } catch (e) { }
+      try { const c2 = clanCfg(); if (c2 && c2.clan) { c2.clan.level = now2; File.WriteAllText(`${__DIR__}\\Scripts\\data\\clan_quests.json`, JSON.stringify(c2, null, 2)); CLANHAND.cfgAt = 0; } } catch (e) { }
       const m = `clan level ${before} -> ${now2} at ${npc.Name}${said ? ' — ' + said : ''}`; clanLog(m); return m;
     }
     const m = `level-up clicked at ${npc.Name} but the clan is still level ${now2}${said ? ' — server: ' + said : ''}${txt ? ' — page: ' + txt : ''}`; clanLog(m); return m;
@@ -16780,7 +17244,7 @@ function clanInfo() {
   const id = myClanId(), nm = myClanName();
   if (!id && !nm) return null;
   const known = clanIntel.at && (!id || !clanIntel.id || clanIntel.id === id);
-  return { id, name: (nm && !nm.startsWith('(') ? nm : '') || (known ? clanIntel.name : nm), level: myClanLevel() || (known ? clanIntel.level : 0),
+  return { id, name: (nm && !nm.startsWith('(') ? nm : '') || (known ? clanIntel.name : nm), level: clanLevelNow(),   // CLANHAND-2026-10-13: one clan level
     ally: (() => { try { return String((Me.Clan && Me.Clan.AllyName) || '') || (known ? clanIntel.ally : ''); } catch (e) { return ''; } })(),
     leader: known ? clanIntel.leader : '', isLeader: known ? clanIntel.leader === Me.Name : null, rep: known ? clanIntel.rep : null,
     members: known ? clanIntel.members.map(m => ({ name: m.name, level: m.level, classId: m.classId, online: m.online, unit: m.unit })) : [],
@@ -16900,7 +17364,9 @@ const DAWN = { npc: 'Priest of Dawn', file: (n, i) => `${__DIR__}\\Logs\\sevensi
 const SS_STATE_F = `${__DIR__}\\Logs\\sevensigns_state.json`;
 function dawnLog(msg) { try { appendShared(`${__DIR__}\\Logs\\dawn.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
 function ssFile(n) { return `${__DIR__}\\Logs\\sevensigns_${n}.json`; }
-function ssRead(n) { try { return JSON.parse(File.ReadAllText(ssFile(n))) || {}; } catch (e) { return {}; } }
+// SSTRIES-2026-10-13: failed Dawn sign-ups counted by the code BEFORE v1.6.0 recognised L2Toggle's priest page ('Participation in the Seven Signs')
+// closed the catacombs for the rest of the cycle (Dagger1/Destroyer3/Destroyer9: 'failed 3 times this cycle'; tester l3tal). Records without v:2 count 0 tries.
+function ssRead(n) { try { const r = JSON.parse(File.ReadAllText(ssFile(n))) || {}; if (r.v !== 2 && r.tries) { r.tries = 0; if (r.status === 'failed' || r.status === 'notown') r.status = ''; } return r; } catch (e) { return {}; } }
 function ssWrite(n, o) { try { File.WriteAllText(ssFile(n), JSON.stringify(o)); } catch (e) { } ssTeamCache.at = 0; }
 function ssState() { try { return JSON.parse(File.ReadAllText(SS_STATE_F)) || {}; } catch (e) { return {}; } }
 // SSOPTIN-2026-10-12 (user: "Priest of Dawn should not be a given; it must be something you sign up for ... such things must never override a
@@ -16914,7 +17380,8 @@ function ssState() { try { return JSON.parse(File.ReadAllText(SS_STATE_F)) || {}
 function ssoNorm(j) {
   const ok = !!j && typeof j === 'object' && !Array.isArray(j);
   const L = (a) => Array.isArray(a) ? a.map(x => String(x == null ? '' : x).trim()).filter(Boolean) : [];
-  return { exists: ok, parties: ok ? L(j.parties) : [], chars: ok ? L(j.chars) : [], contributeStones: ok && j.contributeStones !== undefined && j.contributeStones !== null ? !!j.contributeStones : null };
+  return { exists: ok, parties: ok ? L(j.parties) : [], chars: ok ? L(j.chars) : [], contributeStones: ok && j.contributeStones !== undefined && j.contributeStones !== null ? !!j.contributeStones : null,
+    gate: ok && /^(try|strict)$/i.test(String(j.gate || '')) ? String(j.gate).toLowerCase() : '' };   // SSGATE2-2026-10-13: the gate mode
 }
 // enrolled = the character's own name in chars, or its party (= its party leader's name) in parties (any case)
 function ssoEnrolled(cfg, name, party) {
@@ -16962,7 +17429,9 @@ function ssOpt() {
 }
 // my party = my team leader's name (a solo character = its own name), the same key as the dashboard's parties
 function ssPartyOf(n) { try { if (n === Me.Name && ssSolo()) return Me.Name; } catch (e) { } return CONFIG.leader || Me.Name; }
-function ssEnrolled(n) { try { return ssoEnrolled(ssOpt(), n, ssPartyOf(n)); } catch (e) { return false; } }
+function ssEnrolled(n) { try { return ssoEnrolled(ssOpt(), n, ssPartyOf(n)) || ssChosenDungeon(); } catch (e) { return false; } }
+/** SSGATE2-2026-10-13: the party's dashboard hunting-spot choice is a catacomb / necropolis = the user's consent to the Dawn sign-up for it */
+function ssChosenDungeon() { try { const e = partySpotEntry(); return !!(e && e.mode === 'manual' && /necropolis|catacomb/i.test(String(e.dungeon || e.spot || e.rooms || ''))); } catch (e) { return false; } }
 function ssStonesOn() { try { return ssoStones(ssOpt(), CONFIG.sevenSigns.contributeStones); } catch (e) { return false; } }
 function ssBusyWhy() {
   try { return ssoBusyWhy({ quest: !!(typeof questRun !== 'undefined' && questRun.active), order: (typeof userOrder !== 'undefined' && userOrder.name) || '', owner: control.owner || '', level: control.level, orderLevel: PRIO.ORDER }); } catch (e) { return ''; }
@@ -16978,6 +17447,13 @@ async function dawnOne() {
   if (!c0.stale && c0.period === 'competition' && !ssNeedsMan(Me.Name)) { note('seven signs: nothing to do — I am signed up this cycle (or cannot sign up: see the 7 Signs tab)', true); return; }
   if (isLeader() && !ssSolo()) { await leadDawn({ only: [Me.Name] }); return; }
   if (ssBusy) { note('seven signs: a Priest of Dawn visit runs already', true); return; }
+  // DAWNONE-2026-10-13 (Dagger1 test: "the Priest of Dawn did not answer" — his autolevel clicked the gatekeeper at the same time, both dialogs
+  // broke): leveling steps aside for the visit (like leadDawn) and comes back after it
+  let wasLvl = false;
+  if (autoLvl.active) { wasLvl = true; autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
+  try { await dawnOneVisit(); } finally { if (wasLvl && isLeader() && !leadPaused() && !autoLvl.active) leadLevel('after !dawn').catch(e => logError('dawn level', e)); }
+}
+async function dawnOneVisit() {
   if (!dawnPriestSpot(4000)) { lastTownCmd = 0; await townCommand('seven signs', 'Giran'); await sleep(4000); if (!dawnPriestSpot(4000)) { note('seven signs: could not get to a town with a Priest of Dawn (.giran refused?)', true); return; } }
   ssBusy = true; ssManualUntil = now() + 600000;
   try { const c = ssNow(); if (c.stale || c.period === 'unknown') await dawnPeriod(true); note(`seven signs: ${await dawnVisit()}`, true); } finally { ssBusy = false; }
@@ -17048,6 +17524,14 @@ function ssgOne(cur, m, kind, o) {
 function ssGateDecide(cur, members, kind, o) {
   o = o || {};
   if (o.enabled === false) return { state: 'enter', ok: true, why: 'the Seven Signs check is off (CONFIG.sevenSigns.blockDungeons)', until: 0, need: [], who: [] };
+  // TRY MODE (2026-10-13, tester: 'it says I need to sign with the Priest of Dawn but the party fails, yet I can manually teleport into the catacombs'):
+  // L2Toggle lets characters that are NOT signed up through the Ziggurat (seen 2026-10-07 with Dagger1 too). o.mode 'try' = go and let the
+  // Ziggurat decide; only a refusal it really gave this period (rec.denied, ssMarkDenied) closes it until the period change. No mode = the old rule.
+  if (o.mode === 'try') {
+    const den = (members || []).filter(m => { const dn = ((m && m.rec) || {}).denied; return dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind); });
+    if (den.length) return { state: 'closed', ok: false, why: 'the Ziggurat refused ' + den.map(m => m.name).join(', ') + ' this period (Seven Signs)', until: cur.nextChange || 0, need: [], who: den.map(m => m.name) };
+    return { state: 'enter', ok: true, why: 'Seven Signs gate "try": the Ziggurat decides (no sign-up needed first)', until: 0, need: [], who: [] };
+  }
   const all = (members || []).map(m => ssgOne(cur, m, kind, o));
   const closed = all.filter(a => a.state === 'closed');
   if (closed.length) {
@@ -17181,7 +17665,7 @@ async function dawnSignUp() {
   const fin = (msg, status) => {
     const r = ssRead(Me.Name);
     if (r.cycle !== cyc) { r.tries = 0; delete r.denied; }
-    Object.assign(r, { cycle: cyc, side: /^(signed|member)$/.test(status) ? 'dawn' : status === 'dusk' ? 'dusk' : '', status, classId: num(Me.ClassId), at: now(), tries: (r.tries || 0) + (/^(signed|member|firstclass)$/.test(status) ? 0 : 1) });
+    Object.assign(r, { v: 2, cycle: cyc, side: /^(signed|member)$/.test(status) ? 'dawn' : status === 'dusk' ? 'dusk' : '', status, classId: num(Me.ClassId), at: now(), tries: (r.tries || 0) + (/^(signed|member|firstclass)$/.test(status) ? 0 : 1) });
     if (status === 'signed') r.signedAt = now();
     ssWrite(Me.Name, r); dawnLog(`sign-up: ${status} — ${msg}`); return msg;
   };
@@ -17198,28 +17682,32 @@ async function dawnSignUp() {
     if (!html) return fin('the Priest of Dawn did not answer', 'failed');
     // the links, in order: "I want to participate in the Seven Signs." -> "I wish to participate." -> the seal -> (a confirm page on a custom server)
     const steps = [/participation in the seven signs|participate in the seven signs|take part in the seven signs|join the lords of dawn/i, /wish to participate|i will participate/i, CONFIG.sevenSigns.seal, /seal of (avarice|gnosis|strife)/i, /^\W*(yes|confirm|accept|i agree|ok)\b/i];
-    const used = new Set(); const t0 = now();
+    const used = {}; const t0 = now();   // DAWNMEMBER-2026-10-13: link text -> clicks (a link may be clicked twice: the first click sometimes only brought the front page back)
     for (let i = 0; i < 7 && html; i++) {
       try { File.WriteAllText(DAWN.file(Me.Name, i), String(html)); } catch (e) { }
       const text = htmlText(String(html)), p = ssParse(html);
       // (not written to my file: a sign-up record of the last competition must survive a look at the priest in the validation period)
       if (i === 0) { ssSaveState(p); if (/^(validation|results|recruiting)$/.test(p.period)) { dawnLog(`sign-up: the ${p.period} period is on — only possible in the competition period`); return `the ${p.period} period is on — signing up is only possible in the competition period`; } }
+      // DAWNMEMBER-2026-10-13: the priest's front page of a Lord of Dawn has 'Contributing seal stones' + 'Festival of Darkness' and no 'Participation' link (Bishop4 09:52: signed up at 09:47, #1275 not recognised then)
+      if (/contributing seal stones|festival of darkness/i.test(text) && !/participation in the seven signs/i.test(text)) return fin('already a Lord of Dawn (member front page)', 'member');
       if (/already participating|aren't you already|you are already a member/i.test(text)) return fin(`already a member: ${text.slice(0, 120)}`, 'member');
       if (/application has been accepted|now a member of the lords? of dawn|have joined the lords of dawn/i.test(text)) return fin('signed up with the Lords of Dawn', 'signed');
       if (/first class transfer|not skilled enough/i.test(text)) return fin(`refused: ${text.slice(0, 160)}`, 'firstclass');
       if (/foul revolutionaries of dusk|dusk devils/i.test(text)) return fin('the priest says I am a Revolutionary of Dusk this cycle', 'dusk');
       if (/participation fee|certificate of approval|enough adena|50,000 adena/i.test(text)) return fin(`the priest asks for a fee/item — NOT paid (user: Dawn is free on L2Toggle). Page: ${text.slice(0, 260)}`, 'fee');
-      const links = npcLinks(String(html)).filter(l => !/dusk|revolutionar|how do i|what is|go back|^\W*back\W*$|fee|pay\b|certificate|record|seal stones|festival|teleport|status|ancient adena|consumable|reward/i.test(l.text) && !used.has(l.cmd));
+      const links = npcLinks(String(html)).filter(l => !/dusk|revolutionar|how do i|what is|go back|^\W*back\W*$|fee|pay\b|certificate|record|seal stones|festival|teleport|status|ancient adena|consumable|reward/i.test(l.text) && (used[l.text] || 0) < 2);
       let link = null; for (const re of steps) { link = links.find(l => re.test(l.text)); if (link) break; }
       if (!link) { dawnLog(`page ${i}: no known link — ${npcLinks(String(html)).map(l => l.text).join(' | ').slice(0, 300)} — text: ${text.slice(0, 200)}`); break; }
-      used.add(link.cmd); dawnLog(`page ${i}: click "${link.text}"`);
-      const pg = waitNpcHtml(6000);
+      used[link.text] = (used[link.text] || 0) + 1;   // DAWNCODES-2026-10-13: L2Toggle reuses the short bypass codes on every page (page 1 "Seal of Avarice" = 00, page 2 "I wish to fight for the Seal of Avarice." = 00 too) -> loops are stopped by the link TEXT, not the code dawnLog(`page ${i}: click "${link.text}"`);
+      const pg = waitNpcHtml(15000);   // DAWNWAIT-2026-10-13: 15 s (pages came after > 6 s under load); NO re-click: the same short code on the next page is another link
       Send.ReqBypassToServer(link.cmd, true);
       html = await pg; await sleep(500);
+      { const smx = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text) : ''; if (/chosen to fight for the seal|application has been accepted|now a lord of dawn/i.test(smx)) return fin(`server: ${smx.slice(0, 140)}`, 'signed'); }   // #1275 = signed (Nuker7 09:52)
+      // (DAWNRETRY removed 2026-10-13: the re-click hit another link on a late page — Tank3 landed on Seal Status)
     }
     // no page at the end: the server may only have said it (L2J SEVENSIGNS_PARTECIPATION_DAWN "... as a member of the Lords of Dawn")
     const sm = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text) : '';
-    if (/member of the lords of dawn|participate in the seven signs as a member/i.test(sm)) return fin(`server: ${sm.slice(0, 140)}`, 'signed');
+    if (/member of the lords of dawn|participate in the seven signs as a member|chosen to fight for the seal|application has been accepted/i.test(sm)) return fin(`server: ${sm.slice(0, 140)}`, 'signed');
     return fin(`not confirmed${sm ? ' — server: ' + sm.slice(0, 140) : ''} (pages in Logs/sevensigns_${Me.Name}_<n>.html)`, 'failed');
   } finally { state.followHoldUntil = 0; try { if (followWas !== null) Options.ActiveFollow = followOk(followWas); } catch (e) { } }
 }
@@ -17270,7 +17758,9 @@ function ssKindOf(name) { return /necropolis/i.test(String(name || '')) ? 'necro
 /** The next period change (Monday CONFIG.sevenSigns.changeUtcHour), ms. */
 function ssNextChange(t) { return ssgNextChange(t || now(), CONFIG.sevenSigns.changeUtcHour); }
 function ssMember(n) { const r = ssRead(n), cls = n === Me.Name ? num(Me.ClassId) : (r.classId !== undefined ? num(r.classId) : -1); return { name: n, rec: r, base: cls >= 0 && BASE_CLASS_IDS.includes(cls) }; }
-const ssGateOpts = () => ({ enabled: !!CONFIG.sevenSigns.blockDungeons, maxTries: CONFIG.sevenSigns.maxTriesPerCycle });
+const ssGateOpts = () => ({ enabled: !!CONFIG.sevenSigns.blockDungeons, maxTries: CONFIG.sevenSigns.maxTriesPerCycle, mode: ssGateMode() });
+/** seven_signs.json "gate": 'strict' (default: signed up with Dawn first, the rule of 2026-10-08) | 'try' (go, the Ziggurat decides, SSGATETRY-2026-10-13) */
+function ssGateMode() { try { return (ssOpt() || {}).gate === 'try' ? 'try' : 'strict'; } catch (e) { return 'strict'; } }   // SSGATE2: strict = the default
 /** May character n go through a Ziggurat (of a 'necropolis' / 'catacomb'; omitted = any) now? Cheap (files only). {ok, state, why, registered}
  *  (the user's hard rule 2026-10-08 21:55, see SSGATE-PURE: registered with Dawn or Dusk, and on the winning side in the validation period) */
 function ssAllowed(n, kind) {
@@ -17348,7 +17838,9 @@ function ssZigRefused(html, since) {
   const t = htmlText(String(html || ''));
   if (/deceive me|may not pass/i.test(t)) return t.slice(0, 160);
   const sm = lastSysMsg && lastSysMsg.at >= (since || now() - 5000) ? String(lastSysMsg.text) : '';
-  if (/may use this|lords? of dawn|revolutionar\w* of dusk|seven signs|not (a )?(member|participant)/i.test(sm)) return sm.slice(0, 160);
+  // + #1303 "This may only be used during the quest event period." (2026-10-13 test: Dagger1 NOT signed up, competition period, refused twice
+  //   with it at the Catacomb of the Apostate Ziggurat; it was not recognised, so the trip was tried again and again)
+  if (/may use this|lords? of dawn|revolutionar\w* of dusk|seven signs|not (a )?(member|participant)|quest event period/i.test(sm)) return sm.slice(0, 160);
   return '';
 }
 function ssMarkDenied(dungeon, why) {
@@ -20198,7 +20690,7 @@ async function clanLearnFocus() {
   const f = pre.f;
   if (!myClanName()) return 'no clan';
   let need = 0; try { const cd = JSON.parse(File.ReadAllText(`${__DIR__}\\Scripts\\data\\clan_data.json`)); const sk = (cd.skills || []).find(x => x.id === num(f.id) && x.level === num(f.level)); need = sk ? num(sk.clanLevel) : 0; } catch (e) { }
-  if (need && clanLevelNow() < need) return `clan level ${myClanLevel()}: the focus skill needs ${need}`;
+  if (need && clanLevelNow() < need) return `clan level ${clanLevelNow()}: the focus skill needs ${need}`;
   // CMDFIX2-2026-10-12: the trip goes through atVillageMaster (P4 control, autolevel stopped, follow off; masters here, else Gesto / Kusto / Angus
   // in Giran) — before, .giran + walk ran next to his autolevel loop, which kept taking him back to his spot (the clanCreate bug of 2026-10-07)
   return atVillageMaster('clan skill', async (npc) => {
@@ -23786,7 +24278,15 @@ setInterval(() => { if (!leftBehind.size || !isLeader()) return; [...leftBehind]
 // the rescue planner's route from here to the leader (.town -> gatekeeper -> dungeon entry / floor teleporters / room walk, or open-world
 // travel), step by step, reported to the leader (swarm.backtrip) for his status line. The team keeps hunting meanwhile (huntWithoutReturning);
 // the hub regroup is the fallback only when no route back exists or the trip failed (rejoinPlan, 10 min).
-const backTrip = { on: false, failedAt: 0, why: '', route: '', step: '', startedAt: 0 };
+const backTrip = { on: false, failedAt: 0, why: '', route: '', step: '', startedAt: 0, fails: 0, fx: null, fy: null };
+// RETURN BACKOFF (2026-10-13): the last failure survives a script reload / brain-host worker restart (Logs/backtrip_<name>.json); before, every
+// restart forgot it and the member planned the same impossible trip again at once ("fresh after a restart" rejoins after 8 s)
+const backTripFile = () => `${SWARM_ROOT}\\Logs\\backtrip_${String(Me.Name || 'unknown').replace(/[^A-Za-z0-9_-]/g, '')}.json`;
+function backTripSave() { try { File.WriteAllText(backTripFile(), JSON.stringify({ failedAt: backTrip.failedAt || 0, why: backTrip.why || '', fails: backTrip.fails || 0, x: backTrip.fx, y: backTrip.fy, at: new Date().toISOString() })); } catch (e) { } }
+setTimeout(() => { try {
+  const j = JSON.parse(String(File.ReadAllText(backTripFile())).replace(/^﻿/, ''));
+  if (j && j.failedAt && now() - j.failedAt < TEAMJOIN.returnForgetMs && !(backTrip.failedAt > j.failedAt)) Object.assign(backTrip, { failedAt: Number(j.failedAt) || 0, why: String(j.why || ''), fails: Number(j.fails) || 1, fx: isFinite(j.x) ? Number(j.x) : null, fy: isFinite(j.y) ? Number(j.y) : null });
+} catch (e) { } }, 1000);
 function backTripEmit(phase, extra) { try { App.emit('swarm.backtrip', Object.assign({ name: Me.Name, phase, route: backTrip.route, step: backTrip.step, why: backTrip.why }, extra || {})); } catch (e) { } }
 async function memberReturnTrip(why) {
   const lp = livePos[CONFIG.leader], L = lp && now() - lp.at < 15000 ? lp : partyMember(CONFIG.leader);
@@ -23796,11 +24296,16 @@ async function memberReturnTrip(why) {
   note(`return trip: ${why}`, true);
   setTask(`on my way back to ${CONFIG.leader}: getting ready`);
   backTripEmit('start');
-  const fail = (w) => { Object.assign(backTrip, { on: false, failedAt: now(), why: String(w || 'failed').slice(0, 140) }); note(`return trip: could not get back to ${CONFIG.leader} — ${backTrip.why}; the team regroups instead`, true); backTripEmit('failed'); return false; };
+  const fail = (w) => {
+    const fails = returnFailCount(backTrip.failedAt ? { fails: backTrip.fails, failedAt: backTrip.failedAt, x: backTrip.fx, y: backTrip.fy } : null, to, now());
+    Object.assign(backTrip, { on: false, failedAt: now(), why: String(w || 'failed').slice(0, 140), fails, fx: Math.round(to.x), fy: Math.round(to.y) }); backTripSave();
+    note(`return trip: could not get back to ${CONFIG.leader} — ${backTrip.why}; the team regroups instead (next try in ${Math.round(returnBackoffMs(fails) / 60000)} min, failure ${fails})`, true); backTripEmit('failed'); return false; };
   try {
     if (now() - lastAttackerOnMe.at < 6000) { const t0 = now(); while (now() - t0 < 60000 && now() - lastAttackerOnMe.at < 6000 && !Me.IsDead) await sleep(2000); }
     if (currentTownKey() && needsBuff()) { backTrip.step = 'rebuff'; backTripEmit('travel'); try { await buffSelf('return trip: rebuff before going back', true); } catch (e) { } }
     let plan = null; try { plan = rescuePlan(dungeonRooms(), { x: Me.X, y: Me.Y, z: Me.Z }, to, { name: CONFIG.leader }); } catch (e) { logError('return plan', e); }
+    // the leader is inside an instance: not a failure of the way back (no backoff, no hub regroup) — wait until he is out (rejoinPlan)
+    if (plan && plan.instance) { Object.assign(backTrip, { on: false, step: '', why: plan.why }); note(`return trip: ${plan.why} — waiting`, true); backTripEmit('wait'); return false; }
     if (!plan || !plan.ok) return fail(plan && plan.why ? plan.why : 'no route back found');
     backTrip.route = plan.route; backTripEmit('travel');
     const g0 = control.gen;
@@ -23819,6 +24324,7 @@ async function memberReturnTrip(why) {
     const r = await rescueRunPlan(io, plan, {});
     if (!(r && r.ok) && !near()) return fail(r && r.why ? r.why : 'the route did not get me there');
     Object.assign(backTrip, { on: false, step: 'back with the team' });
+    if (backTrip.failedAt || backTrip.fails) { Object.assign(backTrip, { failedAt: 0, fails: 0, why: '', fx: null, fy: null }); backTripSave(); }
     note(`return trip: back with ${CONFIG.leader} (${plan.route})`, true); backTripEmit('done');
     try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { }
     return true;
@@ -23836,6 +24342,7 @@ App.on('swarm.backtrip', (e) => {
   const prev = backTrips[d.name];
   backTrips[d.name] = Object.assign({}, d, { at: now() });
   const msg = d.phase === 'failed' ? `${d.name} cannot get back (${d.why || '?'}) — the team regroups` : d.phase === 'done' ? `${d.name} is back with the team`
+    : d.phase === 'wait' ? `${d.name} waits (${d.why || 'no way to me right now'})`
     : `${d.name} is on its way back (${d.route || 'planning the route'})${d.step ? ' — ' + d.step : ''}`;
   try { pstHold(`${d.name} returning`, msg); } catch (er) { }
   if (!prev || prev.phase !== d.phase || d.phase !== 'travel') note(`team: ${msg}`, true);
@@ -23861,7 +24368,13 @@ setInterval(() => {
   if (d < 15000) { lb.since = 0; return; }
   if (!lb.since) lb.since = now();
   const lt = townKeyAt(p.X, p.Y), leaderTown = lt && TOWN_CMD[lt] ? lt : null;
-  const rj = rejoinPlan({ d, farFor: now() - lb.since, now: now(), startedAt: Math.max(lbStartedAt, state.revivedAt || 0), leaderTown, myTown: currentTownKey(), hub: CONFIG.lead.hub, raidFight: false, lastAt: lb.lastAt, returnFailedAt: backTrip.failedAt, returnWhy: backTrip.why });
+  // where the leader stands (his own fresh report first: PartyList positions can be old): inside an instance = no trip (2026-10-13)
+  let inInst = false;
+  try { const lp = livePos[CONFIG.leader], L = lp && now() - lp.at < 15000 ? lp : p, lz = L.Z != null ? num(L.Z) : NaN;
+    if (isFinite(lz) && lz < TEAMJOIN.instanceZ) { const w = dzFloor(dungeonRooms(), num(L.X), num(L.Y), lz); inInst = leaderInsideInstance(lz, !!(w && w.fi >= 0)); } } catch (e) { }
+  const rj = rejoinPlan({ d, farFor: now() - lb.since, now: now(), startedAt: Math.max(lbStartedAt, state.revivedAt || 0), leaderTown, myTown: currentTownKey(), hub: CONFIG.lead.hub, raidFight: false, lastAt: lb.lastAt, returnFailedAt: backTrip.failedAt, returnWhy: backTrip.why,
+    returnBackoffMs: returnBackoffMs(backTrip.fails), leaderInInstance: inInst });
+  if (rj.instance && now() - (lb.instNoteAt || 0) > 300000) { lb.instNoteAt = now(); note(`left behind: ${rj.why}`, true); setTask(`waiting: ${CONFIG.leader} is inside an instance`); }
   if (rj.act !== 'town' && rj.act !== 'return') return;                // give the server follow / a teleport a moment first
   if (!takeControl('left behind: to Giran', PRIO.TEAM_SAFETY)) return;
   lb.busy = true; lb.lastAt = now();
@@ -24159,6 +24672,7 @@ function qeProtected(id) {
   const Q = qeS(), n = num(id); if (!n || n === 57) return false;
   if (!Q.protect) { const j = qeReadJson(qeDataFile('quest_protect.json')); Q.protect = new Set(((j && j.questItems) || []).map(Number)); }
   if (Q.protect.has(n)) return true;
+  try { if (clanLvlItemIds().has(n)) return true; } catch (e) { }       // CLANHAND-2026-10-13: clan level items (Blood Mark 1419 ...) are never sold / stored / destroyed / loot-traded; only a clanlvl_ hand-over to the clan leader moves them (hovAllow)
   if (Q.running && Q.q) return ((Q.q.items || []).some(it => num(it.id) === n && /registered|drop|counted|taken/.test((it.roles || []).join(' ')) && !/reward/.test((it.roles || []).join(' '))));
   return false;
 }
@@ -25601,6 +26115,11 @@ setInterval(() => {
   const lp = partyMember(CONFIG.leader);
   if (!lp) return;
   const d = Math.hypot(lp.X - Me.X, lp.Y - Me.Y);
+  // CLANHAND-2026-10-13: never during a hand-over / an open trade. Live 08:09 Destroyer1 -> Dagger1 (Blood Mark, Oren): hovGive switched follow
+  // off, this check switched it back on 3 s later ("follow resumed", her leader Tank1 was < 3000 away), she walked after him and the server
+  // closed both trade windows (a trade is cancelled when the two are more than 150 apart at "done").
+  let hovNow = false; try { hovNow = !!(HOV.busy || HOV.host.ctl || tradeState); } catch (e) { }
+  if (hovNow) { try { if (Options.ActiveFollow) Options.ActiveFollow = false; } catch (e) { } return; }
   try {
     // RE-ASSERTED every 3 s (2026-10-07: team 3 waiting in Giran for Destroyer3 94k away — other code (trade, regroup, invite) switched follow
     // back on, followPaused stayed true, so this never paused again and L2Swarm's follow dragged 6 of them out of the gathering place)
@@ -28255,6 +28774,13 @@ function handleSay(charName, text, messageType) {
     }
     case '!lootgive': {                         // !lootgive: the leader's party trades its loot to the clan leader now (loot_rules.json)
       if (isLeader()) leadLootGive('order').then(r => note('[loot] ' + r, true)).catch(e => logError('!lootgive', e));
+      break;
+    }
+    case '!clanhand': {                         // !clanhand [name] (CLANHAND 2026-10-13, Clan tab "Hand it over now"): my clan level item to the clan leader NOW
+      const who = parts[1];
+      if (who && String(who).toLowerCase() !== String(Me.Name).toLowerCase()) break;
+      if (Me.Name === clanLeaderName()) { if (who) note('[clan] I am the clan leader — the clan level items come to me', true); break; }
+      clanHandTick(true).then(r => { if (r && (who || r.act !== 'none')) note('[clan] clan level item: ' + r.msg, true); }).catch(e => logError('!clanhand', e));
       break;
     }
     case '!circuit': {                          // !circuit [start|stop|plan] (RAID CIRCUIT 2026-10-11, dashboard Circuit tab)

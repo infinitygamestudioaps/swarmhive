@@ -277,6 +277,8 @@
       const raid = (d.mobs || []).some(m => m.raid && m.n === t.name);
       return `<div class="lp-tg${raid ? ' raid' : ''}"><span class="tn">${raid ? '♛' : '⚔'} <b>${esc(t.name)}</b></span><span class="tb"><i style="width:${hp}%"></i><em>${hp}%</em></span><span class="td">${t.dist != null ? km(t.dist) : ''}</span></div>`;
     }
+    const np = c.doing && c.doing.npc;   // NPC TARGETS 2026-10-13: a selected NPC is a visit, not a fight
+    if (np && np.name) return `<div class="lp-rt"><span class="tn">💬 ${np.dist != null && np.dist > 300 ? 'going to' : 'at'} <b>${esc(np.name)}</b></span><span class="tb"></span><span class="td">${np.dist != null && np.dist > 300 ? km(np.dist) : ''}</span></div>`;
     const r = routeOf(c);
     if (r && !r.done) {
       const p = Math.round(100 * Math.min(r.i, r.pts.length) / r.pts.length);
@@ -451,6 +453,10 @@
   }
   function drawMap() {
     const d = LP.data; if (!LP.open || !d || !d.members || !LP.view) return;
+    // MAP ART per floor 2026-10-13: the reference member switched floor (teleport into / out of a dungeon, floor teleporter, death -> town):
+    // follow + re-centre at once, the art below follows the new floor
+    try { const r0 = (LP.sel && d.members.find(c => c.name === LP.sel)) || d.members.find(c => c.name === d.leader) || d.members[0];
+      const lv0 = window.MapFloors && r0 && r0.z != null && isFinite(r0.z) ? MapFloors.view('lp:' + r0.name, r0) : null; if (lv0 && lv0.changed) { LP.follow = true; fit(); } } catch (e) { }
     const R = viewRect(), { x0, y0, W, H, u } = R;
     const svg = $id('lpSvg');
     svg.setAttribute('viewBox', `${x0} ${y0} ${W} ${H}`);
@@ -459,7 +465,9 @@
     const ref = (LP.sel && d.members.find(c => c.name === LP.sel)) || L;
     // map pieces (the same /minitile art as the party map; underground / stacked floors by the reference member's height)
     let key = '', imgs = '';
-    if (typeof MT !== 'undefined' && W < 90000) {
+    if (typeof MT !== 'undefined' && W < 90000 && typeof floorTiles === 'function') {   // MAP ART per floor 2026-10-13 (index.html floorTiles)
+      const T = floorTiles('lp:' + ref.name, ref, x0, y0, W, H, u); imgs = T.imgs; key = T.key + (T.plain ? u.toFixed(2) : '') + imgs.length + imgs.slice(0, 120) + imgs.slice(-160);
+    } else if (typeof MT !== 'undefined' && W < 90000) {
       for (let gx = Math.floor(x0 / MT); gx * MT < x0 + W; gx++) for (let gy = Math.floor(y0 / MT); gy * MT < y0 + H; gy++) {
         const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, cc = gx - Math.floor(gx / 4) * 4, rr = gy - Math.floor(gy / 4) * 4;
         let lay = ''; try { lay = ugLayer(RX, RY, ref.z, ref.x, ref.y); } catch (e) { }
@@ -471,7 +479,8 @@
     $id('lpOver').innerHTML = overlay(d, R, L);
     $id('lpFollow').classList.toggle('on', LP.follow);
     const far = d.members.filter(c => L && isFinite(c.x) && Math.hypot(c.x - L.x, c.y - L.y) >= 20000);
-    $id('lpInfo').textContent = LP.info || (LP.sel ? selInfo(d, LP.sel) : '') || (far.length ? 'far away: ' + far.map(c => c.name + ' ' + km(Math.hypot(c.x - L.x, c.y - L.y))).join(', ') : '');
+    const MF = window.MapFloors, off = MF && ref ? d.members.filter(c => c !== ref && isFinite(c.x) && !far.includes(c) && c.z != null && !MF.same(ref, c, MF.CHAR_DZ)) : [];   // MAP FLOORS 2026-10-13
+    $id('lpInfo').textContent = LP.info || (LP.sel ? selInfo(d, LP.sel) : '') || [far.length ? 'far away: ' + far.map(c => c.name + ' ' + km(Math.hypot(c.x - L.x, c.y - L.y))).join(', ') : '', off.length ? 'other floor: ' + off.map(c => c.name + ' (' + (MF.name(c) || '?') + ')').join(', ') : ''].filter(Boolean).join(' · ');
     animArcs();
   }
   function selInfo(d, name) {
@@ -479,8 +488,13 @@
     const a = activity(c, d); const tmp = document.createElement('div'); tmp.innerHTML = a.h;
     return `${c.name}: ${tmp.textContent}`;
   }
-  function overlay(d, R, L) {
+  function overlay(d0, R, L) {
     const { x0, y0, W, H, u } = R;
+    // MAP FLOORS 2026-10-13 (user: maps showed other floors): only what is on the floor / level of the map's reference member (the selected one,
+    // else the leader; the map art follows the same member) — members, monsters, aggro, zone and chosen room (Dashboard/mapfloors.js)
+    const ref = (LP.sel && d0.members.find(c => c.name === LP.sel)) || L, MF = window.MapFloors;
+    const here = (p, tol) => !MF || !ref || !p || p.z == null || MF.same(ref, p, tol == null ? MF.CHAR_DZ : tol);
+    const d = Object.assign({}, d0, { members: d0.members.filter(c => c === ref || here(c)), mobs: (d0.mobs || []).filter(m => m.raid || here(m, 600)) });
     const inV = (x, y, m) => x > x0 - (m || 0) && x < x0 + W + (m || 0) && y > y0 - (m || 0) && y < y0 + H + (m || 0);
     const label = (x, y, t, size, fill, anchor) => `<text x="${x}" y="${y}"${anchor ? ' text-anchor="' + anchor + '"' : ''} font-size="${(size || 11) * u}" fill="${fill || '#fff'}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
     const poly = (P, fill, stroke, dash, w) => `<polygon points="${P.map(p => p[0] + ',' + p[1]).join(' ')}" fill="${fill}" stroke="${stroke}" stroke-width="${(w || 1.6) * u}"${dash ? ` stroke-dasharray="${dash.map(x => x * u).join(' ')}"` : ''}/>`;
@@ -488,18 +502,18 @@
     let s = '';
     // hunting zone (room / field area polygon, else the square) + the room chosen on the dashboard that the party has not reached yet
     const z = L && L.zone;
-    if (z && isFinite(z.x)) {
+    if (z && isFinite(z.x) && (!MF || MF.zone(ref, z))) {
       let zp = Array.isArray(z.poly) && z.poly.length > 2 ? z.poly : null;
       try { if (!zp && z.room) zp = roomPolyFor(String(z.name || '').split(':')[0].trim(), z.room); } catch (e) { }
       if (zp) { const xs = zp.map(p => p[0]), ys = zp.map(p => p[1]); s += poly(zp, 'rgba(227,194,122,.12)', '#e3c27a', [8, 5]) + label(Math.min(...xs), Math.min(...ys) - 6 * u, (z.area ? 'area: ' : z.room ? 'room: ' : '') + (z.name || z.room || ''), 10, '#e3c27a'); }
       else if (z.r) { const h = z.r / 2; s += `<rect x="${z.x - h}" y="${z.y - h}" width="${z.r}" height="${z.r}" fill="rgba(227,194,122,.07)" stroke="#e3c27a" stroke-width="${1.6 * u}" stroke-dasharray="${8 * u} ${5 * u}"/>` + label(z.x - h + 4 * u, z.y - h - 5 * u, 'hunting: ' + (z.name || ''), 10, '#e3c27a'); }
     }
     const ms = L && L.manualSpot;
-    if (ms && ms.mode === 'manual' && ms.status !== 'arrived' && Array.isArray(ms.poly) && ms.poly.length > 2 && !(z && z.room && z.room === ms.room)) {
+    if (ms && ms.mode === 'manual' && ms.status !== 'arrived' && Array.isArray(ms.poly) && ms.poly.length > 2 && !(z && z.room && z.room === ms.room) && !(MF && MF.room(ref, ms.room) === false)) {
       const xs = ms.poly.map(p => p[0]), ys = ms.poly.map(p => p[1]);
       s += poly(ms.poly, 'rgba(255,255,255,.07)', '#fff', [4, 4]) + label(Math.min(...xs), Math.max(...ys) + 13 * u, 'chosen: ' + (ms.room || ms.spot || '') + ' · ' + (ms.status || ''), 10, '#fff');
     }
-    if (L && L.combatRange && L.combatRange < 20000) s += `<circle cx="${L.x}" cy="${L.y}" r="${L.combatRange}" fill="none" stroke="${col}" stroke-width="${u}" stroke-dasharray="${3 * u} ${4 * u}" opacity=".55"/>`;
+    if (L && L.combatRange && L.combatRange < 20000 && here(L)) s += `<circle cx="${L.x}" cy="${L.y}" r="${L.combatRange}" fill="none" stroke="${col}" stroke-width="${u}" stroke-dasharray="${3 * u} ${4 * u}" opacity=".55"/>`;
     // routes / walks / escapes
     const goals = [];
     d.members.forEach(c => {

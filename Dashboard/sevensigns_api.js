@@ -68,6 +68,7 @@ function ssSanitize(input, prev) {
   out.chars = names(r.chars, 'characters', 1000);
   out.contributeStones = r.contributeStones === undefined ? (old.contributeStones === undefined ? true : !!old.contributeStones) : !!r.contributeStones;
   Object.keys(r).forEach(k => { if (!/^(parties|chars|contributeStones|_readme|_updated)$/.test(k) && k.length <= 40 && !(k in out)) out[k] = r[k]; });   // future fields travel along
+  Object.keys(old || {}).forEach(k => { if (!/^(parties|chars|contributeStones|_readme|_updated)$/.test(k) && k.length <= 40 && !(k in out)) out[k] = old[k]; });   // SSGATE2-2026-10-13: and the file's own (gate, notes) stay
   out._updated = isoNow();
   return errors.length ? { ok: false, errors } : { ok: true, cfg: out };
 }

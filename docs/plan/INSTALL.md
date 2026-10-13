@@ -113,6 +113,36 @@ What SETUP does:
   (use your `mcp.port`). Then start Claude Code in the install folder; `CLAUDE.md` is its operating guide.
 - Optional 24/7 laptop settings (lid/sleep/Windows Update off): `SETUP_PC_ALWAYS_ON.cmd` (admin). Undo: `docs\plan\tools\pc_restore.ps1`.
 
+## New engine (ON by default since v1.6.2)
+
+swarm.js runs inside the dashboard's **brain host** (`Dashboard\brain_host`, started by `Dashboard\server.js`), and each L2Swarm account
+only runs the small `Scripts\agent2.js` - much less memory per character. The switch is `Scripts\data\brain_host.json` (yours; read
+live, an update never overwrites it):
+
+```json
+{ "on": true, "allowAll": true, "allow": [], "except": [], "bridge": true, "pool": true }
+```
+
+- `"allowAll": true` = **every character of `swarm.config.json`** (`accounts[]` with a login and a character, not `"enabled": false`).
+  An account you add later (dashboard **+ Add account**, or `swarm.config.json` + SETUP) joins the brain by itself - no restart.
+- `"except": ["Name"]` keeps single characters on the old engine; `"allow"` adds characters that are not in `swarm.config.json`.
+- **Switch back:** `"on": false` (every character back to swarm.js), or `"allowAll": false` + the characters you want in `"allow"`.
+
+Which script an account runs is stored in its L2Swarm config (`<ScriptsList>`). SETUP, the dashboard's **+ Add account** and
+`new_account.ps1` give a new-engine character `agent2.js` (swarm.js stays attached but off) and every other character `swarm.js` -
+never both. To switch accounts that are already set up:
+
+| When | How |
+|---|---|
+| L2Swarm is running (no restart) | dashboard **PC** tab -> **New engine** -> **Check accounts** (dry run), then **Move accounts to the new engine**; or `node docs\plan\tools\attach_agent.js --all` (dry run), then `node docs\plan\tools\attach_agent.js --all --apply`. One account at a time: swarm.js is stopped and checked stopped, then the agent starts. Refused during a raid / Kamaloka and while the brain pool is not running. |
+| L2Swarm is stopped | `SETUP.cmd` (dry run), then `SETUP.cmd -Apply`: swarm.js off + agent2.js on for the new-engine characters, the other way round for the rest. |
+| Back to swarm.js | set `"on": false` (or `"except"`), then `node docs\plan\tools\attach_agent.js --back --names A,B --apply` (L2Swarm running) or `SETUP.cmd -Apply` (L2Swarm stopped). |
+
+**Updating from v1.6.1 or older:** `update.cmd` switches your `brain_host.json` to the new default **only** when it is still the untouched
+old one (`"on": false`, nobody in `"allow"`); a file you changed is kept. Your accounts keep running swarm.js until you move them (table above).
+After every update **restart the dashboard** - it keeps running its old code until then, and it is the dashboard that starts the brain.
+Status: `node docs\plan\tools\engine_default.js --status`. Design, limits and the manual per-party procedure: `docs\plan\new_engine\DESIGN.md`.
+
 ## Optional features (all OFF on a fresh install)
 
 Each of these ships as `Scripts\data\<name>.example.json`; SETUP / `update.cmd` create your own `<name>.json` from it once and never
@@ -120,7 +150,6 @@ overwrite it again. Switch them on on the dashboard (or in the file - read live,
 
 | Feature | File | Default | Switch on |
 |---|---|---|---|
-| **New engine** (swarm.js runs in the dashboard's brain host, L2Swarm only runs the small `Scripts\agent2.js`; much less memory per character) | `brain_host.json` | `"on": false`, no character | `"on": true` + the characters in `"allow"`; those accounts run `agent2.js` instead of `swarm.js`. Design, steps and rollback: `docs\plan\new_engine\DESIGN.md` |
 | **Commanders** (orders over clan chat / whisper) | `swarm.config.json` `commanders` | `[]` = off | names of the characters whose `!` commands every party leader obeys (see section 3) |
 | **Seven Signs** sign-up with Dawn + seal stones | `seven_signs.json` | nobody enrolled | dashboard **7 Signs** tab (per party / character); `!dawn [name]` is always manual |
 | **Quest farm** (repeatable adena quests, items to one collector) | `quest_farm.json` | `"on": false` | dashboard **Quests** page |
@@ -128,7 +157,7 @@ overwrite it again. Switch them on on the dashboard (or in the file - read live,
 | **Gear upgrades** | `gear_auto.json` | off | dashboard **Gear** page |
 | **Skill enchanting** | `skill_enchant_plan.json` | never automatic | dashboard **Skill enchant** page; one attempt per `!skillenchant` order |
 
-SETUP also deploys `Scripts_dev\agent2.js` to `Scripts\agent2.js` (unused until you switch the new engine on); `update.cmd` keeps it current.
+SETUP also deploys `Scripts_dev\agent2.js` to `Scripts\agent2.js` (the new engine's agent, see above); `update.cmd` keeps it current.
 The dashboard builds small lookup files in `Scripts\data\slim\` by itself (not shipped, not tracked).
 
 ## 6. Adding accounts

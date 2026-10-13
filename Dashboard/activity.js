@@ -187,6 +187,8 @@
     if (r && !r.done) {
       return { ic: UI.run, h: `walking to <b>${esc(r.label || 'the goal')}</b> (point ${Math.min(r.i + 1, r.pts.length)}/${r.pts.length}, ${kmS(r.left)} left)` + (st ? ` · <span class="bad">not moving ${st.sec} s</span>` : '') };
     }
+    // NPC TARGETS 2026-10-13: a selected NPC (server.js moves it to doing.npc) is a visit, not a fight
+    if (D.npc && D.npc.name) return { ic: UI.menuAction || UI.idle, h: `${(D.npc.dist != null && D.npc.dist > 300 ? 'going to' : 'at')} <b>${esc(D.npc.name)}</b>${D.npc.dist != null && D.npc.dist > 300 ? ' (' + kmS(D.npc.dist) + ' away)' : ''}` };
     if (D.target) {
       const tg = D.target;
       return { ic: UI.attack, h: `fighting <b>${esc(tg.name)}</b> (${tg.hp}% HP${tg.dist != null ? ', ' + kmS(tg.dist) + ' away' : ''})` + (ls && lsAge < 3000 && !HEALRE.test(sn) ? ' · ' + esc(sn) : '') };

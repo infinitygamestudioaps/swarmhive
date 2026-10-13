@@ -4,12 +4,12 @@
 
 *Lead the swarm.* A swarm kit for L2Swarm.
 
-![version](https://img.shields.io/badge/version-1.6.1-blue)
+![version](https://img.shields.io/badge/version-1.6.2-blue)
 ![L2Swarm](https://img.shields.io/badge/L2Swarm-3.8.14%2B-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 ![platform](https://img.shields.io/badge/Windows-10%20%7C%2011-lightgrey)
 
-**Version 1.6.1 (2026-10-13)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
+**Version 1.6.2 (2026-10-13)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
 
 This kit runs a **whole swarm of Lineage 2 characters with L2Swarm**: up to 40 accounts in several parties that level,
 restock, gear up, run Kamaloka and hunt raid bosses on their own, with one leader per party making the decisions. It
@@ -100,9 +100,10 @@ Details for every feature are in the [user guide](docs/guide/README.md).
 - **Quests**: every High Five quest as data (`Scripts/data/quests/`), a quest page with live progress, beginner gear coupons and an
   optional repeatable-quest farm (**off by default**). A navigation atlas (`Scripts/data/nav_atlas/`) routes the party to every raid boss,
   NPC and hunting area.
-- **New engine (optional, off by default):** swarm.js runs inside the dashboard's brain host and L2Swarm only runs the small
-  `Scripts/agent2.js` - much less memory per character. Switch it on per character in `Scripts/data/brain_host.json`
-  (see [INSTALL](docs/plan/INSTALL.md#optional-features-all-off-on-a-fresh-install) and `docs/plan/new_engine/DESIGN.md`).
+- **New engine (the default since v1.6.2):** swarm.js runs inside the dashboard's brain host and L2Swarm only runs the small
+  `Scripts/agent2.js` - much less memory per character. On for every character (`Scripts/data/brain_host.json` `"allowAll": true`);
+  `"on": false` switches back to swarm.js inside L2Swarm. An updated install moves its accounts on the dashboard's PC tab
+  (see [INSTALL](docs/plan/INSTALL.md#new-engine-on-by-default-since-v162) and `docs/plan/new_engine/DESIGN.md`).
 - **Commanders (optional):** characters named in `swarm.config.json` `commanders` can order every party over clan chat or a whisper.
 - **Escape and rescue.** Escape from a lost fight to a safe spot (aggro ranges of every aggressive monster), cross-floor
   rescue, regroup of anyone left behind, never teleporting while a teammate is still fighting.

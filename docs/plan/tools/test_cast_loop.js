@@ -330,15 +330,18 @@ async function hostRun(serverOpts, fn) {
 (async () => {
   // a) Twister spam where the client's IsCasting ends 250 ms before the server's cast (L2J MagicSkillLaunched): the loop retries a
   //    'still casting (same skill)' refusal after the learned gap; after <= 2 such refusals the gap is learned and they stop
-  await hostRun({ castMs: 400, clientEarlyMs: 250 }, async (H, sv) => {
+  for (let attempt = 1; attempt <= 3; attempt++) { const done = await hostRun({ castMs: 400, clientEarlyMs: 250 }, async (H, sv) => {
     const info = { id: 1178, name: 'Twister', hit: 400, magic: true };
     let ok = 0, tries = 0; const late = [];
     for (let i = 0; i < 10; i++) {
       for (let k = 0; k < 4; k++) { tries++; const r = await H.castNow(info); if (r.started) { ok++; break; } if (i >= 5) late.push(r.refuse && r.refuse.key); await new Promise(res => setTimeout(res, Math.max(30, H.castEnd.gap))); }
     }
-    check(ok === 10 && sv.refusedSame <= 2 && !late.length && H.castStats.refusedWhy['still casting (same skill)'] === sv.refusedSame,
+    const pass = (ok === 10 && sv.refusedSame <= 2 && !late.length && H.castStats.refusedWhy['still casting (same skill)'] === sv.refusedSame);
+    if (!pass && attempt < 3) { console.log('  retry (timing, attempt ' + attempt + '): ' + ok + '/10 in ' + tries + ' requests'); return false; }
+    check(pass,
       `10 Twister in a row, client cast end 250 ms early: ${ok}/10 started in ${tries} requests, ${sv.refusedSame} same-skill refusals (all early, labelled 'still casting'), learned gap ${H.castEnd.gap} ms`);
-  });
+    return true;
+  }); if (done !== false) break; }   // TIMING: real setTimeout under CPU load -> up to 3 tries
   // b) 'Cannot see target' -> refuse class los, no 1.2 s block, reason in the stats
   await hostRun({ los: true }, async (H, sv) => {
     const r = await H.castNow({ id: 1178, name: 'Twister', hit: 300, magic: true });

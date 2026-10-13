@@ -8,13 +8,83 @@
 //   liveFights(...)      the brain parties with a raid / Kamaloka / epic running now (Logs/{raid,kamaloka,epic}_live_<party>.json written in
 //                        the last 30 s): a restart that would reload them waits (user rule: never restart during a raid).
 //   decide(...)          -> { act: 'none' | 'start' | 'stop' | 'restart' | 'defer', why }
+// ENGINE DEFAULT (2026-10-13, user: "Make the new engine default!"; test docs/plan/tools/test_engine_default.js):
+//   "allowAll": true     EVERY character of the roster (swarm.config.json accounts[] with a login + a character, enabled !== false) is a
+//                        brain character, plus the names in "allow" (characters outside the roster), minus the names in "except". The
+//                        dashboard (readCfg with the roster) and the pool (pool.js pollConfig re-reads swarm.config.json too) re-evaluate it
+//                        live: an account added on the dashboard joins the brain at its agent's next hello, no restart.
+//                        Switch back: "on": false (nobody), or "allowAll": false + the names in "allow", or a name in "except".
+//   readCfg(raw, last, accounts)   accounts = swarm.config.json accounts[] (null / missing = unreadable: allowAll keeps the last good list)
+//   isBrainChar(name, raw, accounts, { adding })   the same rule for ONE character (SETUP / add account / attach_agent.js)
+//   engineScripts(list, brain)      an account's script list for its engine: swarm.js <-> agent2.js (other scripts stay)
+//   migrateDefault(raw)             update.ps1: the untouched OLD default (on:false, no "allow" names, no "allowAll" key) -> the new
+//                                   default; any file the user changed is kept ({ migrate: false, why })
 'use strict';
 const fs = require('fs'), path = require('path');
 
-function readCfg(raw, last) {
-  if (!raw || typeof raw !== 'object') return last || { on: false, allow: [], bridge: true, pool: true, maxRssMb: 0, unread: true };
-  const allow = (Array.isArray(raw.allow) ? raw.allow : []).map(String).filter(Boolean);
-  return { on: raw.on !== false && allow.length > 0, allow, bridge: raw.bridge !== false, pool: raw.pool !== false, maxRssMb: Number(raw.maxRssMb) || 0 };
+const README = 'New engine (Dashboard/brain_host, started by Dashboard/server.js): the brain characters run swarm.js in the dashboard; their L2Swarm '
+  + 'accounts run Scripts/agent2.js only. "allowAll": true = every character of swarm.config.json (+ "allow", minus "except"). Switch back: '
+  + '"on": false, or "allowAll": false + the characters in "allow". Move running accounts: dashboard PC tab -> New engine, or '
+  + 'node docs/plan/tools/attach_agent.js --all --apply (back: --back --names A,B --apply). docs/plan/INSTALL.md section "New engine".';
+/** the characters of the roster (swarm.config.json accounts[]) */
+function rosterOf(accounts) {
+  return Array.from(new Set((Array.isArray(accounts) ? accounts : []).filter(a => a && a.login && a.character && a.enabled !== false).map(a => String(a.character))));
+}
+const strList = (v) => (Array.isArray(v) ? v : []).map(String).filter(Boolean);
+/** brain_host.json + roster -> the brain characters; null = allowAll but the roster is unknown (unreadable swarm.config.json) */
+function effectiveAllow(raw, accounts) {
+  if (!raw || typeof raw !== 'object') return [];
+  const list = strList(raw.allow), ex = new Set(strList(raw.except));
+  if (raw.allowAll !== true) return list.filter(n => !ex.has(n));
+  if (!Array.isArray(accounts)) return null;
+  return Array.from(new Set(rosterOf(accounts).concat(list))).filter(n => !ex.has(n));
+}
+function readCfg(raw, last, accounts) {
+  if (!raw || typeof raw !== 'object') return last || { on: false, allow: [], allowAll: false, except: [], bridge: true, pool: true, maxRssMb: 0, unread: true };
+  let allow = effectiveAllow(raw, accounts), rosterUnread = false;
+  if (allow === null) {                                  // allowAll, roster unreadable / being written: keep the last good list
+    rosterUnread = true;
+    const ex = new Set(strList(raw.except));
+    allow = last && last.allowAll && Array.isArray(last.allow) ? last.allow.filter(n => !ex.has(n)) : strList(raw.allow).filter(n => !ex.has(n));
+  }
+  const c = { on: raw.on !== false && allow.length > 0, allow, allowAll: raw.allowAll === true, except: strList(raw.except), bridge: raw.bridge !== false, pool: raw.pool !== false, maxRssMb: Number(raw.maxRssMb) || 0 };
+  if (rosterUnread) c.rosterUnread = true;
+  return c;
+}
+/** one character: does the new engine drive it? (adding = it is being added to the roster right now) */
+function isBrainChar(name, raw, accounts, opts) {
+  name = String(name || '');
+  if (!name || !raw || typeof raw !== 'object' || raw.on === false) return false;
+  if (strList(raw.except).includes(name)) return false;
+  if (strList(raw.allow).includes(name)) return true;
+  if (raw.allowAll !== true) return false;
+  return !!(opts && opts.adding) || rosterOf(accounts).includes(name);
+}
+const AGENT_RX = /^agent2(_[A-Za-z0-9]+)?\.js$/i;
+function engineScripts(list, brain) {
+  const out = [];
+  (Array.isArray(list) ? list : []).map(String).forEach(s => {
+    const t = brain && /^swarm\.js$/i.test(s) ? 'agent2.js' : !brain && AGENT_RX.test(s) ? 'swarm.js' : s;
+    if (!out.includes(t)) out.push(t);
+  });
+  return out;
+}
+/** the default brain_host.json (package / migration): on, every roster character; keeps bridge / pool / maxRssMb of `base` */
+function newDefault(base) {
+  const b = base && typeof base === 'object' ? base : {}, out = { _readme: README, on: true, allowAll: true, allow: [], except: [], bridge: b.bridge !== false, pool: b.pool !== false };
+  if (Number(b.maxRssMb) > 0) out.maxRssMb = Number(b.maxRssMb);
+  return out;
+}
+function migrateDefault(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { migrate: false, why: 'brain_host.json unreadable - not changed' };
+  if (Object.prototype.hasOwnProperty.call(raw, 'allowAll')) return { migrate: false, why: `already has "allowAll" (${raw.allowAll === true ? 'every character' : 'your list'}, "on": ${raw.on !== false}) - kept` };
+  if (raw.on === true) return { migrate: false, why: 'the new engine is already on for your own list of characters - kept' };
+  if (strList(raw.allow).length) return { migrate: false, why: `you listed characters in "allow" (${strList(raw.allow).length}) - kept` };
+  return { migrate: true, cfg: newDefault(raw), why: 'the untouched old default (new engine off, no characters) -> the new default (on, every character of swarm.config.json)' };
+}
+/** swarm.config.json accounts[] (null when the file is missing / unreadable) */
+function readRoster(file) {
+  try { const j = JSON.parse(fs.readFileSync(file, 'utf8').replace(/^﻿/, '')); return j && Array.isArray(j.accounts) ? j.accounts : []; } catch (e) { return null; }
 }
 function restartSig(c) {
   if (!c) return '';
@@ -53,4 +123,12 @@ function readStats(file, maxAgeMs) {
   try { const s = fs.statSync(file); const j = JSON.parse(fs.readFileSync(file, 'utf8')); j.ageMs = Date.now() - s.mtimeMs; j.fresh = j.ageMs < (maxAgeMs || 60000); return j; } catch (e) { return null; }
 }
 
-module.exports = { readCfg, restartSig, brainParties, fightKeys, liveFights, decide, readStats };
+/** the characters whose agent is connected to the pool now (fresh stats file), or null */
+function connectedNames(stats) {
+  if (!stats || !stats.fresh || !Array.isArray(stats.workers)) return null;
+  const out = []; stats.workers.forEach(w => (w.contexts || []).forEach(c => { if (c && c.connected && c.name) out.push(String(c.name)); }));
+  return out;
+}
+
+module.exports = { readCfg, restartSig, brainParties, fightKeys, liveFights, decide, readStats,
+  rosterOf, effectiveAllow, isBrainChar, engineScripts, newDefault, migrateDefault, readRoster, connectedNames, README, AGENT_RX };

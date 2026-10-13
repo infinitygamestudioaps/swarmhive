@@ -19,6 +19,21 @@ $minCommitMB = 3000; $emergencyCommitMB = 1500   # user 2026-10-07 19:55: "never
 $minFreeMB = 800   # user 2026-10-07 19:50: "don't restart L2Swarm all the time" -> restart ONLY when the PC itself is about to run out of RAM (was 600)
 $cooldown  = 30
 $hardMB    = 14000   # user 2026-10-07 19:50: the 9000 cap restarted at 9.9 GB (18:47) and 11 GB (19:45, mid-raid) with 3.3-3.5 GB still free on the PC; now effectively only the pcFree rules restart. Was 9000.   # 2026-10-07: 38 accounts (2nd master account) -> higher base; was 7000. # 2026-10-06: 2 -> 11 GB within 2 min during route walks (PC 680 MB free) while the cooldown blocked a restart: above this ALWAYS restart
+# NOUI-2026-10-13: L2Swarm 3.8.18+ start options (patches/INSTALL_3.8.18.md). swarm.config.json "l2swarm": { "noUi": true } = headless start
+# (/NoUi /NoAutoStart: no windows, MCP only). Logs\force_ui.flag forces the normal window for the next start (look at L2Swarm itself).
+$noUi = $false
+try { $noUi = [bool](SwarmCfgValue $SwarmCfg 'l2swarm.noUi' $false) } catch { $noUi = $false }
+if (Test-Path "$root\Logs\force_ui.flag") { $noUi = $false }
+function L2Args {
+    $v = $null; try { $v = [version](Get-Item $exe).VersionInfo.FileVersion } catch { }
+    if (-not $v) { return @() }
+    if ($noUi -and $v -ge [version]'3.8.18.0') { return @('/NoUi', '/NoAutoStart') }
+    if ($v -ge [version]'3.8.17.0') { return @('/NoDefaultAccount') }   # 3.8.17+: no empty "Bot #1" account (the close below stays as a fallback)
+    return @()
+}
+# a headless L2Swarm MUST get its MCP port, else it exits at once ("Headless mode requires an available MCP port") and the watch restarts it every 2 min
+function McpPortBusy { $port = [int]([uri]$SwarmMcpUrl).Port; return [bool](Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue) }
+function IsHeadless($proc) { try { return ((Get-CimInstance Win32_Process -Filter "ProcessId=$($proc.Id)").CommandLine -match '(?i)\s/NoUi\b') } catch { return $false } }
 
 function Log($file, $m) { Add-Content -Path $file -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $m" }
 function Proc { Get-Process L2Swarm -ErrorAction SilentlyContinue | Select-Object -First 1 }
@@ -200,12 +215,14 @@ function Start-L2 {
     }
     $off = [regex]::Replace($xml, '(AutoStartEntry configPath="[^"]+") enabled="true"', '$1 enabled="false"')
     if ($off -ne $xml) { Copy-Item $sx "$root\Settings\backup\settings_before_stagger.xml" -Force; Set-Content $sx $off -NoNewline -Encoding UTF8 }
-    Start-Process -FilePath $exe -WorkingDirectory $root
+    $l2a = @(L2Args)
+    if (($l2a -contains '/NoUi') -and (McpPortBusy)) { Log $ctlLog "start ABORTED: /NoUi needs MCP port $(([uri]$SwarmMcpUrl).Port) free, but something listens on it (an orphan l2.exe? run the Stop task first)"; return }
+    if ($l2a.Count) { Start-Process -FilePath $exe -WorkingDirectory $root -ArgumentList $l2a } else { Start-Process -FilePath $exe -WorkingDirectory $root }
     Start-Sleep 3
     # 2026-10-06 17:32: L2Swarm crashed while this loop was logging in, MemWatch started a new L2Swarm, and this loop kept opening
     # accounts in the NEW process next to the new login run. The loop now remembers its L2Swarm and stops as soon as it is gone.
     $script:myL2 = (Proc).Id
-    Log $ctlLog "start: L2Swarm started (pid $($script:myL2)) - logging in $($configs.Count) accounts one by one ($loginGapSec s apart)"
+    Log $ctlLog "start: L2Swarm started (pid $($script:myL2), args '$($l2a -join ' ')') - logging in $($configs.Count) accounts one by one ($loginGapSec s apart)"
     Open-Configs $configs
     } finally { Release-StartLock }
 }
@@ -268,6 +285,10 @@ function Open-Configs($configs) {
             Start-Sleep $loginGapSec
         }
         if (-not $missing.Count -and -not $notOpen.Count) { Log $ctlLog "start: login check round ${round}: everyone is in game"; break }
+        # LOGINCHECK-2026-10-13 (the /NoUi restart: 59 logins 5 s apart, the server refused / kicked ~25, and this check 'load'ed every missing
+        # account on top of L2Swarm's own reconnects -> more refusals, a loop): 3+ missing = the login server's flood guard -> leave them to the
+        # reconnect brake (it waits, probes the login server, test-logs one, then logs them in one by one) instead of forcing logins now
+        if ($missing.Count -ge 3) { Log $ctlLog "start: login check round ${round}: $($missing.Count) not in game ($(@($missing | ForEach-Object { $_.account_name }) -join ', ')) - leaving them to the reconnect brake"; break }
         foreach ($a in $missing) {
             try { [void](Mcp 'manage_account_config' @{ account_id = $a.account_id; action = 'load'; config_path = $a.config_path }); Log $ctlLog "start: $($a.account_name) was not in game - login started again (round $round)" } catch { }
             Start-Sleep $loginGapSec
@@ -369,7 +390,9 @@ switch ($Action) {
                 $hp = Start-Process $hx -ArgumentList $hargs -WindowStyle Hidden -PassThru; try { $hp.PriorityClass = 'BelowNormal' } catch { }
                 Log $ctlLog "heapstat: started pid $($hp.Id) ($req)" } } catch { Log $ctlLog "heapstat error: $_" }
         # client modes (Settings\client_mode.json, user request 2026-10-04): in-game via L2Swarm's Hook button (may wait for an idle PC: after the census)
-        try { if (Test-Path "$root\Logs\uia_probe.flag") { Remove-Item "$root\Logs\uia_probe.flag" -Force; & "$root\docs\plan\tools\client_mode.ps1" -Probe } else { & "$root\docs\plan\tools\client_mode.ps1" } } catch { Log $ctlLog "client_mode error: $_" }
+        # /NoUi (3.8.18): no window for UI Automation -> client_mode.ps1 -NoUi hooks through MCP manage_hook
+        $headless = ($p.MainWindowHandle -eq [IntPtr]::Zero) -and (IsHeadless $p)
+        try { if ($headless) { & "$root\docs\plan\tools\client_mode.ps1" -NoUi } elseif (Test-Path "$root\Logs\uia_probe.flag") { Remove-Item "$root\Logs\uia_probe.flag" -Force; & "$root\docs\plan\tools\client_mode.ps1" -Probe } else { & "$root\docs\plan\tools\client_mode.ps1" } } catch { Log $ctlLog "client_mode error: $_" }
         $mb     = [int]($p.PrivateMemorySize64 / 1MB)
         $freeMB = [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
         $line   = "L2Swarm private=${mb}MB threads=$($p.Threads.Count) handles=$($p.HandleCount) pcFree=${freeMB}MB commitFree=${commitMB}MB"

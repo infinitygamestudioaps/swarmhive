@@ -83,7 +83,15 @@ if ($ServerId) { $n = $o.SelectSingleNode('SelectedServer/id'); if ($n) { $n.Inn
 # L2Swarm 3.8.14 validates the file: an EMPTY LastLoadedUtc fails (same fix as SETUP.ps1, 2026-10-10)
 $n = $o.SelectSingleNode('LastLoadedUtc'); if ($n -and -not $n.InnerText.Trim()) { $n.InnerText = '2000-01-01T00:00:00Z' }
 $sl = $o.SelectSingleNode('ScriptsList'); if ($sl) { while ($sl.HasChildNodes) { [void]$sl.RemoveChild($sl.FirstChild) } }
-foreach ($sc in @($Scripts -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })) {
+# NEW ENGINE (2026-10-13, the default): -Scripts swarm.js becomes agent2.js for a character the brain drives (Scripts\data\brain_host.json,
+# rule in engine_mode.ps1); never the other way round (the dashboard's "+ Add account" already decided for a character it adds to the roster)
+$scriptList = @($Scripts -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+if ($Character -and ($scriptList -icontains 'swarm.js')) {
+  . "$PSScriptRoot\engine_mode.ps1"
+  $rosterNames = @(); try { $rc = [IO.File]::ReadAllText("$root\swarm.config.json") | ConvertFrom-Json; $rosterNames = @($rc.accounts | Where-Object { $_.login -and $_.character -and $_.enabled -ne $false } | ForEach-Object { [string]$_.character }) } catch { }
+  if ((Test-BrainChar (Read-BrainHost $root) $Character $rosterNames) -eq $true) { $scriptList = Convert-EngineScripts $scriptList $true; "new engine: $Character runs Scripts\agent2.js instead of swarm.js (Scripts\data\brain_host.json)" }
+}
+foreach ($sc in $scriptList) {
   if (-not $sl) { break }
   $e = $x.CreateElement('Script')
   foreach ($kv in @(@('IsEnabled', 'true'), @('guid', [guid]::NewGuid().ToString()), @('Name', $sc), @('Path', "$root\Scripts\$sc"))) { $c = $x.CreateElement($kv[0]); $c.InnerText = $kv[1]; [void]$e.AppendChild($c) }

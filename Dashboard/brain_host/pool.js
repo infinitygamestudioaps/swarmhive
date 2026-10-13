@@ -33,23 +33,26 @@
 //   - LIVE ALLOW LIST (--config Scripts/data/brain_host.json): re-read every 5 s; a character added is accepted at its next hello, a character
 //     removed gets its context disposed (OnBeforeScriptStop while its agent is still connected) and 'bye' — the other parties keep running.
 //     An unreadable / half-written file changes nothing. (Before: the dashboard restarted the whole pool for every list change.)
+//     "allowAll": true (ENGINE DEFAULT 2026-10-13) = every character of the roster (--roster, default <root>/swarm.config.json) + "allow" -
+//     "except" (Dashboard/brain_host/supervise.js effectiveAllow); the roster file is watched too (an account added joins at its hello).
 //   - STATS FILE (--stats-file Logs/brain_host_stats.json): every 10 s pid, RSS, counters, per-worker heap / ELU / contexts, quarantined,
 //     restart history, alerts (the dashboard's /api/brainhost; readable without IPC).
 //   - MEMORY GUARD (--max-rss-mb N [--mem-restart]): above N MB an ALERT; with --mem-restart the worker with the biggest heap is restarted,
 //     never a party with a live fight (at most once per 10 min), and only when it stands out (heap >= 2x the median of the other workers or
 //     >= N/2: a leak). A pool that is big because of its real load only gets the alert (restarting would free nothing). (review 2026-10-12)
 // CLI: node Dashboard/brain_host/pool.js --port 8095 --allow A,B,C | --allow-all  [--bridge] [--shared-parse] [--geopath] [--stall-ms 8000]
-//      [--cb-timeout ms] [--verbose] [--script Scripts/swarm.js] [--watch-script [5000]] [--config file] [--stats-file file] [--max-rss-mb N] [--mem-restart]
+//      [--cb-timeout ms] [--verbose] [--script Scripts/swarm.js] [--watch-script [5000]] [--config file] [--roster swarm.config.json] [--stats-file file] [--max-rss-mb N] [--mem-restart]
 //      (as a child process with IPC: answers {k:'stats'} / {k:'st'} / {k:'health'} / {k:'reload'} / {k:'revive'} / {k:'eval'} (with --test-eval))
 'use strict';
 const net = require('net'), fs = require('fs'), path = require('path'), vm = require('vm'), crypto = require('crypto');
 const { Worker } = require('worker_threads');
+const SUP = require('./supervise');
 const ROOT = path.resolve(__dirname, '..', '..');
 
-function partyMap(root) {
+function partyMap(root, file) {
   const m = new Map();
   try {
-    const cfg = JSON.parse(fs.readFileSync(path.join(root, 'swarm.config.json'), 'utf8').replace(/^﻿/, ''));
+    const cfg = JSON.parse(fs.readFileSync(file || path.join(root, 'swarm.config.json'), 'utf8').replace(/^﻿/, ''));
     (cfg.accounts || []).forEach(a => { if (a.character) m.set(a.character, a.party || a.character); });
   } catch (e) { }
   return m;
@@ -72,8 +75,11 @@ class Pool {
     this.src = null; this.srcHash = ''; this.srcAt = 0; this.srcSeen = null; this.srcPending = null; this.srcBad = null;
     this.fails = new Map();          // party -> [restart times] (backoff)
     this.timers = new Set();
-    const pm = this.o.partyOf ? null : partyMap(this.o.root);
-    this.partyOf = this.o.partyOf || ((n) => pm.get(n) || n);
+    // ENGINE DEFAULT (2026-10-13): the roster file (swarm.config.json) is re-read when it changes: the party map for NEW connections and
+    // the allow list of "allowAll" (pollConfig) follow it live
+    this.rosterFile = this.o.rosterFile || path.join(this.o.root, 'swarm.config.json');
+    this.pm = this.o.partyOf ? null : partyMap(this.o.root, this.rosterFile);
+    this.partyOf = this.o.partyOf || ((n) => (this.pm && this.pm.get(n)) || n);
     this.workers = new Map();        // party -> W { party, w, sab, lastHb, names, ready, restarts, gen }
     this.conns = new Map();          // cid -> { sock, name, party, hello (line), refused }
     this.accounts = new Map();       // accountId -> party
@@ -380,11 +386,26 @@ class Pool {
   pollConfig(force) {
     const f = this.o.configFile; if (!f) return null;
     let s; try { s = fs.statSync(f); } catch (e) { return null; }
-    const k = s.mtimeMs + ':' + s.size; if (!force && k === this.cfgKey) return null;
+    // ENGINE DEFAULT (2026-10-13): "allowAll": true = every character of the roster file (swarm.config.json, see supervise.js effectiveAllow),
+    // so a change of THAT file counts too (an account added on the dashboard is accepted at its next hello, no restart)
+    let rs = null; try { rs = fs.statSync(this.rosterFile); } catch (e) { }
+    const k = s.mtimeMs + ':' + s.size + '|' + (rs ? rs.mtimeMs + ':' + rs.size : '-'); if (!force && k === this.cfgKey) return null;
     let j; try { j = JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')); } catch (e) { if (this.cfgBad !== k) { this.cfgBad = k; this.log(`config ${f} unreadable (${e.message.slice(0, 120)}) — the allow list stays as it is`); } return null; }
+    if (!j || typeof j !== 'object') { this.cfgKey = k; return null; }
+    let next;
+    if (j.allowAll === true) {
+      const acc = SUP.readRoster(this.rosterFile);
+      if (!acc) { if (this.rosterBad !== k) { this.rosterBad = k; this.log(`roster ${this.rosterFile} unreadable — "allowAll": the allow list stays as it is`); } return null; }   // cfgKey not set: retried next poll
+      this.rosterBad = null;
+      if (!this.o.partyOf) { const pm = partyMap(this.o.root, this.rosterFile); if (pm.size) this.pm = pm; }
+      next = SUP.effectiveAllow(j, acc);
+    } else {
+      if (!Array.isArray(j.allow)) { this.cfgKey = k; return null; }      // no list in the file: keep ours
+      next = SUP.effectiveAllow(j, null);
+      if (!this.o.partyOf && rs) { const pm = partyMap(this.o.root, this.rosterFile); if (pm.size) this.pm = pm; }
+    }
     this.cfgKey = k; this.cfgBad = null;
-    if (!j || !Array.isArray(j.allow)) return null;                      // no list in the file: keep ours
-    const next = j.allow.map(String).filter(Boolean), cur = this.o.allow || [];
+    const cur = this.o.allow || [];
     const d = allowDiff(cur, next);
     if (!d.added.length && !d.removed.length) return d;
     this.o.allow = next; this.cfgAt = Date.now();
@@ -549,7 +570,7 @@ if (require.main === module) {
     overlay: opt('--overlay', null), isolate: opt('--overlay', null) ? ['Logs'] : [], logFile: opt('--log', path.join(ROOT, 'Logs', 'brain_host.log')), geopath: a.includes('--geopath'),
     allowEval: a.includes('--test-eval'), verbose: a.includes('--verbose'), script: path.resolve(opt('--script', path.join(ROOT, 'Scripts', 'swarm.js'))),
     watchScriptMs: a.includes('--watch-script') ? (Number(opt('--watch-script', '')) || 5000) : 0,
-    configFile: opt('--config', null) ? path.resolve(opt('--config')) : null, statsFile: opt('--stats-file', null) ? path.resolve(opt('--stats-file')) : null,
+    configFile: opt('--config', null) ? path.resolve(opt('--config')) : null, rosterFile: opt('--roster', null) ? path.resolve(opt('--roster')) : null, statsFile: opt('--stats-file', null) ? path.resolve(opt('--stats-file')) : null,
     maxRssMb: Number(opt('--max-rss-mb', 0)) || 0, memRestart: a.includes('--mem-restart'),
     runner: { sharedParse: a.includes('--shared-parse'), bridge: a.includes('--bridge'), cbTimeoutMs: Number(opt('--cb-timeout', 0)) || 0, allowProcess: a.includes('--allow-process') } });
   pool.start().then(() => { if (process.send) process.send({ k: 'listening', port: pool.o.port }); }).catch(e => { console.error(e.message); process.exit(2); });

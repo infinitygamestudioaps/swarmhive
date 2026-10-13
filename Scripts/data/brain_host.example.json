@@ -1,7 +1,9 @@
 {
- "_readme": "New engine (Dashboard/brain_host, started by Dashboard/server.js): these characters run swarm.js in the brain; their L2Swarm accounts run Scripts/agent2.js only. Rollback per character: stop agent2.js, start swarm.js (docs/plan/new_engine/DESIGN.md section 13).",
- "on": false,
+ "_readme": "New engine (Dashboard/brain_host, started by Dashboard/server.js): the brain characters run swarm.js in the dashboard; their L2Swarm accounts run Scripts/agent2.js only. \"allowAll\": true = every character of swarm.config.json (+ \"allow\", minus \"except\"). Switch back: \"on\": false, or \"allowAll\": false + the characters in \"allow\". Move running accounts: dashboard PC tab -> New engine, or node docs/plan/tools/attach_agent.js --all --apply (back: --back --names A,B --apply). docs/plan/INSTALL.md section \"New engine\".",
+ "on": true,
+ "allowAll": true,
  "allow": [],
+ "except": [],
  "bridge": true,
  "pool": true
 }

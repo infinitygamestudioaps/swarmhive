@@ -186,7 +186,7 @@ const mem = (name, rec, base) => ({ name, rec: rec || {}, base: !!base });
     const flat = (x) => Array.isArray(x) ? x.map(flat).join('') : String(x == null ? '' : x); const uiConfirm = (o) => { env.asked.push(o.title + ': ' + flat(o.body)); return Promise.resolve(true); }; const uiP = (...a) => a, uiEm = (t) => t, uiList = (a) => a, uiNote = (...a) => a, uiWarn = (...a) => a;   // UIDIALOG 2026-10-10
     const askChoice = (title, text, buttons) => { env.asked.push(title + ': ' + text); return Promise.resolve(env.answers.shift()); };
     ${glue}
-    return { setSS: (d) => { SSD.data = d; SSD.at = Date.now(); }, ssGateParty, ssGateText, spotChoiceChecks, spotMonsterLevels };`)(env);
+    return { setSS: (d) => { d.optin = d.optin || {}; if (!d.optin.gate) d.optin.gate = env.gate || 'strict'; SSD.data = d; SSD.at = Date.now(); }, ssGateParty, ssGateText, spotChoiceChecks, spotMonsterLevels };`)(env);   // SSGATETRY 2026-10-13: these checks test the STRICT rule; env.gate = 'try' for the new default
   env.chars = [{ name: 'Tank3', party: 'Tank3', level: 26 }, { name: 'Nuker11', party: 'Tank3', level: 22 }];
   env.pspot = { options: { dungeons: [{ name: 'Necropolis of Sacrifice', levelRange: [20, 30] }, { name: 'Cruma Tower', levelRange: [40, 51] }], zones: [], datapack: [] } };
   const state = { period: 'validation', winner: 'dusk', cycle: '2026-09-28', checkedAt: T('2026-10-08T18:14:02Z') };
@@ -195,15 +195,25 @@ const mem = (name, rec, base) => ({ name, rec: rec || {}, base: !!base });
   check(g.state === 'closed' && x.cls === 'bad' && /^closed: Seven Signs validation — only Dusk winners until Mon 12 Oct \d\d:00 \(local\)$/.test(x.t), `picker: "${x.t}"`);
   // 7 SIGNS OPT-IN (2026-10-12): not enrolled -> closed + the hint; the party enrolled (seven_signs.json via /api/clan optin) -> sign-up first
   U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }] });
-  { const gn = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z')); check(gn.state === 'closed' && /not enrolled .*7 Signs tab/.test(U.ssGateText(gn).t), `picker, party not enrolled: "${U.ssGateText(gn).t}"`); }
+  { const gn = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z')); check(gn.state === 'signup', `picker, party not enrolled: picking it = consent to the Dawn sign-up (SSGATE2 2026-10-13): "${U.ssGateText(gn).t}"`); }
   U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, optin: { parties: ['Tank3'], chars: [] }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }] });
   const gs = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z'));
   check(gs.state === 'signup' && /^needs sign-up \(Dawn\) first — competition period/.test(U.ssGateText(gs).t), `picker in the competition period: "${U.ssGateText(gs).t}"`);
   U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '2026-10-12', status: 'signed' }] });
   check(U.ssGateText(U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z'))).t === 'Seven Signs: can enter', 'picker: everyone signed up -> "can enter"');
+  // SSGATETRY 2026-10-13 (tester: manual entry works without the sign-up): gate "try" (the default) = can enter even when nobody signed up /
+  // enrolled, in either period; a real Ziggurat refusal this period closes it until the period change
+  env.gate = 'try';
+  U.setSS({ state, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }, { name: 'Nuker11', party: 'Tank3', cycle: '', status: '' }] });
+  { const gt = U.ssGateParty('Tank3', 'Necropolis of Sacrifice', T('2026-10-08T19:50:00Z')); check(gt.state === 'enter' && U.ssGateText(gt).t === 'Seven Signs: can enter', `try mode, validation, nobody signed up -> "${U.ssGateText(gt).t}"`); }
+  U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }] });
+  { const gt = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z')); check(gt.state === 'enter', `try mode, competition, not enrolled -> can enter (${gt.state})`); }
+  U.setSS({ state: { period: 'competition', checkedAt: T('2026-10-12T18:20:00Z') }, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '', denied: { cycle: '2026-10-12', period: 'competition', kind: 'catacomb', dungeon: 'Catacomb of the Branded', why: 'may not pass' } }] });
+  { const gt = U.ssGateParty('Tank3', 'Catacomb of the Branded', T('2026-10-12T19:00:00Z')); check(gt.state === 'closed' && /refused/.test(gt.why), `try mode, the Ziggurat refused this period -> closed (${gt.why})`); }
+  env.gate = 'strict';
   (async () => {
-    // closed necropolis: asks, "Save anyway" keeps it (bot shows "blocked"), Cancel drops it
-    U.setSS({ state, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '' }, { name: 'Nuker11', party: 'Tank3', cycle: '', status: '' }] });
+    // closed necropolis: asks, "Save anyway" keeps it (bot shows "blocked"), Cancel drops it (SSGATE2: closed = a member without 1st class transfer; the real date is used here)
+    U.setSS({ state, chars: [{ name: 'Tank3', party: 'Tank3', cycle: '', status: '', why: 'no 1st class transfer yet' }, { name: 'Nuker11', party: 'Tank3', cycle: '', status: '' }] });
     env.answers = [null]; env.asked = [];
     const r0 = await U.spotChoiceChecks('Tank3', { mode: 'manual', kind: 'rooms', dungeon: 'Necropolis of Sacrifice', roomId: 'any' }, 'Necropolis of Sacrifice · any free room');
     check(r0 === null && /is closed now: .*NOT go there/s.test(env.asked[0] || ''), 'choosing a closed necropolis asks first and explains; Cancel = nothing saved');

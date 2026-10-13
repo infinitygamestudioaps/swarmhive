@@ -33,7 +33,7 @@
 //   carries _el (its Elapsed), so the brain keeps its cooldown clock across full reports. hello caps 'assume': on my own OnMagicSkillUse /
 //   OnTargetSelected the brain pre-updates its mirror (casting, that skill on cooldown, my target) at the event, and this agent then re-sends
 //   the real IsCasting / readiness / Target on the next tick / report (markers below), so a wrong assumption lives at most one tick.
-const AG = { rep: 0, tickMs: 62, repEvery: 4, fastSent: 0, host: '127.0.0.1', port: 8094, v: 3, bridge: null, bridgeSubs: {}, bridged: 0, emitted: 0, sock: null, st: null, buf: '', rx: null, connAt: 0, lostAt: Date.now(), tick: 0, sent: 0, got: 0, errors: 0,
+const AG = { rep: 0, tickMs: 62, repEvery: 4,   /* TICK125 tried 2026-10-13 and reverted: test_engine_timing needs order pickup <= 75 ms and the cast end within 80 ms */ fastSent: 0, host: '127.0.0.1', port: 8094, v: 3, bridge: null, bridgeSubs: {}, bridged: 0, emitted: 0, sock: null, st: null, buf: '', rx: null, connAt: 0, lostAt: Date.now(), tick: 0, sent: 0, got: 0, errors: 0,
   last: { me: {}, cr: {}, sec: {}, skr: {}, fl: {}, opt: {}, q: {}, tgt: -1, html: '' }, full: true, lastFull: 0, watch: { opt: {}, quest: {}, ae: {}, packets: false },
   reflex: { hpPot: 45, mpPot: 25, gapMs: 6000, lastHp: 0, lastMp: 0 }, out: [], utail: [], invVer: 0, cdAt: {}, lastRx: 0, pinged: false, silentMs: 3000, silentSince: 0, silentEpisodes: 0 };
 const num = (v) => typeof v === 'bigint' ? Number(v) : (Number(v) || 0);
@@ -94,6 +94,16 @@ function agConnect() {
     agSend({ t: 'hello', v: AG.v, caps: ['bridge', 'assume', 'invsync', 'enumopt'], name: String(Me.Name || ''), objId: num(Me.objId), accountId: acc, version: String(typeof __VERSION__ !== 'undefined' ? __VERSION__ : ''), cls: num(Me.ClassId), level: num(Me.Level) });
     AG.full = true; AG.last = { me: {}, cr: {}, sec: {}, skr: {}, fl: {}, opt: {}, q: {}, tgt: -1, html: '' };
   } catch (e) { agDrop(); }
+}
+// SLOWTRACE-2026-10-13 (user: "why do we keep seeing agent2.js ran JS for 30 s without returning" - 200-700 L2Swarm watchdog interrupts per hour):
+// what the agent was doing when a call / tick took long or was interrupted -> Logs/agent_slow.log (+ a log line to the brain when it can)
+var AGCUR = { w: '', at: 0 };
+function agSlow(what, t0, err) {
+  const ms = Date.now() - t0; if (ms < 3000 && !/interrupt/i.test(String(err || ''))) return;
+  let nm = ''; try { nm = String(Me.Name || ''); } catch (e) { }
+  const line = new Date().toISOString() + ' [' + nm + '] ' + ms + ' ms ' + what + (err ? ' ERR ' + String(err).slice(0, 160) : '');
+  try { File.AppendAllText(__DIR__ + String.fromCharCode(92) + 'Logs' + String.fromCharCode(92) + 'agent_slow.log', line + String.fromCharCode(13, 10)); } catch (e) { }
+  try { if (AG.st) agSend({ t: 'log', text: 'SLOW ' + ms + ' ms ' + what + (err ? ' ERR ' + String(err).slice(0, 120) : '') }); } catch (e) { }
 }
 function agDrop() { try { if (AG.sock) AG.sock.Close(); } catch (e) { } if (AG.sock) AG.lostAt = now(); AG.sock = null; AG.st = null; }
 function agSend(o) {
@@ -211,8 +221,8 @@ function agDo(m) {
       if (fn.indexOf('Send.') === 0) { isSend = true; try { f = Send[fn.slice(5)]; } catch (e) { f = null; } } else f = FN[fn];
       if (!f || (typeof f !== 'function' && typeof f !== 'object')) { if (m.want) agSend({ t: 'res', id: m.id, ok: false, err: 'not callable here: ' + fn }); else agSend({ t: 'log', text: 'call ' + fn + ': not callable here' }); return; }
       const args = (m.args || []).map(x => unmarshal(x, m.id));
-      let r;
-      try { r = isSend ? callArgs(Send, fn.slice(5), args) : callFn(f, args); } catch (e) { const er = String(e && e.message || e).slice(0, 300); if (m.want) agSend({ t: 'res', id: m.id, ok: false, err: er }); else agSend({ t: 'log', text: 'call ' + fn + ' failed: ' + er }); return; }   // 2026-10-12: fire-and-forget errors were swallowed
+      let r; const tc0 = Date.now(); AGCUR.w = 'call ' + fn; AGCUR.at = tc0;   // SLOWTRACE
+      try { r = isSend ? callArgs(Send, fn.slice(5), args) : callFn(f, args); agSlow('call ' + fn, tc0, ''); } catch (e) { agSlow('call ' + fn, tc0, e && e.message || e); const er = String(e && e.message || e).slice(0, 300); if (m.want) agSend({ t: 'res', id: m.id, ok: false, err: er }); else agSend({ t: 'log', text: 'call ' + fn + ' failed: ' + er }); return; }   // 2026-10-12: fire-and-forget errors were swallowed
       if (!m.want) return;
       if (r && typeof r.then === 'function') { r.then(v => agSend({ t: 'res', id: m.id, ok: true, v: ser(v, 1) }), e => agSend({ t: 'res', id: m.id, ok: false, err: String(e && e.message || e).slice(0, 300) })); return; }
       agSend({ t: 'res', id: m.id, ok: true, v: ser(r, 1) }); return;
@@ -436,14 +446,29 @@ function reflex() {
   } catch (e) { }
 }
 
+// ADAPT-2026-10-13 (user: 'everything must run asynchronously, several things talking at once'; the PC ran at 93 % CPU, L2Swarm 7.3 cores, and
+// the agent ticks took 3-30 s: 58 agents x 16 ticks/s all reading host objects): (1) a tick that took X ms waits up to 2X (max 2 s) before the
+// next one, so the agents never queue on a saturated L2Swarm; (2) the report cadence follows what the character does: fighting every 250 ms
+// (as before), moving every 500 ms, standing still every 750 ms. Fast combat edges (HP/MP/cast/target) still go out on every tick that runs.
+AG.nextTick = 0; AG.lastRepAt = 0; AG.lastPos = '';
+// in TICKS (tickMs 62): fighting 4 (250 ms), moving 8 (500 ms), standing still 12 (750 ms) — ticks, not wall time (the engine tests run the ticks back to back)
+function repGapTicks() {
+  if (AG.full) return 0;
+  try { if (fighting()) return AG.repEvery; const p = Math.round(num(Me.X) / 50) + ',' + Math.round(num(Me.Y) / 50); const moving = p !== AG.lastPos; AG.lastPos = p; return moving ? AG.repEvery * 2 : AG.repEvery * 3; } catch (e) { return AG.repEvery * 2; }
+}
 setInterval(() => {
+  if (now() < AG.nextTick) return;                // ADAPT: back off after a slow tick
+  const tk0 = Date.now(); AGCUR.w = 'tick'; AGCUR.at = tk0;   // SLOWTRACE
   try {
     AG.tick++;
     if (!IsCharacterReady()) return;
     if (!AG.sock) { agConnect(); reflex(); return; }
     agRead();
     if (AG.sock && AG.pinged) reflex();               // a silent (stuck) brain: potions meanwhile (brainSilent decides)
-    if (AG.tick % AG.repEvery === 0 || AG.full) { if (now() - AG.lastFull > 60000) AG.full = true; report(); }   // every 250 ms
+    if (AG.tick % AG.repEvery === 0 || AG.full) {   // the fixed 250 ms report again (ADAPT keeps only the back-off below: the engine tests need targets / effects every report)
+      if (now() - AG.lastFull > 60000) AG.full = true; report(); }   // ADAPT: 250 ms fighting / 500 moving / 750 still (was every 250 ms)
     else if (AG.sock) { fastEdges(); if (AG.invDirty) invPush(false); }   // TIMING: the other ticks send what a cast / target / hit changed at once; #15: a bag change too
-  } catch (e) { AG.errors++; }
+    agSlow('tick (read/report/edges)', tk0, '');
+    { const el = Date.now() - tk0; if (el > AG.tickMs) AG.nextTick = now() + Math.min(2000, el * 2); }   // el = real JS time spent, the wait on the agent clock   // ADAPT
+  } catch (e) { AG.errors++; agSlow('tick (read/report/edges)', tk0, e && e.message || e); }
 }, AG.tickMs);

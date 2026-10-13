@@ -16,7 +16,7 @@
 #    config path + the swarm_state_<name>.json heartbeat written by swarm.js.
 #  - Orphans / Stop: only l2.exe clients started by an L2Swarm (parent pid) or tracked by this script are closed; a game client the
 #    user started himself is left alone.
-param([switch]$Probe)
+param([switch]$Probe, [switch]$NoUi)   # NOUI-2026-10-13: -NoUi = L2Swarm runs headless (3.8.18 /NoUi) -> hook through MCP manage_hook, no UI Automation
 $root = (Resolve-Path "$PSScriptRoot\..\..\..").Path   # portable install (2026-10-07)
 try { . "$PSScriptRoot\swarm_config.ps1"; if ($SwarmRoot) { $root = $SwarmRoot } } catch { }
 $log  = "$root\Logs\client_mode.log"
@@ -28,7 +28,7 @@ $p = Get-Process L2Swarm -ErrorAction SilentlyContinue | Select-Object -First 1
 if (-not $p) { exit 0 }
 $cond = New-Object Windows.Automation.PropertyCondition($AE::ProcessIdProperty, $p.Id)
 $win = $AE::RootElement.FindFirst([Windows.Automation.TreeScope]::Children, $cond)
-if (-not $win) { exit 0 }
+if (-not $win -and -not $NoUi) { exit 0 }
 
 if ($Probe) {
     $out = New-Object System.Collections.Generic.List[string]
@@ -119,6 +119,22 @@ function HookCharacter($name) {
     if (-not $cfg) { Log "hook ${name}: no config with <SelectedCharacter>$name< in Settings - not pressing Hook"; return $false }
     $exe = ''; try { if ((Get-Content $cfg -Raw) -match '<L2ExePath>([^<]+)<') { $exe = $Matches[1] } } catch { }
     if (-not $exe -or -not (Test-Path $exe)) { Log "hook ${name}: $(Split-Path $cfg -Leaf) has no valid <L2ExePath> ('$exe') - L2Swarm would open a modal 'Select L2.exe' dialog; set the path first (close account, edit XML, open) - not pressing Hook"; return $false }
+    if ($NoUi) {
+        $idle = UserIdleSec
+        if ($idle -ge 0 -and $idle -lt 60) { Log "hook ${name}: waiting - the user was active $([int]$idle) s ago (auto-login types with global keystrokes)"; return $false }
+        $before = @(Get-Process l2 -ErrorAction SilentlyContinue | ForEach-Object Id)
+        try { $r = Mcp 'manage_hook' @{ action = 'start'; account_name = $cfg }; Log "hook ${name}: manage_hook start -> $(($r | ConvertFrom-Json).result.content[0].text)" }
+        catch { Log "hook ${name}: manage_hook start failed: $_"; return $false }
+        $times = @(); try { $times = @(@($hist.hooks.$name) | Where-Object { $_ }) } catch { }
+        $hist.hooks | Add-Member -Force $name (@($times + (Get-Date).ToString('s') | Select-Object -Last 10)); SaveHist
+        for ($i = 0; $i -lt 30; $i++) {
+            Start-Sleep 2
+            $new = L2Procs | Where-Object { $before -notcontains [int]$_.ProcessId -and [int]$_.ParentProcessId -eq $p.Id } | Select-Object -First 1
+            if ($new) { $np = [int]$new.ProcessId; $st[$name] = @{ pid = $np; at = (Get-Date).ToString('s') }; SaveState
+                        $hist.pids = @(@($hist.pids) + $np | Select-Object -Last 50); SaveHist; Log "hook ${name}: l2.exe started (pid $np) via manage_hook"; return $true }
+        }
+        Log "hook ${name}: manage_hook gave no new l2.exe within 60 s (status: $(try { (Mcp 'manage_hook' @{ action = 'status'; account_name = $cfg }) } catch { $_ }))"; return $false
+    }
     # 2026-10-10 (L2Swarm 3.8.14): the account detail panel with btnHook only exists AFTER an account is selected (before that the main
     # area is a LoadingAnimation) -> the button is looked up after the selection below; here only "another hooked client" when it shows
     $hookCond = New-Object Windows.Automation.PropertyCondition($AE::AutomationIdProperty, 'btnHook')
@@ -214,6 +230,17 @@ foreach ($k in @($st.Keys)) { if (-not $wanted.ContainsKey($k) -and $st[$k].pid 
 foreach ($name in @($wanted.Keys)) {
     $want = $wanted[$name]
     $cur = $st[$name]; $alive = $cur -and $cur.pid -and (Alive $cur.pid)
+    # CRASHED CLIENT (2026-10-13 11:00, Tank1: "LineageII Crash Report" window for hours; the process lives on, so it counted as alive and every
+    # move / .giran was lost): a client showing the crash report is dead -> close it, the next run hooks a new one
+    if ($alive -and $want -eq 'ingame') {                           # (oog: the branch below closes it and logs in out of game)
+        $cp = Get-Process -Id $cur.pid -ErrorAction SilentlyContinue
+        if ($cp -and $cp.MainWindowTitle -match 'Crash') {
+            Log "hook ${name}: client pid $($cur.pid) shows '$($cp.MainWindowTitle)' - it crashed; closing it, will hook again"
+            Stop-Process -Id $cur.pid -Force -ErrorAction SilentlyContinue
+            $st[$name] = @{ tried = $null }; SaveState
+            $alive = $false; $cur = $st[$name]
+        }
+    }
     # hooked client stuck on the login screen (login server refused us, e.g. flood protection after restarts): after 4 min
     # without being in game, close it so the next run hooks again (2026-10-04 13:09)
     if ($want -eq 'ingame' -and $alive -and $cur.at -and ((Get-Date) - [datetime]$cur.at).TotalMinutes -gt 4) {

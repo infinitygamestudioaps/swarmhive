@@ -89,7 +89,7 @@ check(/questRun\.active/.test(one) && /inRaid\(\)/.test(one) && /leadDawn\(\{ on
 const nm = fnBody('function ssNeedsMan(n) {', 500);
 check(/period !== 'competition'\) return false/.test(nm) && /BASE_CLASS_IDS\.includes\(cls\)/.test(nm) && !/maxTriesPerCycle/.test(nm), 'ssNeedsMan: your order ignores the failed-tries limit (competition period, 1st class needed)');
 check(/maxTriesPerCycle && !\(now\(\) < ssManualUntil\)\) return `gave up/.test(src) && /needs = manual \? ssNeedsMan : ssNeeds/.test(sts) && /if \(manual && meToo\) ssManualUntil = /.test(sts) && /if \(e\.data\.manual\) ssManualUntil = /.test(ans) && /!\(manual \? ssNeedsMan : ssNeeds\)\(n\)/.test(sts), "!dawn signs up characters that used up their 3 automatic tries (2026-10-12 link bug)");
-check(/filter\(opt\.auto \? ssNeeds : ssNeedsMan\)/.test(ld) && /!ssNeedsMan\(Me\.Name\)/.test(one) && /ssManualUntil = now\(\) \+ 600000;/.test(one), 'leadDawn / dawnOne use the manual need');
+check(/filter\(opt\.auto \? ssNeeds : ssNeedsMan\)/.test(ld) && /!ssNeedsMan\(Me\.Name\)/.test(one) && /ssManualUntil = now\(\) \+ 600000;/.test(one + fnBody('async function dawnOneVisit() {', 900)), 'leadDawn / dawnOne use the manual need');   // DAWNONE 2026-10-13: the visit moved to dawnOneVisit
 check(src.split('SSOPTIN-PURE-BEGIN').length === 2 && /SSOPTIN-2026-10-12/.test(src), 'marker present once');
 const opt = fnBody('function ssOpt() {', 700);
 check(/seven_signs\.json/.test(fnBody('function ssOptFile()', 200)) && /now\(\) - SSO\.at < 30000/.test(opt) && /fileStamp\(f\)/.test(opt), 'settings read live (30 s, write-time stamp)');

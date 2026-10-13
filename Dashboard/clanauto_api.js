@@ -4,6 +4,7 @@
 //   POST /api/clanauto   { action: 'set', key, on }            switch an automation (key: levelUp | invite | warehouseLook | skillLearn |
 //                                                              skillFocus | questDispatch | questActivate | levelQuests)
 //                        { action: 'inviteParty', leader, on } tick / untick a whole party for invites (its current AND future members)
+//                        { action: 'handover', giver }      CLANHAND 2026-10-13: "!clanhand <giver>" = hand the clan level item to the clan leader now
 // Switches: Scripts/data/clan_quests.json clan.auto (swarm.js CLANAUTO reads it live; missing = default) — except levelUp, which stays in
 // Logs/clan_auto.json (swarm.js clanAutoOn(), the old "!clanlevel auto on|off"). Every write: backup in Settings/backup, tmp + rename, one line
 // in Logs/dashboard_commands.log.
@@ -15,7 +16,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const STATIC = { '/clanauto.js': 'application/javascript; charset=utf-8', '/clanauto.css': 'text/css; charset=utf-8' };
-const DEF = { invite: true, warehouseLook: true, skillLearn: true, skillFocus: true, questDispatch: true, questActivate: false, levelQuests: false };
+const DEF = { invite: true, warehouseLook: true, skillLearn: true, skillFocus: true, questDispatch: true, questActivate: false, levelQuests: false, itemHandover: true };   // itemHandover: CLANHAND 2026-10-13
 const KEYS = Object.keys(DEF).concat(['levelUp']);
 const LQ_FOR_LEVEL = { 2: 'bloodmark', 3: '501', 4: '503' };
 const cqFile = (ctx) => process.env.SWARM_CLANQUESTS_FILE || path.join(ctx.DATA, 'clan_quests.json');
@@ -77,17 +78,76 @@ function holders(ctx, id) {
   return out;
 }
 
+// ---- CLANHAND 2026-10-13: one clan level + the clan level item hand-over ------------------------------------------------------------
+// The level-up checklist (st.nextLevel) comes from the clan leader's swarm.js. Before the CLANHAND deploy it used Me.Clan.Level = 0 ("level 0 -> 1",
+// "the clan is level 0") while the clan is level 2 -> a report BELOW the real level (clanLevelOf) is rebuilt here from clan_data.json + the
+// leader's SP / adena (clan_state.json) + his bag report, so every row reads the same level.
+/** N = st.nextLevel, clvl = clanLevelOf(); levels = clan_data.json levels; have(id) = the clan leader's count (bag report) */
+function fixNextLevel(N, clvl, levels, st, have) {
+  if (N && num(N.level) >= num(clvl)) return N;
+  const L = (levels || []).find(l => num(l.level) === num(clvl) + 1);
+  if (!L) return { level: clvl, next: null, ok: false, missing: ['no next level known (clan_data.json)'], fixed: true, reported: N ? num(N.level) : null };
+  const sp = num(st && st.sp), ad = num(st && st.adena), missing = [];
+  const items = (L.items || []).map(i => ({ id: num(i.id), name: String(i.name || 'item ' + i.id), need: num(i.count || 1), have: have ? num(have(num(i.id))) : 0 }));
+  if (sp < num(L.sp)) missing.push(`SP ${sp.toLocaleString('en-US')} / ${num(L.sp).toLocaleString('en-US')}`);
+  if (ad < num(L.adena)) missing.push(`adena ${ad.toLocaleString('en-US')} / ${num(L.adena).toLocaleString('en-US')}`);
+  items.forEach(i => { if (i.have < i.need) missing.push(`${i.name} (${i.id}) ${i.have}/${i.need}`); });
+  if (num(L.reputation)) missing.push(`reputation ? / ${num(L.reputation)}`);
+  if (num(L.members)) missing.push(`members ? / ${num(L.members)}`);
+  return { level: num(clvl), next: num(clvl) + 1, ok: !missing.length, missing, sp: { have: sp, need: num(L.sp) }, adena: { have: ad, need: num(L.adena) }, items, fixed: true, reported: N ? num(N.level) : null };
+}
+/** a clan name L2Swarm could not read comes as "(clan <id>)" — not a name */
+const realName = (n) => (n && !/^\(clan /.test(String(n)) ? String(n) : '');
+/** the swarm.js status of each giver (Logs/clanhand_<name>.json): fresh ones only (pending 20 min, handed 3 h) */
+function clanHands(ctx) {
+  const out = {};
+  try { fs.readdirSync(ctx.LOGS).forEach(f => { const m = /^clanhand_([A-Za-z0-9]+)\.json$/.exec(f); if (!m) return; const j = rd(ctx, path.join(ctx.LOGS, f), null);
+    if (!j || !j.state || j.state === 'none') return; const age = Date.now() - Date.parse(j.at || 0);
+    if (age < (j.state === 'handed' ? 3 * 3600e3 : j.state === 'failed' ? 3600e3 : 20 * 60000)) out[m[1]] = j; }); } catch (e) { }
+  return out;
+}
+/** what the clan level items look like: per item the clan leader's count, what is still needed, who holds it, who gives, the giver's status.
+ *  o = { clvl, levels, leader, extra: [{ id, need }] (e.g. the level quest step item), holdersOf(id) -> [{ name, objId, count }], hands } */
+function clanItemPlan(o) {
+  const L = (o.levels || []).find(l => num(l.level) === num(o.clvl) + 1), list = [];
+  ((L && L.items) || []).forEach(i => list.push({ id: num(i.id), name: String(i.name || 'item ' + i.id), need: num(i.count || 1) }));
+  (o.extra || []).forEach(x => { if (num(x.id) && !list.some(i => i.id === num(x.id))) list.push({ id: num(x.id), name: String(x.name || 'item ' + x.id), need: num(x.need || 1) }); });
+  return list.map(i => {
+    const hs = (o.holdersOf ? o.holdersOf(i.id) : []) || [], lh = hs.filter(h => h.name === o.leader).reduce((a, h) => a + num(h.count), 0);
+    const others = hs.filter(h => h.name !== o.leader).sort((a, b) => num(b.count) - num(a.count) || String(a.name).localeCompare(String(b.name)));
+    const still = Math.max(0, i.need - lh), g = still ? others[0] || null : null;
+    return Object.assign({}, i, { leaderHas: lh, still, holders: others, giver: g ? g.name : '', giverHas: g ? num(g.count) : 0, give: g ? Math.min(still, num(g.count)) : 0, objId: g ? num(g.objId) : 0,
+      status: g && o.hands ? (o.hands[g.name] || null) : null });
+  });
+}
+/** one line + row state for a plan item (the "Needs you" text is gone: the hand-over runs by itself) */
+function itemHandText(p, leader, on, agoFn) {
+  const A = agoFn || ago, s = p.status, nm = p.name, has = `${p.giver} already has ${p.giverHas} × ${nm}`;
+  if (!p.giver) return p.still === 0 && p.leaderHas ? { state: 'ok', text: `${leader} has ${p.leaderHas} × ${nm} — enough for the clan level-up` } : { state: 'wait', text: `nobody holds ${nm} yet` };
+  if (s && s.state === 'handing') return { state: 'ok', text: `${p.giver} is ${s.text || `handing ${p.give} × ${nm} to ${leader}`} (${s.why || 'started'} ${A(s.at)})` };
+  if (s && s.state === 'handed') return { state: 'ok', text: `${s.text || `${p.giver} handed ${p.give} × ${nm} to ${leader}`} ${A(s.at)} — ${leader}'s bag report follows within 2 min` };
+  if (s && s.state === 'failed') return { state: 'need', text: `${has}: the hand-over to ${leader} failed (${String(s.why || '?').slice(0, 140)}) — retries by itself in 30 min, or press "Hand it over now"`, failed: true };
+  if (!on) return { state: 'need', text: `${has}: hands ${p.give} to ${leader} — the automatic hand-over is OFF (switch it on, or press "Hand it over now")`, off: true };
+  if (s && s.state === 'calling') return { state: 'wait', text: `${has}: ${s.why || `asked ${leader} to come over`} (${A(s.at)})` };
+  if (s && s.state === 'waiting') return { state: 'wait', text: `${has}: hands ${p.give} to ${leader} by itself — waiting ${String(s.why || '').replace(/^until /, 'until ')}` };
+  return { state: 'wait', text: `${has}: hands ${p.give} to ${leader} by itself when both are in a town (no report from ${p.giver} yet)` };
+}
+
 function status(ctx) {
   const st = rd(ctx, path.join(ctx.LOGS, 'clan_state.json'), null) || {}, cq = rd(ctx, cqFile(ctx), null) || { clan: {} }, cd = rd(ctx, path.join(ctx.DATA, 'clan_data.json'), null) || {};
   const C = cq.clan || {}, F = flags(cq, ctx), clvl = clanLevelOf(st, cq), chars = ctx.readStates(), teams = teamsOf(chars);
   const leader = st.leader || C.leader || 'Dagger1', lc = chars.find(c => c.name === leader) || null, leaderOn = !!(lc && lc.ageSec <= 120);
-  const ci = st.clanInfo || null, clanName = (ci && ci.name) || (st.clan && st.clan.name) || C.name || '';
+  const ci = st.clanInfo || null, clanName = realName(ci && ci.name) || realName(st.clan && st.clan.name) || C.name || (ci && ci.name) || '';   // CLANHAND: '(clan <id>)' is no name
   const hasClan = !!(clanName && (C.created || (st.clan && st.clan.id) || ci));
   const fresh = (k, maxMin) => { const a = (st.auto || {})[k]; return a && a.at && Date.now() - Date.parse(a.at) < (maxMin || 30) * 60000 ? a : null; };
   const rows = [], needs = [];
   const row = (o) => rows.push(Object.assign({ on: null, state: 'ok', text: '' }, o));
   const need = (o) => needs.push(Object.assign({ kind: 'info' }, o));
-  const N = st.nextLevel || null;
+  // CLANHAND 2026-10-13: ONE clan level (clvl) everywhere; a level-up report below it (Me.Clan.Level 0) is rebuilt from clan_data.json
+  const leaderHave = (id) => holders(ctx, id).filter(h => h.name === leader).reduce((a, h) => a + h.count, 0);
+  const N = hasClan && st.nextLevel !== undefined ? fixNextLevel(st.nextLevel || null, clvl, cd.levels, st, leaderHave) : (st.nextLevel || null);
+  const LQ = cq.levelQuests || {}, lqId = LQ_FOR_LEVEL[clvl], lqStepItem = lqId && LQ[lqId] && LQ[lqId].item ? [{ id: LQ[lqId].item, need: 1 }] : [];
+  const IP = hasClan ? clanItemPlan({ clvl, levels: cd.levels, leader, extra: lqStepItem, holdersOf: (id) => holders(ctx, id), hands: clanHands(ctx) }) : [];
 
   // 1) founding
   if (hasClan) row({ key: 'found', title: 'Clan founding', text: `${clanName} exists${C.created ? ' since ' + String(C.created).slice(0, 10) : ''}${C.foundedAt ? ' (' + C.foundedAt + ')' : ''} — never a second clan` });
@@ -101,13 +161,20 @@ function status(ctx) {
   else if (N.ok) { row({ key: 'levelUp', title: 'Clan level-up', on: F.levelUp, state: F.levelUp ? 'ok' : 'need', text: F.levelUp ? `ready: level ${N.level} → ${N.next} the next time ${leader} is in a town and free` : `ready for level ${N.next} — switch on, or press "Increase clan level now"` });
     if (!F.levelUp) need({ kind: 'order', text: `Clan level ${N.next} is ready`, target: 'char:' + leader, cmd: '!clanlevel', label: `Increase the clan level to ${N.next} now`, button: 'Level up now' }); }
   else row({ key: 'levelUp', title: 'Clan level-up', on: F.levelUp, state: F.levelUp ? 'wait' : 'off', text: `level ${N.level} → ${N.next} waits for: ${(N.missing || []).join('; ')}` });
-  // an item the next level needs, held by another character -> one hand-over
-  ((N && N.items) || []).forEach(it => { if (num(it.have) >= num(it.need)) return;
-    const h = holders(ctx, it.id).filter(x => x.name !== leader);
-    if (h.length) need({ kind: 'handover', text: `${h[0].name} has ${it.name} (${it.id}) — clan level ${N.next} needs it in ${leader}'s bag`, giver: h[0].name, objId: h[0].objId, count: Math.min(num(it.need), h[0].count), receiver: leader, item: it.name, button: `Hand it to ${leader}` }); });
+  // 2b) CLANHAND 2026-10-13: the item the next level needs, held by another character -> swarm.js hands it to the clan leader by itself
+  //     (Logs/clanhand_<name>.json = its status); "Needs you" only when the switch is OFF or the last try failed; the row has "Hand it over now"
+  if (hasClan) {
+    const lines = [], acts = []; let st2 = 'ok';
+    IP.forEach(p => { const t = itemHandText(p, leader, F.itemHandover); lines.push(t.text);
+      if (t.state === 'need') st2 = 'need'; else if (t.state === 'wait' && st2 !== 'need') st2 = 'wait';
+      if (p.giver && p.give > 0 && !(p.status && /^(handing|handed)$/.test(p.status.state))) {
+        const a = { giver: p.giver, receiver: leader, item: p.name, id: p.id, count: p.give, label: 'Hand it over now' }; acts.push(a);
+        if (t.failed || t.off) need(Object.assign({ kind: 'clanhand', text: t.text, button: `Hand it to ${leader} now` }, a)); } });
+    const text = !IP.length ? `clan level ${clvl + 1} needs no item (SP + adena${clvl >= 5 ? ' / reputation / members' : ''})` : lines.join(' · ');
+    row({ key: 'itemHandover', title: 'Clan level item hand-over', on: F.itemHandover, state: !IP.length ? 'ok' : F.itemHandover ? st2 : (st2 === 'ok' ? 'off' : 'need'), text, act: acts[0] || null });
+  }
 
   // 3) clan level quests (the item for levels 3-5)
-  const LQ = cq.levelQuests || {}, lqId = LQ_FOR_LEVEL[clvl];
   if (!hasClan) row({ key: 'levelQuests', title: 'Clan level quests', on: F.levelQuests, state: 'wait', text: 'after the clan is founded' });
   else if (clvl >= 5) row({ key: 'levelQuests', title: 'Clan level quests', on: F.levelQuests, state: 'ok', text: 'done: clan level 5+ (levels 6+ need reputation + members)' });
   else if (!lqId || !LQ[lqId]) row({ key: 'levelQuests', title: 'Clan level quests', on: F.levelQuests, state: 'wait', text: `clan level ${clvl}: levels 1 and 2 need only SP + adena (the level-up above)` });
@@ -118,8 +185,10 @@ function status(ctx) {
     if (!ns.step) { state = 'ok'; text = `${q.name}: all steps done`; }
     else {
       const s = ns.step, p = ns.prog, sn = ns.i + 1, pr = p ? ` (step ${sn} ${p.status} ${ago(p.at)}${p.msg ? ': ' + String(p.msg).slice(0, 120) : ''})` : '';
-      const held = s.item ? holders(ctx, s.item).filter(h => h.name !== leader) : [];
-      if (held.length) { state = 'need'; text = `${held[0].name} already has ${held[0].count} × item ${s.item}: no hunt needed — hand it to ${leader} (Needs you)`; }
+      const ip = IP.find(x => x.id === num(s.item || q.item));
+      const upIdx = (q.steps || []).findIndex(x => x.kind === 'levelup');
+      if (ip && ip.giver && s.kind !== 'levelup') { const t = itemHandText(ip, leader, F.itemHandover); state = t.state; text = `${t.text} — no hunt needed`; }
+      else if (ip && !ip.still && ip.leaderHas && s.kind !== 'levelup') { state = 'ok'; text = `${leader} has ${ip.leaderHas} × ${ip.name}: no hunt or trade needed — next is the clan level-up${upIdx >= 0 ? ' (step ' + (upIdx + 1) + ')' : ''}`; }
       else if (!s.auto) { state = 'need'; text = `${q.name} step ${sn} is MANUAL: ${s.text}`; need({ kind: 'manual', text: `${q.name} step ${sn}: ${s.text}`, anchor: 'lq' }); }
       else if (s.kind === 'hunt') { const hp = huntParty(teams, s.minLevel);
         text = hp.pick ? `${q.name} step ${sn}: party ${hp.pick.leader} (lowest level ${hp.pick.min}) can hunt it${F.levelQuests ? ' — sent automatically' : ' — switch on, or send it in the Level quests section'}${pr}`
@@ -165,7 +234,9 @@ function status(ctx) {
 
   // 7) clan skills
   { const sc = st.skillCheck || null, foc = C.skillFocus || null;
-    const text = !hasClan ? 'after the clan is founded' : sc ? `${sc.msg}${sc.f && sc.f.auto ? ' (picked by itself)' : ''}` : clvl < 5 ? `clan skills start at clan level 5 (the clan is level ${clvl})` : (foc ? `focus ${foc.name} ${foc.level}` : 'no report yet');
+    // CLANHAND 2026-10-13: an old swarm.js report says 'the clan is level 0' (Me.Clan.Level) -> the one clan level here
+    const scMsg = sc ? String(sc.msg || '').replace(/\(the clan is level (\d+)\)/g, (m, d) => num(d) < clvl ? `(the clan is level ${clvl})` : m).replace(/^clan level (\d+):/, (m, d) => num(d) < clvl ? `clan level ${clvl}:` : m) : '';
+    const text = !hasClan ? 'after the clan is founded' : sc ? `${scMsg}${sc.f && sc.f.auto ? ' (picked by itself)' : ''}` : clvl < 5 ? `clan skills start at clan level 5 (the clan is level ${clvl})` : (foc ? `focus ${foc.name} ${foc.level}` : 'no report yet');
     row({ key: 'skillLearn', title: 'Clan skills', on: F.skillLearn, sub: { key: 'skillFocus', on: F.skillFocus, label: 'pick the next skill by itself' }, state: !F.skillLearn ? 'off' : sc && sc.ok ? 'ok' : 'wait', text }); }
 
   // 8) sieges (reminder: registration costs adena -> always by your order)
@@ -187,6 +258,7 @@ function status(ctx) {
 function post(ctx, b) {
   if (!b || typeof b !== 'object') return { code: 400, error: 'no body' };
   const F = cqFile(ctx);
+  if (b.action === 'handover') return handoverNow(ctx, b);           // CLANHAND 2026-10-13: the Clan tab's "Hand it over now" (a Promise: handle() awaits it)
   if (b.action === 'set') {
     const key = String(b.key || ''); if (!KEYS.includes(key)) return { code: 400, error: 'unknown switch ' + key };
     const on = b.on === true;
@@ -207,6 +279,20 @@ function post(ctx, b) {
   return { code: 400, error: 'unknown action' };
 }
 
+/** CLANHAND 2026-10-13: "!clanhand <giver>" to the holder now (swarm.js: walk / port to the clan leader + trade, wherever he is; the busy checks stay) */
+async function handoverNow(ctx, b) {
+  const g = String(b.giver || '').trim(); if (!/^[A-Za-z0-9]{1,20}$/.test(g)) return { code: 400, error: 'character name needed (giver)' };
+  const st = rd(ctx, path.join(ctx.LOGS, 'clan_state.json'), null) || {}, cq = rd(ctx, cqFile(ctx), null) || { clan: {} };
+  const leader = st.leader || (cq.clan && cq.clan.leader) || 'Dagger1';
+  if (g.toLowerCase() === String(leader).toLowerCase()) return { code: 400, error: `${g} is the clan leader — the items come to him` };
+  if (!ctx.commandRun) return { code: 500, error: 'no command channel (dashboard server)' };
+  const r = await ctx.commandRun({ cmd: `!clanhand ${g}`, target: 'char:' + g });
+  const ok = !!(r && r.code < 300 && r.body && r.body.ok);
+  const msg = ok ? `${g}: hand the clan level item to ${leader} now (sent)` : `${g}: ${(r && r.body && r.body.error) || 'not sent'}`;
+  logLine(ctx, `clan level item hand-over now: ${msg}`); clanLog(ctx, `clan level item hand-over now: ${msg}`);
+  return ok ? { ok: true, msg, giver: g, receiver: leader } : { code: (r && r.code >= 400 && r.code) || 502, error: msg };
+}
+
 // ---- the clan level quest dispatcher (clan.auto.levelQuests) ------------------------------------------------------------------------
 /** decide what to send now -> { send: { target, cmd }, msg } | { msg } (pure apart from the inputs) */
 function lqDecide(o) {
@@ -220,7 +306,7 @@ function lqDecide(o) {
   if (p && p.status === 'failed' && T(p.at) < 3600e3) return { id, n, msg: `step ${n} failed ${Math.round(T(p.at) / 60000)} min ago — retry after 1 h` };
   if (last && last.n === n && T(last.at) < 2 * 3600e3) return { id, n, msg: `step ${n} was sent ${Math.round(T(last.at) / 60000)} min ago` };
   const leader = (st && st.leader) || (cq.clan && cq.clan.leader);
-  if (s.item && o.held && o.held(s.item)) return { id, n, msg: `step ${n}: someone already has item ${s.item} — hand it to the clan leader` };
+  if (s.item && o.held && o.held(s.item)) return { id, n, msg: `step ${n}: someone already has item ${s.item} — no hunt; the clan level item hand-over brings it to the clan leader` };   // CLANHAND 2026-10-13
   if (s.kind === 'hunt') { const hp = huntParty(teams, s.minLevel); if (!hp.pick) return { id, n, msg: `step ${n}: no free party with lowest level ${s.minLevel || '?'}+` };
     return { id, n, send: { target: 'party:' + hp.pick.leader, cmd: `!clanquest ${id} ${n}` }, msg: `step ${n} (hunt) → party ${hp.pick.leader}` }; }
   const lcBusy = teams.some(t => t.names.includes(leader) && t.busy);
@@ -256,7 +342,7 @@ async function handle(req, res, url, ctx) {
   if (req.method === 'GET') { try { ctx.json(res, 200, status(ctx)); } catch (e) { ctx.json(res, 500, { error: e.message }); } return true; }
   if (req.method !== 'POST') { ctx.json(res, 405, { error: 'GET or POST' }); return true; }
   let b = {}; try { let t = ''; for await (const c of req) t += c; b = JSON.parse(t || '{}'); } catch (e) { ctx.json(res, 400, { error: 'bad JSON' }); return true; }
-  try { const r = post(ctx, b); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
+  try { const r = await post(ctx, b); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, status, post, start, lqDecide, lqTick, flags, autoOn, activeQuests, clanLevelOf, teamsOf, nextStep, huntParty, DEF, LQ_FOR_LEVEL };
+module.exports = { handle, status, post, start, fixNextLevel, clanItemPlan, itemHandText, clanHands, realName, holders, lqDecide, lqTick, flags, autoOn, activeQuests, clanLevelOf, teamsOf, nextStep, huntParty, DEF, LQ_FOR_LEVEL };

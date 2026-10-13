@@ -65,7 +65,8 @@ ok(A.clanLevelOf({ clan: { level: 0 }, clanInfo: { level: 2 } }, { clan: { level
 let S = A.status(ctx);
 const row = (k) => S.rows.find(x => x.key === k);
 ok(S.level === 2 && row('levelUp').state === 'off', 'level-up off + item missing');
-ok(S.needs.some(n => n.kind === 'handover' && n.giver === 'B1' && n.objId === 777 && n.receiver === 'Lead' && n.count === 1), 'needs you: hand the Blood Mark to the clan leader');
+// CLANHAND 2026-10-13: the Blood Mark goes to the clan leader BY ITSELF (switch itemHandover, default ON) -> no 'Needs you' entry, the row has 'Hand it over now'
+ok(!S.needs.some(n => n.kind === 'handover' || n.kind === 'clanhand') && row('itemHandover') && row('itemHandover').on === true && row('itemHandover').act && row('itemHandover').act.giver === 'B1' && row('itemHandover').act.receiver === 'Lead' && row('itemHandover').act.count === 1, 'clan level item: B1 hands 1 Blood Mark to the clan leader by itself (row button, no Needs you): ' + JSON.stringify(row('itemHandover')));
 ok(/B1 already has 3/.test(row('levelQuests').text), 'level quest row knows the item is in a bag: ' + row('levelQuests').text);
 ok(/M2/.test(row('invite').text) && !/M3/.test(row('invite').text), 'invite row: ticked M2 waits');
 ok(/clan level 5/.test(row('questDispatch').text) && /clan level 5/.test(row('skillLearn').text), 'raid quests + skills wait for clan level 5');

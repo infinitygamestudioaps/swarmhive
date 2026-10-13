@@ -18,6 +18,14 @@ const LOGS = path.join(ROOT, 'Logs');
 const PLAN = path.join(ROOT, 'docs', 'plan');
 const DATA = path.join(ROOT, 'Scripts', 'data');
 const SETTINGS = path.join(ROOT, 'Settings');
+// MAP FLOORS 2026-10-13 (Dashboard/mapfloors.js): which dungeon floor / the surface a point is on; compact model of dungeon_rooms.json, cached by mtime
+const MapFloors = require('./mapfloors.js');
+const mapFloors = () => MapFloors.load(path.join(DATA, 'dungeon_rooms.json'));
+/** a map viewer's position from Logs/swarm_state_<name>.json ({x, y, z}) or null */
+function viewerPos(name) {
+  const s = readJson(path.join(LOGS, 'swarm_state_' + String(name || '').replace(/[^A-Za-z0-9_]/g, '') + '.json'), null);
+  return s && [s.x, s.y, s.z].every(v => v !== null && v !== undefined && isFinite(+v)) ? { x: +s.x, y: +s.y, z: +s.z } : null;
+}
 const PORT = SC.dashboardPort;
 const MCP = SC.mcpUrl;
 const SELF = 'http://127.0.0.1:' + PORT;   // this server, for its own API calls
@@ -126,6 +134,27 @@ function readJson(file, fallback) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '')); } catch (e) { return fallback; }
 }
 
+/** CURSED WEAPON HOLDERS (2026-10-13, Nuker19 picked up Blood Sword Akamanah; the user saw "2 characters not reporting: Akamanah, Nuker19"):
+ *  the server renames the holder to the weapon's name, so the bots cannot drive it. Every 60 s the open accounts are checked: an account whose
+ *  character is now "Zariche" / "Akamanah" is mapped back to its roster character through its login (swarm.config.json). -> [{ holder, weapon, login }] */
+const CURSED_RX = /^(Zariche|Akamanah)$/i;
+const cursedCache = { at: 0, list: [], busy: false };
+function cursedStatus() {
+  if (!cursedCache.busy && Date.now() - cursedCache.at > 60000) {
+    cursedCache.busy = true;
+    accountList().then(list => {
+      let cfg = {}; try { cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'swarm.config.json'), 'utf8').replace(/^﻿/, '')); } catch (e) { }
+      const acc = Array.isArray(cfg.accounts) ? cfg.accounts : [];
+      cursedCache.list = list.map(a => {
+        const ch = String((a && (a.character_name || (a.character && a.character.name))) || ''); if (!CURSED_RX.test(ch)) return null;
+        const login = String(a.login || a.account_name || ''), row = acc.find(x => x && String(x.login || '').toLowerCase() === login.toLowerCase());
+        return { holder: row && row.character ? String(row.character) : '', weapon: ch, login };
+      }).filter(Boolean);
+      cursedCache.at = Date.now();
+    }).catch(() => { cursedCache.at = Date.now(); }).finally(() => { cursedCache.busy = false; });
+  }
+  return cursedCache.list;
+}
 /** RECONNECT BRAKE STATUS (user 2026-10-10: "I don't see any status on when they will try again or why they are not in"): the brake
  *  (docs/plan/tools/l2swarm_ctl.ps1, MemWatch task every 2 min) writes Logs/reconnect_brake.json { active, phase, why, chars, nextTry,
  *  offlineSince, stoppedAt, lastProbe, round, doneAt } + "brake:" lines in Logs/l2swarm_ctl.log. -> { phase, why, chars, nextTry, ..., history }
@@ -263,6 +292,26 @@ setInterval(clanDispatch, 10 * 60000);
 // CLANAUTO 2026-10-12: the clan level quest dispatcher (clan.auto.levelQuests, default OFF) — Dashboard/clanauto_api.js start()
 setTimeout(() => { try { require('./clanauto_api').start({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, commandRun }); } catch (e) { console.error('clanauto', e.message); } }, 5000);
 
+// NPC TARGETS (user 2026-10-13, screenshot: "fighting Priest of Dawn / Helvetia / Graham / Peta" while they walked to / clicked those NPCs):
+// swarm.js publishes its selected target as doing.target without a type. A name that the datapack (Scripts/data/npcs_h5.json) only knows as a
+// non-attackable NPC (merchant, gatekeeper, priest, trainer, warehouse, ...; never also a monster / guard / boss) is moved to doing.npc
+// { name, dist }, so every "fighting" line, fight ring and fight count of the dashboard sees only monsters (target stays null for an NPC).
+const NPC_ATTACKABLE_RX = /^L2(Monster|RaidBoss|GrandBoss|Chest|FestivalMonster|SepulcherMonster|RiftInvader|FeedableBeast|EventMonster|Guard|QuestGuard|Defender|FortCommander|ControlTower|FlameTower|Decoy|Pet|Servitor|TamedBeast|Block|TerritoryWard|FriendlyMob|Artefact)$/;
+let NPC_PEACEFUL = null;
+function peacefulNpcNames() {
+  if (NPC_PEACEFUL) return NPC_PEACEFUL;
+  const all = readJson(path.join(DATA, 'npcs_h5.json'), []), list = Array.isArray(all) ? all : (all.npcs || Object.values(all));
+  const atk = new Set(), calm = new Set();
+  list.forEach(n => { if (!n || !n.n) return; (NPC_ATTACKABLE_RX.test(String(n.ty || '')) || !n.ty ? atk : calm).add(String(n.n)); });
+  NPC_PEACEFUL = new Set([...calm].filter(n => !atk.has(n)));
+  return NPC_PEACEFUL;
+}
+function splitNpcTarget(s) {
+  const d = s && s.doing, t = d && d.target;
+  if (!t || !t.name || !peacefulNpcNames().has(String(t.name))) return;
+  d.npc = { name: String(t.name), dist: t.dist != null ? t.dist : null };
+  d.target = null;
+}
 function readStates() {
   const teams = teamMap();
   const out = [];
@@ -273,6 +322,7 @@ function readStates() {
     if (f !== `swarm_state_${s.name}.json`) continue;   // e.g. swarm_state_null.json written during a disconnect (a ghost character)
     s.ageSec = Math.round((Date.now() - Date.parse(s.updated)) / 1000);
     s.party = teams[s.name] || MAIN_LEADER;
+    try { splitNpcTarget(s); } catch (e) { }
     const dup = out.findIndex(o => o.name === s.name);  // one entry per character: the newest
     if (dup >= 0) { if (out[dup].ageSec > s.ageSec) out[dup] = s; continue; }
     out.push(s);
@@ -1414,12 +1464,14 @@ function supLog(m) { try { fs.appendFileSync(path.join(LOGS, 'supervisor.log'), 
 // older dashboard), a pool restart at most once per 15 min. Never the L2Swarm memory guard / 6-per-hour budget: no L2Swarm engine is built.
 // c: { name, ageSec, asyncAge }   x: { now, manual, last, recent[], l2mb, brain: { on, allow[] }, bh: { running, ipc }, lastPoolKill }
 // -> { act: 'none' | 'log' | 'revive' | 'restartPool' | 'restartScript', mark (set last[name]), brain, why }
+// x.agent (ENGINE DEFAULT 2026-10-13): false = the account has no agent2 running but swarm.js attached (the config puts it in the brain - e.g.
+// "allowAll" after an update - but it was not moved yet): it is an L2Swarm character until its agent runs, so swarm.js is restarted as before.
 function supDecide(c, x) {
   const dead = c.ageSec >= 90 || (c.ageSec < 30 && c.asyncAge >= 90);   // file stale, or timers alive but async chains dead
   if (!dead || c.ageSec > 6 * 3600) return { act: 'none' };             // healthy, or long offline
   if (x.manual) return { act: 'none' };                                  // the user plays this character by hand (2026-10-10)
   if (x.now - (x.last || 0) < 300000) return { act: 'none' };            // max one action per 5 min per bot
-  const brain = !!(x.brain && x.brain.on && (x.brain.allow || []).indexOf(c.name) >= 0);
+  const brain = !!(x.brain && x.brain.on && (x.brain.allow || []).indexOf(c.name) >= 0) && x.agent !== false;
   if (brain) {
     if (!x.bh || !x.bh.running) return { act: 'log', mark: true, brain, why: c.name + ': brain character, state ' + c.ageSec + ' s old, brain host not running (the dashboard restarts it) — NOT starting swarm.js inside L2Swarm' };
     if (x.bh.ipc) return { act: 'revive', mark: true, brain };
@@ -1438,9 +1490,18 @@ setInterval(async () => {
   for (const c of readStates()) {
     const asyncAge = c.asyncBeat ? Math.round((Date.now() - Date.parse(c.asyncBeat)) / 1000) : 0;
     supervisor.recent = (supervisor.recent || []).filter(t => Date.now() - t < 3600e3);
-    const d = supDecide({ name: c.name, ageSec: c.ageSec, asyncAge }, { now: Date.now(), manual: fs.existsSync(path.join(LOGS, 'manual_' + c.name)), last: supervisor.last[c.name],
-      recent: supervisor.recent, l2mb: SYS.l2 ? SYS.l2.mb : 0, brain: brainCfg, bh, lastPoolKill: supervisor.lastPoolKill || 0 });
+    const sx = { now: Date.now(), manual: fs.existsSync(path.join(LOGS, 'manual_' + c.name)), last: supervisor.last[c.name],
+      recent: supervisor.recent, l2mb: SYS.l2 ? SYS.l2.mb : 0, brain: brainCfg, bh, lastPoolKill: supervisor.lastPoolKill || 0 };
+    let d = supDecide({ name: c.name, ageSec: c.ageSec, asyncAge }, sx);
     if (d.act === 'none') continue;
+    if (d.brain) {
+      // ENGINE DEFAULT (2026-10-13): the config puts it in the brain, but is it really moved? No agent running + swarm.js attached = not
+      // moved yet (e.g. "allowAll" after an update): swarm.js is restarted like for any L2Swarm character (agent: false)
+      try {
+        const l = await mcpJ('manage_account_scripts', { account_name: c.name, action: 'list' }), list = Array.isArray(l.scripts) ? l.scripts : null;
+        if (list && !list.some(s => s.enabled && BHS.AGENT_RX.test(s.name)) && list.some(s => s.name === 'swarm.js')) d = supDecide({ name: c.name, ageSec: c.ageSec, asyncAge }, Object.assign(sx, { agent: false }));
+      } catch (e) { }
+    }
     if (d.mark) supervisor.last[c.name] = Date.now();
     if (d.act === 'log') { supLog(d.why); continue; }
     if (d.act === 'restartScript') supervisor.recent.push(Date.now());
@@ -1522,6 +1583,8 @@ startBrain();
 // characters still running swarm.js inside L2Swarm). Their L2Swarm accounts only run Scripts/agent2.js (port 8094). Restarted if it dies and
 // when on / bridge / pool mode change (NOT when the list of characters changes: the pool follows the list live, see RESILIENCE below).
 // { "on": true, "allow": ["Spoiler6", ...], "bridge": true, "pool": true }
+// ENGINE DEFAULT (2026-10-13, user: "Make the new engine default!"): { "on": true, "allowAll": true, "except": [] } = every character of
+// swarm.config.json (the package default); bhCfg() expands it with the roster, the pool re-reads both files itself (--config + --roster).
 const BH_FILE = path.join(DATA, 'brain_host.json');
 let bhProc = null, bhSig = '';
 const bhWaits = new Map(); let bhSeq = 0;
@@ -1543,14 +1606,16 @@ function bhAsk(m, ms) {
 const BHS = require('./brain_host/supervise');
 const BH_STATS = path.join(LOGS, 'brain_host_stats.json');
 let bhLastCfg = null, bhDeferSince = 0, bhDeferLogAt = 0;
-function bhCfg() { const raw = readJson(BH_FILE, null); const c = BHS.readCfg(raw, bhLastCfg); if (raw) bhLastCfg = c; return c; }
+/** swarm.config.json accounts[] (the roster for "allowAll"); null = unreadable (allowAll then keeps the last good list) */
+function bhRoster() { return BHS.readRoster(SC.CONFIG_FILE); }
+function bhCfg() { const raw = readJson(BH_FILE, null); const c = BHS.readCfg(raw, bhLastCfg, bhRoster()); if (raw) bhLastCfg = c; return c; }
 function bhFights(c) { try { const cfg = readJson(path.join(ROOT, 'swarm.config.json'), null) || {}; return BHS.liveFights(LOGS, BHS.fightKeys ? BHS.fightKeys(c.allow, cfg.accounts) : BHS.brainParties(c.allow, cfg.accounts), Date.now(), 30000); } catch (e) { return []; } }
 function startBrainHost() {
   const c = bhCfg(); bhSig = BHS.restartSig(c);
   if (!c.on) return;
   // the DEPLOYED Scripts/swarm.js (engine audit #23/#33): the brain runs what L2Swarm runs; --watch-script reloads it after a deploy (party by party)
   const args = ['--port', '8094', '--allow', c.allow.join(','), '--script', path.join(ROOT, 'Scripts', 'swarm.js')].concat(c.pool ? ['--watch-script', '5000'] : []).concat(c.bridge ? ['--bridge'] : [])
-    .concat(c.pool ? ['--config', BH_FILE, '--stats-file', BH_STATS, '--max-rss-mb', String(c.maxRssMb || 3000), '--mem-restart'] : []);
+    .concat(c.pool ? ['--config', BH_FILE, '--roster', SC.CONFIG_FILE, '--stats-file', BH_STATS, '--max-rss-mb', String(c.maxRssMb || 3000), '--mem-restart'] : []);
   try {
     // IPC channel: the supervisor asks the pool for health / revive (engine audit #32)
     bhProc = require('child_process').spawn(process.execPath, [path.join(__dirname, 'brain_host', c.pool ? 'pool.js' : 'runner.js')].concat(args), { cwd: ROOT, stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true });
@@ -1558,6 +1623,22 @@ function startBrainHost() {
     bhProc.on('error', () => { });
     bhProc.on('exit', (code) => { bhProc = null; setTimeout(() => { if (!bhProc) startBrainHost(); }, code === 2 ? 60000 : 5000); });
   } catch (e) { setTimeout(startBrainHost, 30000); }
+}
+// MOVE ACCOUNTS TO THE NEW ENGINE (2026-10-13; /api/engine, PC tab): attach_agent.js --all checks brain_host.json + the roster itself,
+// refuses during a live raid / Kamaloka and while the pool is not running, stops swarm.js (checked) before each agent starts, one by one
+const engineJob = { running: false };
+function engineRun(apply) {
+  const log = path.join(LOGS, 'engine_switch.log');
+  const args = [path.join(PLAN, 'tools', 'attach_agent.js'), '--all', '--root', ROOT, '--mcp', SC.mcpUrl].concat(apply ? ['--apply'] : []);
+  let fd; try { fd = fs.openSync(log, 'a'); fs.writeSync(fd, `\r\n${new Date().toISOString()} [dashboard] ${apply ? 'MOVE accounts to the new engine' : 'CHECK (dry run)'}: attach_agent.js ${args.slice(1).join(' ')}\r\n`); }
+  catch (e) { return { ok: false, error: 'cannot write ' + log + ': ' + e.message }; }
+  try {
+    const p = require('child_process').spawn(process.execPath, args, { cwd: ROOT, stdio: ['ignore', fd, fd], windowsHide: true });
+    Object.assign(engineJob, { running: true, apply, startedAt: new Date().toISOString(), pid: p.pid });
+    const done = (code) => { if (!engineJob.running) return; try { fs.closeSync(fd); } catch (e) { } engineJob.running = false; engineJob.last = { apply, code, at: new Date().toISOString() }; };
+    p.on('exit', done); p.on('error', () => done(-1));
+  } catch (e) { try { fs.closeSync(fd); } catch (e2) { } return { ok: false, error: e.message }; }
+  return { ok: true, out: (apply ? 'Moving the accounts one by one' : 'Checking the accounts (dry run)') + ' — the log below updates every few seconds' };
 }
 setInterval(() => {
   try {
@@ -1590,7 +1671,8 @@ function perfSample() {
     let parsed = 0, files = 0; try { for (const f of fs.readdirSync(LOGS)) { if (!/^dataload_.+\.json$/.test(f)) continue; const j = readJson(path.join(LOGS, f), null); if (!j || Date.now() - Date.parse(j.at) > 330000) continue; files++; (j.loads || []).forEach(x => { parsed += (x.kb || 0) * (x.n || 0); }); } } catch (e) { }
     // brain characters run swarm.js in the brain pool, not in L2Swarm: L2Swarm MB per character counts only the others; the pool's own RSS
     // (Logs/brain_host_stats.json) is logged next to it (engine audit #38, 2026-10-12)
-    const bhs = BHS.readStats(BH_STATS, 60000), bhSet = new Set((bhCfg().allow || []).map(String)), repL2 = rep.filter(s => !bhSet.has(String(s.name)));
+    // (2026-10-13: brain = an agent really connected to the pool; with "allowAll" the config names accounts that may still run swarm.js)
+    const bhs = BHS.readStats(BH_STATS, 60000), bhConn = BHS.connectedNames(bhs), bhSet = new Set((bhConn || bhCfg().allow || []).map(String)), repL2 = rep.filter(s => !bhSet.has(String(s.name)));
     const s = { at: new Date().toISOString(), l2swarmMB: mb, pcFreeMB: free, chars: st.length, reporting: rep.length, mbPerChar: mb && repL2.length ? Math.round(mb / repL2.length) : null,
       lagMed: q(0.5), lagP90: q(0.9), lagMax: lags.length ? lags[lags.length - 1] : null, blocked2min: wd, parsedMB: files ? Math.round(parsed / 1000) : null,
       brainChars: rep.length - repL2.length, brainHostMB: bhs && bhs.fresh ? bhs.rssMb : null, brainMbPerChar: bhs && bhs.fresh && rep.length - repL2.length ? Math.round(bhs.rssMb / (rep.length - repL2.length)) : null,
@@ -1934,6 +2016,8 @@ http.createServer(async (req, res) => {
     // regions with underground layers (Maps\high\<X>_<Y>_<n>.jpg): { "<X>_<Y>": [1, 2, ...] } — the live raid map uses layer 1 deep underground
     // which underground layer belongs to which height (2026-10-07: Cruma Tower has 3 floors stacked in region 20_21, the map always showed
     // layer 1): from dungeon_rooms.json, per region the floors sorted deepest first = layer 1, 2, 3 (checked on Cruma: layer 1 = floor 1)
+    // MAP FLOORS 2026-10-13: the compact floor model for the browser maps (Dashboard/mapfloors.js; public game data like /api/maplayersz)
+    if (url.pathname === '/api/mapfloors') return json(res, 200, mapFloors() || { v: 1, dungeons: [], rooms: {} });
     if (url.pathname === '/api/maplayersz') {
       const have = {}; try { fs.readdirSync(path.join(__dirname, '..', 'Maps', 'high')).forEach(n => { const m = n.match(/^(\d+_\d+)_(\d)\.jpg$/); if (m) (have[m[1]] = have[m[1]] || []).push(+m[2]); }); } catch (e) { }
       const out = {};
@@ -2003,6 +2087,7 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/liveparty.js' || url.pathname === '/liveparty.css' ||
         url.pathname === '/activity.js' || url.pathname === '/partystatus.js' || url.pathname === '/partystatus.css' ||   // PARTY STATUS 2026-10-09: shared activity line + Parties tab banner
         url.pathname === '/levelEta.js' ||
+        url.pathname === '/mapfloors.js' ||   // MAP FLOORS 2026-10-13: shared same-floor rule of every map (public, no secrets)
         url.pathname === '/uidialog.js' || url.pathname === '/uidialog.css' ||   // UIDIALOG 2026-10-10: the one shared dialog (confirm / alert / prompt), public, BEFORE the key check (phones over the LAN)
         false) {   // LEVEL ETA 2026-10-09: shared "next level in ~1h 25m" helper (Dashboard/levelEta.js, public, no secrets)
       res.writeHead(200, { 'Content-Type': url.pathname.endsWith('.js') ? 'text/javascript; charset=utf-8' : 'text/css; charset=utf-8', 'Cache-Control': 'no-cache' });
@@ -2178,8 +2263,9 @@ http.createServer(async (req, res) => {
 })();
 `);
       // the password goes through an environment variable of the child only (never the command line, which any process list shows)
+      // (2026-10-13 engine default: academy characters are not in swarm.config.json, so they keep swarm.js unless brain_host.json "allow" names them)
       const out = await new Promise((resolve) => execFile('powershell', ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', path.join(PLAN, 'tools', 'new_account.ps1'),
-        '-Login', login, '-PasswordEnv', 'L2S_NEWACCOUNT_PW', '-Character', name, '-Scripts', mk + ',swarm.js'], { windowsHide: true, timeout: 120000, env: Object.assign({}, process.env, { L2S_NEWACCOUNT_PW: pw }) }, (err, so, se) => resolve({ ok: !err && fs.existsSync(cfgPath), text: String(so || '') + String(se || '') })));
+        '-Login', login, '-PasswordEnv', 'L2S_NEWACCOUNT_PW', '-Character', name, '-Scripts', BHS.engineScripts([mk, 'swarm.js'], BHS.isBrainChar(name, readJson(BH_FILE, null), bhRoster() || [])).join(',')], { windowsHide: true, timeout: 120000, env: Object.assign({}, process.env, { L2S_NEWACCOUNT_PW: pw }) }, (err, so, se) => resolve({ ok: !err && fs.existsSync(cfgPath), text: String(so || '') + String(se || '') })));
       if (!out.ok) return json(res, 500, { error: 'creating the config failed: ' + out.text.split(pw).join('***').slice(0, 300) });
       try { fs.appendFileSync(path.join(ROOT, 'Settings', 'start_extra.txt'), cfgPath + '\r\n'); } catch (e) { }
       const acad = readJson(path.join(DATA, 'academy.json'), { accounts: [] });
@@ -2265,6 +2351,18 @@ http.createServer(async (req, res) => {
       if (st && !st.nextLevel && cd && Array.isArray(cd.levels)) { const ck = (clans || []).find(k => k.leader === leaderName) || null; const cur = Math.max(+(st.clan && st.clan.level) || 0, +(ck && ck.level) || 0); const L = cd.levels.find(l => +l.level === cur + 1);
         if (L) { const missing = []; if ((+st.sp || 0) < +L.sp) missing.push(`SP ${st.sp} / ${L.sp}`); if ((+st.adena || 0) < +L.adena) missing.push(`adena ${st.adena} / ${L.adena}`); (L.items || []).forEach(i => missing.push(`${i.name} (${i.id}): not reported yet`));
           st.nextLevel = { level: cur, next: cur + 1, ok: false, estimated: true, missing: missing.length ? missing : ['the clan leader runs an older swarm.js: deploy first'], sp: { have: +st.sp || 0, need: +L.sp }, adena: { have: +st.adena || 0, need: +L.adena }, items: (L.items || []).map(i => ({ id: i.id, name: i.name, need: i.count || 1, have: null, source: L.itemSource || '' })), reputation: null, members: null }; } }
+      // CLANHAND 2026-10-13 (ONE clan level): L2Swarm reports Me.Clan.Level 0 for the level-2 clan -> clan.level / clanInfo.level / the level-up
+      // checklist / the skills line said 0 while the rest said 2. Everything is lifted to clanauto_api.clanLevelOf (the highest known level).
+      try {
+        if (st) {
+          const CA = require('./clanauto_api'), lv = CA.clanLevelOf(st, cq);
+          if (st.clan && (+st.clan.level || 0) < lv) st.clan = Object.assign({}, st.clan, { level: lv });
+          if (st.clanInfo && (+st.clanInfo.level || 0) < lv) st.clanInfo = Object.assign({}, st.clanInfo, { level: lv, name: CA.realName(st.clanInfo.name) || (cq && cq.clan && cq.clan.name) || st.clanInfo.name });
+          if (st.nextLevel && (+st.nextLevel.level || 0) < lv && cd && Array.isArray(cd.levels))
+            st.nextLevel = CA.fixNextLevel(st.nextLevel, lv, cd.levels, st, (id) => CA.holders({ LOGS, readJson }, id).filter(h => h.name === leaderName).reduce((a, h) => a + h.count, 0));
+          if (st.skillCheck && st.skillCheck.msg) st.skillCheck = Object.assign({}, st.skillCheck, { msg: String(st.skillCheck.msg).replace(/\(the clan is level (\d+)\)/g, (m, d) => +d < lv ? `(the clan is level ${lv})` : m) });
+        }
+      } catch (e) { console.error('clan level', e.message); }
       const cqProgress = {}; Object.keys((cq && cq.levelQuests) || {}).forEach(id => { cqProgress[id] = readJson(path.join(LOGS, `clanquest_${String(id).replace(/W/g, '')}.json`), { steps: {} }); });
       // SEVEN SIGNS (user 2026-10-08): the period/winner (Logs/sevensigns_state.json) + one Logs/sevensigns_<name>.json per character, both
       // written by swarm.js; "view" = what the Ziggurat rule says for that character now (refreshed by the bot every 10 min)
@@ -2292,6 +2390,20 @@ http.createServer(async (req, res) => {
       const stats = BHS.readStats(BH_STATS, 60000), health = await bhAsk({ k: 'health' }, 3000);
       return json(res, 200, { cfg: bhCfg(), running: !!bhProc, ipc: !!(bhProc && bhProc.connected), restartDeferredSince: bhDeferSince ? new Date(bhDeferSince).toISOString() : null, stats, health });
     }
+    // NEW ENGINE (2026-10-13, engine default; PC tab "New engine"): status + moving the running accounts from swarm.js to the agent ONE BY ONE
+    // (docs/plan/tools/attach_agent.js --all [--apply] in the background; its output goes to Logs/engine_switch.log)
+    if (url.pathname === '/api/engine' && req.method === 'GET') {
+      const c = bhCfg(), roster = BHS.rosterOf(bhRoster() || []), conn = BHS.connectedNames(BHS.readStats(BH_STATS, 60000));
+      return json(res, 200, { on: c.on, allowAll: !!c.allowAll, except: c.except || [], brain: c.on ? c.allow.length : 0, roster: roster.length, poolRunning: !!bhProc,
+        connected: conn ? conn.length : null, waiting: conn && c.on ? c.allow.filter(n => !conn.includes(n)) : null, job: engineJob.running ? engineJob : null, last: engineJob.last || null,
+        log: tail(path.join(LOGS, 'engine_switch.log'), 60) });
+    }
+    if (url.pathname === '/api/engine' && req.method === 'POST') {
+      const b = await body(req);
+      if (b.action !== 'check' && b.action !== 'move') return json(res, 400, { error: 'action must be check | move' });
+      if (engineJob.running) return json(res, 409, { error: 'a run is going on already (started ' + engineJob.startedAt + ') — see the log below' });
+      return json(res, 200, engineRun(b.action === 'move'));
+    }
     if (url.pathname === '/api/state') {
       const chars = readStates();
       return json(res, 200, {
@@ -2301,6 +2413,7 @@ http.createServer(async (req, res) => {
         tactics: readJson(path.join(DATA, 'party_tactics.json'), {}),   // hunting pairs per party (Parties tab)
         mainLeader: MAIN_LEADER, clanLeader: SC.clanLeader || '',        // from swarm.config.json (2026-10-09: no hard-coded names in the page)
         brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
+        cursed: cursedStatus(),                                            // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
       });
     }
     // --- Raid routes: view / correct / lock the saved walk landing -> boss (user 2026-10-06) ---
@@ -2776,9 +2889,11 @@ http.createServer(async (req, res) => {
       const lvlOf = (m) => +m.level || +((String(m.title || '').match(/LvL:\s*(\d+)/i) || [])[1]) || 0;
       const isBoss = (m) => { const b = bosses[m.name]; if (!b) return false; const l = lvlOf(m); if (l) return Math.abs(l - (+b.level || 0)) <= 3; return Math.hypot(m.x - b.x, m.y - b.y) < 8000; };
       // 2026-10-12 (user: "they should be shown within the z limit they have"): only monsters on the character's own floor (the bots' height limit)
-      const zMe = (() => { const s = readJson(path.join(LOGS, 'swarm_state_' + name + '.json'), null); return s && isFinite(+s.z) ? +s.z : null; })();
-      const zOk = (m) => zMe === null || !isFinite(+m.z) || Math.abs(+m.z - zMe) <= 600 || isBoss(m);
-      return json(res, 200, { target, mobs: list(t).filter(m => !m.is_dead && zOk(m)).map(m => ({ x: Math.round(m.x), y: Math.round(m.y), z: Math.round(m.z || 0), lvl: lvlOf(m) || m.level, n: m.name, raid: isBoss(m), hp: m.hp_percent || null })) });
+      // MAP FLOORS 2026-10-13 (user 09:37: monsters of other Cruma floors on the map): the leader's dungeon FLOOR decides (Dashboard/mapfloors.js,
+      // dungeon_rooms.json bands); |dz| <= 600 only where neither is on a dungeon floor. A raid boss outside that rule only on the surface (a cliff).
+      const me = viewerPos(name), FM = mapFloors();
+      const zOk = (m) => !me || MapFloors.sameLevel(FM, me, m, 600) || (isBoss(m) && MapFloors.levelKey(FM, me) === 'surface' && MapFloors.levelKey(FM, m) !== null && MapFloors.levelKey(FM, m) === 'surface');
+      return json(res, 200, { target, level: me ? MapFloors.levelName(FM, me) : '', mobs: list(t).filter(m => !m.is_dead && zOk(m)).map(m => ({ x: Math.round(m.x), y: Math.round(m.y), z: isFinite(+m.z) && m.z !== null ? Math.round(m.z) : null, lvl: lvlOf(m) || m.level, n: m.name, raid: isBoss(m), hp: m.hp_percent || null })) });
     }
     if (url.pathname === '/api/char') {
       const name = url.searchParams.get('name') || '';
@@ -2794,6 +2909,7 @@ http.createServer(async (req, res) => {
       ]);
       const script = readStates().find(c => c.name === name) || null;
       const c = st.character || {};
+      const FM = mapFloors(), meAt = [c.x, c.y, c.z].every(v => v !== null && v !== undefined && isFinite(+v)) ? { x: +c.x, y: +c.y, z: +c.z } : viewerPos(name);
       return json(res, 200, {
         // a hooked account reports is_logged_in=false although it is in game: swarm.js' heartbeat (swarm_state, written only while the
         // character is ready) counts as online too
@@ -2802,9 +2918,11 @@ http.createServer(async (req, res) => {
         char: c, buffs: (c.buffs || []), items: (inv.items || []).map(i => ({ id: i.item_id, objId: i.obj_id, name: i.name, count: i.count, equipped: i.is_equipped,
           type: i.type, grade: i.grade, slot: i.body_part_name, enchant: i.enchant_level, quest: !!i.is_quest || QUEST_ITEMS.has(Number(i.item_id)) })),
         skills: sk ? (sk.skills || sk.items || []) : null, script, error: st.error,
-        npcs: npcs.map(n => ({ n: n.name, t: n.title || '', x: Math.round(n.x), y: Math.round(n.y) })),
-        mobs: mobs.filter(m => { const s = readJson(path.join(LOGS, 'swarm_state_' + name + '.json'), null); return !s || !isFinite(+s.z) || !isFinite(+m.z) || Math.abs(+m.z - +s.z) <= 600; })   // own floor only (2026-10-12)
-          .map(m => ({ n: m.name, x: Math.round(m.x), y: Math.round(m.y), z: Math.round(m.z || 0), hp: Math.round(m.hp_percent || 0), dead: !!m.is_dead, lvl: m.level })),
+        // own floor only (2026-10-12; MAP FLOORS 2026-10-13: by the dungeon floor, Dashboard/mapfloors.js; the viewer = the live MCP position, else swarm_state)
+        level: meAt ? MapFloors.levelName(FM, meAt) : '',
+        npcs: npcs.filter(n => !meAt || MapFloors.sameLevel(FM, meAt, n, 600)).map(n => ({ n: n.name, t: n.title || '', x: Math.round(n.x), y: Math.round(n.y), z: isFinite(+n.z) && n.z !== null ? Math.round(n.z) : null })),
+        mobs: mobs.filter(m => !meAt || MapFloors.sameLevel(FM, meAt, m, 600))
+          .map(m => ({ n: m.name, x: Math.round(m.x), y: Math.round(m.y), z: isFinite(+m.z) && m.z !== null ? Math.round(m.z) : null, hp: Math.round(m.hp_percent || 0), dead: !!m.is_dead, lvl: m.level })),
       });
     }
     // --- live inventory (straight from the game via MCP) ---

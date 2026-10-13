@@ -205,7 +205,8 @@
   }
 
   // ------------------------------------------------------------------ member row: the activity line + chips -------------------------
-  function taskCell(c) {
+  // o.split (PARTY LAYOUT 2026-10-13): { html, chips } — the warning chips go to their own slot of the member row instead of the task text
+  function taskCell(c, o) {
     try {
       sync();
       const A = AC(); if (!A) return null;
@@ -217,7 +218,8 @@
       if (tr && !tr.legacy && !tr.done && !tr.failed && tr.stageAt && now - tr.stageAt > 45000) chips.push(`<span class="chip ps-stuck" title="the trade has not moved on">no progress ${A.dur(now - tr.stageAt)}</span>`);
       const ts = a.step;
       if (ts && !ts.done && !ts.wait && now - ts.atT > 180000) chips.push(`<span class="chip ps-stuck" title="this team step is taking long">step ${A.dur(now - ts.atT)}</span>`);
-      return `<div class="task ps-act ${a.cls || ''}${tr ? ' trading' : ''}" title="${esc(String(c.task || ''))}">${GI(a.ic || UI.idle, 'sm')}<span class="ps-txt">${a.h}${tr ? stageDots(tr) : ''}</span>${chips.join('')}</div>`;
+      const html = `<div class="task ps-act ${a.cls || ''}${tr ? ' trading' : ''}" title="${esc(String(c.task || ''))}">${GI(a.ic || UI.idle, 'sm')}<span class="ps-txt">${a.h}${tr ? stageDots(tr) : ''}</span>${o && o.split ? '' : chips.join('')}</div>`;
+      return o && o.split ? { html, chips: chips.join('') } : html;
     } catch (e) { return null; }
   }
 

@@ -2,6 +2,28 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.2 (2026-10-13)
+
+- Seven Signs: Dawn sign-up works on L2Toggle (tested live) - L2Toggle reuses link codes on every page, pages may take > 6 s under load (wait 15 s, no re-click), server message #1275 counts as signed, leveling steps aside during the visit
+- 7 Signs tab: Sign up ALL parties now (to town + Dawn)
+- choosing a catacomb/necropolis signs the party up by itself
+- failed tries from before v1.6.0 no longer close the catacombs
+- Ziggurat refusal #1303 recognised (tested live: no sign-up = refused)
+- Agents (new engine): back-off after a slow tick - no more L2Swarm watchdog interrupts (ran JS for 30 s), slow-call trace in Logs/agent_slow.log
+- Clan: members hand the clan level quest items to the clan leader by themselves (no follow during the trade), clan level shown consistently
+- Dashboard: party cards with 9 slots (ghost rows) and equal heights, fixed-column member rows, responsive party grid
+- maps show only the viewer's floor and switch map art by themselves on dungeon teleports
+- cursed weapon holders shown as such
+- Brain engine: a member travelling to a far / in-instance leader no longer freezes its party worker
+- L2Swarm headless start option (swarm.config.json l2swarm.noUi, needs 3.8.18)
+- the login check leaves mass refusals to the reconnect brake
+- release zip built with tar.exe
+- New engine is the DEFAULT: Scripts/data/brain_host.json "on": true + "allowAll": true = every character of swarm.config.json runs swarm.js in the dashboard's brain, its L2Swarm account only the small agent2.js (accounts added later join by themselves; "except" keeps single characters on the old engine; "on": false switches everything back)
+- Fresh installs: SETUP, the dashboard's + Add account and new_account.ps1 give new-engine characters agent2.js instead of swarm.js (never both)
+- update.cmd switches brain_host.json to the new default only when it is still the untouched old one (engine off, nobody listed) - a file you changed is kept; it then says what to do: restart the dashboard, move the accounts
+- Dashboard PC tab -> New engine: status + Check accounts / Move accounts to the new engine (one account at a time, swarm.js stopped and checked before the agent starts); same as node docs/plan/tools/attach_agent.js --all --apply, back with --back; with L2Swarm stopped SETUP.cmd -Apply switches the account configs
+- The dashboard keeps restarting swarm.js for accounts that are not moved yet; node docs/plan/tools/engine_default.js --status shows who runs where
+
 ## v1.6.1 (2026-10-13)
 
 - Nothing is destroyed automatically any more: Newbie Guide / shadow / traveler weapons the shop refused were destroyed after a sale - they are never junk now and unsellable items are kept (gear_auto.json destroyUnsellable: true to destroy)

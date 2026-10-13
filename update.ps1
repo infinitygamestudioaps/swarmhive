@@ -14,7 +14,8 @@
 #   your data files Scripts\data\custom_zones.json, party_spots.json, party_tactics.json, gear_prefs.json, soul_prefs.json, sell_list.json,
 #   siege_plans.json, dye_plan.json, roster_extra.json, clan_quests.json, giran_routes.json, class_plans.json, buff_plans.json, raid_excluded.json,
 #   stash_rules.json, brain_host.json, brain_parties.json, fund_rules.json, seven_signs.json, quest_farm.json, spot_learned.json,
-#   skill_enchant_plan.json, gear_auto.json (the package only ships *.example.json of them),
+#   skill_enchant_plan.json, gear_auto.json (the package only ships *.example.json of them; ONE exception, v1.6.2: a brain_host.json that is
+#   still the untouched old default "new engine off, no characters" is switched to the new default "on" + "allowAll" - see the end),
 #   recorded/locked routes (Scripts\data\routes\) and live gatekeeper menus (gk_live\) you changed, and every room / spot / area / zone you
 #   edited in the dashboard shape editor (manual: true - merged into the new data with docs\plan\tools\manual_guard.js).
 # What it REPLACES: the code (Scripts_dev\swarm.js, Dashboard, tools, SETUP, patches\universal, docs). A changed code file is saved first to
@@ -189,6 +190,21 @@ Get-ChildItem "$root\Scripts\data\*.example.json" -ErrorAction SilentlyContinue 
     if (-not (Test-Path $real)) { Copy-Item $_.FullName $real; Say "  created $(Rel $real) from the example" }
 }
 
+# ------------------------------------------------------------------ NEW ENGINE = THE DEFAULT (v1.6.2, 2026-10-13)
+# Scripts\data\brain_host.json is YOUR file (never overwritten). Only the untouched old default (new engine off, no characters in "allow",
+# no "allowAll" key) is switched to the new default ("on": true, "allowAll": true = every character of swarm.config.json); a file you
+# changed is kept as it is. Backup first (Logs\update_backup\<time>\). docs\plan\tools\engine_default.js holds the rule.
+$engineStatus = ''; $engineMigrated = $false
+if ((Test-Path "$root\Scripts\data\brain_host.json") -and (Test-Path "$root\docs\plan\tools\engine_default.js") -and (Get-Command node -ErrorAction SilentlyContinue)) {
+    Backup 'Scripts\data\brain_host.json'
+    $eo = @(& node "$root\docs\plan\tools\engine_default.js" --migrate --root $root 2>&1 | ForEach-Object { [string]$_ })
+    foreach ($l in $eo) {
+        if ($l -like 'MIGRATED:*') { $engineMigrated = $true; Say ('  new engine: switched ON (it is the default now) - ' + $l.Substring(9).Trim()) Green }
+        elseif ($l -like 'KEPT:*') { Say ('  new engine: your Scripts\data\brain_host.json is kept - ' + $l.Substring(5).Trim()) }
+        elseif ($l -like 'STATUS:*') { $engineStatus = $l.Substring(7).Trim() }
+    }
+}
+
 # ------------------------------------------------------------------ files generated from YOUR L2Swarm (never shipped)
 if (-not (Test-Path "$root\Scripts\data\npc_strings.json") -and (Test-Path "$root\Data\base.db") -and (Get-Command node -ErrorAction SilentlyContinue)) {
     Say 'generating Scripts\data\npc_strings.json from your Data\base.db ...'
@@ -235,5 +251,22 @@ if ($updated) {
         foreach ($l in $cl) { if ($l -match '^## ') { $sec++; if ($sec -gt 1) { break } }; if ($sec -eq 1) { Say "  $l"; $i++; if ($i -gt 25) { break } } }
     }
     Say ''; Say 'If swarm.config.example.json gained new fields, copy the ones you want into swarm.config.json and run SETUP.cmd (dry run) again.'
+}
+if ($updated -or $engineMigrated) {
+    # what the user must do now (2026-10-13: the new engine is the default; the dashboard runs it, so it needs the new server code)
+    Say ''; Say 'WHAT YOU MUST DO NOW' Cyan
+    Say '  1. Restart the dashboard (close its window / node process, then start Dashboard\start.cmd): an update only replaces its files,' Yellow
+    Say '     the running dashboard keeps the old code until it is restarted. It also starts the new engine''s brain pool.' Yellow
+    if ($engineStatus) {
+        Say "  2. New engine: $engineStatus"
+        if ($engineStatus -like 'new engine ON*') {
+            Say '     Accounts that still run swarm.js inside L2Swarm keep running as before until you move them, one by one:' Yellow
+            Say '       dashboard -> PC tab -> New engine -> "Check accounts", then "Move accounts to the new engine"' Yellow
+            Say '       (or: node docs\plan\tools\attach_agent.js --all   = dry run, then  node docs\plan\tools\attach_agent.js --all --apply)' Yellow
+            Say '       With L2Swarm stopped, SETUP.cmd -Apply switches the account configs instead (swarm.js off, agent2.js on).'
+            Say '     Back to the old engine: Scripts\data\brain_host.json "on": false, then attach_agent.js --back --names <A,B,...> --apply'
+            Say '     (or SETUP.cmd -Apply with L2Swarm stopped). Details: docs\plan\INSTALL.md, section "New engine".'
+        }
+    }
 }
 exit 0

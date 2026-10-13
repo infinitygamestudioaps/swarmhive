@@ -262,6 +262,9 @@ async function testAttachTool() {
   const http = require('http'), cp = require('child_process');
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'attach_agent_')); fs.mkdirSync(path.join(root, 'Scripts')); fs.mkdirSync(path.join(root, 'Logs'));
   const shared = path.join(root, 'Scripts', 'agent2.js'); fs.writeFileSync(shared, '// agent v3\n'); const t0 = fs.statSync(shared).mtimeMs;
+  // (2026-10-13 engine default) the tool attaches only characters brain_host.json puts in the brain, and --apply needs a running pool (stats file)
+  fs.mkdirSync(path.join(root, 'Scripts', 'data')); fs.writeFileSync(path.join(root, 'Scripts', 'data', 'brain_host.json'), JSON.stringify({ on: true, allow: ['Alpha', 'Beta', 'Gamma'] }));
+  fs.writeFileSync(path.join(root, 'Logs', 'brain_host_stats.json'), '{}');
   const accts = { Alpha: [{ name: 'swarm.js', enabled: true }], Beta: [{ name: 'swarm.js', enabled: true }, { name: 'agent2.js', enabled: false }] }, calls = [];
   const srv = http.createServer((req, res) => { let b = ''; req.on('data', d => b += d); req.on('end', () => {
     const m = JSON.parse(b); let out = {};

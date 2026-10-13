@@ -17,6 +17,7 @@
     levelQuests: 'Every 10 min the next automated step of the clan level quest is sent: hunt steps take the fitting party to the hunting ground, talk / level-up steps take the clan leader away from leveling.',
     questDispatch: 'Every 10 min a fitting party is sent to a live clan quest raid boss and the clan leader goes along (!assist).',
     questActivate: 'Every clan raid quest the clan level allows counts as active (raid hunt and the call-in above use them).',
+    itemHandover: 'A character holding the item the next clan level needs (Blood Mark, Alliance Manifesto, Seal of Aspiration) trades it to the clan leader by itself — only as many as he still lacks, only when both are in a town (or one of them is on his own and idle), never during a raid, mission, instance, quest or one of your orders. Trades between parties: this is your OK for them.',
   };
 
   function refresh() {
@@ -36,7 +37,7 @@
     return `<button class="catgl${on ? ' on' : ''}" data-caset="${h(key)}|${on ? 0 : 1}" aria-pressed="${on ? 'true' : 'false'}" title="${on ? 'switch off' : 'switch on'}">${on ? 'ON' : 'OFF'}</button>${label ? `<span class="calbl">${h(label)}</span>` : ''}`;
   }
   function needHtml(n, i) {
-    const btn = n.kind === 'order' || n.kind === 'handover' ? `<button data-caneed="${i}">${h(n.button || 'Do it')}</button>`
+    const btn = n.kind === 'order' || n.kind === 'handover' || n.kind === 'clanhand' ? `<button data-caneed="${i}">${h(n.button || 'Do it')}</button>`
       : n.kind === 'manual' || n.kind === 'name' ? `<button data-caopen="${h(n.anchor || 'leader')}">Show</button>` : '';
     return `<div class="caneed">${gi(n.kind === 'info' ? 'quest' : 'warn')}<span class="catxt">${h(n.text)}${n.cost ? ` <span class="muted">· costs ${h(n.cost)}</span>` : ''}</span>${btn}</div>`;
   }
@@ -46,7 +47,7 @@
     return `<div class="carow">
       <div class="casw">${fixed ? '<span class="catgl fixed" title="always automatic">AUTO</span>' : sw(r.key, !!r.on)}</div>
       <div class="cabody"><div><b>${h(r.title)}</b> <span class="fit ${cls}">${lab}</span></div><div class="catxt muted">${h(r.text)}</div>
-        ${r.sub ? `<div class="casub">${sw(r.sub.key, !!r.sub.on, r.sub.label)}</div>` : ''}</div></div>`;
+        ${r.sub ? `<div class="casub">${sw(r.sub.key, !!r.sub.on, r.sub.label)}</div>` : ''}${r.act ? `<div class="casub"><button data-cahand="${h(r.key)}" title="${h(r.act.giver)} goes to ${h(r.act.receiver)} now and trades ${h(r.act.count)} × ${h(r.act.item)}">${h(r.act.label || 'Do it now')}</button> <span class="muted">${h(r.act.giver)} → ${h(r.act.receiver)}: ${h(r.act.count)} × ${h(r.act.item)}</span></div>` : ''}</div></div>`;
   }
   /** the overview box (top of the Clan tab, configured clan only) */
   function html() {
@@ -86,6 +87,10 @@
       if (want && !(await uiConfirm({ title: `Invite party ${L}?`, body: [uiP('Every member of party ', uiEm(L), ' — also characters that join the party later — is invited when it stands next to the clan leader and the clan has room.')], confirmText: 'Invite the party' }))) return;
       post({ action: 'inviteParty', leader: L, on: want }, `party ${L}: ${want ? 'invited (also new members)' : 'no longer invited as a party'}`); return;
     }
+    if (d.cahand) {                                                    // CLANHAND 2026-10-13: the row's "Hand it over now"
+      e.stopPropagation();
+      const r = ((CA.data && CA.data.rows) || []).find(x => x.key === d.cahand); if (r && r.act) handOver(r.act); return;
+    }
     if (d.caopen) {
       e.stopPropagation();
       const el = tab().querySelector(`details[data-casec="${d.caopen}"]`); if (el) { el.open = true; el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } return;
@@ -98,14 +103,15 @@
         if (await confirmOrder(n.target, n.cmd, n.label + (n.cost ? ' — costs ' + n.cost : ''))) send(n.target, null, n.cmd);
         return;
       }
-      if (n.kind === 'handover') {
-        if (!(await uiConfirm({ title: `Hand ${n.item} to ${n.receiver}?`, body: [uiP(uiEm(n.giver), ` walks to `, uiEm(n.receiver), ` and trades ${n.count} × ${n.item} (a trade between parties — this is your OK).`), uiNote('Same hand-over as the Trade page; progress on the Trade page.')], confirmText: 'Hand it over' }))) return;
-        try {
-          const r = await api('/api/trade/order', { method: 'POST', body: JSON.stringify({ receiver: n.receiver, sel: { [n.giver]: { [n.objId]: n.count } }, adena: {}, confirm: true, note: 'clan level item (Clan tab)' }) });
-          const m = document.getElementById('msg'); if (m) m.innerHTML = r && r.ok ? gi('yes') + ` hand-over ${h(r.id)}: ${h(n.giver)} → ${h(n.receiver)} (${h(n.item)})` : gi('warn') + ' ' + h((r && r.error) || 'refused');
-        } catch (er) { const m = document.getElementById('msg'); if (m) m.innerHTML = gi('warn') + ' ' + h(er.message); }
-      }
+      if (n.kind === 'handover' || n.kind === 'clanhand') handOver(n);
     }
+  }
+  /** CLANHAND 2026-10-13: the holder trades the clan level item to the clan leader NOW ("!clanhand <giver>" through /api/clanauto) */
+  async function handOver(a) {
+    if (!a || !a.giver) return;
+    if (!(await uiConfirm({ title: `Hand ${a.item} to ${a.receiver} now?`, body: [uiP(uiEm(a.giver), ' goes to ', uiEm(a.receiver), ` now (walk, or .townname to his town) and trades him ${a.count} × ${a.item} — only as many as the next clan level still needs.`),
+        uiNote('A trade between parties: this is your OK. Never during a raid, mission, instance, quest or another order of yours (the character then says why it waits). Progress: this row and party chat.')], confirmText: 'Hand it over now' }))) return;
+    post({ action: 'handover', giver: a.giver }, `${a.giver}: hand ${a.count} × ${a.item} to ${a.receiver} — sent`);
   }
   document.addEventListener('click', onClick, true);
   setInterval(() => { if (typeof TAB !== 'undefined' && TAB === 'clan' && !document.hidden) refresh(); }, 15000);
