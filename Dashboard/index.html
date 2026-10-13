@@ -2065,7 +2065,8 @@ document.addEventListener('click', (e) => {
     askChoice('Hunt above the safe level?', `Party ${party}: ${spotLabel(cur)}\n\n${ovb.title || 'too high level'}\n\nYes, override = the party skips the level / landing-danger checks for this choice (survival, escape and rescue stay on; the Seven Signs rule is never skipped).`,
       [{ label: 'Yes, override', value: 'override', cls: 'on' }, { label: 'Cancel', value: null }]).then(async (v) => {
       if (v !== 'override') return;
-      const body = { party, mode: 'manual', kind: cur.kind, spot: cur.spot, dungeon: cur.dungeon, roomId: cur.roomId, stay: !!cur.stay, override: true, overrideBy: 'dashboard', overrideNote: String(ovb.title || '').slice(0, 200) };
+      // OVERRIDEFIX 2026-10-13 (tester: "areaIds required" on every Override): the field / several-rooms fields go along too
+      const body = { party, mode: 'manual', kind: cur.kind, spot: cur.spot, dungeon: cur.dungeon, roomId: cur.roomId, roomIds: cur.roomIds, region: cur.region, areaIds: cur.areaIds, order: cur.order, stay: !!cur.stay, moveOn: !!cur.moveOn, override: true, overrideBy: 'dashboard', overrideNote: String(ovb.title || '').slice(0, 200) };
       try { const r = await api('/api/partyspot', { method: 'POST', body: JSON.stringify(body) }); if (!r || r.error) throw new Error((r && r.error) || 'save failed'); if (PSPOT.data) PSPOT.data.spots = r.spots; renderParties(); } catch (er) { uiError(er.message, 'Could not save'); }
     });
     return;

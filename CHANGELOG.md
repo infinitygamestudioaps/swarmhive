@@ -2,6 +2,17 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.1 (2026-10-13)
+
+- Nothing is destroyed automatically any more: Newbie Guide / shadow / traveler weapons the shop refused were destroyed after a sale - they are never junk now and unsellable items are kept (gear_auto.json destroyUnsellable: true to destroy)
+- Cursed weapons: the bots NEVER pick up Demonic Sword Zariche or Blood Sword Akamanah (the holder is renamed, kicked from the party, gets karma) - option Scripts/data/pickup_rules.json cursedWeapons: true
+- Gear: an empty weapon slot is never kept - the recommended weapon is bought (no stray shield for 2h classes)
+- 'not enough adena' instead of 'nothing better' when money is short
+- Supply run: sales + gear upgrades first, then shots for the NEW weapon grade
+- Room/area rotation: moves on after 90 s without monsters, rooms left 2 respawns ago count as full again
+- Dashboard: Override on a field/rooms choice works again ('areaIds required')
+- update.cmd: a zip install (no .git folder) downloads the newest release zip from GitHub by itself (no git, no token, resumes broken downloads)
+
 ## v1.6.0 (2026-10-13)
 
 - New engine (brain host, off by default): swarm.js runs in the dashboard, L2Swarm only a tiny agent - far less RAM

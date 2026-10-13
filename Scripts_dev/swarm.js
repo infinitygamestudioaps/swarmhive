@@ -8660,8 +8660,8 @@ async function starterCleanup(before, why, walkBack) {
     if (mode === 'destroy') list.forEach(x => kill.push(x));
     else {
       const noSale = unsellable();
-      list.filter(x => noSale[x.id]).forEach(x => kill.push(x));                       // the shop refused it before: straight away
-      const toSell = list.filter(x => !noSale[x.id]);
+      list.filter(x => noSale[x.id]).forEach(x => { if (autoDestroyOn()) kill.push(x); });   // the shop refused it before: destroyed only with destroyUnsellable (NODESTROY)
+      const toSell = list.filter(x => !noSale[x.id] && !NEVER_JUNK.test(String(x.name || '')));   // NODESTROY: Newbie Guide / shadow pieces cannot be sold - kept
       if (toSell.length && currentTownKey() === 'Giran') {
         if (!state.gkBusy) { state.gkBusy = true; setBusy = true; }
         try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { }
@@ -8680,7 +8680,7 @@ async function starterCleanup(before, why, walkBack) {
           if (refused.length) {
             try { const u = unsellable(); refused.forEach(x => { u[x.id] = x.name; }); File.WriteAllText(UNSELLF, JSON.stringify(u)); state.sellMarkedAt = now(); } catch (e) { }
             await sleep(4000); await bagSync();                                       // SELLGUARD: confirm the refusal before anything is destroyed
-            if (itemCount(57) === a0) refused.filter(x => present(x.objId)).forEach(x => kill.push(x));
+            if (itemCount(57) === a0) refused.filter(x => present(x.objId)).forEach(x => { if (autoDestroyOn()) kill.push(x); else out.push(`${x.name}: the shop does not buy it - kept (gear_auto.json destroyUnsellable: true would destroy it)`); });   // NODESTROY
             else refused.forEach(x => out.push(`${x.name}: sale unclear (kept)`));
           }
         }
@@ -8835,7 +8835,8 @@ function planUpgrades(budget) {
       // a RECOMMENDED piece is only bought when it really beats what I wear (a better crafted / dropped / S.A. piece is never swapped down)
       if (fromRec && wearing < want) {
         const jinfo = kwant && info.t !== kwant && info.cw ? items[info.cw] : info, jid = jinfo === info ? num(ids[0]) : num(info.cw);
-        if (jinfo && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && upgradeGain(jid, jinfo, g) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
+        // TESTERS2-2026-10-13: an EMPTY slot is never kept
+        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && upgradeGain(jid, jinfo, g) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
       }
       locked[slot] = 'preferred';
       if (slot === 'chest' && info.full) locked.legs = 'covered (full armor)';   // GEARPREF D3
@@ -8924,7 +8925,7 @@ function planUpgrades(budget) {
   if (locked.weapon && /^S\.A\./.test(locked.weapon)) skipped.push(`weapon kept: ${locked.weapon}`);
   prefSkipped.forEach(t => skipped.push(t));
   Object.keys(guardNotes).forEach(k => { if (!picks.some(p => p.slot === k)) skipped.push(guardNotes[k]); });   // STARTERGEAR: not when the slot got a pick after all
-  return { buys, skipped, spend, prefs: prefRows, why: buys.length ? '' : 'nothing better in the shops' };
+  return { buys, skipped, spend, prefs: prefRows, why: buys.length ? '' : picks.length ? `not enough adena (${Math.max(0, Math.round(budget))} to spend after keep ${CONFIG.gear.upgrade.keep}): ${picks.map(p => p.info.n + ' ' + p.offer.price).join(', ')}`.slice(0, 300) : 'nothing better in the shops' };   // TESTERS2
 }
 
 /** Buy the picks: one route walk per merchant, the shop list opened by its link path, one buy packet per piece. */
@@ -10436,7 +10437,7 @@ function sellCandidates(grades) {
       const info = gearDb().items[id];
       let why = null;
       if (marked.has(id)) why = 'marked';
-      else if (CONFIG.sell.junk && info && info.g && junkGrades.includes(String(info.g).toLowerCase()) && upgradeGain(id, info, g) <= 0 && !teammateWants(id)) why = 'junk';
+      else if (CONFIG.sell.junk && info && info.g && junkGrades.includes(String(info.g).toLowerCase()) && upgradeGain(id, info, g) <= 0 && !teammateWants(id) && !NEVER_JUNK.test(String(it.Name || ''))) why = 'junk';   // NODESTROY: Newbie Guide / shadow items are never junk
       if (!why) return;
       seen.add(id);
       out.push({ id, name: String(it.Name), count: num(it.Count), why });
@@ -10482,14 +10483,20 @@ setInterval(() => {
     })().catch(e => logError('town sell', e)).finally(() => { TSELL.busy = false; });
   } catch (e) { }
 }, 15000);
+// NODESTROY-2026-10-13 (tester: "my bots destroyed shadow weapons no grade from newbie guide right after running"): NOTHING is destroyed
+// automatically unless Scripts/data/gear_auto.json says "destroyUnsellable": true (read live). Newbie Guide / shadow / traveler items
+// (they cannot be sold) are never junk: only sold when the user marks them on the dashboard.
+const NEVER_JUNK = /^(Shadow Item|Apprentice Adventurer's|Traveler's)\b/i;
+function autoDestroyOn() { try { gearPolicy(); const v = gearAutoCache.v; return !!(v && typeof v === 'object' && v.destroyUnsellable === true); } catch (e) { return false; } }
 /** DESTROY UNSELLABLE STARTER GEAR (user 2026-10-06: "the starter items should be deleted or dropped"): only items the shop has already
  *  refused (Logs/unsellable.json) that are NO-GRADE EQUIPMENT in the gear database; never equipped, quest items, materials or anything else. */
 function destroyUnsellableJunk() {
+  if (!autoDestroyOn()) return [];                                    // NODESTROY: off unless gear_auto.json destroyUnsellable: true
   const noSale = unsellable(), gone = [];
   try {
     Inventory.forEach(it => {
       const id = num(it.Id), info = gearDb().items[id];
-      if (!noSale[id] || it.IsEquiped || it.IsQuestItem || qeProtected(id) || !info || String(info.g).toUpperCase() !== 'NONE' || !info.s || sgKeepId(id)) return;   // STARTERGEAR: 'keep'
+      if (!noSale[id] || it.IsEquiped || it.IsQuestItem || qeProtected(id) || !info || String(info.g).toUpperCase() !== 'NONE' || !info.s || sgKeepId(id) || NEVER_JUNK.test(String(it.Name || ''))) return;   // STARTERGEAR: 'keep'; NODESTROY: never Newbie Guide / shadow items
       Send.RequestDestroyItem(num(it.objId), Math.max(1, num(it.Count)));
       gone.push(`${it.Name} x${num(it.Count)}`);
     });
@@ -13455,6 +13462,37 @@ function lootRecord() {
   return out;
 }
 
+// CURSEDPICK-2026-10-13 (user: "make an option so the bot does not pick up Demonic Sword Zariche or Blood Sword Akamanah"): never picked up
+// unless Scripts/data/pickup_rules.json says { "cursedWeapons": true }. L2Swarm's auto pickup gets a prefix on Options.PickUpPattern
+// (re-applied every minute, the user's own pattern stays behind it); the script's own pickups check the item id / name.
+var CURSED = { rx: /Zariche|Akamanah/i, ids: [8190, 8689], at: 0, allow: false, prefix: '^(?!.*(?:Zariche|Akamanah)).*?', old: ['^(?!.*(?:Zariche|Akamanah))'], said: '' };   // .*? (2026-10-13 review): without it the unanchored 'Herb of Life$' part of the user's pattern was tied to the start -> Greater Herb of Life was no longer picked up
+function cursedAllowed() {
+  if (!CURSED.at || now() - CURSED.at > 30000) {
+    CURSED.at = now();
+    try { const f = `${__SCRIPTS__}\\data\\pickup_rules.json`; const j = File.Exists(f) ? JSON.parse(String(File.ReadAllText(f)).replace(/^\uFEFF/, '')) : null; CURSED.allow = !!(j && j.cursedWeapons === true); } catch (e) { }
+  }
+  return CURSED.allow;
+}
+/** a ground item (DropList row) that is a cursed weapon */
+function cursedDrop(it) {
+  try { const id = num(it.Id || it.ItemId || (it.Template && it.Template.Id)); const name = String(it.Name || (it.Template && it.Template.Name) || ''); return CURSED.ids.includes(id) || CURSED.rx.test(name); } catch (e) { return false; }
+}
+/** keep L2Swarm's PickUpPattern in line with the option (prefix on = never, off = the user's pattern as it was) */
+function cursedPatternApply() {
+  try {
+    const p = String(Options.PickUpPattern || ''), pre = CURSED.prefix;
+    const hit = [pre].concat(CURSED.old).find(x => p.startsWith(x));   // also strips the first (broken) prefix applied at 08:10
+    const base = hit ? p.slice(hit.length).replace(/^\(\?:([\s\S]*)\)$/, '$1') : p;
+    const want = cursedAllowed() ? base : pre + (base ? '(?:' + base + ')' : '');
+    if (want === p) return;
+    Options.PickUpPattern = want;
+    const m = cursedAllowed() ? 'pickup: cursed weapons (Zariche / Akamanah) may be picked up again (pickup_rules.json)' : 'pickup: never picking up cursed weapons (Zariche / Akamanah)';
+    if (CURSED.said !== m) { CURSED.said = m; note(m); }
+  } catch (e) { logError('cursedPatternApply', e); }
+}
+setTimeout(() => { try { if (IsCharacterReady()) cursedPatternApply(); } catch (e) { } }, 8000);
+setInterval(() => { try { if (IsCharacterReady()) cursedPatternApply(); } catch (e) { } }, 60000);
+
 // LOOT after a raid (user 2026-10-04 22:31: "it forgot to pick up after the raid — that's important"): every window picks up every item
 // on the ground within r of where it stands, nearest first, until nothing is left or ms is over. Buff herbs stay (Options.PickUpPattern).
 async function lootGround(r, ms) {
@@ -13467,7 +13505,7 @@ async function lootGround(r, ms) {
     try {
       DropList.forEach(it => {
         const name = String(it.Name || (it.Template && it.Template.Name) || '');
-        if ((tried[it.objId] || 0) >= 3 || (pat && name && !pat.test(name))) return;
+        if ((tried[it.objId] || 0) >= 3 || (pat && name && !pat.test(name)) || (!cursedAllowed() && cursedDrop(it))) return;   // CURSEDPICK
         const d = Math.hypot(it.X - Me.X, it.Y - Me.Y);
         if (d < r && d < bd) { bd = d; best = it; }
       });
@@ -17889,7 +17927,7 @@ function toggleDecide(t, c) {
 // monsters on arrival (never visited = all its spawns; visited = what was alive when we left + kills whose respawn time has passed). When every
 // selected one is (nearly) empty, the party stays where the most respawns come next (kills of the current one due within MULTI.windowSec vs the
 // others' expectation on arrival). Keys: room:<id> / area:<id> (claims, skip lists, occupied).
-const MULTI = { emptyMs: 35000, minExpect: 3, margin: 2, speed: 110, bend: 1.3, floorSec: 60, windowSec: 60, maxPool: 4, fightHoldMs: 8000, respawnDefSec: 60 };
+const MULTI = { emptyMs: 35000, minExpect: 3, margin: 2, speed: 110, bend: 1.3, floorSec: 60, windowSec: 60, maxPool: 4, fightHoldMs: 8000, respawnDefSec: 60, staleMs: 90000 };   // TESTERS2: staleMs
 /** party_spots.json entry -> the selection { kind 'rooms'|'field', place, ids, order 'nearest'|'rotate', stay } (one roomId = a one-room selection,
  *  the old format) | null (auto, a zone / datapack spot, or 'any free room') */
 function multiSel(e) {
@@ -17913,6 +17951,7 @@ function multiExpectAt(T, ts, t) {
   const n = Math.max(0, Number(T.spawns) || 0);
   if (!ts || !ts.visitedAt) return n;
   const r = multiRespMs(T), left = ts.leftAt || 0;
+  if (left && t - left >= Math.max(2 * r, 180000)) return Math.max(n, Number(ts.leftLive) || 0, MULTI.minExpect);   // TESTERS2-2026-10-13: a target left 2 respawn periods (>= 3 min) ago counted 0 for ever when its kills were not seen (forgotten after 15 min / killed by others); now: full again (rooms without spawn data = minExpect)
   const back = (ts.kills || []).filter(k => k + r > left && k + r <= t).length;   // respawned after we left
   return Math.min(n, (ts.leftLive || 0) + back);
 }
@@ -17961,6 +18000,9 @@ function multiDecide(s) {
   // every chosen one is (nearly) empty: stay where the most respawns come next
   const best = others.slice().sort((a, b) => expect[b.key] - expect[a.key])[0];
   if (best && expect[best.key] > due + MULTI.margin) return { action: 'move', to: best.key, why: `is empty — most respawns come next in ${best.name || best.key} (${expect[best.key]} vs ${due})`, expect, due };
+  // TESTERS2-2026-10-13 (Cruma floor 2, 3 rooms: "they clear it, then they get stuck, no mobs, they don't move to the next one"): the
+  // estimate can be wrong (no spawn data for a hallway, other players, odd respawns) -> after staleMs empty, look at the next one anyway
+  if (emptyFor >= MULTI.staleMs && byOrder().length) { const nx = byOrder()[0]; return { action: 'move', to: nx.key, why: `has had no monster for ${Math.round(emptyFor / 1000)} s — checking ${nx.name || nx.key}`, expect, due }; }
   return { action: 'stay', why: `every chosen one is empty — staying here, ${due} respawns due within ${MULTI.windowSec} s`, expect, due };
 }
 /** party level fit of a field area: 0 = fits (suitsPartyLevel), else levels off */
@@ -23392,7 +23434,7 @@ function nnFight(force) {
     if (!owned && (NNAV.pickSaved || (!NNAV.on && soloScriptFight())) && !Me.IsAttacking && now() - NNAV.lastLoot > 3000) {   // + the solo script fight (2026-10-09)
       let pat = null; try { pat = Options.PickUpPattern ? new RegExp(String(Options.PickUpPattern)) : null; } catch (e) { pat = null; }
       let best = null, bd = 300;
-      try { DropList.forEach(it => { const name = String(it.Name || (it.Template && it.Template.Name) || ''); if (pat && name && !pat.test(name)) return; if (Math.abs((it.Z || Me.Z) - Me.Z) > zl) return; const d = Math.hypot(it.X - Me.X, it.Y - Me.Y); if (d < bd) { bd = d; best = it; } }); } catch (e) { }
+      try { DropList.forEach(it => { const name = String(it.Name || (it.Template && it.Template.Name) || ''); if (pat && name && !pat.test(name)) return; if (!cursedAllowed() && cursedDrop(it)) return; if (Math.abs((it.Z || Me.Z) - Me.Z) > zl) return; const d = Math.hypot(it.X - Me.X, it.Y - Me.Y); if (d < bd) { bd = d; best = it; } }); } catch (e) { }
       if (best) { NNAV.lastLoot = now(); try { Send.Action(best.objId); } catch (e) { } }
     }
     return;
@@ -26485,7 +26527,7 @@ async function leadSupply(why, opts) {
   const wasLvl = !inline && (autoLvl.active || !!(opts && opts.resumeLevel));
   let noGiran = false, lootAfter = '';   // lootAfter: the loot handover runs after the hold (engine audit #18)
   intent('supply', `buy SoE/SoR/shots/spirit ore for the team in ${CONFIG.lead.hub} (${why})`);
-  const SUP = ['regroup in Giran', 'collect needs', 'buy at Helvetia', 'hand out', 'enchant', 'stash', 'unload loot', 'members sell', 'gear upgrades', 'dyes', 'collect adena'];
+  const SUP = ['regroup in Giran', 'collect needs', 'members sell', 'gear upgrades', 'buy at Helvetia', 'hand out', 'enchant', 'stash', 'unload loot', 'dyes', 'collect adena'];   // TESTERS2: sell + gear before buying
   pstRun('supply', why, inline ? SUP.slice(1) : SUP);                  // PARTY STATUS 2026-10-09
   let T = null;
   try {
@@ -26503,6 +26545,50 @@ async function leadSupply(why, opts) {
     // 1. everyone reports what it lacks (incl. me)
     const rep = await teamStep(runId, 'supplyneed', 30000);
     T.mark('needs', now());
+    // TESTERS2-2026-10-13 (tester: "re-supply occurs before gear up": no-grade shots were bought + handed out, then everyone bought a D weapon):
+    // sales + gear upgrades come FIRST, then the needs are asked again (shots for the NEW weapon grade) before anything is bought
+    const res = [];
+    const hurry = () => { const w = manualChoiceWaiting(true); if (w && !res.some(x => /^hurry/.test(x))) res.push('hurry: a hunting spot was chosen on the dashboard — gear/dye shopping skipped'); return w; };
+    let gearBuyers = 0;
+    { const members = Object.values(rep.got).filter(a => a.name !== Me.Name && a.ok);
+    // 5. every member sells its marked items + no-grade equipment at Helvetia, one after another (user 2026-10-06). Only the members that
+    //    reported something to sell take part (supplyneed 'sell'; 2026-10-08 21:25) — nobody: no step at all
+    try {
+      const order = members.filter(a => a.sell === undefined || num(a.sell) > 0).map(a => a.name).sort();
+      if (order.length) {
+        pstStep('supply', 'members sell', { info: `${order.length} sellers, one after another at Helvetia` });
+        const sr = await teamStep(runId, 'sellrun', 9000 * order.length + 180000, { order });
+        const sold = Object.values(sr.got).filter(a => a.name !== Me.Name && order.includes(a.name)).map(a => `${a.name}: ${a.msg || (a.ok ? 'ok' : 'failed')}`);
+        if (sold.length) { res.push('sales: ' + sold.join(', ')); note(`[supply] team sales: ${sold.join('; ')}`, true); }
+      }
+      T.mark('sales', now(), order.length ? `${order.length} sellers` : 'nothing to sell');
+    } catch (e) { logError('team sales', e); }
+    // 5b. GEAR UPGRADES (user 2026-10-06): everyone (the leader too) buys its upgrades in Giran's shops with its own adena, before the collect.
+    //     2026-10-08 21:25: a plan step first (each window plans from the shop scan at once, ~1 s for all); only those with something to buy
+    //     walk to the merchants, in that order (it waited rank x 25 s for all 9 = 3 min 20 s while nobody bought anything)
+    if (CONFIG.gear.upgrade.on && CONFIG.gear.upgrade.auto && !hurry()) {
+      pstStep('supply', 'gear upgrades');
+      try {
+        const all = [Me.Name].concat(members.map(a => a.name).filter(n => n !== Me.Name));
+        const gp = await teamStep(runId, 'gearplan', 30000);
+        const order = needOrder(gp.got, all);
+        const quiet = Object.values(gp.got).filter(a => !a.need && a.msg && !/^nothing|^upgrades off/.test(a.msg)).map(a => `${a.name}: ${a.msg}`);
+        if (order.length) {
+          gearBuyers = order.length;
+          const gr = await teamStep(runId, 'gearrun', 25000 * order.length + 420000, { order });
+          const done = Object.values(gr.got).filter(a => order.includes(a.name)).map(a => `${a.name}: ${a.msg || (a.ok ? 'ok' : 'failed')}`);
+          if (done.length) { res.push('gear: ' + done.join(', ')); note(`[supply] gear upgrades: ${done.join('; ')}`.slice(0, 900), true); }
+        } else note(`[supply] gear upgrades: nothing better in the shops for anyone${quiet.length ? ' (' + quiet.join('; ') + ')' : ''}`.slice(0, 600), true);
+        T.mark('gear', now(), order.length ? `${order.length} buyers` : 'nothing to buy');
+      } catch (e) { logError('gear upgrades', e); }
+    }
+    }
+    if (gearBuyers > 0 && regroupAlive(runId)) {
+      pstStep('supply', 'collect needs', { info: 'again after the gear upgrades (shots for the new weapons)' });
+      const rep2 = await teamStep(runId, 'supplyneed2', 30000);
+      Object.values(rep2.got).forEach(a => { if (a && a.ok && rep.got[a.name]) rep.got[a.name] = Object.assign({}, rep.got[a.name], { needs: a.needs, slots: a.slots, sell: a.sell, stash: a.stash }); });
+      T.mark('needs again', now());
+    }
     const mine = supplyNeeds();
     const members = Object.values(rep.got).filter(a => a.name !== Me.Name && a.ok);
     const total = {};                                  // id -> { name, members: sum of member needs }
@@ -26535,7 +26621,7 @@ async function leadSupply(why, opts) {
     // 3. hand out: one trade per member with everything it needs (as much as I have)
     pstStep('supply', 'hand out', { n: 0, m: members.length, pending: members.map(a => a.name), cur: '', info: '' });
     await gatherTeam('supply hand-out');
-    let i = 0; const res = [];
+    let i = 0;   // TESTERS2: res is declared before the gear step
     for (const a of members) {
       if (!regroupAlive(runId)) break;
       pstSet('supply', { n: res.length, pending: members.slice(res.length).map(x => x.name), cur: a.name });
@@ -26555,7 +26641,6 @@ async function leadSupply(why, opts) {
     T.mark('hand-out', now(), `${i} trades`);
     // a hunting spot was chosen on the dashboard during this run (user 2026-10-08 21:25): finish the essentials (supplies, hand-out,
     // enchant, unload, sales, adena) and skip the optional gear / dye shopping, then the leader goes straight there
-    const hurry = () => { const w = manualChoiceWaiting(true); if (w && !res.some(x => /^hurry/.test(x))) res.push('hurry: a hunting spot was chosen on the dashboard — gear/dye shopping skipped'); return w; };
     // 3b. ENCHANTING (user 2026-10-06): the scrolls drop to me -> each member gets the normal scrolls it needs, then everyone enchants
     //     its worn real pieces up to the safe limit (+3 / full armor +4). Before the unload, so the scrolls go where they are used.
     if (CONFIG.gear.enchant.auto) {                // ENCHMANUAL: never automatic unless the user switches auto on
@@ -26614,36 +26699,6 @@ async function leadSupply(why, opts) {
     // 4. UNLOAD (user 2026-10-06): the tank carries all the loot (Forward Drop) and was near a full inventory -> give everything he does
     // not use himself to the teammate with the most free slots (materials, recipes, crystals, enchant scrolls, spare gear)
     try { if (num(Inventory.Count) > CONFIG.lead.unload.above) { pstStep('supply', 'unload loot'); res.push('unload: ' + await leadUnload(runId, members)); T.mark('unload', now()); } } catch (e) { logError('unload', e); }
-    // 5. every member sells its marked items + no-grade equipment at Helvetia, one after another (user 2026-10-06). Only the members that
-    //    reported something to sell take part (supplyneed 'sell'; 2026-10-08 21:25) — nobody: no step at all
-    try {
-      const order = members.filter(a => a.sell === undefined || num(a.sell) > 0).map(a => a.name).sort();
-      if (order.length) {
-        pstStep('supply', 'members sell', { info: `${order.length} sellers, one after another at Helvetia` });
-        const sr = await teamStep(runId, 'sellrun', 9000 * order.length + 180000, { order });
-        const sold = Object.values(sr.got).filter(a => a.name !== Me.Name && order.includes(a.name)).map(a => `${a.name}: ${a.msg || (a.ok ? 'ok' : 'failed')}`);
-        if (sold.length) { res.push('sales: ' + sold.join(', ')); note(`[supply] team sales: ${sold.join('; ')}`, true); }
-      }
-      T.mark('sales', now(), order.length ? `${order.length} sellers` : 'nothing to sell');
-    } catch (e) { logError('team sales', e); }
-    // 5b. GEAR UPGRADES (user 2026-10-06): everyone (the leader too) buys its upgrades in Giran's shops with its own adena, before the collect.
-    //     2026-10-08 21:25: a plan step first (each window plans from the shop scan at once, ~1 s for all); only those with something to buy
-    //     walk to the merchants, in that order (it waited rank x 25 s for all 9 = 3 min 20 s while nobody bought anything)
-    if (CONFIG.gear.upgrade.on && CONFIG.gear.upgrade.auto && !hurry()) {
-      pstStep('supply', 'gear upgrades');
-      try {
-        const all = [Me.Name].concat(members.map(a => a.name).filter(n => n !== Me.Name));
-        const gp = await teamStep(runId, 'gearplan', 30000);
-        const order = needOrder(gp.got, all);
-        const quiet = Object.values(gp.got).filter(a => !a.need && a.msg && !/^nothing|^upgrades off/.test(a.msg)).map(a => `${a.name}: ${a.msg}`);
-        if (order.length) {
-          const gr = await teamStep(runId, 'gearrun', 25000 * order.length + 420000, { order });
-          const done = Object.values(gr.got).filter(a => order.includes(a.name)).map(a => `${a.name}: ${a.msg || (a.ok ? 'ok' : 'failed')}`);
-          if (done.length) { res.push('gear: ' + done.join(', ')); note(`[supply] gear upgrades: ${done.join('; ')}`.slice(0, 900), true); }
-        } else note(`[supply] gear upgrades: nothing better in the shops for anyone${quiet.length ? ' (' + quiet.join('; ') + ')' : ''}`.slice(0, 600), true);
-        T.mark('gear', now(), order.length ? `${order.length} buyers` : 'nothing to buy');
-      } catch (e) { logError('gear upgrades', e); }
-    }
     // 5c. DYES / SYMBOLS (user 2026-10-07, UNTESTED): everyone whose role has a plan in dye_plan.json buys 10 dyes at Helvetia and draws
     //     its next planned symbol at the Symbol Maker (dyeMine) — only at the plan's level and with the adena for it. 2026-10-08 21:25: a
     //     plan step first; a dye Helvetia/Pepper did not sell is not tried again for 24 h (Logs/dye_unavail.json)
@@ -27387,7 +27442,8 @@ async function cabinetSetOld(label, on) {
 
 /** Team actions for the leader-control runs (called from teamAction). */
 async function leadTeamAction(action, data) {
-  if (action === 'supplyneed') { let sell = 0; try { sell = sellCandidates(['none']).length; } catch (e) { sell = 1; }
+  if (action === 'supplyneed' || action === 'supplyneed2') { let sell = 0;   // TESTERS2: asked again after the gear step
+    try { sell = sellCandidates(['none']).length; } catch (e) { sell = 1; }
     return { ok: true, needs: supplyNeeds(), enchant: CONFIG.gear.enchant.auto ? enchantNeeds() : {}, objId: num(Me.objId), accountId: App.self().accountId, slots: num(Inventory.Count), sell, stash: stashWanted() }; }
   if (action === 'enchantrun') return await enchantMine('supply run');
   // PLAN STEPS (2026-10-08 21:25): answered at once by everyone; only those with need: true take part in the gear / dye run that follows

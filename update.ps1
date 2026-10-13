@@ -5,9 +5,9 @@
 #   update.ps1 -Version v1.2.0       a specific version (git tag) instead of the newest
 #   update.ps1 -NoDeploy             do not deploy Scripts_dev\swarm.js -> Scripts\swarm.js afterwards
 #   update.ps1 -Zip <file.zip>       no git: update from a downloaded package zip (GitHub "Code -> Download ZIP" or a release asset)
-#   update.ps1 -Repo owner/name      no git: download the zip from that (private) GitHub repo; needs a read-only token in the
-#                                    environment variable SWARM_GITHUB_TOKEN (GitHub -> Settings -> Developer settings -> fine-grained token,
-#                                    "Contents: read" on that one repository)
+#   (no .git folder = installed from a zip: the newest release is downloaded from the public repository, no git / token needed)
+#   update.ps1 -Repo owner/name      another GitHub repo (a PRIVATE one needs a read-only token in the environment variable
+#                                    SWARM_GITHUB_TOKEN: GitHub -> Settings -> Developer settings -> fine-grained token, "Contents: read")
 #
 # What it KEEPS (never overwritten):
 #   swarm.config.json, Settings\ (your accounts; Settings\templates you changed), Logs\, Dashboard\key.txt, the generated images,
@@ -102,14 +102,42 @@ if ($useGit) {
 } else {
     # ------------------------------------------------------------------ zip (no git)
     if (-not $Zip) {
-        if (-not $Repo -and (Test-Path "$root\update_source.txt")) { $Repo = (Get-Content "$root\update_source.txt" -Raw).Trim() }
-        if (-not $Repo) { Say 'no git and no -Zip/-Repo: install git (winget install Git.Git) and clone the package, or pass -Zip <package.zip> / -Repo owner/name.' Red; exit 1 }
+        # ZIPINSTALL 2026-10-13 (tester: "no git and no -Zip/-Repo" although git is installed - the folder came from a zip, so it has no .git):
+        # the package repository is PUBLIC since v1.2.0 -> a zip install downloads the newest RELEASE from it, no git and no token needed
+        if (-not $Repo -and (Test-Path "$root\update_source.txt")) { $Repo = ((Get-Content "$root\update_source.txt") | Where-Object { $_ -and -not $_.StartsWith('#') } | Select-Object -First 1); if ($Repo) { $Repo = $Repo.Trim() } }
+        if (-not $Repo) { Say 'no git, no update_source.txt and no -Zip/-Repo: download the newest SwarmKit zip from the GitHub releases page and run  update.cmd -Zip <file.zip>' Red; exit 1 }
+        $Repo = $Repo -replace '^https://github\.com/', '' -replace '\.git$', ''
+        if ($git -and -not (Test-Path "$root\.git")) { Say 'git is installed, but this folder was installed from a zip (no .git folder) - updating from the release zip instead.' Yellow }
+        $hdr = @{ 'User-Agent' = 'swarm-update' }
         $tok = $env:SWARM_GITHUB_TOKEN
-        if (-not $tok) { Say "downloading from the private repository $Repo needs a read-only token in SWARM_GITHUB_TOKEN (see the top of update.ps1)." Red; exit 1 }
-        $ref = if ($Version) { $Version } else { 'main' }
-        $Zip = Join-Path $env:TEMP "swarm_package_$stamp.zip"
+        if ($tok) { $hdr.Authorization = "Bearer $tok" }                      # only needed for a PRIVATE copy of the repository
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -UseBasicParsing -Headers @{ Authorization = "Bearer $tok"; 'User-Agent' = 'swarm-update' } -Uri "https://api.github.com/repos/$Repo/zipball/$ref" -OutFile $Zip
+        # the RELEASE asset (SwarmKit-vX.Y.Z.zip, served by GitHub's download CDN) - not the API zipball of the whole repository
+        # (2026-10-13 test: the ~485 MB zipball through Invoke-WebRequest broke off: "the connection was closed unexpectedly")
+        $rel = $null
+        $relUri = if ($Version) { "https://api.github.com/repos/$Repo/releases/tags/$Version" } else { "https://api.github.com/repos/$Repo/releases/latest" }
+        try { $rel = Invoke-RestMethod -UseBasicParsing -Headers $hdr -Uri $relUri } catch { $rel = $null }
+        if (-not $rel -or -not $rel.tag_name) { Say "no release $(if ($Version) { $Version } else { '' }) found on $Repo (no network?) - download the SwarmKit zip from its GitHub releases page and run  update.cmd -Zip <file.zip>" Red; exit 1 }
+        $ref = $rel.tag_name
+        Say "newest release on $Repo`: $ref"
+        if (($ref -replace '^v', '') -eq $oldVer) { Say "already up to date ($oldVer)." Green; exit 0 }
+        if ($Check) { Say "update available: $oldVer -> $($ref -replace '^v', '')" Green; exit 0 }
+        $asset = @($rel.assets) | Where-Object { $_.name -like 'SwarmKit-*.zip' } | Select-Object -First 1
+        $url = if ($asset) { $asset.browser_download_url } else { "https://api.github.com/repos/$Repo/zipball/$ref" }
+        $Zip = Join-Path $env:TEMP "swarm_package_$stamp.zip"
+        Say ("downloading $(if ($asset) { $asset.name + ' (' + [Math]::Round($asset.size / 1MB) + ' MB)' } else { $ref + ' (source zip)' }) ...")
+        $ok = $false
+        $curl = Get-Command curl.exe -ErrorAction SilentlyContinue                # Windows 10+: resumes and retries a broken download
+        if ($curl) {
+            $cargs = @('-L', '--fail', '--retry', '5', '--retry-delay', '3', '-C', '-', '-A', 'swarm-update', '-o', $Zip)
+            if ($tok -and -not $asset) { $cargs += @('-H', "Authorization: Bearer $tok") }
+            for ($try = 1; $try -le 3 -and -not $ok; $try++) { & $curl.Source @cargs $url; $ok = ($LASTEXITCODE -eq 0) -and (Test-Path $Zip) }
+        }
+        if (-not $ok) {
+            $ProgressPreference = 'SilentlyContinue'                                # the progress bar makes Invoke-WebRequest many times slower
+            try { Invoke-WebRequest -UseBasicParsing -Headers $hdr -Uri $url -OutFile $Zip; $ok = Test-Path $Zip } catch { $ok = $false; Say "download error: $($_.Exception.Message)" Red }
+        }
+        if (-not $ok) { Say "download of $Repo $ref failed - download the SwarmKit zip from its GitHub releases page yourself and run  update.cmd -Zip <file.zip>" Red; exit 1 }
     }
     $tmp = Join-Path $env:TEMP "swarm_package_$stamp"
     Expand-Archive -LiteralPath $Zip -DestinationPath $tmp -Force
