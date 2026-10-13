@@ -154,7 +154,7 @@ const bossOf = (nm) => RB.find(b => b.name === nm);
 
   // ---- 3) wiring ---------------------------------------------------------------------------------------------------------------
   check(/case '!scout':[\s\S]{0,200}scoutCommand\(parts\)/.test(src), "party chat: case '!scout' -> scoutCommand");
-  check(/function benched\(n\) \{ return benchedHall\(n\) \|\| \(typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs\(n \|\| Me\.Name\)\)( \|\| qeAwayIs\(n \|\| Me\.Name\))?; \}/.test(src), 'benched(): a scout away counts as benched for its party (no split watchdog / left-behind / stuck follow)');
+  check(/function benched\(n\) \{ return (?:runHeld\(n\) \|\| )?benchedHall\(n\) \|\| \(typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs\(n \|\| Me\.Name\)\)( \|\| qeAwayIs\(n \|\| Me\.Name\))?; \}/.test(src), 'benched(): a scout away counts as benched for its party (no split watchdog / left-behind / stuck follow)');
   check(!/if \(benched\(\)\) \{\n\s+note\(`bench: not in the Hall team/.test(src), 'the Hall bench code itself uses benchedHall() (a scout never leaves the party)');
   const cmds = require(path.join(ROOT, 'Dashboard', 'commands.js')).COMMANDS;
   check(cmds.some(c => c.id === 'scout' && c.tpl === '!scout {boss}[ {name}]'), 'command catalog: scout entry');

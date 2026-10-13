@@ -144,7 +144,7 @@
     const r = FP.cur, on = $id('fndOn');
     if (on) on.checked = !!r.on;
     const t = $id('fndOnTxt'); if (t) { t.textContent = r.on ? 'On' : 'Off'; t.className = 'lb ' + (r.on ? 'on' : 'off'); }
-    const i = $id('fndIntro'); if (i) i.innerHTML = `A rich party leader in <b>${h(r.town)}</b> hands adena to characters of OTHER parties that stand in the same town below their target.${r.on ? '' : ' <b class="fnd-offtxt">Switched off: nobody hands out adena.</b>'}`;
+    const i = $id('fndIntro'); if (i) i.innerHTML = `A rich party leader in <b>${h(r.town)}</b> hands adena to characters of OTHER parties that stand in the same town below their target.${r.on ? '' : ' <b class="fnd-offtxt">Off — nothing happens until you switch it on.</b>'}`;
   }
   function renderGen() {
     const el = $id('fndGen'); if (!el) return;
@@ -205,6 +205,7 @@
           <label class="fnd-sw sm"><input type="checkbox" data-fndrecv="${h(leader)}" ${on ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${on ? 'on' : 'off'}">${on ? 'Receives' : 'Receives nothing'}</span></label></div>
         <div class="fnd-grid sm">${field('Leader target', amountInput('parties|' + leader + '|leaderTarget', p.leaderTarget, { blank: true, ph: 'default ' + short(d.leaderTarget), label: leader + ' party leader target' }))}
           ${field('Member target', amountInput('parties|' + leader + '|memberTarget', p.memberTarget, { blank: true, ph: 'default ' + short(d.memberTarget), label: leader + ' party member target' }))}</div>
+        ${p.givers && ['auto', 'list', 'none'].includes(p.givers.mode) ? `<div class="muted fnd-cnt">Own givers for this party (party ⚙ Settings → Money): ${p.givers.mode === 'none' ? 'nobody gives' : p.givers.mode === 'auto' ? 'any rich party leader' : (p.givers.list || []).length ? h(p.givers.list.join(', ')) : 'nobody chosen yet — nobody gives'}. The shared "who gives" above does not apply to it.</div>` : ''}
         ${members.length ? `<details class="fnd-mems" data-fndparty="${h(leader)}" ${FP.openParties.has(leader) ? 'open' : ''}><summary>Characters (${members.length})</summary>${members.map(m => memberRow(m, leader)).join('')}</details>` : '<div class="muted fnd-cnt">Not in swarm.config.json now (kept in the file).</div>'}
       </div>`;
     };

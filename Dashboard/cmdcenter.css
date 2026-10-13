@@ -50,6 +50,8 @@ html.cc-lock, html.cc-lock body { overflow: hidden; }
 .cctiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; padding: 4px 8px 8px; }
 .cctile { display: grid; justify-items: start; justify-content: stretch; align-content: center; min-height: 52px; padding: 4px 10px; text-align: left; white-space: normal; gap: 1px; }
 .cctile b { font-size: var(--fs-body); line-height: 1.25; } .cctile small { font: var(--fs-mini)/1.2 Consolas, monospace; color: var(--muted); overflow-wrap: anywhere; }
+/* UX audit B5 (2026-10-13): Simple view tiles = a plain sentence, not command syntax */
+.cctile small.ccplain { font-family: inherit; font-size: var(--fs-cap); line-height: 1.3; overflow-wrap: normal; }
 .cctile.destructive b { color: #ffb3a0; } .cctile.safe b { color: #c9e9bf; }
 .ccdesc { color: var(--ink); opacity: .85; font-size: var(--fs-body); margin: 2px 2px 6px; }
 .ccsect { margin: 10px 0 4px; font-size: var(--fs-mini); font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--gold); }

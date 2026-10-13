@@ -165,7 +165,7 @@ function writeFixtures() { const now = Date.now(); states(now).forEach(s => fs.w
     ok('Slow: 0.42 %/h, 97 % left -> days', /^lvl in \d+d$/.test(P.slow), P.slow);
     ok('tooltip explains the calculation', /Rate: .* %\/h/.test(P.tip) && /How:/.test(P.tip), P.tip.split('\n')[2]);
     ok('party header: lowest 51 -> 52, Pell is the last one', P.ph.some(t => /^lowest 51→52 in 9h\d\d \(Pell last\)$/.test(t)), P.ph.join(' / '));
-    ok('party header: a lowest-level member without an estimate', P.ph.some(t => /^lowest lvl 60: no estimate for Late$/.test(t)), P.ph.join(' / '));
+    ok('party header: a lowest-level member without an estimate', P.ph.some(t => /^lowest lvl 60: no level-up estimate yet$/.test(t)), P.ph.join(' / '));
     ok('the exp cell stays inside the row', P.xpRect);
     ok('no horizontal scroll (Parties)', !P.h);
     if (dev.mobile) { await ev(`document.querySelector('.mem2[data-char="Lead"]').closest('.win').scrollIntoView({ block: 'start' })`); await sleep(300); await shot('leveleta_phone_parties.png'); }

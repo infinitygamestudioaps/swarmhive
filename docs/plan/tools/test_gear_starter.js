@@ -36,7 +36,7 @@ function plan(o) {
       healer: { roles: ['bishop', 'shilliensaint', 'healer'] } },
   };
   let oid = 100;
-  const inv = (o.worn || []).map(n => ({ Id: idOf(n), objId: ++oid, Count: 1, IsEquiped: true, EnchantLvl: 0, Name: n }));
+  const inv = (o.worn || []).map(n => ({ Id: idOf(n), objId: ++oid, Count: 1, IsEquiped: true, EnchantLvl: (o.enchant || {})[n] || 0, Name: n }));
   const files = {
     'gear_auto.json': JSON.stringify(o.policy || { default: true, sameGradeSwap: false, keepArmorType: true }),
     'gear_prefs.json': JSON.stringify(o.prefs || {}),
@@ -126,6 +126,55 @@ if (M.sgIsStarter) {
   const GPJ = fs.readFileSync(path.join(ROOT, 'Dashboard', 'gearpage.js'), 'utf8');
   check(/data-gpautostarter/.test(GPJ) && /starterGear: v/.test(GPJ) && /uiConfirm\(\{ title: 'Destroy replaced starter gear\?'/.test(GPJ) && !/\b(alert|confirm|prompt)\(/.test(GPJ.replace(/uiConfirm\(|uiAlert\(|uiPrompt\(/g, '')), 'Gear page: the select saves starterGear; "destroy" asks with the styled dialog (no browser dialogs)');
   try { fs.rmSync(TMP, { recursive: true, force: true }); } catch (e) { }
+}
+// ---- 5) OWNTYPE (public tester 2026-10-13, party Yellow lvl 20: "I gave them all Composite Bows because Zweihander can't be purchased,
+//         and now they won't change weapon type"): upgrades stay WITHIN the type the player chose; gear_prefs.json still wins ----
+{
+  const BOWKIT = ['Composite Bow', 'Hard Leather Shirt', 'Hard Leather Gaiters'];
+  const dump = (n, r) => { if (VERBOSE) console.log(`     ${n}: ${r.buys.map(p => p.slot + '=' + p.info.n).join(', ')} | notes: ${(r.notes || []).join('; ')} | skipped: ${r.skipped.join('; ')}`); };
+  for (const m of [{ c: 4, n: 'Human Knight', role: 'tank' }, { c: 45, n: 'Orc Raider', role: 'destroyer' }]) {
+    const { r } = plan({ classId: m.c, role: m.role, worn: BOWKIT }); dump(m.n, r);
+    const w = weaponBuy(r), ch = r.buys.find(p => p.slot === 'chest');
+    check(!!w && w.info.t === 'BOW' && w.info.g === 'D', `${m.n} (${m.role}) lvl 20 with a Composite Bow: buys a D BOW -> ${w ? w.info.n + ' ' + w.offer.price : 'NOTHING (' + r.skipped.join('; ') + ')'}`);
+    check(!!ch && ch.info.t === 'LIGHT', `${m.n}: light armor worn -> a LIGHT chest upgrade (${ch ? ch.info.n : 'none'})`);
+    check(!r.skipped.some(s => /different weapon type|different armor type|no shield/.test(s)), `${m.n}: no "different weapon/armor type" / "no shield" blockers in the note (${r.skipped.join('; ') || 'none'})`);
+    check((r.notes || []).some(t => /^weapon: kept the bow type you chose -> buying /.test(t)), `${m.n}: the decision is written plainly: "${(r.notes || []).find(t => /^weapon/.test(t)) || 'no weapon note'}"`);
+    check(!ch || !ch.info.full || (r.notes || []).some(t => /^legs: covered by .+ \(full armor\)/.test(t)), `${m.n}: a full light armor covers the legs (no "legs kept")`);
+  }
+  // budget order: the weapon is bought before the jewelry (a short budget used to go to earrings first)
+  { const { r } = plan({ classId: 4, role: 'tank', worn: BOWKIT, budget: 90000 }); const w = weaponBuy(r);
+    check(!!w && w.info.t === 'BOW', `short budget (90k): the bow comes first (${w ? w.info.n : 'not bought: ' + r.skipped.join('; ')})`); }
+  // nothing better of the own type: said plainly, never a blocker
+  { const { r } = plan({ classId: 4, role: 'tank', worn: ['Common Item - Light Crossbow', 'Hard Leather Shirt'] }); dump('own type, best D bow worn', r);
+    check(!weaponBuy(r) && (r.notes || []).some(t => /^weapon: kept the bow type you chose \(Common Item - Light Crossbow\); no better bow in the shops for grade D$/.test(t)), `best D bow already worn: "${(r.notes || []).join('; ')}"`); }
+  // gear_prefs.json says otherwise: the class plan names a sword -> the sword is bought (explicit, the user's choice)
+  { const prefs = { _class: { 4: { D: { weapon: { id: idOf('Elven Long Sword'), buy: 'auto' } } } } };
+    const { r } = plan({ classId: 4, role: 'tank', worn: BOWKIT, prefs }); const w = weaponBuy(r); dump('class plan sword', r);
+    check(!!w && w.info.t === 'SWORD', `gear_prefs.json class plan (Elven Long Sword) beats the worn bow type: ${w ? w.info.n : 'nothing'}`);
+    check((r.notes || []).some(t => /^weapon: your gear plan \(gear_prefs\.json\) names .+ -> buying it instead of the bow$/.test(t)), `... and the note says so: "${(r.notes || []).find(t => /^weapon/.test(t)) || 'no weapon note'}"`); }
+  // the role's _weapon rule in gear_prefs.json (destroyers: 2h sword) also beats the worn bow type
+  { const prefs = { destroyer: { D: { _weapon: { type: 'SWORD', two: true } } } };
+    const { r } = plan({ classId: 45, role: 'destroyer', worn: BOWKIT, prefs }); const w = weaponBuy(r);
+    check(!!w && w.info.t === 'SWORD' && !!w.info.two, `gear_prefs.json _weapon rule (2h sword) beats the worn bow type: ${w ? w.info.n : 'nothing (' + r.skipped.join('; ') + ')'}`); }
+  // unsold planned item -> the best SOLD item of that type: the No-Grade 2h sword (only the normal Zweihander 217,140; no Common one)
+  { const { r } = plan({ classId: 44, level: 19, role: 'destroyer', worn: ['Training Gloves', "Squire's Shirt", "Squire's Pants"] }); const w = weaponBuy(r); dump('Orc Fighter 19', r);
+    check(!!w && w.info.n === 'Zweihander' && w.offer.price === 217140, `Orc Fighter lvl 19 (destroyer) with Training Gloves: buys the sold normal Zweihander (${w ? w.info.n + ' ' + w.offer.price : 'nothing (' + r.skipped.join('; ') + ')'})`); }
+  { const prefs = { _class: { 45: { D: { weapon: { id: idOf('Sword of Valakas (2-Handed)'), buy: 'auto' } } } } };
+    const { r } = plan({ classId: 45, role: 'destroyer', worn: ['Training Gloves', "Squire's Shirt", "Squire's Pants"], prefs }); const w = weaponBuy(r);
+    check(!!w && w.info.t === 'SWORD' && w.info.two && w.info.g === 'D' && r.skipped.some(s => /needs manual: Sword of Valakas/.test(s)), `class plan item never sold (Sword of Valakas): the best SOLD D 2h sword meanwhile (${w ? w.info.n : 'nothing'}) + "needs manual"`); }
+  // a Common piece still wins over the normal-piece fallback (COMMON ONLY rule, user 2026-10-07)
+  { const { r } = plan({ classId: 45, role: 'destroyer', worn: ['Training Gloves'] }); const w = weaponBuy(r);
+    check(!!w && /^Common Item/.test(w.info.n), `D grade: still a Common weapon (${w ? w.info.n : 'nothing'})`); }
+  // existing rules stay: an enchanted / S.A. weapon of the same grade is never replaced
+  { const { r } = plan({ classId: 4, role: 'tank', worn: ['Long Bow'], enchant: { 'Long Bow': 3 } });
+    check(!weaponBuy(r), `enchanted D Long Bow +3: never replaced by another D bow (${(weaponBuy(r) || {}).info ? weaponBuy(r).info.n : 'kept'})`); }
+  { const { r } = plan({ classId: 4, role: 'tank', level: 45, worn: ['Crystallized Ice Bow - Guidance'], policy: { default: true, sameGradeSwap: true, keepArmorType: true } });
+    check(!weaponBuy(r), `S.A. C bow at 45: never replaced by a C bow, also with sameGradeSwap (${weaponBuy(r) ? weaponBuy(r).info.n : 'kept'})`); }
+  // the gear upgrade message carries the decisions and the buy problems
+  const gu2 = src.slice(src.indexOf('async function gearUpgrade('), src.indexOf('// --- DYES / SYMBOLS'));
+  check(/plan\.notes/.test(gu2) && /not bought: /.test(gu2), 'gearUpgrade: the note says the decisions (plan.notes) and why a piece was NOT bought');
+  const ecb = src.slice(src.indexOf('async function equipCommonFromBag('), src.indexOf('async function gearUpgrade('));
+  check(/gearOwnTypes\(/.test(ecb) && /gearOwnOk\(/.test(ecb), 'equipCommonFromBag: a bought bow of the player\'s own type goes on from the bag too');
 }
 // ---- 4) the host part is wired into gearUpgrade ----
 const gu = src.slice(src.indexOf('async function gearUpgrade('), src.indexOf('// --- DYES / SYMBOLS'));

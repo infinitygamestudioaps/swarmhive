@@ -1,0 +1,129 @@
+/* PARTY SETTINGS popup (owner 2026-10-13 19:10; Dashboard/partysettings.js). Phone first (390 px): a full-screen sheet with a fixed head, one
+   scrolling column of sections and a sticky Save / Undo bar; desktop: a centred card. Fixed heights for the head, the bar and every section
+   header (no layout jumps); tap targets >= 44 px. Uses the ui_kit.css controls (uk-switch, uk-btn, uk-chip) and the site colour tokens. */
+
+/* the button on the party card / character page (fixed place: right after Start / Stop) */
+.psbtn { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+@media (pointer: coarse) { .psbtn { min-height: 40px; } }
+
+html.ps-lock, html.ps-lock body { overflow: hidden; }
+.ps-ov { position: fixed; inset: 0; z-index: 9000; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .62); }
+.ps-ov[hidden] { display: none; }
+.ps-dlg { display: flex; flex-direction: column; width: min(700px, 94vw); height: min(900px, 92vh); background: var(--bg, #15140f);
+  background-image: linear-gradient(rgba(30, 28, 22, .97), rgba(18, 17, 13, .98)); border: 1px solid var(--line2, #575141); border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .7); color: var(--ink, #d9cfb6); overflow: hidden; }
+@media (max-width: 760px) {
+  .ps-ov { align-items: stretch; }
+  .ps-dlg { width: 100vw; height: 100vh; height: 100dvh; border-radius: 0; border: 0; }
+}
+.ps-head { flex: 0 0 56px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 8px 0 16px; border-bottom: 1px solid var(--line, #3b382f); }
+.ps-head h2 { margin: 0; font-size: 17px; color: var(--gold, #e3c27a); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ps-x { flex: 0 0 44px; height: 44px; border: 0; background: transparent; color: var(--ink, #d9cfb6); font-size: 20px; cursor: pointer; border-radius: 8px; }
+.ps-x:hover { background: rgba(255, 255, 255, .06); }
+.ps-x:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: -2px; }
+.ps-scroll { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 10px 12px 18px; }
+.ps-intro { margin-bottom: 10px; min-height: 44px; }
+.ps-who { font-size: var(--fs-body, 13px); color: var(--ink, #d9cfb6); line-height: 1.5; }
+.ps-who small { color: var(--muted, #8e8879); }
+.ps-what { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); line-height: 1.45; margin-top: 3px; }
+.ps-what b { color: var(--ink, #d9cfb6); }
+
+/* sections: a big summary row (title + one state sentence), the body below */
+.ps-sec { border: 1px solid var(--line, #3b382f); border-radius: 8px; background: rgba(0, 0, 0, .28); margin-bottom: 8px; }
+.ps-sec > summary { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 6px 12px; cursor: pointer; list-style: none; }
+.ps-sec > summary::-webkit-details-marker { display: none; }
+.ps-sec > summary::after { content: '▸'; margin-left: auto; color: var(--muted, #8e8879); transition: transform .12s; }
+.ps-sec[open] > summary::after { transform: rotate(90deg); }
+.ps-sec > summary:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: -2px; border-radius: 8px; }
+.ps-ic { flex: 0 0 26px; font-size: 19px; text-align: center; }
+.ps-st { display: flex; flex-direction: column; min-width: 0; }
+.ps-st b { font-size: var(--fs-section, 14px); color: var(--gold, #e3c27a); }
+.ps-sum { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.ps-dot { color: #ffe08a; font-size: 11px; vertical-align: 2px; }
+.ps-skel { min-height: 56px; display: flex; align-items: center; padding: 6px 12px 6px 48px; opacity: .6; }
+.ps-body { padding: 4px 12px 12px; border-top: 1px solid var(--line, #3b382f); }
+@media (prefers-reduced-motion: reduce) { .ps-sec > summary::after { transition: none; } }
+
+/* one automation = the switch (title + state sentence) and a "what it does" line */
+.ps-item { padding: 8px 0; border-bottom: 1px dashed rgba(255, 255, 255, .07); }
+.ps-item:last-child { border-bottom: 0; }
+.ps-item .uk-switch { width: 100%; min-height: 44px; }
+.ps-item > .ps-what { padding-left: 56px; }
+.ps-ro { display: flex; flex-direction: column; min-height: 40px; justify-content: center; }
+.ps-ro b { font-size: var(--fs-body, 13px); }
+.ps-ro span { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); }
+.ps-reset { margin: 4px 0 0 48px; min-height: 32px; font-size: var(--fs-cap, 12px); font-weight: 500; }
+.ps-sub { margin: 12px 0 4px; font-size: var(--fs-body, 13px); }
+.ps-shared { font-size: var(--fs-cap, 12px); color: #e9b949; margin-left: 6px; }
+.ps-note { margin: 8px 0; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, .04); font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); line-height: 1.45; }
+.ps-note b { color: var(--ink, #d9cfb6); }
+.ps-note.info { border-left: 3px solid var(--run, #7fb6e8); }
+.ps-note.bad { border-left: 3px solid var(--bad, #ec6a55); color: var(--ink, #d9cfb6); }
+.ps-adv .ps-note { font-family: Consolas, monospace; font-size: var(--fs-mini, 11px); overflow-wrap: anywhere; }
+
+/* fields: label above the control, 2 columns on wide screens, 1 on phones */
+.ps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px 12px; margin: 6px 0; }
+.ps-field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ps-lab { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); }
+.ps-field select, .ps-field input { width: 100%; min-height: 40px; box-sizing: border-box; font: inherit; font-size: 15px; padding: 4px 8px; border-radius: 6px;
+  background: rgba(0, 0, 0, .45); color: var(--ink, #d9cfb6); border: 1px solid var(--line2, #575141); }
+.ps-field input[aria-invalid] { border-color: var(--bad, #ec6a55); }
+.ps-bad { font-size: var(--fs-cap, 12px); color: var(--bad, #ec6a55); }
+.ps-hint { font-size: var(--fs-mini, 11px); color: var(--muted, #8e8879); }
+.ps-chk { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; font-size: var(--fs-body, 13px); cursor: pointer; }
+.ps-chk input { width: 20px; height: 20px; accent-color: var(--gold, #e3c27a); }
+
+/* segmented choice (3 options) */
+.ps-seg { display: flex; border: 1px solid var(--line2, #575141); border-radius: 8px; overflow: hidden; }
+.ps-seg button { flex: 1 1 0; min-height: 42px; padding: 4px 6px; background: transparent; border: 0; border-right: 1px solid var(--line2, #575141); color: var(--ink, #d9cfb6);
+  font: inherit; font-size: var(--fs-body, 13px); cursor: pointer; }
+.ps-seg button:last-child { border-right: 0; }
+.ps-seg button[aria-checked="true"] { background: rgba(227, 194, 122, .2); color: var(--gold, #e3c27a); font-weight: 700; }
+.ps-seg button:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: -2px; }
+
+/* givers picker: chips per party */
+.ps-givers { margin: 6px 0; display: flex; flex-direction: column; gap: 6px; }
+.ps-gp { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.ps-gpl { flex: 0 0 100%; font-size: var(--fs-mini, 11px); color: var(--muted, #8e8879); }
+.ps-chipbtn { min-height: 36px; padding: 2px 10px; border-radius: 18px; border: 1px solid var(--line2, #575141); background: transparent; color: var(--ink, #d9cfb6); font: inherit; font-size: var(--fs-cap, 12px); cursor: pointer; }
+.ps-chipbtn[aria-pressed="true"] { background: rgba(134, 207, 110, .16); border-color: var(--ok, #86cf6e); color: var(--ok, #86cf6e); font-weight: 600; }
+.ps-chipbtn small { color: var(--muted, #8e8879); font-weight: 400; }
+
+/* per character rows */
+.ps-more { margin: 8px 0; }
+.ps-more > summary { min-height: 40px; display: flex; align-items: center; cursor: pointer; color: var(--gold, #e3c27a); font-size: var(--fs-body, 13px); list-style: none; }
+.ps-more > summary::-webkit-details-marker { display: none; }
+.ps-more > summary::before { content: '▸ '; white-space: pre; }
+.ps-more[open] > summary::before { content: '▾ '; }
+.ps-mrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px 10px; align-items: end; padding: 8px 0; border-bottom: 1px dashed rgba(255, 255, 255, .07); }
+.ps-mn { font-weight: 600; align-self: center; }
+.ps-mn small { color: var(--muted, #8e8879); font-weight: 400; }
+.ps-mstate { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); align-self: center; }
+.ps-flags { display: flex; flex-direction: column; gap: 4px; margin: 4px 0 8px; font-size: var(--fs-cap, 12px); }
+.ps-flag .uk-chip { min-width: 44px; justify-content: center; }
+
+/* actions + links */
+.ps-acts { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin-top: 10px; }
+.ps-now { min-height: 44px; }
+.ps-link { display: inline-flex; align-items: center; min-height: 40px; color: var(--gold, #e3c27a); font-size: var(--fs-body, 13px); text-decoration: none; }
+.ps-link:hover { text-decoration: underline; }
+.ps-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin: 6px 0; }
+.ps-spot span { min-width: 0; flex: 1 1 200px; font-size: var(--fs-body, 13px); }
+.ps-runrow { display: flex; gap: 12px; align-items: center; margin: 8px 0; }
+.ps-runrow .runsw { flex: 0 0 auto; min-height: 44px; }
+.ps-runtxt { font-size: var(--fs-body, 13px); line-height: 1.4; }
+.ps-runtxt .ok { color: var(--ok, #86cf6e); }
+
+/* the sticky bar (fixed height: the text clamps to one line) */
+.ps-bar { flex: 0 0 64px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px; padding-bottom: env(safe-area-inset-bottom, 0);
+  border-top: 1px solid var(--line2, #575141); background: rgba(12, 11, 8, .96); }
+.ps-bsum { min-width: 0; font-size: var(--fs-cap, 12px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ps-bsum b { color: #ffe08a; } .ps-bsum .bad { color: var(--bad, #ec6a55); font-weight: 700; } .ps-muted { color: var(--muted, #8e8879); }
+.ps-bbtn { flex: 0 0 auto; display: flex; gap: 8px; }
+.ps-bbtn .uk-btn { min-height: 44px; min-width: 84px; }
+
+/* long state sentences wrap inside the switch (site button rules set nowrap: the Storage / Money switches pushed the page sideways) */
+.ps-item .uk-switch, .ps-item .uk-switch .uk-sl, .ps-item .uk-switch .uk-sl b, .ps-item .uk-switch .uk-sl span { white-space: normal; overflow-wrap: anywhere; }
+.ps-item .uk-switch { justify-content: flex-start; padding: 2px 0; height: auto; max-width: 100%; box-sizing: border-box; }
+.ps-item .uk-switch .uk-sl { flex: 1 1 auto; min-width: 0; }
+.ps-scroll, .ps-body { overflow-x: hidden; }

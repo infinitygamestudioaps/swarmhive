@@ -218,8 +218,11 @@
 
 /* ---------------------------------------------------------------- phone */
 @media (max-width: 759px) {
-  .cp-acts { margin-left: 0; width: 100%; flex-wrap: nowrap; }
-  .cp-acts > button { flex: 1 1 0; min-width: 0; overflow: hidden; padding: 2px 6px; }
+  /* UX audit 2026-10-13 (B3): 4-5 buttons in one row broke their labels inside words ("Com / mands / s"): wrap the ROW instead, two or
+     three buttons per line, a label never breaks inside a word */
+  .cp-acts { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .cp-acts > button { flex: 1 1 calc(33% - 4px); min-width: 96px; overflow: hidden; padding: 2px 8px; white-space: nowrap; text-overflow: ellipsis; overflow-wrap: normal; word-break: normal; }
+  .cp-ptl .pwhy { white-space: normal; }
   .cp-id h2 { font-size: var(--fs-title); }
   .cp-quick { grid-template-columns: repeat(auto-fill, minmax(106px, 1fr)); }
   .cp-igrid { max-height: 300px; }

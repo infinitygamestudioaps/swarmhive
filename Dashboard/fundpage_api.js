@@ -3,7 +3,7 @@
 //   GET  /api/fundrules              { rules, rev, exists, towns, clanLeader, parties: [{ leader, members: [{ name, adena, online, level, cls, town, ageSec }] }],
 //                                      log: [{ name, at, party }] (Logs/fund_log.json: name -> last hand-out ms, newest first) }
 //   POST /api/fundrules { rules, rev? }   sanitized (fundSanitize: numbers >= 0, "8m" / "300k" / "8,000,000" accepted, town one of the 11,
-//                                      givers.mode auto | list | none; unknown parties / characters are KEPT, target 0 is kept = never receives;
+//                                      givers.mode auto | list | none (also parties.<leader>.givers = that party's own givers, 2026-10-13); unknown parties / characters are KEPT, target 0 is kept = never receives;
 //                                      blank = removed = the party / default value), _readme kept, _updated set; lock + rev check (409 when the
 //                                      file changed since the page loaded it), a history copy (Scripts/data/history/fund_rules_<time>.json, last 50),
 //                                      atomic tmp + rename (manual_guard.js), one line in Logs/dashboard_commands.log.
@@ -95,6 +95,16 @@ function fundSanitize(input, prev) {
     const p = P[k] && typeof P[k] === 'object' ? P[k] : {}, o = { receive: p.receive === undefined ? true : !!p.receive };
     const lt = amt(p.leaderTarget, `party ${k} leader target`, { blank: true }), mt = amt(p.memberTarget, `party ${k} member target`, { blank: true });
     if (lt !== null) o.leaderTarget = lt; if (mt !== null) o.memberTarget = mt;
+    // FUNDGIVERS 2026-10-13: the party's OWN givers (who may give to THIS party); missing = the shared givers rule (old files unchanged)
+    if (p.givers !== undefined && p.givers !== null) {
+      const pg = p.givers && typeof p.givers === 'object' ? p.givers : {}, pm = String(pg.mode || '');
+      if (!['auto', 'list', 'none'].includes(pm)) errors.push(`party ${k} givers mode: "${pm.slice(0, 20)}" (auto | list | none)`);
+      else {
+        const pl = []; (Array.isArray(pg.list) ? pg.list : []).forEach(n => { n = String(n || '').trim(); if (!n) return; if (!NAME_RE.test(n)) { errors.push(`party ${k} givers: "${n.slice(0, 40)}" is not a character name`); return; } if (!pl.includes(n)) pl.push(n); });
+        if (pl.length > 300) errors.push(`party ${k} givers: at most 300 names`);
+        o.givers = { mode: pm, list: pm === 'list' ? pl : [] };
+      }
+    }
     out.parties[k] = o;
   });
   out.chars = {};

@@ -121,7 +121,7 @@ if (C) {
 // ---- 6) the planner code uses the block (static checks)
 const pu = src.slice(src.indexOf('function planUpgrades('), src.indexOf('function buyGearPicks('));
 check(/gearPrefWant\(prefs, s\)/.test(pu) && /gearPrefChoose\(offers, E\.buy/.test(pu) && /needs manual:/.test(pu) && /keepWhenManual/.test(pu), 'planUpgrades: want count, buy rule, "needs manual", keep-fallback');
-check(/fromRec && wearing < want/.test(pu) && /upgradeGain\(jid, jinfo, g\) < U\.minGain/.test(pu) && /if \(fromRec\) return;/.test(pu), 'planUpgrades: a recommended piece is bought only when it beats what I wear; unsold recommendations stay quiet');
+check(/fromRec && wearing < want/.test(pu) && /upgradeGain\(jid, jinfo, g(, [^)]*\))?\) < U\.minGain/.test(pu) && /if \(fromRec\) return;/.test(pu), 'planUpgrades: a recommended piece is bought only when it beats what I wear; unsold recommendations stay quiet');
 check(/gear_rec\\\\\$\{cls\}\.json/.test(src) || /gear_rec/.test(src.slice(src.indexOf('function gearPrefsFor('), src.indexOf('function gearPrefsFor(') + 1200)), 'gearPrefsFor reads Scripts/data/gear_rec/<classId>.json');
 check(/planned: plan\.prefs/.test(src), '!gearplan writes the planned slots (wearing / buy / manual) to Logs/gear_plan_<name>.json');
 check(!/new Map\(/.test(src.slice(a, b)), 'no new Map() in the block (the host Map type)');

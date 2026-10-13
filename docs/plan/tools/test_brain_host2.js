@@ -165,7 +165,9 @@ function npcHelvetia(world) {
   const LIST = [{ Id: 1835, Name: 'Soulshot: No Grade', Price: 7 }, { Id: 1463, Name: 'Soulshot: D-grade', Price: 18 }, { Id: 3947, Name: 'Blessed Spiritshot: No Grade', Price: 35 }, { Id: 736, Name: 'Scroll of Escape', Price: 400 }, { Id: 1061, Name: 'Healing Potion', Price: 180 }];
   return (c, cmd) => {
     if (cmd === null) return '<html><body>Grocer Helvetia:<br>Welcome.<br>' + link('00', 'Buy/Sell/Refund General.') + link('01', 'Buy/Sell/Refund Dyes.') + link('02', 'Quest') + '</body></html>';
-    if (cmd === '00') { c.shop = { shopId: 18, list: LIST }; c.buyList = LIST.map(x => Object.assign({}, x)); world.later(150, () => world.emit(c, 'OnShopList', 18, LIST.map(x => Object.assign({}, x)))); return null; }
+    // SHOPLIST (2026-10-13, live L2Swarm behaviour, Logs/shop_<name>.txt): OnShopList carries the SELL part = MY OWN items (sell prices);
+    // the merchant's buy list is only in the BuyList global (the brain mirrored OnShopList as BuyList -> "not in Radia's list any more")
+    if (cmd === '00') { c.shop = { shopId: 18, list: LIST }; c.buyList = LIST.map(x => Object.assign({}, x)); world.later(150, () => world.emit(c, 'OnShopList', 18, (c.inv || []).filter(i => i.Id !== 57).map(i => ({ Id: i.Id, Name: i.Name, Price: 1 })))); return null; }
     return null;
   };
 }
@@ -277,6 +279,9 @@ async function scenarios() {
   const C3 = await callIn(runner, clock, world, 'Crafter1', `(async()=>{ state.gkBusy=true; try { const n=snapNpcs().find(x=>x.Name==='Helvetia').ref; const sh=await openShop(n); if(!sh) return 'no shop'; sellPacket(sh.shopId,[{objId:${ssObj},id:1835,count:200}]); await sleep(2000); Send.RequestBuySellUIClose(); return { shopId: sh.shopId, left: num(ItemCount(1835)) }; } finally { state.gkBusy=false; } })()`, 60000);
   ok(C3.v && C3.v.shopId === 18 && (world.sold || []).some(s => s.id === 1835 && s.n === 200), `C shop (hex 0x37 sell): ${JSON.stringify(C3.v || C3)}; server sold ${JSON.stringify(world.sold || [])}`);
   ok(!!readOv(overlay, path.join('Logs', 'shop_Crafter1.txt')), 'C shop: OnShopList wrote Logs/shop_Crafter1.txt (overlay)');
+  // SHOPLIST: the brain's BuyList = the merchant's list (agent sends L2Swarm's BuyList with OnShopList), not my own bag
+  const C4 = await callIn(runner, clock, world, 'Crafter1', `(async()=>{ state.gkBusy=true; try { const n=snapNpcs().find(x=>x.Name==='Helvetia').ref; const sh=await openShop(n); const ids=[]; BuyList.forEach(i=>ids.push(num(i.Id))); Send.RequestBuySellUIClose(); return { ids, unknown: !!sh.listUnknown, p1463: sh.prices[1463] }; } finally { state.gkBusy=false; } })()`, 60000);
+  ok(C4.v && C4.v.ids.includes(1463) && C4.v.ids.includes(3947) && !C4.v.unknown && C4.v.p1463 === 18, `C shop: the brain's BuyList is Helvetia's list, not my bag (${JSON.stringify(C4.v || C4)})`);
 
   // ---- D. warehouse: deposit 0x3B + withdraw 0x3C (private), then the live page layout
   group(NPC.taurin.X + 60, NPC.taurin.Y, -3400); await run(clock, world, 2000);

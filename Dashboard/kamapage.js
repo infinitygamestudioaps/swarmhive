@@ -168,7 +168,7 @@
       if (sel.value !== p && document.activeElement !== sel) sel.value = p;
     }
     const on = d.parties.filter(x => x.enabled.kamaloka).length;
-    patch($id('kpSum'), `<b>${d.kamaloka.length}</b> instances · <b>${d.parties.length}</b> parties · daily on for <b>${on}</b> · day ${esc(d.day)}, resets 06:30 (in <span id="kpReset">${left(d.nextReset - Date.now())}</span>)`);
+    patch($id('kpSum'), `<b>${d.kamaloka.length}</b> instances · <b>${d.parties.length}</b> parties · ${on ? `daily runs on for <b>${on}</b>` : 'daily runs: <b>off</b> — nothing happens until you switch it on'} · day ${esc(d.day)}, resets 06:30 (in <span id="kpReset">${left(d.nextReset - Date.now())}</span>)`);
   }
 
   // ------------------------------------------------------------------------- pinned live run

@@ -187,9 +187,10 @@
   function text(e) {
     if (!e) return '';
     if (e.status === 'ok') return `lvl ${e.next} in ~${dur(e.etaMs)} (${rateTxt(e.pctH)})`;
-    if (e.status === 'idle') return `lvl ${e.next}: ${e.why} (was ${rateTxt(e.pctH)})`;
-    if (e.status === 'none') return `lvl ${e.next}: ${e.why}`;
-    if (e.status === 'warmup') return `lvl ${e.next}: measuring…`;
+    // UX audit 2026-10-13: "lvl 24: no exp lately" on a level-23 character read like a contradiction -> say it is about the NEXT level
+    if (e.status === 'idle') return `next level (${e.next}): ${e.why} (was ${rateTxt(e.pctH)})`;
+    if (e.status === 'none') return `next level (${e.next}): no estimate yet — ${e.why}`;
+    if (e.status === 'warmup') return `next level (${e.next}): measuring…`;
     if (e.status === 'max') return 'max level';
     if (e.status === 'stale') return '';
     return '';
@@ -271,7 +272,8 @@
       p.status === 'ok' ? `${p.n > 1 ? 'The last of them' : 'It'} (${p.who}) reaches ${p.next} in ~${dur(p.etaMs)}, at ~${clockOf(p.at)}.` : '',
       p.missing.length ? 'No estimate: ' + p.missing.map(m => `${m.name} (${m.why})`).join(', ') : '',
       'Each estimate: exp gained in the last hour (deaths left out), see the member rows.'].filter(Boolean).join('\n');
-    const txt = p.status === 'ok' ? `lowest ${p.level}→${p.next} in ${dur(p.etaMs, true)}${p.n > 1 ? ' (' + p.who + ' last)' : ''}` : partyText(p);
+    // UX audit 2026-10-13: no list of 9 names on every party card; who has no estimate is in the tooltip
+    const txt = p.status === 'ok' ? `lowest ${p.level}→${p.next} in ${dur(p.etaMs, true)}${p.n > 1 ? ' (' + p.who + ' last)' : ''}` : p.status === 'unknown' ? `lowest lvl ${p.level}: no level-up estimate yet` : partyText(p);
     return `<span class="le le-party ${p.status}" title="${esc(t)}">${esc(txt)}</span>`;
   }
 

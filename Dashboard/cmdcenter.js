@@ -15,6 +15,54 @@
   const CATN = Object.fromEntries(K.CATS.map(c => [c[0], c]));
   const byId = Object.fromEntries(K.COMMANDS.map(c => [c.id, c]));
   const QUICK = ['level', 'supply', 'stop', 'town', 'status', 'raid', 'kamaloka', 'soe', 'buff', 'classchange'];
+  // SIMPLE VIEW (UX audit B5, 2026-10-13): players see only these player actions, in plain words, without !command syntax; the full catalog
+  // (108 commands incl. Legacy / Debug / L2Swarm chat-box commands) is the Advanced view (header switch, Dashboard/ui_kit.js). The catalog
+  // itself (Dashboard/commands.js, also the server's whitelist) is NOT changed: these are labels + search words on top of it.
+  const SIMPLE = {
+    start: ['Start', 'Switch them on: they carry on with their plan.', 'go begin play resume on'],
+    stop: ['Stop', 'Everyone stops and stays stopped until you start them again.', 'halt pause off'],
+    level: ['Go leveling', 'Gather in Giran, then teleport to a hunting place that fits the lowest level.', 'hunt exp xp farm grind'],
+    autostop: ['Stop leveling', 'Stop hunting; they stay where they are.', 'pause hunt'],
+    hunthere: ['Stay here and hunt', 'Hunt around the leader where he stands now, without town trips.', 'camp here'],
+    supply: ['Supply run', 'The leader buys escape scrolls, shots and potions in Giran and hands them out.', 'restock buy potions shots scrolls soe'],
+    sell: ['Sell junk', 'Sell marked items and junk at the next shop.', 'money adena vendor'],
+    gearup: ['Buy better gear', 'Go to Giran; everyone buys and puts on the upgrades it can afford.', 'equipment armor weapon upgrade'],
+    stash: ['Store items in the warehouse', 'Put what they do not use into the warehouse.', 'warehouse deposit bank storage'],
+    collect: ['Collect adena to the leader', 'Members keep a little money, the rest goes to the party leader.', 'money adena gold'],
+    buff: ['Rebuff', 'Get the free buffs from the Community Board again.', 'buffs'],
+    classchange: ['Class change', 'Change class now (only characters with an approved class plan).', 'profession job'],
+    park: ['Back to town', 'Everyone stops, goes to Giran and waits there for your next order.', 'stuck frozen not moving home town giran help wait'],
+    town: ['Free teleport to a town', 'The whole party teleports to a town with the server\'s free town command.', 'stuck teleport travel port gludio dion aden'],
+    soe: ['Get out of here', 'Run out of the fight and go to town (use it when a fight goes badly).', 'escape flee retreat danger dying stuck'],
+    goto: ['Walk to…', 'Walk to a place or an NPC.', 'go move travel'],
+    assist: ['Help another character', 'The party travels to that character and fights next to it.', 'support join'],
+    raid: ['Kill a raid boss…', 'Travel to a raid boss and fight it.', 'boss rb'],
+    raidhunt: ['Hunt raid bosses', 'Go through the raid bosses that fit the party\'s level, one after another.', 'boss rb'],
+    kamaloka: ['Run Kamaloka', 'Enter today\'s Kamaloka that fits the party.', 'instance daily dungeon'],
+    missionstop: ['Stop the raid / Kamaloka', 'End the current raid or Kamaloka run.', 'cancel boss'],
+    quest: ['Run a quest…', 'Start or continue a quest.', 'mission'],
+    queststop: ['Stop the quest', 'Stop the quest that is running.', ''],
+    dawn: ['Sign up with the Lords of Dawn', 'Seven Signs: sign up with Dawn (needed for catacombs and necropolises).', 'seven signs catacomb necropolis'],
+    status: ['Status report', 'Everyone says in party chat what it is doing.', 'what doing report'],
+    a_login: ['Log in', 'Open the account and log the character in.', 'offline connect start'],
+    a_logout: ['Log out', 'Close the account.', 'disconnect quit'],
+    b_unstuck: ['Teleport to the nearest town (last resort)', 'The game\'s /unstuck: it takes several minutes and the character must stand still. Try "Back to town" first.', 'stuck frozen trapped wall'],
+  };
+  const isSimple = () => !!(window.UIKit && !UIKit.isAdv());
+  /** the catalog entry as the current view shows it (Simple: plain title + description + search words) */
+  function view(c) {
+    if (!c || !isSimple() || !SIMPLE[c.id]) return c;
+    const s = SIMPLE[c.id];
+    return Object.assign({}, c, { title: s[0], desc: s[1], kw: [c.kw || '', s[2] || ''].join(' ').trim(), plain: true });
+  }
+  const visible = (c) => !isSimple() || !!SIMPLE[c.id];
+  const SIMPLE_GROUPS = [
+    ['s_day', 'Everyday', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Action', ['start', 'stop', 'level', 'autostop', 'hunthere', 'supply', 'sell', 'buff', 'status']],
+    ['s_move', 'Move', 'icon/etc_scroll_of_return_i00', ['park', 'town', 'goto', 'soe', 'assist']],
+    ['s_gear', 'Gear and money', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Inventory', ['gearup', 'classchange', 'stash', 'collect']],
+    ['s_adv', 'Adventures', 'icon/accessory_raid_master_i00', ['raid', 'raidhunt', 'kamaloka', 'missionstop', 'quest', 'queststop', 'dawn']],
+    ['s_fix', 'Account and problems', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Character', ['a_login', 'a_logout', 'b_unstuck']],
+  ];
   const CC = { open: false, view: 'search', q: '', sel: 0, ctx: null, cmd: null, args: {}, targets: [], showChars: false, plan: null, planKey: '',
     result: null, sending: false, serverNew: null, data: {}, items: [], pushed: false };
   const ESC = (s) => (typeof esc === 'function' ? esc(s) : String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])));
@@ -74,13 +122,13 @@
     const out = [], P = parties();
     if (!q) {
       recent().slice(0, 6).forEach(r => out.push({ sec: 'Recent', kind: 'recent', r, title: r.title || r.cmd, sub: '→ ' + (r.tlabel || r.targets.join(', ')) + ' · ' + ago2(r.at) }));
-      QUICK.forEach(id => byId[id] && out.push({ sec: 'Common orders', kind: 'cmd', c: byId[id] }));
+      QUICK.forEach(id => byId[id] && visible(byId[id]) && out.push({ sec: 'Common orders', kind: 'cmd', c: view(byId[id]) }));
       Object.keys(P).forEach(L => out.push({ sec: 'Parties', kind: 'party', L, list: P[L] }));
       pages().forEach(p => out.push({ sec: 'Pages', kind: 'page', p }));
       return out;
     }
     if (/^[!/@]/.test(q)) out.push({ sec: 'Send as typed', kind: 'raw', raw: CC.q.trim(), s: 1000 });
-    K.COMMANDS.forEach(c => { if (c.hidden) return; const s = best(q, [[c.title, 1], [c.tpl, .9], [c.kw, .7], [CATN[c.cat][1], .5], [c.desc, .3]]); if (s > 0) out.push({ sec: 'Commands', kind: 'cmd', c, s: s + (c.cat === 'legacy' ? -30 : 0) }); });
+    K.COMMANDS.forEach(c0 => { if (c0.hidden || !visible(c0)) return; const c = view(c0); const s = (c.plain ? best(q, [[c.title, 1], [c.kw, .7], [c.desc, .3]]) * (c.id === 'b_unstuck' ? .6 : 1) : best(q, [[c.title, 1], [c.tpl, .9], [c.kw, .7], [CATN[c.cat][1], .5], [c.desc, .3]]));   /* UX B5: Simple = plain words only, the /unstuck last resort last */ if (s > 0) out.push({ sec: 'Commands', kind: 'cmd', c, s: s + (c.cat === 'legacy' ? -30 : 0) }); });
     chars().forEach(c => { const s = best(q, [[c.name, 1.1], [c.cls, .6], [c.role, .5], [partyOf(c), .3]]); if (s > 0) out.push({ sec: 'Characters', kind: 'char', ch: c, s }); });
     Object.keys(P).forEach(L => { const s = best(q, [['party ' + L, 1.05], [L, 1]]); if (s > 0) out.push({ sec: 'Parties', kind: 'party', L, list: P[L], s }); });
     pages().forEach(p => { const s = best(q, [[p.label, .9], [p.tab, .8]]); if (s > 0) out.push({ sec: 'Pages', kind: 'page', p, s }); });
@@ -95,7 +143,7 @@
   const kindChip = (c) => c.kind === 'bot' ? '<span class="cckind" title="L2Swarm chat-box command, sent to each character">L2Swarm</span>' : c.kind === 'action' ? '<span class="cckind">dashboard</span>' : '';
   function rowHtml(o, i) {
     const sel = i === CC.sel ? ' sel' : '';
-    if (o.kind === 'cmd') { const c = o.c; return `<button type="button" class="ccrow${sel}" data-i="${i}">${icon(CATN[c.cat][2], 'cc')}<span class="t"><b>${ESC(c.title)}</b><small>${ESC(c.kind === 'action' ? c.desc : c.tpl)}</small></span>${kindChip(c)}${safetyChip(c)}</button>`; }
+    if (o.kind === 'cmd') { const c = o.c; return `<button type="button" class="ccrow${sel}" data-i="${i}">${icon(CATN[c.cat][2], 'cc')}<span class="t"><b>${ESC(c.title)}</b><small>${ESC(c.kind === 'action' || c.plain ? c.desc : c.tpl)}</small></span>${c.plain ? '' : kindChip(c)}${safetyChip(c)}</button>`; }
     if (o.kind === 'char') { const c = o.ch; return `<button type="button" class="ccrow${sel}" data-i="${i}">${clsIco(c)}<span class="t"><b>${ESC(c.name)}</b><small>lvl ${c.level} ${ESC(c.cls || '')} · party ${ESC(partyOf(c))}${live(c) ? '' : ' · offline'}${c.task ? ' · ' + ESC(String(c.task).slice(0, 50)) : ''}</small></span><span class="ccgo">›</span></button>`; }
     if (o.kind === 'party') { const L = o.list.map(c => c.level); return `<button type="button" class="ccrow${sel}" data-i="${i}">${icon('L2UI_CT1/crop/Icon_DF_MenuWnd_Clan', 'cc')}<span class="t"><b>Party ${ESC(o.L)}</b><small>${o.list.length} characters · lvl ${Math.min(...L)}–${Math.max(...L)} · ${o.list.filter(live).length} online</small></span><span class="ccgo">›</span></button>`; }
     if (o.kind === 'page') return `<button type="button" class="ccrow${sel}" data-i="${i}"><img class="gi cc" src="${ESC(o.p.img)}" alt=""><span class="t"><b>${ESC(o.p.label)}</b><small>open page</small></span><span class="ccgo">↗</span></button>`;
@@ -109,7 +157,8 @@
     if (CC.sel >= CC.items.length) CC.sel = Math.max(0, CC.items.length - 1);
     let sec = '', h = '';
     CC.items.forEach((o, i) => { if (o.sec !== sec) { sec = o.sec; h += `<div class="ccsec">${ESC(sec)}</div>`; } h += rowHtml(o, i); });
-    return h || `<div class="ccempty">Nothing found for “${ESC(CC.q)}”. Commands start with ! (swarm) or / (L2Swarm).</div>`;
+    return h || (isSimple() ? `<div class="ccempty">Nothing found for “${ESC(CC.q)}”. Try other words (“supply”, “stuck”, “boss”), or switch to the Advanced view under the title for every command.</div>`
+      : `<div class="ccempty">Nothing found for “${ESC(CC.q)}”. Commands start with ! (swarm) or / (L2Swarm).</div>`);
   }
 
   // ---------- command sheet (party / character) ----------
@@ -136,7 +185,15 @@
       head = `<div class="cctarget">${clsIco(c)}<div class="t"><b>${ESC(who)}</b><small>lvl ${c.level ?? '?'} ${ESC(c.cls || '')} · party ${ESC(partyOf(c))}${live(c) ? '' : ' · offline'}</small><small>${ESC(String(c.task || '').slice(0, 90))}</small></div>
         <button type="button" class="ccsmall" data-ccnav="#/char/${encodeURIComponent(who)}">Open page</button></div>`;
     }
-    const list = sheetCmds(CC.ctx).filter(c => !q || best(q, [[c.title, 1], [c.tpl, .9], [c.kw, .7], [c.desc, .3]]) > 0);
+    const list = sheetCmds(CC.ctx).filter(visible).map(view).filter(c => !q || best(q, [[c.title, 1], [c.tpl, .9], [c.kw, .7], [c.desc, .3]]) > 0);
+    if (isSimple()) {   // UX audit B5: plain groups, plain tiles (title + one line), no command syntax
+      const sg = SIMPLE_GROUPS.map(([id, label, ic, ids]) => {
+        const cs = ids.map(i => list.find(c => c.id === i)).filter(Boolean); if (!cs.length) return '';
+        return `<details class="cccat" data-cat="${id}" open><summary>${icon(ic)} ${ESC(label)} <span class="muted">${cs.length}</span></summary><div class="cctiles">` +
+          cs.map(c => `<button type="button" class="cctile ${c.safety}" data-cmd="${c.id}" title="${ESC(c.desc)}"><b>${ESC(c.title)}</b><small class="ccplain">${ESC(c.desc)}</small></button>`).join('') + '</div></details>';
+      }).join('');
+      return head + (sg || `<div class="ccempty">Nothing matches “${ESC(CC.q)}”. Switch to the Advanced view (under the title) for every command.</div>`);
+    }
     const open = pref('cc.openCats', ['move', 'fight', 'party', 'supply', 'level', 'raid']);
     const groups = K.CATS.map(([id, label, ic]) => {
       const cs = list.filter(c => c.cat === id); if (!cs.length) return '';
@@ -260,17 +317,20 @@
     const login = c.tpl === '@login';   // CMDFIX2 botparty: for Log in, offline is the point - warn about the ONLINE ones instead
     const who = affected(p), off = login ? [] : who.filter(x => !live(x)), busy = busyOf(who);
     const hand = c.handler === 'leader' ? 'Only the party leader acts; the others follow him.' : c.handler === 'self' ? 'Each character that hears it acts for itself.' : c.handler === 'each' ? 'Every character that hears it acts.' : '';
+    if (isSimple()) {   // UX audit B5: who gets it, in words; the exact chat lines are the Advanced view
+      return err + `<div class="ccprev"><div><b>${who.length}</b> character${who.length === 1 ? '' : 's'} get${who.length === 1 ? 's' : ''} it${off.length ? ` · <span class="bad">${off.length} offline (they get it when they come online)</span>` : ''}${busy.length ? ` · busy now: ${ESC(busy.map(x => x.name).join(', '))} (this replaces what they do)` : ''}</div>${hand ? `<div class="muted">${ESC(hand)}</div>` : ''}</div>`;
+    }
     return err + `<div class="ccprev"><div class="ccsend">${p.sends.map(s => `<div><code>${ESC(s.text)}</code> <span class="muted">${s.via === 'party' ? 'party chat from' : s.via === 'say' ? 'normal chat from (no party)' : s.via === 'command' ? 'L2Swarm command on' : ESC(s.via) + ' on'}</span> <b>${ESC(s.to)}</b>${login ? (s.online ? ' <span class="bad">online already</span>' : '') : s.online === false ? ' <span class="bad">offline</span>' : ''}${s.note ? ` <span class="muted">· ${ESC(s.note)}</span>` : ''}</div>`).join('')}</div>
       <div class="muted">${p.sends.length} send${p.sends.length === 1 ? '' : 's'} · <b>${who.length}</b> character${who.length === 1 ? '' : 's'} affected${off.length ? ` · <span class="bad">${off.length} offline</span>` : ''}${busy.length ? ` · busy: ${ESC(busy.map(x => x.name).join(', '))}` : ''}${p.local ? '' : ' · checked by the server'}${hand ? '<br>' + ESC(hand) : ''}</div></div>`;
   }
   function formHtml() {
     const c = CC.cmd;
     const cat = CATN[c.cat] || ['', '', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Action'];
-    return `<div class="cchead2">${icon(cat[2], 'cc')}<div class="t"><b>${ESC(c.title)}</b><small>${ESC(cat[1] || '')}${c.kind === 'bot' ? ' · L2Swarm chat-box command' : ''}</small></div>${safetyChip(c)}</div>
+    return `<div class="cchead2">${icon(cat[2], 'cc')}<div class="t"><b>${ESC(c.title)}</b><small>${c.plain ? '' : ESC(cat[1] || '')}${c.kind === 'bot' && !c.plain ? ' · L2Swarm chat-box command' : ''}</small></div>${safetyChip(c)}</div>
       ${c.desc ? `<div class="ccdesc">${ESC(c.desc)}</div>` : ''}
       ${c.raw ? '' : (c.args || []).length ? `<div class="ccsect">Details</div><div class="ccargs">${c.args.map(argHtml).join('')}</div>` : ''}
       <div class="ccsect">Who</div>${targetHtml(c)}
-      <div class="ccsect">What will be sent</div>${previewHtml()}
+      <div class="ccsect">${isSimple() ? 'What happens' : 'What will be sent'}</div>${previewHtml()}
       ${CC.result ? resultHtml() : ''}`;
   }
   function resultHtml() {
@@ -279,7 +339,9 @@
     return `<div class="ccres ${bad.length ? 'warn' : 'ok'}">${bad.length ? '⚠' : '✓'} ${ESC(r.command || '')} → ${ESC(r.target || '')}: ${r.sent ?? (r.sends || []).length}/${(r.sends || []).length || 1} sent${r.channelNote ? `<div>${ESC(r.channelNote)}</div>` : ''}${bad.map(s => `<div>${ESC(s.to)}: ${ESC(s.error || s.out || 'failed')}</div>`).join('')}${window.OrdersView ? OrdersView.resultLines(r) : ''}${r.target === 'PC' ? (r.sends || []).filter(s => s.ok && s.out).map(s => `<div>${ESC(s.out)}</div>`).join('') : ''}</div>`;   // CMDFIX2 botparty: deploy says SKIP / DEPLOYED
   }
   function footHtml() {
-    if (CC.view !== 'form') return CC.view === 'search' ? '<span class="muted">↑↓ choose · Enter open · Esc close · ! swarm · / L2Swarm</span>' : '<span class="muted">Tap a command to set it up — nothing is sent before you confirm.</span>';
+    // UX audit B5: keyboard hints only for a mouse + keyboard in the Advanced view; players get one plain line
+    const kbd = !isSimple() && !(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+    if (CC.view !== 'form') return CC.view === 'search' ? (kbd ? '<span class="muted">↑↓ choose · Enter open · Esc close · ! swarm · / L2Swarm</span>' : '<span class="muted">Type what you want: “supply”, “stuck”, “stop”, a name… — nothing is sent before you confirm.</span>') : '<span class="muted">Tap a command to set it up — nothing is sent before you confirm.</span>';
     const c = CC.cmd, can = !CC.sending && (c.targets.includes('none') || CC.targets.length) && !missing().length;
     return `<button type="button" data-ccback="1">Back</button><button type="button" class="ccsendbtn ${c.safety}" data-ccsend="1"${can ? '' : ' disabled'}>${CC.sending ? 'Sending…' : c.safety === 'destructive' ? 'Send… (confirm twice)' : 'Send'}</button>`;
   }
@@ -336,7 +398,7 @@
   }
   function openCommand(id, ctx, args) {
     probe();
-    const c = typeof id === 'object' ? id : byId[id]; if (!c) return;
+    const c = view(typeof id === 'object' ? id : byId[id]); if (!c) return;
     CC.from = CC.open ? CC.view : null; CC.fromCtx = CC.ctx;
     CC.cmd = c; CC.args = {}; (c.args || []).forEach(a => { if (a.def != null) CC.args[a.key] = a.def; });
     Object.assign(CC.args, args || {});

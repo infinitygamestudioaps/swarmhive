@@ -137,7 +137,7 @@ const ids = (r) => r.list.map(x => x.id).sort((a, b) => a - b);
   ok(/giranGo\('grocer'\)/.test(sc), '!sell in Giran walks the recorded route to Helvetia');
   const ls = cut('async function leadSupply(why, opts) {', 14000);
   ok(/teamStep\(runId, 'sellrun'[^\n]*grades: supplyJunkGrades\(\)/.test(ls), 'supply run: members sell with the team junk grades');
-  ok(/junk = sellCandidates\(junkGrades\)/.test(ls) && /sellAt\(npc, 'supply run', junkGrades\)/.test(ls), 'supply run: the leader sells with the team junk grades');
+  ok(/junk = (?:pautoOn\('sell'\) \? )?sellCandidates\(junkGrades\)/.test(ls) && /sellAt\(npc, 'supply run', junkGrades\)/.test(ls), 'supply run: the leader sells with the team junk grades (PARTYAUTO 2026-10-13: when its sell switch is on)');
   ok(!/sellCandidates\(\['none'\]\)/.test(src), "no sellCandidates(['none']) left anywhere");
   const sr = cut("if (action === 'sellrun') {", 2500);
   ok(/data\.grades/.test(sr) && /sellAt\(npc, 'team sale', grades\)/.test(sr), 'sellrun uses the grades the leader sent');

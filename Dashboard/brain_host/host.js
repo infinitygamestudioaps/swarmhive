@@ -385,6 +385,9 @@ function createHost(o) {
   // BAG BARRIER (engine audit #15): swarm.js (bagSync, typeof-guarded: inside L2Swarm the bag is live) awaits this after a sale / trade / buy. An
   // agent with caps 'invsync' sends its bag as L2Swarm has it NOW and then answers (one socket, in order: the mirror is fresh at the answer);
   // an older agent: wait one bag cadence (1 s report + margin). Resolves true when fresh, false otherwise (never rejects).
+  // DIALOG-2026-10-13: swarm.js's NPC dialog engine (DIALOG-PURE) bases its safety net on the agent: ms since its last message (state report or
+  // pong) and the last ping round trip (runner.js). connected false / a big age = the agent is behind -> the dialog waits on, never re-clicks.
+  local.__agentLink = () => ({ connected: !!link.connected(), age: mirror.at ? Math.max(0, Date.now() - Math.max(mirror.at, mirror.pongAt || 0)) : 0, rtt: mirror.rtt == null ? 0 : mirror.rtt });
   local.__bagSync = (ms) => newPromise((res) => {
     const lim = Math.max(200, Number(ms) || 3000);
     if (!link.connected()) { res(false); return; }
@@ -445,7 +448,9 @@ function createHost(o) {
     OnTeleportToLocation: (a) => { if (Number(a[0]) === Number(mirror.me.objId)) { mirror.me.X = Number(a[1]); mirror.me.Y = Number(a[2]); mirror.me.Z = Number(a[3]); } },
     OnDie: (a) => { if (Number(a[0]) === Number(mirror.me.objId)) mirror.me.IsDead = true; else { const c = mirror.cr.get(Number(a[0])); if (c) c.IsDead = true; } },
     OnRevive: (a) => { if (Number(a[0]) === Number(mirror.me.objId)) mirror.me.IsDead = false; },
-    OnShopList: (a) => { if (Array.isArray(a[1])) { mirror.buy = a[1]; a[1] = a[1].map(d => V.view('item', d)); } },
+    // SHOPLIST (2026-10-13): a[1] is the SELL part (my own items); an agent with the fix sends L2Swarm's real BuyList as a[2] -> mirror.buy.
+    // An older agent: a[1] as before (swarm.js then sees "my own bag" and buys without the list check, see slIsSellPart).
+    OnShopList: (a) => { if (Array.isArray(a[2]) && a[2].length) mirror.buy = a[2]; else if (Array.isArray(a[1])) mirror.buy = a[1]; if (Array.isArray(a[1])) a[1] = a[1].map(d => V.view('item', d)); if (Array.isArray(a[2])) a.length = 2; },
     OnTrade: (a) => { if (Array.isArray(a[1])) a[1] = a[1].map(d => V.view('item', d)); },
     OnWareHouseDepositList: (a) => { if (Array.isArray(a[0])) a[0] = a[0].map(d => V.view('item', d)); },
     OnWareHouseWithdrawalList: (a) => { if (Array.isArray(a[0])) a[0] = a[0].map(d => V.view('item', d)); },

@@ -21,6 +21,7 @@ The same guide as one page with pictures: open [index.html](index.html) in a bro
 - [Command center (search and give any order)](pages/command-center.md)
 - [Parties](pages/parties.md)
 - [Party status (banner, plain-words member rows, trade lines)](pages/parties-status.md)
+- [Party settings (⚙ Settings: everything a party may do by itself, in one window)](pages/party-settings.md)
 - [Character page](pages/character.md)
 - [Override menu (Act / Override…: one order, once, to one character)](pages/override.md)
 - [Map](pages/map.md)

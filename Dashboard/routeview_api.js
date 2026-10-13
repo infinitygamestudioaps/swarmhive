@@ -168,10 +168,18 @@ function obstaclesOf(ctx, r) {
       out.push({ kind: 'enter', step: si, title: 'entry: ' + ((s.npc && s.npc.name) || s.how || ''), text: `${s.how || ''}${s.link ? ' → "' + s.link + '"' : ''}${s.sevenSigns ? ' · Seven Signs registration needed (' + s.sevenSigns + ')' : ''}${s.condition ? ' · ' + s.condition : ''}`, at: s.npc ? { x: s.npc.x, y: s.npc.y, z: s.npc.z } : null, blocked: false, onPath: 'step' });
     } else if (s.do === 'floor') {
       out.push({ kind: 'floor', step: si, title: 'floor teleporter ' + ((s.npc && s.npc.name) || ''), text: `${s.link ? '"' + s.link + '"' : 'link not known'}${s.floorName ? ' → ' + s.floorName : ''}${s.verified === false ? ' (not verified live)' : ''}`, at: s.npc ? { x: s.npc.x, y: s.npc.y, z: s.npc.z } : null, blocked: false, onPath: 'step' });
+    } else if (s.do === 'walk' && ((Array.isArray(s.swim) && s.swim.length) || (Array.isArray(s.drops) && s.drops.length))) {   // RAIDROUTES-2026-10-13: swims + drops on the map / list
+      const P = (i) => s.points && s.points.length >= i * 3 + 3 ? { x: s.points[i * 3], y: s.points[i * 3 + 1], z: s.points[i * 3 + 2] } : null;
+      if (Array.isArray(s.swim) && s.swim.length) out.push({ kind: 'swim', step: si, title: `swim ${(Math.round((s.swimLen || 0) / 100) / 10)}k`, text: `longest unbroken swim ${s.maxSwim || 0} units (~${Math.round((s.maxSwim || 0) / 50)} s at swim speed 50)${(s.maxSwim || 0) > 2800 ? ' — LONGER THAN ONE BREATH (60 s): drowning damage 1 % HP a second until the shore / a dry spot' : ' — within one breath'}${s.pol && s.pol.mode ? ' · ' + (s.pol.mode === 'swim-only' ? 'no dry way exists' : s.pol.mode === 'swim-shorter' ? 'the dry way is more than 4x longer' : s.pol.mode) : ''}`, at: P(s.swim[0]), blocked: false, onPath: 'step', warn: (s.maxSwim || 0) > 2800 });
+      (s.drops || []).forEach(d => out.push({ kind: 'drop', step: si, title: `drop ${d.fall}`, text: `a one-way step off a ledge (${d.fall} units down)${d.fall > 333 ? ': FALL DAMAGE (L2J: max HP x height / 1000, never below 1 HP) — heal at the bottom' : ': no fall damage'} — not tested live yet`, at: P(d.i), blocked: false, onPath: 'step', warn: d.fall > 333, untested: true }));   // OWNER-1910: drops untested
     } else if (s.do === 'gk' && s.price) {
       out.push({ kind: 'gk', step: si, title: 'teleport ' + (s.desc || ''), text: `${s.price} adena${s.live ? '' : ' (link not seen on the live menu)'}`, at: xyz(s.landing), blocked: false, onPath: 'step' });
     }
   });
+  // OWNER-1910 (owner 2026-10-13 19:10: "if the route requires a door that must be opened, then yes"): the keys THIS route's Unlock doors need
+  { const ud = (r.steps || []).filter(s => s.do === 'door' && s.need && s.need.unlock && !s.need.blocked && !(s.need.npc && s.need.npc.length));
+    if (ud.length) out.push({ kind: 'buy', title: 'Thief Keys', text: `this route needs Thief Keys for Unlock on ${ud.map(d => d.name || d.doorId).join(', ')} — the Unlock member buys them (by his Unlock level, 2 tries a door) at the nearest grocer before leaving town (party rule "Buy the keys a route's doors need", default on)`, at: null, blocked: false, onPath: 'need' }); }
+  if (r.fortressAlt) out.push({ kind: 'fortress', title: 'fortress gates', text: `goes ${/unreachable|blocked/.test(r.status) ? 'nowhere without' : 'around'} ${r.fortressAlt.fort}; if its gates are open on your server, set the party rule "Try fortress gates" (default off) to use the way through (${Math.round((r.fortressAlt.length || 0) / 100) / 10} km)`, at: null, blocked: false, onPath: 'need' });
   // blocking doors right on the walk that the atlas did not list as a step
   const pts = []; (r.steps || []).forEach(s => { if (s.do === 'walk') for (let i = 0; i + 2 < (s.points || []).length; i += 3) pts.push({ x: s.points[i], y: s.points[i + 1], z: s.points[i + 2] }); });
   if (pts.length > 1) {
@@ -239,6 +247,16 @@ function levelsOf(ctx, atlas, custom) {
   ((custom && custom.steps) || []).forEach(byStep);
   return out.length ? [{ key: 'surface', name: 'surface', z: null }].concat(out) : [];
 }
+/** RAIDROUTES-2026-10-13: the route STATE MACHINE of every party leader on this route right now (swarm_state routeSM, ROUTESM in swarm.js) */
+function liveOf(ctx, key) {
+  if (!key) return [];
+  const cfg = J(path.join(ctx.ROOT, 'swarm.config.json')) || { accounts: [] };
+  const leaders = [...new Set((cfg.accounts || []).map(a => a.party).filter(Boolean))];
+  const out = [];
+  leaders.forEach(L => { const s = J(path.join(ctx.LOGS, `swarm_state_${L}.json`)); const m = s && s.routeSM; if (!m || m.key !== key) return; const age = Date.now() - Date.parse(s.updated || 0); if (!(age < 120000) && !m.final) return; if (m.final && Date.now() - (m.at || 0) > 1800000) return;
+    out.push({ party: L, state: m.state, sub: m.sub || '', i: m.i, n: m.n, label: m.label || '', why: m.why || '', final: !!m.final, at: m.at, since: m.since, stale: !(age < 60000) }); });
+  return out;
+}
 function view(ctx, q) {
   const fromP = (() => { const v = String(q.get('from') || ''); const n = v.split(/[ ,]+/).map(Number); return n.length >= 2 && n.every(isFinite) ? { x: n[0], y: n[1], z: n[2] || 0 } : null; })();
   const R = resolve(ctx, q.get('target'), fromP);
@@ -258,14 +276,47 @@ function view(ctx, q) {
     quest: R.quest || null, atlas, custom, use, useSet: !!(custom && custom.use), useDefault, canChoose: !!(custom && atlas),
     store: store ? { type: store.type, id: store.id, typeName: RS.TYPE_NAME[store.type] || store.type, editHref: store.type === 'raid' && atlas ? '#/raid/' + store.id + '/route' : RS.editHref(store.type === 'raid' ? 'epic' : store.type, store.id), editHrefGeneric: RS.editHref(store.type === 'raid' ? 'epic' : store.type, store.id) } : null,
     choice: { stored: ch.stored, use: ch.use, why: ch.why, has: ch.has, locked: ch.locked, invalid: ch.invalid || null },
-    levels: levelsOf(ctx, atlas, custom),   // DUNGEON STEPS 2026-10-13: the map's levels (surface / dungeon floors) for the floor art
+    levels: levelsOf(ctx, atlas, custom),
+    live: liveOf(ctx, R.key),   // RAIDROUTES-2026-10-13: every party on this route now (state machine)   // DUNGEON STEPS 2026-10-13: the map's levels (surface / dungeon floors) for the floor art
     obstacles: ob.out, items,
     from: fromP ? { x: fromP.x, y: fromP.y, z: fromP.z, toStart: start ? Math.round(d2(fromP, start)) : null, toTarget: tgt ? Math.round(d2(fromP, tgt)) : null } : null,
     generated: (atlasIndex(ctx.DATA) || {}).generated || null,
   };
 }
+// ROUTERULES-2026-10-13 (owner: "everything must be configurable manually; nothing automatic unless you ask for it — many people play their own
+// way"): GET /api/routerules -> { rules [{ key, label, default, help }], parties [leader], own { leader: { key: bool } }, values { leader: effective } }
+// POST /api/routerules { party, key, value: true | false | null (= back to the default) } -> Scripts/data/route_rules.json (read live by swarm.js)
+const RR_BUILTIN = { openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false };   // = swarm.js RSM_RULES
+function rrFile(ctx) { return process.env.SWARM_ROUTERULES_FILE || path.join(ctx.DATA, 'route_rules.json'); }   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
+function rrRead(ctx) { const f = J(rrFile(ctx)) || {}; f.rules = Array.isArray(f.rules) ? f.rules : []; f.parties = f.parties && typeof f.parties === 'object' ? f.parties : {}; return f; }
+function rrEffective(f, party) { const o = Object.assign({}, RR_BUILTIN); f.rules.forEach(r => { if (r && r.key in RR_BUILTIN && typeof r.default === 'boolean') o[r.key] = r.default; }); const put = (x) => { if (x) Object.keys(RR_BUILTIN).forEach(k => { if (typeof x[k] === 'boolean') o[k] = x[k]; }); }; put(f.defaults); put(f.parties[party]); return o; }
+function rrView(ctx) {
+  const f = rrRead(ctx), cfg = J(path.join(ctx.ROOT, 'swarm.config.json')) || { accounts: [] };
+  const parties = [...new Set((cfg.accounts || []).map(a => a.party).filter(Boolean))].sort();
+  const rules = Object.keys(RR_BUILTIN).map(k => Object.assign({ key: k, label: k, default: RR_BUILTIN[k], help: '' }, f.rules.find(r => r && r.key === k) || {}));
+  return { rules, parties, own: f.parties, values: Object.fromEntries(parties.map(p => [p, rrEffective(f, p)])) };
+}
 async function handle(req, res, url, ctx) {
   const p = url.pathname;
+  if (p === '/api/routerules') {
+    if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
+    const C = Object.assign({ ROOT: path.resolve(ctx.DATA, '..', '..') }, ctx);
+    try {
+      if (req.method === 'POST') {
+        const b = await new Promise((ok) => { let t = ''; req.on('data', c => { t += c; if (t.length > 20000) req.destroy(); }); req.on('end', () => { try { ok(JSON.parse(t || '{}')); } catch (e) { ok({}); } }); });
+        const v0 = rrView(C), party = String(b.party || ''), key = String(b.key || '');
+        if (!v0.parties.includes(party)) { ctx.json(res, 400, { error: 'unknown party ' + party }); return true; }
+        if (!(key in RR_BUILTIN)) { ctx.json(res, 400, { error: 'unknown rule ' + key }); return true; }
+        if (!(b.value === true || b.value === false || b.value === null)) { ctx.json(res, 400, { error: 'value must be true, false or null' }); return true; }
+        const f = rrRead(C), own = Object.assign({}, f.parties[party] || {});
+        if (b.value === null) delete own[key]; else own[key] = b.value;
+        if (Object.keys(own).length) f.parties[party] = own; else delete f.parties[party];
+        const file = rrFile(C), tmp = file + '.tmp' + process.pid; fs.writeFileSync(tmp, JSON.stringify(f, null, 1)); fs.renameSync(tmp, file);
+      }
+      ctx.json(res, 200, rrView(C));
+    } catch (e) { ctx.json(res, 500, { error: 'routerules: ' + e.message }); }
+    return true;
+  }
   if (STATIC[p]) { try { const b = fs.readFileSync(path.join(ctx.DIR, path.basename(p))); res.writeHead(200, { 'Content-Type': STATIC[p], 'Cache-Control': 'no-cache' }); res.end(b); } catch (e) { res.writeHead(404); res.end(); } return true; }
   if (p !== '/api/routeview') return false;
   if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
@@ -273,4 +324,4 @@ async function handle(req, res, url, ctx) {
   catch (e) { ctx.json(res, 500, { error: 'routeview: ' + e.message }); }
   return true;
 }
-module.exports = { handle, view, resolve, obstaclesOf, itemInfo, questTargets, atlasRoute, quests };   // ROUTESWITCH-2026-10-13: + atlasRoute, quests (Dashboard/routestore.js)
+module.exports = { rrView, rrEffective, RR_BUILTIN, handle, view, resolve, obstaclesOf, itemInfo, questTargets, atlasRoute, quests };   // ROUTESWITCH-2026-10-13: + atlasRoute, quests (Dashboard/routestore.js)

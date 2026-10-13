@@ -424,7 +424,7 @@
     const c = F.cfg || {}, names = F.names || [], sel = new Set(c.chars || []);
     el.innerHTML = `<div class="muted qp-fhelp">Farm characters repeat the best repeatable adena quest for their level (Scripts/data/quest_farm.json, the planner <code>node docs/plan/tools/quest_farm_plan.js</code>) and trade the adena above “trade above” (keeping “keep”) to the collector. New characters come from Accounts → “+ Add account”.</div>
       <div class="qp-fform">
-        <label class="chk qp-chk qp-on"><input type="checkbox" id="qpfOn"${c.on ? ' checked' : ''}> <b>Farm ON</b></label>
+        <label class="chk qp-chk qp-on"><input type="checkbox" id="qpfOn"${c.on ? ' checked' : ''}> <b>Farm ON</b></label>${c.on ? '' : '<span class="muted"> Off — nothing happens until you switch it on.</span>'}
         <label class="qp-f"><span>Collector (gets the adena)</span><select id="qpfCol"><option value="">— nobody (keep it) —</option>${names.map(n => `<option${c.collector === n ? ' selected' : ''}>${h(n)}</option>`).join('')}</select></label>
         <label class="qp-f"><span>Trade above</span><input id="qpfAbove" type="number" min="0" step="10000" inputmode="numeric" value="${h(c.tradeAbove)}"></label>
         <label class="qp-f"><span>Keep</span><input id="qpfKeep" type="number" min="0" step="1000" inputmode="numeric" value="${h(c.keep)}"></label>

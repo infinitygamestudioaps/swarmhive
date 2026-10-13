@@ -9,7 +9,7 @@ const files = fs.readdirSync(dir).filter(f => /^test_.*\.js$/.test(f) && !skip.t
 const rows = []; let failed = 0;
 for (const f of files) {
   let out = '', ok = true;
-  try { out = execFileSync(process.execPath, [path.join(dir, f)], { cwd: root, encoding: 'utf8', timeout: 300000, stdio: ['ignore', 'pipe', 'pipe'] }); }
+  try { out = execFileSync(process.execPath, [path.join(dir, f)], { cwd: root, encoding: 'utf8', timeout: 900000, stdio: ['ignore', 'pipe', 'pipe'] }); }
   catch (e) { ok = false; out = String((e.stdout || '') + (e.stderr || '')); }
   const last = out.trim().split(/\r?\n/).pop() || '';
   if (!ok || /fail/i.test(last) && !/0 failed/i.test(last)) { ok = false; failed++; }

@@ -124,7 +124,7 @@
     if (!A || A.error) { el.innerHTML = '<div class="muted">Not available (restart the dashboard server once after the update).</div>'; return; }
     const sw = (on, attrs, txt) => `<button class="gp-sw ${on ? 'on' : 'off'}" ${attrs} aria-pressed="${on ? 'true' : 'false'}">${txt}</button>`;
     const nOn = A.parties.reduce((n, p) => n + p.members.filter(m => m.eff && !m.lock).length, 0), nAll = A.parties.reduce((n, p) => n + p.members.length, 0);
-    const sum = $id('gpAutoSum'); if (sum) sum.textContent = `${nOn} of ${nAll} buy upgrades by themselves`;
+    const sum = $id('gpAutoSum'); if (sum) sum.textContent = nOn ? `${nOn} of ${nAll} buy upgrades by themselves` : 'Off — nothing happens until you switch it on';   // UX audit B7 (2026-10-13): one wording for every automatic feature that is off
     el.innerHTML = `<div class="gp-autotop">${sw(A.default, 'data-gpauto="default"', 'Everyone: ' + (A.default ? 'ON' : 'OFF'))}
         <label class="gp-autoopt"><input type="checkbox" data-gpautopol="sameGradeSwap" ${A.sameGradeSwap ? 'checked' : ''}> swap items of the same grade</label>
         <label class="gp-autoopt"><input type="checkbox" data-gpautopol="keepArmorType" ${A.keepArmorType ? 'checked' : ''}> keep the armor type (heavy / light / robe)</label>

@@ -666,7 +666,7 @@ function dailyInfo() {
   DAILY_LEADERS.forEach(l => { progress[l] = readJson(path.join(LOGS, 'daily_' + l + '.json'), null); });
   const log = tsvLines(path.join(LOGS, 'daily.log')).slice(-30).map(([at, leader, id, result, ...msg]) => ({ at, leader, id, result, msg: msg.join(' ') }));
   const kamaloka = tsvLines(path.join(LOGS, 'kamaloka.log')).slice(-20).map(([at, id, ...result]) => ({ at, id, result: result.join(' ') }));
-  return { enabled: readJson(path.join(LOGS, 'daily_enabled.json'), {}) || {}, leaders: DAILY_LEADERS, kinds: DAILY_KINDS, progress, log, kamaloka };
+  return { enabled: readJson(process.env.SWARM_DAILY_FILE || path.join(LOGS, 'daily_enabled.json'), {}) || {}, leaders: DAILY_LEADERS, kinds: DAILY_KINDS, progress, log, kamaloka };   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
 }
 function raidReports() {
   const heals = tsvLines(path.join(LOGS, 'raid_heals.log')).map(([at, healer, skill, target, hp]) => ({ t: Date.parse(at), healer, skill, target, hp: +hp }))
@@ -2180,10 +2180,21 @@ http.createServer(async (req, res) => {
     // ORDERS VIEW 2026-10-13 (Dashboard/orders_api.js): /orders.js (public) + GET/POST /api/orders (key checked inside): the durable order queue
     // (pending / acknowledged / running / done / failed + why / superseded / expired), re-send, cancel
     if (await require('./orders_api').handle(req, res, url, { DIR: __dirname, ORDERQ, readStates, partyOf, allowed, json, send, body, commandRun })) return;
+    // RUN SWITCH 2026-10-13 (Dashboard/runstate_api.js): /runswitch.js|css (public) + GET/POST /api/runstate (key checked inside): the manual Start / Stop per
+    // party / character (Scripts/data/run_state.json, read by swarm.js every 2 s; default OFF), Start / Stop also send !start / !stop to the party
+    if (await require('./runstate_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun })) return;
     if (await require('./tradepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;
     // ADENA 2026-10-12 (Dashboard/fundpage_api.js): /fundpage.js|css (public) + GET/POST /api/fundrules (key checked inside):
     // cross-party adena rules (Scripts/data/fund_rules.json, read by swarm.js fundRules() every 30 s), live adena per character, Logs/fund_log.json
     if (await require('./fundpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // PARTY AUTOMATIONS 2026-10-13 (Dashboard/partyauto_api.js): GET/POST /api/partyauto (key checked inside): the per-party / per-character switches of the
+    // supply watch, selling and symbols (Scripts/data/party_auto.json, read by swarm.js every 5 s; missing = OFF); the party settings popup's Supplies section
+    if (await require('./partyauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // UI KIT 2026-10-13 (Dashboard/uikit_api.js, UX audit B1): /ui_kit.css, /ui_kit.js, /plainwords.js (public, no secrets)
+    if (await require('./uikit_api').handle(req, res, url, { DIR: __dirname })) return;
+    // STORAGE 2026-10-13 (Dashboard/storagepage_api.js): /storagepage.js|css (public) + GET/POST /api/storage, GET /api/storage/plan (key checked inside):
+    // per character / party / default warehouse settings + the event letters hand-over (Scripts/data/stash_rules.json, read live by swarm.js)
+    if (await require('./storagepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // 7 SIGNS 2026-10-12 (Dashboard/sevensigns_api.js): /sevensigns.js|css (public) + GET/POST /api/sevensigns (key checked inside): who signs up with the
     // Lords of Dawn by itself (Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s), period / registration / seal stones per character
     if (await require('./sevensigns_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
@@ -2476,6 +2487,7 @@ http.createServer(async (req, res) => {
         mainLeader: MAIN_LEADER, clanLeader: SC.clanLeader || '',        // from swarm.config.json (2026-10-09: no hard-coded names in the page)
         brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
         cursed: cursedStatus(),                                            // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
+        run: require('./runstate_api').summary({ DATA, LOGS, ROOT, readJson, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER }, chars),   // RUNSTATE 2026-10-13: the manual Start / Stop per party (Parties tab)
       });
     }
     // --- Raid routes: view / correct / lock the saved walk landing -> boss (user 2026-10-06) ---
@@ -2542,7 +2554,7 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/api/raidreports') return json(res, 200, raidReports());
     // --- Daily dungeons on/off per party (swarm.js reads Logs/daily_enabled.json live) ---
     if (url.pathname === '/api/daily') {
-      const EF = path.join(LOGS, 'daily_enabled.json');
+      const EF = process.env.SWARM_DAILY_FILE || path.join(LOGS, 'daily_enabled.json');   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
       if (req.method === 'POST') {
         const b = await body(req);
         const leader = String(b.leader || ''), kind = String(b.kind || '');
@@ -2737,7 +2749,7 @@ http.createServer(async (req, res) => {
       }) });
     }
     // --- PARTY TACTICS (user 2026-10-07: hunting pairs per party): Scripts/data/party_tactics.json, key = party leader, read live by swarm.js ---
-    const TFILE = path.join(DATA, 'party_tactics.json');
+    const TFILE = process.env.SWARM_TACTICS_FILE || path.join(DATA, 'party_tactics.json');   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
     if (url.pathname === '/api/tactics' && req.method === 'GET') return json(res, 200, { tactics: readJson(TFILE, {}) });
     if (url.pathname === '/api/tactics' && req.method === 'POST') {
       const b = await body(req), party = String(b.party || '').trim();

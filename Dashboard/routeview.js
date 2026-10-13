@@ -13,7 +13,14 @@
   'use strict';
   const E = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const TILE = 8192;
-  const COL = { atlas: '#3ee0ff', straight: '#ff9a4d', custom: '#ffd34d', door: '#ffaa44', blocked: '#ff4d4d', timed: '#f2c14e', floor: '#cc66ff', enter: '#ffcc44', need: '#ff66cc', gk: '#44ee66', target: '#f0c040', from: '#ffffff' };
+  const COL = { atlas: '#3ee0ff', straight: '#ff9a4d', custom: '#ffd34d', door: '#ffaa44', blocked: '#ff4d4d', timed: '#f2c14e', floor: '#cc66ff', enter: '#ffcc44', need: '#ff66cc', gk: '#44ee66', target: '#f0c040', from: '#ffffff', swim: '#3d8bff', drop: '#ff6ad5' };
+  // RAIDROUTES-2026-10-13: icons for the step chain + the state machine of the party on this route (swarm.js ROUTESM)
+  const ICON = { town: '🏙', gk: '🌀', buy: '🛒', walk: '🥾', swim: '🌊', drop: '⤓', door: '🚪', wait: '⏳', unlock: '🗝', key: '🔑', npc: '💬', floor: '⇩', enter: '⇩', need: '✋', arrive: '🏁' };
+  const ST_WORDS = { TRAVEL_TOWN: 'to the town', GK_TELEPORT: 'gatekeeper teleport', BUY_KEY: 'buying keys', WALK_LEG: 'walking', SWIM_LEG: 'swimming', DROP: 'dropping off a ledge', DOOR_WAIT: 'waiting at a timed door', DOOR_OPEN_NPC: 'door: talking to its NPC', DOOR_OPEN_SKILL: 'door: Unlock', DOOR_OPEN_ITEM: 'door: key', FLOOR_TELEPORT: 'floor teleport', ENTER: 'entering', MANUAL: 'by hand', ARRIVED: 'arrived', BLOCKED: 'BLOCKED', FAILED: 'FAILED', START: 'starting' };
+  function liveHtml(v) {
+    const L = v.live || []; if (!L.length) return '';
+    return `<div class="rv-live" aria-live="polite">${L.map(x => `<div class="rv-liveln ${x.final ? (x.state === 'ARRIVED' ? 'ok' : 'bad') : ''}${x.stale ? ' stale' : ''}"><b>party ${E(x.party)}</b> · <span class="rv-st">${E(x.state)}</span> ${E(ST_WORDS[x.state] || '')}${x.sub ? ' (' + E(x.sub) + ')' : ''} · step ${(x.i || 0) + 1}/${x.n || '?'} ${E(x.label || '')}${x.why && (x.final || x.sub) ? ' — ' + E(x.why) : ''}</div>`).join('')}</div>`;
+  }
   const KM = (d) => !(d > 0) ? '?' : d >= 1000 ? (d / 1000).toFixed(1) + 'k' : String(Math.round(d));
   const SEC = (s) => !s ? '' : s >= 90 ? '~' + Math.round(s / 60) + ' min' : '~' + Math.round(s) + ' s';
   const apiGet = (u) => (typeof api === 'function' ? api(u) : fetch(u).then(r => r.json()));
@@ -22,7 +29,7 @@
 
   function walkLegs(r) {
     const out = []; if (!r) return out;
-    (r.steps || []).forEach(s => { if (s.do !== 'walk' || !Array.isArray(s.points)) return; const p = []; for (let i = 0; i + 2 < s.points.length; i += 3) p.push({ x: +s.points[i], y: +s.points[i + 1], z: +s.points[i + 2] }); if (p.length) out.push({ how: s.how || '', pts: p }); });
+    (r.steps || []).forEach(s => { if (s.do !== 'walk' || !Array.isArray(s.points)) return; const sw = new Set(s.swim || []), dr = {}; (s.drops || []).forEach(d => { dr[d.i] = d.fall; }); const p = []; for (let i = 0, k = 0; i + 2 < s.points.length; i += 3, k++) { const q = { x: +s.points[i], y: +s.points[i + 1], z: +s.points[i + 2] }; if (sw.has(k)) q.swim = true; if (dr[k]) q.drop = dr[k]; p.push(q); } if (p.length) out.push({ how: s.how || '', pts: p }); });
     return out;
   }
   const obColor = (o) => o.blocked ? COL.blocked : o.kind === 'door' ? (o.timed ? COL.timed : COL.door) : COL[o.kind] || COL.need;
@@ -82,6 +89,9 @@
       if (L.pts.length < 2) return; const pl = L.pts.map(p => p.x + ',' + p.y).join(' '), col = L.how === 'straight' ? COL.straight : COL.atlas;
       g += `<polyline points="${pl}" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="${(useA ? 4.6 : 3.2) * u}" stroke-linejoin="round"/><polyline points="${pl}" fill="none" stroke="${col}" stroke-opacity="${useA ? 1 : .55}" stroke-width="${(useA ? 2.6 : 1.6) * u}" stroke-dasharray="${7 * u} ${4.5 * u}" stroke-linejoin="round" stroke-linecap="round"/>`;
       L.pts.forEach(p => { g += `<circle cx="${p.x}" cy="${p.y}" r="${1.6 * u}" fill="${col}" fill-opacity="${useA ? 1 : .5}"/>`; });
+      // RAIDROUTES-2026-10-13: the swum legs in water blue (solid), the drops as pink down-triangles with their height
+      for (let i = 1; i < L.pts.length; i++) { const a = L.pts[i - 1], b = L.pts[i]; if (b.swim && (a.swim || i === 1)) g += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${COL.swim}" stroke-width="${3.2 * u}" stroke-linecap="round"/>`; }
+      L.pts.forEach(p => { if (p.drop) g += `<path d="M${p.x - 6 * u} ${p.y - 6 * u} L${p.x + 6 * u} ${p.y - 6 * u} L${p.x} ${p.y + 6 * u}Z" fill="${COL.drop}" stroke="#000" stroke-width="${u}"/>` + lab(p.x + 8 * u, p.y + 3 * u, '⤓' + p.drop, COL.drop, 9); });
     }));
     // own route: per segment (a dungeon step breaks the line), only the shown level; its dungeon steps as portals
     if (v.custom) ((v.custom.segments || [{ pts: v.custom.points }]).filter(sg => sg.pts).flatMap(sg => runs(v, st, sg.pts))).forEach(run => { if (run.length < 2) return;
@@ -100,7 +110,7 @@
     if (v.from && isFinite(v.from.x) && onLvl(v, st, v.from)) g += `<circle cx="${v.from.x}" cy="${v.from.y}" r="${5 * u}" fill="${COL.from}" stroke="#000" stroke-width="${u}"/>` + lab(v.from.x + 7 * u, v.from.y - 6 * u, 'you', '#fff', 9);
     return levelTabs(v, st) + `<div class="rv-map"><svg viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="route map"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${t}${g}</svg>
       <div class="rv-zoom"><button type="button" data-rv="zin" aria-label="zoom in">+</button><button type="button" data-rv="zout" aria-label="zoom out">−</button><button type="button" data-rv="fit" aria-label="show all">⤢</button></div></div>
-      <div class="rv-legend"><span><i style="background:${COL.atlas}"></i>computed path (nav atlas)</span>${v.custom ? `<span><i style="background:${COL.custom}"></i>saved route</span>` : ''}${walkLegs(v.atlas).some(L => L.how === 'straight') ? `<span><i style="background:${COL.straight}"></i>not on the geodata (straight)</span>` : ''}<span><i class="d" style="background:${COL.door}"></i>door</span><span><i class="d" style="background:${COL.blocked}"></i>blocked</span><span><i class="d" style="background:${COL.floor}"></i>teleporter</span><span><i style="background:${COL.target}"></i>target</span></div>`;
+      <div class="rv-legend"><span><i style="background:${COL.atlas}"></i>computed path (nav atlas)</span>${v.custom ? `<span><i style="background:${COL.custom}"></i>saved route</span>` : ''}${walkLegs(v.atlas).some(L => L.how === 'straight') ? `<span><i style="background:${COL.straight}"></i>not on the geodata (straight)</span>` : ''}<span><i class="d" style="background:${COL.door}"></i>door</span><span><i class="d" style="background:${COL.blocked}"></i>blocked</span><span><i class="d" style="background:${COL.floor}"></i>teleporter</span>${walkLegs(v.atlas).some(L => L.pts.some(p => p.swim)) ? `<span><i style="background:${COL.swim}"></i>swim</span>` : ''}${walkLegs(v.atlas).some(L => L.pts.some(p => p.drop)) ? `<span><i class="d" style="background:${COL.drop}"></i>drop</span>` : ''}<span><i style="background:${COL.target}"></i>target</span></div>`;
   }
   function itemHtml(it) {
     const have = it.have || [], inP = have.filter(h => h.inParty), src = it.sources || {};
@@ -117,15 +127,17 @@
   // ROUTESWITCH-2026-10-13 (user: "the route choice exists only for raid bosses ... must be fixed"): every target (raid / epic / NPC / quest step /
   // field area / room / dungeon) gets: computed path | own route | auto (= own route when it is locked, else computed), and the editor link.
   /** the steps in words; a walk before an NPC step says where it goes, a walk after a floor step says on which floor */
-  function chainTxt(steps) {
+  function chainTxt(steps, cur) {   // RAIDROUTES-2026-10-13: icons (swim / drop / door kind / floor) + the step the party is on (cur)
     let floor = '';
+    const mark = (i, h) => i === cur ? `<span class="rv-cur">${h}</span>` : h;
     return steps.map((x, i) => { const nx = steps[i + 1];
-      if (x.do === 'town') return E(x.cmd); if (x.do === 'gk') { floor = ''; return E(x.desc || x.link); }
-      if (x.do === 'walk') return 'walk ' + KM(x.len) + (nx && (nx.do === 'floor' || nx.do === 'enter') && nx.npc ? ' to ' + E(nx.npc.name) : floor ? ' on ' + E(floor) : '');
-      if (x.do === 'floor') { floor = x.floorName || ('floor ' + (x.floor + 1)); return '<b>' + (x.link ? '"' + E(x.link) + '"' : E((x.npc && x.npc.name) || 'teleporter')) + ' → ' + E((x.dungeon ? x.dungeon + ' ' : '') + floor) + '</b>'; }
-      if (x.do === 'enter') { floor = x.dungeon || ''; return '<b>enter ' + E(x.dungeon || x.how || '') + (x.npc ? ' (' + E(x.npc.name) + ')' : '') + '</b>'; }
-      if (x.do === 'door') return 'door ' + E(x.name || x.doorId);
-      return x.do === 'arrive' ? 'arrive' : E(x.do); }).join(' › ');
+      if (x.do === 'town') return mark(i, ICON.town + ' ' + E(x.cmd)); if (x.do === 'gk') { floor = ''; return mark(i, ICON.gk + ' ' + E(x.desc || x.link)); }
+      if (x.do === 'walk') { const sw = Array.isArray(x.swim) && x.swim.length, dr = Array.isArray(x.drops) ? x.drops : []; return mark(i, (sw ? ICON.swim : ICON.walk) + ' walk ' + KM(x.len) + (sw ? ` (swim ${KM(x.swimLen)}${(x.maxSwim || 0) > 2800 ? ' ⚠ > 1 breath' : ''})` : '') + (dr.length ? ` ${ICON.drop}${dr.map(d => d.fall).join('/')}` : '') + (nx && (nx.do === 'floor' || nx.do === 'enter') && nx.npc ? ' to ' + E(nx.npc.name) : floor ? ' on ' + E(floor) : '')); }
+      if (x.do === 'floor') { floor = x.floorName || ('floor ' + (x.floor + 1)); return mark(i, ICON.floor + ' <b>' + (x.link ? '"' + E(x.link) + '"' : E((x.npc && x.npc.name) || 'teleporter')) + ' → ' + E((x.dungeon ? x.dungeon + ' ' : '') + floor) + '</b>'); }
+      if (x.do === 'enter') { floor = x.dungeon || ''; return mark(i, ICON.enter + ' <b>enter ' + E(x.dungeon || x.how || '') + (x.npc ? ' (' + E(x.npc.name) + ')' : '') + '</b>'); }
+      if (x.do === 'door') { const n = x.need || {}; const ic = n.blocked ? '⛔' : n.wait ? ICON.wait : n.npc && n.npc.length ? ICON.npc : n.items && n.items.length ? ICON.key : n.unlock ? ICON.unlock : ICON.door; return mark(i, ICON.door + ic + ' door ' + E(x.name || x.doorId)); }
+      if (x.do === 'need') return mark(i, ICON.need + ' ' + E(x.text || 'by hand'));
+      return x.do === 'arrive' ? mark(i, ICON.arrive + ' arrive') : mark(i, E(x.do)); }).join(' › ');
   }
   function useHtml(v) {
     const sto = v.store; if (!sto) return '';
@@ -152,7 +164,8 @@
     if (!r) return s + `<div class="rv-box none">No computed path for ${E((v.target && v.target.key) || '?')} in the nav atlas.</div>` + useHtml(v) + (v.custom && o.map !== false ? mapSvg(v, st) : '');   // ROUTESWITCH: the own route still works
     const bad = /^(unreachable|blocked)$/.test(r.status);
     s += `<div class="rv-head"><span class="rv-st ${E(r.status)}">${E(r.status)}</span><b>${E(o.title || r.name)}</b> <span class="muted">${KM(r.length)} · ${SEC(r.sec)}${r.maxDanger ? ' · monsters up to lvl ' + r.maxDanger : ''}</span> <a href="#/navatlas/${encodeURIComponent(r.key)}">atlas ›</a></div>`;
-    s += `<div class="muted rv-chain">${chainTxt(r.steps || [])}</div>`;   // DUNGEON STEPS: '.dion › Dion -> Cruma Tower › walk 0.4k to Mozella › "Teleport into the Tower." → Cruma Tower 1st floor › walk 3.1k on 1st floor › arrive'
+    s += liveHtml(v);   // RAIDROUTES-2026-10-13: the party's state machine on this route (fixed lines, no jumps)
+    s += `<div class="muted rv-chain">${chainTxt(r.steps || [], (v.live || []).filter(x => !x.final).map(x => x.i)[0])}</div>`;   // DUNGEON STEPS: '.dion › Dion -> Cruma Tower › walk 0.4k to Mozella › "Teleport into the Tower." → Cruma Tower 1st floor › walk 3.1k on 1st floor › arrive'
     if (bad || (r.why || []).length) s += `<ul class="rv-why ${bad ? 'bad' : ''}">${(r.why || ['no reason given']).slice(0, 5).map(w => `<li>${E(w)}</li>`).join('')}</ul>`;
     if (v.from && v.from.toStart != null) s += `<div class="muted">from you: ${KM(v.from.toStart)} to the start of the walk, ${KM(v.from.toTarget)} to the target</div>`;
     s += useHtml(v);   // ROUTESWITCH-2026-10-13: the switch + "record / edit my own route" for EVERY target type
@@ -165,11 +178,21 @@
     if (!onWay.length && !needs.length && !(v.items || []).length) s += '<div class="muted rv-sec">No doors, teleporters or items on the way.</div>';
     return s;
   }
+  // ROUTERULES-2026-10-13 (owner: "everything must be configurable manually; nothing automatic unless you ask for it"): the party's route rules
+  // (doors / keys / swimming / drops / Heine) under every route view; the default of each rule is said next to it. GET / POST /api/routerules.
+  function rulesHtml(st) {
+    const R = st.rules; if (!R || R.error || !(R.parties || []).length) return R && R.error ? `<div class="muted rv-sec">Route rules: ${E(R.error)}</div>` : '';
+    const p = st.rulesParty && R.parties.includes(st.rulesParty) ? st.rulesParty : (st.opts.party && R.parties.includes(st.opts.party) ? st.opts.party : R.parties[0]); st.rulesParty = p;
+    const val = R.values[p] || {}, own = (R.own || {})[p] || {};
+    return `<details class="rv-rules"${st.rulesOpen ? ' open' : ''}><summary>Route rules for party <select data-rvrules="party" aria-label="party">${R.parties.map(x => `<option${x === p ? ' selected' : ''}>${E(x)}</option>`).join('')}</select> <span class="muted">— what the bots may do on the way (read live, no deploy)</span></summary>
+      <ul class="rv-rulelist">${R.rules.map(r => { const on = !!val[r.key], set = r.key in own; return `<li><button type="button" role="switch" aria-checked="${on}" data-rv="rule" data-k="${E(r.key)}" class="rv-sw ${on ? 'on' : ''}">${on ? 'on' : 'off'}</button> <b>${E(r.label)}</b> <span class="muted">(default ${r.default ? 'on' : 'off'}${set ? ' · your choice' : ''})</span>${set ? ` <button type="button" class="rv-reset" data-rv="rulereset" data-k="${E(r.key)}">back to default</button>` : ''}<div class="muted">${E(r.help || '')}</div></li>`; }).join('')}</ul></details>`;
+  }
+  async function loadRules(el) { const st = ST.get(el); if (!st) return; try { st.rules = await apiGet('/api/routerules'); } catch (e) { st.rules = { error: 'needs a dashboard server restart (' + e.message + ')' }; } render(el); }
   function query(st) {
     const o = st.opts, f = typeof o.from === 'string' ? o.from : o.from && isFinite(o.from.x) ? [o.from.x, o.from.y, o.from.z || 0].map(Math.round).join(',') : '';
     return '/api/routeview?target=' + encodeURIComponent(st.target) + (o.party ? '&party=' + encodeURIComponent(o.party) : '') + (f ? '&from=' + encodeURIComponent(f) : '');
   }
-  function render(el) { const st = ST.get(el); if (!st || !st.v) return; el.innerHTML = st.v.error ? `<div class="rv-box none">${E(st.v.error)}</div>` : html(st.v, st); }
+  function render(el) { const st = ST.get(el); if (!st || !st.v) return; el.innerHTML = (st.v.error ? `<div class="rv-box none">${E(st.v.error)}</div>` : html(st.v, st)) + rulesHtml(st); }
   async function load(el) {
     const st = ST.get(el); if (!st) return;
     const my = ++st.gen;
@@ -184,6 +207,12 @@
     if (a === 'zin' || a === 'zout') { if (st.view) { st.view.R = Math.min(90000, Math.max(500, st.view.R * (a === 'zin' ? 0.6 : 1.7))); render(el); } return; }
     if (a === 'fit') { st.view = null; render(el); return; }
     if (a === 'lvl') { st.level = b.dataset.k; st.view = null; render(el); return; }   // DUNGEON STEPS: surface / dungeon floor tab
+    if ((a === 'rule' || a === 'rulereset') && st.rules && st.rulesParty) {   // ROUTERULES-2026-10-13: one switch per rule and party
+      const k = b.dataset.k, cur = !!((st.rules.values[st.rulesParty] || {})[k]);
+      let d; try { d = await api('/api/routerules', { method: 'POST', body: JSON.stringify({ party: st.rulesParty, key: k, value: a === 'rulereset' ? null : !cur }) }); } catch (er) { d = { error: er.message }; }
+      if (d && d.error) { if (typeof uiError === 'function') uiError(d.error); return; }
+      st.rules = d; st.rulesOpen = true; render(el); return;
+    }
     if (a === 'step' && v && v.quest) { QSEL[v.quest.id] = +b.dataset.i; st.target = 'quest:' + v.quest.id + ':' + b.dataset.i; el.classList.add('rv-busy'); await load(el); el.classList.remove('rv-busy'); return; }
     if (a === 'use' && v && v.store) {                 // ROUTESWITCH-2026-10-13: every target type, 3 ways (computed / own / auto)
       const use = b.dataset.use, stored = (v.choice && v.choice.stored) || (v.useSet ? v.use : 'auto');
@@ -203,10 +232,13 @@
   function mount(el, target, opts) {
     if (!el) return;
     let st = ST.get(el);
-    if (!st) { st = { gen: 0 }; ST.set(el, st); el.addEventListener('click', onClick); el.classList.add('rv'); }
+    if (!st) { st = { gen: 0 }; ST.set(el, st); el.addEventListener('click', onClick); el.classList.add('rv');
+      el.addEventListener('change', (e) => { const sel = e.target.closest && e.target.closest('[data-rvrules="party"]'); if (!sel) return; const s2 = ST.get(el); if (s2) { s2.rulesParty = sel.value; s2.rulesOpen = true; render(el); } });   // ROUTERULES-2026-10-13
+      el.addEventListener('toggle', (e) => { if (e.target && e.target.classList && e.target.classList.contains('rv-rules')) { const s2 = ST.get(el); if (s2) s2.rulesOpen = e.target.open; } }, true); }
     st.target = String(target || ''); st.opts = opts || {}; st.view = null;
     { const m = st.target.match(/^quest:(\d+)$/); if (m && QSEL[m[1]] != null) st.target += ':' + QSEL[m[1]]; }
     if (!st.v) el.innerHTML = '<div class="muted">loading the route…</div>';
+    if (!st.rules) loadRules(el);   // ROUTERULES-2026-10-13
     return load(el);
   }
   const refresh = (el) => { if (ST.get(el)) return load(el); };

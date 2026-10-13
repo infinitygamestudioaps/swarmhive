@@ -15,7 +15,7 @@ const F = process.argv.slice(2).filter(a => !/^--/.test(a))[0] ? path.resolve(pr
 const src = fs.readFileSync(F, 'utf8');
 const a = src.indexOf('// QENGINE-PURE-BEGIN'), b = src.indexOf('// QENGINE-PURE-END');
 if (a < 0 || b < 0) { console.error('QENGINE-PURE block not found in ' + F + ' — apply patch_questengine.js first (or pass the patched copy)'); process.exit(2); }
-const E = new Function(src.slice(a, b) + '\nreturn { qeDecide, qeNeeds, qePickLink, qeProgress, qeParseCmd, qeFindQuest, qeEligible, qeHuntSpot, qeRepeatable, qeDefaultBatch, qfPickId, qeIsQuit, qeRaceOfClass, qeTurnIn };')();
+const E = new Function(src.slice(a, b) + '\nreturn { qeDecide, qeNeeds, qePickLink, qeProgress, qeParseCmd, qeFindQuest, qeEligible, qeHuntSpot, qeRepeatable, qeDefaultBatch, qfPickId, qeIsQuit, qeRaceOfClass, qeTurnIn, QE_REFUSE, qeSysVerdict: typeof qeSysVerdict === "function" ? qeSysVerdict : null, qeBagBlock: typeof qeBagBlock === "function" ? qeBagBlock : null, qePagesExpected: typeof qePagesExpected === "function" ? qePagesExpected : null, qeCondFromItems: typeof qeCondFromItems === "function" ? qeCondFromItems : null, qeStateMerge: typeof qeStateMerge === "function" ? qeStateMerge : null };')();
 const QDIR = path.join(ROOT, 'Scripts', 'data', 'quests');
 const getQ = (id) => { try { return JSON.parse(fs.readFileSync(path.join(QDIR, String(Number(id)) + '.json'), 'utf8')); } catch (e) { return null; } };
 let fails = 0, oks = 0;
@@ -212,6 +212,48 @@ console.log('4. commands, lookup, eligibility, farm pick, links');
   const L = [{ text: 'Say you will quit', cmd: 'Quest Q00265_X 30357-07.html' }, { text: 'Quest', cmd: 'npc_5_Quest' }];
   ok(E.qePickLink(L, { links: ['Say you will quit'], events: ['30357-07.html'], usedMenu: true }) === null, 'a "quit" link is never clicked, even when asked for');
   ok(E.qeIsQuit('Say you will quit') && !E.qeIsQuit("Say that you'll help."), 'quit detection');
+}
+// ---------------------------------------------------------------- 4b. server refusals after the "Quest" click (QSYS-2026-10-13)
+console.log('4b. server refusals (bag full / too many quests) + the double-click page count');
+{
+  ok(typeof E.qeSysVerdict === 'function' && typeof E.qeBagBlock === 'function', 'qeSysVerdict / qeBagBlock are in the QENGINE-PURE block');
+  if (E.qeSysVerdict) {
+    const v = E.qeSysVerdict([{ at: 1, id: 1097, text: '#1097 auto-shots' }, { at: 2, id: 1118, text: "#1118 Unable to process this request until your inventory's weight and slot count are less than 80 percent of capacity." }]);
+    ok(v.kind === 'bag' && v.id === 1118, 'system message #1118 after the click = bag full (L2J QuestLink: no page at all)');
+    ok(E.qeSysVerdict([{ id: 9999, text: 'You can proceed only when the inventory weight is below 80 percent and the quantity is below 90 percent.' }]).kind === 'bag', 'the #3262 wording is recognised by text too');
+    ok(E.qeSysVerdict([{ id: 401, text: '#401 You have too many ongoing quests.' }]).kind === 'quests', '#401 = too many quests');
+    ok(E.qeSysVerdict([{ id: 27, text: 'Your casting has been interrupted' }, null]).kind === '' && E.qeSysVerdict([]).kind === '' && E.qeSysVerdict(null).kind === '', 'other / no messages = no verdict');
+  }
+  if (E.qeBagBlock) {
+    ok(/200 of 200/.test(E.qeBagBlock(200, 200, 453832, 10902000)), 'Dagger1 2026-10-13: 200 items of 200 slots -> blocked');
+    ok(E.qeBagBlock(72, 80, 0, 0) === '' && /73 of 80/.test(E.qeBagBlock(73, 80, 0, 0)), 'L2J isInventoryUnder90: 72/80 ok, 73/80 blocked');
+    ok(E.qeBagBlock(200, 0, 453832, 10902000) === '', 'unknown slot limit + 4 % weight -> no pre-block (the click decides)');
+    ok(/weight is 80 %/.test(E.qeBagBlock(10, 0, 800, 1000)) && E.qeBagBlock(10, 0, 799, 1000) === '', 'weight penalty 3 starts at 80 %');
+  }
+  if (E.qePagesExpected) ok(E.qePagesExpected(true) === 2 && E.qePagesExpected(false) === 1, 'double click: 2 pages when the NPC was my target already, else 1');
+  ok(E.QE_REFUSE.test('You have too many quests in progress.') && !E.QE_REFUSE.test('Bring me forty wolf pelts.'), 'QE_REFUSE: the full-quest page refuses, a normal page does not');
+}
+// ---------------------------------------------------------------- 4c. quest state: API vs bag vs own record (QSTATE-2026-10-13)
+console.log('4c. quest state when the quest API is blind (Dagger1 quest 32: false "COMPLETED" after step 2)');
+{
+  const q32 = getQ(32);
+  ok(typeof E.qeCondFromItems === 'function' && typeof E.qeStateMerge === 'function', 'qeCondFromItems / qeStateMerge are in the QENGINE-PURE block');
+  if (E.qeCondFromItems && q32) {
+    const m = E.qeCondFromItems(q32, { 7165: 1 });
+    ok(m.started === true && m.cond === 2, 'quest 32 with the Map (7165) in the bag = started, cond 2 (' + JSON.stringify(m) + ')');
+    ok(E.qeCondFromItems(q32, { 7166: 7 }).cond === 3, 'Medicinal Herbs (7166, drop at cond 3) = cond 3');
+    ok(E.qeCondFromItems(q32, { 1866: 500, 3031: 500 }).started === null, 'normal items (Suede, Spirit Ore) say nothing');
+  }
+  if (E.qeStateMerge) {
+    const M = E.qeStateMerge;
+    ok(M({ started: false, cond: null, known: false }, { started: true, cond: 2, items: [7165] }, { started: false, cond: null, apiSeen: false }).started === true, 'API "not started" + quest item in the bag -> started (blind API)');
+    const b2 = M({ started: false, cond: null, known: false }, { started: null, cond: null }, { started: true, cond: 2, apiSeen: false });
+    ok(b2.started === true && b2.cond === 2 && b2.blind, 'API never showed the quest + my record says started cond 2 -> started cond 2, blind');
+    ok(M({ started: false, cond: null, known: false }, { started: null, cond: null }, { started: true, cond: 4, apiSeen: true }).started === false, 'API showed it before and now not, no quest item -> really gone');
+    ok(M({ started: true, cond: 5, known: true }, { started: true, cond: 2 }, { started: true, cond: 3 }).cond === 5, 'a known API cond wins');
+    ok(M({ started: true, cond: null, known: false }, { started: true, cond: 2 }, { started: true, cond: 3 }).cond === 3, 'API started without cond: the higher of bag / own record');
+    ok(M({ started: null }, { started: null }, { started: false }).started === false && M({ started: null }, { started: true, cond: 2 }, {}).cond === 2, 'no API: bag / own record');
+  }
 }
 // ---------------------------------------------------------------- 5. sweep
 console.log('5. sweep over every quest record');

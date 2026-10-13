@@ -85,8 +85,11 @@
       desc: 'Walk test with logging -> Logs/navtest_<name>.log (disables the bot for 60 s, then switches it back on; the name is case-insensitive).', args: [{ key: 'x', label: 'x', type: 'number' }, { key: 'y', label: 'y', type: 'number' }, NAME] },
 
     // ---------------- Fight ----------------
-    { id: 'stop', cat: 'fight', kind: 'swarm', title: 'STOP everything', tpl: '!stop', handler: 'each', targets: PT, def: 'party', safety: 'confirm',
-      desc: 'Everyone idle + stop combat. The leader stays stopped (no auto-leveling) until the next order.', kw: 'halt pause idle' },
+    { id: 'stop', cat: 'fight', kind: 'swarm', title: 'STOP everything (switch OFF)', tpl: '!stop', handler: 'each', targets: PT, def: 'party', safety: 'confirm',
+      desc: 'Everyone idle + stop combat, and the party\'s run switch goes OFF: it does nothing on its own (no leveling, supply runs, regroups, resume after a restart) until Start. Survival, trades and your orders still work. Same as Stop on the party card.', kw: 'halt pause idle off switch' },
+    // RUNSTATE (owner 2026-10-13): the manual run switch. Start on the party card = this + the switch ON (Dashboard/runswitch.js, POST /api/runstate)
+    { id: 'start', cat: 'fight', kind: 'swarm', title: 'START (switch ON + its activity)', tpl: '!start[ {name}]', handler: 'leader', targets: PT, def: 'party', safety: 'confirm',
+      desc: 'Switches the party ON and starts its configured activity: the raid circuit when it is switched on for the party, else leveling at the chosen spot / hunt here / the leader\'s pick (Giran regroup first). Already running = nothing new. With a member\'s name: that member is back with its party (follow + assist). Same as Start on the party card.', args: [{ key: 'name', label: 'Only this member (optional)', type: 'char', optional: true }], kw: 'start run on go resume switch' },
     { id: 'kill', cat: 'fight', kind: 'swarm', title: 'Kill a monster by name', tpl: '!kill {name}', handler: 'each', targets: PT, def: 'party', safety: 'confirm',
       desc: 'Everyone who hears it attacks the nearest monster with that name (within 4000).', args: [{ key: 'name', label: 'Monster name', type: 'text', placeholder: 'Bifrons' }], kw: 'attack' },
     { id: 'assist', cat: 'fight', kind: 'swarm', title: 'Help a character (party goes there)', tpl: '!assist {who}', handler: 'leader', targets: PT, def: 'party', safety: 'confirm',
@@ -170,6 +173,9 @@
       args: [{ key: 'dest', label: 'Warehouse', type: 'select', optional: true, options: [['', 'my rule (stash_rules.json)'], ['private', 'private'], ['clan', 'clan']] }, NAME], kw: 'warehouse deposit bag full inventory materials stash clan private' },   // CMDFIX2 supply 2026-10-12: dest
     { id: 'stashplan', cat: 'supply', kind: 'swarm', title: 'Warehouse plan (dry run)', tpl: '!stashplan[ {name}]', handler: 'self', targets: PT, def: 'char', safety: 'safe',
       desc: 'What would go into the warehouse and why (deposits nothing) -> Logs/stash_plan_<name>.json + party chat.', args: [NAME], kw: 'warehouse deposit plan stash dry run' },
+    // STORAGE 2026-10-13 (dashboard Storage page): event letters to the letters receiver now (Scripts/data/stash_rules.json letters; also when the automatic hand-over is off)
+    { id: 'letters', cat: 'supply', kind: 'swarm', title: 'Event letters: hand them over now', tpl: '!letters[ {name}]', handler: 'self', targets: PT, def: 'char', safety: 'confirm',
+      desc: 'Hands the event letters (L2Day - A ... II, or the items ticked on the Storage page) to the letters receiver (default: the clan leader). Only when both are idle in the same town; nobody travels for it. Uses the Trade page hand-over (walk over, receiver stands still, batches).', args: [NAME], kw: 'letters l2day event alphabet hand over clan leader storage' },
     // WAREHOUSE TAKE (D8, user 2026-10-12: "take needed items from the private / clan warehouse, from the gear tab"; swarm.js WHTAKE block, UNTESTED live)
     { id: 'whtake', cat: 'supply', kind: 'swarm', title: 'Warehouse: take items out (private)', tpl: '!whtake {items} private[ {name}]', handler: 'self', targets: PT, def: 'char', safety: 'confirm',
       desc: 'The character walks to the warehouse keeper (Giran: Taurin; another town: the nearest keeper; in the field a leader / solo character goes .giran first, a member must be in a town), opens its PRIVATE withdraw list and takes these items (id:count, :all = every piece / the whole stack). Report in party chat + Logs/whtake.log. The Gear page sends it with "Take from warehouse".',

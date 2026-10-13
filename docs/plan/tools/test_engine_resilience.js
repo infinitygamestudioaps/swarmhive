@@ -271,6 +271,9 @@ async function partG(SW) {
   fs.writeFileSync(path.join(overlay, 'Logs', 'raidfight_Spoiler1.json'), JSON.stringify({ boss: { name: 'Timak Orc Warrior', x: TIMAK.x - 400, y: TIMAK.y + 450, z: TIMAK.z }, lead: false, startedAt: clock.now() - 60000, at: clock.now() - 5000 }));
   const spot = { name: 'Resume Test Spot', levelMin: 40, levelMax: 50, center: { x: TIMAK.x, y: TIMAK.y, z: TIMAK.z }, radius: 2000, noScale: true, custom: true };
   fs.writeFileSync(path.join(overlay, 'Logs', 'activity_Crafter1.json'), JSON.stringify({ type: 'autolevel', solo: false, spot, spotKey: spot.name, spotAt: clock.now() - 120000, at: new Date().toISOString() }));
+  // RUNSTATE (2026-10-13): an activity only resumes after a restart when the party is switched ON (default OFF = nothing resumes)
+  fs.mkdirSync(path.join(overlay, 'Scripts', 'data'), { recursive: true });
+  fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'run_state.json'), JSON.stringify({ v: 1, default: false, parties: { Crafter1: { on: true, at: new Date().toISOString(), by: 'test' } }, chars: {} }));
   const runner = new Runner({ port, clock, overlay, isolate: ['Logs'], script: SW, allow: ['Crafter1', 'Spoiler1', 'Healer1'], logFile: path.join(tmp, 'runner.log'), root: ROOT.replace(/\//g, '\\'), geopath: true });
   await runner.start(); T1.setCur(runner);
   const world = new World(clock); world.sockets = new Set();
@@ -299,6 +302,15 @@ async function partG(SW) {
   ok(/"spotKey"/.test(String(withDg)) && /"dungeon":"Cruma Tower"/.test(String(withDg)), `#17 (final) the spot save keeps the other fields of the record (dungeon): ${String(withDg).replace(/"spot":\{.*?\},"spotKey"/, '"spot":{..},"spotKey"').slice(0, 140)}`);
   const cleared = inC('Crafter1', "setActivity(null); spotSave.at = 0; spotSave.key = ''; spotResumeSave(autoLvl.spot, false); JSON.stringify(getActivity())");
   ok(typeof cleared === 'string' && !/autolevel/.test(cleared), `#17 (review) a stop that cleared the activity record is not undone by the spot save (record after the save: ${String(cleared).slice(0, 80)})`);
+  // RUNSTATE (owner 2026-10-13: "you don't need to start the bots automatically"): the same restart with the party switched OFF resumes NOTHING
+  fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'run_state.json'), JSON.stringify({ v: 1, default: false, parties: { Crafter1: { on: false, at: new Date().toISOString(), by: 'test' } }, chars: {} }));
+  for (let i = 0; i < 40 && inC('Crafter1', 'autoLvl.active') === true; i++) { await T1.run(clock, world, 1000); }   // the 3 s watch stops the leveling (switch OFF)
+  const offStopped = inC('Crafter1', 'autoLvl.active') === false;
+  inC('Crafter1', "setActivity({ type: 'autolevel', solo: false }); RUNST.chk = 0; state.notes = []; resumeActivity().catch(e => logError('test resume', e)); 1");
+  for (let i = 0; i < 35; i++) await T1.run(clock, world, 1000);
+  const offNotes = String(inC('Crafter1', "(state.notes || []).join(' | ')"));
+  ok(offStopped && inC('Crafter1', 'autoLvl.active') === false && /is NOT resumed — the party is switched OFF/.test(offNotes),
+    `RUNSTATE: run switch OFF -> the watch stopped the leveling (${offStopped}) and a restart resumes nothing (${(offNotes.match(/resume[^|]*/) || ['no resume note'])[0].slice(0, 140)})`);
   await runner.stop('end');
   for (const s of world.sockets) try { s.destroy(); } catch (e) { }
   for (const c of world.chars.values()) c.T.dispose();

@@ -183,11 +183,25 @@
     return o;
   }
 
+  // RAIDROUTES-2026-10-13: the leader's ROUTE STATE MACHINE (swarm.js ROUTESM, swarm_state routeSM) as ONE fixed-height line on the party card:
+  // state + step x/n + what the step is (swim / drop / door / floor ...); red when BLOCKED / FAILED, kept 10 min after the end. Tap = the route view.
+  const RS_WORDS = { TRAVEL_TOWN: 'to the town', GK_TELEPORT: 'gatekeeper', BUY_KEY: 'buying keys', WALK_LEG: 'walking', SWIM_LEG: 'swimming', DROP: 'drop off a ledge', DOOR_WAIT: 'timed door', DOOR_OPEN_NPC: 'door (NPC)', DOOR_OPEN_SKILL: 'door (Unlock)', DOOR_OPEN_ITEM: 'door (key)', FLOOR_TELEPORT: 'floor teleport', ENTER: 'entering', MANUAL: 'by hand', ARRIVED: 'arrived', BLOCKED: 'blocked', FAILED: 'failed', START: 'starting' };
+  function routeLine(leader) {
+    try {
+      const L = byName(leader), m = L && L.routeSM; if (!m || !m.state) return '';
+      const now = (AC() && AC().srvNow) ? AC().srvNow() : Date.now();
+      if (m.final && now - (m.at || 0) > 600000) return '';
+      const bad = m.state === 'BLOCKED' || m.state === 'FAILED', ok = m.state === 'ARRIVED';
+      const key = String(m.key || ''), href = /^raid:\d+$/.test(key) ? '#/raid/' + key.split(':')[1] + '/route' : '#/navatlas/' + encodeURIComponent(key);
+      const txt = `route ${esc(m.name || key)} · <b>${esc(m.state)}</b> ${esc(RS_WORDS[m.state] || '')}${m.sub ? ' (' + esc(m.sub) + ')' : ''} · ${(m.i || 0) + 1}/${m.n || '?'} ${esc(m.label || '')}${bad && m.why ? ' — ' + esc(m.why) : ''}`;
+      return `<a class="psb-route${bad ? ' bad' : ok ? ' ok' : ''}" href="${href}" title="${esc((m.name || '') + ': ' + (m.state || '') + ' ' + (m.label || '') + (m.why ? ' — ' + m.why : ''))}">${txt}</a>`;
+    } catch (e) { return ''; }
+  }
   function banner(leader, list) {
     try {
       sync();
       if (!AC()) return '';
-      const o = info(leader, list || charsOf(leader)); if (!o) return '';
+      const o = info(leader, list || charsOf(leader)); if (!o) return routeLine(leader);
       const A = AC();
       const bar = o.steps ? `<div class="psb-bar" role="img" aria-label="step ${o.i + 1} of ${o.of}">${o.steps.map((s, k) => `<i class="${k < o.i ? 'done' : k === o.i ? 'now' : ''}" title="${esc(stepTxt(s))}"></i>`).join('')}</div>` : '';
       const meta = [];
@@ -197,7 +211,7 @@
       const ageTxt = (o.estimated ? '≥ ' : '') + A.dur(o.age);
       return `<div class="psb ${o.cls || ''}${o.warn ? ' warn' : ''}" data-psb="${esc(leader)}">
         <div class="psb-h">${GI(o.ic || UI.party, 'sm')}<div class="psb-t">${o.h}</div><span class="psb-age" title="${o.estimated ? 'seen by the dashboard for at least this long' : 'this step has taken'}">${ageTxt}</span></div>
-        ${bar}${meta.length ? `<div class="psb-meta">${meta.join(' · ')}</div>` : ''}
+        ${bar}${meta.length ? `<div class="psb-meta">${meta.join(' · ')}</div>` : ''}${routeLine(leader)}
         ${o.subs.map(s => `<div class="psb-sub">${s}</div>`).join('')}
         ${o.warn ? `<div class="psb-why">${GI(UI.warn, 'sm')} <span>${o.why} — for ${A.dur(o.age)}</span></div>` : ''}
       </div>`;
@@ -259,6 +273,6 @@
     } catch (e) { return ''; }
   }
 
-  window.PartyStatus = { banner, taskCell, mapLayer, info, _PS: PS };
+  window.PartyStatus = { banner, taskCell, mapLayer, info, routeLine, _PS: PS };
   try { if (typeof TAB !== 'undefined' && TAB === 'parties' && STATE) renderParties(); } catch (e) { }   // at once, not only after the next 4 s refresh
 })();

@@ -1,0 +1,112 @@
+/* UI KIT (UX audit 2026-10-13, docs/plan/ux_audit_2026-10-13.md batch B1; owner: "easy for non-technical people, lovely for the user").
+   One shared set of controls for every page: buttons, the on/off switch, state chips, cards, empty states, a Details disclosure, the help
+   link, toasts and the Simple / Advanced view switch. Everything is prefixed uk- so nothing old changes until a page uses it.
+   Helpers: Dashboard/ui_kit.js (window.UIKit). Colours = the site tokens (--gold --ok --warn --bad --run --muted --line), type = --fs-*. */
+
+/* ---- phones: a little larger text everywhere (the audit measured 76 % of the Parties text at 11-12 px on an iPhone) ---- */
+@media (max-width: 760px) {
+  :root:root { --fs-mini: 12px; --fs-cap: 13px; --fs-body: 14px; --fs-em: 15px; --fs-section: 15px; }
+}
+
+/* ---- Simple / Advanced: [data-adv] = only in Advanced, [data-simple] = only in Simple ---- */
+html.uk-simple [data-adv], html.uk-simple .uk-adv-only { display: none !important; }
+html.uk-adv [data-simple], html.uk-adv .uk-simple-only { display: none !important; }
+
+/* ---- buttons: primary (one per view), secondary, danger, ghost ---- */
+.uk-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 6px;
+  font-family: inherit; font-weight: 600; font-size: var(--fs-body, 13px); line-height: 1.2; cursor: pointer; text-decoration: none; white-space: normal;
+  overflow-wrap: normal; word-break: normal; hyphens: none; text-align: center; border: 1px solid var(--line2, #575141);
+  background: linear-gradient(#3a3428, #262219); color: var(--ink, #d9cfb6); transition: filter .12s, transform .06s; }
+.uk-btn:hover { filter: brightness(1.15); }
+.uk-btn:active { transform: translateY(1px); }
+.uk-btn:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: 2px; }
+.uk-btn[disabled], .uk-btn.is-disabled { opacity: .45; cursor: not-allowed; filter: none; }
+.uk-btn img.gi { width: 18px; height: 18px; }
+.uk-btn.primary { background: linear-gradient(#e9c977, #b88d38); border-color: #f2d88f; color: #1b1406; text-shadow: none; }
+.uk-btn.secondary { background: transparent; border-color: var(--gold, #e3c27a); color: var(--gold, #e3c27a); }
+.uk-btn.danger { background: transparent; border-color: var(--bad, #ec6a55); color: var(--bad, #ec6a55); }
+.uk-btn.danger.solid { background: var(--bad, #ec6a55); color: #1b0b07; }
+.uk-btn.ghost { background: transparent; border-color: transparent; color: var(--ink, #d9cfb6); text-decoration: underline; text-underline-offset: 3px; }
+.uk-btn.big { min-height: 48px; font-size: var(--fs-em, 14px); padding: 0 20px; }
+.uk-btn.full { width: 100%; }
+@media (pointer: coarse) { .uk-btn { min-height: 44px; } }
+
+/* ---- the on/off switch (the ONLY on/off control): a track + knob, the label, and a sentence that says what the state means ---- */
+.uk-switch { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 2px 0; background: none; border: 0; color: inherit; cursor: pointer;
+  font: inherit; text-align: left; }
+.uk-switch .uk-track { position: relative; flex: 0 0 auto; width: 46px; height: 26px; border-radius: 13px; background: #3a3a3a; border: 1px solid #5d5d5d; transition: background .15s; }
+.uk-switch .uk-knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #cfcfcf; box-shadow: 0 1px 2px #000; transition: left .15s; }
+.uk-switch[aria-checked="true"] .uk-track { background: #3f7d34; border-color: var(--ok, #86cf6e); }
+.uk-switch[aria-checked="true"] .uk-knob { left: 22px; background: #fff; }
+.uk-switch .uk-sl { display: flex; flex-direction: column; line-height: 1.25; }
+.uk-switch .uk-sl b { font-size: var(--fs-body, 13px); color: var(--ink, #d9cfb6); }
+.uk-switch .uk-sl span { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); }
+.uk-switch[aria-checked="true"] .uk-sl span { color: var(--ok, #86cf6e); }
+.uk-switch[disabled] { opacity: .5; cursor: not-allowed; }
+.uk-switch:focus-visible .uk-track { outline: 2px solid var(--gold, #e3c27a); outline-offset: 2px; }
+.uk-offnote { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); }
+.uk-offnote b { color: var(--ink, #d9cfb6); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .uk-switch .uk-track, .uk-switch .uk-knob { transition: none; } }
+
+/* ---- state chips: five states, each a colour + a dot + a word ---- */
+.uk-chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 9px 1px 7px; border-radius: 10px; font-size: var(--fs-cap, 12px); line-height: 1.6;
+  white-space: nowrap; border: 1px solid transparent; background: rgba(255, 255, 255, .06); color: var(--ink, #d9cfb6); }
+.uk-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: 0 0 auto; }
+.uk-chip.k-ok { color: var(--ok, #86cf6e); background: rgba(134, 207, 110, .12); border-color: rgba(134, 207, 110, .35); }
+.uk-chip.k-working { color: var(--run, #7fb6e8); background: rgba(127, 182, 232, .12); border-color: rgba(127, 182, 232, .35); }
+.uk-chip.k-fighting { color: #f0a050; background: rgba(240, 160, 80, .12); border-color: rgba(240, 160, 80, .35); }
+.uk-chip.k-waiting { color: #b9b2a2; background: rgba(185, 178, 162, .10); border-color: rgba(185, 178, 162, .3); }
+.uk-chip.k-problem { color: var(--bad, #ec6a55); background: rgba(236, 106, 85, .12); border-color: rgba(236, 106, 85, .4); }
+.uk-chip.k-off { color: #8a8a8a; background: rgba(120, 120, 120, .10); border-color: rgba(120, 120, 120, .3); }
+.uk-chip .n { font-weight: 700; }
+
+/* ---- cards ---- */
+.uk-card { border: 1px solid var(--line, #3b382f); border-radius: 8px; background: var(--box, rgba(0, 0, 0, .32)); padding: 10px 12px; }
+.uk-card + .uk-card { margin-top: 8px; }
+.uk-card-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+.uk-card-h h3, .uk-card-h b { margin: 0; font-size: var(--fs-section, 14px); color: var(--gold, #e3c27a); }
+.uk-card-h .uk-meta { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); }
+.uk-card-f { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+/* ---- empty state ---- */
+.uk-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 12px; text-align: center; color: var(--muted, #8e8879);
+  font-size: var(--fs-body, 13px); border: 1px dashed var(--line2, #575141); border-radius: 8px; }
+.uk-empty .uk-ei { font-size: 26px; line-height: 1; opacity: .8; }
+.uk-empty .uk-et { color: var(--ink, #d9cfb6); max-width: 46ch; }
+
+/* ---- Details disclosure (raw data, Advanced mode) ---- */
+.uk-details { margin-top: 4px; font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); }
+.uk-details > summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 4px; min-height: 24px; color: var(--muted, #8e8879); }
+.uk-details > summary::-webkit-details-marker { display: none; }
+.uk-details > summary::before { content: '▸'; transition: transform .12s; }
+.uk-details[open] > summary::before { transform: rotate(90deg); }
+.uk-details pre, .uk-details .uk-raw { margin: 4px 0 0; padding: 6px 8px; white-space: pre-wrap; overflow-wrap: anywhere; font: var(--fs-mini, 11px)/1.4 Consolas, monospace;
+  background: rgba(0, 0, 0, .35); border-radius: 4px; color: #b9b2a2; }
+
+/* ---- help link ---- */
+.uk-help { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line2, #575141);
+  color: var(--gold, #e3c27a); font-family: inherit; font-weight: 700; font-size: 13px; line-height: 1; text-decoration: none; margin-left: 6px; vertical-align: middle; }
+.uk-help:hover { background: rgba(227, 194, 122, .12); }
+
+/* ---- toasts (bottom of the screen) ---- */
+#ukToasts { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 9600; display: flex; flex-direction: column; gap: 6px; width: min(92vw, 420px); pointer-events: none; }
+.uk-toast { pointer-events: auto; padding: 10px 14px; border-radius: 8px; background: rgba(20, 24, 26, .96); border: 1px solid var(--line2, #575141); border-left: 4px solid var(--run, #7fb6e8);
+  color: var(--ink, #d9cfb6); font-size: var(--fs-body, 13px); box-shadow: 0 6px 18px rgba(0, 0, 0, .5); animation: ukIn .18s ease-out; }
+.uk-toast.k-ok { border-left-color: var(--ok, #86cf6e); } .uk-toast.k-problem { border-left-color: var(--bad, #ec6a55); } .uk-toast.k-waiting { border-left-color: var(--warn, #e9b949); }
+@keyframes ukIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .uk-toast { animation: none; } }
+
+/* ---- the Simple / Advanced view switch (header) ---- */
+.uk-mode { display: inline-flex; align-items: center; gap: 0; margin-top: 4px; border: 1px solid var(--line2, #575141); border-radius: 14px; overflow: hidden; font-size: var(--fs-cap, 12px); }
+.uk-mode button { background: transparent; border: 0; color: var(--muted, #8e8879); padding: 3px 11px; min-height: 26px; cursor: pointer; font: inherit; }
+.uk-mode button[aria-pressed="true"] { background: rgba(227, 194, 122, .18); color: var(--gold, #e3c27a); font-weight: 600; }
+.uk-mode button:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: -2px; }
+@media (pointer: coarse) { .uk-mode button { min-height: 32px; padding: 4px 13px; } }
+/* SIMPLEVIEW-2026-10-13 (owner: "clicking Simple / Advanced does nothing"): Simple hides the expert pages and the technical lines on the
+   party cards, so the switch has a visible effect everywhere; Advanced shows everything as before */
+html.uk-simple #tabs button[data-tab="forts"], html.uk-simple #tabs button[data-tab="castles"], html.uk-simple #tabs button[data-tab="crystals"],
+html.uk-simple #tabs button[data-tab="zones"], html.uk-simple #tabs button[data-tab="spots"], html.uk-simple #tabs button[data-tab="rooms"],
+html.uk-simple #tabs button[data-tab="plan"], html.uk-simple #tabs button[data-tab="skillenchant"], html.uk-simple #tabs button[data-tab="accounts"] { display: none !important; }
+html.uk-simple .pcard .pdo { display: none !important; }
+.uk-toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 9999; max-width: min(92vw, 520px); padding: 10px 16px; border-radius: 10px;
+  background: rgba(20, 18, 14, .95); border: 1px solid var(--gold, #e3c27a); color: #f1e7cb; font-size: 14px; box-shadow: 0 6px 24px rgba(0, 0, 0, .5); }

@@ -25,6 +25,13 @@
 //   inside a water zone]  (the walker allows the slow swim speed there and does not turn back when the breath runs out), swimLen / maxSwim
 //   (the longest unbroken swim, breath ~60 s, then 1 % HP a second) and flags 'swim' / 'long-swim'. The goal's "closed pocket" check is
 //   pocketIn (who can walk IN), not pocket (who can walk out): a beach you swim onto or a pit you drop into is no closed pocket.
+// RAID ROUTE POLICY (2026-10-13 15:15, owner: "Precompute all routes to all raid bosses ... around obstacles, navigate the centre ... do not choose
+//   positions where we must swim if it can be avoided ... Pirate Cave / Garden of Eva: swim down, doors to open"): every walk of a raid / epic
+//   target is searched with RPOL (below): clearance (keep >= 48 from walls / cliffs where the ground allows), one-way drops off ledges (fall height
+//   recorded), danger circles (aggressive monsters > boss level + 6), DRY FIRST: swimming only when no dry way exists or the dry way is > 4x and
+//   > 15 km longer than the swim way; swim cost x12; the longest unbroken swim vs the breath (2,800 units at swim speed 50 = 56 s) is recorded
+//   (overBreath). Hard legs (A* cap) are flooded + joined (geopath_fast.findPathFlood). Cache keys of these walks end in '#rp1:<boss level>'.
+//   Walk steps get  drops: [{ i, fall }]  and  pol: { mode: dry | swim-only | swim-shorter | dry-capped, dryLen, swimLen, overBreath }.
 // Run:  node docs/plan/tools/nav_atlas.js [--no-walks] [--max-jobs N] [--retry-failed] [--mem MB] [--only raid,npc,...]
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os'), cp = require('child_process');
@@ -41,6 +48,8 @@ const WATER = require('./water_zones');                                     // S
 const SWIM_SPEED = 50;                                                       // H5 player swim speed (baseStats fastSwim 50; run 115-130)
 const MEM_MB = +argv('--mem', 700), FREE_MIN_MB = +argv('--free-min', 450);   // the bot PC runs L2Swarm: MemWatch restarts it below 300 MB free
 const P = { maxLeg: 1000, walkSpeed: 120, townSec: 20, gkSec: 25, floorSec: 15, npcSec: 10, maxWalkBot: 25000, maxSearch: 48000, maxNodes: 2000000, maxMs: 15000, hWeight: 2, cand: 3, doorPad: 40 };
+// RAID ROUTE POLICY (2026-10-13): the search rules for every walk of a raid / epic target (see the header)
+const { RPOL, policyLeg: policyLegM } = require('./raid_policy');   // RAID ROUTE POLICY (2026-10-13): rules + the walk search live in raid_policy.js
 fs.mkdirSync(OUTDIR, { recursive: true }); fs.mkdirSync(LOGS, { recursive: true });
 const kq = (v) => Math.round(v / 32);
 const walkKey = (a, b) => `${kq(a.x)},${kq(a.y)},${kq(a.z || 0)}>${kq(b.x)},${kq(b.y)},${kq(b.z || 0)}`;
@@ -63,7 +72,8 @@ if (has('--worker')) {
     let r;
     try {
       const straight = Math.hypot(j.a.x - j.b.x, j.a.y - j.b.y);
-      if (straight > P.maxSearch) r = { ok: false, why: `too far for one search (${Math.round(straight)} straight)` };
+      if (j.pol) r = policyLeg(geo, j, straight);                          // RAID ROUTE POLICY (2026-10-13)
+      else if (straight > P.maxSearch) r = { ok: false, why: `too far for one search (${Math.round(straight)} straight)` };
       else {
         // a closed pocket (platform, island, sealed room) around either end: no search needed
         // both ends in the SAME closed pocket (same cell count from either end: a transport hub's room, 2026-10-12) = search inside it
@@ -84,6 +94,8 @@ if (has('--worker')) {
   flush();
   process.exit(0);
 }
+/** RAID ROUTE POLICY (2026-10-13): one walk under the raid rules (docs/plan/tools/raid_policy.js) */
+function policyLeg(geo, j, straight) { return policyLegM(geo, j, straight); }
 
 // =============================================================================================================================== ORCHESTRATOR
 // default: the planning runs in a child (writes the atlas + the walk job list), the walks in worker children (restarted past the memory
@@ -325,6 +337,30 @@ const doorStep = (hit) => { const d = hit.d, need = doorNeed(d); return { do: 'd
 // ---- danger ----
 const dangerAt = (x, y, z, r = 800) => { const { x0, y0, size, w, band, data } = DANGER; if (!size) return 0; let m = 0; for (let cx = Math.floor((x - r - x0) / size); cx <= Math.floor((x + r - x0) / size); cx++) for (let cy = Math.floor((y - r - y0) / size); cy <= Math.floor((y + r - y0) / size); cy++) { const l = data[cy * w + cx]; if (l) l.forEach(([b, lv]) => { if (z == null || Math.abs(b * band + band / 2 - z) <= 700 + band / 2) m = Math.max(m, lv); }); } return m; };
 
+// ---- RAID ROUTE POLICY (2026-10-13): the policy of the target being planned + its danger circles ----
+let CUR_POL = null;                                                       // { ref: boss level } while a raid / epic target is planned
+const NPCS = tryJ(path.join(DATA, 'npcs_h5.json'), {}), AGGRO = tryJ(path.join(DATA, 'aggro_h5.json'), {});
+const AGG = (() => { const out = []; for (const sp of tryJ(path.join(DATA, 'spawns_h5.json'), [])) { const n = NPCS[sp.id]; if (!n || !n.l) continue; const r = AGGRO[sp.name || n.n]; if (!r) continue; out.push({ x: sp.x, y: sp.y, z: sp.z, lv: n.l, r }); } return out; })();
+/** aggressive monsters more than RPOL.dangerMargin above the reference level around a leg -> geopath_fast danger circles */
+function dangerCircles(a, b, ref) {
+  const x1 = Math.min(a.x, b.x) - 4000, x2 = Math.max(a.x, b.x) + 4000, y1 = Math.min(a.y, b.y) - 4000, y2 = Math.max(a.y, b.y) + 4000, z1 = Math.min(a.z || 0, b.z || 0) - 1500, z2 = Math.max(a.z || 0, b.z || 0) + 1500;
+  const out = [];
+  for (const m of AGG) { if (m.lv <= ref + RPOL.dangerMargin || m.x < x1 || m.x > x2 || m.y < y1 || m.y > y2 || m.z < z1 || m.z > z2) continue; out.push({ x: m.x, y: m.y, r: m.r + RPOL.dangerPad, w: Math.min(4, Math.round(((m.lv - ref - RPOL.dangerMargin) / 5 + 1) * 10) / 10), lv: m.lv }); }
+  return out.length > 3000 ? out.sort((p, q) => q.lv - p.lv).slice(0, 3000) : out;
+}
+// OWNER DOORS AS WALLS (coordinator 2026-10-13 17:50, Sejarr's Servitor: "fortress / castle doors that only the owner clan can open are treated as
+// walls, and the planner routes AROUND them"): a policy leg gets every closed door the party can never open (owner / script / instance / never) in
+// its box as avoid circles from the start (the geodata has no doors), its cache key a hash of those door ids. FORTS: the fortress siege zones
+// (fortresses.json) name the place in the plain-sentence reason ("unreachable: inside Valley Fortress (owner clan only)").
+const FORTS = ((tryJ(path.join(DATA, 'fortresses.json'), {}) || {}).forts || []).filter(x => x.siegeZone && Array.isArray(x.siegeZone.polygon)).map(x => ({ name: x.name, poly: x.siegeZone.polygon, zMin: x.siegeZone.minZ, zMax: x.siegeZone.maxZ }));
+const inPolyF = (x, y, Pp) => { let c = false; for (let i = 0, j = Pp.length - 1; i < Pp.length; j = i++) { if (((Pp[i][1] > y) !== (Pp[j][1] > y)) && (x < (Pp[j][0] - Pp[i][0]) * (y - Pp[i][1]) / (Pp[j][1] - Pp[i][1]) + Pp[i][0])) c = !c; } return c; };
+const fortAt = (x, y, z) => FORTS.find(F => inPolyF(x, y, F.poly) && (z == null || (z >= F.zMin - 300 && z <= F.zMax + 300))) || null;
+function wallDoors(a, b) {
+  const x1 = Math.min(a.x, b.x) - 1500, x2 = Math.max(a.x, b.x) + 1500, y1 = Math.min(a.y, b.y) - 1500, y2 = Math.max(a.y, b.y) + 1500;
+  return (DOORS.doors || []).filter(d => d.blocks && d.kind !== 'open' && d.x >= x1 && d.x <= x2 && d.y >= y1 && d.y <= y2 && doorNeed(d).blocked && Math.hypot(d.x - a.x, d.y - a.y) > 300 && Math.hypot(d.x - b.x, d.y - b.y) > 300);
+}
+const hash32 = (str) => { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); };
+const DROPAT = new Map();                                                 // "x,y,z" -> fall (from the policy walks in the cache)
 // ---- walk legs: cache / jobs ----
 const cache = tryJ(CACHE, { walks: {} }); cache.walks = cache.walks || {};
 const JOBSET = new Map();
@@ -333,14 +369,23 @@ const plen = (pts) => { let s = 0; for (let i = 3; i < pts.length; i += 3) s += 
 function leg(a, b, why, noQueue, avoidDoors) {
   const st = Math.hypot(a.x - b.x, a.y - b.y);
   if (st < 150) return { ok: true, pts: [a.x, a.y, a.z, b.x, b.y, b.z], len: Math.round(st), how: 'adjacent' };
-  const k = walkKey(a, b) + (avoidDoors && avoidDoors.length ? '#av' + avoidDoors.map(d => d.id).sort().join('.') : ''), c = cache.walks[k];
-  if (c) return c.ok ? { ok: true, pts: splitLegs([a.x, a.y, a.z].concat(c.pts), P.maxLeg), len: c.len || plen([a.x, a.y, a.z].concat(c.pts)), how: 'geodata' } : { ok: false, why: c.why, pts: [a.x, a.y, a.z, b.x, b.y, b.z], len: Math.round(st * 1.3), how: 'straight' };
-  if (!noQueue && !JOBSET.has(k)) JOBSET.set(k, Object.assign({ k, a: { x: Math.round(a.x), y: Math.round(a.y), z: Math.round(a.z || 0) }, b: { x: Math.round(b.x), y: Math.round(b.y), z: Math.round(b.z || 0) }, st: Math.round(st), why }, avoidDoors && avoidDoors.length ? { avoid: avoidDoors.map(doorCircle) } : {}));
+  const pol = CUR_POL;                                                     // RAID ROUTE POLICY (2026-10-13): own cache entries
+  if (pol && !pol.noWalls && !(avoidDoors && avoidDoors.length)) { const wd = wallDoors(a, b); if (wd.length) { avoidDoors = wd; wd.forEach(d => { const F = fortAt(d.x, d.y, d.z); if (F && pol.walls) pol.walls.add(F.name); }); } }   // OWNER DOORS AS WALLS
+  const k = walkKey(a, b) + (avoidDoors && avoidDoors.length ? (pol ? '#w' + hash32(avoidDoors.map(d => d.id).sort().join('.')) : '#av' + avoidDoors.map(d => d.id).sort().join('.')) : '') + (pol ? `#rp${RPOL.v}:${pol.ref}` : ''), c = cache.walks[k];
+  if (c) {
+    if (c.ok && Array.isArray(c.dropAt)) c.dropAt.forEach(d => DROPAT.set(`${d[0]},${d[1]},${d[2]}`, d[3]));
+    return c.ok ? Object.assign({ ok: true, pts: c.pol ? splitWet(splitLegs([a.x, a.y, a.z].concat(c.pts), P.maxLeg)) : splitLegs([a.x, a.y, a.z].concat(c.pts), P.maxLeg), len: c.len || plen([a.x, a.y, a.z].concat(c.pts)), how: 'geodata' }, c.pol ? { pol: c.pol, clr: c.clr || null, flood: c.flood || null } : {})
+      : { ok: false, why: c.why, pts: [a.x, a.y, a.z, b.x, b.y, b.z], len: Math.round(st * 1.3), how: 'straight' };
+  }
+  if (!noQueue && !JOBSET.has(k)) JOBSET.set(k, Object.assign({ k, a: { x: Math.round(a.x), y: Math.round(a.y), z: Math.round(a.z || 0) }, b: { x: Math.round(b.x), y: Math.round(b.y), z: Math.round(b.z || 0) }, st: Math.round(st), why }, avoidDoors && avoidDoors.length ? { avoid: avoidDoors.map(doorCircle) } : {},
+    pol ? { pol: { ref: pol.ref, danger: dangerCircles(a, b, pol.ref) } } : {}));
   return { ok: null, pending: true, pts: [a.x, a.y, a.z, b.x, b.y, b.z], len: Math.round(st * 1.3), how: 'straight' };
 }
 const pt = (a) => Array.isArray(a) ? { x: a[0], y: a[1], z: a[2] } : a;
 /** geopath smooths in cells, so a diagonal leg can reach 1000 * sqrt(2): cut every leg longer than max into equal parts (the straight leg is wall-free, so its parts are too) */
 function splitLegs(p, max) { const o = [p[0], p[1], p[2]]; for (let i = 3; i < p.length; i += 3) { const L = Math.hypot(p[i] - p[i - 3], p[i + 1] - p[i - 2]), n = Math.ceil(L / max); for (let k = 1; k < n; k++) o.push(Math.round(p[i - 3] + (p[i] - p[i - 3]) * k / n), Math.round(p[i - 2] + (p[i + 1] - p[i - 2]) * k / n), Math.round(p[i - 1] + (p[i + 2] - p[i - 1]) * k / n)); o.push(p[i], p[i + 1], p[i + 2]); } return o; }
+/** RAID ROUTES 2026-10-13: a leg with an end inside a water zone is a swim for the server (every move cut at 700): cut it into parts <= 600 (geopath.legOk / the swim walker) */
+function splitWet(p) { const o = [p[0], p[1], p[2]]; for (let i = 3; i < p.length; i += 3) { const L = Math.hypot(p[i] - p[i - 3], p[i + 1] - p[i - 2]), wet = WATER.zoneAt(p[i - 3], p[i - 2], p[i - 1]) || WATER.zoneAt(p[i], p[i + 1], p[i + 2]), n = wet ? Math.ceil(L / 600) : 1; for (let k = 1; k < n; k++) o.push(Math.round(p[i - 3] + (p[i] - p[i - 3]) * k / n), Math.round(p[i - 2] + (p[i + 1] - p[i - 2]) * k / n), Math.round(p[i - 1] + (p[i + 2] - p[i - 1]) * k / n)); o.push(p[i], p[i + 1], p[i + 2]); } return o; }
 const flat = (arr) => [].concat(...arr.map(p => Array.isArray(p) ? [p[0], p[1], p[2]] : [p.x, p.y, p.z]));
 /** walk step from flat points; splits at closed doors (door steps between), adds danger */
 function walkSteps(pts, how, extra) {
@@ -363,7 +408,9 @@ function walkSteps(pts, how, extra) {
 }
 function mkWalk(pts, how, extra) {
   let dg = 0; for (let i = 0; i < pts.length; i += 3) dg = Math.max(dg, dangerAt(pts[i], pts[i + 1], pts[i + 2]));
-  return Object.assign({ do: 'walk', points: pts.map(Math.round), len: plen(pts), danger: dg, how }, how === 'straight' ? {} : swimInfo(pts), extra || {});   // extra.len (field-areas-gap) overrides
+  // RAID ROUTE POLICY (2026-10-13): the points reached by a one-way drop off a ledge -> drops [{ i, fall }] (the walker steps off there)
+  const drops = []; if (DROPAT.size && how !== 'straight') for (let i = 3, k = 1; i < pts.length; i += 3, k++) { const f = DROPAT.get(`${Math.round(pts[i])},${Math.round(pts[i + 1])},${Math.round(pts[i + 2])}`); if (f) drops.push({ i: k, fall: f }); }
+  return Object.assign({ do: 'walk', points: pts.map(Math.round), len: plen(pts), danger: dg, how }, how === 'straight' ? {} : swimInfo(pts), drops.length ? { drops } : {}, extra || {});   // extra.len (field-areas-gap) overrides
 }
 /** SWIMMING (2026-10-13): the points of a walk inside a water zone (the server's swim check: zone box + height) -> { swim: [point index],
  *  swimLen (legs between two swim points), maxSwim (longest unbroken run of them) } or {} */
@@ -371,7 +418,7 @@ function swimInfo(pts) {
   const idx = []; for (let i = 0, k = 0; i < pts.length; i += 3, k++) if (WATER.zoneAt(pts[i], pts[i + 1], pts[i + 2])) idx.push(k);
   if (!idx.length) return {};
   let len = 0, run = 0, max = 0; const set = new Set(idx);
-  for (let k = 1; k * 3 < pts.length; k++) { const d = Math.hypot(pts[k * 3] - pts[k * 3 - 3], pts[k * 3 + 1] - pts[k * 3 - 2]); if (set.has(k)) { len += d; run += d; if (run > max) max = run; } else run = 0; }   // a leg that ends in the water is swum
+  for (let k = 1; k * 3 < pts.length; k++) { const d = Math.hypot(pts[k * 3] - pts[k * 3 - 3], pts[k * 3 + 1] - pts[k * 3 - 2], pts[k * 3 + 2] - pts[k * 3 - 1]); if (set.has(k)) { /* 3D (owner 2026-10-13 19:10: deep dives) */ len += d; run += d; if (run > max) max = run; } else run = 0; }   // a leg that ends in the water is swum
   return { swim: idx, swimLen: Math.round(len), maxSwim: Math.round(max) };
 }
 const swimExtraSec = (s) => s.swimLen ? s.swimLen / SWIM_SPEED - s.swimLen / P.walkSpeed : 0;
@@ -383,9 +430,9 @@ function walkAB(a, b, why, extra, noQueue) {
   let l = leg(a, b, why, noQueue);
   if (l.ok === true && l.how === 'geodata') {
     const bd = blockedDoorsOn(l.pts).filter(d => Math.hypot(d.x - a.x, d.y - a.y) > 300 && Math.hypot(d.x - b.x, d.y - b.y) > 300);   // never the door at the very start / end (an NPC behind it)
-    if (bd.length) { const l2 = leg(a, b, why, noQueue, bd); if (l2.ok === true) l = Object.assign(l2, { aroundDoors: bd.map(d => d.id) }); }
+    if (bd.length && !(CUR_POL && CUR_POL.noWalls)) { const l2 = leg(a, b, why, noQueue, bd); if (l2.ok === true && !(l2.how === 'geodata' && blockedDoorsOn(l2.pts).some(d => bd.includes(d)))) l = Object.assign(l2, { aroundDoors: bd.map(d => d.id) }); }   // RAID ROUTES 2026-10-13: only a way that really goes around
   }
-  return { steps: walkSteps(l.pts, l.how, Object.assign({}, extra || {}, l.ok === false ? { why: l.why } : {}, l.aroundDoors ? { aroundDoors: l.aroundDoors } : {})), ok: l.ok, pending: !!l.pending, why: l.why, len: l.len };
+  return { steps: walkSteps(l.pts, l.how, Object.assign({}, extra || {}, l.ok === false ? { why: l.why } : {}, l.aroundDoors ? { aroundDoors: l.aroundDoors } : {}, l.pol ? { pol: l.pol } : {}, l.clr ? { clr: l.clr } : {}, l.flood ? { flood: l.flood } : {})), ok: l.ok, pending: !!l.pending, why: l.why, len: l.len };
 }
 
 // ---- conditions ----
@@ -451,6 +498,13 @@ function finish(t, steps, meta) {
   if (steps.some(s => s.do === 'walk' && s.swim)) flags.push('swim');                                   // SWIMMING (2026-10-13)
   if (steps.some(s => s.do === 'walk' && (s.maxSwim || 0) > 3000)) flags.push('long-swim');           // > ~60 s under water: drowning damage (1 % HP a second)
   if (steps.some(s => s.do === 'door' && s.need.wait)) flags.push('timed-door');
+  // RAID ROUTE POLICY (2026-10-13)
+  if (steps.some(s => s.do === 'walk' && s.drops && s.drops.length)) flags.push('drop');
+  if (steps.some(s => s.do === 'walk' && (s.drops || []).some(d => d.fall > 333))) flags.push('fall-damage');
+  if (steps.some(s => s.do === 'walk' && (s.maxSwim || 0) > RPOL.breath)) flags.push('over-breath');
+  if (steps.some(s => s.do === 'walk' && s.pol && s.pol.mode === 'swim-only')) flags.push('swim-only');
+  if (steps.some(s => s.do === 'walk' && s.pol && s.pol.mode === 'swim-shorter')) flags.push('swim-shorter');
+  if (steps.some(s => s.do === 'walk' && s.pol)) flags.push('raid-policy');
   if (needs.items || needs.skills || needs.other || needs.level) flags.push('conditions');
   let status = 'ok';
   if (meta.unreachable) status = 'unreachable';
@@ -459,9 +513,16 @@ function finish(t, steps, meta) {
   else if (flags.includes('conditions')) status = 'conditional';
   else if (flags.includes('unverified-walk') || flags.includes('link-not-on-live-menu')) status = 'unverified';
   const why = (meta.why || []).slice(); if (EXTRA.unreachableNotes && EXTRA.unreachableNotes[t.key]) why.push('research: ' + EXTRA.unreachableNotes[t.key]);
-  blocked.forEach(b => why.push(`door ${b.doorId} ${b.name} (${b.kind}) at ${b.at.join(',')}: ${b.need.why || (b.need.owner ? 'owner only (' + b.need.owner + ')' : b.need.script ? 'opened only by ' + b.need.script.join('; ') : b.need.instance ? 'instance door (' + b.need.instance.join(', ') + ')' : 'blocked')}`));
+  // OWNER DOORS AS WALLS (2026-10-13): ONE plain sentence first (the dashboard shows why[0]); the door list stays in whyDoors
+  const whyDoors = blocked.map(b => `door ${b.doorId} ${b.name} (${b.kind}) at ${b.at.join(',')}: ${b.need.why || (b.need.owner ? 'owner only (' + b.need.owner + ')' : b.need.script ? 'opened only by ' + b.need.script.join('; ') : b.need.instance ? 'instance door (' + b.need.instance.join(', ') + ')' : 'blocked')}`);
+  if (blocked.length) {
+    const tf = isFinite(t.x) ? fortAt(t.x, t.y, t.z) : null, places = [...new Set(blocked.map(b => { const F = fortAt(b.at[0], b.at[1], b.at[2]); return F ? F.name : (b.need.owner ? b.need.owner : b.place && b.place.dungeon ? b.place.dungeon : 'a door'); }))];
+    const own = blocked.every(b => b.need.owner);
+    if (tf && own) { status = 'unreachable'; why.unshift(`unreachable: inside ${tf.name} (owner clan only)`); }
+    else why.unshift(`no way around: the only way goes through ${places.join(', ')} — ${own ? 'only the owner clan opens those gates' : 'doors that never open for us'} (${blocked.length} door${blocked.length > 1 ? 's' : ''})`);
+  }
   steps.filter(s => s.do === 'walk' && s.why).forEach(s => why.push(`walk not on the geodata from ${s.points.slice(0, 2).join(',')} (${s.why})`));
-  return Object.assign({ key: t.key, type: t.type, name: t.name, target: { x: t.x, y: t.y, z: t.z, id: t.id }, status, flags, why, source: meta.source || 'computed',
+  return Object.assign({ key: t.key, type: t.type, name: t.name, target: { x: t.x, y: t.y, z: t.z, id: t.id }, status, flags, why, whyDoors: whyDoors.length ? whyDoors : undefined, source: meta.source || 'computed',
     from: (steps.find(s => s.do === 'town') || {}).cmd || null, length: Math.round(len), sec: Math.round(sec), maxDanger, needs, conditions: conds.map(c => ({ key: c.key, text: c.text, src: c.src, read: c.read })),
     verified: { legs, links }, steps }, meta.extra || {});
 }
@@ -478,7 +539,8 @@ function fieldRoute(T, label) {
     const pre = stepsToLanding(c.L); if (!pre) continue;
     const w = walkAB(c.L, T, label, undefined, queued);          // lazy: one uncomputed candidate per run (the next one only when it fails)
     if (w.pending) queued = true;
-    const cost = c.L.cost + (w.ok === false ? w.len * 3 : w.len) / P.walkSpeed + (w.steps.some(s => s.do === 'door' && s.need.blocked) ? 1e6 : 0);
+    const swimPen = CUR_POL ? w.steps.reduce((a, s) => a + (s.do === 'walk' ? (s.swimLen || 0) * (RPOL.swimCost - 1) : 0), 0) / P.walkSpeed : 0;   // RAID ROUTE POLICY: a swimming landing only when no dry one is near as good
+    const cost = c.L.cost + (w.ok === false ? w.len * 3 : w.len) / P.walkSpeed + swimPen + (w.steps.some(s => s.do === 'door' && s.need.blocked) ? 1e6 : 0);
     opts.push({ steps: pre.concat(w.steps), cost, ok: w.ok, pending: w.pending, why: w.why, L: c.L, len: w.len });
   }
   opts.forEach((o, i) => { o.rank = i; });
@@ -634,6 +696,30 @@ const inPoly = (x, y, Pp) => { let c = false; for (let i = 0, j = Pp.length - 1;
 const bossZoneAt = (x, y, z) => BZ.find(zn => zn.enabled && zn.poly.length > 2 && z >= zn.zMin - 200 && z <= zn.zMax + 200 && inPoly(x, y, zn.poly));
 
 function planTarget(t) {
+  if ((t.type === 'raid' || t.type === 'epic') && !has('--no-raid-policy')) {
+    const ref = Math.max(1, Math.round(Number(t.level) || 50));
+    CUR_POL = { ref, walls: new Set() };
+    let out; try { out = planTarget0(Object.assign({}, t)); } finally { }
+    // FORTRESS GATES (owner 2026-10-13 19:10: unknown whether the gates are open without an owner on L2Toggle -> walls by default; the way through
+    // them is kept as fortressAlt for the opt-in party rule "try fortress gates", with one plain note)
+    const walls = [...CUR_POL.walls];
+    if (walls.length && out && out[0]) {
+      CUR_POL = { ref, noWalls: true };
+      let alt = null; try { alt = planTarget0(Object.assign({}, t))[0]; } catch (e) { alt = null; }
+      const m = out[0];
+      if (alt && alt.steps && alt.steps.length && (/unreachable|blocked/.test(m.status) || alt.length < m.length - 2000)) {
+        m.fortressAlt = { fort: walls.join(', '), steps: alt.steps, length: alt.length, sec: alt.sec, status: alt.status };
+        const km = (u) => (Math.round(u / 100) / 10) + ' km';
+        m.why = (m.why || []).concat([/unreachable|blocked/.test(m.status) ? `the way through ${walls.join(', ')} (${km(alt.length)}) needs its gates open — if they are open on your server, set the party rule "Try fortress gates"` : `goes around ${walls.join(', ')}; if its gates are open on your server, set the party rule "Try fortress gates" to use the ${km(m.length - alt.length)} shorter way`]);
+        m.flags = (m.flags || []).concat(['fortress-alt']);
+      }
+    }
+    CUR_POL = null;
+    return out;
+  }
+  return planTarget0(t);
+}
+function planTarget0(t) {
   const why = [];
   const wv = EXTRA.walkVia && EXTRA.walkVia[t.key];
   if (wv) {
@@ -697,6 +783,11 @@ function planTarget(t) {
     // used (the file stays: the user decides); the boss is planned the computed way (inside a dungeon: town > gk > walk > entry NPC > floor > walk)
     const srCheck = sr ? RSTORE.floorCheck(sr) : { ok: true };
     if (sr && !srCheck.ok) { why.push(`saved route routes/raid/${b.id}.json not used: ${srCheck.why} — fix it on the dashboard (add the dungeon step)`); extra.extra.savedInvalid = { file: `routes/raid/${b.id}.json`, manual: !!sr.manual, why: srCheck.why }; sr = null; }
+    // RAID ROUTE POLICY (2026-10-13): only a LOCKED own route (or one the dashboard set to 'custom') wins over the computed one; an unlocked saved
+    // route (a recording of a run, a computed copy) is kept as the alternative and the computed route follows the raid rules (dry, centre, drops)
+    // (the bots' raid travel itself takes a LOCKED own route first — raidRouteUseFloors / rsChoice — so the atlas keeps the COMPUTED route for the
+    // route switch's "computed path" and records the saved one here: savedLocked / savedUnlocked)
+    if (sr && CUR_POL) { extra.extra[(sr.manual || sr.use === 'custom') ? 'savedLocked' : 'savedUnlocked'] = { file: `routes/raid/${b.id}.json`, manual: !!sr.manual, use: sr.use || 'auto', uses: sr.uses || 0, fails: sr.fails || 0, points: (sr.points || []).length, check: sr.check || null }; sr = null; }
     if (sr && Array.isArray(sr.points) && sr.points.length > 1) {
       const st = sr.start || (sr.landing && sr.landing !== 'walking' ? { kind: 'gk', desc: sr.landing } : null);
       let pre = null;

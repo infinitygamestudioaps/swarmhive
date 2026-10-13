@@ -392,6 +392,7 @@ const CONFIG = {
       soe: 5, sor: 3,                // Scroll of Escape 736 / Scroll of Resurrection 737: top up to this many
       shotsFighter: 10000, shotsMage: 5000, shotsBelow: 2000,   // user 2026-10-07 09:41: "too few spiritshots per run — they run out fast and resupply all the time" (was 5000 / 1000 / 500)   // top up shots when below shotsBelow; fighters 5000 (was 2000: Crafter1 shot ~1900 in 50 min, 2026-10-06)
       spiritOre: {},              // Spirit Ore 3031 (cubics); others 0
+      arrows: 5000, arrowsBelow: 1500,                        // OWNTYPE 2026-10-13: bow users get arrows (crossbows bolts) of their weapon grade at Helvetia
       manaPotions: 2000, manaPotionsBelow: 500,               // EVERYONE (casters 2026-10-04, damage dealers + tank too since 2026-10-06): Mana Potion 728, 2000 each
     },
     keepAdena: [[40, 2000000], [76, 2500000], [999, 3000000]],   // [below level, keep]: lvl <40 2M, 40-75 2.5M, 76+ 3M
@@ -665,7 +666,7 @@ const CONFIG = {
   // recipes / materials their Create Item level can use. rawBypass: also try L2J's npc_<id>_DepositP when no dialog link matches (off:
   // L2Toggle encodes its links). User rules: Scripts/data/stash_rules.json (read live).
   stash: { on: true, auto: false,   // auto OFF until the supervised live test (main session 2026-10-09 17:00): !stash / !stashplan work by order
-            above: 120, dest: 'private', crafters: ['Crafter1'], batch: 15, feePerItem: 30, settleMs: 1800, listTimeoutMs: 6000, maxRounds: 60, staggerMs: 25000, rawBypass: false },
+            above: 120, dest: 'private', crafters: ['Crafter1'], batch: 15, feePerItem: 30, settleMs: 1800, settleMaxMs: 20000, listTimeoutMs: 20000, maxRounds: 60, staggerMs: 25000, rawBypass: false },
 
   // Navigation: acceptér 'fremme' med en usikkerheds-radius (pathfinderen stopper ofte lidt før målet)
   // ROUTESWITCH 2026-10-13 (DUNGEON STEPS): raidFloors = raid / epic travel never walks a saved route that jumps floors (rsFloorCheck: computed path
@@ -2397,20 +2398,13 @@ let bbsWaiter = null;
 
 globalThis.OnCommunityBoardHtmlMessage = (html) => {
   try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\bbs_${Me.Name}.html`, html); } catch (e) { }
-  if (bbsWaiter) { const w = bbsWaiter; bbsWaiter = null; w(html); }
+  try { DLG.ev('board', { html: String(html || '') }); } catch (e) { }        // DIALOG-2026-10-13
 };
 
-/** Send en bypass og vent på næste board-side (null ved timeout). */
-function bbsRequest(cmd) {
-  return new Promise(resolve => {
-    const done = (html) => { clearTimeout(timer); resolve(html); };
-    const timer = setTimeout(() => {
-      if (bbsWaiter === done) bbsWaiter = null;
-      resolve(null);
-    }, CONFIG.buffs.pageTimeoutMs);
-    bbsWaiter = done;
-    Send.ReqBypassToServer(cmd, true);
-  });
+/** Send a bypass and take the next board page (null when none came: DLG.last says why). DIALOG-2026-10-13: the dialog engine (adaptive
+ *  wait, one re-click only when the click was provably lost; action = an action button: never clicked twice) */
+function bbsRequest(cmd, label, action) {
+  return DLG.click({ cmd, text: label || cmd }, { expect: ['board'], base: CONFIG.buffs.pageTimeoutMs, from: 'the Community Board', reclick: !action }).then(r => r.ok ? r.html : null);
 }
 
 /** Find bypass-koden for knappen/linket med teksten `label`. */
@@ -2430,10 +2424,10 @@ function bbsButton(html, label) {
   return null;
 }
 
-async function bbsClick(html, label) {
+async function bbsClick(html, label, action) {
   const code = bbsButton(html, label);
   if (!code) throw new Error(`button '${label}' not found`);
-  return await bbsRequest(code);
+  return await bbsRequest(code, label, action);
 }
 
 /** Antal gode buffs der har mere end warnBelowSec tilbage. */
@@ -2519,7 +2513,7 @@ async function bbsApplySchemeInner(scheme, button) {
   if (!buffsPage) throw new Error("page 'Buffs' did not arrive");
   const schemePage = await bbsClick(buffsPage, scheme);
   if (!schemePage) throw new Error(`scheme '${scheme}' did not arrive`);
-  await bbsClick(schemePage, button);           // svaret (ny side) er ligegyldigt
+  await bbsClick(schemePage, button, true);     // svaret (ny side) er ligegyldigt (an action: never clicked twice)
   await sleep(800);
 }
 
@@ -4419,18 +4413,19 @@ let npcWaiter = null;
 let teleportWaiter = null;
 let leaderLastLink = null;                      // { text, npcObjId, at } i lederens vindue
 let lastNpcHtml = '';
+let npcPageSeq = 0, npcPageAt = 0, npcPageKind = '';   // QSYS-2026-10-13: every NPC page counted (the quest engine tells a late duplicate from the answer)
 
 globalThis.OnNpcHtmlMessage = (html) => {
-  lastNpcHtml = html;
+  lastNpcHtml = html; npcPageSeq++; npcPageAt = now(); npcPageKind = 'npc';
   try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\npc_${Me.Name}.html`, html); } catch (e) { }
-  if (npcWaiter) { const w = npcWaiter; npcWaiter = null; w(html); }
+  try { DLG.ev('npc', { html: String(html || '') }); } catch (e) { }          // DIALOG-2026-10-13: the dialog engine takes every page
 };
 
 // H5 sender quest-sider som et eget pakke-type (NpcQuestHtmlMessage) — behandl dem som NPC-sider.
 globalThis.OnNpcQuestHtmlMessage = (html) => {
-  lastNpcHtml = html;
+  lastNpcHtml = html; npcPageSeq++; npcPageAt = now(); npcPageKind = 'quest';
   try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\npc_${Me.Name}.html`, html); } catch (e) { }
-  if (npcWaiter) { const w = npcWaiter; npcWaiter = null; w(html); }
+  try { DLG.ev('quest', { html: String(html || '') }); } catch (e) { }        // DIALOG-2026-10-13
 };
 
 globalThis.OnNpcDialogLink = (link) => {
@@ -4447,20 +4442,353 @@ function cleanBypass(link) {
   return String(link || '').replace(/^\s*bypass\s+/i, '').replace(/^-h\s+/i, '').trim();
 }
 
-function waitNpcHtml(ms) {
-  return new Promise(resolve => {
-    const done = (html) => { clearTimeout(t); resolve(html); };
-    const t = setTimeout(() => { if (npcWaiter === done) npcWaiter = null; resolve(null); }, ms);
-    npcWaiter = done;
-  });
-}
+// DIALOG-2026-10-13: the old single-slot waits are views of the dialog engine (adaptive safety net, sequence numbers, late duplicates held back,
+// refusal system messages end them at once; several waits at a time). Set up BEFORE the click, like before.
+function waitNpcHtml(ms) { return DLG.wait({ expect: DLG_PAGES, base: ms, label: 'a page' }).then(r => r.ok ? r.ev.data.html : null); }
+function waitTeleport(ms) { return DLG.wait({ expect: ['teleport'], base: ms, label: 'the teleport' }).then(r => !!r.ok); }
 
-function waitTeleport(ms) {
-  return new Promise(resolve => {
-    const done = (ok) => { clearTimeout(t); resolve(ok); };
-    const t = setTimeout(() => { if (teleportWaiter === done) teleportWaiter = null; resolve(false); }, ms);
-    teleportWaiter = done;
+// DIALOG-PURE-BEGIN (DIALOG-2026-10-13; no host calls in here: docs/plan/tools/test_npc_dialog.js runs this block in node against a fake host)
+// NPC DIALOG STATE MACHINE (owner 2026-10-13 17:55: "Are you timing the visits or using a state machine? It should just be: click, wait for the
+// overview, press what appears, wait, press the next or do the action ... same with quests etc. — it should be straightforward").
+// Before: every feature (openNpc, openShop/buyAt/sellAt, stashOpenList, whOpenWithdraw, qeDialog, dawnSignUp, gkTeleport, floorTeleport, the
+// board's Cabinet/Career, clan pages, dyes, Kamaloka captain, class change) had its own "click -> sleep/wait N s -> click" loop with its own
+// fixed timeout, and gave up while the late answer was still on its way (brain engine: 3-30 s agent ticks under load).
+// Now ONE engine:  OPEN (target + talk; an NPC that already is my target gets ONE click) -> WAIT_PAGE -> PICK (link by text rules; the codes
+// are read from THIS page) -> WAIT_RESULT (npc page | quest page | board page | shop list | warehouse list | packet | teleport | system message)
+// -> ACT (buy / sell / deposit packet ...) -> WAIT_EFFECT (bag / adena / position or a system message) -> DONE | FAIL(reason in plain words).
+//  * event-driven: every incoming event gets a sequence number (seq); a wait takes the first matching event AFTER its click and ends AT ONCE on
+//    a refusal system message (bag full #1118, no clan warehouse right #709, Ziggurat #1303, other task #142, not enough adena #279 ...).
+//  * timeouts are a safety net only and ADAPTIVE: soft = max(the caller's base, 3 x the measured answer time + 2 x ping + 1.5 s); past soft
+//    the wait goes on while the agent is behind (no report for > staleMs, or not connected) up to cap; ONE re-click only when the answer is
+//    provably lost (no answer event at all since the click AND the agent fresh).
+//  * a late DUPLICATE page (the 2nd copy after a double click) is held back, never taken as the answer of the next click (it is only used
+//    when nothing else came: then it IS the answer - "the same page again").
+//  * every step is logged in one place: Logs/dialog.log + the intent log ("Taurin: clicked 'Deposit an item. (Clan Warehouse)' -> deposit
+//    list (14 items) after 4.2 s").
+//  * a feature is a small declarative flow: { name, steps: [ { open }, { pick: rules, expect, menu, until }, { act, effect } ... ] }.
+const DLG_ANSWER = ['npc', 'quest', 'board', 'shop', 'whdep', 'whwd', 'multisell', 'packet', 'teleport'];
+const DLG_PAGES = ['npc', 'quest'];
+const DLG_WORDS = { npc: 'page', quest: 'quest page', board: 'board page', shop: 'shop list', whdep: 'deposit list', whwd: 'withdraw list', multisell: 'exchange list', packet: 'server packet', teleport: 'teleport', sys: 'server message' };
+// refusal system messages (H5 SystemMsg ids from Data/base.db + their wording for L2Toggle's custom texts). only: used when a flow asks for
+// the key; open: only right after my own click on the NPC (a cast's "target out of range" must not end a dialog)
+const DLG_REFUSALS = [
+  { key: 'bag', ids: [1118, 1119, 3262, 129, 422, 836, 2043], re: /weight and slot count|80 percent of capacity|weight is below 80|inventory is full|exceeded the weight limit|inventory volume limit/i, why: 'my bag is too full (slots / weight) — the server refuses' },
+  { key: 'adena', ids: [279, 281], re: /not have enough adena|not enough adena/i, why: 'not enough adena' },
+  { key: 'busy', ids: [142, 149], re: /already trading|use items while trading/i, why: 'the server says I am busy with another task (an open trade / shop window)' },
+  { key: 'clanwh', ids: [709], re: /right to use the clan warehouse/i, why: 'no clan warehouse right (the clan leader must tick "Warehouse Search" for my rank: Alt+N -> Privileges)' },
+  { key: 'whfar', ids: [162, 763], re: /too far (away )?from the warehouse/i, why: 'too far from the warehouse keeper' },
+  { key: 'npcfar', ids: [2193], re: /too far from the npc/i, why: 'too far from the NPC' },
+  { key: 'event', ids: [1303], re: /only be used during the quest event period/i, why: 'only possible in the event period (Seven Signs: not registered / not the winner)' },
+  { key: 'level', ids: [2097], re: /level does not correspond|level is too low/i, why: 'my level does not fit' },
+  { key: 'reenter', ids: [2100], re: /may not re-enter yet/i, why: 'may not re-enter yet (done today)' },
+  { key: 'items', ids: [701, 341], re: /not have enough required items|not have enough materials/i, why: 'a required item is missing' },
+  { key: 'sp', ids: [93, 278], re: /not have enough sp\b/i, why: 'not enough SP' },
+  { key: 'siege', ids: [707], re: /village that is in a siege/i, why: 'that town is under siege' },
+  { key: 'quests', ids: [401], re: /too many (ongoing |active )?quests/i, why: 'too many quests running (40)' },
+  { key: 'whfull', ids: [130, 874, 1036, 1859], re: /warehouse is full|capacity of the warehouse|exceeded the quantity that can be/i, why: 'the warehouse is full', only: true },
+  { key: 'target', ids: [22, 144, 109], re: /target is out of range|incorrect target|invalid target/i, why: 'the NPC is out of range / not a valid target', open: true },
+];
+/** a system message -> { key, why, id, text } when it refuses (o: { open: right after my NPC click, keys: extra 'only' keys, ignore: keys }) */
+function dlgRefusal(id, text, o) {
+  o = o || {}; const n = Number(id) || 0, t = String(text || '');
+  for (const R of DLG_REFUSALS) {
+    if (R.only && !(o.keys || []).includes(R.key)) continue;
+    if (R.open && !o.open) continue;
+    if ((o.ignore || []).includes(R.key)) continue;
+    if (R.ids.includes(n) || R.re.test(t)) return { key: R.key, why: R.why, id: n, text: t };
+  }
+  return null;
+}
+/** a page's identity (duplicate check): the visible text + its link codes */
+function dlgSig(html) { const s = String(html || ''); return s.length + ':' + s.replace(/\s+/g, ' ').slice(0, 600); }
+/** the time budget of one wait: soft = the caller's base or 3 x the measured answer time + 2 x ping + 1.5 s; cap = the hard safety net */
+function dlgBudget(base, lat, rtt) {
+  const ew = Math.max(200, Number(lat) || 1500), r = Math.max(0, Number(rtt) || 0);
+  const soft = Math.max(Number(base) || 6000, Math.round(3 * ew + 2 * r + 1500));
+  return { soft, cap: Math.max(soft * 3, soft + 60000) };
+}
+/** what to do now in a wait without an answer: 'wait' | 'reclick' | 'fail'.
+ *  s = { el (ms since the click), soft, cap, connected, age (ms since the agent's last report; 0 inside L2Swarm), staleMs, answered (some answer
+ *  event came, not the one wanted), canReclick, reclicks, maxReclicks } */
+function dlgDecide(s) {
+  if (s.el >= s.cap) return 'fail';
+  if (s.el < s.soft) return 'wait';
+  if (s.connected === false || Number(s.age) > Number(s.staleMs || 2000)) return 'wait';     // the agent is behind: its answer may still come
+  if (!s.answered && s.canReclick && (s.reclicks || 0) < (s.maxReclicks === undefined ? 1 : s.maxReclicks)) return 'reclick';   // provably lost
+  return 'fail';
+}
+/** pick a link: rules = { fn: (links, ctx) -> link } (a feature's own picker) | one rule | [rules in priority order]; a rule = RegExp |
+ *  string (exact, case/space insensitive) | { re, not, exact } | (link, ctx) => bool. skip(link) = already tried. */
+function dlgPick(links, rules, ctx, skip) {
+  const L = (links || []).filter(l => l && l.cmd && !(skip && skip(l)));
+  if (rules && typeof rules === 'object' && typeof rules.fn === 'function') return rules.fn(L, ctx) || null;
+  const norm = (s) => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  const one = (r, l) => {
+    if (!r) return false;
+    if (r instanceof RegExp) return r.test(String(l.text || ''));
+    if (typeof r === 'string') return norm(l.text) === norm(r);
+    if (typeof r === 'function') return !!r(l, ctx);
+    if (typeof r === 'object') return (r.re ? r.re.test(String(l.text || '')) : r.exact !== undefined ? norm(l.text) === norm(r.exact) : true) && !(r.not && r.not.test(String(l.text || '')));
+    return false;
+  };
+  const list = Array.isArray(rules) ? rules : [rules];
+  for (const r of list) { const hit = L.find(l => one(r, l)); if (hit) return hit; }
+  return null;
+}
+/** one line about an answer: "deposit list (14 items)", "page 'Welcome ...'", "teleport", "REFUSED: ..." */
+function dlgDescribe(r, text) {
+  if (!r) return 'nothing';
+  if (r.ok && r.ev) {
+    const d = r.ev.data || {}, k = r.ev.kind, n = Array.isArray(d.items) ? d.items.length : d.items && d.items.length !== undefined ? d.items.length : null;
+    if (k === 'npc' || k === 'quest' || k === 'board') return `${DLG_WORDS[k]} '${String(text ? text(d.html) : '').slice(0, 60)}'${r.same ? ' (the same page again)' : ''}`;
+    if (k === 'teleport') return `teleport to ${Math.round(Number(d.x) || 0)},${Math.round(Number(d.y) || 0)}`;
+    return `${DLG_WORDS[k] || k}${n !== null ? ` (${n} items)` : ''}`;
+  }
+  if (r.sys) return `REFUSED: ${r.sys.why} (server #${r.sys.id}${r.sys.text ? ' ' + String(r.sys.text).slice(0, 80) : ''})`;
+  return `FAILED: ${r.why || 'no answer'}`;
+}
+/**
+ * The engine. H (host) = { now(), sleep(ms), setTimeout(f, ms), clearTimeout(t), lag() -> { connected, age, rtt } | null (null = inside
+ * L2Swarm: always fresh), target() -> objId of my target, action(objId), bypass(cmd), links(html, board) -> [{ cmd, text }], text(html) -> plain,
+ * log(line) }. Returns { ev, wait, open, click, effect, run, lat, stats, last, dup, seq }.
+ */
+function dlgEngine(H) {
+  const E = { seq: 0, ring: [], waits: [], lat: { page: 1500, list: 1500, teleport: 3000, board: 1500, packet: 1500, effect: 800 }, dup: null, last: null,
+    stats: { ok: 0, fail: 0, refused: 0, reclicks: 0, dups: 0, behind: 0, events: 0 }, staleMs: 2000, settleMs: 300 };
+  const latKey = (k) => k === 'teleport' ? 'teleport' : k === 'board' ? 'board' : k === 'packet' ? 'packet' : /^(shop|whdep|whwd|multisell)$/.test(k) ? 'list' : k === 'effect' ? 'effect' : 'page';
+  const lagNow = () => { let L = null; try { L = H.lag ? H.lag() : null; } catch (e) { L = null; } return L ? { connected: L.connected !== false, age: Math.max(0, Number(L.age) || 0), rtt: Math.max(0, Number(L.rtt) || 0) } : { connected: true, age: 0, rtt: 0 }; };
+  const log = (line) => { try { if (H.log) H.log(line); } catch (e) { } };
+  const secs = (ms) => (Math.round(ms / 100) / 10).toFixed(1);
+  E.learn = (kind, ms) => { const k = latKey(kind); E.lat[k] = Math.round(Math.max(200, Math.min(30000, 0.7 * E.lat[k] + 0.3 * ms))); };
+  /** an incoming event (kind in DLG_ANSWER, 'sys', 'target') */
+  E.ev = (kind, data) => {
+    const ev = { seq: ++E.seq, kind: String(kind), at: H.now(), data: data || {} };
+    if (ev.data.html !== undefined) ev.sig = dlgSig(ev.data.html);
+    E.ring.push(ev); if (E.ring.length > 80) E.ring.shift(); E.stats.events++;
+    E.waits.slice().forEach(w => { try { w.feed(ev); } catch (e) { } });
+    return ev;
+  };
+  /**
+   * WAIT_RESULT: spec = { expect: [kinds], after: seq (default: now), base: ms, match(ev) -> bool, refuse: false | { open, keys, ignore },
+   * onReclick(), maxReclicks (0), dupOk (take a duplicate as the answer), label }
+   * -> { ok, ev, kind, ms, same, reclicks } | { ok: false, why, sys, ev (another answer), ms, behind }
+   */
+  E.wait = (spec) => new Promise((resolve) => {
+    spec = spec || {};
+    const expect = spec.expect || DLG_PAGES, after = spec.after === undefined ? E.seq : spec.after;
+    const W = { t0: H.now(), clickAt: H.now(), reclicks: 0, held: null, heldAt: 0, answered: null, done: false, timer: null, behindSaid: false };
+    const lk = latKey(expect[0]), L0 = lagNow();
+    let B = dlgBudget(spec.base, E.lat[lk], L0.rtt);
+    const finish = (r) => {
+      if (W.done) return; W.done = true;
+      if (W.timer) { try { H.clearTimeout(W.timer); } catch (e) { } }
+      E.waits = E.waits.filter(x => x !== W);
+      r.ms = H.now() - W.t0; r.reclicks = W.reclicks;
+      if (r.ok) { E.stats.ok++; if (!r.same) E.learn(r.kind, H.now() - W.t0); }   // from the FIRST click: after a re-click the answer may be the first click's else if (r.sys) E.stats.refused++; else E.stats.fail++;
+      E.last = r; resolve(r);
+    };
+    W.feed = (ev) => {
+      if (W.done || ev.seq <= after) return;
+      if (ev.kind === 'sys') {
+        if (spec.refuse === false) return;
+        const f = dlgRefusal(ev.data.id, ev.data.text, Object.assign({}, spec.refuse || {}, { open: !!(spec.refuse && spec.refuse.open) && H.now() - W.clickAt < 4000 }));
+        if (f) finish({ ok: false, sys: f, why: f.why, kind: 'sys', ev });
+        return;
+      }
+      if (ev.kind === 'target') return;
+      if (!expect.includes(ev.kind) || (spec.match && !spec.match(ev))) { if (DLG_ANSWER.includes(ev.kind)) W.answered = ev; return; }
+      if (!spec.dupOk && E.dup && ev.sig && ev.sig === E.dup.sig && E.dup.left > 0 && H.now() < E.dup.until) {
+        E.dup.left--; E.stats.dups++; W.held = ev; W.heldAt = H.now(); W.answered = ev;
+        log(`late duplicate of the ${DLG_WORDS[ev.kind] || ev.kind} ignored (seq ${ev.seq}${spec.label ? ', waiting for ' + spec.label : ''})`);
+        return;
+      }
+      finish({ ok: true, ev, kind: ev.kind });
+    };
+    E.waits.push(W);
+    E.ring.filter(ev => ev.seq > after).forEach(ev => W.feed(ev));            // came before the wait was set up
+    const tick = () => {
+      W.timer = null; if (W.done) return;
+      const t = H.now();
+      // a held duplicate and nothing else for a while: it IS the answer (the server sent the same page again)
+      if (W.held && t - W.heldAt >= Math.min(B.soft, Math.max(2500, 2 * E.lat.page))) { finish({ ok: true, ev: W.held, kind: W.held.kind, same: true }); return; }
+      const L = lagNow();
+      const d = dlgDecide({ el: t - W.clickAt, soft: B.soft, cap: B.cap, connected: L.connected, age: L.age, staleMs: E.staleMs, answered: !!W.answered,
+        canReclick: typeof spec.onReclick === 'function', reclicks: W.reclicks, maxReclicks: spec.maxReclicks || 0 });
+      if (d === 'wait') {
+        if (t - W.clickAt >= B.soft && !W.behindSaid) { W.behindSaid = true; E.stats.behind++; log(`${spec.label || 'answer'}: no answer after ${secs(t - W.clickAt)} s — the agent is ${L.connected ? secs(L.age) + ' s behind' : 'not connected'}, waiting on`); }
+        W.timer = H.setTimeout(tick, 250); return;
+      }
+      if (d === 'reclick') {
+        W.reclicks++; E.stats.reclicks++; W.clickAt = t; B = dlgBudget(spec.base, E.lat[lk], L.rtt);
+        if (E.dup && E.dup.sig) { E.dup.left++; E.dup.until = t + B.soft; }                 // the lost click may still answer: one more copy is possible
+        log(`${spec.label || 'answer'}: nothing came in ${secs(t - W.t0)} s and the agent is fresh — the click was lost, clicking once more`);
+        try { spec.onReclick(); } catch (e) { }
+        W.timer = H.setTimeout(tick, 250); return;
+      }
+      if (W.held) { finish({ ok: true, ev: W.held, kind: W.held.kind, same: true }); return; }
+      if (W.answered) { finish({ ok: false, why: `got a ${DLG_WORDS[W.answered.kind] || W.answered.kind} instead of a ${expect.map(k => DLG_WORDS[k] || k).join(' / ')}`, ev: W.answered }); return; }
+      finish({ ok: false, why: `no answer within ${secs(t - W.t0)} s${W.reclicks ? ' (clicked again once)' : ''}`, behind: !L.connected || L.age > E.staleMs });
+    };
+    if (!W.done) W.timer = H.setTimeout(tick, 250);
   });
+  /** OPEN + WAIT_PAGE: npc = { objId, Name }; o = { base, tries (3), onNoAnswer(i) (walk around), label } -> wait result (+ html) */
+  E.open = async (npc, o) => {
+    o = o || {};
+    const id = Number(npc.objId), name = String(npc.Name || npc.name || 'NPC'), tries = o.tries || 3;
+    let r = null;
+    for (let i = 0; i < tries; i++) {
+      let targeted = false; try { targeted = Number(H.target()) === id; } catch (e) { }
+      const after = E.seq, clicks = targeted ? 1 : 2;
+      H.action(id);                                          // select (or talk, when it is my target already)
+      if (clicks === 2) { await H.sleep(300); H.action(id); }   // talk
+      r = await E.wait({ expect: DLG_PAGES, after, base: o.base, refuse: { open: true }, label: `the first page of ${name}`, dupOk: true, onReclick: () => H.action(id), maxReclicks: 1 });
+      if (r.ok) {
+        const extra = clicks - 1 + r.reclicks;                 // more copies of this page may still come (both clicks talked when it was my target already)
+        E.dup = { sig: r.ev.sig, left: extra, until: H.now() + Math.max(4000, 3 * E.lat.page) };
+        r.html = r.ev.data.html;
+        log(`opened ${name} (${clicks === 1 ? '1 click: already my target' : 'select + talk'}${r.reclicks ? ', clicked again' : ''}) -> ${dlgDescribe(r, H.text)} after ${secs(r.ms)} s`);
+        if (E.settleMs) await H.sleep(E.settleMs);
+        return r;
+      }
+      log(`talk to ${name}: ${dlgDescribe(r)}${i + 1 < tries ? ' — try ' + (i + 2) : ''}`);
+      if (r.sys && r.sys.key !== 'target') return r;
+      if (o.onNoAnswer && i + 1 < tries) { try { await o.onNoAnswer(i); } catch (e) { } }
+    }
+    return r;
+  };
+  /** PICK done by the caller -> click the link + WAIT_RESULT. o = { expect, base, match, refuse, reclick (default false: only links whose answer
+   *  is certain - menus, lists, teleports - may be clicked again, never an action such as a toggle / a confirm), from, label, dupOk } */
+  E.click = async (link, o) => {
+    o = o || {};
+    const after = E.seq, send = () => H.bypass(link.cmd);
+    send();
+    const r = await E.wait({ expect: o.expect || DLG_PAGES, after, base: o.base, match: o.match, refuse: o.refuse === undefined ? {} : o.refuse, dupOk: o.dupOk,
+      label: o.label || `'${link.text || link.cmd}'`, onReclick: o.reclick === true ? send : null, maxReclicks: o.reclick === true ? 1 : 0 });
+    if (r.ok && r.ev && r.ev.data && r.ev.data.html !== undefined) r.html = r.ev.data.html;
+    if (r.ok && r.reclicks && r.ev.sig) E.dup = { sig: r.ev.sig, left: r.reclicks, until: H.now() + Math.max(4000, 3 * E.lat.page) };   // both clicks may answer: the 2nd copy is no answer to the NEXT click
+    log(`clicked '${String(link.text || link.cmd).slice(0, 70)}'${o.from ? ' at ' + o.from : ''} -> ${dlgDescribe(r, H.text)} after ${secs(r.ms)} s`);
+    return r;
+  };
+  /** WAIT_EFFECT after an ACT: check() -> truthy when the effect is there (may be async); refusals end it at once. o = { check, base, refuse, label, poll } */
+  E.effect = async (o) => {
+    const after = E.seq, t0 = H.now(), base = o.base || 1500, poll = o.poll || 250;
+    let B = dlgBudget(base, E.lat.effect, lagNow().rtt), said = false;
+    for (;;) {
+      let v = false; try { v = await o.check(); } catch (e) { v = false; }
+      if (v) { E.learn('effect', H.now() - t0); const r = { ok: true, value: v, ms: H.now() - t0 }; if (o.label) log(`${o.label}: done after ${secs(r.ms)} s`); return r; }
+      if (o.refuse !== false) {
+        const sys = E.ring.filter(ev => ev.seq > after && ev.kind === 'sys').map(ev => dlgRefusal(ev.data.id, ev.data.text, o.refuse || {})).find(Boolean);
+        if (sys) { const r = { ok: false, sys, why: sys.why, ms: H.now() - t0 }; log(`${o.label || 'action'}: ${dlgDescribe(r)}`); return r; }
+      }
+      const L = lagNow(), el = H.now() - t0;
+      const d = dlgDecide({ el, soft: B.soft, cap: Math.min(B.cap, o.capMs || B.cap), connected: L.connected, age: L.age, staleMs: E.staleMs, answered: false, canReclick: false });
+      if (d === 'fail') { const r = { ok: false, why: `no effect within ${secs(el)} s`, ms: el }; if (o.label) log(`${o.label}: ${r.why}`); return r; }
+      if (d === 'wait' && el >= B.soft && !said) { said = true; if (o.label) log(`${o.label}: not yet after ${secs(el)} s — the agent is ${secs(L.age)} s behind, waiting on`); }
+      await H.sleep(poll);
+    }
+  };
+  /**
+   * a FLOW: { name, board (links are board buttons too), steps: [
+   *   { open: true, tries, base }                                       OPEN + WAIT_PAGE (ctx.npc)
+   *   { pick: rules | { fn(links, ctx) }, menu: rules (a sub menu to try when nothing fits), depth (1), expect: [kinds], until: [kinds] (default: the
+   *     non-page kinds of expect; a page answer then means the next round), base, refuse, reclick, onPage(ctx, html, round) -> 'stop' | void,
+   *     onAnswer(ctx, r) -> 'stop' | void, need: false (no link = fine) }
+   *   { act: async (ctx) => void, effect: (ctx) => truthy, base, refuse, label }      ACT + WAIT_EFFECT
+   *   { call: async (ctx) => ({ ok, done, why }) }                                   a hook
+   * ] }  ctx = { npc, page, vars... } -> { ok, why, sys, ctx, result }
+   */
+  E.run = async (flow, ctx) => {
+    ctx = ctx || {}; ctx.trace = ctx.trace || [];
+    const who = ctx.npc ? String(ctx.npc.Name || ctx.npc.name || '') : '';
+    const fail = (why, extra) => { const r = Object.assign({ ok: false, why: `${flow.name}: ${why}`, ctx }, extra || {}); log(`${flow.name}${who ? ' at ' + who : ''}: FAILED — ${why}`); return r; };
+    for (const st of flow.steps) {
+      if (st.open) {
+        const r = await E.open(ctx.npc, { base: st.base, tries: st.tries, onNoAnswer: ctx.onNoAnswer });
+        ctx.trace.push({ step: 'open', ok: r.ok, ms: r.ms });
+        if (!r.ok) return fail(r.sys ? r.sys.why : `${who} did not answer`, { sys: r.sys, noAnswer: !r.sys });
+        ctx.page = r.html; ctx.pageKind = r.kind;
+        if (st.onPage && st.onPage(ctx, ctx.page, -1) === 'stop') return { ok: true, ctx, stopped: true };
+        continue;
+      }
+      if (st.pick) {
+        const until = st.until || (st.expect || DLG_PAGES).filter(k => !DLG_PAGES.includes(k) && k !== 'board');
+        const tried = {};
+        let done = false;
+        for (let round = 0; round < (st.depth || 1) && !done; round++) {
+          if (!ctx.page) return fail(`no page to click on (${st.label || 'step'})`);
+          if (st.onPage && round > 0 && st.onPage(ctx, ctx.page, round) === 'stop') return { ok: true, ctx, stopped: true };
+          const links = H.links(String(ctx.page), !!(flow.board || st.board));
+          const skip = (l) => !!tried[l.cmd + '|' + l.text];
+          let link = dlgPick(links, st.pick, ctx, skip), via = 'pick';
+          if (!link && st.menu) { link = dlgPick(links, st.menu, ctx, skip); via = 'menu'; }
+          if (!link) { if (st.need === false) { done = true; break; } ctx.links = links; return fail(`no link for ${st.label || 'the next step'} — the page has: ${links.map(l => l.text).join(' | ').slice(0, 240) || '(no links)'}`, { links }); }
+          tried[link.cmd + '|' + link.text] = 1;
+          const ex = via === 'menu' ? DLG_PAGES.concat(flow.board || st.board ? ['board'] : []) : (st.expect || DLG_PAGES);   // a sub menu answers with a page
+          const r = await E.click(link, { expect: ex, base: via === 'menu' ? (st.menuBase || st.base) : st.base, match: via === 'menu' ? undefined : st.match, refuse: st.refuse, reclick: st.reclick, from: who });
+          ctx.trace.push({ step: st.label || 'pick', link: link.text, via, ok: r.ok, kind: r.kind, ms: r.ms });
+          ctx.last = r; ctx.lastLink = link;
+          if (st.onAnswer) { const s = st.onAnswer(ctx, r, link); if (s === 'stop') return { ok: true, ctx, stopped: true, result: r }; }
+          if (!r.ok) return fail(r.sys ? r.sys.why : r.why, { sys: r.sys, result: r, link, via });
+          if (until.includes(r.kind)) { ctx.result = r; done = true; break; }
+          if (r.html !== undefined) { ctx.page = r.html; ctx.pageKind = r.kind; if (!until.length) { done = true; break; } continue; }
+          ctx.result = r; done = true;
+        }
+        if (!done && until.length) return fail(`${st.label || 'the wanted window'} did not come after ${st.depth || 1} pages`);
+        continue;
+      }
+      if (st.act) {
+        try { await st.act(ctx); } catch (e) { return fail(`${st.label || 'action'}: ${e && e.message}`); }
+        if (st.effect) {
+          const r = await E.effect({ check: () => st.effect(ctx), base: st.base, refuse: st.refuse, label: `${who ? who + ': ' : ''}${st.label || 'action'}` });
+          ctx.trace.push({ step: st.label || 'act', ok: r.ok, ms: r.ms });
+          if (!r.ok) return fail(r.sys ? r.sys.why : r.why, { sys: r.sys });
+        }
+        continue;
+      }
+      if (st.call) {
+        let r = null; try { r = await st.call(ctx); } catch (e) { r = { ok: false, why: e && e.message }; }
+        if (r && r.ok === false) return fail(r.why || 'step failed', r);
+        if (r && r.done) return Object.assign({ ok: true, ctx }, r);
+      }
+    }
+    return { ok: true, ctx, result: ctx.result };
+  };
+  return E;
+}
+/** FLOW: a list window behind one or more dialog pages (shop list, warehouse deposit / withdraw list). o = { name, label, pick (rules | { fn }),
+ *  menu, until: ['shop'] | ['whdep', 'whwd'] ..., ms, depth (3), onPage(html, round) } */
+function dlgListFlow(o) {
+  return { name: o.name, steps: [{ label: o.label, pick: o.pick, menu: o.menu, expect: o.until.concat(DLG_PAGES), until: o.until, depth: o.depth || 3, base: o.ms, reclick: true,
+    onPage: o.onPage ? (ctx, html, round) => o.onPage(html, round) : undefined }] };
+}
+// DIALOG-PURE-END
+// --- DIALOG host side (DIALOG-2026-10-13) ------------------------------------------------------------------------------------------------
+/** the brain engine's view of my agent (Dashboard/brain_host/host.js __agentLink: ms since its last report + ping round trip); null inside L2Swarm */
+function dlgAgentLag() { try { if (typeof __agentLink === 'function') { const a = __agentLink(); if (a) return { connected: a.connected !== false, age: num(a.age), rtt: num(a.rtt) }; } } catch (e) { } return null; }
+function dlgLog(line) {
+  const t = new Date().toISOString();
+  try { appendShared(`${SWARM_ROOT}\\Logs\\dialog.log`, `${t} ${Me.Name}: ${line}\r\n`); } catch (e) { }
+  try { appendShared(`${SWARM_ROOT}\\Logs\\intent_${Me.Name}.log`, `${t}   dialog: ${line}\r\n`); } catch (e) { }
+}
+const DLG = dlgEngine({ now: () => now(), sleep: (ms) => sleep(ms), setTimeout: (f, ms) => setTimeout(f, ms), clearTimeout: (t) => clearTimeout(t),
+  lag: dlgAgentLag, target: () => { try { return Target ? num(Target.objId) : 0; } catch (e) { return 0; } },
+  action: (id) => Send.Action(id), bypass: (cmd) => Send.ReqBypassToServer(cmd, true),
+  links: (html, board) => board ? pageActions(String(html || '')).map(a => ({ cmd: a.cmd, text: a.label })) : npcLinks(String(html || '')),
+  text: (html) => htmlText(String(html || '')), log: dlgLog });
+/** CLICK + WAIT_RESULT for one link -> its page html | null (DLG.last says why). link = { cmd, text } | a bypass string.
+ *  o.reclick: true only for links whose answer is certain (menus); never for an action (a confirm, a toggle, "give me ...") */
+async function dlgPage(link, ms, from, o) {
+  const L = typeof link === 'string' ? { cmd: link, text: link } : link;
+  const r = await DLG.click(L, Object.assign({ base: ms, from: from ? String(from) : '' }, o || {}));
+  return r.ok && r.html !== undefined ? r.html : null;
+}
+/** CLICK + WAIT_RESULT for a link that may teleport or answer with a page -> 'tp' | 'page' | null (DLG.last says why).
+ *  o.thenTpMs: after a page, wait that long for a teleport too (the old "page first, the teleport after it" races) */
+async function dlgTpOrPage(link, ms, from, o) {
+  const L = typeof link === 'string' ? { cmd: link, text: link } : link, s0 = DLG.seq;
+  const r = await DLG.click(L, Object.assign({ base: ms, from: from ? String(from) : '', expect: ['teleport', 'npc', 'quest'] }, o || {}));
+  if (r.ok && r.kind !== 'teleport' && o && o.thenTpMs) { const t = await DLG.wait({ expect: ['teleport'], after: s0, base: o.thenTpMs, refuse: false, label: 'a teleport after the page' }); if (t.ok) return 'tp'; }
+  return r.ok ? (r.kind === 'teleport' ? 'tp' : 'page') : null;
 }
 
 // Klientens tekst-tabel (<fstring>1010005</fstring> = "The Town of Gludio").
@@ -4635,13 +4963,10 @@ async function openNpcInner(npc) {
     } else { state.walkGate = false; state.preciseWalk = false; if (nnNear) endNativeNear(); }
   }
   // står vi stadig langt væk: klikket får serveren til at gå hen (virker inden for synsvidde)
-  for (let i = 0; i < 3; i++) {
-    const page = waitNpcHtml(g.pageTimeoutMs);
-    Send.Action(npc.objId);                     // vælg
-    await sleep(300);
-    Send.Action(npc.objId);                     // tal
-    const html = await page;
-    if (html) { await sleep(900); intentDone('npc', true, `${npc.Name} answered`); return lastNpcHtml || html; }   // dobbelt-klik giver siden 2 gange: brug den nyeste
+  // DIALOG-2026-10-13: OPEN + WAIT_PAGE in the dialog engine: an NPC that is my target already gets ONE click (both clicks of a double click
+  // brought the page = a late 2nd copy), else select + talk; the wait follows the measured latency, re-clicks once only when the click was
+  // provably lost; the 2nd try walks around (below), the 3rd clicks again
+  const opened = await DLG.open(npc, { base: g.pageTimeoutMs, tries: 3, onNoAnswer: async (i) => {
     if (i === 1) {                              // svarer ikke: sandsynligvis mur/disk imellem — lad L2Swarm finde vejen
       note(`${npc.Name} not answering from ${Math.round(Distance(npc))} — walking around via geodata (MoveToNpc)`);
       await new Promise(res => { let done = false; const fin = () => { if (!done) { done = true; res(); } };
@@ -4656,8 +4981,9 @@ async function openNpcInner(npc) {
         } catch (e) { fin(); } setTimeout(fin, 30000); });
       await sleep(500);
     }
-  }
-  intentDone('npc', false, `${npc.Name} did not answer 3 clicks (${Math.round(Distance(npc))} away)`);
+  } });
+  if (opened && opened.ok) { intentDone('npc', true, `${npc.Name} answered`); return opened.html; }
+  intentDone('npc', false, `${npc.Name} did not answer${opened && opened.sys ? ': ' + opened.sys.why : ' 3 clicks'} (${Math.round(Distance(npc))} away)`);
   return null;
 }
 
@@ -4680,7 +5006,8 @@ function townKeyFor(text) {
   return Object.keys(TOWNS).find(k => TOWNS[k].to.some(n => gkNorm(n) === t) || gkNorm(TOWNS[k].menu) === t || k.toLowerCase() === t || gkNorm(k) === t) || null;
 }
 let gkFail = '';                                   // why the last gkTeleportInner failed (shown in the intent log + dashboard)
-let lastSysMsg = null;                             // seneste system-besked fra serveren (OnSystemMessage)
+let lastSysMsg = null;
+const sysMsgRing = [];                              // QSYS-2026-10-13: the last 40 server messages { at, id, text } (lastSysMsg alone is overwritten by the next one)                             // seneste system-besked fra serveren (OnSystemMessage)
 /** Leader: let the team load in after a teleport before moving on (user 2026-10-04). */
 async function settleAfterPort() {
   if (!leadMode() || !isLeader() || !teamNames().length || !state.portAt) return;
@@ -4901,39 +5228,30 @@ async function gkTeleportInner(wanted, why) {
     if (!html) { gkFail = `${npc.Name} did not answer the click (${Math.round(Distance(npc))} away — wall or other window in the way?)`; note(`gatekeeper: ${gkFail}`, true); return false; }
 
     recordGkMenu(npc, html);
-    let cmd = wanted.cmd || null;
+    // DIALOG-2026-10-13: the gatekeeper FLOW in the dialog engine — PICK the destination on this page (else a pure menu link, page by page,
+    // each page recorded), CLICK it, WAIT_RESULT = the teleport (a page or a refusal instead ends it with the reason)
+    let tr = null, cmd = wanted.cmd || null;
     if (!cmd) {
       const want = gkNorm(wanted.text);                // "Kamael Village free" == "Kamael Village"
       const matches = wanted.exact ? (t => gkNorm(t) === want) : (t => gkNorm(t).includes(want));
-      const seen = new Set();
-      for (let depth = 0; depth < 4 && !cmd && html; depth++) {
-        const links = npcLinks(html);
-        // fallback: the menu text is the END of what we want ('Alligator Island' for 'Entrance to Alligator Islands', Heine 2026-10-05) — only
-        // multi-word, non-town links, and only when nothing matched the normal way
-        const tail = (t) => { const n = gkNorm(t); return !wanted.exact && n.length >= 8 && n.includes(' ') && want.endsWith(n) && !townKeyFor(t); };
-        const hit = links.find(l => matches(l.text)) || links.find(l => tail(l.text));
-        if (hit) { cmd = hit.cmd; break; }
-        // Ikke på denne side: prøv en teleport-/by-menu vi ikke har set.
-        // Kun rene menu-links (ALDRIG et rejsemål — 'X Village' teleporterer!)
-        const menu = links.find(l => /^(teleport|other|more|next|go to|see more|move to other)/i.test(l.text) && !/\b(village|town|castle|camp|ruins|valley|forest|island|fortress|harbor|port|plateau|grounds|field)\b/i.test(l.text) && !seen.has(l.cmd));
-        if (!menu) break;
-        seen.add(menu.cmd);
-        const p = waitNpcHtml(g.pageTimeoutMs);
-        Send.ReqBypassToServer(menu.cmd, true);
-        html = await p;
-        if (html) recordGkMenu(npc, html);
-      }
-      if (!cmd) {
-        const menu = npcLinks(html || '').map(l => l.text).join(' | ');
-        gkFail = `no link to '${gkNorm(wanted.text)}' at ${npc.Name}${currentTownKey() ? ' (' + currentTownKey() + ')' : ''} — its menu: ${menu}`;
+      // fallback: the menu text is the END of what we want ('Alligator Island' for 'Entrance to Alligator Islands', Heine 2026-10-05) — only
+      // multi-word, non-town links, and only when nothing matched the normal way
+      const tail = (t) => { const n = gkNorm(t); return !wanted.exact && n.length >= 8 && n.includes(' ') && want.endsWith(n) && !townKeyFor(t); };
+      // Ikke på denne side: prøv en teleport-/by-menu vi ikke har set. Kun rene menu-links (ALDRIG et rejsemål — 'X Village' teleporterer!)
+      const menuRe = (l) => /^(teleport|other|more|next|go to|see more|move to other)/i.test(l.text) && !/\b(village|town|castle|camp|ruins|valley|forest|island|fortress|harbor|port|plateau|grounds|field)\b/i.test(l.text);
+      const fr = await DLG.run({ name: 'gatekeeper', steps: [{ label: `the link to '${gkNorm(wanted.text)}'`, pick: { fn: (L) => L.find(l => matches(l.text)) || L.find(l => tail(l.text)) },
+        menu: { fn: (L) => L.find(menuRe) }, expect: ['teleport'], until: ['teleport'], depth: 4, base: g.teleportTimeoutMs, menuBase: g.pageTimeoutMs, reclick: true,
+        onPage: (ctx, h) => { recordGkMenu(npc, h); } }] }, { npc, page: html });
+      if (!fr.ok && fr.links) {
+        gkFail = `no link to '${gkNorm(wanted.text)}' at ${npc.Name}${currentTownKey() ? ' (' + currentTownKey() + ')' : ''} — its menu: ${fr.links.map(l => l.text).join(' | ')}`;
         note(`gatekeeper: ${gkFail}`, true);
         return false;
       }
-    }
-
-    const tp = waitTeleport(g.teleportTimeoutMs);
-    Send.ReqBypassToServer(cmd, true);
-    let ok = await tp;
+      if (!fr.ok && fr.via === 'menu') { gkFail = `${npc.Name}: a menu page did not come (${fr.why})`; note(`gatekeeper: ${gkFail}`, true); return false; }
+      tr = fr.ok ? fr.result : (fr.result || { ok: false, why: fr.why, sys: fr.sys });
+      cmd = fr.ctx && fr.ctx.lastLink ? fr.ctx.lastLink.cmd : '?';
+    } else tr = await DLG.click({ cmd, text: wanted.text || cmd }, { expect: ['teleport'], base: g.teleportTimeoutMs, from: npc.Name, reclick: true });
+    let ok = !!(tr && tr.ok && tr.kind === 'teleport');
     // Landede vi det rigtige sted? (link-numre kan pege forkert hvis dialogen skiftede)
     if (ok && wanted.text) {
       await sleep(1500);
@@ -4944,7 +5262,7 @@ async function gkTeleportInner(wanted, why) {
         ok = false;
       }
     } else if (!ok) {
-      gkFail = `clicked '${wanted.text || cmd}' at ${npc.Name} but no teleport within ${Math.round(g.teleportTimeoutMs / 1000)} s — ` +
+      gkFail = `clicked '${wanted.text || cmd}' at ${npc.Name} but no teleport (${tr && tr.sys ? 'REFUSED: ' + tr.sys.why : (tr && tr.why) || 'no answer'}) — ` +
         `adena ${itemCount(57).toLocaleString()}, level ${Me.Level}${lastSysMsg && now() - lastSysMsg.at < 15000 ? ', server said: ' + lastSysMsg.text : ''}`;
     }
     note(ok ? `gatekeeper: teleported (${why})` : `gatekeeper: ${gkFail}`, !ok);
@@ -7081,7 +7399,7 @@ globalThis.OnTeleportToLocation = (objId, x, y, z) => {
   state.portAt = now();                            // leader waits CONFIG.lead.settleMs after this before walking/teleporting on
   // the "before .giran: fighting ..." task text stayed on the dashboard after the port (user 2026-10-04 20:20) -> show where I landed
   if (/^before |^escape/.test(String(state.task || ''))) setTimeout(() => { if (/^before |^escape/.test(String(state.task || ''))) setTask(`teleported${currentTownKey() ? ' to ' + currentTownKey() : ''}`); }, 1500);
-  if (teleportWaiter) { const w = teleportWaiter; teleportWaiter = null; w(true); }
+  try { DLG.ev('teleport', { x, y, z }); } catch (e) { }                     // DIALOG-2026-10-13
   scheduleTownRestock();
   if (state.escaping) setTimeout(() => endEscape('teleported'), 2000);
   else if (isLeader() && !state.gkBusy) leaderTeleported(x, y, z);
@@ -7474,6 +7792,7 @@ const nearestRouteIdx = (pts) => { let bi = 0, bd = 1e12; pts.forEach((p, i) => 
 let routeHopActive = false;
 async function routeHop(p, abort, onDetour) {
   standUp();
+  if (p && p.drop) { routeHopActive = true; try { await walkDirect(p.x, p.y, p.z, 120, 15000, abort, 'route'); return Math.hypot(p.x - Me.X, p.y - Me.Y) < 300 && Math.abs(p.z - Me.Z) < 300; } finally { routeHopActive = false; } }   // OWNER 19:10: only below the ledge counts   // RAID ROUTES 2026-10-13: off the ledge
   routeHopActive = true;
   const precise0 = state.preciseWalk;
   state.preciseWalk = true;                         // the point must REALLY be reached: no "close enough" at 500-600 (2026-10-06 22:04: Tank1 counted
@@ -7505,7 +7824,13 @@ async function routeHop(p, abort, onDetour) {
         if ((ok || Math.hypot(p.x - Me.X, p.y - Me.Y) <= 150) && onDetour && det.length) onDetour(det);
       }
     }
-    return ok || Math.hypot(p.x - Me.X, p.y - Me.Y) <= 150;
+    const at2 = ok || Math.hypot(p.x - Me.X, p.y - Me.Y) <= 150;
+    // OWNER 2026-10-13 19:10 (3D): a swim point = dive until its height is reached; a point inside a mapped multi-floor dungeon = the right floor
+    if (at2 && isFinite(p.z) && typeof reach3D === 'function') {
+      if (p.swim) return await reach3D(p, abort);
+      try { const fb = rsmFloorBand(dungeonRooms(), p.x, p.y, p.z); if (fb && (Me.Z < fb[0] || Me.Z > fb[1])) { note(`route: at ${P(p.x, p.y)} but on the wrong floor (z ${Math.round(Me.Z)}, point ${Math.round(p.z)}) — not reached`, true); return false; } } catch (e) { }
+    }
+    return at2;
   } finally { routeHopActive = false; state.preciseWalk = precise0; }
 }
 /** While a member walks a route NOTHING may pull it straight to the leader (regroup, stuck-follow, help, unstick): user 2026-10-06
@@ -7532,14 +7857,14 @@ async function leadRouteWalk(pts, label, abort, startTown, start, boss) {
     while (i < pts.length - 1) {
       if ((abort && abort()) || Me.IsDead) { ok = false; break; }
       const at = i;
-      if (!(await routeHop(pts[i + 1], abort, det => { fixes.push({ after: at, pts: det }); note(`route to ${label}: blocked between point ${at + 1} and ${at + 2} — walked around it (${det.length} detour points), saving them into the route`, true); }))) { if ((abort && abort()) || Me.IsDead) { ok = false; break; } note(`route to ${label}: I am stuck before point ${i + 2}/${pts.length} at ${P(Me.X, Me.Y, Me.Z)} — correct the route on the dashboard`, true); ok = false; break; }
+      if (!(await rcRouteHop(pts[i + 1], abort, det => { fixes.push({ after: at, pts: det }); note(`route to ${label}: blocked between point ${at + 1} and ${at + 2} — walked around it (${det.length} detour points), saving them into the route`, true); }))) { if ((abort && abort()) || Me.IsDead) { ok = false; break; } note(`route to ${label}: I am stuck before point ${i + 2}/${pts.length} at ${P(Me.X, Me.Y, Me.Z)} — correct the route on the dashboard`, true); ok = false; break; }
       i++;
     }
     if (ok) {
       // the end of the route: wait here (max 6 min) until every living member has walked the route to me
       const t0 = now();
       while (now() - t0 < (routeRewalk.size ? 900000 : 360000) && !(abort && abort()) && !Me.IsDead) {   // 15 min while someone walks the route again from the town
-        const far = teamNames().filter(n => { const lp = livePos[n]; return lp && now() - (lp.at || 0) < 15000 && !lp.IsDead && Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) > 900; });
+        const far = teamNames().filter(n => { const lp = livePos[n]; return lp && now() - (lp.at || 0) < 15000 && !lp.IsDead && Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) > 900 && !(rcOn() && Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) > CONFIG.together.ignoreBeyond); });   // CIRCUIT round 2: far stragglers catch up by themselves
         if (!far.length) break;
         setTask(`route to ${label}: at the end, waiting for ${far.join(', ')} (walking the route)`);
         await sleep(3000);
@@ -7571,7 +7896,7 @@ App.on('swarm.routerewalk', (event) => { if (isLeader()) { if (event.data && eve
 const memberRoute = { id: null, pts: null, my: 0, busy: false, until: 0, fails: 0, label: '', town: '', rewalks: 0 };
 function memberRouteStop() { memberRoute.id = null; memberRoute.pts = null; try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
 App.on('swarm.routewalk', (event) => {
-  if (event.source.characterName !== CONFIG.leader || isLeader()) return;
+  if (event.source.characterName !== CONFIG.leader || isLeader() || runHeld()) return;   // RUNSTATE: a held member stays
   const d = event.data || {};
   if (d.end) { if (memberRoute.id === d.id) { memberRouteStop(); note('route walk: the whole team is at the end — following again'); } return; }
   // a route starts: CANCEL every walk still running (2026-10-06 22:27: Inspector1's old walk went on into 'the old walker' = L2Swarm's long-distance
@@ -7834,7 +8159,7 @@ App.on('swarm.together.follow', (event) => {
 // under the native-nav guard, where the straight script follow cannot get round terrain); the walk does not move me -> Appearing + click
 // free, then walk again. A town port without me (port: true) needs nothing here: swarm.lead.hub after his landing -> followTown -> .town.
 const comeHere = { busy: false, at: 0, gen: 0 };
-App.on('swarm.comehere', (event) => { if (event.source.characterName === CONFIG.leader) comeHereRun(event.data || {}); });
+App.on('swarm.comehere', (event) => { if (event.source.characterName === CONFIG.leader && !runHeld()) comeHereRun(event.data || {}); });   // RUNSTATE: a held member stays
 function comeHereRun(d) {
   if (isLeader() || !state.role || Me.IsDead) return;
   if (!(d.names || []).includes(Me.Name) || benched()) return;
@@ -7911,7 +8236,9 @@ async function walkTo(x, y, z, dist, timeoutMs, abortIn) {
   }
   if (await refuseTownExit(x, y, z, 'walk')) return false;             // after the teleport attempt: still in a town and the target is outside it
   intent('walk', `to ${P(x, y, z)} (within ${dist})`, { x, y, z });
-  const r = await walkToInner(x, y, z, dist, timeoutMs, abort);
+  let r = await walkToInner(x, y, z, dist, timeoutMs, abort);
+  // OWNER 2026-10-13 19:10 (3D): in a mapped multi-floor dungeon a walk to a point on another floor is not "arrived" at the right x,y
+  if (r && isFinite(z) && dist <= 800) { try { const fb = typeof rsmFloorBand === 'function' ? rsmFloorBand(dungeonRooms(), x, y, z) : null; if (fb && (Me.Z < fb[0] || Me.Z > fb[1])) { r = false; note(`walk: at ${P(x, y)} but on another floor (z ${Math.round(Me.Z)}, target ${Math.round(z)})`); } } catch (e) { } }
   intentDone('walk', r, r ? 'arrived' : `not there — ${Math.round(distTo(x, y))} left`);
   return r;
 }
@@ -7957,6 +8284,8 @@ function raidRouteUseFloors(r, b) {
   if (!r || !(CONFIG.routeSwitch && CONFIG.routeSwitch.raidFloors)) return raidRouteUse(r);
   const fc = rsFloorCheck(r);
   if (!fc.ok) { note(`raid ${b.name}: the saved route is not walkable (${fc.why}) — the computed path (nav atlas) instead; fix it on the dashboard (route editor: add the dungeon step)`, true); return 'atlas'; }
+  // RAID ROUTES 2026-10-13: a locked route flagged by docs/plan/tools/raid_routes.js (a leg with no way around on the geodata): a warning only, still walked
+  if (r.manual && r.check && r.check.ok === false && !r.checkIgnore) note(`raid ${b.name}: WARNING — your locked route failed the geodata check (${String(r.check.why).slice(0, 120)}); it is still used (your choice) — check it in the route editor`, true);
   return raidRouteUse(r);
 }
 /** a boss inside a dungeon floor (dungeon_rooms.json bbox + height band): the old-travel spot goes in through that floor's room nearest the boss */
@@ -8345,16 +8674,26 @@ globalThis.OnShopList = (shopId, items) => {
     }
     File.WriteAllText(`${SWARM_ROOT}\\Logs\\shop_${Me.Name}.txt`, `shop ${shopId}\r\n${rows.join('\r\n')}\r\n`);
   } catch (e) { logError('OnShopList', e); }
-  if (shopWaiter) { const w = shopWaiter; shopWaiter = null; w({ shopId, items }); }
+  try { DLG.ev('shop', { shopId, items }); } catch (e) { }                     // DIALOG-2026-10-13
 };
 
-function waitShop(ms) {
-  return new Promise(resolve => {
-    const done = (s) => { clearTimeout(t); resolve(s); };
-    const t = setTimeout(() => { if (shopWaiter === done) shopWaiter = null; resolve(null); }, ms);
-    shopWaiter = done;
-  });
+// ==== SHOPLIST-PURE begin (2026-10-13, tester YellowSeven + 172 owner lines since 2026-10-12 15:36: "Common Item - Brigandine Helmet: not
+// in Radia's list any more"). L2Swarm's OnShopList list is the SELL part of "Buy/Sell/Refund" = MY OWN items with sell prices (Logs/shop_<me>.txt:
+// Brandish Blade 642, Recipe: Cokes 85 ... at Helvetia); the merchant's buy list is the BuyList global. On the brain engine (live since
+// 2026-10-12) BuyList was mirrored from OnShopList, so every "is it in the list" check failed. Fixed in agent2.js / host.js (the real BuyList
+// goes along); this guard makes swarm.js safe with an old agent too: a "buy list" that is really my bag is treated as UNKNOWN (buy anyway,
+// the bag count proves it), never as "not sold". Tested by docs/plan/tools/test_gear_guard.js.
+/** listIds: the item ids of the list that arrived; bagIds: my bag's item ids (array / Set). true = the list is my own bag (the sell part). */
+function slIsSellPart(listIds, bagIds) {
+  const L = (listIds || []).map(Number).filter(x => x > 0);
+  if (L.length < 2) return false;
+  const B = bagIds instanceof Set ? bagIds : new Set((bagIds || []).map(Number));
+  return L.filter(x => B.has(x)).length / L.length >= 0.8;
 }
+// ==== SHOPLIST-PURE end
+/** my bag's item ids now (host) */
+function slBagIds() { const s = new Set(); try { (hostSnap.inv() || Inventory).forEach(i => s.add(num(i.Id))); } catch (e) { } return s; }
+function waitShop(ms) { return DLG.wait({ expect: ['shop'], base: ms, label: 'the shop list' }).then(r => r.ok ? { shopId: r.ev.data.shopId, items: r.ev.data.items } : null); }   // DIALOG-2026-10-13
 
 const itemCount = (id) => num(ItemCount(id));
 // ENGINE DATA (2026-10-12, engine audit #15): a brain-hosted character (Dashboard/brain_host) reads its bag from a mirror that the agent
@@ -8419,21 +8758,31 @@ async function buyAt(npc, wants, why, essential) {
     const sh = await openShop(npc);
     if (!sh.ok) { results.push(`${w.name}: ${sh.msg}`); if (i === 0) return { ok: false, bought: [], msg: sh.msg }; continue; }
     const prices = sh.prices;
-    if (prices[w.id] === undefined) { results.push(`${w.name}: not sold here`); continue; }
-    const price = prices[w.id] || 1;
-    const afford = Math.floor((itemCount(57) - reserve) / (price * 1.2));   // +20 %: the castle tax is added on top (2026-10-06: 3993 Mana Potions = list price just under Crafter1's adena -> the server refused ALL)
+    if (prices[w.id] === undefined && !sh.listUnknown) { results.push(`${w.name}: not sold here`); continue; }
+    // SHOPLIST: the buy list is unknown (an old agent mirrored my sell part): no price -> the full count, halved below when the server refuses
+    const price = prices[w.id] || (sh.listUnknown ? 0 : 1);
+    const afford = price ? Math.floor((itemCount(57) - reserve) / (price * 1.2)) : w.count;   // +20 %: the castle tax is added on top (2026-10-06: 3993 Mana Potions = list price just under Crafter1's adena -> the server refused ALL)
     const count = Math.min(w.count, afford);
     if (count <= 0) { results.push(`${w.name}: can't afford (${price} each, have ${itemCount(57)} adena${reserve ? ', ' + reserve + ' kept in reserve' : ''})`); continue; }
     const before = itemCount(w.id);
     let res;
     try { res = BuyItem(w.id, count); } catch (e) { res = `error: ${e.message}`; }
-    await sleep(1500);
+    // DIALOG-2026-10-13: ACT -> WAIT_EFFECT (the bag count) or the server's refusal (adena / bag), adaptive instead of a fixed 1.5 s
+    const gotIt = () => itemCount(w.id) !== before;
+    let ef = await DLG.effect({ check: gotIt, base: 1500, label: `${npc.Name}: buy ${w.name} x${count}` });
     // fallback: the High Five buy packet RequestBuyItem 0x40 [shopId][n][itemId, count(8)] via Send.SendHex (no spaces) — tested 2026-10-03
-    if (itemCount(w.id) === before && sh.shopId !== undefined && sh.shopId !== null) {
+    if (itemCount(w.id) === before && !(ef.sys && /^(adena|bag)$/.test(ef.sys.key)) && sh.shopId !== undefined && sh.shopId !== null) {
       try { buyPacket(sh.shopId, [{ id: w.id, count }]); res = 'buy packet'; } catch (e) { res = `buy packet error: ${e.message}`; }
-      await sleep(1500);
+      ef = await DLG.effect({ check: gotIt, base: 1500, label: `${npc.Name}: buy packet ${w.name} x${count}` });
     }
-    const got = itemCount(w.id) - before;
+    if (ef.sys && itemCount(w.id) === before) res = `REFUSED: ${ef.sys.why}`;
+    let got = itemCount(w.id) - before;
+    // SHOPLIST: unknown price -> maybe more than my adena: try half, then a quarter (the server refuses the whole packet)
+    for (let h = 2; got <= 0 && sh.listUnknown && !price && h <= 4 && sh.shopId !== undefined && sh.shopId !== null; h *= 2) {
+      const c2 = Math.max(1, Math.floor(count / h)); if (c2 >= count) break;
+      try { buyPacket(sh.shopId, [{ id: w.id, count: c2 }]); res = `buy packet x${c2}`; } catch (e) { res = `buy packet error: ${e.message}`; }
+      await DLG.effect({ check: () => itemCount(w.id) !== before, base: 1500, label: `${npc.Name}: buy packet ${w.name} x${c2}` }); got = itemCount(w.id) - before;   // DIALOG-2026-10-13
+    }
     results.push(`${w.name} x${count}: ${got > 0 ? `OK (+${got})` : `not bought (${res})`}`);
     if (got > 0) bought.push({ id: w.id, name: w.name, count: got });
     try { Send.RequestBuySellUIClose(); } catch (e) { }
@@ -8454,12 +8803,10 @@ async function scanClick(npc, path, keepOpen) {          // keepOpen: leave the 
   let html = await openNpc(npc);
   for (let i = 0; i < path.length && html; i++) {
     const l = npcLinks(html).find(x => x.text === path[i]); if (!l) return { error: `no link '${path[i]}'` };
-    const s = waitShop(6000), p = waitNpcHtml(6000);
-    Send.ReqBypassToServer(l.cmd, true);
-    // whichever comes first: a shop window (OnShopList) or a new dialog page (both give up after 6 s)
-    const first = await Promise.race([s.then(x => ({ shop: x })), p.then(h => ({ html: h }))]);
-    const sh = first.shop || null;
-    if (!sh && first.html === undefined) html = await p;
+    // DIALOG-2026-10-13: whichever comes first, a shop window (OnShopList) or a new dialog page — one wait in the dialog engine
+    const ans = await DLG.click(l, { expect: ['shop', 'npc', 'quest'], base: 6000, from: npc.Name, reclick: true });
+    const sh = ans.ok && ans.kind === 'shop' ? { shopId: ans.ev.data.shopId, items: ans.ev.data.items } : null;
+    const first = { html: ans.ok && !sh ? ans.html : null };
     if (sh) {
       await sleep(1200);
       const items = []; try { BuyList.forEach(it => items.push({ id: num(it.Id), name: String(it.Name || ''), price: num(it.Price) })); } catch (e) { }
@@ -8467,8 +8814,7 @@ async function scanClick(npc, path, keepOpen) {          // keepOpen: leave the 
       if (!keepOpen) { try { Send.RequestBuySellUIClose(); } catch (e) { } }
       return { shopId: sh.shopId, items };
     }
-    if (first.html !== undefined) html = first.html;
-    if (!html) { const late = await Promise.race([s, sleep(1500).then(() => null)]); if (late) { await sleep(1200); const items = []; try { BuyList.forEach(it => items.push({ id: num(it.Id), name: String(it.Name || ''), price: num(it.Price) })); } catch (e) { } if (!keepOpen) { try { Send.RequestBuySellUIClose(); } catch (e) { } } return { shopId: late.shopId, items }; } }
+    html = first.html;                                // (the old "late shop list" wait: the dialog engine waited adaptively already)
     if (i === path.length - 1) return { page: html ? npcLinks(html).map(x => x.text) : [], html };
   }
   return { error: 'no answer' };
@@ -8676,8 +9022,38 @@ function ggCheck(o) {
   if ((slot === 'chest' || slot === 'legs') && !ex && !st && P.keepArmorType && cmp.t && c.t && cmp.t !== c.t) return `different armor type (${cmp.t} -> ${c.t})`;
   if (ex) return '';
   if (ggGrade(c.g) < ggGrade(cmp.g)) return `lower grade (${cmp.n || ''} ${cmp.g} -> ${c.g})`;
-  if (ggGrade(c.g) === ggGrade(cmp.g) && !P.sameGradeSwap) return `same grade (${cmp.g}): kept`;
+  // OWNTYPE 2026-10-13: a STARTER piece never holds its slot on "same grade" (a level-19 destroyer with Training Gloves never got the
+  // No-Grade Zweihander under the default sameGradeSwap false)
+  if (ggGrade(c.g) === ggGrade(cmp.g) && !P.sameGradeSwap && !sgIsStarter(cmp)) return `same grade (${cmp.g}): kept`;
   return '';
+}
+// OWNTYPE (public tester 2026-10-13, party Yellow lvl 20: "I gave them all Composite Bows because Zweihander can't be purchased, and now they
+// won't change weapon type and think no D-grade weapon is available"): a REAL weapon / body armor of a type the role plan does not use (a
+// Human Knight or a Destroyer with a bow, a dagger in heavy armor) is the player's choice. The upgrade stays WITHIN that type (the best
+// affordable bow of my grade) instead of refusing; the user's gear plan (class / role entry or the _weapon rule in gear_prefs.json) still wins.
+const OWNTYPE = { word: { BOW: 'bow', CROSSBOW: 'crossbow', POLE: 'polearm', DUAL: 'dual swords', DUALFIST: 'fist weapon', FIST: 'fist weapon', DAGGER: 'dagger', DUALDAGGER: 'dual daggers', RAPIER: 'rapier', ANCIENTSWORD: 'ancient sword', HEAVY: 'heavy armor', LIGHT: 'light armor', MAGIC: 'robe' },
+  // ammunition per grade (H5 ids; Giran's grocer Helvetia sells Wooden..Mithril Arrow and Bone..Mithril Bolt: datapack buylist 3008100)
+  ammo: { BOW: { NONE: [17, 'Wooden Arrow'], D: [1341, 'Bone Arrow'], C: [1342, 'Steel Arrow'], B: [1343, 'Silver Arrow'], A: [1344, 'Mithril Arrow'], S: [1345, 'Shining Arrow'] },
+    CROSSBOW: { NONE: [9632, 'Wooden Bolt'], D: [9633, 'Bone Bolt'], C: [9634, 'Steel Bolt'], B: [9635, 'Silver Bolt'], A: [9636, 'Mithril Bolt'], S: [9637, 'Shining Bolt'] } },
+  helvetia: [17, 1341, 1342, 1343, 1344, 9633, 9634, 9635, 9636] };   // what the supply run can buy (Shining Arrow / Wooden + Shining Bolt: not in Giran)
+/** plain words for a weapon / armor type: "bow", "two-handed sword", "light armor" */
+function ggTypeWord(info) {
+  if (!info) return 'item';
+  const t = String(info.t || '');
+  if (t === 'SWORD' || t === 'BLUNT') return (info.mw ? 'magic ' : '') + (info.two ? 'two-handed ' : 'one-handed ') + t.toLowerCase();
+  return OWNTYPE.word[t] || t.toLowerCase() || 'item';
+}
+/** is `cand` the same type as the worn piece `worn` (weapon: same family + magic flag; chest / legs: same armor type)? */
+function ggSameType(slot, cand, worn) {
+  if (!cand || !worn) return false;
+  if (slot === 'weapon') return ggWeaponFamily(cand) === ggWeaponFamily(worn) && !!cand.mw === !!worn.mw;
+  return !!cand.t && cand.t === worn.t;
+}
+/** the arrows / bolts a worn weapon needs: { id, name } or null (grades S80 / S84 shoot S ammunition) */
+function ammoFor(w) {
+  if (!w || !OWNTYPE.ammo[String(w.t || '')]) return null;
+  const g = String(w.g || 'NONE').toUpperCase().replace(/^S\d+$/, 'S'), a = OWNTYPE.ammo[w.t][g];
+  return a ? { id: a[0], name: a[1] } : null;
 }
 // GEARGUARD-END
 let gearPrefCache = { at: 0, v: null }, gearRecCache = { at: 0, cls: -1, v: null };
@@ -8698,6 +9074,23 @@ function gearGuard(slot, info, g, explicit) {
   const S = String(slot || (info && info.s) || '').replace(/2$/, ''), w = ((g && g.eq && g.eq.weapon) || [])[0];
   return ggCheck({ slot: S, cand: info, worn: (((g && g.eq) || {})[S] || []).map(e => e.info), weapon: S === 'shield' ? (w && w.info) : null, explicit, policy: gearPolicy(), ranged: gearRole() === 'archer' });   // STARTERGEAR: an archer may trade a starter sword for a bow
 }
+/** OWNTYPE (tester 2026-10-13): the worn REAL pieces of a type my role plan does not use = the player's choice: { weapon?, chest?, legs?,
+ *  _wr } (item infos). Fighter roles only for the weapon (not Kamael: Change Weapon decides there); the _weapon rule of gear_prefs.json
+ *  (WR, the user's plan) wins over a worn weapon type (_wr = true: that rule's type is bought). Body armor only with keepArmorType. */
+function gearOwnTypes(g, GP, WR) {
+  const own = {};
+  try {
+    const role = gearRole(), R = ROLE_RULES[role], w = ((g && g.eq && g.eq.weapon) || [])[0];
+    if (!R) return own;
+    if (R.stat === 'pa' && !KAMAEL_WEAPON[role] && w && !sgIsStarter(w.info) && !R.weapon(w.info)) {
+      if (WR && (WR.type || WR.two)) own._wr = true; else own.weapon = w.info;
+    }
+    BODY_SLOTS.forEach(s => { const e = ((g && g.eq && g.eq[s]) || [])[0]; if (e && (!GP || GP.keepArmorType) && e.info.t && !sgIsStarter(e.info) && !R.armor.includes(e.info.t)) own[s] = e.info; });
+  } catch (e) { }
+  return own;
+}
+/** may `info` go into `slot` as an upgrade of the player's own type (grade + race ok, same type as the worn piece)? */
+function gearOwnOk(own, slot, info) { return !!(own && own[slot]) && !!info && gradeOk(info.g) && (!info.r || info.r.split(',').includes(myRace())) && ggSameType(slot, info, own[slot]); }
 // STARTERGEAR host part (TESTERS-2026-10-12) ------------------------------------------------------------------------------------------
 var SGW = { at: 0, fam: '' };
 /** the weapon family of my worn STARTER weapon ('' = none / a real weapon); 2 s cache (canUse asks per shop item) */
@@ -8856,6 +9249,11 @@ function planUpgrades(budget) {
   if (saGrade >= 0 && GEAR_GRADES.indexOf(myGearGrade()) <= saGrade) locked.weapon = `S.A. weapon ${w.info.n}`;
   const WR = weaponRuleFor();                                                      // destroyers: 2h sword at C, 2h blunt from B (gear_prefs.json _weapon)
   const weaponFits = (info) => !(saGrade >= 0 && GEAR_GRADES.indexOf(info.g) <= saGrade) && !(WR && WR.type && info.t !== WR.type) && !(WR && WR.two && !info.two);
+  // OWNTYPE (tester 2026-10-13, see GEARGUARD): a real worn weapon / body armor the role plan does not use = the player's type; upgrades stay
+  // within it. The _weapon rule of gear_prefs.json (the user's plan) wins over it: then that type is bought (explicit).
+  const worn0 = {}; ['weapon', 'chest', 'legs'].forEach(s => { worn0[s] = ((g.eq[s] || [])[0] || {}).info || null; });   // before virtualEquip changes g
+  const own = gearOwnTypes(g, GP, WR), wrOverride = !!own._wr;
+  const ownOk = (slot, info) => gearOwnOk(own, slot, info);
   Object.keys(g.eq).forEach(slot => g.eq[slot].forEach(e => {
     if (enchantOf(e.objId) > 0) enchGrade[slot] = Math.max(enchGrade[slot] === undefined ? -1 : enchGrade[slot], GEAR_GRADES.indexOf(e.info.g));
   }));
@@ -8905,7 +9303,7 @@ function planUpgrades(budget) {
       if (fromRec && wearing < want) {
         const jinfo = kwant && info.t !== kwant && info.cw ? items[info.cw] : info, jid = jinfo === info ? num(ids[0]) : num(info.cw);
         // TESTERS2-2026-10-13: an EMPTY slot is never kept
-        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && upgradeGain(jid, jinfo, g) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
+        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && upgradeGain(jid, jinfo, g, ownOk(slot, jinfo)) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
       }
       locked[slot] = 'preferred';
       if (slot === 'chest' && info.full) locked.legs = 'covered (full armor)';   // GEARPREF D3
@@ -8953,17 +9351,22 @@ function planUpgrades(budget) {
   for (const slot of U.order) {
     if (locked[slot]) continue;
     if (slot === 'shield' && !R.shield) continue;
-    let best = null;
+    let best = null, bestNormal = null;
+    // OWNTYPE: a weapon type with no Common piece in Giran (No-Grade two-handed swords: only the normal Zweihander 217k; the player's
+    // own type) -> the best NORMAL piece of that type, only when no Common piece beats what I wear (tester 2026-10-13: "Zweihander
+    // can't be purchased" = the Common-only rule never bought it, and the base-class recommendation was a bow)
+    const normalOk = slot === 'weapon' && (!w || sgIsStarter(w.info) || !!own.weapon);
     for (const id of Object.keys(idx)) {
       const info = items[id];
-      if (!info || info.s !== slot || !canUse(info)) continue;
+      if (!info || info.s !== slot || !(canUse(info) || ownOk(slot, info))) continue;   // OWNTYPE: or the player's own type
       // Giran sells NO Common items at No-Grade (2026-10-07: shop scan — only normal Long Sword 121k, Cotton Shirt 18k, Ring of Wisdom 5k...),
       // so every character under 20 kept its starter gear. No Common twin -> the normal No-Grade piece (cheap anyway); Common stays the rule from D up.
       // COMMON ONLY (user 2026-10-07: "melee fighters buy COMMON items for everything under 40 — anything else makes no sense, no good
       // stats"): no normal-piece fallback any more (it bought Dagger1 a normal Sword Breaker 217k). Giran's Common lists DO have No-Grade
       // weapons (Common Crafted Dagger / Assassin Knife / Saber 20,166). A slot without a Common piece keeps what it has. Casters still get
       // their real armour SET in step a) above.
-      const offer = idx[id].filter(o => o.common).sort((a, b) => a.price - b.price)[0];
+      const normal = !idx[id].some(o => o.common);
+      const offer = idx[id].filter(o => o.common).sort((a, b) => a.price - b.price)[0] || (normalOk ? idx[id].slice().sort((a, b) => a.price - b.price)[0] : null);
       if (!offer) continue;
       if (enchGrade[slot] !== undefined && GEAR_GRADES.indexOf(info.g) <= enchGrade[slot]) continue;
       // KAMAEL (user 2026-10-06): Giran sells no rapiers / ancient swords, but "Change Weapon" (skill 1473) turns a sword into its
@@ -8976,25 +9379,48 @@ function planUpgrades(budget) {
           if (!tw || tw.t !== want) continue;
           judgeId = num(info.cw); judge = tw; change = judgeId;
         }
-        if (role === 'fighter2h' && !info.two) continue;
+        if (role === 'fighter2h' && !info.two && !ownOk(slot, info)) continue;
         if (!weaponFits(info)) continue;                                          // weapon rule (type / two-handed) + S.A. same-grade lock
       }
       if (slot !== 'earring' && slot !== 'ring' && picks.some(p => p.id === num(id))) continue;
-      const gain = upgradeGain(judgeId, judge, g);
+      const gain = upgradeGain(judgeId, judge, g, ownOk(slot, judge));
       if (gain < U.minGain) continue;
-      if (guard(slot, judge, false)) continue;
-      if (!best || gain > best.gain || (gain === best.gain && offer.price < best.offer.price)) best = { id: num(id), info, slot, offer, gain, change };
+      if (guard(slot, judge, slot === 'weapon' && wrOverride && weaponFits(info))) continue;   // OWNTYPE: the user's _weapon rule may change the type
+      const cand = { id: num(id), info, slot, offer, gain, change, normal };
+      if (normal) { if (!bestNormal || gain > bestNormal.gain || (gain === bestNormal.gain && offer.price < bestNormal.offer.price)) bestNormal = cand; continue; }
+      if (!best || gain > best.gain || (gain === best.gain && offer.price < best.offer.price)) best = cand;
     }
+    if (!best && bestNormal) best = bestNormal;                                     // OWNTYPE: no Common piece of my type beats what I wear
     if (best) { picks.push(best); virtualEquip(g, best.change ? { ...best, id: best.change, info: items[best.change] } : best); }
   }
   // c) budget: in slot order (weapon and body first)
   const buys = [], skipped = [];
   let spend = 0;
-  picks.forEach(p => { if (spend + p.offer.price <= budget) { buys.push(p); spend += p.offer.price; } else skipped.push(`${p.info.n} (${p.offer.price})`); });
+  const slotRank = (p) => { const i = U.order.indexOf(p.slot); return i < 0 ? 99 : i; };   // OWNTYPE 2026-10-13: really weapon + body first (an automatic weapon pick came after the jewelry)
+  picks.slice().sort((a, b) => slotRank(a) - slotRank(b)).forEach(p => { if (spend + p.offer.price <= budget) { buys.push(p); spend += p.offer.price; } else skipped.push(`${p.info.n} (${p.offer.price})`); });
   if (locked.weapon && /^S\.A\./.test(locked.weapon)) skipped.push(`weapon kept: ${locked.weapon}`);
   prefSkipped.forEach(t => skipped.push(t));
-  Object.keys(guardNotes).forEach(k => { if (!picks.some(p => p.slot === k)) skipped.push(guardNotes[k]); });   // STARTERGEAR: not when the slot got a pick after all
-  return { buys, skipped, spend, prefs: prefRows, why: buys.length ? '' : picks.length ? `not enough adena (${Math.max(0, Math.round(budget))} to spend after keep ${CONFIG.gear.upgrade.keep}): ${picks.map(p => p.info.n + ' ' + p.offer.price).join(', ')}`.slice(0, 300) : 'nothing better in the shops' };   // TESTERS2
+  // OWNTYPE notes (tester 2026-10-13): the decision in plain words instead of "weapon kept: different weapon type" blockers
+  const notes = [], noted = {}, grade = myGearGrade();
+  const pickOf = (slot) => picks.find(p => p.slot === slot);
+  ['weapon', 'chest', 'legs'].forEach(slot => {
+    const wi = worn0[slot]; if (!wi || sgIsStarter(wi)) return;
+    const typeGuard = slot === 'weapon' ? /different weapon type/.test(guardNotes.weapon || '') : /different armor type/.test(guardNotes[slot] || '');
+    if (!own[slot] && !typeGuard && !(slot === 'weapon' && own._wr)) return;
+    const tw = ggTypeWord(wi), p = pickOf(slot), chest = slot === 'legs' ? pickOf('chest') : null;
+    if (locked[slot] && !(locked[slot] === 'kept' || (locked[slot] === 'preferred' && p))) return;   // S.A. / enchanted / the user's own plan: said elsewhere
+    noted[slot] = true;
+    if (chest && chest.info.full) notes.push(`legs: covered by ${chest.info.n} (full armor)`);
+    else if (p && !ggSameType(slot, p.change ? (items[p.change] || p.info) : p.info, wi)) notes.push(`${slot}: your gear plan (gear_prefs.json) names ${p.info.n} -> ${buys.includes(p) ? 'buying it' : 'not enough adena for it'} instead of the ${tw}`);
+    else if (p) notes.push(`${slot}: kept the ${tw} type you chose -> ${buys.includes(p) ? 'buying' : 'not enough adena for'} ${p.info.n} (${p.offer.price})`);
+    else notes.push(`${slot}: kept the ${tw} type you chose (${wi.n}); no better ${tw} in the shops for grade ${grade}`);
+  });
+  Object.keys(guardNotes).forEach(k => {
+    if (picks.some(p => p.slot === k) || noted[k]) return;                         // STARTERGEAR: not when the slot got a pick after all; OWNTYPE: said in a note
+    if (k === 'shield' && /two-handed/.test(guardNotes[k])) return;                // OWNTYPE: no shield next to a bow / 2h weapon is fine, no blocker
+    skipped.push(guardNotes[k]);
+  });
+  return { buys, skipped, spend, prefs: prefRows, notes, why: buys.length ? '' : picks.length ? `not enough adena (${Math.max(0, Math.round(budget))} to spend after keep ${CONFIG.gear.upgrade.keep}): ${picks.map(p => p.info.n + ' ' + p.offer.price).join(', ')}`.slice(0, 300) : 'nothing better in the shops' };   // TESTERS2
 }
 
 /** Buy the picks: one route walk per merchant, the shop list opened by its link path, one buy packet per piece. */
@@ -9008,9 +9434,11 @@ async function buyGearPicks(picks) {
     if (!npc) { res.push(`${G.offer.npc} not found`); continue; }
     for (const p of G.picks) {
       const before = bagCount(p.id);
-      const sh = await scanClick(npc, G.offer.path, true);
+      let sh = await scanClick(npc, G.offer.path, true);
+      if (!sh.items) { try { Send.RequestBuySellUIClose(); } catch (e) { } await sleep(1500); sh = await scanClick(npc, G.offer.path, true); }   // SHOPLIST: one retry (a late page of the click before)
       if (!sh.items) { res.push(`${p.info.n}: shop did not open (${sh.error || 'a page instead of the list'})`); continue; }
-      if (!sh.items.some(i => i.id === p.id)) { res.push(`${p.info.n}: not in ${G.offer.npc}'s list any more`); try { Send.RequestBuySellUIClose(); } catch (e) { } continue; }
+      const sellPart = slIsSellPart(sh.items.map(i => i.id), slBagIds());          // SHOPLIST: my own bag arrived, not the merchant's list
+      if (!sh.items.some(i => i.id === p.id) && !sellPart) { res.push(`${p.info.n}: not in ${G.offer.npc}'s list any more`); try { Send.RequestBuySellUIClose(); } catch (e) { } continue; }
       try { buyPacket(sh.shopId, [{ id: p.id, count: 1 }]); } catch (e) { res.push(`${p.info.n}: buy packet error ${e.message}`); }
       await sleep(1500);
       try { Send.RequestBuySellUIClose(); } catch (e) { }
@@ -9063,16 +9491,17 @@ async function equipCommonFromBag() {
   const out = [], keep = new Set(), WRb = weaponRuleFor();
   const GPb = gearPolicy(); if (GPb.lock || !GPb.auto) return out;                 // GEARGUARD: locked / auto upgrades off = nothing from the bag either
   for (let n = 0; n < 12; n++) {
-    const g = myGear(), w = (g.eq.weapon || [])[0];
+    const g = myGear(), w = (g.eq.weapon || [])[0], ownB = gearOwnTypes(g, GPb, WRb);   // OWNTYPE: a bought bow for a knight who chose a bow
     let best = null;
     for (const b of g.bag) {
-      if (!/^Common Item/.test(b.info.n) || !canUse(b.info)) continue;
+      const oko = gearOwnOk(ownB, b.info.s, b.info);
+      if (!/^Common Item/.test(b.info.n) || !(canUse(b.info) || oko)) continue;
       if (b.info.s === 'weapon' && w && isSaWeapon(w.info.n) && GEAR_GRADES.indexOf(b.info.g) <= GEAR_GRADES.indexOf(w.info.g)) continue;   // S.A.: same grade stays
-      if (b.info.s === 'weapon' && gearRole() === 'fighter2h' && !b.info.two) continue;
+      if (b.info.s === 'weapon' && gearRole() === 'fighter2h' && !b.info.two && !oko) continue;
       if (b.info.s === 'weapon' && WRb && ((WRb.type && b.info.t !== WRb.type) || (WRb.two && !b.info.two))) continue;   // weapon rule (gear_prefs.json _weapon)
       const kw = KAMAEL_WEAPON[gearRole()];
       if (b.info.s === 'weapon' && kw && b.info.t !== kw && !(b.info.cw && (gearDb().items[b.info.cw] || {}).t === kw)) continue;
-      const gain = upgradeGain(b.id, b.info, g);
+      const gain = upgradeGain(b.id, b.info, g, oko);
       if (gain >= CONFIG.gear.upgrade.minGain && gearGuard(b.info.s, kw && b.info.t !== kw && b.info.cw ? (gearDb().items[b.info.cw] || b.info) : b.info, g, false)) continue;   // GEARGUARD
       if (gain >= CONFIG.gear.upgrade.minGain && (!best || gain > best.gain)) best = { ...b, gain };
     }
@@ -9098,7 +9527,7 @@ async function gearUpgrade(why) {
   if (fromBag.length) { note(`[gear] ${why}: ${fromBag.join('; ')}`, true); appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] (${why}) from the bag: ${fromBag.join('; ')}\r\n`); }
   if (currentTownKey() !== 'Giran') { const sc0 = fromBag.length ? await starterCleanup(sgPrev, why, false) : ''; return { ok: false, msg: 'not in Giran' + (fromBag.length ? `; ${fromBag.join(', ')}` : '') + (sc0 ? '; ' + sc0 : '') }; }   // STARTERGEAR
   const plan = planUpgrades(itemCount(57) - U.keep);
-  const tail = plan.skipped.length ? ` (skipped: ${plan.skipped.join(', ')})` : '';
+  const tail = (plan.notes && plan.notes.length ? ` — ${plan.notes.join('; ')}` : '') + (plan.skipped.length ? ` (skipped: ${plan.skipped.join(', ')})` : '');   // OWNTYPE: the decisions in plain words
   if (!plan.buys.length) { let sc1 = ''; if (fromBag.length && !GUP.busy) { GUP.busy = true; try { sc1 = await starterCleanup(sgPrev, why, true); } finally { GUP.busy = false; } } return { ok: true, msg: (fromBag.length ? fromBag.join(', ') + '; ' : '') + (plan.why || 'nothing to buy') + tail + (sc1 ? '; ' + sc1 : '') }; }   // STARTERGEAR
   note(`[gear] plan (${why}): ${plan.buys.map(p => `${p.info.n} ${p.offer.price}`).join(', ')} = ${plan.spend} adena${tail}`, true);
   if (GUP.busy) return { ok: false, msg: 'already shopping (another upgrade run is under way)' };
@@ -9110,7 +9539,9 @@ async function gearUpgrade(why) {
     const bought = await buyGearPicks(plan.buys);
     const worn = await equipBought(plan.buys);
     try { const sc = await starterCleanup(sgPrev, why, false); if (sc) worn.push(sc); } catch (e) { logError('starterCleanup', e); }   // STARTERGEAR: sell / destroy the replaced starter pieces
-    const msg = `${plan.buys.filter(p => p.bought).length}/${plan.buys.length} bought; ${worn.join(', ') || 'nothing put on'}${tail}`;
+    // OWNTYPE 2026-10-13 (tester: "0/10 bought; nothing put on" without a reason): the buy problems go into the message too
+    const buyBad = bought.filter(t => !/: bought$/.test(String(t)));
+    const msg = `${plan.buys.filter(p => p.bought).length}/${plan.buys.length} bought; ${worn.join(', ') || 'nothing put on'}${buyBad.length ? ` [not bought: ${buyBad.join('; ')}]`.slice(0, 400) : ''}${tail}`;
     note(`[gear] ${why}: ${bought.join('; ')} | ${worn.join('; ')}`, true);
     appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] lvl ${Me.Level} ${gearRole()} (${why}): ${bought.join('; ')} | ${worn.join('; ')}${tail}\r\n`);
     return { ok: true, msg };
@@ -9148,18 +9579,15 @@ function hennaHook() {
   const prev = globalThis.OnIncomingPacket;                       // keep the character-list / clan captures working (they wrap the same way)
   globalThis.OnIncomingPacket = (p) => {
     try { if (prev) prev(p); } catch (e) { }
-    try { if (hennaPkt.want && (Number(p[2]) & 255) === hennaPkt.want) { const w = hennaPkt.waiter; hennaPkt.want = 0; hennaPkt.waiter = null; if (w) w(p); } } catch (e) { }
+    try { const op = Number(p[2]) & 255; if (hennaPkt.want && op === hennaPkt.want) { hennaPkt.want = 0; DLG.ev('packet', { op, p }); } } catch (e) { }   // DIALOG-2026-10-13
   };
 }
 /** Wait for one server packet with this opcode (bytes: [len lo, len hi, opcode, payload...]); null after ms. */
 function waitHennaPacket(op, ms) {
-  hennaHook();
-  return new Promise(res => {
-    const fin = (p) => { clearTimeout(t); res(p); };
-    const t = setTimeout(() => { if (hennaPkt.waiter === fin) { hennaPkt.want = 0; hennaPkt.waiter = null; } res(null); }, ms);
-    hennaPkt.want = op; hennaPkt.waiter = fin;
-    try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
-  });
+  hennaHook(); hennaPkt.want = op;
+  try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  return DLG.wait({ expect: ['packet'], base: ms, match: (ev) => ev.data.op === op, label: 'server packet 0x' + op.toString(16) })   // DIALOG-2026-10-13
+    .then(r => { if (hennaPkt.want === op) hennaPkt.want = 0; return r.ok ? r.ev.data.p : null; });
 }
 function hennaHookOff() { try { if (!(typeof clanIntel !== 'undefined' && clanIntel.waiting)) Options.EnableJSOnIncomingPacket = false; } catch (e) { } }
 function pktReader(p, start) {
@@ -9233,14 +9661,15 @@ async function dyeMine(why, dry) {
     if (!html) return { ok: false, msg: `${npc.Name} did not answer` };
     const links = npcLinks(html), link = links.find(l => /draw/i.test(l.text)) || links.find(l => D.drawLink.test(l.text) && !/remove|delete|cancel|erase/i.test(l.text));
     if (!link) return { ok: false, msg: `no "Draw" link at ${npc.Name}: ${links.map(l => l.text).join(' | ')}` };
-    const pk = waitHennaPacket(0xEE, 6000);
-    Send.ReqBypassToServer(link.cmd, true);
-    const p = await pk; hennaHookOff();
+    hennaHook(); hennaPkt.want = 0xEE; try { Options.EnableJSOnIncomingPacket = true; } catch (er) { }   // DIALOG-2026-10-13: CLICK "Draw" -> WAIT_RESULT HennaEquipList (0xEE)
+    const dr = await DLG.click(link, { expect: ['packet'], match: (ev) => ev.data.op === 0xEE, base: 6000, from: npc.Name, reclick: true });
+    if (hennaPkt.want === 0xEE) hennaPkt.want = 0;
+    const p = dr.ok ? dr.ev.data.p : null; hennaHookOff();
     let L = null; try { L = p ? parseHennaEquipList(p) : null; File.WriteAllText(`${SWARM_ROOT}\\Logs\\dye_list_${Me.Name}.json`, JSON.stringify({ at: new Date().toISOString(), level: Me.Level, classId: cls, list: L }, null, 1)); } catch (er) { }
     if (L && !L.list.some(x => x.symbolId === num(e.symbolId))) return { ok: false, msg: `${e.name}: ${npc.Name} does not offer symbol ${e.symbolId} to me (offers ${L.list.length}; see Logs/dye_list_${Me.Name}.json)` };
     const st0 = hennaStats(), d0 = bagCount(e.dyeId), a0 = itemCount(57);
     Send.SendHex('6F' + leHex(num(e.symbolId), 4));
-    await sleep(2500);
+    await DLG.effect({ check: () => bagCount(e.dyeId) <= d0 - need || (hennaStats() !== st0 && hennaStats() !== ''), base: 2500, label: `${npc.Name}: draw ${e.name}` });   // DIALOG-2026-10-13 WAIT_EFFECT
     const ok = bagCount(e.dyeId) <= d0 - need || (hennaStats() !== st0 && hennaStats() !== '');
     const msg = `${e.name} (symbol ${e.symbolId}): ${ok ? 'DRAWN' : 'NOT drawn'} (dyes ${d0} -> ${bagCount(e.dyeId)}, adena ${a0} -> ${itemCount(57)}, henna ${st0} -> ${hennaStats()})`;
     dyeLog(`${why}: ${msg}`);
@@ -9263,6 +9692,7 @@ async function dyePlanStep() {
   const D = CONFIG.gear.dyes;
   if (!D || !D.on) return { ok: true, need: false, msg: 'dyes off' };
   const plan = myDyePlan(); if (!plan) return { ok: true, need: false, msg: 'no dye plan' };
+  if (!pautoOn('dyes')) return { ok: true, need: false, msg: 'symbols switched off (party settings)' };   // PARTYAUTO 2026-10-13: supply-run plan step only
   const cls = num(Me.ClassId), lvlOk = plan.list.filter(e => num(Me.Level) >= num(e.minLevel || 0) && (!Array.isArray(e.classes) || !e.classes.length || e.classes.includes(cls)));
   if (!lvlOk.length) return { ok: true, need: false, msg: `nothing to draw at level ${Me.Level}` };
   const drawn = await readMySymbols();
@@ -9285,7 +9715,7 @@ async function gearPlanStep() {
   if (fromBag.length) { note(`[gear] supply plan: ${fromBag.join('; ')}`, true); appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] (supply plan) from the bag: ${fromBag.join('; ')}\r\n`); }
   if (currentTownKey() !== 'Giran') return { ok: true, need: false, msg: `not in Giran (${Math.round(Me.X)},${Math.round(Me.Y)}) — skipped` };
   let plan = null; try { plan = planUpgrades(itemCount(57) - U.keep); } catch (e) { logError('gear plan step', e); return { ok: true, need: false, msg: 'plan failed: ' + String(e.message || e).slice(0, 80) }; }
-  if (!plan || !plan.buys || !plan.buys.length) return { ok: true, need: false, msg: (fromBag.length ? fromBag.join(', ') + '; ' : '') + ((plan && plan.why) || 'nothing better in the shops') };
+  if (!plan || !plan.buys || !plan.buys.length) return { ok: true, need: false, msg: (fromBag.length ? fromBag.join(', ') + '; ' : '') + (plan && plan.notes && plan.notes.length ? plan.notes.join('; ') + ' — ' : '') + ((plan && plan.why) || 'nothing better in the shops') };   // OWNTYPE: the decision first (not hidden as "nothing ...")
   return { ok: true, need: true, msg: `${plan.buys.length} to buy: ${plan.buys.map(p => p.info.n).join(', ')}`.slice(0, 200) };
 }
 
@@ -9379,25 +9809,25 @@ async function openShop(npc) {
   const r = CONFIG.restock;
   let html = await openNpc(npc);
   if (!html) return { ok: false, msg: `${npc.Name} did not answer` };
+  const blSig = () => { const a = []; try { BuyList.forEach(it => a.push(String(it.Id))); } catch (e) { } return a.sort().join(','); };
+  const sig0 = blSig();   // BUYLISTWAIT: the list of the PREVIOUS shop, to see when the new one has arrived
 
-  // Find "Buy" (evt. i en undermenu) og vent på butikslisten.
-  let shop = null;
-  const tried = new Set();
-  for (let depth = 0; depth < 3 && !shop && html; depth++) {
-    const links = npcLinks(html).filter(l => !tried.has(l.cmd));
-    const buy = links.find(l => /^buy/i.test(l.text)) || links.find(l => r.buyLinkMatch.test(l.text) && !/^sell/i.test(l.text));
-    if (!buy) return { ok: false, msg: `no buy link at ${npc.Name}: ` + links.map(l => l.text).join(' | ') };
-    tried.add(buy.cmd);
-    const s = waitShop(r.shopTimeoutMs);
-    const p = waitNpcHtml(r.shopTimeoutMs);
-    Send.ReqBypassToServer(buy.cmd, true);
-    shop = await s;
-    if (!shop) html = await p;                   // en ny side i stedet for butikken
-  }
-  if (!shop) return { ok: false, msg: `the shop at ${npc.Name} did not open` };
+  // Find "Buy" (evt. i en undermenu) og vent på butikslisten. DIALOG-2026-10-13: the 'shop' FLOW (PICK "Buy" -> WAIT_RESULT shop list | a sub page)
+  const fr = await DLG.run(dlgListFlow({ name: 'shop', label: 'the Buy link', until: ['shop'], ms: r.shopTimeoutMs, depth: 3,
+    pick: { fn: (L) => L.find(l => /^buy/i.test(l.text)) || L.find(l => r.buyLinkMatch.test(l.text) && !/^sell/i.test(l.text)) } }), { npc, page: html });
+  if (!fr.ok && fr.links) return { ok: false, msg: `no buy link at ${npc.Name}: ` + fr.links.map(l => l.text).join(' | ') };
+  if (!fr.ok) return { ok: false, msg: `the shop at ${npc.Name} did not open${fr.sys ? ' — ' + fr.sys.why : ''}` };
+  const shop = { shopId: fr.result.ev.data.shopId, items: fr.result.ev.data.items };
 
   // H5 'Buy/Sell/Refund': køb-listen ligger i BuyList (OnShopList kan være salgs-delen = egne ting)
-  await sleep(1200);
+  // BUYLISTWAIT-2026-10-13 (tester, every bot: "Helvetia: Mana Potion: not sold here; Scroll of Escape: not sold here ...", gear: "not in Radia's
+  // list any more" — 172x in our gear_upgrades.log since the new engine): with the brain engine BuyList arrives from the agent a moment later, and
+  // after a fixed 1.2 s it still held the PREVIOUS merchant's list. Wait (max 8 s) until the list differs from the one before the click (or holds
+  // the shop packet's items); the same merchant twice in a row gives the same list, which is accepted after the wait.
+  { await sleep(600);
+    const same = openShop.lastNpc === String(npc.Name) && openShop.lastSig && openShop.lastSig === sig0;   // the same merchant again (one item per opening)
+    await DLG.effect({ check: () => { const sg = blSig(); return !!sg && (sg !== sig0 || same); }, base: 7400, refuse: false, label: `${npc.Name}: the buy list` });   // DIALOG-2026-10-13 (WAIT_EFFECT)
+    await sleep(300); openShop.lastNpc = String(npc.Name); openShop.lastSig = blSig(); }
   const prices = {};
   try { BuyList.forEach(it => { prices[it.Id] = num(it.Price); }); } catch (e) { }
   if (!Object.keys(prices).length) {
@@ -9407,6 +9837,7 @@ async function openShop(npc) {
     const ids = Object.keys(prices);
     File.WriteAllText(`${SWARM_ROOT}\\Logs\\buylist_${npc.Name}.txt`, ids.map(id => `${id} ${prices[id]}`).join('\r\n'));
   } catch (e) { }
+  if (slIsSellPart(Object.keys(prices), slBagIds())) return { ok: true, prices: {}, shopId: shop.shopId, listUnknown: true };   // SHOPLIST: my own bag, not the buy list
   return { ok: true, prices, shopId: shop.shopId };
 }
 
@@ -9681,7 +10112,7 @@ async function giranShopping(why) {
     // take turns per party (the shop NPCs answer one at a time)
     const order = [CONFIG.leader].concat(teamNames()).indexOf(Me.Name);
     if (order > 0) await sleep(order * CONFIG.restock.turnGapMs);
-    if (CONFIG.sell.enabled && sellCandidates().length) {
+    if (CONFIG.sell.enabled && pautoOn('sell') && sellCandidates().length) {   // PARTYAUTO 2026-10-13
       await giranGo('grocer');
       let m = null; try { snapNpcs().forEach(n => { if (n.Name === 'Helvetia') m = n.ref; }); } catch (e) { }
       if (m) { state.gkBusy = true; try { const s = await sellAt(m, why); out.push('sold: ' + s.msg); } finally { state.gkBusy = false; } }
@@ -9856,7 +10287,7 @@ function scheduleTownRestock() {
       // in Giran: the whole restock flow (grocer, weapons, armor, back to the start) — once; the party flow reuses it
       if (currentTownKey() === 'Giran') { if (!giranShopBusy && now() - lastGiranShop > 600000) await giranShopping('arrived in Giran'); return; }
       const needs = restockNeeds().filter(it => it.buy > 0);
-      const toSell = CONFIG.sell.enabled ? sellCandidates() : [];
+      const toSell = CONFIG.sell.enabled && pautoOn('sell') ? sellCandidates() : [];   // PARTYAUTO 2026-10-13
       if (!needs.length && !shotNeed() && !toSell.length && !(CONFIG.gear.enabled && plannedBuys().length)) return;
       const near = grocerSpawns().some(gs => distTo(gs.x, gs.y) < CONFIG.restock.townRadius);
       // In a town without a working grocer (Gludin): only bother when scrolls are really low — restock() makes the trip
@@ -10053,8 +10484,8 @@ function mwGainAdjust(id, info, g, sc, curScore, cur) {
   } catch (e) { return gain; }
 }
 /** Hvor meget bedre bliver jeg af at tage `id` på? (0 = ikke en opgradering) */
-function upgradeGain(id, info, g) {
-  if (!canUse(info)) return 0;
+function upgradeGain(id, info, g, anyType) {
+  if (!anyType && !canUse(info)) return 0;                                         // OWNTYPE: anyType = the planner already checked the player's own type
   const sc = itemScore(id, info, g.owned);
   const cur = g.eq[info.s] || [];
   const curOf = (e) => itemScore(e.id, e.info, g.owned);
@@ -10113,6 +10544,8 @@ setInterval(() => {
 // --- Shots --------------------------------------------------------------------
 function shotKind() { const R = ROLE_RULES[gearRole()]; return R ? R.shots : null; }
 function weaponGrade() { const w = (myGear().eq.weapon || [])[0]; return w ? w.info.g : 'NONE'; }
+/** OWNTYPE 2026-10-13: the arrows / bolts my worn bow / crossbow shoots ({ id, name }) or null */
+function myAmmo() { try { const w = (myGear().eq.weapon || [])[0]; return w ? ammoFor(w.info) : null; } catch (e) { return null; } }
 // CPU AUDIT 2026-10-09: shotId() -> weaponGrade() parses the whole bag; the REPORTS (swarm.pos every 3 s, swarm_state) only show which shots I
 // use -> shotIdQuick() = shotId() cached 10 s. Decisions (enableShots, supply needs, buying) keep the exact shotId().
 const sidQuick = { at: 0, v: 0 };
@@ -10283,6 +10716,16 @@ async function giveItems(d) {
     // because partyMember() had no fresh position for other teams since swarm.pos goes to other teams only every 15 s)
     const liveChar = () => { let o = null; try { snapChars().forEach(c => { if (!o && String(c.Name) === d.receiver) o = c.ref; }); } catch (e) { } return o; };
     if (!pm) pm = liveChar();
+    // TRADESEE-2026-10-13 (Destroyer1 -> Dagger1 Blood Mark, 3 tries: "#144 That is an incorrect target" / "#22 out of range"): the receiver was not
+    // in sight, so the request went to the objId passed through the order (not a live player here). Walk to where he last reported (swarm.pos),
+    // up to 3 times, until he is in sight; never send a request to someone I cannot see
+    for (let look = 0; !pm && look < 3; look++) {
+      const lp = livePos[d.receiver];
+      if (!lp || !Number.isFinite(+lp.X)) { await sleep(3000); pm = liveChar(); continue; }
+      try { await walkTo(+lp.X, +lp.Y, +lp.Z || Me.Z, 150, 30000); } catch (e) { }
+      await sleep(1500); pm = liveChar();
+    }
+    if (!pm) return tradeEnd({ ok: false, msg: `${d.receiver} is not in sight (walked to where he last reported 3 times) - no trade request sent` });
     if (!p && pm) { try { await walkTo(pm.X, pm.Y, zOf(pm), 120, 20000); } catch (e) { } }
     // System message 142 = "the other player is on another task" (fx a shop window still open): ask again a few times
     let opened = false;
@@ -10341,7 +10784,12 @@ async function giveItems(d) {
     let ok = gone();
     // the server said "completed" but my bag was not updated yet (2026-10-07: "fund -> Bishop4: 998582 adena — trade completed" logged as a
     // FAILURE, the next leader then paid the same member again): give the inventory update up to 4 s more
-    for (let i = 0; !ok && done === 'completed' && i < 8; i++) { await sleep(500); ok = gone(); }
+    // TRADE123-2026-10-13 (UX audit: "#123 Your trade was successful" shown as a failed trade): on the new engine the bag update can come later
+    // than 4 s -> server message #123 since this trade opened counts as success, and a completed trade gets up to 15 s for the bag
+    const t0trade = (tradeState && tradeState.startedAt) || (now() - T * 3);
+    const srvOk = () => { try { return sysMsgRing.some(m => m && Number(m.at) >= t0trade && (num(m.id) === 123 || /trade was successful/i.test(String(m.text || '')))); } catch (e) { return false; } };
+    for (let i = 0; !ok && (done === 'completed' || srvOk()) && i < 30; i++) { await sleep(500); ok = gone(); }
+    if (!ok && srvOk()) { ok = true; tradeLog(`give ${d.receiver}: the server said the trade was successful (#123) - my bag had not caught up yet`); }
     note(`trade -> ${d.receiver}: ${d.items.map(i => i.name).join(', ')} — ${ok ? 'OK' : (done || 'timeout')}`);
     // EXACT count check (2026-10-06 05:42: "Soulshot (D) x1999 — OK", but Crafter1 lost his whole stack of ~4000 to Spoiler1)
     d.items.forEach(i => { if (i.stack && i.id) { const sent = stackBefore[i.id] - itemCount(i.id); if (sent > i.count + 20) note(`TRADE COUNT WRONG -> ${d.receiver}: ${i.name} asked ${i.count}, ${sent} left my bag (had ${stackBefore[i.id]})`, true); } });
@@ -10429,8 +10877,27 @@ function fundRules() {
   FUND.leaderTarget = n(r.defaults && r.defaults.leaderTarget, 8000000); FUND.memberTarget = n(r.defaults && r.defaults.memberTarget, 3000000);
   return FUNDR.j;
 }
-/** may this character hand out adena to other parties? */
-function fundMayGive(name) { const g = (fundRules().givers) || {}; if (g.mode === 'none') return false; if (g.mode === 'list') return (g.list || []).includes(name); return true; }
+// FUNDGIVERS-PURE-BEGIN (owner 2026-10-13: "if someone should give them adena, it must also configure the player you set up (the giver)"):
+// a RECEIVING party may have its own givers rule (fund_rules.json parties.<leader>.givers = { mode: 'auto' | 'list' | 'none', list }); a party
+// without one uses the shared rule (givers) — the old file works unchanged. keepAtLeast stays shared (givers.keepAtLeast).
+/** the givers rule for a receiving party -> { mode, list, src: 'party' | 'all' } */
+function fundGiversFor(r, party) {
+  const R = r && typeof r === 'object' ? r : {}, P = R.parties && typeof R.parties === 'object' ? R.parties[party] : null;
+  const own = P && P.givers && typeof P.givers === 'object' && ['auto', 'list', 'none'].includes(P.givers.mode) ? P.givers : null;
+  const g = own || (R.givers && typeof R.givers === 'object' ? R.givers : {});
+  return { mode: ['auto', 'list', 'none'].includes(g.mode) ? g.mode : 'auto', list: Array.isArray(g.list) ? g.list.map(String) : [], src: own ? 'party' : 'all' };
+}
+/** may giver hand adena to a character of the party led by party? */
+function fundGiverAllowed(r, giver, party) { const g = fundGiversFor(r, party); return g.mode === 'none' ? false : g.mode === 'list' ? g.list.includes(giver) : true; }
+/** may giver hand out to anybody at all (the shared rule, or some party's own rule, lets it)? */
+function fundGiverAny(r, giver) {
+  const R = r && typeof r === 'object' ? r : {};
+  if (fundGiverAllowed({ givers: R.givers }, giver, '')) return true;
+  return Object.keys(R.parties && typeof R.parties === 'object' ? R.parties : {}).some(p => fundGiversFor(R, p).src === 'party' && fundGiverAllowed(R, giver, p));
+}
+// FUNDGIVERS-PURE-END
+/** may this character hand out adena to other parties? (to = a receiver: that receiver's party rule; none = to anybody at all) */
+function fundMayGive(name, to) { const r = fundRules(); return to ? fundGiverAllowed(r, name, teamOf(to)) : fundGiverAny(r, name); }
 /** may this character receive? (its party switched on, its own target not 0) */
 function fundMayReceive(name) { const r = fundRules(), p = (r.parties || {})[teamOf(name)], c = (r.chars || {})[name]; if (p && p.receive === false) return false; if (c && Number(c.target) === 0 && c.target !== null && c.target !== '') return false; return true; }
 const fundInTown = (n) => { const lp = livePos[n]; if (!lp || now() - lp.at > 20000 || lp.IsDead) return false; try { return townKeyAt(lp.X, lp.Y) === FUND.town; } catch (e) { return false; } };
@@ -10450,7 +10917,7 @@ function fundNeedy() {
   const fundSkip = (n) => now() - (fund.missAt[n] || 0) < 30 * 60000;
   const log = fundLog();
   fundRules();
-  return Object.keys(fundAdena).filter(n => n !== Me.Name && CONFIG.roster[n] && fundMayReceive(n) && fundTarget(n) > 0 && fundInTown(n) && !fundSkip(n)
+  return Object.keys(fundAdena).filter(n => n !== Me.Name && CONFIG.roster[n] && fundMayReceive(n) && fundMayGive(Me.Name, n) /* FUNDGIVERS: the receiver's party picks its givers */ && fundTarget(n) > 0 && fundInTown(n) && !fundSkip(n)
     && now() - fundAdena[n].at < 20000 && fundAdena[n].a < fundTarget(n) - FUND.slack
     // a character that is (almost) broke is ALWAYS helped (user 2026-10-07 11:45: "Dagger1 has NO gear, no adena — why is this not done
     // automatically": the old 6 h per-character pause kept him at 100 adena after a round broken off by a restart); others every 30 min
@@ -10462,6 +10929,7 @@ async function fundRound(why, inline) {
   fundRules();
   if (!FUND.on || !fundMayGive(Me.Name) || fund.busy || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead) return false;
   if (itemCount(57) < FUND.richAbove || inRaid() || state.mode === 'mission' || currentTownKey() !== FUND.town) return false;
+  if (typeof STASH !== 'undefined' && STASH.busy) return false;          // STORAGE-2026-10-13: not while I walk to / stand at the warehouse (17:27 Dagger1)
   const needy = fundNeedy(); if (!needy.length) return false;
   // inline = called by the Giran regroup itself, which holds control: run under it. Otherwise never over another order (supply, !stop, missions)
   if (!inline && control.owner && control.level <= PRIO.ORDER && control.owner !== 'fund other teams') return false;
@@ -10501,6 +10969,7 @@ setInterval(() => {
   if (rcTeamHolds()) return;                                              // CIRCUIT 24/7 (2026-10-13): no hand-out walks for other teams while the circuit owns the party
   if (now() - fund.lastIdleRound < 10 * 60000) return;                    // 2026-10-09 Dagger1: a round every 30 s kept him in Giran for 60+ min
   if (leadMode() && isLeader() && !leadPaused() && !autoLvl.active) return;     // my own leveling comes first (the idle watchdog starts it)
+  if (!runOn()) return;                                                   // RUNSTATE: no hand-out walks for other teams while OFF
   fund.lastIdleRound = now();
   fundRound('idle in town').catch(e => logError('fund', e));
 }, 30000);
@@ -10784,6 +11253,8 @@ setInterval(() => {
     if (now() - TSELL.since < 20000 || now() - (TSELL.lastTry[town] || 0) < 600000) return;
     if (IsInCombat || tradeState || state.gkBusy || state.escaping || state.portPrep || state.goingHub || regroupRun || leadRunBusy || state.supplyHold || inRaid() || state.mode === 'mission' || (typeof DLV !== 'undefined' && DLV.on) || questRun.active || outranked(PRIO.UPKEEP)) return;
     const list = townSellMarked(); if (!list.length) return;
+    if (!runAuto('town sell')) return;                                  // RUNSTATE
+    if (!pautoGate('sell')) return;                                     // PARTYAUTO 2026-10-13: party settings -> Supplies "Sell junk on town visits" (your !sell still works)
     TSELL.lastTry[town] = now(); TSELL.busy = true;
     (async () => {
       if (!takeControl('town sell', PRIO.UPKEEP)) return;
@@ -10861,13 +11332,15 @@ async function sellAt(npc, why, grades) {
         try { sellPacket(sh.shopId, [e]); } catch (err) { results.push('sell packet error: ' + err.message); break; }
         await sleep(350);
       }
-      await sleep(1500); await bagSync();                              // ENGINE DATA #15
-      let left = 0; try { Inventory.forEach(i => { if (want.has(num(i.Id)) && !i.IsEquiped && !i.IsQuestItem && objOk(num(i.Id), i.objId)) left++; }); } catch (e) { }
+      const leftNow = () => { let n = 0; try { Inventory.forEach(i => { if (want.has(num(i.Id)) && !i.IsEquiped && !i.IsQuestItem && objOk(num(i.Id), i.objId)) n++; }); } catch (e) { } return n; };
+      await DLG.effect({ check: async () => { await bagSync(); return leftNow() < before; }, base: 1500, label: `${npc.Name}: sale pass ${pass + 1} (${before} entries)` });   // DIALOG-2026-10-13 WAIT_EFFECT (ENGINE DATA #15: bagSync)
+      await bagSync();
+      const left = leftNow();
       if (left >= before) break;                                       // nothing more goes: the rest is refused
     }
     // SELLGUARD: the bag can arrive late (brain engine mirror): wait up to 6 s for any change before judging
     { await bagSync(); const sumHad = list.reduce((a, it) => a + num(had[it.id]), 0);   // ENGINE DATA #15: the bag as L2Swarm has it, each round
-      for (let w = 0; w < 12; w++) { if (itemCount(57) !== before || list.reduce((a, it) => a + itemCount(it.id), 0) !== sumHad) break; await sleep(500); await bagSync(); } }
+      await DLG.effect({ check: async () => { await bagSync(); return itemCount(57) !== before || list.reduce((a, it) => a + itemCount(it.id), 0) !== sumHad; }, base: 6000, refuse: false, label: `${npc.Name}: sale result` }); }   // DIALOG-2026-10-13
     const adenaIn = itemCount(57) - before;
     const goneOf = {}; list.forEach(it => { goneOf[it.id] = had[it.id] - itemCount(it.id); });
     const anyWent = adenaIn > 0 || list.some(it => goneOf[it.id] > 0), refused = [];
@@ -11650,10 +12123,8 @@ async function clickQuestDialog(html, leg, quest) {
     if (!link) break;
     clicked.push(link.cmd);
     note(`quest ${quest.id}: click '${link.text}'`);
-    const page = waitNpcHtml(CONFIG.gatekeeper.pageTimeoutMs);
-    Send.ReqBypassToServer(link.cmd, true);
-    html = await page;
-    if (html) { await sleep(700); html = lastNpcHtml || html; }
+    html = await dlgPage(link, CONFIG.gatekeeper.pageTimeoutMs, `quest ${quest.id}`);   // DIALOG-2026-10-13
+    if (html) await sleep(700);
     if (leg.condAfter && questCond(quest.id) >= leg.condAfter) break;
   }
   return clicked.length;
@@ -11685,9 +12156,7 @@ async function clickTowardAccept(html) {
     if (!links.length) return;
     const pick = links.find(l => /accept|i will|i'll|yes|ready|begin|start|agree|understood|let me|tell me|i want|of course|continue|i am|i'm/i.test(l.text)) || links[links.length - 1];
     note(`quest: clicking toward accept: '${String(pick.text).slice(0, 60)}'`);
-    const p = waitNpcHtml(CONFIG.gatekeeper.pageTimeoutMs);
-    Send.ReqBypassToServer(pick.cmd, true);
-    page = await p;
+    page = await dlgPage(pick, CONFIG.gatekeeper.pageTimeoutMs, 'quest');   // DIALOG-2026-10-13
     await sleep(800);
   }
 }
@@ -12774,6 +13243,7 @@ async function raidCountdown(b, runId) {
     await sleep(1000);
   }
   SayToParty(`[raid] ${b.name}: GO!`);
+  try { if (rcOn()) rcPhase('fighting', `${b.name}: fighting`); } catch (e) { }   // RCFIGHT-2026-10-13: the live box said "countdown" for the whole fight
   return true;
 }
 
@@ -12939,7 +13409,7 @@ async function epicClickLink(N, linkText, land) {
   if (!html) { gkFail = `${N.name} did not answer`; return false; }
   const want = npcNorm(linkText), L = npcLinks(String(html)), l = L.find(x => npcNorm(x.text) === want) || L.find(x => npcNorm(x.text).includes(want) || (want.length > 6 && want.includes(npcNorm(x.text)) && npcNorm(x.text).length > 6));
   if (!l) { gkFail = `${N.name} has no link "${linkText}" — ${L.map(x => x.text).join(' | ').slice(0, 200)}`; return false; }
-  const tp = waitTeleport(9000); Send.ReqBypassToServer(l.cmd, true); const ok = await tp;
+  const ok = !!(await DLG.click(l, { expect: ['teleport'], base: 9000, from: N.name, reclick: true })).ok;   // DIALOG2-2026-10-13: CLICK -> WAIT_RESULT teleport
   try { appearBurst('epic link'); } catch (e) { }
   await sleep(1500);
   if (!ok && !atLand()) { gkFail = `${N.name}: "${l.text}" — no teleport${lastSysMsg && now() - lastSysMsg.at < 8000 ? ' (' + String(lastSysMsg.text).slice(0, 100) + ')' : ''}`; return false; }
@@ -13061,6 +13531,7 @@ async function levelToOrder(arg) {
   const to = Math.round(num(arg)); if (!(to >= 2 && to <= 85)) { note('levelto: use "!levelto <level>" or "!levelto off"', true); return; }
   if (lvlToMin() >= to) { note(`level to ${to}: everyone is already level ${to}+ — going to Giran to wait`, true); lvlToSet({ to, at: new Date().toISOString(), done: false }); return; }
   lvlToSet({ to, at: new Date().toISOString(), done: false });
+  runSetMine(true, `your order !levelto ${to}`);       // RUNSTATE
   SayToParty(`[levelto] leveling until everyone is level ${to}, then Giran and wait`);
   if (raidHunt.active) raidHunt.stop = true;
   leadLevel(`level to ${to}`).catch(e => logError('levelto', e));
@@ -13081,6 +13552,7 @@ setInterval(() => {
       const ok = await leadGoGiran(`level ${o.to} reached`);
       setLeadPaused(true, orderPauseTag('levelto', o.to));   // CMDFIX2-2026-10-12: an ORDER pause (holds until the next order); 'auto:levelto' expired after 15 min and leveling went on past the target
       Object.assign(o, { done: true, doneAt: new Date().toISOString(), inGiran: !!ok }); lvlToSet(o);
+      runSetMine(false, `level ${o.to} reached — waiting in Giran`);   // RUNSTATE: the order is done, the party stands until you start it
     } catch (e) { logError('levelto done', e); } finally { LVLTO.busy = false; }
   })();
 }, 30000);
@@ -14058,6 +14530,7 @@ setInterval(() => {
   if (leadPaused() || inRaid() || (regroupRun && !raidHunt.active) || leadRunBusy || state.mode === 'raidclear') return;
   const k = dailyDue();
   if (!k) return;
+  if (!runAuto('daily Kamaloka')) return;                              // RUNSTATE
   daily.busy = true;
   (async () => {
     const wasHunt = raidHunt.active, wasLevel = autoLvl.active;
@@ -14328,7 +14801,7 @@ async function leaderMission(kind, arg) {
       // Giran -> Gludin -> Orc Barracks first): no Giran regroup, no gatekeeper — the team walks
       if (rcOn() && !currentTownKey() && !spot.room && !spot.dungeon && Math.hypot(boss.x - Me.X, boss.y - Me.Y) < 12000 && Math.abs(num(boss.z) - num(Me.Z)) < 1000) { spot.gk = null; spot.noHub = true; }
       // already in a town and the boss is within walking distance (user 2026-10-04: "take it from Gludio town"): no Giran, no gatekeeper — walk
-      if (currentTownKey() && !/^(heine|giran)$/i.test(String(currentTownKey())) && Math.hypot(boss.x - Me.X, boss.y - Me.Y) < CONFIG.travel.maxWalk) { spot.gk = null; spot.noHub = true; }   // never walk out of Heine or Giran (user rules; 2026-10-05: Cat Gang + Road Scavenger walks from Giran found no path)
+      if (currentTownKey() && !(/^giran$/i.test(String(currentTownKey())) || (/^heine$/i.test(String(currentTownKey())) && routeRuleOff('heineWalkOut'))) && Math.hypot(boss.x - Me.X, boss.y - Me.Y) < CONFIG.travel.maxWalk) { spot.gk = null; spot.noHub = true; }   // never walk out of Giran (user rule; 2026-10-05: Cat Gang + Road Scavenger walks from Giran found no path); Heine: walking out is allowed again (owner 2026-10-13 15:15)
       SayToParty(`[mission] travelling to ${boss.name} via ${tp.desc || 'walking'}`);
       const tripT0 = now();
       // USER ROUTE (dashboard, with a start: .townname or a gatekeeper): that start + the route walked by every member wins over everything
@@ -14338,7 +14811,8 @@ async function leaderMission(kind, arg) {
       // ORDERSTICK (2026-10-10): only the TRAVEL is retried (CONFIG.mission.travelTries, a fresh hold + the whole team again before each
       // retry); once at the boss the raid rules hold as before (clear, countdown, never escape)
       let there;
-      const rt = await orderRetry(`raid ${boss.name}`, { what: `travel to ${boss.name}`, team: true, max: num(CONFIG.mission.travelTries) || 2, abort: () => !regroupAlive(runId),
+      const rt = await orderRetry(`raid ${boss.name}`, { what: `travel to ${boss.name}`, team: true, max: rcOn() ? Math.max(3, num(CONFIG.mission.travelTries) || 2) : (num(CONFIG.mission.travelTries) || 2), maxMs: rcOn() ? 2400000 : undefined,   // CIRCUIT 24/7 round 2
+        abort: () => !regroupAlive(runId),
         done: () => Math.hypot(boss.x - Me.X, boss.y - Me.Y) <= 3000,
         attempt: async (n) => {
           if (n > 1 && !(await ensureTeamForTrip(`raid ${boss.name} (try ${n})`, () => !regroupAlive(runId)))) return { ok: false, why: 'the team is not together' };
@@ -14361,6 +14835,7 @@ async function leaderMission(kind, arg) {
           return { ok: at <= 3000, why: at <= 3000 ? '' : `${Math.round(at)} from ${boss.name}${gkFail ? ' — ' + String(gkFail).slice(0, 100) : ''}` };
         } });
       if (rt.tries > 1) note(`raid ${boss.name}: travel ${rt.ok ? 'reached the boss' : 'failed'} after ${rt.tries} tries`, true);
+      try { if (rcOn()) RC.travel = { boss: boss.name, ok: !!rt.ok, why: rt.ok ? '' : String(rt.why || gkFail || '').slice(0, 140), at: now() }; } catch (e) { }   // CIRCUIT 24/7 round 2: the real reason
       const reached = Math.hypot(boss.x - Me.X, boss.y - Me.Y) <= 3000;
       const teamMiss = !!(state.teamMissing && state.teamMissing.at > tripT0);   // TEAMJOIN: a hold refused to port without a teammate — not the route's fault
       if (reached) saveRaidRoute(boss, tp.desc || 'walking'); else if ((state.routeHint || userRoute) && !teamMiss) raidRouteFailed(boss);
@@ -15071,10 +15546,12 @@ let farSaidAt = 0;
 const farSince = {};                               // name -> since when that teammate has been > ignoreBeyond away
 function teamToWaitFor() {
   // leader design (2026-10-04): never write the team off as "travels on its own" — the leader regroups them in Giran instead
-  const all = teamSpread(), lim = leadMode() ? 1e12 : CONFIG.together.ignoreBeyond;
+  const rcT = typeof rcOn === 'function' && rcOn();   // CIRCUIT 24/7 round 2 (owner 17:30: one straggler 53 km behind made the whole trip fail)
+  const all = teamSpread(), lim = leadMode() && !rcT ? 1e12 : CONFIG.together.ignoreBeyond;
   all.forEach(m => { if (m.p && m.d > lim) { if (!farSince[m.name]) farSince[m.name] = now(); } else delete farSince[m.name]; });
   // only ignore someone who has been far away for a while (right after a teleport the team is far too — wait for them then)
-  const far = all.filter(m => m.p && m.d > lim && now() - farSince[m.name] > CONFIG.together.ignoreAfterMs);
+  const far = all.filter(m => m.p && m.d > lim && now() - farSince[m.name] > (rcT ? 90000 : CONFIG.together.ignoreAfterMs));
+  if (rcT && far.length) rcCatchup(far);
   if (far.length && now() - farSaidAt > 600000) {
     farSaidAt = now();
     note(`team: not waiting for ${far.map(m => `${m.name} (${Math.round(m.d / 1000)}k away)`).join(', ')} — too far, they travel on their own`, true);
@@ -15449,9 +15926,7 @@ async function soulTalk(npc, startOnly) {
     const links = npcLinks(html).filter(l => !/quit|abandon|exit/i.test(l.text));
     let link = null; for (const re of steps) { link = links.find(l => re.test(l.text)); if (link) break; }
     if (!link) { soulLog('Gideon: no known link: ' + links.map(l => l.text).join(' | ')); break; }
-    const pg = waitNpcHtml(5000);
-    Send.ReqBypassToServer(link.cmd, true);
-    html = await pg; await sleep(600);
+    html = await dlgPage(link, 5000, npc.Name); await sleep(600);   // DIALOG-2026-10-13
     if (startOnly && /join your cause/i.test(link.text)) { soulQuestSeen(); break; }   // quest started; I keep my crystal
     if (!startOnly && myCrystals().length) break;
   }
@@ -15519,7 +15994,7 @@ setInterval(() => {
 
 // --- warehouse (private for crystal storage, clan for the Clan tab) -----------------------------------------------------------------
 const wh = { want: null, waiter: null, depositItems: null };
-globalThis.OnWareHouseDepositList = (items) => { try { wh.depositItems = items; if (wh.waiter) { const w = wh.waiter; wh.waiter = null; w({ kind: 'deposit', items }); } } catch (e) { } };
+globalThis.OnWareHouseDepositList = (items) => { try { wh.depositItems = items; DLG.ev('whdep', { items }); } catch (e) { } };   // DIALOG-2026-10-13
 globalThis.OnWareHouseWithdrawalList = (items) => {
   try {
     const rows = [];
@@ -15531,10 +16006,17 @@ globalThis.OnWareHouseWithdrawalList = (items) => {
       note(`clan warehouse: ${rows.length} item stacks seen`, true);
     }
     if (wh.want === 'private') whWriteList('private', rows);   // WHTAKE (D8 2026-10-12): the dashboard Gear page shows "in warehouse" from it
-    if (wh.waiter) { const w = wh.waiter; wh.waiter = null; w({ kind: 'withdraw', items, rows }); }
+    DLG.ev('whwd', { items, rows });                                          // DIALOG-2026-10-13
   } catch (e) { logError('OnWareHouseWithdrawalList', e); }
 };
-function waitWarehouse(ms) { return new Promise(res => { wh.waiter = res; setTimeout(() => { if (wh.waiter === res) { wh.waiter = null; res(null); } }, ms); }); }
+function waitWarehouse(ms) { return DLG.wait({ expect: ['whdep', 'whwd'], base: ms, label: 'the warehouse list' }).then(r => r.ok ? { kind: r.kind === 'whdep' ? 'deposit' : 'withdraw', items: r.ev.data.items, rows: r.ev.data.rows } : null); }   // DIALOG-2026-10-13
+/** CLICK a warehouse keeper link + WAIT_RESULT: -> { kind: 'deposit' | 'withdraw', items, rows } | { page } | null (refused / nothing: DLG.last) */
+async function dlgWhClick(link, ms, from) {
+  const r = await DLG.click(link, { expect: ['whdep', 'whwd', 'npc', 'quest'], base: ms, from: from ? String(from) : '', reclick: true });
+  if (!r.ok) return null;
+  if (r.kind === 'whdep' || r.kind === 'whwd') return { kind: r.kind === 'whdep' ? 'deposit' : 'withdraw', items: r.ev.data.items, rows: r.ev.data.rows };
+  return { page: r.html };
+}
 /** Open a Warehouse Keeper's list: kind 'deposit' (private deposit) or 'clan' (clan warehouse withdraw list = what is inside). */
 async function openWarehouse(kind) {
   let npc = null, best = 1e9;
@@ -15549,11 +16031,10 @@ async function openWarehouse(kind) {
       || (kind === 'clan' ? links.find(l => /clan/i.test(l.text)) : links.find(l => /deposit/i.test(l.text) && !/clan/i.test(l.text)));
     if (!link) return { ok: false, msg: `no ${kind} link at ${npc.Name}: ` + links.map(l => l.text).join(' | ') };
     wh.want = kind;
-    const w = waitWarehouse(6000), pg = waitNpcHtml(6000);
-    Send.ReqBypassToServer(link.cmd, true);
-    const r = await Promise.race([w, pg.then(h => h ? { page: h } : null)]);
+    const r = await dlgWhClick(link, 6000, npc.Name);   // DIALOG-2026-10-13: CLICK -> WAIT_RESULT (a warehouse list | a sub page | a refusal)
     if (r && r.kind) return { ok: true, list: r };
-    html = r && r.page ? r.page : lastNpcHtml;    // a sub menu ("Clan warehouse" -> "Withdraw"): next round
+    if (!r && DLG.last && DLG.last.sys) return { ok: false, msg: `${npc.Name}: ${DLG.last.sys.why}` };
+    html = r && r.page ? r.page : null;           // a sub menu ("Clan warehouse" -> "Withdraw"): next round
   }
   return { ok: false, msg: `the ${kind} list did not open` };
 }
@@ -15635,6 +16116,7 @@ async function leadSoulHunt(arg) {
   note(`soul hunt: the team levels crystals at ${txt} — for ${whoTxt} (until "!soul hunt off")`, true);
   soulLog(`hunt: ${txt} for ${whoTxt}`);
   if (autoLvl.active) autoLvl.stop = true;
+  if (arg !== 'auto') runSetMine(true, 'your order !soul hunt');   // RUNSTATE
   setTimeout(() => leadLevel('!soul hunt').catch(e => logError('!soul hunt', e)), 3000);
   return 'spot ' + best.spot.name;
 }
@@ -15680,10 +16162,23 @@ function stashClassify(it, ctx) {
   if (it.quest) return K('quest item', 'quest');
   if (id === 57) return K('adena', 'adena');
   if (/(^|[^A-Za-z])Soul Crystal([^A-Za-z]|$)/i.test(name) && !/^Recipe/i.test(name)) return K('soul crystal (finished ones go to the warehouse with !soul store)', 'soul');   // before every rule (2026-10-12)
+  // STORAGE-2026-10-13: mode 'off' = nothing of mine goes into a warehouse; 'all' = everything except my consumables (stashSettings)
+  const mode = String((ctx && ctx.mode) || 'rules');
+  if (mode === 'off') return K('storing is off for this character (dashboard Storage page)', 'off');
   if (has(me.keep) || nameRe(me.keepNames)) return K('rule: keep (this character)', 'rule');
   if (has(me.deposit) || nameRe(me.depositNames)) return D('rule: deposit (this character)', 'rule');
   if (has(R.keep) || nameRe(R.keepNames)) return K('rule: keep', 'rule');
   if (has(R.deposit) || nameRe(R.depositNames)) return D('rule: deposit', 'rule');
+  const LK = ctx.letterKeep;                                             // STORAGE-2026-10-13: event letters (letters setting): giver keeps them for the hand-over, receiver may keep them for the exchange
+  if (LK && Array.isArray(LK.ids) && has(LK.ids)) return K(LK.why || 'event letter (letters setting)', 'letter');
+  const r = stashBuiltIn(it, ctx, id, name, K, D);
+  if (mode !== 'all' || r.act !== 'keep' || STASH_ALL_KEEP[r.cat]) return r;
+  return D(`store everything (mode "everything except my consumables"; built-in rule said: ${r.why})`, 'all');
+}
+/** 'all' mode keeps only these built-in keep reasons (consumables, the crafter's own recipes / materials, upgrades / HP-swap spares, seal stones for the Priest) */
+const STASH_ALL_KEEP = { use: 1, recipe: 1, material: 1, gear: 1, seal: 1 };
+/** the built-in rules (everything after the user's rules) */
+function stashBuiltIn(it, ctx, id, name, K, D) {
   if ((ctx.keepIds || []).some(x => Number(x) === id)) return K('consumable I use', 'use');
   if (it.sell) return { act: 'sell', why: 'marked for sale / junk (the sale step sells it)', cat: 'sell' };
   if (STASH_SEAL.includes(id)) return ctx.stonesToPriest ? K('seal stone for the Priest of Dawn (competition, signed up)', 'seal') : D('seal stone', 'seal');
@@ -15706,7 +16201,7 @@ function stashClassify(it, ctx) {
   if (it.gear) {
     if (it.upgrade) return K('an upgrade for me', 'gear');
     if (it.spare) return K('spare gear the planner uses (HP swap)', 'gear');
-    if (it.teamWants && ctx.hasTeam) return K('a teammate can use it (the unload hands it over)', 'gear');
+    if (it.teamWants && ctx.hasTeam) return K('a teammate can use it (the unload hands it over)', 'teamgear');
     return D('old gear (no upgrade, nobody plans it, not sold)', 'gear');
   }
   return K('unknown kind (add a rule in Scripts/data/stash_rules.json)', 'unknown');
@@ -15778,6 +16273,99 @@ function stashPlanLine(p) {
   const unk = (p.keep || []).filter(r => r.cat === 'unknown').length;
   return `${(p.deposit || []).length} kinds to deposit (${cats || '-'}), keep ${(p.keep || []).length}${unk ? ` (${unk} unknown kinds kept)` : ''}, ${(p.sell || []).length} for sale`;
 }
+// --- STORAGE SETTINGS (STORAGE-2026-10-13, owner: "Dagger1 must store EVERYTHING in the clan warehouse ... selectable", "everyone may give him
+// all letters", "configure them to store in their OWN warehouse if they are not in the clan", "everything must be configurable"; owner rule 17:0x:
+// "nothing happens automatically unless you ask for it" = every automatic part defaults OFF). Scripts/data/stash_rules.json (read live; the
+// dashboard Storage page edits it): defaults / parties.<leader> / chars.<Name> = { dest: auto|clan|private, mode: rules|all|off, auto: bool,
+// trigger: { kind: bag|weight|supply|town, above, weightPct, gapMin }, town }; letters = { on, to: clanleader|<Name>, ids[], keep, except[] }.
+// Old files keep working: top-level "dest" = the default destination, chars.<Name>.keep/deposit/keepNames/depositNames stay the item rules.
+const STASH_LETTER_IDS = [3875, 3876, 3877, 3878, 3879, 3880, 3881, 3882, 3883, 3884, 3885, 3886, 3887, 3888];   // L2Day - A C E F G H I L N O R S T II (event letters)
+const STASH_MODES = ['rules', 'all', 'off'], STASH_DESTS = ['auto', 'clan', 'private'], STASH_TRIGGERS = ['bag', 'weight', 'supply', 'town'];
+const STASH_TRIG_DEF = { kind: 'bag', above: 120, weightPct: 70, gapMin: 30 };
+const stashObj = (o) => (o && typeof o === 'object' && !Array.isArray(o) ? o : {});
+const stashSet = (v) => v !== undefined && v !== null && v !== '';
+/** the settings for one character: chars.<name> > parties.<party leader> > defaults > old top-level dest > built-in (base = CONFIG.stash).
+ *  -> { dest, mode, auto, trigger: { kind, above, weightPct, gapMin }, town, src: { dest, mode, auto, trigger, town } } */
+function stashSettings(rules, name, party, base) {
+  const R = stashObj(rules), B = stashObj(base), Df = stashObj(R.defaults), P = stashObj(stashObj(R.parties)[party]), C = stashObj(stashObj(R.chars)[name]);
+  const L = [['character', C], ['party', P], ['default', Df]];
+  const pick = (k, ok) => { for (const [src, o] of L) if (stashSet(o[k]) && ok(o[k])) return { v: o[k], src }; return null; };
+  const okDest = (v) => STASH_DESTS.includes(String(v).toLowerCase());
+  const dest = pick('dest', okDest) || (stashSet(R.dest) && okDest(R.dest) ? { v: R.dest, src: 'file default (old "dest")' } : { v: okDest(B.dest || '') ? B.dest : 'private', src: 'built-in' });
+  const mode = pick('mode', v => STASH_MODES.includes(String(v))) || { v: 'rules', src: 'built-in' };
+  const auto = pick('auto', v => typeof v === 'boolean') || { v: B.auto === true, src: 'built-in' };
+  const town = pick('town', v => /^[A-Za-z][A-Za-z ]{1,19}$/.test(String(v))) || { v: 'Giran', src: 'built-in' };
+  const trig = Object.assign({}, STASH_TRIG_DEF, Number(B.above) > 0 ? { above: Number(B.above) } : {}); let tsrc = 'built-in';
+  L.slice().reverse().forEach(([src, o]) => {
+    const t = stashObj(o.trigger);
+    if (STASH_TRIGGERS.includes(t.kind)) { trig.kind = t.kind; tsrc = src; }
+    ['above', 'weightPct', 'gapMin'].forEach(k => { const n = Number(t[k]); if (stashSet(t[k]) && Number.isFinite(n) && n >= 0) trig[k] = k === 'weightPct' ? Math.min(100, Math.max(1, n)) : n; });
+  });
+  return { dest: String(dest.v).toLowerCase(), mode: String(mode.v), auto: !!auto.v, trigger: trig, town: String(town.v), src: { dest: dest.src, mode: mode.src, auto: auto.src, trigger: tsrc, town: town.src } };
+}
+/** the warehouse for a destination: clan only for clan members (others: their private warehouse). -> { kind: 'clan' | 'private', why } */
+function stashKindFor(dest, inClan) {
+  const d = String(dest || 'private').toLowerCase();
+  if (d === 'private') return { kind: 'private', why: 'set to the private warehouse' };
+  if (inClan) return { kind: 'clan', why: d === 'auto' ? 'auto: clan member -> clan warehouse' : 'set to the clan warehouse' };
+  return { kind: 'private', why: d === 'auto' ? 'auto: not in a clan -> my private warehouse' : 'set to the clan warehouse, but I am not in a clan -> my private warehouse' };
+}
+/** is an automatic store due? s = { bag, load, maxLoad, inSupply, inTown, lastAt, now, force } -> { due, why } */
+function stashTriggerDue(set, s) {
+  s = s || {}; const t = (set && set.trigger) || STASH_TRIG_DEF;
+  if (s.force) return { due: true, why: 'by order' };
+  if (!set || set.mode === 'off') return { due: false, why: 'storing is off for me' };
+  if (!set.auto) return { due: false, why: 'automatic storing is off (nothing happens until it is switched on)' };
+  const gap = (Number(t.gapMin) || 0) * 60000, ago = Number(s.now) - (Number(s.lastAt) || 0);
+  if (s.lastAt && ago < gap) return { due: false, why: `stored ${Math.round(ago / 60000)} min ago (at most every ${t.gapMin} min)` };
+  if (t.kind === 'supply') return s.inSupply ? { due: true, why: 'supply run' } : { due: false, why: 'only at a supply run' };
+  if (t.kind === 'town') return s.inSupply || s.inTown ? { due: true, why: s.inSupply ? 'supply run' : 'town visit' } : { due: false, why: 'not in a town' };
+  if (t.kind === 'weight') {
+    const pct = Number(s.maxLoad) > 0 ? 100 * Number(s.load) / Number(s.maxLoad) : 0;
+    return pct >= Number(t.weightPct) ? { due: true, why: `weight ${Math.round(pct)} % >= ${t.weightPct} %` } : { due: false, why: `weight ${Math.round(pct)} % < ${t.weightPct} %` };
+  }
+  return Number(s.bag) > Number(t.above) ? { due: true, why: `bag ${s.bag} kinds > ${t.above}` } : { due: false, why: `bag ${s.bag} kinds <= ${t.above}` };
+}
+/** letters setting (default OFF) */
+function stashLettersCfg(rules) {
+  const L = stashObj(stashObj(rules).letters);
+  const ids = Array.isArray(L.ids) && L.ids.length ? L.ids.map(Number).filter(n => Number.isFinite(n) && n > 0) : STASH_LETTER_IDS.slice();
+  return { on: L.on === true, to: String(L.to || 'clanleader'), ids, keep: L.keep === true, except: Array.isArray(L.except) ? L.except.map(String) : [], gapMin: stashSet(L.gapMin) && Number(L.gapMin) >= 0 ? Number(L.gapMin) : 10 };
+}
+function stashLetterReceiver(cfg, clanLeader) { const t = String((cfg && cfg.to) || 'clanleader'); return /^clan ?leader$/i.test(t) ? String(clanLeader || '') : t; }
+/** the letters a character keeps instead of storing: { ids, why } | null (giver: for the hand-over; receiver: for the exchange when keep) */
+function stashLetterKeep(cfg, me, receiver) {
+  if (!cfg || !cfg.on || !receiver) return null;
+  if (me === receiver) return cfg.keep ? { ids: cfg.ids, why: 'event letter kept for the exchange (letters setting "keep")' } : null;
+  if (cfg.except.includes(me)) return null;
+  return { ids: cfg.ids, why: `event letter for ${receiver} (letters hand-over)` };
+}
+/** giver: hand my letters over now? s = { cfg, receiver, me: { name, town, busy }, recv: hovWhere() | null, bag, notrade, last: { state, at }, now }
+ *  -> { act: 'none' | 'wait' | 'give', why, items: [{ objId, id, name, count, stack }], text } */
+function stashLettersDecide(s) {
+  const cfg = s.cfg || {}, me = s.me || {}, to = s.receiver || '', N = (why) => ({ act: 'none', why, items: [] });
+  if (!cfg.on) return N('letters hand-over is off');
+  if (!to) return N('no receiver (no clan leader known)');
+  if (me.name === to) return N('I am the receiver');
+  if ((cfg.except || []).includes(me.name)) return N('I am on the "never" list');
+  const ids = new Set((cfg.ids || []).map(Number)), NT = s.notrade instanceof Set ? s.notrade : new Set((s.notrade || []).map(Number));
+  const items = (s.bag || []).filter(b => ids.has(Number(b.id)) && !b.equipped && !b.quest && !NT.has(Number(b.id)))
+    .map(b => ({ objId: Number(b.objId), id: Number(b.id), name: String(b.name || ''), count: Math.max(1, Number(b.count) || 1), stack: true }));
+  if (!items.length) return N('no letters in my bag');
+  const n = items.reduce((a, b) => a + b.count, 0), text = `${n} letter${n === 1 ? '' : 's'} (${items.length} kind${items.length === 1 ? '' : 's'})`;
+  const W = (why) => ({ act: 'wait', why, items, text });
+  if (me.busy) return W(`I am busy (${me.busy})`);
+  const last = s.last, now = Number(s.now) || 0;
+  if (last && last.state === 'failed' && now - (Number(last.at) || 0) < 30 * 60000) return W(`the last try failed (${String(last.why || '?').slice(0, 100)}) — next try in ${Math.max(1, Math.ceil((30 * 60000 - (now - Number(last.at))) / 60000))} min`);
+  if (last && last.state === 'done' && now - (Number(last.at) || 0) < (Number(cfg.gapMin) || 0) * 60000) return W(`handed letters ${Math.round((now - Number(last.at)) / 60000)} min ago (at most every ${cfg.gapMin} min)`);
+  if (!me.town) return W('not in a town (letters are handed over in a town only)');
+  const r = s.recv;
+  if (!r) return W(`${to} does not answer (offline, or its script is not running)`);
+  if (r.dead) return W(`${to} is dead`);
+  if (r.busy) return W(`${to} is busy (${r.busy})`);
+  if (r.town !== me.town) return W(`${to} is ${r.town ? 'in ' + r.town : 'outside a town'}, I am in ${me.town} — next time we are in the same town`);
+  return { act: 'give', why: `${to} is in ${me.town} too`, items, text };
+}
 // STASH-PURE-END
 
 const STASH = { busy: false, pub: null, loaded: '', lastAt: 0 };
@@ -15787,7 +16375,12 @@ function stashData() {
   return stashDataCache;
 }
 /** STASH DESTINATION (user 2026-10-10: "try to store in the clan warehouse"): stash_rules.json chars.<Name>.dest > dest > CONFIG.stash.dest ('private' | 'clan'), read live */
-function stashDest() { try { const r = stashRules(), c = (r.chars || {})[Me.Name] || {}; const d = String(c.dest || r.dest || CONFIG.stash.dest || 'private').toLowerCase(); return d === 'clan' ? 'clan' : 'private'; } catch (e) { return CONFIG.stash.dest === 'clan' ? 'clan' : 'private'; } }
+// STORAGE-2026-10-13: the destination comes from stashSettings (chars > parties > defaults > old "dest" > CONFIG.stash.dest); 'auto' / a non-member = private
+function stashDest() { try { return stashKindFor(stashSettingsMine().dest, !!myClanName()).kind; } catch (e) { return CONFIG.stash.dest === 'clan' ? 'clan' : 'private'; } }
+/** my storage settings (STORAGE-PURE stashSettings), read live; party key = my team leader */
+function stashSettingsMine(rules) { return stashSettings(rules || stashRules(), String(Me.Name), String(CONFIG.leader || ''), { dest: CONFIG.stash.dest, auto: CONFIG.stash.auto === true, above: CONFIG.stash.above }); }
+/** the letters hand-over receiver (letters.to: clanleader | a name) */
+function stashLetterTo(rules) { return stashLetterReceiver(stashLettersCfg(rules || stashRules()), clanLeaderName()); }
 function stashRules() { try { return JSON.parse(File.ReadAllText(`${__SCRIPTS__}\\data\\stash_rules.json`).replace(/^﻿/, '')) || {}; } catch (e) { return {}; } }   // read live (user rules)
 function stashFile() { return `${SWARM_ROOT}\\Logs\\stash_${Me.Name}.json`; }
 function stashRec() { try { return JSON.parse(File.ReadAllText(stashFile())) || {}; } catch (e) { return {}; } }
@@ -15808,8 +16401,9 @@ function stashCtx() {
   try { if (typeof ENCH_NAMES !== 'undefined') Object.keys(ENCH_NAMES).forEach(id => keep.push(num(id))); } catch (e) { }   // enchant scrolls: the enchant step uses / hands them out
   let stones = false; try { stones = !!(ssStonesOn() && ssEnrolled(Me.Name) && ssNow().period === 'competition' && !ssNeeds(Me.Name)); } catch (e) { }
   let team = false; try { team = teamNames().length > 0; } catch (e) { }
+  const R = stashRules(), set = stashSettingsMine(R); let lk = null; try { lk = stashLetterKeep(stashLettersCfg(R), name, stashLetterTo(R)); } catch (e) { }
   return { name, crafter: (S.crafters || []).includes(name) || state.role === 'crafter', createLvl: stashSkillLvl(172), commonLvl: stashSkillLvl(1320),
-    keepIds: keep, stonesToPriest: stones, hasTeam: team, rules: stashRules(), data: stashData() };
+    keepIds: keep, stonesToPriest: stones, hasTeam: team, rules: R, data: stashData(), mode: set.mode, settings: set, letterKeep: lk };   // STORAGE-2026-10-13: mode + letters
 }
 /** My bag as classifier input. */
 function stashItems() {
@@ -15837,7 +16431,7 @@ function stashPlanMine(why, write) {
   if (write !== false) {
     try {
       File.WriteAllText(`${SWARM_ROOT}\\Logs\\stash_plan_${Me.Name}.json`, JSON.stringify({ at: new Date().toISOString(), why, name: Me.Name, level: num(Me.Level), bag: num(Inventory.Count),
-        above: CONFIG.stash.above, dest: stashDest(), crafter: ctx.crafter, createLvl: ctx.createLvl, commonLvl: ctx.commonLvl, stonesToPriest: ctx.stonesToPriest,
+        above: ctx.settings.trigger.above, dest: stashDest(), settings: ctx.settings, inClan: !!myClanName(), crafter: ctx.crafter, createLvl: ctx.createLvl, commonLvl: ctx.commonLvl, stonesToPriest: ctx.stonesToPriest,
         summary: stashPlanLine(p), byCat: p.byCat, deposit: p.deposit, keep: p.keep, sell: p.sell }, null, 1));
       const rec = stashRec(); rec.planAt = new Date().toISOString(); rec.planN = p.deposit.length; stashRecSave(rec);
     } catch (e) { logError('stash plan file', e); }
@@ -15845,8 +16439,14 @@ function stashPlanMine(why, write) {
   return p;
 }
 /** supplyneed: how many kinds I would deposit at this supply run (0 = my bag is fine). */
-function stashWanted() {
-  try { if (!CONFIG.stash.on || !CONFIG.stash.auto || num(Inventory.Count) <= CONFIG.stash.above) return 0; return stashPlanMine('supply run check', false).deposit.length; } catch (e) { return 0; }
+function stashWanted() {   // STORAGE-2026-10-13: my own settings (auto + trigger, default OFF) decide, not CONFIG.stash.auto alone
+  try { if (!CONFIG.stash.on || !stashDueMine({ inSupply: true }).due) return 0; return stashPlanMine('supply run check', false).deposit.length; } catch (e) { return 0; }
+}
+/** is an automatic store due for me now? o = { inSupply, inTown, force } -> { due, why, set } */
+function stashDueMine(o) {
+  const set = stashSettingsMine();
+  const d = stashTriggerDue(set, Object.assign({ bag: num(Inventory.Count), load: num(Me.Load), maxLoad: num(Me.MaxLoad), lastAt: STASH.lastAt, now: now() }, o || {}));
+  return Object.assign(d, { set });
 }
 function stashBag() { const m = {}; try { Inventory.forEach(it => { m[num(it.objId)] = (m[num(it.objId)] || 0) + Math.max(1, num(it.Count)); }); } catch (e) { } return m; }
 /** The warehouse keeper at the end of the recorded route (Taurin), else the nearest NPC titled "Warehouse Keeper" (never the Warehouse Chief). */
@@ -15857,32 +16457,31 @@ function stashKeeper() {
   if (!npc) try { snapNpcs().forEach(n => { if (/^warehouse keeper$/i.test(String(n.Title || ''))) { const d = Distance(n.ref); if (d < best && d < 2000) { best = d; npc = n.ref; } } }); } catch (e) { }
   return npc;
 }
+/** STORAGE-2026-10-13: outside Giran (the settings' town): walk to the nearest Warehouse Keeper in sight (no recorded route there) */
+async function stashWalkKeeper() {
+  let npc = null, best = 6000;
+  try { snapNpcs().forEach(n => { if (/^warehouse keeper$/i.test(String(n.Title || ''))) { const d = Distance(n.ref); if (d < best) { best = d; npc = n.ref; } } }); } catch (e) { }
+  if (!npc) return false;
+  if (best > 140) { try { await walkTo(num(npc.X), num(npc.Y), num(npc.Z), 100, 120000); } catch (e) { logError('stash walk keeper', e); } }
+  return true;
+}
 /** Open the keeper's DEPOSIT list (dialog -> link -> OnWareHouseDepositList). Returns { ok, items, link } or { ok: false, msg }. */
 async function stashOpenList(npc, kind) {
   let html = await openNpc(npc);
   if (!html) return { ok: false, msg: `${npc.Name} did not answer` };
   savePage('stash_npc', html);
-  const tried = {}; let lastLinks = [];
-  for (let depth = 0; depth < 3 && html; depth++) {
-    const links = npcLinks(html).filter(l => !tried[l.cmd + '|' + l.text]); lastLinks = links;   // PATCH_NEWENGINE2: codes are renumbered per page
-    const pick = stashPickLink(links, kind);
-    if (!pick) break;
-    tried[pick.cmd + '|' + pick.text] = 1;
-    wh.want = kind === 'clan' ? 'clandeposit' : 'deposit';
-    const w = waitWarehouse(CONFIG.stash.listTimeoutMs), pg = waitNpcHtml(CONFIG.stash.listTimeoutMs);
-    Send.ReqBypassToServer(pick.cmd, true);
-    const r = await Promise.race([w, pg.then(h => h ? { page: h } : null)]);
-    if (r && r.kind === 'deposit') return { ok: true, items: r.items, link: pick.text };
-    if (r && r.kind) return { ok: false, msg: `'${pick.text}' opened a ${r.kind} list, not the deposit list` };
-    html = r && r.page ? r.page : null;
-    if (html) savePage(`stash_npc${depth + 1}`, html);
-  }
+  // DIALOG-2026-10-13: the 'deposit list' FLOW (PICK the deposit link, page by page; the codes are renumbered per page -> picked by text)
+  wh.want = kind === 'clan' ? 'clandeposit' : 'deposit';
+  const fr = await DLG.run(dlgListFlow({ name: 'stash', label: `the ${kind} deposit link`, until: ['whdep', 'whwd'], ms: CONFIG.stash.listTimeoutMs, depth: 3,
+    pick: { fn: (L) => stashPickLink(L, kind) }, onPage: (h, round) => savePage(`stash_npc${round}`, h) }), { npc, page: html });
+  const lastLinks = fr.links || [];
+  if (fr.ok && fr.result.kind === 'whdep') return { ok: true, items: fr.result.ev.data.items, link: fr.ctx.lastLink.text };
+  if (fr.ok) return { ok: false, msg: `'${fr.ctx.lastLink.text}' opened a withdraw list, not the deposit list` };
+  if (fr.sys) return { ok: false, msg: fr.sys.key === 'clanwh' ? `no clan warehouse right: the clan leader must tick "Warehouse Search" for my clan rank (Alt+N -> Privileges) — server: ${fr.sys.text}` : `${npc.Name}: ${fr.sys.why} (server: ${fr.sys.text})` };
   // L2J's own bypass (npc_<objId>_DepositP / _DepositC) — L2Toggle encodes its links, so this may be refused: OFF unless CONFIG.stash.rawBypass
   if (CONFIG.stash.rawBypass) {
     wh.want = kind === 'clan' ? 'clandeposit' : 'deposit';
-    const w = waitWarehouse(CONFIG.stash.listTimeoutMs);
-    Send.ReqBypassToServer(`npc_${num(npc.objId)}_Deposit${kind === 'clan' ? 'C' : 'P'}`, true);
-    const r = await w;
+    const r = await dlgWhClick({ cmd: `npc_${num(npc.objId)}_Deposit${kind === 'clan' ? 'C' : 'P'}`, text: 'raw bypass Deposit' }, CONFIG.stash.listTimeoutMs, npc.Name);   // DIALOG-2026-10-13
     if (r && r.kind === 'deposit') return { ok: true, items: r.items, link: 'raw bypass DepositP' };
   }
   // 2026-10-10: the server answers system message 709 "You do not have the right to use the clan warehouse." (Bishop1 before the clan leader
@@ -15909,16 +16508,17 @@ async function stashDepositAt(npc, rows, kind) {
     if (!batch.length) break;
     const ad0 = itemCount(57);
     if (ad0 < batch.length * S.feePerItem) { res.why = `not enough adena for the fee (${ad0})`; break; }
-    const t0 = now();
+    const t0 = now(), sm0 = lastSysMsg;   // DIALOG-2026-10-13: only a message NEWER than the one before this packet is its verdict
     try { Send.SendHex(stashHex(batch)); }
     catch (e) {
       try { const objs = []; Inventory.forEach(it => { if (batch.some(b => b.objId === num(it.objId))) objs.push(it); }); Send.WareHouseDepositList(objs); }
       catch (e2) { res.why = `deposit packet error: ${e.message} / ${e2.message}`; break; }
     }
     res.batches++;
-    await sleep(S.settleMs);
+    // DIALOG-2026-10-13: ACT (the deposit packet) -> WAIT_EFFECT: the bag update or the server's verdict (STORAGE-2026-10-13: settleMaxMs = the old upper limit)
+    await DLG.effect({ check: () => stashLeft(batch, before, stashBag()).length > 0 || !!(lastSysMsg && lastSysMsg !== sm0 && lastSysMsg.at >= t0 && stashSysVerdict(lastSysMsg.id)), base: S.settleMs, capMs: Math.max(S.settleMs, S.settleMaxMs || S.settleMs), refuse: false, label: `${npc.Name}: deposit of ${batch.length}` });
     const after = stashBag(), ok = stashLeft(batch, before, after);
-    const sm = lastSysMsg && lastSysMsg.at >= t0 ? lastSysMsg : null, verdict = sm ? stashSysVerdict(sm.id) : '';
+    const sm = lastSysMsg && lastSysMsg !== sm0 && lastSysMsg.at >= t0 ? lastSysMsg : null, verdict = sm ? stashSysVerdict(sm.id) : '';
     res.fee += Math.max(0, ad0 - itemCount(57));
     if (ok.length) { ok.forEach(r => res.done.push(r)); stashRecordAdd(rec, ok, new Date().toISOString()); todo = todo.filter(r => !ok.some(o => o.objId === r.objId)); }
     if (singles > 0) singles--;
@@ -15945,8 +16545,10 @@ async function stashRun(why, opts) {
   const S = CONFIG.stash;
   if (!S.on) return { ok: true, msg: 'stash off (CONFIG.stash.on)' };
   if (STASH.busy) return { ok: false, msg: 'already at the warehouse' };
-  if (currentTownKey() !== 'Giran') return { ok: false, msg: 'not in Giran' };
-  if (!opts.force && num(Inventory.Count) <= S.above) return { ok: true, msg: `bag ${num(Inventory.Count)} slots (<= ${S.above}): nothing to stash` };
+  const set = stashSettingsMine(), here = currentTownKey();   // STORAGE-2026-10-13: per-character settings (dashboard Storage page)
+  if (set.mode === 'off') return { ok: true, msg: 'storing is off for me (dashboard Storage page)' };
+  if (here !== 'Giran' && !(here && here === set.town)) return { ok: false, msg: `not in Giran${set.town !== 'Giran' ? ' or ' + set.town : ''}` };
+  if (!opts.force) { const d = stashDueMine({ inSupply: !!opts.inSupply, inTown: !!opts.inTown }); if (!d.due) return { ok: true, msg: `not due: ${d.why}` }; }
   const plan = stashPlanMine(why);
   if (!plan.deposit.length) return { ok: true, msg: `nothing to deposit (${stashPlanLine(plan)})` };
   const kind = (opts.dest || stashDest()) === 'clan' && myClanName() ? 'clan' : 'private';   // CMDFIX2-SUPPLY-2026-10-12: order override > stash_rules.json
@@ -15964,7 +16566,11 @@ async function stashRun(why, opts) {
     standUp();
     const R = (giranRoutes().routes || {}).warehouse, end = R && R.tradeSpot ? { x: R.tradeSpot[0], y: R.tradeSpot[1], z: R.tradeSpot[2] } : null;
     intent('stash', `deposit ${plan.deposit.length} kinds in my ${kind} warehouse (${why})`, end);
-    if (!(await giranGo('warehouse'))) note('stash: did not quite reach the warehouse (continuing)');
+    if (here === 'Giran') {
+      if (!(await giranGo('warehouse'))) note('stash: did not quite reach the warehouse (continuing)');
+      try { const k = stashKeeper(); if (k && Distance(k) > 250) { note(`stash: ${k.Name} is ${Math.round(Distance(k))} away — walking up to him`); await walkTo(num(k.X), num(k.Y), num(k.Z), 100, 60000); } } catch (e) { }   // STORAGE-2026-10-13
+    }
+    else if (!(await stashWalkKeeper())) note(`stash: no Warehouse Keeper in sight in ${here}`);
     const npc = stashKeeper();
     if (!npc) { msg = 'no warehouse keeper in sight'; intentDone('stash', false, msg); return { ok: false, msg }; }
     const r = await stashDepositAt(npc, plan.deposit, kind);
@@ -15980,13 +16586,15 @@ async function stashRun(why, opts) {
     }
     return { ok, msg, n: r.done.length };
   } catch (e) { logError('stash', e); msg = 'error: ' + e.message; intentDone('stash', false, msg); return { ok: false, msg }; }
-  finally { try { await giranGo('start'); } catch (e) { } state.gkBusy = false; STASH.busy = false; }
+  finally { if (here === 'Giran') { try { await giranGo('start'); } catch (e) { } } state.gkBusy = false; STASH.busy = false; }
 }
 /** !stash: in Giran now; a leader / solo character outside Giran goes there first (.giran), members wait for their leader. */
 async function stashCommand(dest) {
   let ctl = false, wasLvl = false;
   try {
-    if (currentTownKey() !== 'Giran') {
+    const set = stashSettingsMine(), goTown = set.town || 'Giran';   // STORAGE-2026-10-13: the settings' town (default Giran); Giran works always
+    if (set.mode === 'off') return { ok: true, msg: 'storing is off for me (dashboard Storage page) — switch my mode on first' };
+    if (currentTownKey() !== 'Giran' && currentTownKey() !== goTown) {
       let solo = !teamNames().length; try { solo = solo || soloChar(); } catch (e) { }
       if (!isLeader() && !solo) return { ok: false, msg: 'not in Giran — my leader takes me there (!supply or !park warehouse)' };
       if (inRaid() || state.mode === 'mission') return { ok: false, msg: 'busy with a raid / mission' };
@@ -15995,11 +16603,13 @@ async function stashCommand(dest) {
       if (autoLvl.active) { wasLvl = true; autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
       stopCombatG();
       if (!solo) { if (!(await leadGoGiran('warehouse stash'))) return { ok: false, msg: 'could not get the team to Giran' }; }
-      else { lastTownCmd = 0; if (!(await townCommand('stash: to the Giran warehouse', 'Giran'))) return { ok: false, msg: '.giran did not work' }; await sleep(2500); }
+      else { lastTownCmd = 0; if (!(await townCommand(`stash: to the ${goTown} warehouse`, goTown))) return { ok: false, msg: `.${goTown.toLowerCase()} did not work` }; await sleep(2500); }
     } else {
       // several characters at once (party order without a name): one after another at the keeper
       const order = [CONFIG.leader].concat(teamNames()).indexOf(Me.Name);
       if (order > 0) await sleep(order * CONFIG.stash.staggerMs);
+      // STORAGE-2026-10-13: the order holds the control slot in town too (the fund round / leveling / regroups must not walk me away)
+      if (!control.owner || control.level > PRIO.ORDER) { if (takeControl('!stash', PRIO.ORDER)) ctl = true; }
     }
     return await stashRun('!stash', { force: true, dest: dest || '' });
   } finally {
@@ -16007,6 +16617,127 @@ async function stashCommand(dest) {
     if (wasLvl && isLeader() && !leadPaused() && !autoLvl.active) leadLevel('after !stash').catch(e => logError('stash level', e));
   }
 }
+// --- STORAGE AUTO (STORAGE-2026-10-13, owner rule: "nothing happens automatically unless you ask for it"): a character whose storage settings
+// say auto (dashboard Storage page, default OFF) stores by itself when it is idle in Giran / its storage town and its trigger is due (bag kinds /
+// weight / every town visit; trigger 'supply' = only the supply run's stash step). Never in raids / the circuit / instances / quests / orders /
+// fights / trades / hand-overs (clanHandBusyWhy); the P6 upkeep control slot (any order or more important task wins); 30 min back-off after a
+// failure, 15 min after "nothing to store". Log: Logs/stash.log (stashRun) + party chat.
+const STASH_AUTO = { busy: false, failAt: 0, nothingAt: 0, last: '' };
+setInterval(() => {
+  try {
+    if (!CONFIG.stash.on || !state.role || !IsCharacterReady() || Me.IsDead || now() - scriptStartAt < 240000 || STASH.busy || STASH_AUTO.busy) return;
+    const set = stashSettingsMine(); if (!set.auto || set.mode === 'off' || set.trigger.kind === 'supply') return;
+    const here = currentTownKey(); if (!here || (here !== 'Giran' && here !== set.town)) return;
+    if (now() - STASH_AUTO.failAt < 30 * 60000 || now() - STASH_AUTO.nothingAt < 15 * 60000) return;
+    if (clanHandBusyWhy()) return;
+    try { if (autoLvl.active || (typeof rcHolds === 'function' && rcHolds())) return; } catch (e) { }
+    const d = stashDueMine({ inTown: true }); if (!d.due) return;
+    if (!stashPlanMine('automatic check', false).deposit.length) { STASH_AUTO.nothingAt = now(); return; }
+    if (!runAuto('warehouse stash')) return;                            // RUNSTATE (your !stash still works)
+    stashAutoRun(d.why).catch(e => logError('stash auto', e));
+  } catch (e) { }
+}, 120000);
+async function stashAutoRun(why) {
+  if (!takeControl('stash (automatic)', PRIO.UPKEEP)) return;
+  STASH_AUTO.busy = true;
+  try {
+    note(`[stash] automatic (${why}): to the warehouse`, true);
+    const r = await stashRun('automatic: ' + why, { force: true });
+    STASH_AUTO.last = r.msg;
+    if (!r.ok) STASH_AUTO.failAt = now(); else if (!(r.n > 0)) STASH_AUTO.nothingAt = now();
+    note(`[stash] automatic: ${r.msg}`.slice(0, 400), true);
+  } finally {
+    STASH_AUTO.busy = false; releaseControl('stash (automatic)');
+    if (!isLeader()) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
+  }
+}
+
+// --- EVENT LETTERS TO ONE CHARACTER (STORAGE-2026-10-13, owner: "Everyone may give him all letters, also from the event"): stash_rules.json
+// letters = { on (default OFF), to: clanleader | <Name>, ids[] (default the 14 L2Day letters 3875-3888), keep (the receiver keeps them for the
+// exchange instead of storing them), except[] (never give) }. Every minute a character with letters in its bag, idle in a town where the
+// receiver is too (STASH-PURE stashLettersDecide), writes a hand-over order (Logs/handover/letters_<name>_<t>.json) and runs it through the
+// HANDOVER block (walk over in the town, receiver stands still, batches, only our own characters). Never in raids / circuit / instances /
+// orders / fights (clanHandBusyWhy). 30 min back-off after a failure. Status: Logs/letters_<name>.json (dashboard Storage page),
+// log Logs/letters.log. "!letters [name]" = now (also when switched off: an order is asking for it).
+const LETTERS = { busy: false, cur: '', curAt: 0, curTo: '', curText: '', last: null, sig: '', wroteAt: 0, nextAsk: 0, loaded: false };
+function lettersFile() { return `${SWARM_ROOT}\\Logs\\letters_${Me.Name}.json`; }
+function lettersStatus(o) {
+  try {
+    const sig = `${o.state}|${o.text || ''}|${o.why || ''}`;
+    if (o.state === 'none') { if (LETTERS.sig === sig) return; LETTERS.sig = sig; if (!File.Exists(lettersFile())) return; }
+    else { if (LETTERS.sig === sig && now() - LETTERS.wroteAt < 300000) return; LETTERS.sig = sig; }
+    LETTERS.wroteAt = now();
+    File.WriteAllText(lettersFile(), JSON.stringify(Object.assign({ name: Me.Name, at: new Date().toISOString() }, o)));
+  } catch (e) { }
+}
+function lettersLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\letters.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
+function lettersFollow() {
+  const id = LETTERS.cur; if (!id) return;
+  let s = null; try { s = JSON.parse(File.ReadAllText(`${HOV_DIR}\\${id}_${Me.Name}.json`)); } catch (e) { }
+  let st = String((s && s.state) || '');
+  if (!/^(done|failed|stopped)$/.test(st)) {
+    if (HOV.busy && HOV.id === id) return;
+    if (now() - LETTERS.curAt < 120000) return;
+    st = 'failed'; s = Object.assign({}, s, { msg: (s && s.msg) || 'the hand-over did not run (no result)' });
+  }
+  const got = ((s && s.given) || []).filter(g => !g.adena), to = LETTERS.curTo;
+  LETTERS.cur = '';
+  if (st === 'done' && got.length) {
+    const n = got.reduce((a, g) => a + (num(g.count) || 1), 0);
+    LETTERS.last = { state: 'done', at: now() };
+    lettersStatus({ state: 'handed', text: `handed ${n} letters to ${to}`, receiver: to, order: id });
+    intentDone('letters', true, `handed ${n} letters to ${to}`); lettersLog(`handed ${n} letters (${got.map(g => g.name + ' x' + g.count).join(', ')}) -> ${to} (order ${id})`);
+  } else {
+    const why = String((s && s.msg) || st || 'no result').slice(0, 200);
+    LETTERS.last = { state: 'failed', at: now(), why };
+    lettersStatus({ state: 'failed', text: `could not hand ${LETTERS.curText} to ${to}`, why, receiver: to, order: id });
+    intentDone('letters', false, why); lettersLog(`FAILED ${LETTERS.curText} -> ${to}: ${why} (order ${id})`);
+    note(`[letters] hand-over to ${to} FAILED: ${why} — next automatic try in 30 min`, true);
+  }
+}
+/** one check (automatic every minute when switched on; manual = "!letters") -> { act, msg } */
+async function lettersTick(manual) {
+  if (LETTERS.busy) return { act: 'busy', msg: 'already checking' };
+  LETTERS.busy = true;
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name) return { act: 'none', msg: 'not ready' };
+    if (!LETTERS.loaded) {
+      LETTERS.loaded = true;
+      try { const j = JSON.parse(File.ReadAllText(lettersFile())); const at = Date.parse(j.at) || 0;
+        if (j.state === 'handing' && j.order && now() - at < HOV_CFG.maxMs + 15 * 60000) Object.assign(LETTERS, { cur: String(j.order), curAt: at, curTo: String(j.receiver || ''), curText: String(j.text || '') });
+        else if (j.state === 'failed' && now() - at < 30 * 60000) LETTERS.last = { state: 'failed', at, why: String(j.why || '') };
+      } catch (e) { }
+    }
+    if (LETTERS.cur) { lettersFollow(); if (LETTERS.cur) return { act: 'busy', msg: `hand-over ${LETTERS.cur} runs` }; }
+    const R = stashRules(), cfg = stashLettersCfg(R);
+    if (manual) cfg.on = true;
+    if (!cfg.on) { lettersStatus({ state: 'none' }); return { act: 'none', msg: 'letters hand-over is off (dashboard Storage page)' }; }
+    const to = stashLetterReceiver(cfg, clanLeaderName()), bag = hovBag();
+    const base = { cfg, receiver: to, me: { name: Me.Name, town: currentTownKey() || '', busy: clanHandBusyWhy() }, bag, notrade: hovNotrade(), last: manual ? null : LETTERS.last, now: now() };
+    const d0 = stashLettersDecide(Object.assign({}, base, { recv: { name: to, town: base.me.town } }));   // without asking the receiver first
+    if (d0.act === 'none') { lettersStatus({ state: 'none' }); return { act: 'none', msg: d0.why }; }
+    if (d0.act === 'wait') { lettersStatus({ state: 'waiting', text: `${d0.text} for ${to}`, why: d0.why, receiver: to }); return { act: 'wait', msg: d0.why }; }
+    if (!manual && now() < LETTERS.nextAsk) return { act: 'wait', msg: 'asked the receiver a moment ago' };
+    LETTERS.nextAsk = now() + 5 * 60000;                                  // at most one where-ping every 5 min per giver
+    const recv = await hovWhere(to, 'letters');
+    const d = stashLettersDecide(Object.assign({}, base, { recv }));
+    if (d.act !== 'give') { lettersStatus({ state: d.act === 'none' ? 'none' : 'waiting', text: `${d.text || 'letters'} for ${to}`, why: d.why, receiver: to }); return { act: d.act, msg: d.why }; }
+    const id = `letters_${String(Me.Name).toLowerCase()}_${Date.now().toString(36)}`;
+    try { File.WriteAllText(`${HOV_DIR}\\${id}.json`, JSON.stringify({ id, receiver: to, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: d.items, adena: 0 } },
+      kind: 'letters', by: Me.Name, why: `event letters to ${to}${manual ? ' (order)' : ''}`, created: new Date().toISOString() }, null, 1)); }
+    catch (e) { logError('letters order', e); LETTERS.last = { state: 'failed', at: now(), why: 'could not write the order file' }; return { act: 'error', msg: 'could not write the order file' }; }
+    Object.assign(LETTERS, { cur: id, curAt: now(), curTo: to, curText: d.text });
+    lettersStatus({ state: 'handing', text: `handing ${d.text} to ${to}`, why: d.why, receiver: to, order: id });
+    intent('letters', `${d.text} to ${to} (${d.why})`); lettersLog(`${d.text} -> ${to} (${d.why}; order ${id})`);
+    try { App.emit('swarm.hovcall', { id }); } catch (e) { }
+    hovCommand(['!handover', id]);
+    return { act: 'give', msg: `handing ${d.text} to ${to}` };
+  } catch (e) { logError('letters', e); return { act: 'error', msg: 'error: ' + (e && e.message || e) }; }
+  finally { LETTERS.busy = false; }
+}
+setInterval(() => {
+  try { if (!state.role || !IsCharacterReady() || now() - scriptStartAt < 180000 || !runOn()) return; lettersTick(false).catch(e => logError('letters tick', e)); } catch (e) { }   // RUNSTATE: OFF = no automatic letters trip (!letters still works)
+}, 60000);
 
 // --- HANDOVER (user 2026-10-10: "I need some buttons so I can tell teams and characters to go to the clan leader OR a character of own choice
 // and trade everything we want to. I need to be able to select what should be traded easily."). The dashboard Trade page
@@ -16147,6 +16878,7 @@ function hovBusyWhy() {
     if (inRaid()) return 'in a raid';
     if (inKamaInstance()) return 'in Kamaloka';
     if (state.mode === 'mission') return 'on a mission';
+    if (STASH.busy || (typeof WH !== 'undefined' && WH.busy)) return 'busy at the warehouse';   // STORAGE-2026-10-13: never hold still mid stash walk (17:14 Dagger1)
     if (now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) return 'fighting';
   } catch (e) { }
   return '';
@@ -16613,7 +17345,7 @@ async function clanHandTick(manual) {
 }
 setInterval(() => {
   try {
-    if (!state.role || !IsCharacterReady() || now() - scriptStartAt < CLANHAND_CFG.startDelayMs) return;
+    if (!state.role || !IsCharacterReady() || now() - scriptStartAt < CLANHAND_CFG.startDelayMs || !runOn()) return;   // RUNSTATE: OFF = no automatic hand-over (!clanhand still works)
     if (!CLANHAND.cur && !clanAutoFlag('itemHandover', true)) { clanHandStatus({ state: 'none' }); return; }
     clanHandTick(false).catch(e => logError('clanhand tick', e));
   } catch (e) { }
@@ -16768,21 +17500,14 @@ async function whOpenWithdraw(npc, kind) {
   let html = await openNpc(npc);
   if (!html) return { ok: false, msg: npc.Name + ' did not answer' };
   savePage('whtake_npc', html);
-  const tried = {}; let lastLinks = [];
-  for (let depth = 0; depth < 3 && html; depth++) {
-    const links = npcLinks(html).filter(l => !tried[l.cmd + '|' + l.text]); lastLinks = links;   // PATCH_NEWENGINE2: codes are renumbered per page
-    const pick = whPickWithdrawLink(links, kind);
-    if (!pick) break;
-    tried[pick.cmd + '|' + pick.text] = 1;
-    wh.want = kind === 'clan' ? 'clan' : 'private';
-    const w = waitWarehouse(WH.listTimeoutMs), pg = waitNpcHtml(WH.listTimeoutMs);
-    Send.ReqBypassToServer(pick.cmd, true);
-    const r = await Promise.race([w, pg.then(h => h ? { page: h } : null)]);
-    if (r && r.kind === 'withdraw') return { ok: true, rows: r.rows || [], items: r.items, link: pick.text };
-    if (r && r.kind) return { ok: false, msg: "'" + pick.text + "' opened a " + r.kind + ' list, not the withdraw list' };
-    html = r && r.page ? r.page : null;
-    if (html) savePage('whtake_npc' + (depth + 1), html);
-  }
+  // DIALOG-2026-10-13: the 'withdraw list' FLOW (PICK the withdraw link, page by page) in the dialog engine
+  wh.want = kind === 'clan' ? 'clan' : 'private';
+  const fr = await DLG.run(dlgListFlow({ name: 'whtake', label: 'the ' + kind + ' withdraw link', until: ['whdep', 'whwd'], ms: WH.listTimeoutMs, depth: 3,
+    pick: { fn: (L) => whPickWithdrawLink(L, kind) }, onPage: (h, round) => savePage('whtake_npc' + round, h) }), { npc, page: html });
+  const lastLinks = fr.links || [];
+  if (fr.ok && fr.result.kind === 'whwd') return { ok: true, rows: fr.result.ev.data.rows || [], items: fr.result.ev.data.items, link: fr.ctx.lastLink.text };
+  if (fr.ok) return { ok: false, msg: "'" + fr.ctx.lastLink.text + "' opened a deposit list, not the withdraw list" };
+  if (fr.sys) return { ok: false, msg: fr.sys.key === 'clanwh' ? 'no clan warehouse right (server: ' + fr.sys.text + ')' : npc.Name + ': ' + fr.sys.why + ' (server: ' + fr.sys.text + ')' };
   try { if (kind === 'clan' && lastSysMsg && now() - lastSysMsg.at < 30000 && (num(lastSysMsg.id) === 709 || /right to use the clan warehouse/i.test(String(lastSysMsg.text || '')))) return { ok: false, msg: 'no clan warehouse right (server: ' + lastSysMsg.text + ')' }; } catch (e) { }
   return { ok: false, msg: 'no ' + kind + ' withdraw link at ' + npc.Name + ': ' + (lastLinks.map(l => l.text).join(' | ').slice(0, 200) || '(no links)') + ' — page saved Logs/whtake_npc_' + Me.Name + '.html' };
 }
@@ -17018,7 +17743,7 @@ async function clanWhAutoLook(why) {
 setInterval(async () => {
   try {
     if (!IsCharacterReady() || Me.IsDead || Me.Name !== clanLeaderName() || CLANAUTO.whBusy || IsInCombat || inRaid() || control.owner || state.mode === 'mission' || state.gkBusy || STASH.busy || WH.busy) return;
-    if (currentTownKey() !== 'Giran' || (autoLvl.active && !leadPaused()) || !clanWhDirty()) return;
+    if (currentTownKey() !== 'Giran' || (autoLvl.active && !leadPaused()) || !clanWhDirty() || !runOn()) return;   // RUNSTATE
     const gen = takeControl('clan warehouse look', PRIO.UPKEEP); if (gen === false) return;
     try { await clanWhAutoLook('idle in Giran'); } finally { releaseControl('clan warehouse look'); }
   } catch (e) { }
@@ -17102,7 +17827,8 @@ async function clanCreateAt(npc, names) {
           clanLog(`${nm}: create "${name}" (button "${create.text}", bypass "${cmd}")`);
           Send.ReqBypassToServer(cmd, true);
           let got = '';
-          for (let k = 0; k < 24 && !got; k++) { await sleep(400); if (lastSysMsg && lastSysMsg.at >= t0 && !seen.includes(lastSysMsg.text)) seen.push(lastSysMsg.text); got = myClanName(); }
+          // DIALOG2-2026-10-13: ACT (the create bypass) -> WAIT_EFFECT: my clan name, or a refusal (adena / level ...) at once
+          await DLG.effect({ check: () => { if (lastSysMsg && lastSysMsg.at >= t0 && !seen.includes(lastSysMsg.text)) seen.push(lastSysMsg.text); got = myClanName(); return !!got; }, base: 9600, label: `${nm}: create clan "${name}"` });
           if (!got) got = await waitMyClan(3000);
           const said = seen.join(' | ').slice(0, 300);
           clanLog(`create "${name}" at ${nm}: ${got ? 'OK (' + got + ')' : 'no clan afterwards'}${said ? ' — server: ' + said : ''}`);
@@ -17121,7 +17847,7 @@ async function clanCreateAt(npc, names) {
       || fresh.find(l => /\b(clans?|pledges?)\b/i.test(l.text) && !/dissolve/i.test(l.text));
     if (!next) { clanLog(`${nm}: page ${i} has no clan link — ${L.map(l => l.text).join(' | ').slice(0, 300)} — text: ${text.slice(0, 160)}`); return { ok: false, msg: `${nm} has no clan link` }; }
     used.add(next.cmd); clanLog(`${nm}: page ${i}: click "${next.text}"`);
-    const pg = waitNpcHtml(6000); Send.ReqBypassToServer(next.cmd, true); html = await pg; await sleep(400);
+    html = await dlgPage(next, 6000, nm); await sleep(400);   // DIALOG-2026-10-13
   }
   return { ok: false, msg: `${nm}: did not find the create-clan page` };
 }
@@ -17233,7 +17959,7 @@ async function villageMasterClick(npc, want, label) {
     const next = hit || clanLink;
     if (!next) return { ok: false, msg: `${nm}: page ${i} has no "${label}" link — ${L.map(l => l.text).join(' | ').slice(0, 300)}`, html, text: htmlText(String(html)) };
     used.add(next.cmd); clanLog(`${nm}: ${label} page ${i}: click "${next.text}"`);
-    const t0 = now(); const pg = waitNpcHtml(6000); Send.ReqBypassToServer(next.cmd, true); html = await pg; await sleep(600);
+    const t0 = now(); html = await dlgPage(next, 6000, nm); await sleep(600);   // DIALOG-2026-10-13
     if (hit) return { ok: true, html, link: next.text, sys: lastSysMsg && lastSysMsg.at >= t0 ? lastSysMsg.text : '', t0, npc, save };
   }
   return { ok: false, msg: `${nm}: no "${label}" link within 6 pages` };
@@ -17290,7 +18016,7 @@ async function clanLevelUp(why) {
       const yes = L.find(l => /^(yes|ok|confirm|accept|level ?up)\b/i.test(l.text));   // only a real confirm: never "Increase" again (could level twice)
       if (!yes || myClanLevel() > before) break;
       clanLog(`${npc.Name}: levelup confirm: click "${yes.text}"`);
-      const t0 = now(); const pg = waitNpcHtml(5000); Send.ReqBypassToServer(yes.cmd, true); html = await pg; await sleep(800);
+      const t0 = now(); html = await dlgPage(yes, 5000, npc.Name); await sleep(800);   // DIALOG-2026-10-13 (a confirm: never clicked twice)
       if (lastSysMsg && lastSysMsg.at >= t0) said = lastSysMsg.text;
     }
     await sleep(1500); await clanIntelRequest('after level up');
@@ -17317,7 +18043,7 @@ function clanAutoOn() { try { return !!JSON.parse(File.ReadAllText(CLAN_AUTO_F))
 const clanLvlRun = { busy: false, last: 0 };
 setInterval(async () => {
   try {
-    if (clanLvlRun.busy || !IsCharacterReady() || Me.IsDead || !clanAutoOn() || now() - clanLvlRun.last < 15 * 60000) return;
+    if (clanLvlRun.busy || !IsCharacterReady() || Me.IsDead || !clanAutoOn() || now() - clanLvlRun.last < 15 * 60000 || !runOn()) return;   // RUNSTATE
     const ci = clanInfo(); if (!ci || ci.isLeader !== true || !currentTownKey() || control.owner || inRaid() || IsInCombat || state.mode === 'mission') return;
     const N = clanLevelNeeds(); if (!N || !N.ok) return;
     clanLvlRun.busy = true; clanLvlRun.last = now();
@@ -17354,7 +18080,7 @@ async function cqTalk(id, n, st) {
       const L = npcLinks(String(html)); const hit = L.find(l => res[k].test(l.text)) || (i === 0 ? L.find(l => /^quest/i.test(l.text)) : null);
       if (!hit) return `${st.npc}: no link /${st.click[k]}/ — ${L.map(l => l.text).join(' | ').slice(0, 250)} — ${htmlText(String(html)).slice(0, 160)}`;
       if (res[k].test(hit.text)) k++;
-      last = hit.text; const pg = waitNpcHtml(6000); Send.ReqBypassToServer(hit.cmd, true); html = await pg; await sleep(600);
+      last = hit.text; html = await dlgPage(hit, 6000, st.npc); await sleep(600);   // DIALOG-2026-10-13
     }
     const txt = htmlText(String(html || '')).slice(0, 200);
     if (st.expectItem && itemCount(st.expectItem) < 1) return `clicked "${last}" but item ${st.expectItem} is not in my bag — ${txt}`;
@@ -17395,6 +18121,7 @@ function cqHuntStart(id, n, st) {
   autoLvl.spot = null; Object.assign(cqHunt, { id, n, item: num(st.item) });
   App.emit('swarm.cqhunt', { item: num(st.item), id, n });
   if (autoLvl.active) autoLvl.stop = true;
+  runSetMine(true, `your clan quest ${id} (hunt step)`);   // RUNSTATE
   setTimeout(() => leadLevel(`clan quest ${id}`).catch(e => logError('clanquest hunt', e)), 3000);
   return `hunting ${st.target || ''} at ${x},${y} until item ${st.item} drops`;
 }
@@ -17507,7 +18234,7 @@ setInterval(async () => {
   try {
     const day = new Date().toISOString().slice(0, 10); if (clanRun.day !== day) { clanRun.day = day; clanRun.tries = 0; }
     const cfg = clanCfg() || { clan: {} };
-    if (!myClanName() && !(cfg.clan && cfg.clan.created) && num(Me.Level) >= CLAN.minLevel && currentTownKey() && clanRun.tries < 3 && !inRaid() && !IsInCombat && !control.owner && state.mode !== 'mission') {   // never in the middle of a regroup/supply (2026-10-07 18:04)
+    if (!myClanName() && !(cfg.clan && cfg.clan.created) && num(Me.Level) >= CLAN.minLevel && currentTownKey() && clanRun.tries < 3 && runOn() && !inRaid() && !IsInCombat && !control.owner && state.mode !== 'mission') {   // never in the middle of a regroup/supply (2026-10-07 18:04)
       clanRun.busy = true; clanRun.tries++;
       try { const r = await clanCreate(); note(`clan: ${r}`, true); } finally { clanRun.busy = false; }
       return;
@@ -17921,9 +18648,8 @@ async function dawnSignUp() {
       let link = null; for (const re of steps) { link = links.find(l => re.test(l.text)); if (link) break; }
       if (!link) { dawnLog(`page ${i}: no known link — ${npcLinks(String(html)).map(l => l.text).join(' | ').slice(0, 300)} — text: ${text.slice(0, 200)}`); break; }
       used[link.text] = (used[link.text] || 0) + 1;   // DAWNCODES-2026-10-13: L2Toggle reuses the short bypass codes on every page (page 1 "Seal of Avarice" = 00, page 2 "I wish to fight for the Seal of Avarice." = 00 too) -> loops are stopped by the link TEXT, not the code dawnLog(`page ${i}: click "${link.text}"`);
-      const pg = waitNpcHtml(15000);   // DAWNWAIT-2026-10-13: 15 s (pages came after > 6 s under load); NO re-click: the same short code on the next page is another link
-      Send.ReqBypassToServer(link.cmd, true);
-      html = await pg; await sleep(500);
+      // DAWNWAIT-2026-10-13: 15 s (pages came after > 6 s under load); NO re-click: the same short code on the next page is another link
+      html = await dlgPage(link, 15000, npc.Name, { reclick: false }); await sleep(500);   // DIALOG-2026-10-13: the dialog engine (adaptive, refusals end it)
       { const smx = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text) : ''; if (/chosen to fight for the seal|application has been accepted|now a lord of dawn/i.test(smx)) return fin(`server: ${smx.slice(0, 140)}`, 'signed'); }   // #1275 = signed (Nuker7 09:52)
       // (DAWNRETRY removed 2026-10-13: the re-click hit another link on a late page — Tank3 landed on Seal Status)
     }
@@ -17950,7 +18676,7 @@ async function dawnContribute() {
     const link = npcLinks(String(html)).find(l => steps[i].test(l.text) && !/what is/i.test(l.text));
     if (!link) { dawnLog(`seal stones: no "${steps[i].source}" link — ${htmlText(String(html)).slice(0, 160)}`); break; }
     dawnLog(`seal stones: click "${link.text}"`);
-    const pg = waitNpcHtml(6000); Send.ReqBypassToServer(link.cmd, true); html = await pg; await sleep(600);
+    html = await dlgPage(link, 6000, npc.Name); await sleep(600);   // DIALOG-2026-10-13
   }
   try { File.WriteAllText(`${__DIR__}\\Logs\\sevensigns_${Me.Name}_stones.html`, String(html || '')); } catch (e) { }
   const left = count(), msg = `seal stones: ${have} -> ${left} in the bag${html ? ' — ' + htmlText(String(html)).slice(0, 100) : ''}`;
@@ -18149,6 +18875,7 @@ setInterval(() => {
     const cur = ssNow(); if (cur.period !== 'competition') return;
     const need = ssoPick((ssSolo() ? [] : teamNames()).filter(ssNeeds).concat(ssNeeds(Me.Name) ? [Me.Name] : []), ssEnrolled, false, null);   // SSOPTIN: enrolled only
     if (!need.length) return;
+    if (!runAuto('Seven Signs sign-up')) return;                        // RUNSTATE
     ssAutoAt = now();
     note(`seven signs: competition period — ${need.join(', ')} not signed up with the Lords of Dawn yet — taking the team to the Priest of Dawn`, true);
     leadDawn({ auto: true }).catch(e => logError('auto dawn', e));
@@ -19179,6 +19906,7 @@ async function huntHereOrder(arg) {
   j._updated = new Date().toISOString();
   try { File.WriteAllText(`${__DIR__}\\Scripts\\data\\party_spots.json`, JSON.stringify(j, null, 1)); } catch (e) { logError('hunthere', e); return; }
   manualState.at = 0;
+  runSetMine(true, 'your order !hunthere');           // RUNSTATE
   SayToParty(`[hunt here] hunting here (radius ${r}) around the clock — no supply / Giran trips; after a death we come back here. "!hunthere off" ends it`);
   note(`hunt here 24/7: ${j[key].spot} at ${j[key].x},${j[key].y} r ${r}`, true);
   setLeadPaused(false);
@@ -19421,7 +20149,7 @@ async function floorTeleport(F) {
     const links = npcLinks(String(html));
     const pick = floorLinkChoose(links, { linkText: c.link || (c.name === N.name ? N.link : null), floorName: F.name, generic: c.name === N.name || /gatekeeper|teleport|cub|device|crystal/i.test(c.name + ' ' + c.title) });
     if (!pick) { dungeonLog(`${c.name}: no link to ${F.name} — ${links.map(l => l.text).join(' | ').slice(0, 250)} (page saved, trying the next NPC)`); tried.push(`${c.name}: no link`); floorLiveWrite(key, c, 'nolink', { menu: links.map(l => l.text).slice(0, 8) }); continue; }
-    const tp = waitTeleport(8000); Send.ReqBypassToServer(pick.link.cmd, true); const ok = await tp;
+    const fa = await DLG.click(pick.link, { expect: ['teleport'], base: 8000, from: c.name, reclick: true }); const ok = !!fa.ok;   // DIALOG-2026-10-13
     appearBurst('floor teleport'); await sleep(800); App.emit('swarm.appear', { why: 'floor teleport' }); await sleep(1500);
     const there = onFloor(F);
     dungeonLog(`${c.name}: clicked "${pick.link.text}" (${pick.how}) -> ${ok ? 'teleported' : 'no teleport'}${there ? ' — on ' + F.name : ''} (${Math.round(Me.X)},${Math.round(Me.Y)},${Math.round(Me.Z)})${lastSysMsg && now() - lastSysMsg.at < 8000 ? ' | ' + String(lastSysMsg.text).slice(0, 120) : ''}`);
@@ -19554,12 +20282,13 @@ async function rgWalk(d, target, o) {
       const all = rgPlanPoints({ steps: plan.steps.slice(i) }, s.floor);
       let failed = false;
       for (let j = 0; j < pts.length; j++) {
-        const p = pts[j]; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 90) continue;
+        const p = pts[j]; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 90 && (!isFinite(p.z) || Math.abs(p.z - Me.Z) < 300)) continue;   // OWNER 2026-10-13 19:10: x,y AND z
         rgRoutePublish(all, j, tgt, { kind: o.team ? 'trip' : 'walk', dungeon: d.name, floor: s.floor, text: prog, replans, stuck: !!stuckSince, stuckSince: stuckSince ? new Date(stuckSince).toISOString() : null });
         const legMs = Math.max(6000, Math.hypot(p.x - Me.X, p.y - Me.Y) * 25);
         let ok = await walkDirect(p.x, p.y, p.z, fastScout && j < pts.length - 1 ? 180 : 80, legMs, abort, true);
         if (!ok && !abort() && Math.hypot(p.x - Me.X, p.y - Me.Y) > 160) ok = await walkDirect(p.x, p.y, p.z, 120, 10000, abort, false);
         if (!ok && Math.hypot(p.x - Me.X, p.y - Me.Y) > 220) { failed = true; break; }
+        if (isFinite(p.z) && Math.abs(p.z - Me.Z) > 300 && Math.hypot(p.x - Me.X, p.y - Me.Y) <= 220) { failed = true; break; }   // right x,y, wrong floor: re-plan
         stuckSince = 0;
       }
       if (failed) {
@@ -19629,7 +20358,7 @@ async function memberRouteFollow(d, R, id) {
         const lp = partyMember(CONFIG.leader);
         if (lp && Math.hypot(lp.X - Me.X, lp.Y - Me.Y) < 300 && j > k + 2) break;                 // caught up with him
         if ((IsInCombat || Me.IsInCombat) && Target && Target.objId && mobById(Target.objId)) { await sleep(1500); j--; if (now() - t0 > 300000) return; continue; }   // a fight on the way: the fight first
-        const p = pts[j]; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 90) continue;
+        const p = pts[j]; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 90 && (!isFinite(p.z) || Math.abs(p.z - Me.Z) < 300)) continue;   // OWNER 2026-10-13 19:10: x,y AND z
         rgRoutePublish(pts, j, tgt, { kind: 'leader-route', dungeon: d.name, floor: R.floor, text: `following ${CONFIG.leader}'s route (${j + 1}/${pts.length})` });
         let ok = await walkDirect(p.x, p.y, p.z, 80, Math.max(6000, Math.hypot(p.x - Me.X, p.y - Me.Y) * 25), stop, true);
         if (!ok && !stop() && Math.hypot(p.x - Me.X, p.y - Me.Y) > 220) {
@@ -19648,7 +20377,7 @@ async function memberRouteFollow(d, R, id) {
 // waypoint toward him (never a beeline into a wall: the members stuck behind the walls on Cruma floor 2, 2026-10-09 09:10)
 const rgFollow = { at: 0, key: '', pts: [], i: 0, moveAt: 0, lastPos: null, still: 0 };
 function rgFollowTick() {
-  if (isLeader() || Me.IsDead || !IsCharacterReady() || memberRG.busy || state.rgInWalk || moveBusy(MOVE, now()) || state.escaping || ESC.on || state.gkBusy || tradeState || inst.on) return false;
+  if (isLeader() || runHeld() || Me.IsDead || !IsCharacterReady() || memberRG.busy || state.rgInWalk || moveBusy(MOVE, now()) || state.escaping || ESC.on || state.gkBusy || tradeState || inst.on) return false;
   if (rest.sitting || Me.IsSitting || Me.IsAttacking || Me.IsCasting || resBusy || (stuckFollow && stuckFollow.busy)) return false;
   try { if (Target && Target.objId && !!mobById(Target.objId) && !Target.IsDead && (IsInCombat || Me.IsInCombat)) return false; } catch (e) { }
   const p = partyMember(CONFIG.leader); if (!p || p.IsDead) return false;
@@ -19897,16 +20626,21 @@ function navAtlasNeeds(r, me) {
 function navAtlasStartIdx(steps, me) {
   for (let i = steps.length - 1; i >= 0; i--) {
     const s = steps[i]; if (s.do !== 'walk' || !s.points) continue;
-    for (let k = 0; k < s.points.length; k += 3) if (Math.hypot(s.points[k] - me.x, s.points[k + 1] - me.y) < 800 && Math.abs(s.points[k + 2] - me.z) < 600) return i;
+    for (let k = 0; k < s.points.length; k += 3) if (Math.hypot(s.points[k] - me.x, s.points[k + 1] - me.y) < 800 && Math.abs(s.points[k + 2] - me.z) < 600) {
+      // RAID ROUTES 2026-10-13: at the START of a walk that begins at a door (its first point = the door): the door step first (never skip a door)
+      if (k === 0 && i > 0 && steps[i - 1].do === 'door' && Array.isArray(steps[i - 1].at) && Math.hypot(steps[i - 1].at[0] - me.x, steps[i - 1].at[1] - me.y) < 300) return i - 1;
+      return i;
+    }
   }
   for (let i = steps.length - 1; i >= 0; i--) { const s = steps[i]; if (s.do === 'gk' && me.town && me.townKey(s.from) === me.town) return i; }
   return 0;
 }
 // walk points [x,y,z,...] -> [{x,y,z}] from the point nearest me, cut once within stopDist of (tx,ty)
 // swimIdx (SWIM-2026-10-13): the atlas walk step's  swim: [point index]  -> those points carry swim: true (slow swim timing, no drowning turn-back)
-function navAtlasPts(flat, me, stop, swimIdx) {
-  const sw = new Set(Array.isArray(swimIdx) ? swimIdx : []);
-  const pts = []; for (let k = 0; k < flat.length; k += 3) pts.push(sw.has(k / 3) ? { x: flat[k], y: flat[k + 1], z: flat[k + 2], swim: true } : { x: flat[k], y: flat[k + 1], z: flat[k + 2] });
+// drops (RAID ROUTES 2026-10-13): the walk step's  drops: [{ i, fall }]  -> those points carry drop: <fall> (a one-way step off a ledge: a direct move)
+function navAtlasPts(flat, me, stop, swimIdx, drops) {
+  const sw = new Set(Array.isArray(swimIdx) ? swimIdx : []), dr = {}; (Array.isArray(drops) ? drops : []).forEach(d => { if (d && isFinite(d.i)) dr[d.i] = Number(d.fall) || 1; });
+  const pts = []; for (let k = 0; k < flat.length; k += 3) { const p = sw.has(k / 3) ? { x: flat[k], y: flat[k + 1], z: flat[k + 2], swim: true } : { x: flat[k], y: flat[k + 1], z: flat[k + 2] }; if (dr[k / 3]) p.drop = dr[k / 3]; pts.push(p); }
   let i0 = 0, bd = 1e12; pts.forEach((p, i) => { const d = Math.hypot(p.x - me.x, p.y - me.y) + (Math.abs(p.z - me.z) > 600 ? 5000 : 0); if (d < bd) { bd = d; i0 = i; } });
   let out = pts.slice(i0);
   if (stop && stop.dist > 0) {
@@ -19921,6 +20655,175 @@ function navAtlasPts(flat, me, stop, swimIdx) {
 }
 // a timed door (L2DoorInstance.TimerOpen): how long to wait at most before giving up (one full closed phase + one open phase + margin)
 const navAtlasDoorWaitMs = (need) => { const w = (need && need.wait) || {}; return ((Number(w.maxWait) || 120) + ((w.openFor && w.openFor[1]) || 60) + 30) * 1000; };
+// ROUTESM-PURE-BEGIN (RAID ROUTES 2026-10-13, owner 15:15: "Find a way to solve it all, make states etc."). Every atlas route (raid travel: raidhunt,
+// !mission raid, the circuit; npc / quest / area / dungeon trips through navAtlasTrip) runs as an explicit STATE MACHINE:
+//   TRAVEL_TOWN (.townname) > GK_TELEPORT > BUY_KEY (Thief Keys for an Unlock door, at a grocer, before leaving town) > WALK_LEG | SWIM_LEG |
+//   DROP (a one-way step off a ledge, fall height known) > DOOR_WAIT (timed door) | DOOR_OPEN_NPC | DOOR_OPEN_SKILL (Unlock 27) | DOOR_OPEN_ITEM
+//   (a key item) > FLOOR_TELEPORT | ENTER > ARRIVED; BLOCKED(reason) (a door nobody can open, a by-hand step) and FAILED(reason) are final.
+// A team REGROUP (gatherTeam) comes before every checkpoint (door, swim, drop, floor / entry teleport). A failed step is retried
+// (RSM.retries per state), then re-planned from the current position (navAtlasStartIdx, at most RSM.replans per run), then FAILED.
+// Persisted: Logs/route_sm_<name>.json (a reload / restart resumes the same route at the right step: rsmResume) + swarm_state 'routeSM';
+// the leader sends it to the team (swarm.routesm): every member shows the leader's state (swarm_state 'routeSMLeader') and gets ready for it
+// (a planned swim: no drowning turn-back). No host calls in this block (docs/plan/tools/test_raid_routes_all.js runs it in node).
+const RSM = { v: 1,
+  retries: { TRAVEL_TOWN: 2, GK_TELEPORT: 2, BUY_KEY: 0, WALK_LEG: 2, SWIM_LEG: 1, DROP: 2, DOOR_WAIT: 0, DOOR_OPEN_NPC: 2, DOOR_OPEN_SKILL: 2, DOOR_OPEN_ITEM: 2, FLOOR_TELEPORT: 2, ENTER: 2, MANUAL: 0 },
+  replans: 2, resumeMaxMs: 2 * 3600000, final: ['ARRIVED', 'FAILED', 'BLOCKED'],
+  checkpoints: { SWIM_LEG: 'swim', DROP: 'drop', DOOR_WAIT: 'door', DOOR_OPEN_NPC: 'door', DOOR_OPEN_SKILL: 'door', DOOR_OPEN_ITEM: 'door', FLOOR_TELEPORT: 'floor', ENTER: 'entry' },
+  unlockClasses: [7, 8, 22, 23, 35, 36, 93, 101, 108], thiefKey: { id: 1661, name: 'Thief Key', perDoor: 20 }, breath: 2800 };
+/** the state of one atlas step */
+function rsmStateOf(s) {
+  if (!s) return 'ARRIVED';
+  switch (s.do) {
+    case 'town': return 'TRAVEL_TOWN';
+    case 'gk': return 'GK_TELEPORT';
+    case 'buy': return 'BUY_KEY';
+    case 'walk': return Array.isArray(s.swim) && s.swim.length ? 'SWIM_LEG' : Array.isArray(s.drops) && s.drops.length ? 'DROP' : 'WALK_LEG';
+    case 'door': { const n = s.need || {}; if (n.blocked) return 'BLOCKED'; if (n.npc && n.npc.length) return 'DOOR_OPEN_NPC'; if (n.items && n.items.some(k => !k.noEffect)) return 'DOOR_OPEN_ITEM'; if (n.unlock || (n.items && n.items.length)) return 'DOOR_OPEN_SKILL'; return 'DOOR_WAIT'; }
+    case 'floor': return 'FLOOR_TELEPORT';
+    case 'enter': return 'ENTER';
+    case 'need': return s.manual ? 'BLOCKED' : 'MANUAL';
+    case 'arrive': return 'ARRIVED';
+  }
+  return 'WALK_LEG';
+}
+/** one line for a step (dashboard chain / party chat) */
+function rsmLabel(s) {
+  if (!s) return '';
+  const km = (d) => (Math.round((Number(d) || 0) / 100) / 10) + 'k';
+  switch (s.do) {
+    case 'town': return s.cmd || ('.' + String(s.town || '').toLowerCase());
+    case 'gk': return s.desc || ('gatekeeper: ' + (s.link || ''));
+    case 'buy': return 'buy ' + (s.items || []).map(i => (i.count || 1) + ' ' + (i.name || i.id)).join(', ');
+    case 'walk': { const sw = Array.isArray(s.swim) && s.swim.length, dr = Array.isArray(s.drops) ? s.drops : []; return (sw ? `swim ${km(s.swimLen)} (longest ${km(s.maxSwim)})${(s.maxSwim || 0) > RSM.breath ? ' over one breath' : ''} in a ` : '') + 'walk ' + km(s.len) + (dr.length ? `, ${dr.length} drop${dr.length > 1 ? 's' : ''} (max ${Math.max(...dr.map(d => d.fall || 0))})` : ''); }
+    case 'door': return `door ${s.name || s.doorId}: ${rsmStateOf(s).replace('DOOR_', '').toLowerCase().replace('_', ' ')}`;
+    case 'floor': return `${(s.npc && s.npc.name) || 'teleporter'} > ${s.floorName || ('floor ' + (Number(s.floor) + 1))}`;
+    case 'enter': return `enter (${s.how || 'npc'})${s.npc ? ' via ' + s.npc.name : ''}`;
+    case 'need': return 'by hand: ' + (s.text || '');
+    case 'arrive': return 'arrive';
+  }
+  return s.do;
+}
+// 3D ARRIVAL (owner 2026-10-13 19:10: "just make sure x,y,z is reached, not only x,y — some caves like Garden of Eva are deep down"): a waypoint /
+// arrival / door / swim point counts as reached only within RSM.zBand in height too (a dungeon floor: its own band); a descending swim keeps
+// diving until the height is reached (rsmDiveMs: the time a dive may take at swim speed 50, 3D)
+RSM.zBand = 250; RSM.swimSpeed = 50;
+/** reached p (x,y within dist AND z within band)? p.z missing = 2D only */
+function rsmArrived3D(me, p, dist, band) { if (!me || !p) return false; if (Math.hypot(p.x - me.x, p.y - me.y) > (dist || 150)) return false; return !isFinite(p.z) || !isFinite(me.z) || Math.abs(p.z - me.z) <= (band || RSM.zBand); }
+/** right x,y but the wrong height (another floor / still at the surface above a dive) */
+function rsmWrongHeight(me, p, dist, band) { return !!(me && p && isFinite(p.z) && isFinite(me.z) && Math.hypot(p.x - me.x, p.y - me.y) <= (dist || 400) && Math.abs(p.z - me.z) > (band || RSM.zBand)); }
+/** how long a swim to p may take (3D length at swim speed, x1.6 + 8 s) */
+function rsmDiveMs(me, p) { const d = Math.hypot(p.x - me.x, p.y - me.y, (isFinite(p.z) && isFinite(me.z)) ? p.z - me.z : 0); return Math.round(d / RSM.swimSpeed * 1600 + 8000); }
+/** the floor band of a mapped dungeon floor around (x,y,z): [lo, hi] (z within the floor +-300) or null (no dungeon / one floor) */
+function rsmFloorBand(dungeons, x, y, z) {
+  for (const d of dungeons || []) { const b = d.bbox; if (!Array.isArray(b) || x < b[0] || x > b[1] || y < b[2] || y > b[3] || !(d.floors || []).length || d.floors.length < 2) continue;
+    const F = d.floors.find(F => Array.isArray(F.z) && z >= F.z[0] - 300 && z <= F.z[1] + 300); if (F) return [F.z[0] - 300, F.z[1] + 300]; }
+  return null;
+}
+/** Thief Keys one Unlock cast uses per skill level (datapack skill 27) -> keys for N doors, 2 tries each */
+const RSM_UNLOCK_KEYS = [2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 15, 17];
+function rsmUnlockKeys(skillLevel, doors) { const k = RSM_UNLOCK_KEYS[Math.max(0, Math.min(13, (Number(skillLevel) || 1) - 1))]; return k * 2 * Math.max(1, doors || 1); }
+/** a step's identity (resume across a re-built step list: a BUY_KEY step inserted or not) */
+function rsmSig(s) { return s ? `${s.do}:${s.doorId || (s.npc && s.npc.id) || s.town || s.desc || s.link || (Array.isArray(s.points) ? s.points.slice(0, 2).join(',') : '')}` : ''; }
+/** the whole chain: [{ i, st, cp, label }] */
+function rsmChain(steps) { return (steps || []).map((s, i) => { const st = rsmStateOf(s); return { i, st, cp: RSM.checkpoints[st] || null, label: rsmLabel(s) }; }); }
+/** what to buy before leaving town: Thief Keys for every door that needs Unlock (no gatekeeper NPC alternative) */
+function rsmSupply(steps) {
+  const doors = (steps || []).filter(s => s.do === 'door' && s.need && !s.need.blocked && (s.need.unlock || (s.need.items && s.need.items.length && s.need.unlock)) && !(s.need.npc && s.need.npc.length));
+  // OWNER 2026-10-13 19:10: only what THIS route's doors need (never a stock): the count follows the buyer's Unlock level (rsmUnlockKeys)
+  return doors.length ? [{ id: RSM.thiefKey.id, name: RSM.thiefKey.name, count: rsmUnlockKeys(1, doors.length), unlockDoors: doors.length, why: 'Unlock on ' + doors.map(d => d.name || d.doorId).join(', ') }] : [];
+}
+/** the steps with a BUY_KEY step after the first town step (or first) */
+function rsmWithBuy(steps, items) {
+  if (!items || !items.length) return (steps || []).slice();
+  const out = (steps || []).slice(), t = out.findIndex(s => s.do === 'town');
+  out.splice(t >= 0 ? t + 1 : 0, 0, { do: 'buy', items: items.map(x => Object.assign({}, x)), why: 'keys for the doors on the way' });
+  return out;
+}
+/** a new run record */
+function rsmInit(r, i, t, prev) {
+  const sm = { v: RSM.v, key: r.key, name: r.name, n: (r.steps || []).length, i: i || 0, state: 'START', sub: '', tries: {}, replans: 0, startedAt: t, at: t, since: t, why: '', hist: [], resumed: !!prev, final: false };
+  if (prev) { sm.tries = Object.assign({}, prev.tries || {}); sm.replans = prev.replans || 0; sm.hist = (prev.hist || []).slice(-20); sm.startedAt = prev.startedAt || t; }
+  return sm;
+}
+/** enter step i */
+function rsmEnter(sm, i, steps, t) {
+  const st = rsmStateOf(steps[i]);
+  if (sm.i !== i || sm.state !== st) { sm.since = t; sm.hist.push({ i, st, at: t }); if (sm.hist.length > 30) sm.hist.shift(); }
+  sm.i = i; sm.state = st; sm.n = steps.length; sm.at = t; sm.sub = ''; sm.why = sm.final ? sm.why : ''; sm.sig = rsmSig(steps[i]);
+  return sm;
+}
+/** the result of the current step -> { act: 'next' | 'retry' | 'replan' | 'stop' | 'final', sm }. res = { ok, why, blocked } */
+function rsmResult(sm, res, steps, t) {
+  sm.at = t;
+  if (res && res.ok) { if (sm.state === 'ARRIVED' || sm.i >= steps.length - 1) { sm.state = 'ARRIVED'; sm.final = true; return { act: 'final', sm }; } return { act: 'next', sm }; }
+  const why = String((res && res.why) || 'failed');
+  if (why === 'stopped') { sm.sub = 'paused'; sm.why = 'stopped'; return { act: 'stop', sm }; }
+  if ((res && res.blocked) || sm.state === 'BLOCKED') { sm.state = 'BLOCKED'; sm.final = true; sm.why = why; sm.hist.push({ i: sm.i, st: 'BLOCKED', at: t, why: why.slice(0, 120) }); return { act: 'final', sm }; }
+  const k = String(sm.i); sm.tries[k] = (sm.tries[k] || 0) + 1; sm.why = why;
+  if (sm.tries[k] <= (RSM.retries[sm.state] || 0)) { sm.sub = `retry ${sm.tries[k]}/${RSM.retries[sm.state]}`; return { act: 'retry', sm }; }
+  if (sm.replans < RSM.replans) { sm.replans++; sm.tries[k] = 0; sm.sub = `re-plan ${sm.replans}/${RSM.replans}`; sm.hist.push({ i: sm.i, st: 'REPLAN', at: t, why: why.slice(0, 120) }); return { act: 'replan', sm }; }
+  sm.state = 'FAILED'; sm.final = true; sm.hist.push({ i: sm.i, st: 'FAILED', at: t, why: why.slice(0, 120) });
+  return { act: 'final', sm };
+}
+/** resume a saved run of the SAME route (reload / restart / reconnect): -> { i, tries, replans, hist, startedAt } | null.
+ *  The step: the saved one when I still stand at it (a door / teleporter / checkpoint within 2500, same floor), else where my position is on the
+ *  route (startIdx = navAtlasStartIdx); never further back than the position says (a walk already done is not walked again). */
+function rsmResume(saved, r, me, t, startIdx) {
+  if (!saved || !r || saved.v !== RSM.v || saved.key !== r.key || saved.final || !(t - (saved.at || 0) < RSM.resumeMaxMs)) return null;
+  const steps = r.steps || [], pos = startIdx ? startIdx(steps, me) : 0;
+  let si = saved.i;                                                   // the saved step in THIS step list (same signature, nearest index)
+  if (saved.sig && rsmSig(steps[si]) !== saved.sig) { si = -1; let bd = 1e9; steps.forEach((x, j) => { if (rsmSig(x) === saved.sig && Math.abs(j - saved.i) < bd) { bd = Math.abs(j - saved.i); si = j; } }); }
+  const s = si >= 0 ? steps[si] : null;
+  let i = pos;
+  if (s && si >= pos - 1 && s.do !== 'walk') {                     // at the saved door / teleporter (the walk after it may start right there)
+    const at = Array.isArray(s.at) ? { x: s.at[0], y: s.at[1], z: s.at[2] } : s.npc && isFinite(s.npc.x) ? s.npc : Array.isArray(s.landing) ? { x: s.landing[0], y: s.landing[1], z: s.landing[2] } : null;
+    if (at && Math.hypot(at.x - me.x, at.y - me.y) < 2500 && (!isFinite(at.z) || !isFinite(me.z) || Math.abs(at.z - me.z) < 800)) i = si;
+  }
+  // tries are kept per step index: re-key them when the step list changed
+  const tries = {}; Object.entries(saved.tries || {}).forEach(([k, v]) => { const j = Number(k) + (si >= 0 ? si - saved.i : 0); if (j >= 0) tries[String(j)] = v; });
+  return { i, tries, replans: saved.replans || 0, hist: saved.hist || [], startedAt: saved.startedAt, from: saved.i };
+}
+/** compact state for swarm_state / party events / the dashboard */
+function rsmPublic(sm, steps) {
+  if (!sm) return null;
+  const s = steps && steps[sm.i];
+  return { v: sm.v, key: sm.key, name: sm.name, state: sm.state, sub: sm.sub || '', i: sm.i, n: sm.n, label: rsmLabel(s), cp: RSM.checkpoints[sm.state] || null, tries: sm.tries[String(sm.i)] || 0,
+    replans: sm.replans, why: String(sm.why || '').slice(0, 200), at: sm.at, since: sm.since, startedAt: sm.startedAt, final: !!sm.final, resumed: !!sm.resumed,
+    chain: steps ? rsmChain(steps).map(c => [c.st, c.label]) : undefined,
+    drop: s && s.do === 'walk' && Array.isArray(s.drops) && s.drops.length ? s.drops.map(d => ({ i: d.i, fall: d.fall, top: s.points.slice((d.i - 1) * 3, d.i * 3), to: s.points.slice(d.i * 3, d.i * 3 + 3) })) : undefined };
+}
+/** a member's line: "leader: SWIM_LEG 4/9 swim 5k ..." */
+function rsmMemberLine(pub, t) { if (!pub) return ''; return `${pub.final ? 'route ' : 'leader route: '}${pub.state}${pub.sub ? ' (' + pub.sub + ')' : ''} ${pub.i + 1}/${pub.n} ${pub.label || ''}${pub.why && pub.final ? ' — ' + pub.why : ''}`.trim(); }
+// ROUTE RULES (owner 2026-10-13: "everything must be configurable manually; nothing automatic unless you ask for it — many people play their own
+// way"): per party (Scripts/data/route_rules.json parties.<leader>, edited on the dashboard route view -> Route rules) what a route may do.
+const RSM_RULES = { openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false };   // owner 19:10: keys a route needs ON, fortress gates opt-in
+/** the rules of a party: built-in defaults < file defaults / rule defaults < the party's own */
+function rsmRules(file, party) {
+  const o = Object.assign({}, RSM_RULES);
+  try { ((file && file.rules) || []).forEach(r => { if (r && r.key in RSM_RULES && typeof r.default === 'boolean') o[r.key] = r.default; }); } catch (e) { }
+  const put = (src) => { if (src && typeof src === 'object') Object.keys(RSM_RULES).forEach(k => { if (typeof src[k] === 'boolean') o[k] = src[k]; }); };
+  put(file && file.defaults); put(file && file.parties && party ? file.parties[party] : null);
+  return o;
+}
+/** a route the rules forbid as a whole (swims / drops) -> reason, else '' */
+function rsmRouteBan(steps, rules) {
+  if (!rules) return '';
+  if (rules.swim === false && (steps || []).some(s => s.do === 'walk' && Array.isArray(s.swim) && s.swim.length)) return 'this route swims and swimming is switched off for the party (route rules)';
+  if (rules.drops === false && (steps || []).some(s => s.do === 'walk' && Array.isArray(s.drops) && s.drops.length)) return 'this route drops off a ledge and drops are switched off for the party (route rules)';
+  return '';
+}
+/** may the party open this door step its way? -> '' or the reason it may not */
+function rsmDoorBan(s, rules) {
+  if (!rules || !s || s.do !== 'door') return '';
+  if (rules.openDoors === false) return `door ${s.name || s.doorId}: passing closed doors is switched off for the party (route rules)`;
+  const st = rsmStateOf(s);
+  if (st === 'DOOR_WAIT' && rules.waitTimedDoors === false) return `timed door ${s.name || s.doorId}: waiting at timed doors is switched off (route rules)`;
+  if (st === 'DOOR_OPEN_NPC' && rules.npcDoors === false) return `door ${s.name || s.doorId}: asking the door NPC is switched off (route rules)`;
+  if (st === 'DOOR_OPEN_SKILL' && rules.unlockDoors === false && !(s.need && s.need.wait)) return `door ${s.name || s.doorId}: Unlock is switched off (route rules)`;
+  if (st === 'DOOR_OPEN_ITEM' && rules.keyDoors === false && rules.unlockDoors === false) return `door ${s.name || s.doorId}: key items and Unlock are switched off (route rules)`;
+  return '';
+}
+// ROUTESM-PURE-END
 // NAVATLAS-PURE end
 function navAtlasLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\nav_atlas_runs.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
 function navAtlasMe() {
@@ -19933,15 +20836,34 @@ function navAtlasMe() {
 function navDoorHookOn() { try { if (!SIEGE.hook) { siegeHookOn(); NAVATLAS.hookMine = true; } } catch (e) { } }
 function navDoorHookOff() { try { if (NAVATLAS.hookMine && !SIEGE.on) siegeHookOff(); } catch (e) { } NAVATLAS.hookMine = false; }
 function navDoorState(doorId) { try { const d = SIEGE.statics[doorId]; return d && now() - (d.at || 0) < 180000 ? { open: !d.closed, objId: d.objId } : null; } catch (e) { return null; } }
+/** after an x,y arrival: get the height too. A swim point: keep swimming (diving) toward x,y,z until within RSM.zBand (rsmDiveMs); a land point
+ *  on the wrong height (another floor, still on the ledge) = NOT reached. -> true when x,y,z is reached */
+async function reach3D(p, abort, band) {
+  const me = () => ({ x: Me.X, y: Me.Y, z: Me.Z });
+  if (rsmArrived3D(me(), p, 400, band)) return true;
+  if (!rsmWrongHeight(me(), p, 400, band)) return true;               // not near in x,y (a portal moved me, walkTo judged it) or the height is right
+  if (!p.swim) return false;                                          // land: the wrong floor / ledge is never "there"
+  swimPlan(rsmDiveMs(me(), p) + 5000);
+  const t0 = now(), lim = rsmDiveMs(me(), p);
+  while (now() - t0 < lim && !(abort && abort())) {
+    try { Send.MoveBackwardToLocation(Math.round(p.x), Math.round(p.y), Math.round(p.z)); } catch (e) { }
+    await sleep(1000);
+    if (rsmArrived3D(me(), p, 400, band)) return true;
+  }
+  navAtlasLog(`dive to ${P(p.x, p.y, p.z)} not reached: at ${P(Me.X, Me.Y, Me.Z)} (height ${Math.round(Me.Z - p.z)} off)`);
+  return false;
+}
 async function navAtlasWalk(pts, label, abort, o) {
   if (!pts.length) return true;
   if (o.team !== false && isLeader() && teamNames().length) return await leadRouteWalk(pts, label, abort, '', null, null);
   for (const p of pts) {
     if (abort()) return false;
-    if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 120) continue;
+    if (rsmArrived3D({ x: Me.X, y: Me.Y, z: Me.Z }, p, 120, p.drop ? 200 : RSM.zBand)) continue;   // OWNER 19:10: x,y AND z
     if (p.swim) swimPlan(90000);                                     // SWIM-2026-10-13: a planned swim point
+    if (p.drop) { const okD = typeof walkDirect === 'function' ? await walkDirect(p.x, p.y, p.z, 120, 15000, abort, true) : await walkTo(p.x, p.y, p.z, 120, 15000, abort); if (!okD && (Math.hypot(p.x - Me.X, p.y - Me.Y) > 400 || Math.abs(p.z - Me.Z) > 300)) return false; continue; }   // RAID ROUTES 2026-10-13: off the ledge (the server allows the fall)
     const ok = await walkTo(p.x, p.y, p.z, 120, 90000, abort);
     if (!ok && Math.hypot(p.x - Me.X, p.y - Me.Y) > 400) return false;
+    if (!(await reach3D(p, abort))) return false;                     // OWNER 19:10: the height too (dive on; a wrong floor is not "there")
   }
   return true;
 }
@@ -19978,9 +20900,10 @@ async function navAtlasNpc(npc, link, landing, abort, o, st) {
     const q = pick(page, chain[ci]); l = q.l;
     if (!l) return { ok: false, why: `${npc.name}: no link ${chain[ci] ? '"' + chain[ci] + '"' : '(several, none known)'}${ci ? ' on page ' + (ci + 1) : ''} — ${q.L.map(x => x.text).join(' | ').slice(0, 160)}` };
     if (ci < chain.length - 1) {                                      // NAVATLAS2: a page link (Chat n) opens the next dialog page
-      const pg = typeof waitNpcHtml === 'function' ? waitNpcHtml(6000) : null;
-      Send.ReqBypassToServer(l.cmd, true);
-      const h2 = pg ? await pg : null; await sleep(400);
+      let h2 = null;
+      if (typeof DLG !== 'undefined' && typeof dlgPage === 'function') h2 = await dlgPage(l, 6000, npc.name, { expect: ['npc', 'quest', 'teleport'] });   // DIALOG-2026-10-13: a page or a teleport at once
+      else { const pg = typeof waitNpcHtml === 'function' ? waitNpcHtml(6000) : null; Send.ReqBypassToServer(l.cmd, true); h2 = pg ? await pg : null; }
+      await sleep(400);
       if (!h2 && arrived()) { emit(l.text); try { appearBurst('nav atlas teleport'); } catch (e) { } await sleep(1500); return { ok: true }; }   // the live page link teleported at once
       page = String(h2 || (typeof lastNpcHtml !== 'undefined' ? lastNpcHtml : '') || '');
       if (!page) return { ok: false, why: `${npc.name}: "${l.text}" opened no page` };
@@ -20057,13 +20980,131 @@ async function navAtlasDoor(s, next, abort, o) {
   }
   return { ok: !st || st.open, why: st && !st.open ? `door ${s.doorId} ${s.name} is closed` : '' };
 }
-// run an atlas route. o: { why, abort, team, upTo (last step index), stop: { x, y, dist } }. -> { ok, why, i }
+// ROUTESM (RAID ROUTES 2026-10-13): persisted run record + the team's view of it
+const routeSmFile = () => `${SWARM_ROOT}\\Logs\\route_sm_${Me.Name}.json`;
+const ROUTE_RULES = { at: 0, file: null };
+/** the route rules of my party (Scripts/data/route_rules.json, re-read every 30 s; the party = my leader) */
+function routeRulesNow() {
+  if (!ROUTE_RULES.file || now() - ROUTE_RULES.at > 30000) { ROUTE_RULES.at = now(); try { ROUTE_RULES.file = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\route_rules.json`)).replace(/^\uFEFF/, '')); } catch (e) { ROUTE_RULES.file = ROUTE_RULES.file || {}; } }
+  return rsmRules(ROUTE_RULES.file, CONFIG.leader || Me.Name);
+}
+/** a route rule switched off (CONFIG.travel.<key> === false counts too) */
+function routeRuleOff(key) { try { if ((CONFIG.travel || {})[key] === false) return true; return routeRulesNow()[key] === false; } catch (e) { return false; } }
+function rsmLoad() { try { return JSON.parse(String(File.ReadAllText(routeSmFile()))); } catch (e) { return null; } }
+function rsmSave(sm) { try { if (typeof File.WriteAllText === 'function') File.WriteAllText(routeSmFile(), JSON.stringify(sm)); } catch (e) { } }
+/** BUY_KEY: buy items (Thief Keys) at the nearest grocer of the town I stand in -> { ok, why } */
+async function routeBuyItems(items, abort) {
+  let ulv = 1; try { const sk = SkillsList.GetItemByID(27); ulv = sk ? num(sk.Level) || 1 : 1; } catch (e) { }
+  const want = (items || []).map(x => { const need = Number(x.id) === RSM.thiefKey.id && x.unlockDoors ? rsmUnlockKeys(ulv, x.unlockDoors) : (Number(x.count) || 1); return { id: Number(x.id), name: x.name || String(x.id), count: Math.max(0, need - itemCount(Number(x.id))) }; }).filter(x => x.count > 0);
+  if (!want.length) return { ok: true, why: 'have them' };
+  if (!currentTownKey()) return { ok: false, why: 'not in a town' };
+  if (typeof buyAt !== 'function' || typeof findNpcOrWalk !== 'function') return { ok: false, why: 'no shop helper' };
+  const R = CONFIG.restock || {};
+  try {
+    if (currentTownKey() === 'Giran' && typeof giranGo === 'function') await giranGo('grocer');
+    if (abort && abort()) return { ok: false, why: 'stopped' };
+    const npc = await findNpcOrWalk(n => R.npcMatch.test(`${n.Title} ${n.Name}`) && !(R.skipNpcs || []).includes(n.Name), grocerSpawns().concat((R.knownNpcs || []).filter(k => !(R.skipNpcs || []).includes(k.name))), R.walkTimeoutMs || 120000);
+    if (!npc) return { ok: false, why: 'no grocer found in ' + currentTownKey() };
+    const q = await buyAt(npc, want, 'route keys', true);
+    return { ok: !!q.ok, why: q.msg || '' };
+  } catch (e) { logError('route buy', e); return { ok: false, why: 'error: ' + e.message }; }
+  finally { try { if (currentTownKey() === 'Giran' && typeof giranGo === 'function') await giranGo('start'); } catch (e) { } }
+}
+const RSMBUY = { reports: {} };
+/** the BUY_KEY step: whoever has Unlock buys the keys (members on the leader's word); never blocks the route (the door step decides) */
+async function navAtlasBuy(s, abort, o) {
+  const me = navAtlasMe(), team = o.team !== false && isLeader() && teamNames().length > 0;
+  RSMBUY.reports = {};
+  if (team) App.emit('swarm.navatlas.buy', { items: s.items, town: currentTownKey() });
+  if (me.hasSkill(27)) { const q = await routeBuyItems(s.items, abort); note(`route: ${q.ok ? 'bought' : 'could not buy'} ${(s.items || []).map(i => i.name).join(', ')} (${q.why})`, !q.ok); }
+  if (team && me.partyHasUnlock) { const t0 = now(); while (now() - t0 < 150000 && !abort() && !Object.keys(RSMBUY.reports).length) await sleep(2000); }
+  if (!me.hasSkill(27) && !me.partyHasUnlock) note(`route: ${(s.items || []).map(i => i.name).join(', ')} needed for Unlock, but nobody in the party has Unlock (a dagger class) — the doors will be tried another way`, true);
+  return { ok: true };
+}
+App.on('swarm.navatlas.bought', (event) => { if (isLeader()) RSMBUY.reports[event.source.characterName] = event.data || {}; });
+App.on('swarm.navatlas.buy', (event) => {
+  if (event.source.characterName !== CONFIG.leader || isLeader()) return;
+  let mine = false; try { mine = !!SkillsList.GetItemByID(27); } catch (e) { } if (!mine) return;
+  const d = event.data || {};
+  setTimeout(async () => { try { const q = await routeBuyItems(d.items, () => Me.IsDead); App.emit('swarm.navatlas.bought', { ok: q.ok, why: q.why }); navAtlasLog(`member: route keys ${q.ok ? 'bought' : 'not bought: ' + q.why}`); } catch (e) { logError('route buy member', e); } }, 1500);
+});
+/** members: the leader's route state (dashboard line + getting ready for a planned swim) */
+App.on('swarm.routesm', (event) => {
+  if (event.source.characterName !== CONFIG.leader || isLeader()) return;
+  const d = event.data || {}; state.routeSMLeader = Object.assign({}, d, { recv: now(), chain: undefined });
+  if (d.state === 'SWIM_LEG' && !d.final && typeof swimPlan === 'function') swimPlan(180000);
+});
+/** one step of an atlas route -> { ok, why, blocked, arrived } (the old loop body; the state machine around it is navAtlasRun) */
+async function navAtlasExec(r, s, steps, i, o, abort) {
+  if (s.do === 'town') {
+    if (currentTownKey() && currentTownKey() === townKeyFor(String(s.town))) return { ok: true };
+    if (!(await teamTeleport(s.town, `nav ${r.name}`))) return { ok: false, why: `could not get to ${s.town}${gkFail ? ' (' + gkFail + ')' : ''}` };
+    await sleep(1500); return { ok: true };
+  }
+  if (s.do === 'gk') {
+    if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) < 1500) return { ok: true };
+    if (!(await teamTeleport(s.link, `nav ${r.name}`))) return { ok: false, why: `gatekeeper link "${s.link}" (${s.desc || ''}) failed${gkFail ? ': ' + gkFail : ''}` };
+    if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) > 3000) return { ok: false, why: `${s.desc}: landed ${Math.round(Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y))} away from the planned landing` };
+    try { appearBurst('nav atlas landing'); } catch (e) { } await sleep(1500); return { ok: true };
+  }
+  if (s.do === 'buy') return await navAtlasBuy(s, abort, o);
+  if (s.do === 'walk') {
+    const last = !steps.slice(i + 1).some(x => x.do === 'walk');
+    const pts = navAtlasPts(s.points || [], navAtlasMe(), last && o.stop ? o.stop : null, s.swim, s.drops);   // SWIM-2026-10-13: s.swim = swim point indices; RAID ROUTES: s.drops
+    if (s.swim && s.swim.length) note(`nav atlas: ${r.name} — this walk SWIMS ${Math.round((s.swimLen || 0) / 100) / 10}k (longest ${Math.round((s.maxSwim || 0) / 100) / 10}k: ${(s.maxSwim || 0) > 3000 ? 'the breath runs out, drowning damage until the shore' : 'within one breath'})`, true);
+    if (s.drops && s.drops.length) { const big = Math.max(...s.drops.map(d => d.fall || 0)); if (isLeader() && o.team !== false) SayToParty(`[route] ${s.drops.length} drop${s.drops.length > 1 ? 's' : ''} off a ledge ahead (highest ${big})${big > 333 ? ': FALL DAMAGE (never below 1 HP) — healers, heal at the bottom' : ''}`.slice(0, 250)); }
+    if (!(await navAtlasWalk(pts, r.name, abort, o))) return { ok: false, why: abort() ? 'stopped' : `walk stuck at ${P(Me.X, Me.Y, Me.Z)} (${s.how})` };
+    if (last && o.stop && Math.hypot(o.stop.x - Me.X, o.stop.y - Me.Y) <= o.stop.dist + 300) { const lp = pts[pts.length - 1]; if (!lp || !isFinite(lp.z) || Math.abs(lp.z - Me.Z) <= RSM.zBand * 2) return { ok: true, arrived: true }; return { ok: false, why: `at ${P(Me.X, Me.Y)} but ${Math.round(Me.Z - lp.z)} off in height (target z ${Math.round(lp.z)})` }; }   // OWNER 19:10: 3D arrival
+    return { ok: true };
+  }
+  if (s.do === 'door' && s.need && s.need.owner && routeRulesNow().tryFortressGates) {   // OWNER 19:10: try a fortress gate (open = pass, closed = FAILED)
+    navDoorHookOn(); try { sendAppearing('nav atlas: gate state'); } catch (e) { } await sleep(1500);
+    const q = navDoorState(s.doorId); if (q && q.open) return { ok: true };
+    return { ok: false, why: `${s.name || s.doorId}: the fortress gate is closed (only the owner clan opens it) — switch "try fortress gates" off for this party`, blocked: true };
+  }
+  if (s.do === 'door') {
+    const ban = rsmDoorBan(s, routeRulesNow());                        // ROUTE RULES: a door kind the party switched off = BLOCKED (unless it is open already)
+    if (ban) { navDoorHookOn(); try { sendAppearing('nav atlas: door state'); } catch (e) { } await sleep(1200); const q = navDoorState(s.doorId); if (q && q.open) return { ok: true }; return { ok: false, why: ban, blocked: true }; }
+    const d = await navAtlasDoor(s, steps[i + 1], abort, o); return d.ok ? { ok: true } : { ok: false, why: d.why, blocked: !!(s.need && s.need.blocked) };
+  }
+  if (s.do === 'floor') {
+    const dd = s.dungeon ? (dungeonRooms().find(x => x.name === s.dungeon) || null) : null, F = dd && isFinite(s.floor) ? dd.floors[s.floor] : null;
+    let ok = false;
+    if (F && F.enter && F.enter.npc) ok = await floorTeleport(Object.assign({}, F, { dungeon: dd.name }));
+    else { const q = await navAtlasNpc(s.npc, s.link, s.landing, abort, o, s); ok = q.ok; if (!ok) return { ok: false, why: q.why }; }
+    return ok ? { ok: true } : { ok: false, why: `floor teleport ${s.floorName || s.floor} in ${s.dungeon} failed` };
+  }
+  if (s.do === 'enter') {
+    if (s.how === 'ziggurat') return (await enterDungeon(s.catacomb || s.dungeon)) ? { ok: true } : { ok: false, why: `could not enter ${s.dungeon}${gkFail ? ': ' + gkFail : ''}` };
+    if (s.how === 'zone') { const q = await navAtlasZone(s, abort, o); return q.ok ? { ok: true } : { ok: false, why: q.why }; }
+    const q = await navAtlasNpc(s.npc, s.link || null, s.landing, abort, o, s); return q.ok ? { ok: true } : { ok: false, why: q.why };
+  }
+  if (s.do === 'need') return s.manual ? { ok: false, why: `manual step (not automated): ${s.text}`, blocked: true } : { ok: true };   // NAVATLAS2: a step the bots cannot do themselves
+  if (s.do === 'arrive') return { ok: true, arrived: true };
+  return { ok: true };
+}
+// run an atlas route as a STATE MACHINE (ROUTESM 2026-10-13). o: { why, abort, team, upTo (last step index), stop: { x, y, dist } }. -> { ok, why, i, state }
 async function navAtlasRun(r, o) {
-  o = o || {}; const gen = control.gen, steps = r.steps || [];
+  o = o || {}; const gen = control.gen;
   const abort = () => (o.abort && o.abort()) || Me.IsDead || interrupted(gen);
+  const team = o.team !== false && isLeader() && teamNames().length > 0;
+  // BUY_KEY: Thief Keys for the Unlock doors on the way, bought in the start town (only when someone in the party has Unlock; not for a teleport-only run)
+  let steps = (r.steps || []).slice();
+  const rules = routeRulesNow();                                       // ROUTE RULES (owner 2026-10-13): per party, nothing the party switched off
+  { const ban = rsmRouteBan(r.steps || [], rules); if (ban) { navAtlasLog(`${r.key}: not used — ${ban}`); note(`nav atlas: ${r.name} — ${ban}`, true); state.routeSM = { v: RSM.v, key: r.key, name: r.name, state: 'BLOCKED', i: 0, n: (r.steps || []).length, label: '', why: ban, final: true, at: now(), since: now() }; return { ok: false, why: ban, i: 0, state: 'BLOCKED' }; } }
+  if (!isFinite(o.upTo)) { const sup = rsmSupply(steps), me0 = navAtlasMe(); if (sup.length && (me0.hasSkill(27) || me0.partyHasUnlock) && !sup.every(x => itemCount(x.id) >= x.count)) { if (rules.buyKeys) steps = rsmWithBuy(steps, sup); else note(`nav atlas: ${r.name} — ${sup.map(x => x.count + ' ' + x.name).join(', ')} would help (${sup[0].why}); buying them is switched off for the party (route rules: "Buy Thief Keys")`, true); } }
   const end = isFinite(o.upTo) ? o.upTo : steps.length - 1;
   let i = navAtlasStartIdx(steps, navAtlasMe());
-  const res = (ok, why) => { state.navAtlas = Object.assign({}, state.navAtlas || {}, { result: ok ? 'ok' : 'failed: ' + why, endAt: now() }); navAtlasLog(`${r.key}: ${ok ? 'done' : 'FAILED at step ' + (i + 1) + ': ' + why}`); intentDone('nav atlas', ok, ok ? `at ${r.name}` : why); return { ok, why: why || '', i }; };
+  const rs = rsmResume(rsmLoad(), { key: r.key, steps }, navAtlasMe(), now(), navAtlasStartIdx);
+  if (rs) { i = rs.i; navAtlasLog(`${r.key}: resuming the saved run at step ${i + 1}/${steps.length} (saved at step ${rs.from + 1})`); }
+  const sm = rsmInit({ key: r.key, name: r.name, steps }, i, now(), rs);
+  let lastEmit = '';
+  const pub = (force) => {
+    const p = rsmPublic(sm, steps); state.routeSM = p; rsmSave(sm);
+    const sig = p.state + '|' + p.i + '|' + p.sub + '|' + p.final;
+    if (team && (force || sig !== lastEmit)) { lastEmit = sig; try { App.emit('swarm.routesm', Object.assign({}, p, { chain: undefined })); } catch (e) { } }
+  };
+  const res = (ok, why) => { if (ok && !sm.final) { sm.state = 'ARRIVED'; sm.final = true; } sm.why = ok ? '' : String(why || ''); pub(true); state.navAtlas = Object.assign({}, state.navAtlas || {}, { result: ok ? 'ok' : 'failed: ' + why, endAt: now(), state: sm.state }); navAtlasLog(`${r.key}: ${ok ? 'done' : sm.state + ' at step ' + (i + 1) + ': ' + why}`); intentDone('nav atlas', ok, ok ? `at ${r.name}` : why); return { ok, why: why || '', i, state: sm.state }; };
   const need = navAtlasNeeds(r, navAtlasMe());
   if (need.missing.length) { const t = `nav atlas: ${r.name} needs ${need.missing.join('; ')} — going anyway`; note(t, true); if (isLeader()) SayToParty(`[nav] ${t}`.slice(0, 250)); }
   NAVATLAS.busy = true; const wasTravel = state.inTravel; state.inTravel = true;
@@ -20071,40 +21112,23 @@ async function navAtlasRun(r, o) {
   intent('nav atlas', `${r.name}: ${steps.length} steps from step ${i + 1} (${(r.from || '') + ' '}${Math.round((r.length || 0) / 1000)}k on foot, ~${Math.round((r.sec || 0) / 60)} min) — ${o.why || ''}`, r.target);
   navAtlasLog(`${r.key} (${r.status}): start at step ${i + 1}/${steps.length} — ${o.why || ''}`);
   try {
-    for (; i <= end && i < steps.length; i++) {
-      if (abort()) return res(false, 'stopped');
-      const s = steps[i], lab = `${r.name}: step ${i + 1}/${steps.length} ${s.do}`;
-      state.navAtlas.i = i; state.navAtlas.text = s.do; setTask(`nav: ${lab}`);
-      if (s.do === 'town') {
-        if (currentTownKey() && currentTownKey() === townKeyFor(String(s.town))) continue;
-        if (!(await teamTeleport(s.town, `nav ${r.name}`))) return res(false, `could not get to ${s.town}${gkFail ? ' (' + gkFail + ')' : ''}`);
-        await sleep(1500);
-      } else if (s.do === 'gk') {
-        if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) < 1500) continue;
-        if (!(await teamTeleport(s.link, `nav ${r.name}`))) return res(false, `gatekeeper link "${s.link}" (${s.desc || ''}) failed${gkFail ? ': ' + gkFail : ''}`);
-        if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) > 3000) return res(false, `${s.desc}: landed ${Math.round(Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y))} away from the planned landing`);
-        try { appearBurst('nav atlas landing'); } catch (e) { } await sleep(1500);
-      } else if (s.do === 'walk') {
-        const last = !steps.slice(i + 1).some(x => x.do === 'walk');
-        const pts = navAtlasPts(s.points || [], navAtlasMe(), last && o.stop ? o.stop : null, s.swim);   // SWIM-2026-10-13: s.swim = swim point indices
-        if (s.swim && s.swim.length) note(`nav atlas: ${r.name} — this walk SWIMS ${Math.round((s.swimLen || 0) / 100) / 10}k (longest ${Math.round((s.maxSwim || 0) / 100) / 10}k: ${(s.maxSwim || 0) > 3000 ? 'the breath runs out, drowning damage until the shore' : 'within one breath'})`, true);
-        if (!(await navAtlasWalk(pts, r.name, abort, o))) return res(false, `walk stuck at ${P(Me.X, Me.Y, Me.Z)} (${s.how})`);
-        if (last && o.stop && Math.hypot(o.stop.x - Me.X, o.stop.y - Me.Y) <= o.stop.dist + 300) return res(true);
-      } else if (s.do === 'door') {
-        const d = await navAtlasDoor(s, steps[i + 1], abort, o); if (!d.ok) return res(false, d.why);
-      } else if (s.do === 'floor') {
-        const dd = s.dungeon ? (dungeonRooms().find(x => x.name === s.dungeon) || null) : null, F = dd && isFinite(s.floor) ? dd.floors[s.floor] : null;
-        let ok = false;
-        if (F && F.enter && F.enter.npc) ok = await floorTeleport(Object.assign({}, F, { dungeon: dd.name }));
-        else { const q = await navAtlasNpc(s.npc, s.link, s.landing, abort, o, s); ok = q.ok; if (!ok) return res(false, q.why); }
-        if (!ok) return res(false, `floor teleport ${s.floorName || s.floor} in ${s.dungeon} failed`);
-      } else if (s.do === 'enter') {
-        if (s.how === 'ziggurat') { if (!(await enterDungeon(s.catacomb || s.dungeon))) return res(false, `could not enter ${s.dungeon}${gkFail ? ': ' + gkFail : ''}`); }
-        else if (s.how === 'zone') { const q = await navAtlasZone(s, abort, o); if (!q.ok) return res(false, q.why); }
-        else { const q = await navAtlasNpc(s.npc, s.link || null, s.landing, abort, o, s); if (!q.ok) return res(false, q.why); }
-      } else if (s.do === 'need') {                                  // NAVATLAS2: a step the bots cannot do themselves
-        if (s.manual) return res(false, `manual step (not automated): ${s.text}`);
-      } else if (s.do === 'arrive') return res(true);
+    for (let guard = 0; i <= end && i < steps.length && guard < 400; guard++) {
+      if (abort()) { rsmResult(sm, { ok: false, why: 'stopped' }, steps, now()); return res(false, 'stopped'); }
+      const s = steps[i];
+      rsmEnter(sm, i, steps, now());
+      state.navAtlas.i = i; state.navAtlas.text = s.do; state.navAtlas.state = sm.state; setTask(`nav: ${r.name}: ${sm.state} ${i + 1}/${steps.length} ${rsmLabel(s)}`.slice(0, 200));
+      // REGROUP before a checkpoint (door, swim, drop, floor / entry teleport): the whole team here first
+      const cp = RSM.checkpoints[sm.state];
+      if (cp && team && typeof gatherTeam === 'function') { sm.sub = 'REGROUP'; pub(true); try { await gatherTeam(`route ${r.name}: before the ${cp}`); } catch (e) { logError('route regroup', e); } sm.sub = ''; if (abort()) { rsmResult(sm, { ok: false, why: 'stopped' }, steps, now()); return res(false, 'stopped'); } }
+      pub();
+      const q = await navAtlasExec(r, s, steps, i, o, abort);
+      if (q.arrived) return res(true);
+      const a = rsmResult(sm, q, steps, now()); pub();
+      if (a.act === 'next') { i++; continue; }
+      if (a.act === 'retry') { navAtlasLog(`${r.key}: ${sm.state} step ${i + 1} failed (${q.why}) — ${sm.sub}`); await sleep(2000); continue; }
+      if (a.act === 'replan') { const j = Math.min(i, navAtlasStartIdx(steps, navAtlasMe()));   /* from my position, never past the step that failed (a closed door stays a door) */ navAtlasLog(`${r.key}: ${sm.state} step ${i + 1} failed (${q.why}) — ${sm.sub}: from step ${j + 1} (my position)`); if (isLeader() && team) SayToParty(`[route] ${r.name}: ${rsmLabel(s)} failed (${String(q.why).slice(0, 80)}) — re-planning from here`.slice(0, 250)); i = j; await sleep(2000); continue; }
+      if (a.act === 'stop') return res(false, 'stopped');
+      if (a.act === 'final') { if (sm.state === 'ARRIVED') return res(true); if (isLeader() && team) SayToParty(`[route] ${r.name}: ${sm.state} at ${rsmLabel(s)} — ${String(q.why).slice(0, 120)}`.slice(0, 250)); return res(false, q.why); }
     }
     return res(true);
   } catch (e) { logError('navAtlasRun', e); return res(false, 'error: ' + e.message); }
@@ -20114,7 +21138,9 @@ async function navAtlasRun(r, o) {
 async function navAtlasTrip(target, o) {
   o = o || {};
   if (NAVATLAS.busy || !navAtlasOn(o.use)) return null;
-  const r = navAtlasRoute(target), u = navAtlasUsable(r);
+  let r = navAtlasRoute(target), u = navAtlasUsable(r);
+  // OWNER 2026-10-13 19:10: "try fortress gates" (party rule, default off): the shorter way through a fortress whose gates may be open
+  try { if (r && r.fortressAlt && Array.isArray(r.fortressAlt.steps) && routeRulesNow().tryFortressGates) { const ra = Object.assign({}, r, { steps: r.fortressAlt.steps, status: 'conditional', length: r.fortressAlt.length || r.length, viaFortress: r.fortressAlt.fort }); const ua = navAtlasUsable(Object.assign({}, ra, { status: 'conditional' })); if (ua.ok) { navAtlasLog(`${r.key}: the way through ${r.fortressAlt.fort} (party rule "try fortress gates")`); r = ra; u = ua; } } } catch (e) { }
   if (!u.ok) { if (r) navAtlasLog(`${r.key}: not used — ${u.why}`); return null; }
   // QFIX-2026-10-12: inside Giran only the recorded routes walk (user rule); the atlas street graph left Dagger1 standing still at the start
   try { if (/^giran$/i.test(String(currentTownKey() || '')) && r.target && Math.hypot(num(r.target.x) - Me.X, num(r.target.y) - Me.Y) < 8000) { navAtlasLog(`${r.key}: not used — in Giran (recorded routes walk here)`); return null; } } catch (e) { }
@@ -20211,10 +21237,13 @@ function rsStored(r) { return r && (r.use === 'atlas' || r.use === 'custom') ? r
 function rsChoice(r, force) {
   const pts = rsPoints(r), has = pts.length >= 2, locked = !!(r && r.manual);
   const stored = force === 'atlas' || force === 'custom' || force === 'auto' ? force : rsStored(r);
-  const out = (use, why) => ({ use, stored, why, has, locked });
+  let out = (use, why) => ({ use, stored, why, has, locked });
   if (!has) return out('atlas', !r ? 'no saved route' : stored === 'custom' ? 'own route chosen, but it has fewer than 2 points — computed path' : 'the saved route has fewer than 2 points');
   const fc = rsFloorCheck(r);                        // DUNGEON STEPS 2026-10-13: a route that jumps floors is never walked (warn, computed path instead)
   if (!fc.ok) return Object.assign(out('atlas', `your own route is not walkable: ${fc.why} — computed path until it is fixed (add the dungeon step, or mark the jump as a real drop)`), { invalid: fc.why });
+  // RAID ROUTES 2026-10-13: a LOCKED route that failed the geodata check (docs/plan/tools/raid_routes.js: a leg with no way around) is only a WARNING (owner: nothing automatic unless asked) — the choice stays yours
+  const out0 = out; const ckWarn = r && r.check && r.check.ok === false && !r.checkIgnore ? `your own route failed the geodata check (${r.check.why}) — check it in the route editor` : '';
+  out = (use, why) => Object.assign(out0(use, why), ckWarn ? { warn: ckWarn } : {});
   if (stored === 'atlas') return out('atlas', 'your choice: computed path');
   if (stored === 'custom') return out('custom', 'your choice: own route' + (locked ? '' : ' (not locked)'));
   return locked ? out('custom', 'auto: your own route is locked') : out('atlas', 'auto: your own route is not locked');
@@ -20441,7 +21470,7 @@ async function goToNpc(query, opts) {
       if (s.link) {
         const want = npcNorm(s.link), L = npcLinks(String(html)), l = L.find(x => npcNorm(x.text) === want) || L.find(x => npcNorm(x.text).includes(want));
         if (!l) return fail(`${s.name} has no link "${s.link}" — ${L.map(x => x.text).join(' | ').slice(0, 200)}`);
-        Send.ReqBypassToServer(l.cmd, true); await sleep(1500);
+        await DLG.click(l, { expect: ['npc', 'quest', 'board', 'shop', 'whdep', 'whwd', 'multisell', 'teleport'], base: 1500, from: s.name });   // DIALOG2-2026-10-13: whatever the link opens (an action: never clicked twice)
       }
       npcTripSet({ result: 'talked' }); intentDone('npc trip', true, `talked to ${s.name}${s.link ? ' + "' + s.link + '"' : ''}`);
       return { ok: true, npc: plan.npc, html };
@@ -21102,7 +22131,7 @@ async function siegeRegister(kind, name) {
       // L2J FortressSiegeManager pages: "Yes, I'm a little curious." -> "Register fortress siege warfare." (research §8.1)
       const LK = npcLinks(String(html)), link = LK.find(l => /register|participate|apply|join/i.test(l.text) && !/cancel|info|status|how/i.test(l.text)) || LK.find(l => /curious|^\W*yes\b/i.test(l.text));
       if (!link) return save(`no register link — page: ${text.slice(0, 200)}`);
-      const pg = waitNpcHtml(6000); const t0 = now(); Send.ReqBypassToServer(link.cmd, true); html = await pg;
+      const t0 = now(); html = await dlgPage(link, 6000, 'siege manager');   // DIALOG-2026-10-13
       if (!html) { const sm = lastSysMsg && lastSysMsg.at >= t0 ? lastSysMsg.text : ''; return save(sm ? `server: ${sm.slice(0, 160)}` : 'clicked register — no page back'); }
     }
     return save('no clear answer (pages in Logs/siegereg_*.html)');
@@ -21120,6 +22149,7 @@ setInterval(async () => {
       if (now() - (v.at || 0) > 600000 || v.ok !== a.ok || v.why !== a.why || r.classId !== num(Me.ClassId)) { r.view = Object.assign(a, { at: now() }); r.classId = num(Me.ClassId); try { File.WriteAllText(ssFile(Me.Name), JSON.stringify(r)); } catch (e) { } } }
     if (inRaid() || state.mode === 'mission' || control.owner || ssBusy || leadRunBusy || tradeState || state.gkBusy || now() - lastAttackerOnMe.at < 15000) return;
     if (questRun.active) return;   // QFIX3-2026-10-12: a running quest owns the character (the priest walk fought the quest walk)
+    if (!runOn()) return;          // RUNSTATE: OFF = no walk to the Priest of Dawn by itself
     if (ssBusyWhy()) return;   // SSOPTIN-2026-10-12: your order / quest / an order-level task first
     const ssMeIn = ssEnrolled(Me.Name);
     if (!ssMeIn && !(isLeader() && !ssSolo() && teamNames().some(ssEnrolled))) return;   // SSOPTIN: not enrolled (7 Signs tab) = never to the Priest of Dawn by itself
@@ -21159,7 +22189,7 @@ async function clanLearnFocus() {
   return atVillageMaster('clan skill', async (npc) => {
   const html = await openNpc(npc); if (!html) { clanLog(`${npc.Name} did not answer (clan skill)`); return null; }
   const L = npcLinks(String(html)); const link = L.find(l => /clan skill|pledge skill|learn.*clan/i.test(l.text)) || L.find(l => /^clan|clan$/i.test(l.text));
-  if (link) { const pg = waitNpcHtml(5000); Send.ReqBypassToServer(link.cmd, true); await pg; await sleep(800); }
+  if (link) { await dlgPage(link, 5000, npc.Name, { reclick: true }); await sleep(800); }   // DIALOG-2026-10-13 (a menu link)
   const le = (n) => { const b = (v) => ('0' + (v & 255).toString(16)).slice(-2); return b(n) + b(n >> 8) + b(n >> 16) + b(n >> 24); };
   Send.SendHex('7c' + le(num(f.id)) + le(num(f.level)) + le(2)); await sleep(2500);
   const msg = lastSysMsg && now() - lastSysMsg.at < 4000 ? String(lastSysMsg.text).slice(0, 160) : '(no server message)';
@@ -21171,6 +22201,7 @@ setInterval(async () => {
     if (!IsCharacterReady() || Me.IsDead || Me.Name !== clanLeaderName() || !myClanName() || inRaid() || control.owner) return;
     const F = `${__DIR__}\\Logs\\clanskill_try.json`; let st = {}; try { st = JSON.parse(File.ReadAllText(F)); } catch (e) { }
     const day = new Date().toISOString().slice(0, 10); if (st.day === day) return;
+    if (!runOn()) return;                                                 // RUNSTATE: no daily clan skill trip while OFF
     const cfg = clanCfg() || { clan: {} }; if (!cfg.clan || !clanAutoFlag('skillLearn', true) || (!cfg.clan.skillFocus && !clanAutoFlag('skillFocus', true))) return;
     { const pre = clanSkillPrecheck(); clanAutoNote('skill', pre.msg); if (!pre.ok) return; }   // CLANAUTO: no daily trip that the server refuses anyway
     st.day = day; File.WriteAllText(F, JSON.stringify(st));
@@ -21231,9 +22262,7 @@ async function zigguratEnter(d) {
       const links = npcLinks(html);
       const link = links.find(l => /teleport/i.test(l.text)) || links.find(l => /^(cata|necro)\b/i.test(l.cmd));
       if (!link) { dungeonLog('Ziggurat page has no teleport link: ' + links.map(l => l.text).join(' | ').slice(0, 200) + ' — page saved'); try { File.WriteAllText(`${__DIR__}\\Logs\\ziggurat_${Me.Name}.html`, String(html)); } catch (e) { } return false; }
-      const tp = waitTeleport(8000), pg = waitNpcHtml(5000), t1z = now();
-      Send.ReqBypassToServer(link.cmd, true);
-      const r = await Promise.race([tp.then(ok => ok ? 'tp' : null), pg.then(h => h ? 'page' : null)]);
+      const t1z = now(); const r = await dlgTpOrPage(link, 8000, npc.Name, { reclick: true });   // DIALOG-2026-10-13: a teleport, a page, or the refusal (#1303) at once
       if (r !== 'tp' && !insideDungeon(d)) { const no = ssZigRefused(r === 'page' ? lastNpcHtml : '', t1z); if (no) { try { File.WriteAllText(`${__DIR__}\\Logs\\ziggurat_${Me.Name}.html`, String(lastNpcHtml || '')); } catch (e) { } ssMarkDenied(d.name, no); return false; } }   // Seven Signs refusal
       if (r === 'page' && !insideDungeon(d)) { const h2 = lastNpcHtml || ''; try { File.WriteAllText(`${__DIR__}\\Logs\\ziggurat_${Me.Name}.html`, String(h2)); } catch (e) { } dungeonLog('Ziggurat answered with a page instead of a teleport (saved to Logs/ziggurat_<name>.html)' + (lastSysMsg ? ' | ' + String(lastSysMsg.text).slice(0, 140) : '')); }
       await sleep(2500);
@@ -21420,7 +22449,12 @@ async function travelToSpot(spot) {
   }
   // USER RULE 2026-10-05: never walk out of Heine ("a stupid town to navigate") — only its gatekeeper takes us out. Still in Heine after the
   // teleport step = the gatekeeper link failed: give this spot up instead of walking through the town (the team walked Heine for 20 min).
-  if (String(currentTownKey() || '').toLowerCase() === 'heine' && Math.hypot(spot.center.x - Me.X, spot.center.y - Me.Y) > 3000 && !spot.waypoints) { note(`travel: still in Heine — will NOT walk out of Heine to ${spot.name} (user rule), giving it up`, true); gkFail = gkFail || 'Heine gatekeeper had no link'; return false; }
+  // OWNER 2026-10-13 15:15 ("in many places around Heine you can simply walk out of the town normally"): walking out of Heine is allowed again —
+  // the old give-up only when CONFIG.travel.heineWalkOut === false
+  if (String(currentTownKey() || '').toLowerCase() === 'heine' && Math.hypot(spot.center.x - Me.X, spot.center.y - Me.Y) > 3000 && !spot.waypoints) {
+    if (routeRuleOff('heineWalkOut')) { note(`travel: still in Heine — will NOT walk out of Heine to ${spot.name} (route rules: "Walk out of Heine" is off for the party), giving it up`, true); gkFail = gkFail || 'Heine gatekeeper had no link'; return false; }
+    note(`travel: in Heine — walking out of the town to ${spot.name} (allowed since 2026-10-13)`);
+  }
   // USER WAYPOINTS (spot editor, user 2026-10-07: "create waypoints to the hunting location"): from the landing the team walks the drawn
   // points — the leader with leadRouteWalk (EVERY member walks each point by itself, all wait at the end, like the raid routes), solo with
   // routeHop point by point. Then the short rest to the area's centre (skipped on a floor spot: no long walks between stacked floors).
@@ -21590,6 +22624,7 @@ async function autoLevelLoop(solo) {
   // no character (disconnected: Me.Name null, level 0 — 2026-10-06 06:05 the leader's window 'started leveling' at 0,0 during a server drop)
   if (!IsCharacterReady() || !Me.Name || !num(Me.Level)) return;
   if (autoLvl.active) return;
+  if (!runAuto('leveling')) return;                                    // RUNSTATE (2026-10-13): OFF = never leveling by itself
   if (!solo && isLeader() && !rcAuto('level')) return;                 // CIRCUIT 24/7 (2026-10-13): no leveling while the raid circuit owns the party (only its own idle leveling)
   if (questwalkPending() || (typeof userOrder !== 'undefined' && userOrder.name)) { note('leveling waits: your order / quest runs first'); return; }   // USERORDER3-2026-10-12   // QUESTWALK: also a quest still to resume
   Object.assign(autoLvl, { active: true, stop: false, solo, since: now() });
@@ -22391,26 +23426,21 @@ async function enterKamaloka(k) {
       // L2Toggle's captain page is plain text (2026-10-05 Lucas): open its quest page, then the datapack event 'Quest Kamaloka <index>'
       if (depth === 0) {
         note('kamaloka: captain page has no links — opening its Kamaloka quest page');
-        let pg = waitNpcHtml(5000); Send.ReqBypassToServer(`npc_${npc.objId}_Quest Kamaloka`, true); const h2 = await pg;
+        const h2 = await dlgPage(`npc_${npc.objId}_Quest Kamaloka`, 5000, npc.Name, { reclick: true });   // DIALOG-2026-10-13
         if (h2) { html = h2; continue; }
       }
       if (e.bypass) {
         note(`kamaloka: sending '${e.bypass}'`);
-        const tp2 = waitTeleport(10000); const pg2 = waitNpcHtml(5000);
-        Send.ReqBypassToServer(e.bypass, true);
-        const r2 = await Promise.race([tp2.then(ok => ok ? 'tp' : null), pg2.then(h => h ? 'page' : null)]);
-        if (r2 === 'tp' || (await tp2)) { appearBurst('Kamaloka entry'); return { ok: true, msg: 'inside the instance' }; }
+        const r2 = await dlgTpOrPage(e.bypass, 10000, npc.Name, { thenTpMs: 5000 });   // DIALOG-2026-10-13
+        if (r2 === 'tp') { appearBurst('Kamaloka entry'); return { ok: true, msg: 'inside the instance' }; }
         try { File.WriteAllText(SWARM_ROOT + '\\Logs\\kamaloka_reply.html', String(lastNpcHtml || '')); } catch (er) { }
         return { ok: false, msg: `'${e.bypass}' did not take us in — reply saved to Logs/kamaloka_reply.html` };
       }
       return { ok: false, msg: `no Kamaloka link: ${links.map(l => l.text).join(' | ')}` };
     }
     note(`kamaloka: click '${link.text}'`);
-    const tp = waitTeleport(8000);
-    const pg = waitNpcHtml(5000);
-    Send.ReqBypassToServer(link.cmd, true);
-    const r = await Promise.race([tp.then(ok => ok ? 'tp' : null), pg.then(h => h ? 'page' : null)]);
-    if (r === 'tp' || (await tp)) { appearBurst('Kamaloka entry'); return { ok: true, msg: 'inside the instance' }; }
+    const r = await dlgTpOrPage(link, 8000, npc.Name, { thenTpMs: 3000 });   // DIALOG-2026-10-13: a teleport, the next page, or a refusal (#2100)
+    if (r === 'tp') { appearBurst('Kamaloka entry'); return { ok: true, msg: 'inside the instance' }; }
     html = lastNpcHtml;
   }
   return { ok: false, msg: 'could not enter' + (lastSysMsg && now() - lastSysMsg.at < 30000 ? ' — server said: ' + String(lastSysMsg.text).slice(0, 160) : ' (no server message)') };
@@ -22990,9 +24020,7 @@ async function classMasterChange(toId) {
     const link = npcLinks(html).find(l => /(change|transfer|switch).*(class|occupation|profession)|profession|occupation|class transfer/i.test(l.text));
     if (!link) return false;
     const before = num(Me.ClassId);
-    const pg = waitNpcHtml(5000);
-    Send.ReqBypassToServer(link.cmd, true);
-    html = await pg;
+    html = await dlgPage(link, 5000, npc.Name);   // DIALOG-2026-10-13 (the change itself: never clicked twice)
     await sleep(1500);
     if (num(Me.ClassId) !== before) { if (num(Me.ClassId) !== Number(g.next)) note(`CLASS CHANGED TO THE WRONG CLASS at the class master: ${cpName(classTree(), num(Me.ClassId))}, the plan said ${cpName(classTree(), g.next)} — tell the user`, true); return num(Me.ClassId) === Number(g.next); }
   }
@@ -23080,6 +24108,8 @@ async function resumeActivity() {
   try { resumeOrder(); } catch (e) { logError('resumeOrder', e); }   // ORDERSTICK: a town order (!park / !town) still on the way runs again
   const a = getActivity();
   if (!a || !a.type) return;
+  // RUNSTATE (owner 2026-10-13: no activity resume after a login / reload / pool restart unless the party is switched ON)
+  if (!runAuto('resume')) { note(`resume: '${a.type}' is NOT resumed — the ${isLeader() ? 'party' : 'character'} is switched OFF (dashboard Start starts it again)`, isLeader()); return; }
   if (!CONFIG.quest.classQuests && /^(escort|quest|career)$/.test(a.type)) {    // class quests removed: never resume them
     setActivity(null);
     note(`resume: '${a.type}' was a class-quest activity — switched off, ${isLeader() ? 'starting auto-level' : 'following the leader'}`, true);
@@ -23186,6 +24216,8 @@ globalThis.OnSystemMessage = (id, text) => {
     const flat = (o, d) => { if (o === null || o === undefined) return ''; if (typeof o !== 'object') return String(o); if (d > 2) return ''; const p = []; try { for (const k in o) { try { const v = o[k]; if (typeof v !== 'function' && v !== null && v !== undefined) p.push(typeof v === 'object' ? flat(v, d + 1) : String(v)); } catch (e) { } } } catch (e) { } return p.filter(Boolean).join(' '); };
     try { if (Number(id) === 2100) kamaChars2100(flat(text, 0)); } catch (e) { }   // KAMALOKA CHARS: per-character lock
     lastSysMsg = { at: now(), id: Number(id), text: `#${id} ` + flat(text && typeof text === 'object' && text.text !== undefined ? text.text : text, 0) };
+    try { sysMsgRing.push(lastSysMsg); if (sysMsgRing.length > 40) sysMsgRing.shift(); } catch (e) { }   // QSYS-2026-10-13
+    try { DLG.ev('sys', { id: Number(id), text: lastSysMsg.text }); } catch (e) { }   // DIALOG-2026-10-13: a refusal ends the dialog wait at once
     try { if (castLive && !castLive.ended && (Number(id) === 27 || /interrupt/i.test(lastSysMsg.text))) castLiveEnd('interrupted'); } catch (e) { }   // "Your casting has been interrupted" (live cast bar, escape SoE)
     try { siegeSysMsg(Number(id), flat(text, 0)); } catch (e) { }   // fortress / castle sieges (2026-10-08): start, end, barracks, flag, artifact, owners
     if (bossDebuffPending && now() - bossDebuffPending < 6000) {               // my debuff on the boss: did it land?
@@ -23284,6 +24316,7 @@ function clanQuestBoss(name) {
 }
 async function raidHuntLoop(minL, maxL) {
   if (raidHunt.active || !isLeader()) return;
+  if (!runAuto('raidhunt')) return;                                    // RUNSTATE
   if (!rcAuto('raidhunt')) return;                    // CIRCUIT 24/7 (2026-10-13): your !raidhunt ends the circuit first; an automatic one (after a daily / restart) never runs over it
   // skipped bosses (unreachable etc.) are remembered for 12 h across restarts (2026-10-05: after a restart it went for Apepi again)
   const SKIPF = SWARM_ROOT + '\\Logs\\raidhunt_skip.json';
@@ -23402,7 +24435,11 @@ function rcPlan(cfg, db, st, fails, t, me) {
     const r = { id: b.id, name: b.name, level: b.level, idx, x: b.x, y: b.y, z: b.z, zone: b.zoneName || '', dist: me ? Math.round(Math.hypot(b.x - me.x, b.y - me.y)) : 0,
       killedAt: killed || null, checkedAt: at || null, minH, maxH };
     const f = (fails || {})[String(b.id)];
-    if (f && t - (Date.parse(f.at) || 0) < cfg.skipFailH * H) { Object.assign(r, { state: 'skip', why: `failed: ${f.why || '?'} (retry ${new Date((Date.parse(f.at) || 0) + cfg.skipFailH * H).toISOString()})`, dueAt: (Date.parse(f.at) || 0) + cfg.skipFailH * H, rank: 8 }); out.push(r); return; }
+    // CIRCUIT 24/7 round 2: a TRAVEL failure (never reached the boss: straggler, fight on the way, refused .town) benches it only briefly (f.until,
+    // old entries 'no result' / 'refused' / '.x did not take us' = 30 min) and counts for the wake-up time; other failures (wipe, lost) skipFailH
+    const fKind = f ? (f.kind || (/^(no result|refused)$|did not (take|move)|^travel/i.test(String(f.why || '')) ? 'travel' : '')) : '';
+    const fUntil = f ? (Date.parse(f.until || '') || ((Date.parse(f.at) || 0) + (fKind === 'travel' ? 30 * 60000 : cfg.skipFailH * H))) : 0;
+    if (f && t < fUntil) { Object.assign(r, { state: 'skip', kind: fKind || 'fail', why: `${fKind === 'travel' ? (/^travel/i.test(String(f.why || '')) ? '' : 'travel failed: ') : 'failed: '}${f.why || '?'} (retry ${rcHm(fUntil)})`, dueAt: fUntil, rank: fKind === 'travel' ? 7 : 8 }); out.push(r); return; }
     if (cfg.curseCheck && me && me.teamMax && me.teamMax > Number(b.curseLevel || b.level) + 8) { Object.assign(r, { state: 'skip', why: `raid curse: team max ${me.teamMax} > ${Number(b.curseLevel || b.level)} + 8`, rank: 8 }); out.push(r); return; }
     if (s.alive === true && t - at < cfg.aliveFreshMin * 60000) { Object.assign(r, { state: 'alive', why: `seen alive ${Math.round((t - at) / 60000)} min ago`, dueAt: t, rank: 0 }); out.push(r); return; }
     if (killed && s.alive === false) {
@@ -23445,6 +24482,8 @@ var RC_PHASES = { starting: 'starting', choosing: 'choosing the next boss', trav
 var RC_STALL_MS = { starting: 600000, choosing: 300000, travel: 1200000, clearing: 900000, countdown: 300000, fighting: 0, looting: 300000, stash: 1200000,
   supply: 1500000, waiting: 0, recovering: 1200000, paused: 3600000, stopped: 0 };
 // the user's own order while the circuit runs: these PAUSE it (it goes on after them by itself); every other order ENDS it
+// round 2 (owner 17:30): every step of the circuit's own resupply has a time limit, the whole resupply too; a TRAVEL failure benches the boss briefly
+var RC_STEP_CAP_MS = 300000, RC_SUPPLY_MAX_MS = 1200000, RC_TRAVEL_BENCH_MIN = 20, RC_TRAVEL_BENCH_MAX_MIN = 90;
 var RC_PAUSE_CMDS = /^!(supply|restock|collect|gearup|dawn|formation|lootgive|buff|status|classchange)$/;
 /** the circuit's day (06:30 local like the dailies) */
 function rcDay(t) { const d = new Date(t - 6.5 * 3600e3); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
@@ -23474,6 +24513,7 @@ function rcOrderEffect(cmd, isOrder) {
   const c = String(cmd || '').toLowerCase();
   if (!isOrder || c === '!circuit' || !/^!/.test(c)) return 'none';
   if (c === '!stop') return 'end';
+  if (c === '!start') return 'none';                 // RUNSTATE: Start never ends the circuit (it starts it when it is the party's activity)
   return RC_PAUSE_CMDS.test(c) ? 'pause' : 'end';
 }
 /** may an AUTOMATIC task take the party? kind: kamaloka | watchdog | autopause | supply | split | level | raidhunt | fund | sevensigns | clanhand | lootgive
@@ -23490,6 +24530,7 @@ function rcAutoAllowed(kind, holds, ctx) {
 function rcKeeperDecide(s) {
   if (!s || !s.running) return { act: 'none', why: 'not started' };
   if (s.cfgOn === false) return { act: 'stop', why: 'switched off on the dashboard' };
+  if (s.runOff) return { act: 'wait', why: 'the party is switched OFF — press Start' };   // RUNSTATE (2026-10-13)
   if (s.loopOn) return { act: 'none', why: 'running' };
   if (!s.bosses) return { act: 'wait', why: 'no boss list for this party (dashboard Circuit tab)' };
   if (!s.ready) return { act: 'wait', why: 'the leader is not in the game' };
@@ -23745,7 +24786,7 @@ async function delevelLoop(to, req, why) {
 
 // ---------------------------------------------------------------- RAID CIRCUIT (team leader)
 var RC = { j: null, stamp: '', chk: 0, cfg: null, plan: [], kills: 0, sinceStash: 0, wipes: 0, last: null, startedAt: 0, phase: '', wakeAt: 0, history: [],
-  run: null, phaseKey: '', phaseText: '', phaseSince: 0, keeper: null, supplyWant: null, idleLevel: false, resumingAt: 0, deadSince: 0, liveAt: 0, ownStep: false };   // CIRCUIT 24/7 (2026-10-13)
+  run: null, phaseKey: '', phaseText: '', phaseSince: 0, keeper: null, supplyWant: null, idleLevel: false, resumingAt: 0, deadSince: 0, liveAt: 0, ownStep: false, travel: null, travelFails: {}, catchupAt: {} };   // CIRCUIT 24/7 (2026-10-13)
 function rcData() {
   if (RC.j && now() - RC.chk < 15000) return RC.j;
   RC.chk = now();
@@ -23759,7 +24800,7 @@ function rcOnlyAttackers() { return rcOn() && RC.cfg && RC.cfg.clear === 'attack
 function rcCountdownS() { return rcOn() && RC.cfg && RC.cfg.countdownS != null ? Math.max(0, num(RC.cfg.countdownS)) : null; }
 const RCFAILF = () => `${SWARM_ROOT}\\Logs\\raidcircuit_fails_${Me.Name}.json`;
 function rcFails() { try { return JSON.parse(File.ReadAllText(RCFAILF())); } catch (e) { return {}; } }
-function rcFail(b, why) { const o = rcFails(); o[String(b.id)] = { at: new Date().toISOString(), why: String(why).slice(0, 160), name: b.name }; try { File.WriteAllText(RCFAILF(), JSON.stringify(o)); } catch (e) { } }
+function rcFail(b, why, x) { const o = rcFails(); o[String(b.id)] = Object.assign({ at: new Date().toISOString(), why: String(why).slice(0, 160), name: b.name }, x && x.kind ? { kind: x.kind } : {}, x && x.until ? { until: new Date(x.until).toISOString() } : {}); try { File.WriteAllText(RCFAILF(), JSON.stringify(o)); } catch (e) { } }
 function rcStatus() { try { return JSON.parse(File.ReadAllText(SWARM_ROOT + '\\Logs\\raid_status.json')); } catch (e) { return {}; } }
 function rcWrite() {
   try {
@@ -23853,7 +24894,7 @@ setInterval(() => {
     const cfg = rcConfigOf(rcData(), Me.Name), pi = pauseInfo();
     let dl = false; try { dl = !!(typeof DLV !== 'undefined' && DLV && DLV.on); } catch (e) { }
     const d = rcKeeperDecide({ running: true, cfgOn: cfg ? cfg.on : false, bosses: !!(cfg && cfg.bosses.length), loopOn: rcOn(), ready: IsCharacterReady(), dead: Me.IsDead,
-      pausedBy: r.pausedBy, pausedAt: r.pausedAt, orderBusy: rcOrderBusy(), leadPause: pi, resumingAt: RC.resumingAt, delevel: dl, now: now() });
+      pausedBy: r.pausedBy, pausedAt: r.pausedAt, orderBusy: rcOrderBusy(), leadPause: pi, resumingAt: RC.resumingAt, delevel: dl, runOff: !runOn(), now: now() });
     if (d.act === 'wait') { if (!RC.keeper || RC.keeper.why !== d.why) RC.keeper = { act: 'wait', why: d.why, since: now() }; return; }
     RC.keeper = null;
     if (d.act === 'stop') { rcEnd(d.why); return; }
@@ -23887,9 +24928,57 @@ setInterval(() => {
       next: nx ? { id: nx.id, name: nx.name, level: nx.level } : null, wakeAt: RC.wakeAt || 0, raid, clear, pst, hold, dead: Me.IsDead, deadSince: RC.deadSince,
       keeper: RC.keeper, leadPause: pauseInfo(), intent: state.intent ? `${state.intent.action}: ${state.intent.detail}` : '',
       planDue: plan.filter(p => p.rank <= 3).length, planSkip: plan.filter(p => p.rank === 8).length });
+    try { const m = state.routeSM; if (m && (!m.final || now() - (m.at || 0) < 300000)) out.route = { key: m.key, name: m.name, state: m.state, sub: m.sub || '', i: m.i, n: m.n, label: m.label || '', why: m.final ? m.why || '' : '', final: !!m.final }; } catch (e) { }   // RAID ROUTES 2026-10-13: the travel state machine (ROUTESM)
     File.WriteAllText(`${SWARM_ROOT}\\Logs\\circuit_live_${Me.Name}.json`, JSON.stringify(out));
   } catch (e) { }
 }, 3000);
+/** circuit travel: one of us is fighting right now (hit in the last 8 s, near me) — the travel waits for it instead of failing */
+function rcTravelFighting() {
+  try {
+    if (now() - (lastAttackerOnMe.at || 0) < 8000 || now() - (hpWatch.dropAt || 0) < 6000) return true;
+    return teamNames().some(n => { const lp = livePos[n]; return lp && !lp.IsDead && now() - (lp.at || 0) < 8000 && (lp.hit === undefined ? !!lp.fight : !!lp.hit) && Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) < 3000; });
+  } catch (e) { return false; }
+}
+/** leadRouteWalk's hop: inside a circuit a fight on the way / a failed hop is not the end of the travel — wait out the fight, re-plan, try again (3x) */
+async function rcRouteHop(p, abort, onDetour) {
+  let ok = await routeHop(p, abort, onDetour);
+  if (ok || !rcOn()) return ok;
+  for (let k = 1; k <= 3 && !ok && !(abort && abort()) && !Me.IsDead; k++) {
+    const t0 = now(); let fought = false;
+    while (rcTravelFighting() && now() - t0 < 180000 && !(abort && abort()) && !Me.IsDead) { fought = true; setTask('circuit travel: fighting on the way — walking on after it'); await sleep(2000); }
+    if (fought) rcEvent(`fought on the way (${Math.round((now() - t0) / 1000)} s) — walking on`); else await sleep(3000);
+    ok = await routeHop(p, abort, onDetour);
+  }
+  return ok;
+}
+/** circuit: teammates far behind (stuck / not taken along) catch up by themselves (.town to the town nearest to me) instead of holding the team */
+function rcCatchup(far) {
+  try {
+    const ca = RC.catchupAt || (RC.catchupAt = {});
+    const names = far.map(m => m.name).filter(n => now() - (ca[n] || 0) > 180000); if (!names.length) return;
+    let town = null, bd = 1e12; Object.keys(TOWN_LAND).forEach(k => { if (!TOWN_CMD[k]) return; const d = Math.hypot(TOWN_LAND[k][0] - Me.X, TOWN_LAND[k][1] - Me.Y); if (d < bd) { bd = d; town = k; } });
+    names.forEach(n => { ca[n] = now(); });
+    App.emit('swarm.rccatchup', { names, town });
+    rcEvent(`${far.filter(m => names.includes(m.name)).map(m => m.name + ' ' + Math.round(m.d / 1000) + ' km behind').join(', ')} — catching up by themselves (.${TOWN_CMD[town] || '?'}), the team goes on`);
+  } catch (e) { logError('circuit catch-up', e); }
+}
+App.on('swarm.rccatchup', (event) => {
+  try {
+    const d = event.data || {};
+    if (event.source.characterName !== CONFIG.leader || isLeader() || !(d.names || []).includes(Me.Name) || !d.town) return;
+    if (Me.IsDead || currentTownKey() === d.town || (typeof onRouteWalk === 'function' && onRouteWalk())) return;
+    note(`circuit: I am far behind the team — .${TOWN_CMD[d.town]} to catch up`, true);
+    (async () => { lastTownCmd = 0; await townCommand(`circuit catch-up: to ${d.town}`, d.town); })().catch(e => logError('circuit catch-up', e));
+  } catch (e) { }
+});
+/** the real reason a circuit trip did not reach the boss: who is far behind + the travel's own last reason */
+function rcTravelWhy(b) {
+  const far = [];
+  try { teamNames().forEach(n => { const lp = livePos[n]; if (!lp || lp.IsDead || now() - (lp.at || 0) > 30000) return; const d = Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y); if (d > 15000) far.push(`${n} ${Math.round(d / 1000)} km behind`); }); } catch (e) { }
+  const t = RC.travel && RC.travel.boss === b.name ? RC.travel : null;
+  const base = t && t.why ? t.why : gkFail ? String(gkFail) : `stopped ${Math.round(Math.hypot(b.x - Me.X, b.y - Me.Y))} from the boss`;
+  return `travel failed: ${far.length ? far.join(', ') + ' — ' : ''}${base}`.slice(0, 160);
+}
 function rcMakePlan() {
   const cfg = rcConfigOf(rcData(), Me.Name); if (!cfg) return [];
   RC.cfg = cfg;
@@ -23903,6 +24992,7 @@ async function rcStash(why) {
   RC.ownStep = true;
   try { if (currentTownKey() !== CONFIG.lead.hub && !(await leadGoGiran(`raid circuit: ${why}`))) return 'could not get the team to Giran'; } finally { RC.ownStep = false; }
   const runId = `${Date.now()}`; regroupRun = { id: runId, reason: 'raid circuit: warehouse' };
+  state.stepCapMs = 2 * RC_STEP_CAP_MS;                // round 2: never a hanging warehouse step
   try {
     const order = [Me.Name].concat(teamNames().filter(n => n !== Me.Name).sort());
     const sr = await teamStep(runId, 'stashrun', CONFIG.stash.staggerMs * order.length + 300000, { order, force: true });
@@ -23911,17 +25001,23 @@ async function rcStash(why) {
     rcEvent(`loot into the clan warehouse (${Object.values(sr.got).filter(a => a.ok).length}/${order.length} OK)`);
     RC.sinceStash = 0; if (RC.run) { RC.run.sinceStash = 0; rcRunSave(); }
     return 'ok';
-  } finally { if (regroupRun && regroupRun.id === runId) regroupRun = null; }
+  } finally { state.stepCapMs = 0; if (regroupRun && regroupRun.id === runId) regroupRun = null; }
 }
 /** the circuit's own resupply step (the supply watch asked, or the team is low after a wipe) */
 async function rcSupply(why) {
   rcPhase('supply', `resupplying: ${why}`);
   RC.ownStep = true;
-  try { const r = await leadSupply(`raid circuit: ${why}`); rcEvent(r ? `resupply did not run (${r})` : 'resupplied in Giran'); }
-  catch (e) { logError('circuit supply', e); } finally { RC.ownStep = false; RC.supplyWant = null; }
+  // round 2 (owner 17:30, Tank3 25 min in 'dyes'): every team step max RC_STEP_CAP_MS (teamStep honours state.stepCapMs), no dyes / gear
+  // shopping unless the circuit entry says dyes: true / gear: true, and the whole run max RC_SUPPLY_MAX_MS — then it is aborted and the circuit goes on
+  const t0 = now(), cfg = RC.cfg || {};
+  state.stepCapMs = RC_STEP_CAP_MS; state.supplyLean = { dyes: cfg.dyes === true, gear: cfg.gear === true };
+  const wd = setInterval(() => { try { if (now() - t0 > RC_SUPPLY_MAX_MS && regroupRun && regroupRun.reason === 'supply') { const st = (PST.stack.find(r => r.what === 'supply') || {}).step || '?'; rcEvent(`resupply took over ${Math.round(RC_SUPPLY_MAX_MS / 60000)} min (stuck in "${st}") — aborted, the circuit goes on`); abortRegroup('raid circuit: resupply time limit'); } } catch (e) { } }, 10000);
+  try { const r = await leadSupply(`raid circuit: ${why}`); rcEvent(r ? `resupply did not run (${r})` : `resupplied in Giran (${Math.round((now() - t0) / 60000)} min)`); }
+  catch (e) { logError('circuit supply', e); } finally { SCHED.clear(wd); state.stepCapMs = 0; state.supplyLean = null; RC.ownStep = false; RC.supplyWant = null; }
 }
 async function raidCircuitLoop(why) {
   if (raidHunt.active || !isLeader()) { if (raidHunt.active && !raidHunt.circuit) note('circuit: raidhunt runs — "!raidhunt stop" first', true); return; }
+  if (!runAuto('raid circuit')) return;                                // RUNSTATE: !circuit start / !start switch the party ON first
   const cfg0 = rcConfigOf(rcData(), Me.Name);
   if (!cfg0 || !cfg0.bosses.length) { note('circuit: no boss list for my party (dashboard Circuit tab)', true); SayToParty('[circuit] no boss list for this party — set one on the dashboard (Circuit)'); return; }
   { const rr = rcRunRead(); if (why !== 'order' && rr.v && !rr.running) { note(`circuit: not resumed (${why}) — it was stopped`, true); return; } }   // CIRCUIT 24/7: a stopped circuit never comes back by itself
@@ -23977,15 +25073,17 @@ async function raidCircuitLoop(why) {
       { const w0 = now(); while ((leadRunBusy || regroupRun) && now() - w0 < 900000 && !raidHunt.stop) await sleep(3000); }
       const stepAt = now() - 1000;
       if (!(await ensureTeamForTrip(`circuit: ${b.name}`, () => raidHunt.stop))) { note(`circuit: ${b.name} — the team is not together, trying again in a minute`, true); rcEvent(`${b.name}: the team is not together — trying again in a minute`); raidHunt.current = null; await sleep(60000); continue; }
-      gkFail = '';
+      gkFail = ''; RC.travel = null;
       await leaderMission('raid', b.name);
       RC.last = b.id;
       const last = ((File.Exists(SWARM_ROOT + '\\Logs\\raid_seen.log') ? File.ReadAllText(SWARM_ROOT + '\\Logs\\raid_seen.log').trim().split(/\r?\n/) : [])
         .filter(l => l.split('\t')[2] === b.name && Date.parse(l.split('\t')[0]) > stepAt).pop()) || '';
-      const oc = /dead$/.test(last) ? 'killed' : (last.split('\t').pop() || '').trim() || (gkFail ? 'refused' : 'no result');
+      let oc = /dead$/.test(last) ? 'killed' : (last.split('\t').pop() || '').trim() || (gkFail ? 'refused' : 'no result');
+      const tFail = !last, tWhy = tFail ? rcTravelWhy(b) : '';   // round 2: no raid_seen line = the team never got to the boss = a TRAVEL failure
+      if (tFail) oc = 'travel failed'; else RC.travelFails[b.id] = 0;
       RC.history.push({ id: b.id, name: b.name, level: b.level, outcome: oc, at: new Date().toISOString() }); raidHunt.history.push({ name: b.name, level: b.level, id: b.id, outcome: oc, at: new Date().toISOString() });
       if (RC.history.length > 50) RC.history = RC.history.slice(-50);
-      if (RC.run) { rcRecord(RC.run, b, oc, now()); rcEventPush(RC.run, oc === 'killed' ? `${b.name} KILLED (${RC.run.today.kills} today, ${RC.run.killsTotal} in total)` : oc === 'not-found' ? `${b.name} was not there (dead) — next` : `${b.name}: ${oc}${gkFail ? ' — ' + String(gkFail).slice(0, 100) : ''}`, now()); rcRunSave(); }
+      if (RC.run) { rcRecord(RC.run, b, oc, now()); rcEventPush(RC.run, oc === 'killed' ? `${b.name} KILLED (${RC.run.today.kills} today, ${RC.run.killsTotal} in total)` : oc === 'not-found' ? `${b.name} was not there (dead) — next` : `${b.name}: ${tFail ? tWhy : oc + (gkFail ? ' — ' + String(gkFail).slice(0, 100) : '')}`, now()); rcRunSave(); }
       raidHunt.current = null;
       appendShared(`${SWARM_ROOT}\\Logs\\raidcircuit.log`, `${new Date().toISOString()}\t${Me.Name}\t${b.id}\t${b.name}\t${oc}\r\n`);
       if (oc === 'killed') { RC.kills++; RC.sinceStash++; RC.wipes = 0; }
@@ -24003,6 +25101,11 @@ async function raidCircuitLoop(why) {
         if (!RC.supplyWant) RC.supplyWant = { why: 'after a wipe', at: now() };
         if (longRest) { const t1 = now(); while (now() - t1 < 1800000 && !raidHunt.stop && state.running) await sleep(10000); RC.wipes = 0; if (RC.run) { RC.run.wipes = 0; rcRunSave(); } }
         continue;
+      } else if (tFail) {
+        // round 2: benched only briefly (20, 40, … max 90 min), the travel itself already retried 3x with a fresh plan; never 6 h for a travel problem
+        const n = (RC.travelFails[b.id] = (RC.travelFails[b.id] || 0) + 1), benchMin = Math.min(RC_TRAVEL_BENCH_MAX_MIN, RC_TRAVEL_BENCH_MIN * n);
+        rcFail(b, tWhy, { kind: 'travel', until: now() + benchMin * 60000 }); note(`circuit: ${b.name} — ${tWhy}; again in ${benchMin} min`, true); gkFail = '';
+        await sleep(15000); continue;
       } else if (now() - stepAt < 120000 && !/dead$|not-found/.test(last)) {
         // ended at once (team busy / refused landing / unreachable): skip this boss for skipFailH, never loop on it
         rcFail(b, String(gkFail || oc).slice(0, 120)); note(`circuit: ${b.name} — ${String(gkFail || oc).slice(0, 120)}; skipped ${cfg.skipFailH} h`, true); rcEvent(`${b.name} skipped ${cfg.skipFailH} h: ${String(gkFail || oc).slice(0, 120)}`); gkFail = '';
@@ -24297,6 +25400,7 @@ setInterval(() => {
   watchdog.idleSince = 0;
   const def = CONFIG.watchdog.defaults[Me.Name] || 'autolevel';
   if (leadMode()) {
+    if (!runAuto('watchdog leveling')) return;          // RUNSTATE (2026-10-13): the party is switched OFF — nothing starts by itself
     if (leadPaused()) return;                          // the user said !stop: stay put until the next order
     if (raidHunt.active || state.mode === "mission") return;   // a raid hunt / mission owns the team, also between bosses
     if (!rcAuto('watchdog')) return;                    // CIRCUIT 24/7 (2026-10-13): the circuit keeper restarts the circuit instead of leveling
@@ -24307,6 +25411,7 @@ setInterval(() => {
     leadLevel('watchdog').catch(e => logError('watchdog level', e));
     return;
   }
+  if (!runAuto('watchdog')) return;                                    // RUNSTATE
   note(`watchdog: team has been idle for ${Math.round(CONFIG.watchdog.idleAfterMs / 60000)} min — starting ${def}`, true);
   if (def === 'escort') leaderEscort().then(() => { /* når escort-runden er slut og ingen mangler: auto-level */ }).catch(e => logError('watchdog escort', e));
   else if (def === 'autolevel') SayToParty('!autolevel');
@@ -24977,7 +26082,7 @@ setInterval(() => {
 const bench = { until: 0, names: [] };
 function benchedHall(n) { return now() < bench.until && bench.names.includes(n || Me.Name); }
 // SCOUT (2026-10-10): a character away on a scout trip counts as benched for its party (no split watchdog / left-behind regroup / stuck follow)
-function benched(n) { return benchedHall(n) || (typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs(n || Me.Name)) || qeAwayIs(n || Me.Name); }   // QENGINE-2026-10-12
+function benched(n) { return runHeld(n) || benchedHall(n) || (typeof scoutCtl !== 'undefined' && !!scoutCtl && scoutAwayIs(n || Me.Name)) || qeAwayIs(n || Me.Name); }   // QENGINE-2026-10-12
 App.on('swarm.bench', (e) => {
   // only MY party leader's bench counts (HALL TEAM PER PARTY 2026-10-09: two parties can run Halls at the same time; another leader's
   // bench used to land in every leader window too and its "until 0" ended my party's bench)
@@ -25123,6 +26228,7 @@ setInterval(() => {
     returnBackoffMs: returnBackoffMs(backTrip.fails), leaderInInstance: inInst });
   if (rj.instance && now() - (lb.instNoteAt || 0) > 300000) { lb.instNoteAt = now(); note(`left behind: ${rj.why}`, true); setTask(`waiting: ${CONFIG.leader} is inside an instance`); }
   if (rj.act !== 'town' && rj.act !== 'return') return;                // give the server follow / a teleport a moment first
+  if (!runAuto('left-behind trip')) return;                             // RUNSTATE: OFF = no regroup walk / .town of my own
   if (!takeControl('left behind: to Giran', PRIO.TEAM_SAFETY)) return;
   lb.busy = true; lb.lastAt = now();
   if (inRaid()) { state.mode = 'idle'; state.bossName = null; }       // the raid is over for me: the leader is far away (as swarm.calm 'raid done')
@@ -25183,7 +26289,59 @@ function qeFile(dir, name) { return dir + QE_BS + name; }
 function qeLogsFile(name) { return qeFile(SWARM_ROOT + QE_BS + 'Logs', name); }
 function qeDataFile(name) { return qeFile(__SCRIPTS__ + QE_BS + 'data', name); }
 // QENGINE-PURE-BEGIN (no host calls in here: docs/plan/tools/test_questengine.js runs this block in node against real quests)
-const QE_REFUSE = /not the right time|come back (later|tomorrow|again)|you are not (yet )?(strong|qualified|ready|worthy)|level is too low|too low|cannot accept|do not meet|don't meet|not meet the|only (for|members|available)|already (completed|finished|done)|cannot proceed|not eligible|no quest/i;
+const QE_REFUSE = /not the right time|come back (later|tomorrow|again)|you are not (yet )?(strong|qualified|ready|worthy)|level is too low|too low|cannot accept|do not meet|don't meet|not meet the|only (for|members|available)|already (completed|finished|done)|cannot proceed|not eligible|no quest|too many (ongoing |active )?quests/i;   // QSYS-2026-10-13: + fullquest.html
+// QSYS-2026-10-13 (Dagger1 quest 32 Maximilian / quest 40 Helvetia: "Quest." clicked, NO page ever came, 4 tries, run failed): L2J QuestLink.showQuestWindow
+// sends no page at all, only system message #1118 "Unable to process this request until your inventory's weight and slot count are less than 80 percent
+// of capacity", when the bag holds MORE than 90 % of its slots (isInventoryUnder90(true): quest items count) or the weight penalty is >= 3 (>= 80 % weight).
+// Dagger1 (the loot collector) had 200 items in the bag. #401 / fullquest.html = 40 quests running. -> { kind: 'bag' | 'quests' | '', id, text }
+const QE_SYS_BAG = [1118, 1119, 3262], QE_SYS_QUESTS = [401];
+function qeSysVerdict(msgs) {
+  const L = (msgs || []).filter(Boolean);
+  for (let i = 0; i < L.length; i++) {
+    const id = Number(L[i].id), t = String(L[i].text || '');
+    if (QE_SYS_BAG.indexOf(id) >= 0 || /weight and slot count|inventory weight is below 80|less than 80 percent of capacity|exceeded 80 percent of capacity/i.test(t)) return { kind: 'bag', id, text: t };
+    if (QE_SYS_QUESTS.indexOf(id) >= 0 || /too many (ongoing |active )?quests/i.test(t)) return { kind: 'quests', id, text: t };
+  }
+  return { kind: '', id: 0, text: '' };
+}
+/** the server's own check before every quest window: count = items in the bag (quest items too), limit 0 = unknown -> '' | why it will be refused */
+function qeBagBlock(count, limit, load, maxLoad) {
+  const c = Number(count) || 0, l = Number(limit) || 0, w = Number(load) || 0, mw = Number(maxLoad) || 0;
+  if (l > 0 && c > l * 0.9) return 'the bag holds ' + c + ' of ' + l + ' slots (the server opens no quest window above ' + Math.floor(l * 0.9) + ' = 90 %)';
+  if (mw > 0 && w * 1000 / mw >= 800) return 'the bag weight is ' + Math.round(100 * w / mw) + ' % (the server opens no quest window from 80 %)';
+  return '';
+}
+/** expected number of pages from openNpc's double click: the NPC already my target = both clicks talk (2 pages), else the first only selects (1) */
+function qePagesExpected(wasTarget) { return wasTarget ? 2 : 1; }
+// QSTATE-2026-10-13 (Dagger1 quest 32, 16:37 UTC: "quest ended" + "COMPLETED — run 1" right after step 2 of 9; the server still had the quest at cond 2,
+// Map 7165 in the bag, and the next run went back to Maximilian = "not on a quest"): in the brain host the quest API (GetQuestState / HasQuest over the
+// agent mirror) said "not started" for a quest the server runs. The engine believed it the moment its 20 s start grace was over.
+/** what the bag says about the quest: its registered quest items exist only while it runs (L2J exitQuest destroys them). Held items -> started; the cond
+ *  is at least the 'to' of a transition that GAVE one of them, or the cond whose kills DROP one of them. -> { started: true | null, cond, items[] } */
+function qeCondFromItems(q, have) {
+  const H = have || {}, reg = (((q && q.registered && q.registered.questItems) || ((q && q.items) || []).filter(i => i.questItem).map(i => i.id)) || []).map(Number);
+  const held = reg.filter(id => (Number(H[id]) || 0) > 0);
+  if (!held.length) return { started: null, cond: null, items: [] };
+  let cond = null; const up = (c) => { c = Number(c); if (isFinite(c) && c >= 1 && (cond === null || c > cond)) cond = c; };
+  qeTr(q).forEach(t => { if (t.to === 'end' || !isFinite(Number(t.to))) return; if ((t.gives || []).some(g => held.indexOf(Number(g.id)) >= 0 && !(Number(g.count) < 0))) up(t.to); });
+  ((q && q.drops) || []).forEach(d => { if (held.indexOf(Number(d.item)) >= 0 && (d.conds || []).length) up(Math.min.apply(null, d.conds.map(Number))); });
+  return { started: true, cond, items: held };
+}
+/** one verdict from the quest API (api = { started true|false|null, cond, known }), the bag (ev = qeCondFromItems) and my own record
+ *  (own = { started, cond, apiSeen: the API said 'started' at least once this run }). The API's "not started" counts only when it is not
+ *  contradicted: no quest item in the bag, and the API has shown this quest as started before (else it is blind for it). -> { started, cond, condKnown, blind } */
+function qeStateMerge(api, ev, own) {
+  const A = api || {}, e = ev || {}, o = own || {};
+  const oc = o.cond != null && isFinite(Number(o.cond)) ? Number(o.cond) : null, ec = e.cond != null ? Number(e.cond) : null;
+  const best = ec != null && oc != null ? Math.max(ec, oc) : (ec != null ? ec : oc);
+  if (A.started === true) return { started: true, cond: A.known ? Number(A.cond) : best, condKnown: !!A.known, blind: false };
+  if (A.started === false) {
+    if (e.started === true || (o.started === true && !o.apiSeen)) return { started: true, cond: best, condKnown: false, blind: true };
+    return { started: false, cond: null, condKnown: false, blind: false };
+  }
+  const st = e.started === true || !!o.started;
+  return { started: st, cond: st ? best : null, condKnown: false, blind: false };
+}
 function qeRaceOfClass(cid) {
   const c = Number(cid);
   if ((c >= 0 && c <= 17) || (c >= 88 && c <= 98)) return 'HUMAN';
@@ -25465,16 +26623,31 @@ function qeCondRead(id) {
   return { started, cond, known: cond !== null };
 }
 function qeItemIds(q) { const o = {}; (q.items || []).forEach(it => { o[num(it.id)] = 1; }); (q.drops || []).forEach(d => { o[num(d.item)] = 1; }); delete o[57]; return Object.keys(o).map(Number); }
+/** QSTATE-2026-10-13: what the quest API really returned (for the log when it contradicts the bag / my record) */
+function qeApiDump(id) {
+  let s = '?', h = '?'; const ctx = (typeof Context !== 'undefined' && Context) ? Context : null;
+  try { const v = ctx && ctx.GetQuestState ? ctx.GetQuestState(id) : (typeof GetQuestState === 'function' ? GetQuestState(id) : undefined); s = v === null ? 'null' : v === undefined ? 'undefined' : typeof v === 'object' ? 'object ' + JSON.stringify(v, (k, x) => (typeof x === 'bigint' ? Number(x) : x)).slice(0, 160) : typeof v + ' ' + String(v).slice(0, 80); } catch (e) { s = 'error ' + (e && e.message); }
+  try { h = String(ctx && ctx.HasQuest ? ctx.HasQuest(id) : (typeof HasQuest === 'function' ? HasQuest(id) : 'n/a')); } catch (e) { h = 'error'; }
+  return 'GetQuestState(' + id + ') = ' + s + ', HasQuest = ' + h;
+}
 function qeSense(q, batch) {
   const Q = qeS(), c = qeCondRead(num(q.id)), have = {};
   qeItemIds(q).forEach(id => { have[id] = itemCount(id); });
-  let started = c.started;
+  // apiWorks (per character, kept): the API showed a running quest before; it is proven blind when a start click is 20 s old and it never showed it
+  const S0 = qeSt();
+  if (c.started === true) { Q.apiSeen = true; S0.apiWorks = true; }
+  else if (c.started === false && Q.startAt && now() - Q.startAt > 20000 && !Q.apiSeen && S0.apiWorks !== false) S0.apiWorks = false;
+  const ev = qeCondFromItems(q, have);
+  const m = qeStateMerge(c, ev, { started: Q.started, cond: Q.cond, apiSeen: Q.apiSeen || S0.apiWorks === true });
+  Q.blindNow = !!m.blind;
   // a start click a moment ago wins over a quest list that has not caught up yet (brain host mirror / QuestList packet lag)
-  if (started === false && Q.started && now() - (Q.startAt || 0) < 20000) started = true;
-  if (started === null) started = !!Q.started; else Q.started = started;
-  if (c.known) Q.cond = c.cond;
-  if (!started) Q.cond = null;
-  return { started, cond: c.known ? c.cond : Q.cond, condKnown: c.known, apiKnown: c.started !== null, have, adena: itemCount(57), batch };
+  if (!m.started && Q.started && now() - (Q.startAt || 0) < 20000) { m.started = true; m.cond = Q.cond; }
+  if (m.blind && !Q.blindSaid) { Q.blindSaid = true; qeLog(q.id, 'the quest API says "not started", but ' + (ev.started ? 'the bag holds its quest items (' + ev.items.join(', ') + ')' : 'the start was clicked and it never showed the quest') + ' — going by the bag / my own record (cond ' + (m.cond != null ? m.cond : '?') + '); ' + qeApiDump(num(q.id))); }
+  Q.started = !!m.started;
+  if (m.started && m.cond != null) Q.cond = m.cond;
+  if (!m.started) Q.cond = null;
+  try { const S = qeSt(), r = S.quests[q.id]; if (r) { const o = r.own || {}; if (!!o.started !== Q.started || (o.cond || null) !== (Q.cond || null)) r.own = { started: Q.started, cond: Q.cond || null, atMs: now(), at: new Date().toISOString() }; } } catch (e) { }   // own record for the next run
+  return { started: !!m.started, cond: m.condKnown ? m.cond : Q.cond, condKnown: !!m.condKnown, apiKnown: c.started !== null && !m.blind, apiBlind: !!m.blind, have, adena: itemCount(57), exp: num(Me.Exp), batch };
 }
 function qeNeedText(q, items, have) { return (items || []).map(it => { const m = (q.items || []).find(x => num(x.id) === it.id); return (m ? m.name : '#' + it.id) + ' ' + (num((have || {})[it.id]) || 0) + '/' + it.n; }).join(', '); }
 function qeMobName(q, id) { const m = qeMob(q, id); return m ? m.name : '#' + id; }
@@ -25538,7 +26711,42 @@ async function qeGoNpc(q, npcId, a, before) {
   }
   return { ref: null, why: nm + ' not reached' + (r && r.why ? ' (' + r.why + ')' : '') + (n && n.spawnedByQuest ? ' — it only appears through the quest script' : '') };
 }
+// QSYS-2026-10-13: the bag the server judges before a quest window -> '' | why it refuses (known limit, weight, or a refusal seen before at this many items)
+function qeBagCount() { let c = 0; try { Inventory.forEach(() => { c++; }); } catch (e) { } return c; }
+function qeBagNow() {
+  const c = qeBagCount(); let lim = 0; try { lim = num(Me.InventoryLimit); } catch (e) { }
+  const r = qeBagBlock(c, lim, num(Me.Load), num(Me.MaxLoad)); if (r) return r;
+  const b = qeSt().bagBlock;
+  // a refusal learned at N items (slot limit unknown here) holds while I still carry >= N items, for 24 h, and only when it was not the weight
+  if (!lim && b && !(num(b.wPct) >= 80) && c >= num(b.count) && now() - num(b.atMs) < 86400000) return 'the bag holds ' + c + ' items — the server refused a quest window at ' + num(b.count) + ' items (' + String(b.text || '#1118').slice(0, 90) + ')';
+  return '';
+}
+function qeSysMsgText(v) {
+  if (v.kind === 'bag') return 'the server refuses every quest window: bag too full (' + qeBagCount() + ' items; ' + String(v.text || '#' + v.id).slice(0, 120) + ') — free bag slots (warehouse / sell / !stash) or weight, then start the quest again';
+  return 'the server refuses new quests: 40 quests are running already (' + String(v.text || '#' + v.id).slice(0, 100) + ') — abandon some first';
+}
+/** the server refused (system message): remember it for the bag pre-check, log, and end the dialog as fatal */
+function qeSysRefusal(q, ref, link, v, r) {
+  const m = qeSysMsgText(v);
+  if (v.kind === 'bag') { const S = qeSt(); S.bagBlock = { count: qeBagCount(), wPct: num(Me.MaxLoad) > 0 ? Math.round(100 * num(Me.Load) / num(Me.MaxLoad)) : 0, atMs: now(), at: new Date().toISOString(), text: v.text, npc: String(ref.Name), quest: q.id }; qeSave(true); }
+  qeLog(q.id, 'clicked "' + link.text + '" (' + link.cmd + ') at ' + ref.Name + ': ' + m);
+  return Object.assign(r, { ok: false, fatal: true, sys: v, msg: m, refused: '' });
+}
+/** after a click: a NEW page (npcPageSeq > seq0) or a server refusal (system message since t0) -> { html, sys, msgs } */
+async function qeWaitAnswer(seq0, t0, ms) {
+  let msgs = [];
+  while (now() - t0 < ms) {
+    if (npcPageSeq > seq0) return { html: lastNpcHtml, sys: { kind: '' }, msgs: sysMsgRing.filter(m => m.at >= t0) };
+    msgs = sysMsgRing.filter(m => m.at >= t0);
+    const v = qeSysVerdict(msgs); if (v.kind) return { html: null, sys: v, msgs };
+    await sleep(250);
+  }
+  return { html: null, sys: { kind: '' }, msgs };
+}
 async function qeDialog(ref, q, a) {
+  // QSYS-2026-10-13: openNpc clicks twice; with the NPC already targeted BOTH clicks bring the front page, and under agent lag (3-30 s agent ticks on
+  // 2026-10-13) the 2nd copy came AFTER our "Quest" click and was taken as its answer ("same page", re-click, 4 tries). Wait for the expected copies first.
+  // DIALOG-2026-10-13: the dialog engine clicks a targeted NPC ONCE and holds a late 2nd copy back (never taken as the answer of "Quest")
   let html = await openNpc(ref);
   if (!html) return { ok: false, msg: ref.Name + ' did not answer' };
   const w = { links: a.links || [], events: a.events || [], questName: q.name, qkey: 'Q' + ('00000' + q.id).slice(-5), clicked: [], usedMenu: false, allowContinue: a.kind === 'start' || a.kind === 'spawn' };
@@ -25552,18 +26760,21 @@ async function qeDialog(ref, q, a) {
     if (p.why === 'event' || p.why === 'text') hit = true;
     w.clicked.push(p.link.cmd + '|' + p.link.text);
     const prevText = text;
-    // QEWAIT-2026-10-13 (Dagger1 quest 32, Maximilian 14:06: 'Quest.' clicked, no page within 6 s -> the loop ended as if the NPC had nothing):
-    // pages take > 6 s under load (same as the Dawn priest, DAWNWAIT) -> wait 15 s, and a page that came in after the wait still counts
-    const lastBefore = lastNpcHtml, pg = waitNpcHtml(15000); Send.ReqBypassToServer(p.link.cmd, true);
-    html = await pg; clicks++;
-    if (!html && lastNpcHtml && lastNpcHtml !== lastBefore) html = lastNpcHtml;
-    if (!html) qeLog(q.id, 'no answer within 15 s after "' + p.link.text + '"');
-    if (html) { await sleep(600); html = lastNpcHtml || html; text = htmlText(String(html)).slice(0, 400); }
+    // QEWAIT-2026-10-13: pages take > 6 s under load -> wait 15 s. QSYS: a NEW page (counter), or the server's refusal as a system message (bag / quests)
+    // DIALOG-2026-10-13: CLICK -> WAIT_RESULT in the dialog engine (a NEW page; the server's refusal ends it at once — QSYS)
+    const t0 = now(); const cr = await DLG.click(p.link, { expect: DLG_PAGES, base: 15000, from: ref.Name, label: `quest ${q.id} "${p.link.text}"` }); clicks++;
+    const ans = { html: cr.ok ? cr.html : null, sys: qeSysVerdict(sysMsgRing.filter(m => m.at >= t0)), msgs: sysMsgRing.filter(m => m.at >= t0) };
+    if (ans.sys.kind) return qeSysRefusal(q, ref, p.link, ans.sys, { clicks, hit, text });
+    html = ans.html;
+    if (html && p.why === 'menu' && htmlText(String(html)).slice(0, 400) !== prevText) { const S = qeSt(); if (S.bagBlock && qeBagCount() >= num(S.bagBlock.count)) { delete S.bagBlock; qeSave(true); } }   // a quest window opened with this many items: the learned bag block was wrong
+    if (!html) qeLog(q.id, 'no answer within 15 s after "' + p.link.text + '" (' + p.link.cmd + ')' + (ans.msgs.length ? ' — server said: ' + ans.msgs.map(x => x.text).join(' / ').slice(0, 240) : ' — no page and no server message') + ' · bag ' + qeBagCount() + ' items');
+    if (html) text = htmlText(String(html)).slice(0, 400);
     // QEPAGE-2026-10-13 (Dagger1 quest 40, Helvetia 13:15: 'Quest' brought the same front page back, the run gave up): the same page again = the
-    // answer is late (brain latency) or the click was dropped -> wait up to 8 s for a new page, then allow ONE re-click of that link
+    // answer is late (brain latency) or the click was dropped -> wait (dialog engine, >= 8 s) for a NEW page (or the server's refusal), then allow ONE re-click
     if (html && text === prevText) {
-      const t1 = now(); while (now() - t1 < 8000 && htmlText(String(lastNpcHtml || '')).slice(0, 400) === prevText) await sleep(400);
-      if (lastNpcHtml) { html = lastNpcHtml; text = htmlText(String(html)).slice(0, 400); }
+      const w2 = await DLG.wait({ expect: DLG_PAGES, after: cr.ev ? cr.ev.seq : DLG.seq, base: 8000, dupOk: true, label: `a new page after "${p.link.text}"`, match: (ev) => htmlText(String(ev.data.html || '')).slice(0, 400) !== prevText });
+      { const v = qeSysVerdict(sysMsgRing.filter(x => x.at >= t0)); if (v.kind) return qeSysRefusal(q, ref, p.link, v, { clicks, hit, text }); }
+      if (w2.ok) { html = w2.ev.data.html; text = htmlText(String(html)).slice(0, 400); }
       if (text === prevText && repeats < 1) { repeats++; w.clicked.pop(); if (p.why === 'menu') w.usedMenu = false; qeLog(q.id, 'same page after "' + p.link.text + '" - clicking it once more'); }
     }
   }
@@ -25578,6 +26789,7 @@ async function qeDoTalk(q, a, before) {
   const g = await qeGoNpc(q, npcId, a, before); if (!g.ref) return { ok: false, msg: g.why };   // ROUTESWITCH-2026-10-13: the step for the route choice
   qePhase(a.act === 'turnin' ? 'turnin' : a.kind === 'spawn' ? 'spawn' : 'talk', nm + (a.links && a.links.length ? ': "' + a.links.join('" / "') + '"' : ''), { kind: 'npc', name: nm, x: Math.round(g.ref.X), y: Math.round(g.ref.Y), z: Math.round(g.ref.Z) });
   const d = await qeDialog(g.ref, q, a);
+  if (d.fatal) return { ok: false, fatal: true, msg: d.msg };   // QSYS-2026-10-13: the server refused the quest window (bag full / 40 quests): no 4 retries
   await sleep(1500);
   const after = qeSense(q, before.batch);
   let prog = qeProgress(before, after);
@@ -25585,7 +26797,14 @@ async function qeDoTalk(q, a, before) {
   if (a.kind === 'start' && !after.started && d.hit && !d.refused) { Q.started = true; Q.startAt = now(); await sleep(3000); const again = qeSense(q, before.batch); if (again.started) { Object.assign(after, again); prog = prog || 'quest started'; } }
   if (a.kind === 'start' && after.started) { Q.started = true; if (!after.condKnown) Q.cond = 1; }
   if (prog && !after.condKnown && a.to !== undefined && a.to !== null && a.to !== 'end' && a.kind !== 'start') Q.cond = Number(a.to);
-  const ended = !!(before.started && (after.started === false || (a.to === 'end' && prog && !after.apiKnown)));
+  let ended = !!(before.started && (after.started === false || (a.to === 'end' && prog && !after.apiKnown)));
+  // QSTATE-2026-10-13: "gone from the quest list" right after a step that does not end the quest = read it again before believing it
+  if (ended && after.started === false && a.to !== 'end') { await sleep(2500); const again = qeSense(q, before.batch); if (again.started) { ended = false; Object.assign(after, again); prog = qeProgress(before, after); } }
+  const reward = (Number(after.adena) || 0) > (Number(before.adena) || 0) || (Number(after.exp) || 0) > (Number(before.exp) || 0);
+  if (ended && a.to !== 'end' && a.act !== 'turnin' && !reward) {
+    Q.started = false; Q.cond = null;
+    return { ok: false, fatal: true, msg: 'the quest left the quest list after a step that leads to cond ' + a.to + ' (not its end) and paid nothing — NOT counted as completed (check the quest journal)' };
+  }
   if (ended) { Q.started = false; Q.cond = null; }
   const turnedIn = a.act === 'turnin' && (after.adena > before.adena || prog.indexOf('items changed') === 0);
   Q.lastTalk = { npcId, key: a.key, at: now() };
@@ -25724,6 +26943,7 @@ async function qeMemberLoop(q) {
 function qeRunDone(q, r) {
   const S = qeSt(), rec = S.quests[q.id] = S.quests[q.id] || { name: q.name, runs: 0, adena: 0 };
   rec.runs = (rec.runs || 0) + 1; rec.adena = (rec.adena || 0) + (r.adena || 0); rec.lastDone = new Date().toISOString();
+  delete rec.own;   // QSTATE-2026-10-13
   if (S.active) S.active.runs = (S.active.runs || 0) + 1;
   if (S.farm && qeS().spec && qeS().spec.farm) { S.farm.runs = (S.farm.runs || 0) + 1; S.farm.adena = (S.farm.adena || 0) + (r.adena || 0); }
   qeLog(q.id, (r.turnedIn ? 'turned in' : 'COMPLETED') + (r.adena ? ' (+' + r.adena + ' adena)' : '') + ' — run ' + rec.runs, true);
@@ -25737,7 +26957,9 @@ async function qeRun(spec) {
   const S = qeSt(), repeatable = qeRepeatable(q), batch = num(spec.batch) || qeDefaultBatch(q);
   const el = qeEligible(q, qeMe());
   if (!member && !spec.resumed && !el.ok) { S.quests[q.id] = Object.assign(S.quests[q.id] || { name: q.name, runs: 0, adena: 0 }, { status: 'cannot', lastMsg: el.why.join('; ') }); qeLog(q.id, q.name + ': cannot take it — ' + el.why.join('; '), true); return; }
+  { const bag = member ? '' : qeBagNow(); if (bag) { S.quests[q.id] = Object.assign(S.quests[q.id] || { name: q.name, runs: 0, adena: 0 }, { status: 'failed', lastMsg: bag }); qeLog(q.id, q.name + ': not started — ' + bag + ' — free bag slots first (warehouse / sell / !stash), the server opens no quest window before that', true); return; } }   // QSYS-2026-10-13
   Object.assign(Q, { running: true, stop: false, why: '', spec: Object.assign({}, spec, { batch }), q, kicked: '', started: !!spec.started, cond: spec.cond || null, mates: {}, orderSeq: orderState.seq });
+  { Q.apiSeen = false; Q.blindSaid = false; Q.ownReset = false; Q.startAt = 0; Q.blindNow = false; const own = (S.quests[q.id] || {}).own; if (!member && !spec.started && own && own.started && now() - num(own.atMs) < 30 * 86400000) { Q.started = true; Q.cond = own.cond || null; } }   // QSTATE-2026-10-13
   // the old runner's flag: every existing "busy with a quest" guard (town sell, gear share, follow restorer, stuck watchdog) sees the run.
   // Not for party members: they keep the normal follow / assist behaviour.
   if (!member) Object.assign(questRun, { active: true, quest: { id: q.id, name: q.name, legs: [] }, leg: 0, stop: false, qe: true, kick: (why) => { Q.kicked = why; } });
@@ -25770,6 +26992,7 @@ async function qeRun(spec) {
       else if (a.act === 'spawn') r = await qeDoSpawn(q, a, batch, s);
       else r = { ok: false, msg: 'unknown action ' + a.act };
       S.active.lastMsg = r.msg; qeLog(q.id, a.act + (a.kind ? ' (' + a.kind + ')' : '') + ': ' + r.msg);
+      if (r.refused && a.kind !== 'start' && Q.blindNow && !Q.ownReset && /not on a quest|don.t meet|do not meet/i.test(r.refused)) { Q.ownReset = true; Q.started = false; Q.cond = null; try { delete (S.quests[q.id] || {}).own; } catch (e) { } qeLog(q.id, 'my own record said the quest runs (the quest API cannot see it), but the NPC says not — starting it again'); continue; }   // QSTATE-2026-10-13
       if (r.refused && a.kind === 'start') { result = q.type === 'daily' ? 'cannot' : 'failed'; S.active.msg = 'the NPC refused: ' + r.refused; qeLog(q.id, S.active.msg, true); break; }
       if (r.ended || r.turnedIn) {
         same = 0; fails = 0; lastKey = '';
@@ -25857,6 +27080,7 @@ setInterval(() => {
     const Q = qeS(), cfg = qfCfg(), mine = qfMine(cfg), S = qeSt();
     if (!mine) { if (Q.running && Q.spec && Q.spec.farm) qeStopReq('quest farm switched off'); if (S.farm && S.farm.on) { S.farm.on = false; qeSave(true); } return; }
     if (Q.running || inRaid() || state.mode === 'mission' || tradeState || (typeof HOV !== 'undefined' && HOV.busy) || inKamaInstance()) return;
+    if (!runOn()) return;                                                 // RUNSTATE: no quest farm start while OFF
     if (orderState.at && now() - orderState.at < QE_CFG.farmAfterOrderMs) return;   // a user order came in lately: it wins
     const id = qfPickId(cfg, qeMe(), qeQuest);
     if (!id) { if (now() - Q.farmSaid > 1800000) { Q.farmSaid = now(); qeLog(null, 'quest farm: no planned quest fits level ' + num(Me.Level) + ' (Scripts/data/quest_farm.json plan.byLevel)', true); } return; }
@@ -25906,6 +27130,7 @@ setInterval(() => {
   const atHub = (n) => { const p = partyMember(n); return hubXY && p && Math.hypot(p.X - hubXY[0], p.Y - hubXY[1]) < 6000; };
   const who = [...new Set([...leftBehind, ...far])].filter(n => !atHub(n));   // already waiting where I am going
   if (!who.length) return;
+  if (!runAuto('split regroup')) return;                               // RUNSTATE: no regroup walks while OFF
   if (!takeControl('regroup: left behind', PRIO.TEAM_SAFETY)) return;
   splitWatch.busy = true; splitWatch.lastRun = now();
   (async () => {
@@ -25994,6 +27219,7 @@ setInterval(() => {
   if (Math.hypot(Me.X - stuckFollow.x, Me.Y - stuckFollow.y) > 100) { Object.assign(stuckFollow, { x: Me.X, y: Me.Y, since: now() }); return; }
   // user 2026-10-04: with the big combat circle (6000) members chase mobs far out; no mob for 15 s -> back to the middle (the leader)
   if (now() - stuckFollow.since < (smallTeam() ? 6000 : 15000)) return;
+  if (!runAuto('back-to-the-middle walk')) return;                     // RUNSTATE
   if (!takeControl('follow: back to the leader', PRIO.TEAM_SAFETY)) return;
   stuckFollow.busy = true;
   note(`follow: no mobs here, ${Math.round(d)} from ${CONFIG.leader} — back to the middle of the hunt (walking to him)`);
@@ -26140,7 +27366,7 @@ async function deathWait(why) {
 // Automatisk gear-deling: hvert 15. min når holdet er samlet (alle < 1500) og ingen kæmper
 setInterval(() => {
   if (!state.role || !isLeader() || !teamNames().length || inRaid() || state.gkBusy || tradeState) return;
-  if (!CONFIG.gear.autoShare) return;
+  if (!CONFIG.gear.autoShare || !runOn()) return;   // RUNSTATE
   if (questRun.active || escort.active) return;     // ikke midt i en quest: handlerne flyttede lederen rundt og lod questen stå (2026-10-03)
   if (now() - lastGearRun < CONFIG.gear.autoShareMs || IsInCombat || Me.IsInCombat || now() - lastAttackerOnMe.at < 20000) return;
   if (teamSpread().some(m => m.d > 1500 || m.dead)) return;
@@ -26475,12 +27701,15 @@ setInterval(() => {
       zone: autoLvl.active && autoLvl.zone ? Object.assign({}, autoLvl.zone, { multi: multiPublic() }) : null,                 // hunting square / room / field area (party map); multi = the rotation (2026-10-08 22:45)
       spotClaim: (isLeader() || soloChar()) ? (() => { try { return { claimed: claimState.had && autoLvl.spot ? autoLvl.spot.name : '', occupied: Object.keys(spotOcc).filter(k => spotOccupied(k)).map(k => ({ name: spotOcc[k].name || k, by: spotOcc[k].by || '', min: Math.round((spotOcc[k].until - now()) / 60000) })) }; } catch (e) { return null; } })() : null,   // dashboard Parties tab (2026-10-08)
       tactics: pairsStatus(),                                                      // hunting pairs (leader: mode + live pairs; member: my pair)
+      run: (() => { try { const r = runMine(); return { on: !!r.on, held: !!r.held, src: r.src }; } catch (e) { return null; } })(),   // RUNSTATE: the run switch as this window sees it
       trade: tradePublic(), teamStep: tstepPublic(), partyStatus: partyStatusPublic(),   // PARTY STATUS 2026-10-09 (tiny, null most of the time): Parties tab banner + rows
       escape: (() => { try { return escPublic(); } catch (e) { return null; } })(),   // escape from a fight, live (Parties tab mini-map, 2026-10-08)
       cast: (() => { try { return castPublic(); } catch (e) { return null; } })(),    // my long cast right now (SoE / .town / Resurrection ...): live bar
       rescue: (() => { try { return rescuePublic(); } catch (e) { return null; } })(),   // leader: cross-floor rescue trip (route, step, ETA), 2026-10-08
       spotWatch: (isLeader() || soloChar()) ? (() => { try { return spotWatchPublic(); } catch (e) { return null; } })() : null,   // other players near the hunting spot, 2026-10-08
       route: state.route || null,                                                  // the centreline route being walked (ROOM GRAPH WALK, 2026-10-09)
+      routeSM: state.routeSM && (!state.routeSM.final || now() - (state.routeSM.at || 0) < 900000) ? Object.assign({}, state.routeSM, { chain: state.routeSM.final ? undefined : state.routeSM.chain }) : null,   // ROUTESM 2026-10-13: the atlas route state machine (leader)
+      routeSMLeader: !isLeader() && state.routeSMLeader && now() - (state.routeSMLeader.recv || 0) < 600000 ? state.routeSMLeader : null,   // ROUTESM: the leader's state as this member last heard it
       npcTrip: state.npcTrip && now() - Date.parse(state.npcTrip.at || 0) < 1800000 ? state.npcTrip : null,   // NPC NAVIGATION trip (2026-10-09)
       manualSpot: (isLeader() || soloChar()) ? (() => { try { return manualSpotPublic(); } catch (e) { return null; } })() : null,   // dashboard spot choice: pending/travelling/arrived/... (2026-10-08 19:55)
       combatRange: SW.med.combatRange || 0,
@@ -26794,7 +28023,7 @@ async function waitWholeTeam(what) {
 function teamNames() {
   const names = [];
   try { (hostSnap.party() || PartyList).forEach(p => { if (CONFIG.roster[p.Name] && p.Name !== Me.Name) names.push(p.Name); }); } catch (e) { }
-  if (isLeader()) try { Object.keys(livePos).forEach(n => { const lp = livePos[n]; if (lp && lp.withLeader && now() - lp.at < 8000 && n !== Me.Name && !names.includes(n) && teamOf(n) === teamOf(Me.Name)) names.push(n); }); } catch (e) { }
+  if (isLeader()) try { Object.keys(livePos).forEach(n => { const lp = livePos[n]; if (lp && lp.withLeader && now() - lp.at < 8000 && n !== Me.Name && !names.includes(n) && (lp.lead ? lp.lead === Me.Name : teamOf(n) === teamOf(Me.Name))) names.push(n); /* TEAMLEAD: a character naming another leader is never mine (characters added after my start have no CONFIG.teams entry -> teamOf = main leader for all) */ }); } catch (e) { }
   return names;
 }
 
@@ -26856,6 +28085,7 @@ setInterval(() => {
     rescuing: (typeof rescueRun !== 'undefined' && rescueRun.who) || '', escaping: ESC.on ? (ESC.phase || 'on') : '',   // escape from a fight (2026-10-08): the leader's map + rescue
     frenzy: (() => { let f = false; try { (hostSnap.buffs() || BuffsList).forEach(b => { if (/^(Frenzy|Zealot|Guts)$/i.test(String(b.Name || ''))) f = true; }); } catch (e) { } return f; })(),
     withLeader: (() => { let w = false; try { (hostSnap.party() || PartyList).forEach(p => { if (p.Name === CONFIG.leader) w = true; }); } catch (e) { } return w || isLeader(); })(),   // my own view: am I in my leader's party?
+    lead: isLeader() ? Me.Name : CONFIG.leader,   // TEAMLEAD-2026-10-13: WHOSE party I am with (withLeader alone made party Jade count in party Yellow)
     fight: !!(now() - lastAttackerOnMe.at < 6000 || Me.IsInCombat || Me.IsAttacking || now() - hpWatch.dropAt < 6000),
     // PAIRSGATE (2026-10-09 17:55): REALLY in a fight = a monster hits ME / my HP drops (a teleport hold counts only these, never a fresh pull)
     hit: !!((now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) || now() - hpWatch.dropAt < 6000) }));   // the leader never ports while someone fights or takes damage
@@ -26864,7 +28094,7 @@ App.on('swarm.pos', (event) => {
   const d = event.data;
   if (!d || !d.name) return;
   try { const src = event.source; if (src && src.accountId) posAcct[d.name] = String(src.accountId); } catch (e) { }
-  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, withLeader: !!d.withLeader, low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, dlv: !!d.dlv, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
+  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, withLeader: !!d.withLeader, lead: d.lead ? String(d.lead) : '', low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, dlv: !!d.dlv, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
   try { if (livePos[d.name]) livePos[d.name].keys = Array.isArray(d.keys) ? d.keys : []; } catch (e) { }   // DUNGEON ENTRY ITEMS 2026-10-12
   rkRosterLearn(d.name, d.role);                // ROLE KINDS: a teammate's kind / auto role -> its token
   if (!!d.draining !== drainingNow(d.name)) drainState[d.name] = { on: !!d.draining, at: d.draining && drainState[d.name] && drainState[d.name].on ? drainState[d.name].at : now() };
@@ -26882,6 +28112,7 @@ try { if (!isLeader()) Options.ActiveFollow = false; } catch (e) { }
 function followHold(ms) { state.followHoldUntil = Math.max(state.followHoldUntil || 0, now() + ms); try { Options.ActiveFollow = false; } catch (e) { } }
 function followOk(want) {
   if (!want) return false;
+  if (runHeld()) return false;                                        // RUNSTATE: held by its own character switch
   if (now() < (state.followHoldUntil || 0)) return false;
   if (NNAV && !isLeader() && noNativeNav()) { NNAV.wantFollow = true; return false; }   // no L2Swarm follow under the native-nav guard: the script follow does it
   try {
@@ -27048,10 +28279,10 @@ async function teamStep(runId, action, ms, extra) {
   PST.ts = { a: action, at: now(), key: `${runId}:${action}`, g: (extra || {}).giver || null, r: (extra || {}).receiver || null, what: extra && extra.items ? tradeWhat(extra.items) : '' };   // PARTY STATUS 2026-10-09
   App.emit('swarm.team', { runId, action, ...(extra || {}) });
   let mine;
-  try { mine = await teamAction(action, extra || {}); }
+  try { mine = state.stepCapMs ? await Promise.race([teamAction(action, extra || {}), sleep(state.stepCapMs).then(() => ({ ok: false, msg: 'step time limit (raid circuit)' }))]) : await teamAction(action, extra || {}); }   // CIRCUIT round 2
   catch (e) { logError(`team ${action} (leader)`, e); mine = { ok: false, msg: String(e.message || e) }; }
   sendAck(runId, action, mine);
-  const { got, missing } = await waitAcks(runId, action, ms);
+  const { got, missing } = await waitAcks(runId, action, state.stepCapMs ? Math.min(ms, state.stepCapMs) : ms);   // CIRCUIT round 2: a step time limit
   if (PST.ts && PST.ts.key === `${runId}:${action}`) PST.ts = null;
   const failed = Object.values(got).filter(a => !a.ok).map(a => `${a.name}: ${a.msg}`);
   const line = `[regroup] ${action}: ${Object.keys(got).length} ready` +
@@ -27403,7 +28634,7 @@ async function drainAndFrenzy(reengageBoss, opts) {
 // ORDERSTICK-PURE-BEGIN (no host calls in here: docs/plan/tools/test_order_stick.js runs this block in node)
 const ORDER_STICK = { tries: 5, maxMs: 600000, gapMs: [4000, 8000, 12000, 20000], waitMs: 5000, resumeMaxAgeMs: 1800000 };
 // commands that are a NEW order from the user / the leader: each one ends the order before it (its retry loop stops at once)
-const ORDER_CMDS = /^!(stop|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;   // ORDERQ (2026-10-13): + dawn (a user order: it supersedes the older one; = ORDER_RE in Dashboard/orderqueue.js)
+const ORDER_CMDS = /^!(stop|start|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;   // ORDERQ (2026-10-13): + dawn (a user order: it supersedes the older one; = ORDER_RE in Dashboard/orderqueue.js)
 function orderCmdIs(cmd) { return ORDER_CMDS.test(String(cmd || '').toLowerCase()); }
 /** does this command start a new order in MY window? '!goto npc <query> <character>' for another character does not replace my order */
 function orderNewFor(parts, me, roster) {
@@ -27414,7 +28645,7 @@ function orderNewFor(parts, me, roster) {
     const who = roster ? Object.keys(roster).find(k => k.toLowerCase() === last) : null;   // case-insensitive (CMDFIX 2026-10-12)
     if (who && who.toLowerCase() !== String(me || '').toLowerCase()) return false;
   }
-  if (cmd === '!dawn' && parts.length > 1) return String(parts[1]).toLowerCase() === String(me || '').toLowerCase();   // ORDERQ: '!dawn <name>' is that character's order only
+  if ((cmd === '!dawn' || cmd === '!start') && parts.length > 1) return String(parts[1]).toLowerCase() === String(me || '').toLowerCase();   // RUNSTATE: '!start <name>' is that character's order only   // ORDERQ: '!dawn <name>' is that character's order only
   return true;
 }
 /** the lead-pause tag an order leaves: ONE word (pauseInfo reads "[why ]<ISO time>"), never 'auto:' (auto pauses expire) */
@@ -27594,6 +28825,175 @@ function resumeOrder() {
 }
 
 // ---------------------------------------------------------------------------
+// MANUAL RUN SWITCH (owner 2026-10-13 17:50: "You don't need to start the bots automatically ... some (testers) complain that they do
+// strange things. So it would be nice if you could just stop them and switch them on as you like." + "everything configurable by hand,
+// nothing automatic unless the player switched it on"). File: Scripts/data/run_state.json (read live, cached 2 s; written by the dashboard
+// Start / Stop toggles and by the leader when an order starts an activity):
+//   { v: 1, default: false, parties: { <leader>: { on, at, by, why } }, chars: { <member>: { on: false, at, by } } }
+// OFF (THE DEFAULT, also when the file is missing) = the party does nothing on its own: no leveling, no idle watchdog, no resume after a
+// login / script reload / pool restart, no supply watch, no daily Kamaloka, no raidhunt / circuit keeper, no Seven Signs / stash / letters /
+// clan hand-over / fund round / town sell / quest farm / class change trips, no regroup or back-to-the-middle walks. It still logs in,
+// survives (heal, potions, self-defence, res teammates, respawn in town), answers trades and runs every order you send (the order runs,
+// then it is idle again). ON = today's behaviour. !start (dashboard Start) turns it ON and starts the configured activity (runStartPlan);
+// the orders in RUN_ON_ORDERS turn it ON at the moment they really start their activity (a refused order never does); the user's !stop
+// (dashboard Stop) / !autolevel stop turn it OFF. The switch survives restarts (a party switched ON resumes its activity).
+// A CHARACTER switch (chars.<member>.on = false) holds ONE member: it stands still (no follow, no assist, no team walks; its leader treats
+// it as benched); a party Start / Stop on the dashboard resets its members' own switches.
+// RUNSTATE-PURE-BEGIN (no host calls in here: docs/plan/tools/test_run_state.js runs this block in node)
+var RUN_ALWAYS = /^(survive|respawn|defend|res|trade|order|rescue|escape|appearing|unfreeze)$/;   // never need the switch
+/** the orders that turn the switch ON when they start their activity, and the ones that turn it OFF (test_run_state.js checks handleSay) */
+var RUN_ON_ORDERS = ['!start', '!level', '!autolevel', '!raidhunt', '!circuit', '!hunthere', '!dungeon', '!assist', '!zone', '!levelto', '!soul hunt', '!clanquest (hunt step)'];
+var RUN_OFF_ORDERS = ['!stop (yours; not the automatic one after a raid)', '!autolevel stop', '!levelto (target reached: waits in Giran)'];
+/** the file content -> { v, default, parties, chars, ...other keys kept } (anything broken = empty = OFF) */
+function runNorm(j) {
+  const o = j && typeof j === 'object' && !Array.isArray(j) ? j : {};
+  const obj = (x) => x && typeof x === 'object' && !Array.isArray(x) ? x : {};
+  return Object.assign({}, o, { v: 1, default: o.default === true, parties: obj(o.parties), chars: obj(o.chars) });
+}
+/** my effective switch. me = my name, leader = my party key (CONFIG.leader / teamOf) -> { on, held, partyOn, src, at, by, why } */
+function runEffective(j, me, leader) {
+  const J = runNorm(j), p = J.parties[leader], c = me !== leader ? J.chars[me] : null;
+  const pOn = p && typeof p.on === 'boolean' ? p.on : J.default;
+  if (c && typeof c.on === 'boolean') return { on: c.on, held: c.on === false, partyOn: pOn, src: 'char', at: c.at || null, by: c.by || '', why: c.why || '' };
+  return { on: pOn, held: false, partyOn: pOn, src: p && typeof p.on === 'boolean' ? 'party' : 'default', at: p ? p.at || null : null, by: p ? p.by || '' : '', why: p ? p.why || '' : '' };
+}
+/** may an automatic task of this kind run? (survival kinds always) */
+function runAutoAllowed(kind, eff) { return RUN_ALWAYS.test(String(kind || '')) || !!(eff && eff.on); }
+/** what Start does. x = { circuit: { on, bosses } | null, spot: the party_spots.json entry | null, solo, busy: '' | 'leveling' | 'raidhunt' | 'raid circuit' }
+ *  -> { act: 'already' | 'circuit' | 'level', solo, text } (the dashboard's confirm dialog shows the same text: Dashboard/runstate_api.js) */
+function runStartPlan(x) {
+  const s = x || {}, sp = s.spot && typeof s.spot === 'object' ? s.spot : null, solo = !!s.solo;
+  if (s.busy) return { act: 'already', solo, text: `already running (${s.busy}) — nothing new started` };
+  if (s.circuit && s.circuit.on && Number(s.circuit.bosses) > 0) return { act: 'circuit', solo, text: `the raid circuit (${s.circuit.bosses} boss${Number(s.circuit.bosses) === 1 ? '' : 'es'} on its list)` };
+  const ns = sp && sp.nonstop ? ' — nonstop: no automatic town / supply trips' : '';
+  if (sp && sp.kind === 'here') return { act: 'level', solo, text: `hunt here 24/7 at ${sp.spot || 'the saved place'} (no town trips)` };
+  if (sp && sp.mode === 'manual') return { act: 'level', solo, text: `leveling at your chosen spot: ${sp.spot || sp.dungeon || sp.region || '?'}${sp.roomIds && sp.roomIds.length > 1 ? ` (${sp.roomIds.length} rooms)` : sp.areaIds && sp.areaIds.length > 1 ? ` (${sp.areaIds.length} areas)` : ''}${ns}` };
+  if (sp && Array.isArray(sp.stages) && sp.stages.length) return { act: 'level', solo, text: `leveling with your level stages (${sp.stages.length}; the leader picks a spot below the first)${ns}` };
+  return { act: 'level', solo, text: `leveling: ${solo ? 'it picks' : 'the leader picks'} a hunting spot for the ${solo ? '' : "party's "}level${solo ? '' : ' (regroup in Giran first)'}${ns}` };
+}
+/** leader, every 3 s: the switch says OFF but an activity of our own still runs (the Stop order got lost, the file was edited) -> stop it.
+ *  s = { on, leveling, raidhunt, circuit, inRaid } -> { act: 'none' | 'stop', what[], why } */
+function runWatchDecide(s) {
+  if (!s || s.on) return { act: 'none', what: [], why: '' };
+  const what = [s.leveling && 'leveling', s.raidhunt && !s.circuit && 'raidhunt', s.circuit && 'raid circuit'].filter(Boolean);
+  if (!what.length) return { act: 'none', what: [], why: '' };
+  return { act: 'stop', what, why: `the switch is OFF but ${what.join(' + ')} still ran${s.inRaid ? ' — the boss fight is finished first (raid rule)' : ''}` };
+}
+// RUNSTATE-PURE-END
+var RUNST = { j: null, stamp: '', chk: 0, said: {}, held: false, atkSaved: null, lastOff: 0 };
+const RUN_FILE = () => `${__DIR__}\\Scripts\\data\\run_state.json`;
+function runData() {
+  if (RUNST.j && now() - RUNST.chk < 2000) return RUNST.j;
+  RUNST.chk = now();
+  const F = RUN_FILE(), st = fileStamp(F);
+  if (!st) { RUNST.j = runNorm({}); RUNST.stamp = ''; return RUNST.j; }   // no file = everything OFF (the default)
+  if (!RUNST.j || st !== RUNST.stamp) {
+    try { RUNST.j = runNorm(JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, ''))); RUNST.stamp = st; }
+    catch (e) { if (!RUNST.j) RUNST.j = runNorm({}); }                     // half written: keep the last good one, read again in 2 s
+  }
+  return RUNST.j;
+}
+/** my switch (members: the party's, unless my own one holds me) */
+function runMine() { try { return runEffective(runData(), Me.Name, CONFIG.leader); } catch (e) { return { on: false, held: false, partyOn: false, src: 'error' }; } }
+function runOn() { return !!runMine().on; }
+/** a member held by its own character switch (n = any roster name; the leader asks for his teammates through benched()) */
+function runHeld(n) {
+  try { const name = n || Me.Name, lead = name === Me.Name ? CONFIG.leader : teamOf(name); if (!name || name === lead) return false; return !!runEffective(runData(), name, lead).held; }
+  catch (e) { return false; }
+}
+/** the gate of every AUTOMATIC task: false = the switch is OFF (noted once per 10 min per kind, never in party chat) */
+function runAuto(kind) {
+  const e = runMine();
+  if (runAutoAllowed(kind, e)) return true;
+  if (now() - (RUNST.said[kind] || 0) > 600000) { RUNST.said[kind] = now(); note(`run switch OFF: no automatic ${kind} — ${e.held ? 'this character is stopped' : 'the party is stopped'} (dashboard Start switches it on)`); }
+  return false;
+}
+/** write my switch: the leader writes his PARTY's entry; a member only its own (on + in a party = no hold; on + alone = its own run) */
+function runSetMine(on, why) {
+  try {
+    const F = RUN_FILE(); let raw = {};
+    try { if (File.Exists(F)) { const t = String(File.ReadAllText(F)).replace(/^﻿/, ''); raw = t.trim() ? JSON.parse(t) : {}; } } catch (e) { note('run switch: Scripts/data/run_state.json does not parse — not changed (fix the file or press Start / Stop on the dashboard)'); return false; }
+    const J = runNorm(raw), at = new Date().toISOString(), w = String(why || '').slice(0, 120);
+    if (isLeader()) {
+      const p = J.parties[CONFIG.leader];
+      if (p && p.on === !!on) return true;                                 // no change (keeps the dashboard's at / by)
+      if (!p && !on && !J.default) return true;                            // OFF by default already
+      J.parties[CONFIG.leader] = { on: !!on, at, by: 'bot:' + Me.Name, why: w };
+    } else {
+      let inParty = false; try { inParty = teamNames().length > 0; } catch (e) { }
+      const c = J.chars[Me.Name];
+      if (on && inParty) { if (!c) return true; delete J.chars[Me.Name]; }   // back with my party: its switch decides
+      else { if (c && c.on === !!on) return true; J.chars[Me.Name] = { on: !!on, at, by: 'bot:' + Me.Name, why: w }; }
+    }
+    J._updated = at;
+    File.WriteAllText(F, JSON.stringify(J, null, 1));
+    RUNST.j = J; RUNST.chk = now(); RUNST.stamp = fileStamp(F); RUNST.said = {};
+    note(`run switch: ${isLeader() ? 'party ' + CONFIG.leader : Me.Name} ${on ? 'ON' : 'OFF'} — ${w}`, isLeader());
+    return true;
+  } catch (e) { logError('run switch', e); return false; }
+}
+/** !start [name]: the switch ON + the configured activity (runStartPlan). A member named: back with its party (follow + assist). */
+function runStartOrder(parts) {
+  const who = String((parts || [])[1] || '');
+  if (who && who.toLowerCase() !== String(Me.Name).toLowerCase()) return;
+  if (!isLeader()) {
+    if (!who) return;                                                      // the party's Start: the leader starts it, I follow him
+    runSetMine(true, 'your order !start ' + who);
+    try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { }
+    if (!IsEnabled) EnableBot();
+    note(`start: ${Me.Name} is back with party ${CONFIG.leader} (follows + assists again)`, true);
+    return;
+  }
+  let solo = false; try { solo = PartyList.Count === 0 && !teamNames().length; } catch (e) { }
+  let circuit = null; try { const c = rcConfigOf(rcData(), Me.Name); if (c) circuit = { on: c.on === true, bosses: c.bosses.length }; } catch (e) { }
+  const busy = rcOn() && !raidHunt.stop ? 'raid circuit' : raidHunt.active && !raidHunt.stop ? 'raidhunt' : autoLvl.active && !autoLvl.stop ? 'leveling' : '';
+  let spot = null; try { spot = partySpotEntry(); } catch (e) { }
+  const plan = runStartPlan({ circuit, spot, solo, busy });
+  runSetMine(true, 'your order !start');
+  note(`start: party ${CONFIG.leader} ON — ${plan.text}`, true);
+  if (plan.act === 'already') return;
+  setLeadPaused(false); daily.orderAt = now();
+  if (plan.act === 'circuit') { rcStartOrder(); return; }
+  if (solo) { autoLvl.spot = null; autoLevelLoop(true).catch(e => logError('!start', e)); return; }
+  leadLevel('!start').catch(e => logError('!start', e));
+}
+/** the circuit's start (!circuit start / !start): Start again while it is wanted (paused / waiting for the keeper) = go on at once with the
+ *  same counters; else a new run (CIRCUIT 24/7) */
+function rcStartOrder() {
+  const goOn = !!(rcRunRead().running), how = goOn ? 'Start pressed again' : 'order';
+  if (goOn) { const r0 = rcRun(); if (r0) { r0.pausedBy = null; r0.pausedAt = null; rcRunSave(); } RC.resumingAt = 0; }
+  if (raidHunt.active) raidHunt.stop = true;
+  autoLvl.stop = true; daily.orderAt = now();
+  (async () => { const t0 = now(); while (raidHunt.active && now() - t0 < 1800000) await sleep(2000); raidCircuitLoop(how).catch(e => logError('circuit', e)); })();
+}
+// THE WATCH (every 3 s): the leader stops an activity the switch no longer allows; a held member stands still (no follow / assist)
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady()) return;
+    if (isLeader()) {
+      const d = runWatchDecide({ on: runOn(), leveling: !!(autoLvl.active && !autoLvl.stop), raidhunt: !!(raidHunt.active && !raidHunt.stop), circuit: !!(rcOn() && !raidHunt.stop), inRaid: inRaid() });
+      if (d.act !== 'stop' || now() - RUNST.lastOff < 30000) return;
+      RUNST.lastOff = now();
+      note(`run switch: ${d.why} — stopping it`, true);
+      autoLvl.stop = true; if (raidHunt.active) raidHunt.stop = true;
+      if (!inRaid()) { try { abortRegroup('run switch OFF'); } catch (e) { } stopCombatG(); }
+      return;
+    }
+    if (runHeld()) {
+      if (!RUNST.held) { RUNST.held = true; note(`run switch: ${Me.Name} is stopped on its own — standing still (no follow / assist) until Start`, true); try { Send.StopMove(); } catch (e) { } }
+      try { if (Options.ActiveFollow) Options.ActiveFollow = false; } catch (e) { }
+      try { if (Options.FollowAtk) { RUNST.atkSaved = true; Options.FollowAtk = false; } } catch (e) { }
+    } else if (RUNST.held) {
+      RUNST.held = false;
+      try { if (RUNST.atkSaved && !isHealerRole() && !noMelee()) Options.FollowAtk = true; } catch (e) { }
+      RUNST.atkSaved = null;
+      try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { }
+      note(`run switch: ${Me.Name} is back with party ${CONFIG.leader}`, true);
+    }
+  } catch (e) { }
+}, 3000);
+
+// ---------------------------------------------------------------------------
 // LEADER CONTROL  (user design 2026-10-04, CONFIG.lead)
 //  !level        leader: everyone to Giran (.giran), regroup at the start, then the leader picks a hunting spot for the team's
 //                lowest level and teleports the team there (never fights inside a town)
@@ -27634,6 +29034,7 @@ setInterval(() => {
     const p = pauseInfo(); if (!p || !p.auto || !p.at) return;
     if (now() - p.at < (num(CONFIG.lead.autoPauseMin) || 15) * 60000) return;
     if (inRaid() || inst.on || state.mode === 'mission' || state.mode === 'raidclear') return;
+    if (!runAuto('leveling after an automatic pause')) return;   // RUNSTATE: OFF = the pause simply stays
     if (rcHolds()) return;                                 // CIRCUIT 24/7 (2026-10-13): the circuit keeper ends this pause and goes on with the circuit, never leveling
     setLeadPaused(false);
     note(`automatic pause (${p.why}) expired after ${Math.round((now() - p.at) / 60000)} min — back to leveling`, true);
@@ -27681,21 +29082,22 @@ async function leadGoGiranInner(why) {
   const ok = await gatherTeam(`regroup in ${hub}`);
   intentDone('regroup', ok, ok ? `team together at the ${hub} start` : 'not everyone came');
   // the team is together in Giran anyway: restock everyone (mana/healing potions, scrolls, shots) if the last run is > 30 min old
-  if (ok && leadMode() && !leadRunBusy && !regroupRun && supplyDue(lastSupplyAtGet(), now()) && !/supplies/.test(why) && !nonstopOn()) {
+  const runOK = runOn();                             // RUNSTATE: a stopped party's regroup (your order) does no extra trips of its own
+  if (ok && runOK && leadMode() && !leadRunBusy && !regroupRun && supplyDue(lastSupplyAtGet(), now()) && !/supplies/.test(why) && !nonstopOn()) {
     pstStep('regroup', 'supplies');
     note('regroup: the team is together in Giran — restocking everyone first (automatic, every 30 min at most)', true);
     try { await leadSupply('automatic at the Giran regroup', { inline: true }); } catch (e) { logError('auto supply', e); }
   }
   const rcHub = rcHolds();                           // CIRCUIT 24/7 (2026-10-13): no other teams' hand-out / Seven Signs / clan warehouse look while the circuit owns the party
-  if (ok && leadMode() && !rcHub) { pstStep('regroup', 'fund other teams'); try { await fundRound('after the Giran regroup', true); } catch (e) { logError('fund', e); } }   // other teams' hand-out while we stand here anyway
+  if (ok && runOK && leadMode() && !rcHub) { pstStep('regroup', 'fund other teams'); try { await fundRound('after the Giran regroup', true); } catch (e) { logError('fund', e); } }   // other teams' hand-out while we stand here anyway
   // Seven Signs (user 2026-10-08): competition period -> everyone of the team not signed up yet goes to the Priest of Dawn (730 from the start)
-  if (ok && leadMode() && !rcHub && !leadRunBusy && !regroupRun) { pstStep('regroup', 'seven signs'); try { await ssTeamSignup('at the Giran regroup'); } catch (e) { logError('seven signs', e); } }
-  if (ok && leadMode() && !rcHub && !leadRunBusy && !regroupRun && Me.Name === clanLeaderName()) { try { await clanWhAutoLook('at the Giran regroup'); } catch (e) { logError('clan wh look', e); } }   // CLANAUTO
+  if (ok && runOK && leadMode() && !rcHub && !leadRunBusy && !regroupRun) { pstStep('regroup', 'seven signs'); try { await ssTeamSignup('at the Giran regroup'); } catch (e) { logError('seven signs', e); } }
+  if (ok && runOK && leadMode() && !rcHub && !leadRunBusy && !regroupRun && Me.Name === clanLeaderName()) { try { await clanWhAutoLook('at the Giran regroup'); } catch (e) { logError('clan wh look', e); } }   // CLANAUTO
   return true;                                       // go on with whoever is here (the rest follow by themselves)
 }
 // Members: the leader goes to the hub town — come along (the server usually takes us; otherwise use .town ourselves)
 App.on('swarm.lead.hub', (event) => {
-  if (event.source.characterName !== CONFIG.leader || isLeader() || !state.role) return;
+  if (event.source.characterName !== CONFIG.leader || isLeader() || !state.role || runHeld()) return;   // RUNSTATE: a held member stays
   const town = event.data.town;
   (async () => {
     if (currentTownKey() === town) return;
@@ -27707,6 +29109,7 @@ App.on('swarm.lead.hub', (event) => {
 
 async function leadLevel(why) {
   if (!isLeader()) return;
+  if (!runAuto('leveling')) { note(`leveling (${why}): not started — the party is switched OFF (dashboard Start / !start / !level switch it on)`); return; }   // RUNSTATE
   if (!rcAuto('level')) { note(`leveling (${why}): not started — the raid circuit owns this party (Stop it on the Circuit tab, or send your own order)`, true); return; }   // CIRCUIT 24/7 (2026-10-13)
   setLeadPaused(false);
   if (nonstopOn() && !currentTownKey()) {                             // NONSTOP (2026-10-12, Discord D15): straight to the hunting, no Giran regroup
@@ -27737,6 +29140,8 @@ function supplyWants() {
   out.push({ id: 737, name: 'Scroll of Resurrection', want: S.sor, below: S.sor });
   const sid = shotId(), k = shotKind();
   if (sid) out.push({ id: sid, name: `${k === 'mage' ? 'Spiritshot' : 'Soulshot'} (${weaponGrade()})`, want: k === 'mage' ? S.shotsMage : S.shotsFighter, below: S.shotsBelow });
+  // OWNTYPE (tester 2026-10-13): a worn bow needs arrows, a crossbow bolts, of the weapon's grade (Helvetia sells Wooden..Mithril)
+  { const am = myAmmo(); if (am && OWNTYPE.helvetia.includes(am.id)) out.push({ id: am.id, name: am.name, want: S.arrows || 5000, below: S.arrowsBelow || 1500 }); }
   // solo (user 2026-10-07: "when you hunt alone you need healing potions and mana potions"): 100 Healing Potions, nobody heals him
   const solo = !teamNames().length;
   out.push({ id: 1061, name: 'Healing Potion', want: solo ? 100 : (S.healingPotions || 30), below: solo ? 30 : 10 });   // everyone, for the HP < 30 % emergency (Tank1 died alone with none)
@@ -27799,7 +29204,7 @@ function lastSupplyAtSet(t) {
  *  potions, scrolls (escape/res/teleport), Spirit Ore (cubics), upgrades for himself. */
 function unloadItems() {
   const keepIds = new Set([57, 5575, 736, 737, 3031, 728, 1060, 1061, 1539, 1835, 2509, 3947, 3948, 3949, 3950, 3951, 3952, 1463, 1464, 1465, 1466, 1467]);
-  const keepName = /Soulshot|Spiritshot|Potion|Elixir|Antidote|Herb|Scroll of Escape|Scroll of Resurrection|Teleport|Adena|Mana Drug|Healing Drug/i;
+  const keepName = /Soulshot|Spiritshot|Potion|Elixir|Antidote|Herb|Scroll of Escape|Scroll of Resurrection|Teleport|Adena|Mana Drug|Healing Drug|Arrow|Bolt/i;   // OWNTYPE: + arrows / bolts
   const g = myGear(), out = [];
   try { Inventory.forEach(it => {
     const id = num(it.Id), name = String(it.Name || '');
@@ -27883,7 +29288,7 @@ async function leadSupply(why, opts) {
     // 5b. GEAR UPGRADES (user 2026-10-06): everyone (the leader too) buys its upgrades in Giran's shops with its own adena, before the collect.
     //     2026-10-08 21:25: a plan step first (each window plans from the shop scan at once, ~1 s for all); only those with something to buy
     //     walk to the merchants, in that order (it waited rank x 25 s for all 9 = 3 min 20 s while nobody bought anything)
-    if (CONFIG.gear.upgrade.on && CONFIG.gear.upgrade.auto && !hurry()) {
+    if (CONFIG.gear.upgrade.on && CONFIG.gear.upgrade.auto && !hurry() && !(state.supplyLean && !state.supplyLean.gear)) {   // CIRCUIT round 2: gear shopping in a circuit only with gear: true
       pstStep('supply', 'gear upgrades');
       try {
         const all = [Me.Name].concat(members.map(a => a.name).filter(n => n !== Me.Name));
@@ -27920,7 +29325,7 @@ async function leadSupply(why, opts) {
     SayToParty(`[supply] team needs: ${summary || 'nothing'}${buys.length ? ' — buying ' + buys.map(b => `${b.name} x${b.count}`).join(', ') : ''}`);
     // 2. buy at the Giran grocer (recorded route), then back to the start. No-grade equipment is sold there too (user 2026-10-06:
     // the tank was near a full inventory; D-grade stays — the trio can use it — and goes to a teammate in the unload below)
-    const junkGrades = supplyJunkGrades(), junk = sellCandidates(junkGrades);   // SELLPICK 2026-10-13: no-grade + grades below the team's lowest band
+    const junkGrades = supplyJunkGrades(), junk = pautoOn('sell') ? sellCandidates(junkGrades) : [];   // PARTYAUTO 2026-10-13: selling switched off = the leader sells nothing in the run   // SELLPICK 2026-10-13: no-grade + grades below the team's lowest band
     pstStep('supply', 'buy at Helvetia', { info: buys.length ? buys.map(b => `${b.name} x${b.count}`).join(', ').slice(0, 120) : 'nothing to buy' });
     if (buys.length || junk.length) {
       await giranGo('grocer');
@@ -27945,7 +29350,7 @@ async function leadSupply(why, opts) {
       const items = [];
       (a.needs || []).filter(n => n.need > 0).forEach(n => {
         const inv = Inventory.GetItemByID(n.id);
-        const myKeep = n.id === 736 ? CONFIG.lead.supply.soe : n.id === 737 ? CONFIG.lead.supply.sor : 0;   // keep my own scrolls
+        const am = myAmmo(), myKeep = n.id === 736 ? CONFIG.lead.supply.soe : n.id === 737 ? CONFIG.lead.supply.sor : am && am.id === n.id ? (CONFIG.lead.supply.arrowsBelow || 1500) : 0;   // keep my own scrolls (+ my own arrows, OWNTYPE)
         const give = Math.min(n.need, Math.max(0, itemCount(n.id) - (shotId() === n.id ? CONFIG.lead.supply.shotsBelow : myKeep)));
         if (inv && give > 0) items.push({ objId: String(inv.objId), id: n.id, count: give, name: `${n.name} x${give}`, stack: true });
       });
@@ -27987,7 +29392,7 @@ async function leadSupply(why, opts) {
     //     (crafting materials unless crafter, recipes it cannot use, seal stones, ancient adena, L2Day letters, old gear) into its private
     //     warehouse at Taurin (recorded Giran route), one after another (staggerMs). Before the unload: the leader's materials go to the
     //     warehouse instead of to a teammate. Only the characters that reported something (supplyneed 'stash') take part.
-    if (CONFIG.stash.on && CONFIG.stash.auto) {
+    if (CONFIG.stash.on) {   // STORAGE-2026-10-13: each character's own settings decide (stashWanted: auto + trigger, default OFF; was CONFIG.stash.auto for all)
       try {
         const who = Object.values(rep.got).filter(a => a.ok && num(a.stash) > 0).map(a => a.name);
         if (!who.includes(Me.Name) && stashWanted() > 0) who.push(Me.Name);
@@ -28019,17 +29424,17 @@ async function leadSupply(why, opts) {
     // 5c. DYES / SYMBOLS (user 2026-10-07, UNTESTED): everyone whose role has a plan in dye_plan.json buys 10 dyes at Helvetia and draws
     //     its next planned symbol at the Symbol Maker (dyeMine) — only at the plan's level and with the adena for it. 2026-10-08 21:25: a
     //     plan step first; a dye Helvetia/Pepper did not sell is not tried again for 24 h (Logs/dye_unavail.json)
-    if (CONFIG.gear.dyes && CONFIG.gear.dyes.on && CONFIG.gear.dyes.auto && !hurry()) {
+    if (CONFIG.gear.dyes && CONFIG.gear.dyes.on && CONFIG.gear.dyes.auto && !hurry() && !(state.supplyLean && !state.supplyLean.dyes) && [Me.Name].concat(members.map(a => a.name)).some(n => pautoOn('dyes', n))) {   // PARTYAUTO 2026-10-13: nobody with symbols switched on = no dye step   // CIRCUIT round 2: no dyes in a circuit unless its entry says dyes: true
       pstStep('supply', 'dyes');
       try {
         const all = [Me.Name].concat(members.map(a => a.name).filter(n => n !== Me.Name));
         const dp = await teamStep(runId, 'dyeplan', 30000);
         const order = needOrder(dp.got, all);
-        const skipped = Object.values(dp.got).filter(a => !a.need && a.msg && !/^no dye plan|^dyes off|^nothing to draw/.test(a.msg)).map(a => `${a.name}: ${a.msg}`);
+        const skipped = Object.values(dp.got).filter(a => !a.need && a.msg && !/^no dye plan|^dyes off|^nothing to draw|^symbols switched off/.test(a.msg)).map(a => `${a.name}: ${a.msg}`);
         if (skipped.length) note(`[supply] dyes skipped: ${skipped.join('; ')}`.slice(0, 600), true);
         if (order.length) {
           const dr = await teamStep(runId, 'dyerun', 30000 * order.length + 300000, { order });
-          const done = Object.values(dr.got).filter(a => order.includes(a.name) && a.msg && !/^no dye plan|^dyes off/.test(a.msg)).map(a => `${a.name}: ${a.msg}`);
+          const done = Object.values(dr.got).filter(a => order.includes(a.name) && a.msg && !/^no dye plan|^dyes off|^symbols switched off/.test(a.msg)).map(a => `${a.name}: ${a.msg}`);
           if (done.length) { res.push('dyes: ' + done.join(', ')); note(`[supply] dyes: ${done.join('; ')}`.slice(0, 900), true); }
         }
         T.mark('dyes', now(), order.length ? `${order.length} drawers` : 'nothing to draw');
@@ -28145,11 +29550,13 @@ async function orderCollect(order) {
 
 // --- Community Board: class change + Cabinet settings -------------------------
 /** Send a bypass and take the next page, whether it comes as a board page or an NPC-style dialog. */
-function pageRequest(cmd, ms, prev) {
-  const p1 = bbsRequest(cmd), p2 = waitNpcHtml(ms || CONFIG.buffs.pageTimeoutMs);
+// DIALOG-2026-10-13: one wait in the dialog engine for a board page OR an NPC-style page. label = the button; nav = a navigation button
+// (may be clicked once more when provably lost) — a Cabinet toggle / a profession button is an action: never clicked twice
+function pageRequest(cmd, ms, prev, label, nav) {
   // Cabinet -> Settings: the board re-sends the SAME Cabinet page and the real page comes as an NPC dialog (2026-10-04) -> ignore a repeat
   const same = (h) => h && prev && htmlText(h) === htmlText(prev);
-  return Promise.race([p1.then(h => (h && !same(h)) ? h : p2), p2.then(h => h || p1.then(b => same(b) ? null : b))]);
+  return DLG.click({ cmd, text: label || cmd }, { expect: ['board', 'npc', 'quest'], base: ms || CONFIG.buffs.pageTimeoutMs, from: 'the Community Board', reclick: !!nav,
+    match: (ev) => !(ev.kind === 'board' && same(ev.data.html)) }).then(r => r.ok ? r.html : null);
 }
 /** All clickable things on a page: [{ label, cmd }] (buttons by value, links by text). */
 function pageActions(html) {
@@ -28165,13 +29572,13 @@ function pageActions(html) {
 }
 function savePage(tag, html) { try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\${tag}_${Me.Name}.html`, html || ''); } catch (e) { } }
 async function boardPath(labels) {
-  let html = await bbsRequest('_bbshome');
+  let html = await bbsRequest('_bbshome', 'the board home');
   if (!html) throw new Error('Community Board not responding');
   for (const label of labels) {
     const hit = pageActions(html).find(a => a.label.toLowerCase() === label.toLowerCase()) || pageActions(html).find(a => a.label.toLowerCase().includes(label.toLowerCase()));
     if (!hit) { savePage('board_fail', html); throw new Error(`'${label}' not on the page (saved Logs/board_fail_${Me.Name}.html)`); }
-    html = await pageRequest(hit.cmd, null, html);
-    if (!html) throw new Error(`page after '${label}' did not arrive`);
+    html = await pageRequest(hit.cmd, null, html, hit.label, true);
+    if (!html) throw new Error(`page after '${label}' did not arrive${DLG.last && DLG.last.why ? ' (' + DLG.last.why + ')' : ''}`);
   }
   return html;
 }
@@ -28760,7 +30167,7 @@ async function cabinetSetOld(label, on) {
 /** Team actions for the leader-control runs (called from teamAction). */
 async function leadTeamAction(action, data) {
   if (action === 'supplyneed' || action === 'supplyneed2') { let sell = 0;   // TESTERS2: asked again after the gear step
-    let sellWhy = ''; try { const sp = sellCandidatesEx(supplyJunkGrades()); sell = sp.list.length; sellWhy = sp.why || ''; } catch (e) { sell = 1; }   // SELLPICK 2026-10-13
+    let sellWhy = ''; try { if (!pautoOn('sell')) sellWhy = 'nothing to sell: selling is switched off (party settings)'; else { const sp = sellCandidatesEx(supplyJunkGrades()); sell = sp.list.length; sellWhy = sp.why || ''; } } catch (e) { sell = 1; }   // PARTYAUTO 2026-10-13   // SELLPICK 2026-10-13
     return { ok: true, needs: supplyNeeds(), enchant: CONFIG.gear.enchant.auto ? enchantNeeds() : {}, objId: num(Me.objId), accountId: App.self().accountId, slots: num(Inventory.Count), sell, sellWhy, stash: stashWanted() }; }
   if (action === 'enchantrun') return await enchantMine('supply run');
   // PLAN STEPS (2026-10-08 21:25): answered at once by everyone; only those with need: true take part in the gear / dye run that follows
@@ -28779,6 +30186,7 @@ async function leadTeamAction(action, data) {
   // DYES (user 2026-10-07, UNTESTED): one after another (rank x 30 s); characters without a dye plan answer at once
   if (action === 'dyerun') {
     if (!myDyePlan()) return { ok: true, msg: 'no dye plan' };
+    if (!pautoOn('dyes')) return { ok: true, msg: 'symbols switched off (party settings)' };   // PARTYAUTO 2026-10-13 (your !dyes still works)
     const rank = ((data && data.order) || []).indexOf(Me.Name);
     if (rank < 0 && data && Array.isArray(data.order)) return { ok: true, msg: 'nothing to draw (plan step)' };
     if (rank > 0) { if (state.tstep) Object.assign(state.tstep, { wait: 'Symbol Maker', rank: rank + 1, until: now() + rank * 30000 }); await sleep(rank * 30000); if (state.tstep) state.tstep.wait = null; }
@@ -28790,10 +30198,11 @@ async function leadTeamAction(action, data) {
     const rank = ((data && data.order) || []).indexOf(Me.Name);
     if (rank < 0 && data && Array.isArray(data.order)) return { ok: true, msg: 'nothing to stash (plan step)' };
     if (rank > 0) { if (state.tstep) Object.assign(state.tstep, { wait: 'warehouse (Taurin)', rank: rank + 1, until: now() + rank * CONFIG.stash.staggerMs }); await sleep(rank * CONFIG.stash.staggerMs); if (state.tstep) state.tstep.wait = null; }
-    const r = await stashRun(data && data.force ? 'raid circuit' : 'supply run', { force: !!(data && data.force) });   // RAID CIRCUIT: every kill's loot goes in
+    const r = await stashRun(data && data.force ? 'raid circuit' : 'supply run', { force: !!(data && data.force), inSupply: true });   // RAID CIRCUIT: every kill's loot goes in (STORAGE-2026-10-13: same settings: mode / destination / off)
     return { ok: r.ok !== false, msg: r.msg };
   }
   if (action === 'sellrun') {
+    if (!pautoOn('sell')) return { ok: true, msg: 'selling switched off (party settings)' };   // PARTYAUTO 2026-10-13 (your !sell still works)
     const grades = (data && Array.isArray(data.grades) && data.grades.length) ? data.grades : supplyJunkGrades();   // SELLPICK 2026-10-13: the leader's team junk grades
     await bagSync(); const pick = sellCandidatesEx(grades), list = pick.list;
     if (!list.length) return { ok: true, msg: pick.why || 'nothing to sell' };
@@ -28814,6 +30223,55 @@ async function leadTeamAction(action, data) {
   return null;
 }
 
+// PARTY AUTOMATIONS (owner 2026-10-13: "everything configurable by hand, nothing automatic unless the player switches it on"): three automatic
+// paths had no switch of their own (they only followed the party's Start / Stop): the SUPPLY WATCH (a supply run when someone is low),
+// SELLING on town visits / in supply runs, and drawing SYMBOLS (dyes) in supply runs. Scripts/data/party_auto.json (dashboard party card ->
+// ⚙ Settings -> Supplies; Dashboard/partyauto_api.js), read every 5 s:
+//   { v: 1, default: { supplyWatch, sell, dyes }, parties: { <leader>: { supplyWatch, sell, dyes } }, chars: { <name>: { sell, dyes } } }
+// character > party > default; missing file / key = OFF. Both switches must be on: the party's Start (runAuto) AND this one.
+// Your orders always work: !supply (the run itself), !sell [name], !dyes [name]. The raid circuit's own resupply between bosses is the
+// circuit's business (its own setting), not this switch. Test: docs/plan/tools/test_party_auto.js.
+// PARTYAUTO-PURE-BEGIN
+const PAUTO_KINDS = { supplyWatch: { char: false, what: 'supply runs when someone is low' }, sell: { char: true, what: 'selling on town visits / in supply runs' }, dyes: { char: true, what: 'symbols (dyes) in supply runs' } };
+function pautoNorm(j) {
+  const obj = (x) => x && typeof x === 'object' && !Array.isArray(x) ? x : {};
+  const o = obj(j);
+  return Object.assign({}, o, { v: 1, default: obj(o.default), parties: obj(o.parties), chars: obj(o.chars) });
+}
+/** kind for character me of the party led by leader -> { on, src: 'char' | 'party' | 'default' | 'unknown' } */
+function pautoEffective(j, kind, me, leader) {
+  const K = PAUTO_KINDS[kind]; if (!K) return { on: false, src: 'unknown' };
+  const J = pautoNorm(j), c = J.chars[me], p = J.parties[leader];
+  if (K.char && c && typeof c === 'object' && typeof c[kind] === 'boolean') return { on: c[kind], src: 'char' };
+  if (p && typeof p === 'object' && typeof p[kind] === 'boolean') return { on: p[kind], src: 'party' };
+  return { on: J.default[kind] === true, src: 'default' };
+}
+// PARTYAUTO-PURE-END
+var PAUTO = { j: null, stamp: '', chk: 0, said: {} };
+const PAUTO_FILE = () => `${__DIR__}\\Scripts\\data\\party_auto.json`;
+function pautoData() {
+  if (PAUTO.j && now() - PAUTO.chk < 5000) return PAUTO.j;
+  PAUTO.chk = now();
+  const F = PAUTO_FILE(), st = fileStamp(F);
+  if (!st) { PAUTO.j = pautoNorm({}); PAUTO.stamp = ''; return PAUTO.j; }      // no file = everything OFF (the default)
+  if (!PAUTO.j || st !== PAUTO.stamp) {
+    try { PAUTO.j = pautoNorm(JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, ''))); PAUTO.stamp = st; }
+    catch (e) { if (!PAUTO.j) PAUTO.j = pautoNorm({}); }                     // half written: keep the last good one, read again in 5 s
+  }
+  return PAUTO.j;
+}
+/** is this automation switched on for character n (default: me)? */
+function pautoOn(kind, n) {
+  try { const name = n || Me.Name, lead = name === Me.Name ? CONFIG.leader : teamOf(name); return !!pautoEffective(pautoData(), kind, name, lead).on; } catch (e) { return false; }
+}
+/** the gate of an AUTOMATIC path: OFF = a note at most every 10 min (never for an order) */
+function pautoGate(kind, n) {
+  if (pautoOn(kind, n)) return true;
+  const k = kind + ':' + (n || Me.Name);
+  if (now() - (PAUTO.said[k] || 0) > 600000) { PAUTO.said[k] = now(); note(`party settings: ${(PAUTO_KINDS[kind] || { what: kind }).what} is switched OFF${n && n !== Me.Name ? ' for ' + n : ''} — nothing happens by itself (dashboard party card -> Settings -> Supplies; your order still works)`); }
+  return false;
+}
+// PARTYAUTO-HOST-END
 // Leader: someone is running low -> supply run (goes to Giran, buys, hands out, comes back to leveling)
 setInterval(() => {
   if (!leadMode() || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead || leadPaused()) return;
@@ -28828,7 +30286,9 @@ setInterval(() => {
   // (solo, no receiver) sent him to Giran every 30 min and he never left); the fix = the supply run's warehouse STASH step (2026-10-09)
   if (num(Inventory.Count) > Math.min(CONFIG.lead.unload.above + 20, CONFIG.stash.on && CONFIG.stash.auto ? CONFIG.stash.above + 30 : 1e9) && now() - (globalThis.__invFullRunAt || 0) > 6 * 3600000) { globalThis.__invFullRunAt = now(); low.push(`${Me.Name}: inventory full (${num(Inventory.Count)} slots) — sell + stash + unload`); }   // the tank carries the loot
   if (!low.length) return;
+  if (!runAuto('supply run')) return;                                  // RUNSTATE: the switch is OFF (your !supply still works)
   if (rcH) { rcSupplyAsk(low); return; }                              // CIRCUIT 24/7: asked, never a supply run of its own
+  if (!pautoGate('supplyWatch')) return;                               // PARTYAUTO 2026-10-13: party settings -> Supplies (your !supply still works)
   note(`supply watch: running low — ${low.join(' | ').slice(0, 200)} — starting a supply run`, true);
   leadSupply('automatic: ' + low.length + ' running low').catch(e => logError('auto supply run', e));
 }, 60000);
@@ -28856,6 +30316,7 @@ setInterval(() => {
     }
   });
   if (!due.length) return;
+  if (!runAuto('class change')) return;                                // RUNSTATE (the approved plan waits for Start or your !classchange)
   due.forEach(x => { classAsked[x.n] = `${x.d.next}:${x.lv}`; });
   note(`class change due (approved plan) for ${due.map(x => `${x.n} -> ${x.d.nextName}`).join(', ')} — ordering !classchange`, true);
   // a leader without a party (solo Dagger1, 2026-10-07: "class change due" 9x from 19:33, never done) does not hear his own party chat
@@ -29143,6 +30604,9 @@ function oqPlan(queue, st, ctx) {
 }
 /** a running order: over? r = my record { seq, startAt, runId }, live = { runId, seq, text, active, activeAt, failWhy, okWhy, now } -> null | { state, why } */
 function oqRunDecide(r, live) {
+  // STOPRESTART-2026-10-13 (UX audit: "!stop FAILED" x9 after the pool's memory guard restarted the party worker 3 s after the stop): a stop / park
+  // survives a restart (pause file + run switch OFF), so it counts as done
+  if (r.runId && live.runId && r.runId !== live.runId && /^!(stop|park)\b/i.test(String(r.cmd || ''))) return { state: 'done', why: 'done — it stays stopped (the stop survives the restart)' };
   if (r.runId && live.runId && r.runId !== live.runId) return { state: 'failed', why: 'swarm.js restarted while it ran - not run again (a town trip still on the way resumes by itself); send it again if it is still needed' };
   if (r.seq !== undefined && r.seq !== null && live.seq !== r.seq) return { state: 'superseded', why: `a newer order${live.text ? ' (' + live.text + ')' : ''} replaced it` };
   if (live.now - Number(r.startAt || 0) > OQ.runMaxMs) return { state: 'done', why: `no end report after ${Math.round(OQ.runMaxMs / 60000)} min - treated as finished` };
@@ -29581,7 +31045,7 @@ function handleSay(charName, text, messageType) {
   if (orderNewFor(parts, Me.Name, CONFIG.roster)) { try { rcOnUserOrder(parts, !!(typeof oq !== 'undefined' && oq.running)); } catch (e) { } }   // CIRCUIT 24/7 (2026-10-13): your order ends / pauses the raid circuit
   if (leadMode() && cmd === '!restock') { if (isLeader()) { setLeadPaused(false); orderSupply('!restock').catch(e => logError('!restock', e)); } return; }   // CMDFIX2-SUPPLY-2026-10-12: like !supply
   if (leadMode() && cmd === '!autolevel' && !/^(stop|solo)$/i.test(parts[1] || '')) {
-    if (isLeader()) leadLevel('!autolevel').catch(e => logError('!autolevel', e));
+    if (isLeader()) { runSetMine(true, 'your order !autolevel'); leadLevel('!autolevel').catch(e => logError('!autolevel', e)); }
     else { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } if (!IsEnabled) EnableBot(); }
     return;
   }
@@ -29643,6 +31107,7 @@ function handleSay(charName, text, messageType) {
     const sp = assistSpot(who);
     if (!sp) { note(`assist: no position known for ${who}`, true); return; }
     autoLvl.forceSpot = sp; autoLvl.spot = null;
+    runSetMine(true, 'your order !assist ' + who);      // RUNSTATE
     note(`assist: the team goes to ${who} and hunts around him until "!assist off"`, true);
     if (autoLvl.active) autoLvl.stop = true;
     setTimeout(() => leadLevel('!assist ' + who).catch(e => logError('!assist', e)), 3000);
@@ -29687,6 +31152,7 @@ function handleSay(charName, text, messageType) {
     // Seven Signs = hard precondition (user rule 2026-10-08 21:55): closed now -> no trip at all (a sign-up is done by the trip itself)
     { ssTeamCache.at = 0; const g = ssTeamAllowed(ssKindOf(d.name)); if (g.state === 'closed') { note(`dungeon: NOT going into ${d.name} — Seven Signs: ${g.why}${g.until ? ' (possible again from ' + ssgUntilText(g.until) + ')' : ''}`, true); return; } }
     autoLvl.forceSpot = dungeonSpot(d); autoLvl.spot = null;
+    runSetMine(true, 'your order !dungeon ' + d.name);   // RUNSTATE
     note(`dungeon: the team levels in ${d.name} (lvl ${d.lvl[0]}-${d.lvl[1]}) until "!dungeon off"`, true);
     if (autoLvl.active) autoLvl.stop = true;
     setTimeout(() => leadLevel('!dungeon ' + d.name).catch(e => logError('!dungeon', e)), 3000);
@@ -29695,7 +31161,7 @@ function handleSay(charName, text, messageType) {
 
   switch (cmd) {
     case '!level':                               // leader: regroup in Giran, then teleport the team to a hunting spot and level
-      if (isLeader()) leadLevel('!level').catch(e => logError('!level', e));
+      if (isLeader()) { runSetMine(true, 'your order !level'); leadLevel('!level').catch(e => logError('!level', e)); }
       else { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } if (!IsEnabled) EnableBot(); }
       break;
 
@@ -29772,7 +31238,7 @@ function handleSay(charName, text, messageType) {
     case '!autolevel': {                        // !autolevel [solo] | !autolevel stop
       const arg = (parts[1] || '').toLowerCase();
       // CMDFIX2-2026-10-12: the stop holds — the leader's idle watchdog restarted leveling 3 min after it (no lead pause); the next order lifts it
-      if (arg === 'stop') { autoLvl.stop = true; career.stop = true; setActivity(null); if (isLeader()) setLeadPaused(true, orderPauseTag('autolevel', 'stop')); break; }
+      if (arg === 'stop') { autoLvl.stop = true; career.stop = true; setActivity(null); if (isLeader()) { setLeadPaused(true, orderPauseTag('autolevel', 'stop')); runSetMine(false, 'your order !autolevel stop'); } break; }
       let inParty = false;
       try { inParty = PartyList.Count > 0; } catch (e) { }
       if (arg === 'solo') {   // CMDFIX2-2026-10-12: only the window the order is for (its own line, or "!autolevel solo <name>") — never a whole party
@@ -29781,10 +31247,11 @@ function handleSay(charName, text, messageType) {
         const mates = teamNames();
         if (mates.length) { const m = `autolevel solo: not started — I am in a party with ${mates.join(', ')}; ${isLeader() ? 'they would be left behind' : 'my leader keeps regrouping me'}. Take me out of the party first, or use "!autolevel" for the whole party`; note(m); SayToParty('[warning] ' + m); break; }
         if (isLeader()) setLeadPaused(false);
+        runSetMine(true, 'your order !autolevel solo');
         autoLevelLoop(true).catch(e => logError('autolevel', e)); break;
       }
-      if (!inParty) { autoLevelLoop(true).catch(e => logError('autolevel', e)); break; }
-      if (isLeader()) autoLevelLoop(false).catch(e => logError('autolevel', e));
+      if (!inParty) { runSetMine(true, 'your order !autolevel'); autoLevelLoop(true).catch(e => logError('autolevel', e)); break; }
+      if (isLeader()) { runSetMine(true, 'your order !autolevel'); autoLevelLoop(false).catch(e => logError('autolevel', e)); }
       else { try { Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } if (!IsEnabled) EnableBot(); }   // følgere: følg + assist
       break;
     }
@@ -29827,13 +31294,9 @@ function handleSay(charName, text, messageType) {
       if (!isLeader()) break;
       if (sub === 'stop') { rcEnd('!circuit stop (your order)'); if (rcOn()) { raidHunt.stop = true; if (inRaid()) note('circuit stop: finishing the current boss first', true); else abortRegroup('!circuit stop'); } break; }   // CIRCUIT 24/7: the run record says stopped (no keeper restart)
       if (sub === 'plan') { const p = rcMakePlan(); rcWrite(); note(`circuit plan: ${p.slice(0, 6).map(r => r.name + ' ' + r.state).join(', ') || 'no list'}`, true); break; }
+      runSetMine(true, 'your order !circuit start');   // RUNSTATE (2026-10-13): starting the circuit switches the party ON
       if (rcOn() && !raidHunt.stop) { note('circuit: already running', true); break; }
-      // CIRCUIT 24/7: Start again while it is wanted (paused / waiting for the keeper) = go on at once with the same counters; else a new run
-      const goOn = !!(rcRunRead().running), how = goOn ? 'Start pressed again' : 'order';
-      if (goOn) { const r0 = rcRun(); if (r0) { r0.pausedBy = null; r0.pausedAt = null; rcRunSave(); } RC.resumingAt = 0; }
-      if (raidHunt.active) raidHunt.stop = true;
-      autoLvl.stop = true; daily.orderAt = now();
-      (async () => { const t0 = now(); while (raidHunt.active && now() - t0 < 1800000) await sleep(2000); raidCircuitLoop(how).catch(e => logError('circuit', e)); })();
+      rcStartOrder();
       break;
     }
     case '!delevel': {                          // !delevel <level> [name] | !delevel stop [name] (DELEVEL 2026-10-11): at the Dion guards
@@ -29856,6 +31319,7 @@ function handleSay(charName, text, messageType) {
       if ((parts[1] || '').toLowerCase() === 'stop') { raidHunt.stop = true; if (isLeader()) { if (inRaid()) note('!raidhunt stop: finishing the current boss first, then no more bosses', true); else abortRegroup('!raidhunt stop'); } break; }
       if (!isLeader()) break;
       setLeadPaused(false);
+      runSetMine(true, 'your order !raidhunt');     // RUNSTATE
       autoLvl.stop = true;                         // never level and raid-hunt at the same time (2026-10-04 23:06)
       daily.orderAt = now();                       // a waiting daily Kamaloka gives way to this order
       const lo = Number(parts[1]) || 1, hi = Number(parts[2]) || 99;   // the hunt clamps to the raid-curse limit (team max - 8) .. team min + 3
@@ -29906,11 +31370,15 @@ function handleSay(charName, text, messageType) {
       note(`kamaloka: not built yet — needs level 23 (the Gludio captain). The team is level ${Me.Level}.`, isLeader());
       break;
 
+    case '!start':                               // RUNSTATE (2026-10-13): the run switch ON + the party's configured activity (runStartPlan)
+      runStartOrder(parts);
+      break;
+
     case '!stop':
       daily.orderAt = now();
       // the watchdog does not restart leveling until the next order. The leader also receives his OWN automatic '!stop' (raid wipe/done):
       // keep that pause's 'auto:' marker (written < 60 s ago) instead of overwriting it as a user stop (2026-10-08)
-      if (isLeader()) { abortRegroup('!stop'); const pi = pauseInfo(); if (!(pi && pi.auto && now() - pi.at < 60000)) setLeadPaused(true); }
+      if (isLeader()) { abortRegroup('!stop'); const pi = pauseInfo(); if (!(pi && pi.auto && now() - pi.at < 60000)) { setLeadPaused(true); runSetMine(false, 'your order !stop'); } }   // RUNSTATE: your stop = the switch OFF
       takeControl('!stop', PRIO.ORDER); setTimeout(() => releaseControl('!stop'), 3000);   // interrupts any walk/wait of a lower priority
       autoLvl.stop = true; raidHunt.stop = true; DLV.stop = true;   // DELEVEL stops too
       try { if (kamaLive.on) kamaLiveEnd('stopped (!stop)'); } catch (e) { }   // 2026-10-12: party Destroyer3's run stayed 'fighting' in Heine for 3.5 h after the mission hung
@@ -30034,6 +31502,7 @@ function handleSay(charName, text, messageType) {
       const dMe = Math.hypot(sp.center.x - num(Me.X), sp.center.y - num(Me.Y)), here = dMe < 6000 && !currentTownKey();
       if (here && !isFinite(sp.center.z)) sp.center.z = Math.round(num(Me.Z));
       autoLvl.forceSpot = sp; autoLvl.spot = null;
+      runSetMine(true, 'your order !zone ' + rel);       // RUNSTATE
       note(`zone: the team levels inside ${rel} (${pts.length} corners, ${Math.round(dMe)} away${here ? ', starting here' : ''}) until "!zone off"`, true);
       if (here) {                                  // already there: hunt at once, no Giran regroup first
         setLeadPaused(false);
@@ -30106,6 +31575,11 @@ function handleSay(charName, text, messageType) {
     }
     case '!handover': {                         // !handover <id> | !handover stop [<id>]: the Trade page's hand-over (Logs/handover/<id>.json, HANDOVER block)
       hovCommand(parts);
+      break;
+    }
+    case '!letters': {                           // !letters [name] (STORAGE-2026-10-13): hand my event letters to the letters receiver now (dashboard Storage page)
+      if (parts[1] && parts[1].toLowerCase() !== String(Me.Name).toLowerCase()) break;
+      lettersTick(true).then(r => note(`[letters] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!letters', e));
       break;
     }
     case '!stashplan':                           // !stashplan [name]: DRY RUN — what I would put into my warehouse -> Logs/stash_plan_<name>.json + party chat

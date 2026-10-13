@@ -60,10 +60,35 @@ The whole page at desktop size, for reference:
 7. **Collect** - `!collect`: members keep 2M adena below level 40, 2.5M at 40-75 and 3M from 76, and trade the rest to the leader.
 8. **Class** - `!classchange`: everyone whose level allows it changes class through the Community Board (Alt+B → Career → Professions).
 9. **Buff** - `!buff`: rebuff from the Community Board.
-10. **Stop** - `!stop`: everyone stops what it does and **stays stopped** until the next order (Level, Supply, a mission …).
+10. **▶ Start / ■ Stop** (the first, big button of the row; it never moves) - the party's **run switch**, see [Start and Stop](#start-and-stop-the-run-switch).
 11. **Task menu** - every other party order (see the table below).
 12. **Argument box** - for the menu entries that need a name: a boss, a town, a place, a character.
 13. **Do** - sends the order chosen in the menu (with the text of the argument box).
+
+## Start and Stop (the run switch)
+
+Every party has ONE switch, shown as the big first button of its card and as the line right under the party head:
+
+- **○ Stopped — does nothing until you press Start** (red line, green **▶ Start** button). This is the **default**: after an update,
+  a restart of L2Swarm or a new install every party is stopped. A stopped party does nothing on its own: no leveling, no idle
+  "watchdog" leveling, no resume of what it did before a restart, no supply runs, no daily Kamaloka, no raid hunter / circuit, no
+  Seven Signs / warehouse / letters / clan hand-over trips, no regroups and no "back to the leader" walks.
+  It still logs in, heals, drinks potions, defends itself, resurrects teammates, respawns in town after a death, answers trades and
+  **obeys every order you send** (Supply, Town, a mission, Go to …): the order runs, then the party waits again.
+- **● Running: <what it does>** (green line, red **■ Stop** button). A running party works by itself exactly as before.
+
+**▶ Start** asks first and shows what it will start: the raid circuit when one is switched on for the party, else leveling at your
+chosen spot (or hunt here 24/7, or the leader's pick after a Giran regroup). If it already runs, nothing new starts. Ordering
+**Level**, a raid hunt, a circuit, Hunt here, a dungeon, Help a character, a zone, Level to … or a soul crystal hunt also switches the
+party on. **■ Stop** (= `!stop`) stops everyone at once (a raid boss fight that is on is finished first) and switches it off. The
+switch survives restarts: a party you started resumes its activity after a restart, a stopped one stays put.
+
+The header has **▶ Start all** / **■ Stop all** and shows how many parties run. On a [character's page](character.md) a **member** can be
+stopped on its own: it then stands still (no follow, no assist, no team walks) and its party goes on without it; **▶ Start** brings
+it back. A party Start / Stop resets these per-character switches. The line says *the bots have not picked it up yet* for a few
+seconds after a change, and *the bots run an older swarm.js* when the script with the switch is not deployed yet.
+
+The switches are kept in `Scripts/data/run_state.json` (read by the bots every 2 seconds).
 
 **Every button asks first.** The question names the party and how many characters get the order, shows the command, and lists the
 members that are busy right now and will drop what they are doing:
@@ -110,7 +135,8 @@ the menu first*.
 | Walk to… | `!goto <NPC / place / x y>` | Walks there. |
 | Stop leveling | `!autolevel stop` | Ends leveling. |
 | Escape (SoE) | `!soe` | Everyone leaves the fight and goes to a town (`.townname`). |
-| Stop everything | `!stop` | Same as **Stop**. |
+| Stop everything | `!stop` | Same as **■ Stop**: the run switch goes OFF. |
+| Start | `!start` | Same as **▶ Start**: the run switch ON + the party's activity. |
 
 Every command is described in the [command reference](../05-commands.md).
 

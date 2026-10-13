@@ -27,7 +27,7 @@ const fs = require('fs'), path = require('path');
 const OQD = { ttlMs: 600000, safeTtlMs: 120000, stopTtlMs: 300000, freshMs: 45000, backoff: [5000, 15000, 45000, 135000, 405000],
   keepDoneMs: 2 * 3600e3, keepMaxMs: 24 * 3600e3, maxPerFile: 60, maxIndex: 300, scanMs: 30000 };
 // = ORDER_CMDS in Scripts_dev/swarm.js (docs/plan/tools/test_order_queue.js checks they are the same)
-const ORDER_RE = /^!(stop|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
+const ORDER_RE = /^!(stop|start|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
 const TERMINAL = new Set(['done', 'failed', 'superseded', 'expired', 'cancelled']);
 const TAKEN = new Set(['acknowledged', 'running', 'done', 'failed', 'superseded', 'expired', 'cancelled']);
 const lc = (s) => String(s == null ? '' : s).trim().toLowerCase();
@@ -43,7 +43,7 @@ function isOrderFor(text, name, known) {
     const last = lc(parts[parts.length - 1]);
     if (known && known.some(k => lc(k) === last) && last !== lc(name)) return false;
   }
-  if (cmd === '!dawn' && parts.length > 1) return lc(parts[1]) === lc(name);
+  if ((cmd === '!dawn' || cmd === '!start') && parts.length > 1) return lc(parts[1]) === lc(name);   // RUNSTATE: '!start <name>' = that character only
   return true;
 }
 /** catalog entry + command -> { stop, ttlMs }: !stop 5 min, report-only ('safe') 2 min, else 10 min; catalog 'ttl' (seconds) wins */

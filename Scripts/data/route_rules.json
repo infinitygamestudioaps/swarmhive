@@ -1,0 +1,67 @@
+{
+  "_readme": "ROUTE RULES (owner 2026-10-13: \"everything must be configurable manually; nothing automatic unless you ask for it - many people play their own way\"). Per party (key = party leader) what the bots may do on a computed route (raid travel, circuit, npc / quest / area trips through the nav atlas). Read live by swarm.js (routeRulesNow, every 30 s). Edited on the dashboard: route view -> Route rules (POST /api/routerules). A party without an entry uses 'defaults'. Missing file = the same defaults (built into swarm.js RSM_RULES; Dashboard/routeview_api.js RR_BUILTIN).",
+  "rules": [
+    {
+      "key": "openDoors",
+      "label": "Pass closed doors",
+      "default": true,
+      "help": "off = a closed door on the way stops the route (BLOCKED) — the bots never touch a door"
+    },
+    {
+      "key": "waitTimedDoors",
+      "label": "Wait at timed doors",
+      "default": true,
+      "help": "doors that open and close by themselves (Garden of Eva, Cruma): wait for the open phase"
+    },
+    {
+      "key": "npcDoors",
+      "label": "Ask the door NPC",
+      "default": true,
+      "help": "doors a gatekeeper NPC opens (Pagan Temple gate)"
+    },
+    {
+      "key": "unlockDoors",
+      "label": "Unlock doors (dagger class)",
+      "default": true,
+      "help": "a Rogue / Treasure Hunter / Plains Walker ... casts Unlock (skill 27, uses Thief Keys)"
+    },
+    {
+      "key": "keyDoors",
+      "label": "Use key items on doors",
+      "default": true,
+      "help": "a key item from the bag (it may be used up)"
+    },
+    {
+      "key": "buyKeys",
+      "label": "Buy the keys a route's doors need",
+      "default": true,
+      "help": "on = before leaving town the Unlock member buys the Thief Keys THIS route's Unlock doors need (by his Unlock level, 2 tries a door) at the nearest grocer; nothing is bought for routes without such doors (owner 2026-10-13)"
+    },
+    {
+      "key": "swim",
+      "label": "Swim when there is no dry way",
+      "default": true,
+      "help": "off = a route that swims is not used (Tillion, the Garden of Eva dive): the old travel code is tried instead"
+    },
+    {
+      "key": "drops",
+      "label": "Drop off ledges",
+      "default": true,
+      "help": "off = a route with a one-way drop is not used (drops over 333 cost HP, never below 1 HP)"
+    },
+    {
+      "key": "heineWalkOut",
+      "label": "Walk out of Heine on foot",
+      "default": true,
+      "help": "off = the old rule: only Heine's gatekeeper takes the party out"
+    },
+    {
+      "key": "tryFortressGates",
+      "label": "Try fortress gates",
+      "default": false,
+      "help": "on = a route that goes around a fortress (Valley Fortress: Sejarr's Servitor, Nakondas) takes the shorter way through its gates; a closed gate stops the route (only the owner clan opens them; unknown whether they are open without an owner on your server)"
+    }
+  ],
+  "defaults": {},
+  "parties": {}
+}

@@ -297,9 +297,12 @@
       if (c.shots != null && c.shots <= 100) chips.push(`<span class="chip bad">shots ${c.shots}</span>`);
       const rate = expRate(c); if (rate) chips.push(`<span class="rate" title="exp over the last ${c.expHour.mins} min: ${pctf(c.expHour.pct)}, ${nf(c.expHour.amt)} exp, ${c.expHour.n} gains">${esc(rate)}</span>`);
     }
+    const plain = !!(window.Plain && window.UIKit && !UIKit.isAdv());   // UX audit B3 (2026-10-13): Simple view = plain words (Dashboard/plainwords.js)
     const tl = (c.intents || []).slice(0, 3).map((e, i) => {
-      const [cls, res] = intentResult(e, i === 0);
-      return `<div title="${esc(intentText(e) + (e.task ? ' — while: ' + e.task : '') + ' — ' + res)}"><span class="t">${clock(e.at).slice(0, 5)}</span><span class="w">${esc(intentText(e))}${e.count > 1 ? ' ×' + e.count : ''}</span><span class="r ${cls}">${cls === 'ok' ? '✓' : cls === 'bad' ? '✗' : cls === 'run' ? '…' : ''}</span></div>`;
+      const P = plain ? Plain.event(e) : null;
+      const [cls, res] = plain ? Plain.result(e, i === 0) : intentResult(e, i === 0);
+      const txt = plain ? P.text : intentText(e);
+      return `<div title="${esc(txt + (plain ? (P.why ? ' — ' + P.why : '') : (e.task ? ' — while: ' + e.task : '')) + ' — ' + res)}"><span class="t">${clock(e.at).slice(0, 5)}</span><span class="w">${esc(txt)}${e.count > 1 ? ' ×' + e.count : ''}</span><span class="r ${cls}">${cls === 'ok' ? '✓' : cls === 'bad' ? '✗' : cls === 'run' ? '…' : ''}</span></div>`;
     }).join('');
     const cb = castBar(c);
     if (cb) a.h = String(a.h).replace(/ \((\d+(\.\d)?) s left\)| \(finishing\)/, '');   // the cast bar below shows the live time left
@@ -347,7 +350,7 @@
     const ag = ms.reduce((a, c) => a + (live(c) ? aggroOf(c, d.mobs).length : 0), 0), dead = ms.filter(c => c.dead).length, stuck = ms.filter(c => stuckOf(c)).length;
     $id('lpSum').innerHTML = `<b>${on}/${ms.length}</b> online · lvl ${lv.length ? Math.min(...lv) + '–' + Math.max(...lv) : '?'}${window.LevelEta ? ' · ' + LevelEta.partyHtml(ms, { skew: LP.skew }) : ''} · <b>${fight}</b> fighting` +
       (ag ? ` · <span class="bad"><b>${ag}</b> monsters on the party</span>` : '') + (dead ? ` · <span class="bad">${dead} dead</span>` : '') + (stuck ? ` · <span class="bad">${stuck} stuck / not moving</span>` : '') +
-      ` · updated ${d.now ? clock(d.now) : '?'}` + ` · monsters: ${esc(d.mobsSrc || 'none')}${d.mobsAge != null && d.mobsAge > 6 ? ' (' + d.mobsAge + ' s old)' : ''}` + (LP.err ? ` · <span class="bad">${esc(LP.err)}</span>` : '');
+      ` · updated ${d.now ? clock(d.now) : '?'}` + `<span data-adv> · monsters: ${esc(d.mobsSrc || 'none')}${d.mobsAge != null && d.mobsAge > 6 ? ' (' + d.mobsAge + ' s old)' : ''}</span>` + (LP.err ? ` · <span class="bad">${esc(LP.err)}</span>` : '');
   }
   function renderAll() { renderHead(); renderCards(); if (LP.follow || !LP.view) fit(); schedule(); }
 

@@ -99,8 +99,8 @@ check(w.H.cmdrOnSay('Roketta', '!level', 2) === true && !w.calls.party.length &&
 // ---- 6) wiring
 const onsay = src.slice(src.indexOf('globalThis.OnSay = (charName, text, messageType) => {'), src.indexOf('function handleSay(charName, text, messageType) {'));
 check(/if \(cmdrOnSay\(charName, text, messageType\)\) return; handleSay\(charName, text, messageType\);/.test(onsay), 'OnSay: the commander path first, then handleSay (only when the line was not a commander order)');
-const A2 = fs.readFileSync(path.join(ROOT, 'Scripts', 'agent2.js'), 'utf8');
-check(/function OnSay\(charName, text, messageType\) \{ ev\('OnSay', \[String\(charName\), String\(text\), num\(messageType\)\]\); \}/.test(A2), 'brain host: agent2.js forwards OnSay WITH the chat type');
+const A2 = fs.readFileSync(fs.existsSync(path.join(ROOT, 'Scripts_dev', 'agent2.js')) ? path.join(ROOT, 'Scripts_dev', 'agent2.js') : path.join(ROOT, 'Scripts', 'agent2.js'), 'utf8');   // the package ships Scripts_dev/agent2.js only
+check(/function OnSay\(charName, text, messageType\) \{[^\n]*?ev\('OnSay', \[String\(charName\), String\(text\), num\(messageType\)\]\); \}/.test(A2), 'brain host: agent2.js forwards OnSay WITH the chat type');
 const HJ = fs.readFileSync(path.join(ROOT, 'Dashboard', 'brain_host', 'host.js'), 'utf8');
 check(/Tell: \(t, to\) => fwd\('Tell', \[t, to\]/.test(HJ) && /SayToParty: \(t\) => fwd\('SayToParty'/.test(HJ), 'brain host: Tell + SayToParty are forwarded to L2Swarm');
 const EX = JSON.parse(fs.readFileSync(path.join(ROOT, 'swarm.config.example.json'), 'utf8'));

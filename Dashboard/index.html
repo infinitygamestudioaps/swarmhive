@@ -637,7 +637,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
 <header>
   <div class="win">
     <div class="hrow">
-      <div><h1>Swarm</h1><div class="muted" id="sum">Loading…</div></div>
+      <div><h1>Swarm</h1><div class="muted" id="sum">Loading…</div><div id="runAll" class="runall"></div><!-- RUNSTATE 2026-10-13: Start all / Stop all (runswitch.js) --></div>
       <form class="say" id="say">
         <select id="sayTarget" title="Who should do it"></select>
         <input id="sayText" placeholder='Tell them: "restock", "kill raid boss Bifrons", "teleport Gludio", "resume quest"…'>
@@ -666,6 +666,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
+      <button data-tab="storage"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Storage</button>
       <button data-tab="sevensigns"><img class="gi" src="/icons/icon/accessory_lbracelet_of_dawn.png" alt=""> 7 Signs</button>
       <button data-tab="quests"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Quests</button>
       <button data-tab="skillenchant"><img class="gi" src="/icons/icon/etc_codex_of_giant_i00.png" alt=""> Enchant</button>
@@ -911,6 +912,8 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
 </main>
 
 <script src="/vendor/morphdom.min.js"></script>
+<link rel="stylesheet" href="/ui_kit.css"><!-- UI KIT 2026-10-13 (UX audit B1): shared buttons / switch / chips / cards / empty states + the Simple / Advanced view -->
+<script src="/ui_kit.js"></script><!-- window.UIKit; loads /plainwords.js (window.Plain: bot log lines in plain words) -->
 <link rel="stylesheet" href="/uidialog.css"><script src="/uidialog.js"></script><script src="/mapfloors.js"></script><!-- MAP FLOORS 2026-10-13: the same-floor rule of every map (window.MapFloors) --><!-- UIDIALOG 2026-10-10: the one shared dialog (uiConfirm / uiAlert / uiPrompt / uiChoice), before every page module -->
 <script>
 const $ = (id) => document.getElementById(id);
@@ -1181,6 +1184,7 @@ function route() {
   if (window.BuffPage && BuffPage.route(kind, arg)) return;     // BUFF PLANS 2026-10-10: #/buffs[/<leader>] (Dashboard/buffpage.js); closes itself on other pages
   if (window.TradePage && TradePage.route(kind, arg)) return;   // HANDOVER 2026-10-10: #/trade[/party:<leader>|char:<name>] (Dashboard/tradepage.js); closes itself on other pages
   if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
+  if (window.StoragePage && StoragePage.route(kind, arg)) return;   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
   if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
@@ -2277,7 +2281,7 @@ function renderParties() {
     return `<div class="win pcard">
       <div class="whead phead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
@@ -2287,10 +2291,9 @@ function renderParties() {
           <button data-quick="${tgt}|!park start|Back to town (everyone to Giran, waits there for the next order)" title="Everyone stops, goes to Giran (.giran), walks to the start and waits for orders">Town</button>
           <button data-quick="${tgt}|!formation rows|Formation in front of the landing (rows; wedge / line from the Commands sheet)" title="Line up in front of the town landing, side by side, each party its own lane">Formation</button>
           <button data-quick="${tgt}|!hunthere|Hunt here 24/7 (around the leader, no town trips; !hunthere off ends it)" title="Hunt around the spot where the leader stands now, around the clock: no supply runs, no Giran trips; after a death it comes back here">Hunt here 24/7</button>
-          <button data-quick="${tgt}|!stop|STOP everything" title="Stop everything">Stop</button>
           <div class="pdo"><select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button></div>
         </div></div>
-      <div class="pbanners">${window.OrdersView ? OrdersView.partyBanner(leader) : ''}
+      <div class="pbanners">${window.RunSwitch ? RunSwitch.partyLine(leader) : ''}<!-- RUNSTATE: fixed-height running / stopped line -->${window.OrdersView ? OrdersView.partyBanner(leader) : ''}
       ${window.PartyStatus ? PartyStatus.banner(leader, list) : ''}
       ${alertsHtml(alerts, list)}
       ${queue}</div>
@@ -4208,6 +4211,7 @@ async function refresh() {
     // CURSED 2026-10-13: a cursed weapon holder (renamed Zariche / Akamanah by the server) gets its own red line instead of 'not reporting'
     try { const cu = STATE.cursed || [], skip = new Set(cu.map(x => x.holder).concat(cu.map(x => x.weapon), ['Zariche', 'Akamanah'])); renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30 && !skip.has(c.name)).map(c => c.name), cu); } catch (e) { }
     fillTargets();
+    try { if (window.RunSwitch) RunSwitch.paintHeader(); } catch (e) { }   // RUNSTATE: Start all / Stop all
     renderTab();
     if (TAB === 'logs' && Date.now() - LG.at > 8000) loadLogChar();
   } catch (e) { $('sum').textContent = 'Dashboard server not reachable: ' + e.message; }
@@ -4841,7 +4845,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <!-- command center (2026-10-08): the command catalog + the palette / command sheets; until server.js serves them the old "Tell them" bar stays -->
 <script src="/commands.js"></script>
 <script src="/cmdcenter.js"></script>
-<script src="/orders.js"></script><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
+<script src="/orders.js"></script>
+<link rel="stylesheet" href="/runswitch.css"><script src="/runswitch.js"></script><!-- RUN SWITCH 2026-10-13: manual Start / Stop per party / character (Dashboard/runswitch.js, /api/runstate) --><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
 
 <!-- RAIDLIVE HUD 2026-10-09: live raid / Kamaloka view for every device (served by server.js once restarted; without it the old view stays) -->
 <link rel="stylesheet" href="/raidlive.css">
@@ -4967,6 +4972,14 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
      Data: /api/fundrules (Dashboard/fundpage_api.js -> Scripts/data/fund_rules.json, read by swarm.js fundRules() every 30 s). -->
 <link rel="stylesheet" href="/fundpage.css">
 <script src="/fundpage.js"></script>
+<!-- STORAGE 2026-10-13: #/storage per character / party / default warehouse settings + the event letters hand-over.
+     Data: /api/storage (Dashboard/storagepage_api.js -> Scripts/data/stash_rules.json, read live by swarm.js). -->
+<link rel="stylesheet" href="/storagepage.css">
+<script src="/storagepage.js"></script>
+<!-- PARTY SETTINGS 2026-10-13 (owner: "a popup with settings per party, you set up the different things yourself"): "⚙ Settings" on every party card +
+     the character page = one popup over the existing settings APIs (adena, gear, storage, tactics, route rules, daily, 7 Signs, clan invites, run switch). -->
+<link rel="stylesheet" href="/partysettings.css">
+<script src="/partysettings.js"></script>
 <script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>
 <!-- 7 SIGNS 2026-10-12: #/sevensigns (who signs up with the Lords of Dawn by itself: parties / characters, seal-stone switch; period / cycle /
      winner, registration per character, seal stones, "Sign up now" = !dawn [name]). Data: /api/sevensigns (Dashboard/sevensigns_api.js ->

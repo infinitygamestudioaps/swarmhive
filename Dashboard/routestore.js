@@ -86,10 +86,13 @@ function cleanPoints(DATA, list) {
 function choice(r, force) {
   const pts = points(r), has = pts.length >= 2, locked = !!(r && r.manual);
   const st = force === 'atlas' || force === 'custom' || force === 'auto' ? force : stored(r);
-  const out = (use, why) => ({ use, stored: st, why, has, locked });
+  let out = (use, why) => ({ use, stored: st, why, has, locked });
   if (!has) return out('atlas', !r ? 'no saved route' : st === 'custom' ? 'own route chosen, but it has fewer than 2 points — computed path' : 'the saved route has fewer than 2 points');
   const fc = floorCheck(r);                          // DUNGEON STEPS 2026-10-13: a route that jumps floors is never walked (warn, computed path instead)
   if (!fc.ok) return Object.assign(out('atlas', `your own route is not walkable: ${fc.why} — computed path until it is fixed (add the dungeon step, or mark the jump as a real drop)`), { invalid: fc.why });
+  // RAID ROUTES 2026-10-13: a LOCKED route that failed the geodata check (docs/plan/tools/raid_routes.js: a leg with no way around) is only a WARNING (owner: nothing automatic unless asked) — the choice stays yours
+  const out0 = out; const ckWarn = r && r.check && r.check.ok === false && !r.checkIgnore ? `your own route failed the geodata check (${r.check.why}) — check it in the route editor` : '';
+  out = (use, why) => Object.assign(out0(use, why), ckWarn ? { warn: ckWarn } : {});
   if (st === 'atlas') return out('atlas', 'your choice: computed path');
   if (st === 'custom') return out('custom', 'your choice: own route' + (locked ? '' : ' (not locked)'));
   return locked ? out('custom', 'auto: your own route is locked') : out('atlas', 'auto: your own route is not locked');

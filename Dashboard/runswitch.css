@@ -1,0 +1,18 @@
+/* RUN SWITCH (2026-10-13): the manual Start / Stop per party / character + Start all / Stop all (Dashboard/runswitch.js) */
+.runsw { min-width: 92px; height: 30px; padding: 0 12px; font-weight: 700; font-size: 14px; letter-spacing: .02em; border-radius: 4px; cursor: pointer;
+  white-space: nowrap; flex: 0 0 auto; box-sizing: border-box; }
+.runsw.off { background: #1f5f2e; color: #eaffea; border: 1px solid #3ea85a; }      /* stopped: the button says Start (green) */
+.runsw.on { background: #6a1f1f; color: #ffecec; border: 1px solid #c04848; }       /* running: the button says Stop (red) */
+.runsw:hover { filter: brightness(1.15); }
+.runsw:focus-visible { outline: 2px solid #ffd27a; outline-offset: 1px; }
+.runsw.sm { min-width: 0; height: 26px; font-size: 12.5px; padding: 0 9px; margin-right: 6px; }
+.whead .act button.runsw { padding: 0 12px; margin-right: 6px; }
+.runline { height: 1.5em; line-height: 1.5em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; padding: 0 6px; margin: 2px 0;
+  border-left: 3px solid transparent; }
+.runline.on { color: #9fe3a8; border-left-color: #3ea85a; }
+.runline.off { color: #d9b3b3; border-left-color: #a04545; }
+.runall { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-top: 4px; min-height: 26px; }
+.runc { display: inline-flex; align-items: center; gap: 6px; margin-right: 8px; }
+.runct { font-size: 12.5px; color: #c9c2ad; white-space: nowrap; }
+@media (max-width: 520px) { .runsw { min-width: 84px; } .runct { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .runsw { transition: none; } }

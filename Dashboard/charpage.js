@@ -228,9 +228,9 @@
         <button class="cp-back" data-close="1" title="Back (Esc)" aria-label="back">◀</button>
         <div class="cp-avatar">${classIcon({ name: CP.name, role: x.role, classId: gc.class_id ?? x.classId, cls: gc.class_name || x.cls })}<span class="cp-lv">${gc.level || x.level || '?'}</span></div>
         <div class="cp-id"><h2>${esc(CP.name)}${isLeader ? ' ' + GI(UI.star, 'sm', 'party leader') : ''}</h2>
-          <div class="cp-sub">${esc(gc.class_name || x.cls || '')}${x.role ? ' · ' + esc(x.role) : ''}${party ? ` · party <a href="#/live/${encodeURIComponent(party)}">${esc(party)}</a>` : ''}${d.account ? ' · ' + esc(d.account) : ''}${window.ClassPlans ? ' ' + ClassPlans.charBadge(CP.name) : ''}</div></div>
+          <div class="cp-sub">${esc(gc.class_name || x.cls || '')}${x.role ? ' · ' + esc(x.role) : ''}${party ? ` · party <a href="#/live/${encodeURIComponent(party)}">${esc(party)}</a>` : ''}${d.account ? '<span data-adv> · ' + esc(d.account) + '</span>' : ''}${window.ClassPlans ? ' ' + ClassPlans.charBadge(CP.name) : ''}</div></div>
         <div class="cp-chips">${chips}</div>
-        <div class="cp-acts">${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) : ''}<button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
+        <div class="cp-acts">${window.RunSwitch ? RunSwitch.charBlock(CP.name) : ''}${party && window.PartySettings ? PartySettings.button(party, true) : ''}${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) : ''}<button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
       </div>
       <div class="cp-bars">
         ${g('CP', cpp, gc.max_cp ? nf(gc.cp) + ' / ' + nf(gc.max_cp) : (cpp != null ? cpp + '%' : 'CP ?'))}
@@ -239,7 +239,7 @@
         <div class="cp-g cp-xp"><span class="k">EXP</span>${LE ? LE.withMark(gauge('xp', exp, exp.toFixed(2) + '%' + (xd ? ' ' + xd : '')), x, leo) : gauge('xp', exp, exp.toFixed(2) + '%' + (xd ? ' ' + xd : ''))}</div>
         ${LE ? LE.lineHtml(x, leo) : ''}
       </div>
-      <div class="cp-money"><span>${GI(UI.adena, 'sm')}<b>${nf(d.adena ?? x.adena ?? 0)}</b> adena</span><span>SP <b>${nf(gc.sp || 0)}</b></span>${rate ? `<span>exp <b>${rate}</b></span>` : ''}${(isFinite(x.x) ? `<span class="muted">${Math.round(x.x)}, ${Math.round(x.y)}, ${Math.round(x.z)}</span>` : '')}</div>
+      <div class="cp-money"><span>${GI(UI.adena, 'sm')}<b>${nf(d.adena ?? x.adena ?? 0)}</b> adena</span><span>SP <b>${nf(gc.sp || 0)}</b></span>${rate ? `<span>exp <b>${rate}</b></span>` : ''}${(isFinite(x.x) ? `<span class="muted" data-adv>${Math.round(x.x)}, ${Math.round(x.y)}, ${Math.round(x.z)}</span>` : '')}</div>
       ${peers ? `<div class="cp-peers">${peers}</div>` : ''}
       ${d.error ? `<div class="alert bad">${GI(UI.warn, 'sm')} live game data unavailable: ${esc(d.error)} — showing what the script last reported</div>` : ''}`);
   }
@@ -282,7 +282,8 @@
     const agg = ag.length ? `<div class="cp-agg"><span class="chip aggro">${ag.length} monster${ag.length > 1 ? 's' : ''} on ${esc(CP.name)}</span>${ag.slice(0, 6).map(m => `<span class="chip">${esc(m.n)}${m.lvl ? ' ' + m.lvl : ''}${m.hp != null ? ' · ' + m.hp + '%' : ''}${m.hit ? ' · hits' : ''}</span>`).join('')}</div>` : '';
     const ls = c.lastSkill, lsAge = ls ? (srvNow() - Date.parse(ls.at)) / 1000 : 1e9;
     const last = ls && lsAge < 120 ? `<div class="cp-last muted">last skill: ${esc(skName(ls.id))}${ls.tgt ? ' → ' + esc(ls.tgt) : ''} · ${Math.round(lsAge)} s ago</div>` : '';
-    const notes = (c.notes || []).slice(-3).reverse().map(n => `<div>${esc(typeof localNote === 'function' ? localNote(n) : n)}</div>`).join('');
+    const plainNotes = window.Plain && window.UIKit && !UIKit.isAdv();   // UX audit B3 (2026-10-13): Simple view = notes in plain words
+    const notes = (c.notes || []).slice(-3).reverse().map(n => `<div>${esc(plainNotes ? Plain.note(n) : typeof localNote === 'function' ? localNote(n) : n)}</div>`).join('');
     const ageTxt = CP.liveAt ? '' : '';
     patch($id('cp_live'), `<div class="cp-act ${a.cls || ''} ${fresh ? 'cp-new' : ''}">${GI(a.ic || UI.idle)}<span>${a.h}</span></div>
       ${castBlock(c)}${tgt}${agg}${last}
@@ -427,9 +428,30 @@
   function renderTimeline() {
     if (!CP.open) return;
     let html = '';
-    try { html = timeline(CP.intents); } catch (e) { html = '<div class="muted">timeline unavailable</div>'; }
+    const simple = !!(window.Plain && window.UIKit && !UIKit.isAdv());   // UX audit B3 (2026-10-13): Simple = plain words, Advanced = the raw timeline
+    try { html = simple ? plainTimeline(CP.intents) : timeline(CP.intents); } catch (e) { html = '<div class="muted">timeline unavailable</div>'; }
     patch($id('cp_timeline'), `<div class="cp-tl">${html}</div>`);
   }
+  // PLAIN TIMELINE (UX audit B3): one sentence per step (Dashboard/plainwords.js), "while …" as a second line, how it ended on the right.
+  // No coordinates, ids, step codes or !commands; the raw lines are one tap away in the Advanced view (header switch).
+  const TLP = { fights: false, problems: false };
+  function plainTimeline(events) {
+    let list = (events || []).filter(e => TLP.fights || (e.action !== 'attack' && e.action !== 'angreb' && e.action !== 'pair attack'));
+    if (TLP.problems) list = list.filter(e => e.result === 'FAIL' || e.result === 'FEJL');
+    const bar = `<div class="tlbar"><label class="chk"><input type="checkbox" data-cptlp="problems"${TLP.problems ? ' checked' : ''}> only problems</label>` +
+      `<label class="chk"><input type="checkbox" data-cptlp="fights"${TLP.fights ? ' checked' : ''}> show fights</label><span class="muted">newest first</span></div>`;
+    const ico = (a) => { try { return (typeof INTENT_ICON !== 'undefined' && INTENT_ICON[a]) || UI.target; } catch (e) { return UI.target; } };
+    const rows = list.slice(0, 80).map((e, i) => {
+      const p = Plain.event(e), r = Plain.result(e, i === 0), why = p.why ? p.why.charAt(0).toUpperCase() + p.why.slice(1) : '';
+      return `<div class="ev ${r[0] === 'bad' ? 'bad' : r[0] === 'run' ? 'run' : ''}"><span class="t">${esc(String(clock(e.at)).slice(0, 5))}</span>${GI(ico(e.action), 'sm')}` +
+        `<div><div class="w pw">${esc(p.text)}${e.count > 1 ? `<span class="x">×${e.count}</span>` : ''}</div>${why ? `<div class="why pwhy">${esc(why)}</div>` : ''}</div>` +
+        `<span class="res ${r[0]} pres">${esc(r[1])}</span></div>`;
+    }).join('');
+    return `<div class="cp-ptl">${bar}<div class="tl">${rows || (window.UIKit ? UIKit.empty({ text: TLP.problems ? 'No problems lately.' : 'Nothing has happened yet.' }) : '<div class="muted">nothing yet</div>')}</div></div>`;
+  }
+  document.addEventListener('change', (e) => { const k = e.target && e.target.dataset && e.target.dataset.cptlp; if (!k) return; TLP[k] = !!e.target.checked; renderTimeline(); });
+  // the Simple / Advanced switch and the plain-words file arriving re-draw the page (UX audit B1/B3)
+  ['uikit:mode', 'uikit:plain'].forEach(n => window.addEventListener(n, () => { if (!CP.open) return; try { renderHead(); renderLive(); renderTimeline(); } catch (e) { } }));
 
   // ---------------------------------------------------------------- stats, progress, supplies
   function supplies() {

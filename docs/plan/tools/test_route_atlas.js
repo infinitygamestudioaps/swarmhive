@@ -19,12 +19,13 @@ const F = ctx.F;
 const orfen = J(path.join(ATLAS, 't', 'raid_29014.json'));
 const segs = F.raSegments(orfen), pts = F.raWalkPts(orfen), pre = F.raPrefill(orfen), S = F.raSummary(orfen);
 ok(segs.length === 1 && segs[0].how === 'geodata', 'Orfen: one geodata walk leg');
-ok(pts.length === 23, 'Orfen: 23 walk points (got ' + pts.length + ')');
-ok(pre && pre.pts.length === 23, 'Orfen: prefill has the 23 points');
+const NW = (orfen.steps || []).filter(q => q.do === 'walk').reduce((a, q) => a + q.points.length / 3, 0);   // RAID ROUTES 2026-10-13: the count follows the computed route (re-planned under the raid policy)
+ok(pts.length === NW && NW >= 10, 'Orfen: every walk point (' + pts.length + ')');
+ok(pre && pre.pts.length === NW, 'Orfen: prefill has every walk point');
 ok(pre && pre.start && pre.start.kind === 'gk' && pre.start.desc === 'Oren -> Sea of Spores', 'Orfen: start = gatekeeper Oren -> Sea of Spores');
 ok(pre && pre.L && pre.L.x === 64328 && pre.pts[0].x === 64328 && pre.pts[0].y === 26803, 'Orfen: point 1 = the Sea of Spores landing');
-ok(pre && Math.hypot(pre.pts[22].x - 55024, pre.pts[22].y - 17368) < 50, 'Orfen: last point at the boss');
-ok(S.status === 'ok' && !S.bad && S.len === 13396 && /\.oren/.test(S.chain) && /arrive/.test(S.chain), 'Orfen: summary ok / 13396 / chain');
+ok(pre && Math.hypot(pre.pts[pre.pts.length - 1].x - 55024, pre.pts[pre.pts.length - 1].y - 17368) < 50, 'Orfen: last point at the boss');
+ok(S.status === 'ok' && !S.bad && S.len === orfen.length && S.len > 12000 && S.len < 16000 && /\.oren/.test(S.chain) && /arrive/.test(S.chain), 'Orfen: summary ok / ' + S.len + ' / chain');
 ok(F.raMarkers(orfen).some(k => k.kind === 'landing'), 'Orfen: landing marker');
 
 const idx = J(path.join(ATLAS, 'index.json')), raidRows = idx.targets.filter(t => /^raid:/.test(t[0]));
@@ -116,7 +117,7 @@ const get = (p) => new Promise((res) => { const rq = http.get({ host: '127.0.0.1
   if (!a) { console.log('live API: dashboard :8090 not reachable, skipped'); }
   else {
     ok(a.code === 200 && a.d && a.d.route && a.d.route.status === 'ok', 'API navatlas raid:29014');
-    ok(a.d && a.d.route && F.raPrefill(a.d.route) && F.raPrefill(a.d.route).pts.length === 23, 'API route prefills 23 points');
+    { const pf = a.d && a.d.route && F.raPrefill(a.d.route); ok(!!pf && pf.pts.length >= 2, 'API route prefills its walk points (' + (pf ? pf.pts.length : 0) + ')'); }   // the live atlas is re-planned by raid_routes.js: the count changes
     const u = await get('/api/navatlas?list=unreachable');
     const ki = u && u.d && u.d.cols ? u.d.cols.indexOf('key') : -1;
     ok(u && u.d && !(u.d.rows || []).some(r => r[ki] === 'raid:25484') && (u.d.rows || []).some(r => r[ki] === 'area:plains-of-lizardmen-33'), 'API unreachable list: Tillion gone (swim route), Plains of Lizardmen 33 still there');

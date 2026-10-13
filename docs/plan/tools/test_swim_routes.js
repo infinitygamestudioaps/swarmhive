@@ -95,7 +95,7 @@ ok(fast.pocketIn(A33.x, A33.y, A33.z, 60000) < 60000 && fast.pocketIn(A33.x, A33
 
 // ---- 7. swarm.js (Scripts_dev): the walker side
 { const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
-  const i = src.indexOf('function navAtlasPts(flat, me, stop, swimIdx) {'), j = src.indexOf('\n}\n', i);
+  const i = src.search(/function navAtlasPts\(flat, me, stop, swimIdx(, drops)?\) \{/), j = src.indexOf('\n}\n', i);   // RAID ROUTES 2026-10-13: + drops
   ok(i > 0, 'swarm.js navAtlasPts takes the swim indices');
   if (i > 0) {
     const ctx = {}; vm.createContext(ctx); vm.runInContext(src.slice(i, j + 2) + '\nthis.f = navAtlasPts;', ctx);

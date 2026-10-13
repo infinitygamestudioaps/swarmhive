@@ -230,7 +230,7 @@ class Runner {
       case 'cb': getL() && getL().onCallback(m); break;
       case 'ap': this.bridgeIn(C, m); break;
       case 'log': this.log(`${C.name} agent: ${String(m.text || '').slice(0, 300)}`); break;
-      case 'pong': break;
+      case 'pong': { const t = Date.now(); C.mirror.pongAt = t; if (C.pingOut && C.pingOut.id === m.id) { C.mirror.rtt = t - C.pingOut.at; C.pingOut = null; } break; }   // DIALOG-2026-10-13: agent age + ping for the dialog engine
     }
   }
   start() {
@@ -252,7 +252,7 @@ class Runner {
     const pingMs = this.o.pingMs === undefined ? 1000 : Number(this.o.pingMs) || 0;
     if (pingMs > 0) {                                  // on the runner's clock: virtual time in the simulator (agents measure silence on it too)
       this.pingSeq = 0; this.pingT = this.clock.forOwner('runner:ping', (e) => this.noteError('ping', e));
-      this.pingT.setInterval(() => { for (const C of this.ctxs.values()) { try { if (C.link.connected()) C.link.write({ a: 'ping', id: ++this.pingSeq }); } catch (e) { } } }, pingMs);
+      this.pingT.setInterval(() => { for (const C of this.ctxs.values()) { try { if (C.link.connected()) { const id = ++this.pingSeq; C.pingOut = { id, at: Date.now() }; C.link.write({ a: 'ping', id }); } } catch (e) { } } }, pingMs);
     }
     if (this.o.port === null) { this.log(`brain host (headless, pid ${process.pid}) ready`); return Promise.resolve(this); }   // worker pool: the main thread owns the sockets
     return new Promise((res, rej) => {

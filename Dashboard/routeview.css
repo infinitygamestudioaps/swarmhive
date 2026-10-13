@@ -56,3 +56,16 @@
 .rv-levels { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 4px; }
 .rv-levels button { min-height: 34px; padding: 4px 10px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 4px; background: transparent; color: inherit; }
 .rv-levels button.on { background: #5b3a7a; color: #fff; font-weight: 700; border-color: #cc66ff; }
+
+/* RAIDROUTES-2026-10-13: the party's route state machine (fixed line height: no layout jumps) + the current step in the chain */
+.rv-live { margin: 4px 0; }
+.rv-liveln { height: 20px; line-height: 20px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; }
+.rv-liveln.ok { color: #7be08a; } .rv-liveln.bad { color: #ff7b7b; } .rv-liveln.stale { opacity: .6; }
+.rv-cur { outline: 2px solid #3ee0ff; border-radius: 3px; padding: 0 2px; color: #fff; }
+
+/* ROUTERULES-2026-10-13: the party's route rules (switches with their default) */
+.rv-rules { margin-top: 10px; } .rv-rules summary { cursor: pointer; }
+.rv-rulelist { list-style: none; padding: 0; margin: 6px 0; } .rv-rulelist li { margin: 6px 0; }
+.rv-sw { min-width: 44px; min-height: 28px; border-radius: 14px; border: 1px solid #556; background: #2a2f38; color: #ccc; }
+.rv-sw.on { background: #2f6e3a; color: #fff; border-color: #4caf50; }
+.rv-reset { font-size: 12px; }

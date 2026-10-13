@@ -79,6 +79,7 @@ async function runFT(F, world) {
     openNpc: async (n) => { W.opened.push(n.name); W.last = n; return pages[n.name] || null; }, npcLinks, setTask: () => { }, dungeonLog: (m) => W.log.push(m),
     waitTeleport: () => new Promise(r => { W.tpResolve = r; }), Send: { ReqBypassToServer: (cmd) => { W.clicks.push(`${W.last.name}:${cmd}`); const t = (W.tp || {})[`${W.last.name}:${cmd}`]; if (t) { me.X = t[0]; me.Y = t[1]; me.Z = t[2]; } W.tpResolve(!!t); } },
     appearBurst: () => { }, sleep: async () => { }, App: { emit: () => { } }, now: () => 5000, lastSysMsg: null,
+    DLG: { click: async (l) => { const p = env.waitTeleport(); env.Send.ReqBypassToServer(l.cmd, true); const ok = await p; return { ok: !!ok, kind: ok ? 'teleport' : undefined }; } },   // DIALOG-2026-10-13: the engine's CLICK -> WAIT_RESULT teleport on this mock
     onFloor: (F) => F && F.z && me.Z >= F.z[0] - 300 && me.Z <= F.z[1] + 300,
   };
   const names = Object.keys(env);

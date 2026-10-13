@@ -14,7 +14,7 @@ const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const rd = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8').replace(/^﻿/, ''));
 const blk = (s, b, e) => { const i = s.indexOf(b), j = s.indexOf(e, i); if (i < 0 || j < i) { console.error(b + ' block not found'); process.exit(1); } return s.slice(i, j); };
 const PURE = blk(src, '// STASH-PURE-BEGIN', '// STASH-PURE-END');
-const M = new Function(PURE + '\nreturn { stashClassify, stashPlan, stashOrder, stashSlotsNeeded, stashBatches, stashLe, stashHex, stashWithdrawHex, stashSysVerdict, stashPickLink, stashDue, stashLeft, stashRecordAdd, stashLine, stashPlanLine, STASH_MSG };')();
+const M = new Function(PURE + '\nreturn { stashSettings, stashKindFor, stashTriggerDue, stashLettersCfg, stashLetterReceiver, stashLetterKeep, stashLettersDecide, STASH_LETTER_IDS, stashClassify, stashPlan, stashOrder, stashSlotsNeeded, stashBatches, stashLe, stashHex, stashWithdrawHex, stashSysVerdict, stashPickLink, stashDue, stashLeft, stashRecordAdd, stashLine, stashPlanLine, STASH_MSG };')();
 let fails = 0; const warns = [];
 const check = (ok, what) => { console.log((ok ? 'ok   ' : 'FAIL ') + what); if (!ok) fails++; };
 
@@ -52,7 +52,9 @@ const sellMarks = rd('Scripts/data/sell_list.json');
 const keepBase = [57, 736, 737, 1060, 1061, 728, 1539, 1835, 2509, 3947, 3948, 3949, 3950, 3951, 3952, 1463, 1464, 1465, 1466, 1467, 8594, 8595, 8596, 8597, 8598, 8599, 955, 956, 951, 952];
 const marked = (name) => new Set([...(sellMarks.all || []), ...(sellMarks[name] || [])].map(Number));
 const item = (id, name, o) => Object.assign({ id, objId: 1000 + id, name, count: 1, stackable: !(gear[id] && gear[id].s), gear: !!(gear[id] && gear[id].s) }, o || {});
-const ctxQ = { name: 'Dagger1', crafter: false, createLvl: 0, commonLvl: 0, keepIds: keepBase, stonesToPriest: false, hasTeam: false, rules, data };
+// STORAGE-2026-10-13: the built-in rule checks run WITHOUT Dagger1's own preset (he stores everything since 2026-10-13); his preset is checked in 2b
+const rulesBase = Object.assign({}, rules, { chars: Object.assign({}, rules.chars || {}) }); delete rulesBase.chars.Dagger1;
+const ctxQ = { name: 'Dagger1', crafter: false, createLvl: 0, commonLvl: 0, keepIds: keepBase, stonesToPriest: false, hasTeam: false, rules: rulesBase, data };
 {
   const C = (it, ctx) => M.stashClassify(it, ctx || ctxQ);
   const d = (it, cat, ctx) => { const r = C(it, ctx); return r.act === 'deposit' && (!cat || r.cat === cat); };
@@ -96,6 +98,72 @@ const ctxQ = { name: 'Dagger1', crafter: false, createLvl: 0, commonLvl: 0, keep
     check(!p.deposit.some(r => [736, 737, 1061, 728, 1060].includes(r.id)), 'Dagger1: no SoE / SoR / potions in the deposit');
     check(p.keep.filter(r => r.cat === 'unknown').length <= 10, `Dagger1: unknown kinds kept: ${p.keep.filter(r => r.cat === 'unknown').map(r => r.name).join(', ') || 'none'}`);
   } catch (e) { warns.push('Logs/shop_Dagger1.txt not readable: ' + e.message); }
+}
+
+// ---- 2b) STORAGE SETTINGS (STORAGE-2026-10-13): per character / party / default, modes, triggers, letters, old files ---------------------
+{
+  const base = { dest: 'private', auto: false, above: 120 };
+  // schema back-compat: an old file (top-level dest + chars.<Name>.dest) still decides the destination; everything automatic stays OFF
+  const old = { dest: 'clan', chars: { Bishop1: { dest: 'private', keep: [1] } } };
+  const sO = M.stashSettings(old, 'Doombringer1', 'Tank1', base), sB = M.stashSettings(old, 'Bishop1', 'Tank1', base);
+  check(sO.dest === 'clan' && /old/.test(sO.src.dest) && sB.dest === 'private' && sB.src.dest === 'character', 'old file: top-level dest = default, chars.<Name>.dest wins');
+  check(sO.mode === 'rules' && sO.auto === false && sO.trigger.kind === 'bag' && sO.trigger.above === 120 && sO.town === 'Giran', 'old file: mode rules, auto OFF, bag trigger 120, town Giran');
+  check(M.stashSettings({}, 'X', 'Y', base).dest === 'private' && M.stashSettings(null, 'X', 'Y', {}).dest === 'private', 'no file: private warehouse (as before)');
+  // precedence character > party > default
+  const R3 = { dest: 'clan', defaults: { dest: 'auto', mode: 'rules', auto: false, trigger: { kind: 'weight', weightPct: 80 } },
+    parties: { Tank1: { dest: 'private', auto: true, trigger: { kind: 'town', gapMin: 45 } } }, chars: { Bishop1: { dest: 'clan', mode: 'all', trigger: { above: 90 } } } };
+  const a = M.stashSettings(R3, 'Bishop1', 'Tank1', base), b = M.stashSettings(R3, 'Doombringer1', 'Tank1', base), c = M.stashSettings(R3, 'Healer1', 'Crafter1', base);
+  check(a.dest === 'clan' && a.mode === 'all' && a.auto === true && a.src.auto === 'party' && a.trigger.kind === 'town' && a.trigger.gapMin === 45 && a.trigger.above === 90, 'character > party > default (fields merge, trigger fields too)');
+  check(b.dest === 'private' && b.src.dest === 'party' && b.mode === 'rules' && b.auto === true, 'party settings for a member without own settings');
+  check(c.dest === 'auto' && c.src.dest === 'default' && c.auto === false && c.trigger.kind === 'weight' && c.trigger.weightPct === 80, 'defaults for another party');
+  check(M.stashSettings({ chars: { Z: { mode: 'bogus' } } }, 'Z', '', base).mode === 'rules'
+    && M.stashSettings({ chars: { Z: { dest: 'mars' } } }, 'Z', '', base).dest === 'private' && M.stashSettings({ chars: { Z: { auto: 'yes' } } }, 'Z', '', base).auto === false
+    && M.stashSettings({ chars: { Z: { trigger: { weightPct: 500 } } } }, 'Z', '', base).trigger.weightPct === 100, 'bad values are ignored / clamped');
+  check(M.stashSettings({}, 'Z', '', { auto: true }).auto === true && M.stashSettings({ chars: { Z: { auto: false } } }, 'Z', '', { auto: true }).auto === false, 'CONFIG.stash.auto = the master default; the file decides per character');
+  // destination: private fallback for non-members
+  check(M.stashKindFor('clan', true).kind === 'clan' && M.stashKindFor('clan', false).kind === 'private' && M.stashKindFor('auto', true).kind === 'clan' && M.stashKindFor('auto', false).kind === 'private' && M.stashKindFor('private', true).kind === 'private', 'clan / auto / private -> clan only for clan members, else the private warehouse');
+  check(/not in a clan/.test(M.stashKindFor('clan', false).why), 'the private fallback says why');
+  // triggers (nothing automatic unless switched on)
+  const set = (o) => ({ mode: 'rules', auto: true, trigger: Object.assign({ kind: 'bag', above: 120, weightPct: 70, gapMin: 30 }, o || {}) });
+  const T0 = 1e12;
+  check(!M.stashTriggerDue(Object.assign(set(), { auto: false }), { bag: 199, now: T0 }).due && /off/.test(M.stashTriggerDue(Object.assign(set(), { auto: false }), { bag: 199, now: T0 }).why), 'auto off: never due (and says so)');
+  check(M.stashTriggerDue(Object.assign(set(), { auto: false }), { force: true }).due && !M.stashTriggerDue(Object.assign(set(), { mode: 'off' }), { bag: 199, now: T0 }).due, 'an order always runs; mode off never automatic');
+  check(M.stashTriggerDue(set(), { bag: 121, now: T0 }).due && !M.stashTriggerDue(set(), { bag: 120, now: T0 }).due, 'bag trigger: above N kinds');
+  check(M.stashTriggerDue(set({ kind: 'weight', weightPct: 50 }), { load: 6, maxLoad: 10, now: T0 }).due && !M.stashTriggerDue(set({ kind: 'weight', weightPct: 70 }), { load: 6, maxLoad: 10, now: T0 }).due, 'weight trigger: % of max load');
+  check(M.stashTriggerDue(set({ kind: 'supply' }), { inSupply: true, now: T0 }).due && !M.stashTriggerDue(set({ kind: 'supply' }), { inTown: true, bag: 199, now: T0 }).due, 'supply trigger: only in a supply run');
+  check(M.stashTriggerDue(set({ kind: 'town' }), { inTown: true, now: T0 }).due && !M.stashTriggerDue(set({ kind: 'town' }), { now: T0 }).due, 'town trigger: every town visit');
+  check(!M.stashTriggerDue(set({ kind: 'town', gapMin: 30 }), { inTown: true, lastAt: T0 - 10 * 60000, now: T0 }).due && M.stashTriggerDue(set({ kind: 'town', gapMin: 30 }), { inTown: true, lastAt: T0 - 31 * 60000, now: T0 }).due, 'gap between two automatic stores');
+  // modes
+  const it = (id, name, o) => Object.assign({ id, objId: 1000 + id, name, count: 1, stackable: true }, o || {});
+  const cAll = Object.assign({}, ctxQ, { mode: 'all' }), cOff = Object.assign({}, ctxQ, { mode: 'off' });
+  check(M.stashClassify(it(999999, 'Strange Thing'), cAll).act === 'deposit' && M.stashClassify(it(1661, 'Thief Key'), cAll).act === 'keep', 'mode all: unknown kinds go in, the rule keep list still wins (Thief Key)');
+  check(['Scroll of Escape', 'Greater Healing Potion', 'Soulshot: D-grade', 'Steel Arrow', 'Antidote'].every((n, i) => M.stashClassify(it(70000 + i, n), cAll).act === 'keep') && M.stashClassify(it(736, 'Scroll of Escape'), cAll).act === 'keep', 'mode all: my consumables stay');
+  check(M.stashClassify(it(1, 'Sword', { equipped: true }), cAll).act === 'keep' && M.stashClassify(it(2, 'Quest Thing', { quest: true }), cAll).act === 'keep' && M.stashClassify(it(57, 'Adena'), cAll).act === 'keep', 'mode all: equipped / quest / adena stay');
+  check(M.stashClassify(it(12144, 'x', { gear: true, stackable: false, teamWants: true }), Object.assign({}, cAll, { hasTeam: true })).act === 'deposit' && M.stashClassify(it(12144, 'x', { gear: true, upgrade: true }), cAll).act === 'keep', 'mode all: gear a teammate could use goes in, my upgrade stays');
+  check(M.stashClassify(it(1865, 'Varnish', { sell: true }), cAll).act === 'sell', 'mode all: items marked for sale are left for the sale step');
+  check(M.stashClassify(it(1865, 'Varnish'), cOff).act === 'keep' && M.stashPlan([it(1865, 'Varnish'), it(3875, 'L2Day - A')], cOff).deposit.length === 0, 'mode off: nothing is deposited');
+  // letters
+  check(M.STASH_LETTER_IDS.length === 14 && M.STASH_LETTER_IDS[0] === 3875 && M.STASH_LETTER_IDS[13] === 3888, 'event letters: 14 ids 3875-3888 (L2Day - A ... II)');
+  const L0 = M.stashLettersCfg({});
+  check(L0.on === false && L0.to === 'clanleader' && L0.ids.length === 14 && L0.keep === false, 'letters: OFF by default, receiver = the clan leader, all 14 letters');
+  const Lon = M.stashLettersCfg({ letters: { on: true, to: 'Dagger1', ids: [3875, 3888], except: ['Bishop1'] } });
+  check(M.stashLetterReceiver(L0, 'Dagger1') === 'Dagger1' && M.stashLetterReceiver(Lon, 'Other') === 'Dagger1', 'receiver: clan leader or a named character');
+  check(!M.stashLetterKeep(L0, 'Doombringer1', 'Dagger1') && M.stashLetterKeep(Lon, 'Doombringer1', 'Dagger1').ids.length === 2 && !M.stashLetterKeep(Lon, 'Bishop1', 'Dagger1') && !M.stashLetterKeep(Lon, 'Dagger1', 'Dagger1')
+    && M.stashLetterKeep(Object.assign({}, Lon, { keep: true }), 'Dagger1', 'Dagger1'), 'giver keeps letters for the hand-over (not when off / excepted); receiver keeps them only with "keep"');
+  const lk = Object.assign({}, ctxQ, { name: 'Doombringer1', letterKeep: M.stashLetterKeep(Lon, 'Doombringer1', 'Dagger1') });
+  check(M.stashClassify(it(3875, 'L2Day - A'), lk).act === 'keep' && M.stashClassify(it(3875, 'L2Day - A'), ctxQ).act === 'deposit', 'a giver does not stash the letters it hands over (off: deposited as before)');
+  const bag = [it(3875, 'L2Day - A', { count: 3 }), it(3888, 'L2Day - II'), it(3882, 'L2Day - L'), it(736, 'Scroll of Escape', { count: 9 })];
+  const D = (o) => M.stashLettersDecide(Object.assign({ cfg: Lon, receiver: 'Dagger1', me: { name: 'Doombringer1', town: 'Giran', busy: '' }, recv: { name: 'Dagger1', town: 'Giran' }, bag, notrade: [], last: null, now: T0 }, o || {}));
+  const g = D();
+  check(g.act === 'give' && g.items.length === 2 && g.items.reduce((s, x) => s + x.count, 0) === 4 && g.items.every(x => x.stack), 'give: only the listed letter ids, counted, as stacks');
+  check(D({ cfg: L0 }).act === 'none' && D({ me: { name: 'Dagger1', town: 'Giran' } }).act === 'none' && D({ me: { name: 'Bishop1', town: 'Giran' } }).act === 'none' && D({ bag: [it(736, 'Scroll of Escape')] }).act === 'none', 'none: off / I am the receiver / on the never list / no letters');
+  check(D({ me: { name: 'Doombringer1', town: 'Giran', busy: 'in a raid' } }).act === 'wait' && D({ me: { name: 'Doombringer1', town: '' } }).act === 'wait' && D({ recv: null }).act === 'wait'
+    && D({ recv: { name: 'Dagger1', town: 'Oren' } }).act === 'wait' && D({ recv: { name: 'Dagger1', town: 'Giran', busy: 'trading' } }).act === 'wait' && D({ recv: { name: 'Dagger1', town: 'Giran', dead: true } }).act === 'wait', 'wait: busy (raid / circuit / order), outside a town, receiver away / other town / busy / dead');
+  check(D({ last: { state: 'failed', at: T0 - 60000 } }).act === 'wait' && D({ last: { state: 'failed', at: T0 - 31 * 60000 } }).act === 'give' && D({ last: { state: 'done', at: T0 - 60000 } }).act === 'wait', 'failure back-off 30 min, gap after a hand-over');
+  check(D({ notrade: [3875] }).items.length === 1, 'untradeable letter ids are never offered');
+  // the owner's live file (2026-10-13): Dagger1 stores everything in the clan warehouse
+  const QQ = M.stashSettings(rules, 'Dagger1', 'Dagger1', base);
+  check(QQ.dest === 'clan' && (QQ.mode === 'all' || !!((rules.chars || {}).Dagger1 || {}).depositNames), "owner's file: Dagger1 -> clan warehouse, everything mode");
 }
 
 // ---- 3) link choice, order, slots, verdicts, record ---------------------------------------------------------------------------------
@@ -144,7 +212,7 @@ async function flow(name, setup) {
   host.waitWarehouse = () => new Promise(res => { host.wh.waiter = res; });
   host.waitNpcHtml = () => new Promise(() => { });
   host.Send = {
-    ReqBypassToServer: (cmd) => { if (cmd === '02' && host.wh.waiter) { const w = host.wh.waiter; host.wh.waiter = null; const list = inv.filter(i => i.Id !== 57 && !i.IsEquiped && !S.notListed.includes(i.Id)).map(i => ({ objId: i.objId, Id: i.Id })); w({ kind: 'deposit', items: list }); } },
+    ReqBypassToServer: (cmd) => { if (cmd !== '02') return; const list = inv.filter(i => i.Id !== 57 && !i.IsEquiped && !S.notListed.includes(i.Id)).map(i => ({ objId: i.objId, Id: i.Id })); if (host.DLG) { host.DLG.ev('whdep', { items: list }); return; } if (host.wh.waiter) { const w = host.wh.waiter; host.wh.waiter = null; w({ kind: 'deposit', items: list }); } },
     SendHex: (hex) => {
       sent.push(hex);
       const b = Buffer.from(hex, 'hex'); if (b[0] !== 0x3B) throw new Error('opcode');
@@ -161,6 +229,15 @@ async function flow(name, setup) {
       rows.forEach(r => { const it = inv.find(i => i.objId === r.objId); it.Count -= r.count; S.stored[it.IsStackable ? it.Id : 'o' + it.objId] = 1; if (it.Count <= 0) inv = inv.filter(i => i !== it); });
     },
   };
+  // DIALOG-2026-10-13: the dialog engine with this test's clock; the fake server answers through DLG.ev like OnWareHouseDepositList
+  const DIALOG = src.indexOf('// DIALOG-PURE-BEGIN') >= 0 ? blk(src, '// DIALOG-PURE-BEGIN', '// DIALOG-PURE-END') : '';
+  if (DIALOG) {
+    const DE = new Function(DIALOG + '\nreturn { dlgEngine, dlgListFlow };')();
+    host.DLG = DE.dlgEngine({ now: () => clock, sleep: host.sleep, setTimeout: (f, ms) => { Promise.resolve().then(() => { clock += ms; f(); }); return 0; }, clearTimeout: () => { },
+      lag: () => null, target: () => 0, action: () => { }, bypass: (c) => host.Send.ReqBypassToServer(c, true), links: (h) => host.npcLinks(h), text: (h) => String(h || ''), log: () => { } });
+    host.dlgListFlow = DE.dlgListFlow;
+    host.dlgWhClick = async () => null;
+  }
   const names = Object.keys(host).filter(k => k !== 'getLastSys');
   const fn = new Function(...names, 'getLastSys', PURE + '\n' + IMP.replace(/\blastSysMsg\b/g, 'getLastSys()') + '\nreturn { stashDepositAt, stashRec, stashOpenList };');
   const X = fn(...names.map(k => host[k]), host.getLastSys);

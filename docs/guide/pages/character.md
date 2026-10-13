@@ -65,7 +65,11 @@ Nothing is fetched while the browser tab is hidden; the cast ring, cooldowns and
 4. **Class · role · party · login** - tap the party name to open the party's [live view](live-party.md).
 5. **Chips** - `online` / `offline`, `bot on` / `bot off` (L2Swarm's bot switch), `in combat` (glows), `dead`, `sitting`, the zone
    (`town (peace)`, `general zone` ...), and `last report N min ago` (red) when the script has been silent for more than 30 seconds.
-6. **Live** - the party's live view.
+6. **▶ Start / ■ Stop** - the run switch ([Start and Stop](parties.md#start-and-stop-the-run-switch)). On a party leader (or a
+   character alone) it is the PARTY's switch. On a member it stops only that member: it stands still where it is (no follow, no
+   assist, no team walks; it still heals, defends itself, trades and obeys your orders) and the party goes on without it; **▶ Start**
+   brings it back to its party. Next to it: *party running* / *party stopped* / *stopped on its own*.
+   **Live** - the party's live view.
 7. **Commands** - every command for this character in the [command center](command-center.md) ([screenshot](#commands-sheet)).
 8. **Override…** - the override panel for this character ([below](#override-panel)).
 9. **CP** bar - current / maximum.

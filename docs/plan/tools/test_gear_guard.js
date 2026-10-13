@@ -7,7 +7,7 @@ const ROOT = path.join(__dirname, '..', '..', '..');
 const src = fs.readFileSync(process.env.SWARM_SRC || path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const a = src.indexOf('// GEARGUARD-BEGIN'), b = src.indexOf('// GEARGUARD-END');
 if (a < 0 || b < a) { console.error('GEARGUARD block not found'); process.exit(1); }
-const M = new Function(src.slice(a, b) + '\nreturn { GEARGUARD, ggPolicy, ggCheck, ggWeaponFamily, ggTwoHanded };')();
+const M = new Function(src.slice(a, b) + '\nreturn { GEARGUARD, ggPolicy, ggCheck, ggWeaponFamily, ggTwoHanded, OWNTYPE: typeof OWNTYPE === "object" ? OWNTYPE : null, ggSameType: typeof ggSameType === "function" ? ggSameType : null, ggTypeWord: typeof ggTypeWord === "function" ? ggTypeWord : null, ammoFor: typeof ammoFor === "function" ? ammoFor : null };')();
 let oks = 0, fails = 0;
 const check = (ok, what) => { if (ok) oks++; else fails++; console.log((ok ? 'ok   ' : 'FAIL ') + what); };
 const I = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'gear_items.json'), 'utf8')).items;
@@ -41,6 +41,59 @@ check(/lower grade/.test(M.ggCheck({ slot: 'weapon', cand: Object.assign({}, spe
 check(M.ggCheck({ slot: 'ring', cand: { s: 'ring', g: 'D' }, worn: [{ s: 'ring', g: 'C' }], policy: ON }) === '', 'ring: one slot free -> fine');
 check(/lower grade/.test(M.ggCheck({ slot: 'ring', cand: { s: 'ring', g: 'D' }, worn: [{ s: 'ring', g: 'C' }, { s: 'ring', g: 'B' }], policy: ON })), 'ring: both full -> judged against the weaker one (C): D is lower');
 check(M.ggCheck({ slot: 'head', cand: { s: 'head', g: 'C' }, worn: [], policy: ON }) === '', 'an empty slot can always be filled');
+// ---- OWNTYPE (public tester 2026-10-13, party Yellow: bows given by hand) ----
+check(!!M.OWNTYPE && !!M.ggSameType && !!M.ggTypeWord && !!M.ammoFor, 'OWNTYPE block present (ggSameType, ggTypeWord, ammoFor)');
+if (M.ammoFor) {
+  const cbow = find('Composite Bow'), ldbow = find('Long Bow'), xbowD = Object.values(I).find(x => x.s === 'weapon' && x.t === 'CROSSBOW' && x.g === 'D');
+  check(M.ggSameType('weapon', bow, cbow) && !M.ggSameType('weapon', sword1, cbow) && M.ggSameType('weapon', blunt1, sword1), 'same type: bow = bow, sword != bow, 1h sword = 1h blunt (one family)');
+  check(!M.ggSameType('weapon', Object.assign({}, twoH, { mw: 1 }), twoH), 'same type: a magic 2h blunt is not a fighter 2h sword');
+  check(M.ggSameType('chest', lightD, find('Hard Leather Shirt')) && !M.ggSameType('chest', heavyD, lightD), 'same type: light = light, heavy != light');
+  check(M.ggTypeWord(cbow) === 'bow' && M.ggTypeWord(twoH) === 'two-handed sword' && M.ggTypeWord(lightD) === 'light armor' && M.ggTypeWord(spear) === 'polearm', `type words: ${[cbow, twoH, lightD, spear].map(M.ggTypeWord).join(', ')}`);
+  check(M.ammoFor(cbow).id === 17 && M.ammoFor(ldbow).id === 1341 && M.ammoFor(bowC).id === 1342 && M.ammoFor({ t: 'BOW', g: 'S84' }).id === 1345, 'arrows by bow grade: NG Wooden 17, D Bone 1341, C Steel 1342, S84 Shining 1345');
+  check(!xbowD || M.ammoFor(xbowD).id === 9633, `bolts for a D crossbow: Bone Bolt 9633 (${xbowD ? xbowD.n : 'no D crossbow in the table'})`);
+  check(M.ammoFor(sword1) === null && M.ammoFor(null) === null, 'no ammunition for a sword / no weapon');
+  // the ammunition the supply run buys must be on Helvetia's list (datapack buylist 3008100 = Giran grocer), dev install only
+  const BL = path.join(ROOT, 'Scripts', 'data', 'dp', 'buylists', '3008100.xml');
+  if (fs.existsSync(BL)) { const x = fs.readFileSync(BL, 'utf8'); check(M.OWNTYPE.helvetia.every(id => new RegExp(`id="${id}"`).test(x)) && !/id="1345"/.test(x), 'every arrow / bolt in OWNTYPE.helvetia is on Helvetia\'s buylist (Shining Arrow is not)'); }
+  // a starter piece never holds its slot on "same grade" (a level-19 destroyer with Training Gloves never got the No-Grade Zweihander)
+  const zwei = find('Zweihander'), tg = find('Training Gloves');
+  check(M.ggCheck({ slot: 'weapon', cand: zwei, worn: [tg], policy: ON }) === '', `starter Training Gloves -> No-Grade Zweihander with sameGradeSwap false: "${M.ggCheck({ slot: 'weapon', cand: zwei, worn: [tg], policy: ON })}"`);
+  check(/same grade/.test(M.ggCheck({ slot: 'weapon', cand: find('Forest Bow'), worn: [cbow], policy: ON })), 'a real No-Grade bow still holds on same grade (sameGradeSwap false)');
+}
+// supply: bows get arrows (static checks on the host code)
+{
+  const sw = src.slice(src.indexOf('function supplyWants('), src.indexOf('function deathPenaltyLevel('));
+  check(/myAmmo\(\)/.test(sw) && /OWNTYPE\.helvetia\.includes/.test(sw) && /S\.arrows/.test(sw), 'supplyWants: arrows / bolts of the worn bow\'s grade (only what Helvetia sells)');
+  check(/arrows: \d+, arrowsBelow: \d+/.test(src), 'CONFIG.lead.supply.arrows / arrowsBelow');
+  const ho = src.slice(src.indexOf('// 3. hand out: one trade per member'), src.indexOf('// 3b. ENCHANTING'));
+  check(/myAmmo\(\)/.test(ho) && /arrowsBelow/.test(ho), 'hand-out: the leader keeps his own arrows');
+  const ul = src.slice(src.indexOf('function unloadItems('), src.indexOf('async function leadUnload('));
+  check(/Arrow\|Bolt/.test(ul), 'unload: arrows / bolts are never given away as spare loot');
+}
+// ---- SHOPLIST (2026-10-13: "Common Item - Brigandine Helmet: not in Radia's list any more" x172 since the brain engine went live) ----
+{
+  const a2 = src.indexOf('// ==== SHOPLIST-PURE begin'), b2 = src.indexOf('// ==== SHOPLIST-PURE end');
+  check(a2 > 0 && b2 > a2, 'SHOPLIST-PURE block present');
+  if (a2 > 0 && b2 > a2) {
+    const S = new Function(src.slice(a2, b2) + '\nreturn { slIsSellPart };')();
+    const sc = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'shopscan_giran.json'), 'utf8'));
+    const radiaCommon = []; (sc.shops || []).filter(s => s.npc === 'Radia').forEach(s => (s.lists || []).forEach(l => { if (/Common/i.test((l.path || []).join(' '))) (l.items || []).forEach(i => radiaCommon.push(i.id)); }));
+    // a realistic level-20 bag (the sell-part dump of a live character: own items with sell prices)
+    const SP = path.join(ROOT, 'Logs', 'shop_Spoiler5.txt');
+    const sellIds = fs.existsSync(SP) ? fs.readFileSync(SP, 'utf8').split(/\r?\n/).slice(1).map(l => Number(l.split(' ')[0])).filter(x => x > 0) : [1831, 2010, 18, 1865, 728, 737, 2136, 1791, 1788, 3, 1061, 1835, 42, 1868];
+    const bag = sellIds.concat([57, 12020, 12021]);                                  // + adena and two Common pieces
+    check(S.slIsSellPart(sellIds, bag) === true, `the OnShopList list of a live character (${sellIds.length} rows, all from my bag) = the SELL part`);
+    check(radiaCommon.length > 10 && S.slIsSellPart(radiaCommon, bag) === false, `Radia's Common Items list (${radiaCommon.length} ids) is a real buy list, also with 2 of its pieces in my bag`);
+    check(S.slIsSellPart([736], [736]) === false && S.slIsSellPart([], [1, 2]) === false, 'tiny / empty lists are never called a sell part');
+  }
+  const bgp = src.slice(src.indexOf('async function buyGearPicks('), src.indexOf('function bagCount('));
+  check(/slIsSellPart\(/.test(bgp) && /&& !sellPart\)/.test(bgp) && (bgp.match(/scanClick\(/g) || []).length >= 2, 'gear buys: my own bag is no "not in the list"; a page instead of the list is retried once');
+  const osh = src.slice(src.indexOf('async function openShop('), src.indexOf('async function openShop(') + 3000);
+  check(/listUnknown: true/.test(osh), 'openShop: a list that is my own bag -> listUnknown (buyAt buys anyway, bag-checked)');
+  const AG2 = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'agent2.js'), 'utf8'), HJ = fs.readFileSync(path.join(ROOT, 'Dashboard', 'brain_host', 'host.js'), 'utf8');
+  check(/function OnShopList\(shopId, list\) \{[^\n]*(items\(BuyList\)|buyRows\(\))[^\n]*ev\('OnShopList', \[num\(shopId\), items\(list\), b\]\)/.test(AG2) && /section\('buy'/.test(AG2), 'agent2.js: L2Swarm\'s real BuyList goes along with OnShopList + in the 1 s report');
+  check(/OnShopList: \(a\) => \{ if \(Array\.isArray\(a\[2\]\) && a\[2\]\.length\) mirror\.buy = a\[2\]/.test(HJ), 'brain host: BuyList = the agent\'s real BuyList (old agents: as before)');
+}
 // ---- lock + policy ----
 check(/locked/.test(M.ggCheck({ slot: 'head', cand: { s: 'head', g: 'S' }, worn: [], policy: Object.assign({}, ON, { lock: true }) })), 'locked: nothing at all');
 const P0 = M.ggPolicy(null, 'X', 'P');

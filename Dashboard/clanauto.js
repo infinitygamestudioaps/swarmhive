@@ -46,7 +46,7 @@
     const [cls, lab] = fixed && r.state === 'ok' ? ['good', 'ok'] : (STATE_LABEL[r.state] || STATE_LABEL.ok);
     return `<div class="carow">
       <div class="casw">${fixed ? '<span class="catgl fixed" title="always automatic">AUTO</span>' : sw(r.key, !!r.on)}</div>
-      <div class="cabody"><div><b>${h(r.title)}</b> <span class="fit ${cls}">${lab}</span></div><div class="catxt muted">${h(r.text)}</div>
+      <div class="cabody"><div><b>${h(r.title)}</b> <span class="fit ${cls}">${lab}</span></div><div class="catxt muted">${h(r.text)}</div>${r.on === false ? '<div class="catxt muted">Off — nothing happens until you switch it on.</div>' : ''}
         ${r.sub ? `<div class="casub">${sw(r.sub.key, !!r.sub.on, r.sub.label)}</div>` : ''}${r.act ? `<div class="casub"><button data-cahand="${h(r.key)}" title="${h(r.act.giver)} goes to ${h(r.act.receiver)} now and trades ${h(r.act.count)} × ${h(r.act.item)}">${h(r.act.label || 'Do it now')}</button> <span class="muted">${h(r.act.giver)} → ${h(r.act.receiver)}: ${h(r.act.count)} × ${h(r.act.item)}</span></div>` : ''}</div></div>`;
   }
   /** the overview box (top of the Clan tab, configured clan only) */
@@ -58,10 +58,10 @@
     return `<div class="box caov">
       <div class="cahead">${gi('clan')} <b>${h(d.clan || 'no clan yet')}</b> <span class="muted">level ${h(d.level)} · clan leader ${h(d.leader)} ${d.leaderOnline ? '(online)' : '<b>(offline)</b>'} · status ${typeof ago === 'function' ? ago(d.at) : ''}</span></div>
       <h3 class="cah">${gi('warn')} Needs you <span class="muted">(${acts.length}${infos.length ? ' + ' + infos.length + ' notes' : ''})</span></h3>
-      ${acts.length || infos.length ? acts.concat(infos).map(n => needHtml(n, needs.indexOf(n))).join('') : '<div class="muted">Nothing — everything below runs by itself.</div>'}
-      <h3 class="cah">${gi('yes')} Runs by itself <span class="muted">(${nRun} of ${(d.rows || []).length} active right now)</span></h3>
+      ${acts.length || infos.length ? acts.concat(infos).map(n => needHtml(n, needs.indexOf(n))).join('') : '<div class="muted">Nothing needs you right now.</div>'}
+      <h3 class="cah">${gi('yes')} Automatic tasks <span class="muted">(${nRun} of ${(d.rows || []).length} active right now)</span></h3>
       ${(d.rows || []).map(rowHtml).join('')}
-      <div class="muted cafoot">Switches: Scripts/data/clan_quests.json clan.auto (the bots read them live). Everything costly (registration fees, trades between parties, level quests that move parties) asks once or stays off until you switch it on.</div></div>`;
+      <div class="muted cafoot">The bots read these switches at once.<span data-adv> (Scripts/data/clan_quests.json clan.auto)</span> Everything costly (registration fees, trades between parties, level quests that move parties) asks once or stays off until you switch it on.</div></div>`;
   }
   function parties() { return ((CA.data && (CA.data.rows || []).find(r => r.key === 'invite')) || {}).parties || null; }
 

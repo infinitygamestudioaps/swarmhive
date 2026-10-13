@@ -2,6 +2,36 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.4 (2026-10-13)
+
+- Shops (URGENT fix): buying works again on the new engine - the brain read the merchant's SELL part (your own items) instead of his buy list, so supplies said ''not sold here'' and gear said ''not in X's list any more''
+- the agent now sends the real buy list and each shop visit waits for that merchant's list
+- Gear: the weapon and armor TYPE you gave a character is kept and upgraded within that type (bow -> best D bow, light armor stays light), bow users get arrows of their grade, a planned weapon not sold as a Common item is bought as the normal item (e.g. Zweihander), gear notes say why nothing was bought
+- Party settings (new): a Settings button on every party card opens one popup with everything the party may do by itself (money hand-outs incl. who gives, gear, storage, clan, daily Kamaloka / Seven Signs, tactics, route rules, automatic supply runs / junk selling / symbols per party and per character, who gives adena to this party) - plain words, one Save, off until you switch it on
+- Start / Stop for every party (new): a big Start / Stop button on every party card and on the character page, Start all / Stop all in the header
+- STOPPED is the default after an update, a restart or a new install - a stopped party does nothing on its own (no leveling, supply runs, regroups, daily Kamaloka, raid hunting, Seven Signs / warehouse / hand-over trips, no picking up what it did before a restart) but still heals, defends itself, answers trades and does every order you send
+- Start asks first and shows what it will do
+- Simple view (new, default
+- the switch is under the title): the expert pages are hidden (Zones, Spots, Rooms, Crystals, Fortresses, Castles, Enchant, Accounts, Plan) and so is the technical task list on the party cards
+- plain sentences instead of log codes on the character page, Live view, Orders and Commands (Advanced view keeps the details)
+- grouped order results with calm words
+- larger text on phones
+- NPC dialogs (shops, warehouse, quests, gatekeepers, Seven Signs, Cabinet, class change, clan, Kamaloka) run on one event-driven dialog engine: it waits for the real answer, ends at once with the reason when the server refuses (bag full, no adena, no clan warehouse right, too far ...) and never gives up while the bot is just slow
+- a stop that was interrupted by a restart counts as done
+- a trade the server confirmed (#123) counts as done
+- Quests: a quest whose state the server does not report is followed by its quest items and the engine's own record (no more false COMPLETED after step 2)
+- Raid boss routes: a waypoint counts as reached only at the right height too (x, y AND z - deep caves, swims dive down), keys are bought only for the doors a route needs, a 'Try fortress gates' party rule (off by default), drops marked as not tested live
+- Raid boss routes: walking out of Heine is allowed, swims only when there is no dry way, fortress gates only the owner can open count as walls, doors / swims / drops show as steps, route rules per party (doors, swims, drops, buying Thief Keys - off by default)
+- New engine much lighter on the PC: the agent reads L2Swarm about 100x less (one snapshot per list instead of every item and field, nearby creatures only), never gets cut off by L2Swarm's 30 s watchdog any more (a character in a crowded town with a full bag could stay 'not ready' for minutes), and ticks slowly when the character is idle or its party is stopped
+- Storage tab (new): per character choose the clan or your own warehouse, what to store (smart rules / everything except your consumables / nothing), automatic on or off (OFF by default - nothing happens until you switch it on), Plan (dry run) and Store now buttons
+- event letters can be handed to one collector (off by default)
+- storing works with slow warehouse pages (waits for the list instead of giving up after 6 s)
+- Quests: a full bag (over 90 % of the slots) makes the server refuse every quest window without a page (#1118) - the engine now says so at once (free bag slots) instead of retrying 4 times, and checks the bag before travelling
+- Parties: a party never counts characters of ANOTHER party as its own (tester: party Yellow waited in the supply run for all 9 Jade characters - characters added after the leader started were taken for the main leader's team
+- every character now reports which leader it follows)
+- Trades between our own characters: the giver walks to where the receiver last reported and only sends the request once the receiver is in sight (no more #144 incorrect target / #22 out of range, e.g. the clan Blood Mark hand-over to the clan leader)
+- circuit progress shows fighting during the boss fight
+
 ## v1.6.3 (2026-10-13)
 
 - Move accounts to the new engine: Scripts/agent2.js is checked BEFORE anything is stopped and copied from Scripts_dev when an update did not deploy it (tester: every character was left with no script, ENOENT agent2.js)
