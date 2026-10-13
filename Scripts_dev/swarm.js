@@ -3861,7 +3861,9 @@ function castPick(cands, ctx) {
     if (best) return { skill: best, why: 'best damage per second' };
   }
   if (primary && usable(primary)) {
-    if (aoe && V(aoe) > V(primary)) return { skill: aoe, why: `aoe (${mobs} monsters)` };
+    // RAIDPRIMARY-2026-10-14 (owner: Repiro, 'Hydro Blast has a far shorter reuse and more power'): in a raid the primary nuke always goes first when
+    // it is ready - an AoE value x every monster at the boss (Flame Strike x 4) ignored its long reuse / cast and pulled minions off the tank
+    if (aoe && !c.raid && V(aoe) > V(primary)) return { skill: aoe, why: `aoe (${mobs} monsters)` };
     return { skill: primary, why: 'primary' };
   }
   const left = (s) => Number(s.reuseLeftMs) > 0 ? Number(s.reuseLeftMs) : Infinity;
@@ -4814,7 +4816,7 @@ async function autoSkillTick() {
     castReach.losTid = 0;
   }
   const pick = castPick(cands, { mp: num(Me.MP), hpPct: hpNow, dist, mobs: mobsAtTarget,
-    aoeMinMobs: a.aoeMinMobs, worth, blocked: castBlocked, now: now(), chase });   // pairs: memberPairTick moves
+    aoeMinMobs: aoeMinNow(), worth, blocked: castBlocked, now: now(), chase });   // pairs: memberPairTick moves
   if (pick.skill) {
     if (/^fallback/.test(pick.why)) { const fk = `${pick.skill.name}: ${pick.why.replace(/^fallback \(?|\)$/g, '') || 'no primary'}`; castStats.fb[fk] = (castStats.fb[fk] || 0) + 1; }   // CASTPRIO 2026-10-13: WHY a fallback (caster_stats.log)
     if (castReach.st.approached && castReach.st.tid === tid) { castStats.steps++; Object.assign(castReach.st, { approached: false, since: 0, step: null, stuck: 0 }); }   // stepped into range
@@ -8259,7 +8261,11 @@ async function routeHop(p, abort, onDetour) {
         for (const q of way) { if (abort && abort()) break; if (Math.hypot(q.x - Me.X, q.y - Me.Y) < 150) continue; if (!(await walkDirect(q.x, q.y, q.z, 150, hopMs(q), abort, 'route')) && Math.hypot(q.x - Me.X, q.y - Me.Y) > 300) break; }
       }
     }
+    const fz0 = { x: Me.X, y: Me.Y, z: Me.Z };
     let ok = await walkDirect(p.x, p.y, p.z, 200, hopMs(p), abort, 'route');   // move on ~200 before each route point (no stop, 2026-10-10)
+    // FROZEN-2026-10-14 (Tank3 on the King Tarlk bridge: not one step for 8 min while he still saw 2 monsters, so the 'sees nothing' Appearing
+    // watch never fired): a whole leg without moving at all = the server waits for Appearing -> send it and walk the leg again
+    if (!ok && Math.hypot(Me.X - fz0.x, Me.Y - fz0.y) < 20 && Math.abs(Me.Z - fz0.z) < 20 && !(abort && abort())) { sendAppearing('did not move one step on a route leg'); await sleep(1500); ok = await walkDirect(p.x, p.y, p.z, 200, hopMs(p), abort, 'route'); }
     // NO side-step (2026-10-06 21:48: a 150 side-step at the ravine edge dropped Saint1 from -3088 to -4960): retry straight only
     if (!ok && Math.hypot(p.x - Me.X, p.y - Me.Y) > 300 && !(abort && abort())) ok = await walkDirect(p.x, p.y, p.z, 120, hopMs(p), abort, 'route');
     // AUTO-FIX (user 2026-10-06 23:35: "if the path is blocked then fix it"): ask our own path finder (geopath.js, a separate process — not
@@ -8574,7 +8580,14 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
         if (hop) break;
         if (stopped()) { ok = false; break; }
         if (brk) { try { Send.StopMove(); } catch (e) { } continue; }   // paused (pace / fight): on to the same point afterwards
-        if (++fails >= 3) { note(`route to ${label}: I am stuck before point ${j + 1}/${n} at ${P(Me.X, Me.Y, Me.Z)} — correct the route on the dashboard`, true); ok = false; break; }
+        if (++fails >= 3) {
+          note(`route to ${label}: I am stuck before point ${j + 1}/${n} at ${P(Me.X, Me.Y, Me.Z)} — correct the route on the dashboard`, true);
+          // LEADERPIT-2026-10-14 (Tank3 fell off the King Tarlk bridge into a pit with no way out and stood there): the leader leaves a spot
+          // he cannot walk out of with .town (the team follows), so the next try starts from the town instead of the same pit
+          if (Math.hypot(pts[j].x - Me.X, pts[j].y - Me.Y) > 300 || Math.abs((pts[j].z || Me.Z) - Me.Z) > 150) { sendAppearing('stuck on a route leg'); await sleep(1500);
+            try { const r0 = { x: Me.X, y: Me.Y }; await walkDirect(pts[j].x, pts[j].y, pts[j].z, 200, 20000, abort, 'route'); if (Math.hypot(Me.X - r0.x, Me.Y - r0.y) < 150 && !stopped()) { note(`route to ${label}: no way out of here — .town, the route starts again from the town`, true); await useEscape(0, 'stuck on the route'); } } catch (e) { logError('leader pit escape', e); } }
+          ok = false; break;
+        }
         note(`route to ${label}: the leg to point ${j + 1}/${n} did not get me there — trying again (${fails}/3)`);
         await sleep(2000);
       }
@@ -15664,9 +15677,13 @@ async function scoutRun(text, o) {
 // Catches forwarded drops (Forward Drop to Party Leader) too, since the leader's bag is compared as well.
 let lootSnap = null;
 function bagCounts() { const c = {}; try { Inventory.forEach(i => { if (i.IsEquiped) return; const id = num(i.Id); c[id] = (c[id] || 0) + num(i.Count); c['n' + id] = String(i.Name || id); }); } catch (e) { } return c; }
-function lootSnapshot(boss) { lootSnap = { boss, at: now(), c: bagCounts() }; }
+// LOOTSNAP-2026-10-14 (Repiro: Chanter3 / Nuker4 / Nuker3 logged their WHOLE bag as loot - 2.5M adena, potions, shots): a snapshot taken while
+// the bag was not loaded yet (a reload just before the pull) is empty; it is retaken until it holds the bag, and a record without a real snapshot is skipped
+function lootSnapshot(boss) { const c = bagCounts(); lootSnap = { boss, at: now(), c, ok: Object.keys(c).length > 0 && (c[57] || 0) > 0 }; }
+setInterval(() => { try { if (lootSnap && !lootSnap.ok && inRaid()) lootSnapshot(lootSnap.boss); } catch (e) { } }, 3000);
 function lootRecord() {
   if (!lootSnap) return [];
+  if (!lootSnap.ok) { note(`loot from ${lootSnap.boss}: not recorded (no bag snapshot from before the fight)`); lootSnap = null; return []; }   // LOOTSNAP
   const now2 = bagCounts(), out = [];
   Object.keys(now2).forEach(k => { if (k[0] === 'n') return; const d = now2[k] - (lootSnap.c[k] || 0); if (d > 0) out.push({ id: Number(k), name: now2['n' + k], count: d }); });
   const ts = new Date().toISOString();
@@ -24755,7 +24772,7 @@ async function pairsTravel(why, fn) {
   try { pairsTravelStop(why); pairsGate.travelDepth++; counted = true; } catch (e) { }
   try { return await fn(); } finally { if (counted) { pairsGate.travelDepth = Math.max(0, pairsGate.travelDepth - 1); pairsGate.travelAt = now(); } }
 }
-const TACT_DEFAULT = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false,
+const TACT_DEFAULT = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary',
   maxAdds: 6, expRange: 1400, hpAvgMin: 70, noDeathMin: 10, cooldownMin: 2, helpHp: 55 };
 const PAIR_DEALERS = ROLE_RE.pairDealers;   // ROLE KINDS: the old list + melee, meleebuffer, summoner
 const PAIR_BUFFERS = ROLE_RE.pairBuffers;   // unchanged: /^(doomcryer|warcryer|buffer)$/
@@ -24776,8 +24793,15 @@ function partyTactics(leader) {
   c.minDealers = Math.max(1, num(c.minDealers) || 4);
   c.fallbackHp = Math.max(5, Math.min(90, num(c.fallbackHp) || 40));
   c.maxAdds = Math.max(1, num(c.maxAdds) || 6);
+  // AOECFG-2026-10-14 (owner: 'Alt skal være konfigurerbart'): area spells from aoeMin monsters (0 = never), raidAoe 'primary' = the primary nuke
+  // first in raids (AoE only while it reloads) | 'value' = the old rule (AoE when its value x monsters is higher)
+  { const a = Math.round(num(c.aoeMin)); c.aoeMin = c.aoeMin === 0 || a === 0 ? 0 : Math.max(2, Math.min(8, a || 3)); }
+  c.raidAoe = c.raidAoe === 'value' ? 'value' : 'primary';
   return c;
 }
+/** AOECFG: the party's area-spell threshold (0 = never -> a number no fight reaches) */
+function aoeMinNow() { try { const v = partyTactics().aoeMin; return v === 0 ? 999 : v; } catch (e) { return CONFIG.autoSkills.aoeMinMobs; } }
+function raidPrimaryFirst() { try { return partyTactics().raidAoe !== 'value'; } catch (e) { return true; } }
 /** Extra hunting-area factor of my party (only while its tactics are auto/on). */
 function tacticsZoneScale() { try { const c = partyTactics(); return c.mode === 'off' ? 1 : c.zoneScale; } catch (e) { return 1; } }
 const pairs = { on: false, why: 'off', since: 0, offUntil: 0, offSentUntil: 0, list: [], taken: new Set(), targets: {}, hpHist: [], lastDeathAt: 0, deadSeen: {}, cfg: null };
@@ -25020,7 +25044,7 @@ async function memberPairTick() {
   if (caster) {
     if (Me.IsCasting) return;
     const plan = currentSkillPlan(), A = CONFIG.autoSkills, n = countMobsNear(t.X, t.Y, A.aoeRadius);
-    const usable = plan.attacks.filter(s => !(s.scope && s.scope !== 'SINGLE' && n < A.aoeMinMobs));
+    const usable = plan.attacks.filter(s => !(s.scope && s.scope !== 'SINGLE' && n < aoeMinNow()));
     const range = usable.length ? Math.max(...usable.map(s => s.range)) : 0;
     if (!usable.length) { if (!noMelee() && !Me.IsAttacking && now() - myPair.lastAct > 2500) { myPair.lastAct = now(); Send.Action(t.objId); } return; }   // nothing to cast: hit it
     if (d > range + 40) {
@@ -25522,7 +25546,7 @@ async function instanceFight(bossName, ms) {
         // CAST LOOP (2026-10-09): same pick + cast-end wait as autoSkillTick (was: first ready skill, then raw HitTime + 450 ms of sleeps)
         { const ord = plan.attacks.filter(sk => { reach = Math.max(reach, sk.range || 0); let k = null; try { k = SkillsList.GetItemByID(sk.id); } catch (e) { } return !k || raidAttackOk(k); });
           const pk = castPick(castCands(posFilterOrder(t, ord)), { mp: num(Me.MP), hpPct: num(Me.HpPercent), dist: Distance(t), mobs: countMobsNear(t.X, t.Y, CONFIG.autoSkills.aoeRadius),
-            aoeMinMobs: CONFIG.autoSkills.aoeMinMobs, worth: false, blocked: castBlocked, now: now() });
+            aoeMinMobs: aoeMinNow(), worth: false, blocked: castBlocked, now: now() });
           if (pk.skill) { const r = await castNow(pk.skill); cast = !!r.started; } }
         if (!cast && reach && Distance(t) > reach + 40) {
           const ang = Math.atan2(Me.Y - t.Y, Me.X - t.X), want = Math.max(450, reach - 100);
@@ -35385,7 +35409,7 @@ async function raidDealer(boss) {
     { const ordBase = castOrder(plan.attacks, { hpPct: num(Me.HpPercent), worth: true }), ord = elementOrder(ordBase, state.bossName);
       ord.forEach(sk => { reach = Math.max(reach, sk.range || 0); });
       const pk = castPick(castCands(posFilterOrder(tgt, ord)), { mp: num(Me.MP), hpPct: num(Me.HpPercent), dist: Distance(tgt), mobs: countMobsNear(tgt.X, tgt.Y, CONFIG.autoSkills.aoeRadius),
-        aoeMinMobs: epicAoeMin(CONFIG.autoSkills.aoeMinMobs), worth: true, blocked: castBlocked, now: now(), primaryId: ord !== ordBase ? ((ord.find(x => !castIsAoe(x)) || {}).id || 0) : 0,
+        aoeMinMobs: epicAoeMin(aoeMinNow()), worth: true, raid: raidPrimaryFirst(), blocked: castBlocked, now: now(), primaryId: ord !== ordBase ? ((ord.find(x => !castIsAoe(x)) || {}).id || 0) : 0,
         elMul: elementMulFrom(raidTemplate(state.bossName)) });   // CASTPRIO 2026-10-13: the boss's element defence also rates the fallbacks (no Death Spike spam on a dark 53 boss)
       if (pk.skill && /^fallback/.test(pk.why)) { const fk = `${pk.skill.name}: ${pk.why.replace(/^fallback \(?|\)$/g, '') || 'no primary'}`; castStats.fb[fk] = (castStats.fb[fk] || 0) + 1; }
       if (pk.skill) { const r = await castNow(pk.skill); castOne = !!r.started; }

@@ -52,7 +52,7 @@
     { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs', help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' }];
   const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols' };
   const GMODES = ['auto', 'list', 'none'];
-  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false };
+  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary' };
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
   const MODES = [['rules', 'Smart: materials, old gear, letters…'], ['all', 'Everything except what it uses'], ['off', 'Nothing']];
   const TRIGS = [['bag', 'When the bag holds more than … kinds'], ['weight', 'When it carries more than … % weight'], ['supply', 'Only during supply runs'], ['town', 'Whenever it is idle in its town']];
@@ -441,6 +441,12 @@
           ${inp('tactics.fallbackHp', String(t.fallbackHp), 'Back to focus fire below HP %', { small: true })}
           <label class="ps-chk"><input type="checkbox" data-pschk="tactics.includeBuffers"${t.includeBuffers ? ' checked' : ''}> The Doomcryer joins a group</label>
         </div></details>`;
+      // AOECFG-2026-10-14: area spells (Flame Strike, Aqua Swirl, ...) - when casters use them
+      body += `<div class="ps-sub"><b>Area spells (casters)</b></div>
+        ${sel('tactics.aoeMin', t.aoeMin, [[0, 'Never'], [2, 'From 2 monsters'], [3, 'From 3 monsters (default)'], [4, 'From 4 monsters'], [5, 'From 5 monsters'], [6, 'From 6 monsters'], [8, 'From 8 monsters']], 'Use area spells')}
+        ${seg('tactics.raidAoe', t.raidAoe, [['primary', 'Strongest single spell first'], ['value', 'Area spells when more monsters']], 'In raids')}
+        <div class="ps-what">${t.raidAoe === 'value' ? 'In raids: an area spell is cast when it hits more in total than the best single spell (it can pull minions off the tank).' : 'In raids: the strongest single-target spell (e.g. Hydro Blast) goes first; area spells only while it reloads.'}</div>`;
+      sum += t.aoeMin === 0 ? ' · no area spells' : '';
     } else body += unavailable('tactics');
     body += adv(note('File: Scripts/data/party_tactics.json — ' + E(PS.leader) + ' (hunting pairs, leveling only). Hunting place: Scripts/data/party_spots.json.'));
     return section('fight', '⚔', 'Fighting', sum, body, { dirty: dirtySecs().includes('tactics') });

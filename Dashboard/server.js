@@ -2843,6 +2843,8 @@ http.createServer(async (req, res) => {
         leash: Math.round(clamp(get('leash'), 300, 1400, 900)), zoneScale: Math.round(clamp(get('zoneScale'), 1, 2, 1) * 100) / 100,
         minDealers: Math.round(clamp(get('minDealers'), 1, 9, 4)), levelMargin: Math.round(clamp(get('levelMargin'), -5, 10, 2)),
         fallbackHp: Math.round(clamp(get('fallbackHp'), 5, 90, 40)), includeBuffers: !!get('includeBuffers'),
+        // AOECFG-2026-10-14: area spells from N monsters (0 = never) + the raid rule (primary nuke first | value)
+        aoeMin: Number(get('aoeMin')) === 0 ? 0 : Math.round(clamp(get('aoeMin'), 2, 8, 3)), raidAoe: String(get('raidAoe')) === 'value' ? 'value' : 'primary',
       };
       ['maxAdds', 'expRange', 'hpAvgMin', 'noDeathMin', 'cooldownMin', 'helpHp'].forEach(k => { if (cur[k] !== undefined) t[k] = cur[k]; });   // expert fields: file only
       all[party] = t; all._updated = new Date().toISOString();

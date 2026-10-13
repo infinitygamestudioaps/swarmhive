@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.7 (2026-10-14)
+
+- casters: in raids the strongest single-target spell (e.g. Hydro Blast, or the boss's weak element) goes first - area spells only while it reloads
+- new party settings (Settings -> Fighting -> Area spells): use area spells from 2-8 monsters or never, and in raids 'strongest single spell first' (default) or 'area spells when more monsters'
+- raid loot list no longer shows a character's whole bag (an empty bag snapshot right after a reload is retaken)
+- route walks: a character that does not move one step on a leg sends the Appearing packet itself and walks again (the leader froze on a bridge)
+- a leader stuck where no way leads on uses .town and the route starts again from the town
+
 ## v1.6.6 (2026-10-13)
 
 - HOTFIX: casters cast again - in v1.6.5 every spell was refused with 'agent not reached' (a new cast acknowledgement never arrived), so no caster used magic
