@@ -254,9 +254,29 @@ if ($updated) {
 }
 if ($updated -or $engineMigrated) {
     # what the user must do now (2026-10-13: the new engine is the default; the dashboard runs it, so it needs the new server code)
+    # DASHRESTART-2026-10-13 (tester: "'restart the dashboard' - is there a command for this? I reloaded the page and the new UI appeared but none
+    # of it works"): the running dashboard keeps its old server code -> restart it here: the process listening on the dashboard port is stopped
+    # and Dashboard\start.cmd is started again (minimized; it also opens the page)
+    $dashRestarted = $false
+    try {
+        $dport = 8090; try { $dp = (& node -e "console.log(require('./docs/plan/tools/swarm_config.js').dashboardPort)" 2>$null); if ($dp) { $dport = [int]($dp | Select-Object -First 1) } } catch { }
+        $lst = Get-NetTCPConnection -LocalPort $dport -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($lst) {
+            $dproc = Get-Process -Id $lst.OwningProcess -ErrorAction SilentlyContinue
+            if ($dproc -and $dproc.ProcessName -match '^node$') {
+                Say "restarting the dashboard (port $dport, node pid $($dproc.Id)) so it runs the new code ..."
+                Stop-Process -Id $dproc.Id -Force -ErrorAction SilentlyContinue; Start-Sleep 2
+                Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', "`"$root\Dashboard\start.cmd`"" -WorkingDirectory "$root\Dashboard" -WindowStyle Minimized
+                $dashRestarted = $true; Say 'dashboard restarted - reload the page in your browser.' Green
+            }
+        }
+    } catch { Say "could not restart the dashboard by itself: $($_.Exception.Message)" Yellow }
     Say ''; Say 'WHAT YOU MUST DO NOW' Cyan
+    if ($dashRestarted) { Say '  1. The dashboard was restarted with the new code: reload the page in your browser.' Green }
+    else {
     Say '  1. Restart the dashboard (close its window / node process, then start Dashboard\start.cmd): an update only replaces its files,' Yellow
     Say '     the running dashboard keeps the old code until it is restarted. It also starts the new engine''s brain pool.' Yellow
+    }
     if ($engineStatus) {
         Say "  2. New engine: $engineStatus"
         if ($engineStatus -like 'new engine ON*') {

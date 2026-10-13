@@ -164,12 +164,38 @@ ok(['giran', 'dion', 'aden', 'gludio', 'heine'].every((t, i) => MF.levelKey(M, [
   const art = D.map(d => d.key + ':' + d.floors.map((F, fi) => { const r = (F.rooms || []).find(x => x.center); if (!r) return '-'; const p = { x: r.center[0], y: r.center[1], z: r.center[2] }; const a = artAt(MF.lvlOf(M, d.key + '#' + fi), p); return a === null ? 'none' : a; }).join('/'));
   console.log('floor art per dungeon (layer per floor, none = room outlines): ' + art.join('  '));
 
+  // 8b) FIX 2026-10-13 13:52 (user screenshot: party Char1 OUTDOORS on the way to The Immortal Plateau, dark map): trackLevel gave
+  // 'caveoftrials#0' for a surface point inside the Cave of Trials box (any floor within 800 of a door point). Now it agrees with levelKey.
+  const valt = { x: 6120, y: -107059, z: -2336 };
+  ok(MF.levelKey(M, valt) === 'surface', 'Char1 6120,-107059,-2336: levelKey surface');
+  const vlv = MF.trackLevel(M, {}, valt, 1e6);
+  // PKGSKIP-2026-10-13: the public package has no Maps/high (map art comes from the user's L2Swarm install) -> the layered-region parts are skipped there
+  const HAVEART = Object.keys(have || {}).length > 0;
+  ok(vlv.k === 'surface' && artAt(vlv, valt) === '' && (!HAVEART || (reg(valt).join('_') === '20_14' && !!have['20_14'])), `Char1: trackLevel surface + world art in layered region 20_14 (${vlv.k} '${artAt(vlv, valt)}')`);
+  // walking out of the Cave of Trials (gradual climb) ends on the surface after 2 looks, not on the cave floor
+  { const S4 = {}; let t4 = 4e6; const lk = (p) => { t4 += 1500; return MF.trackLevel(M, S4, p, t4); };
+    const cave = D.find(d => d.key === 'caveoftrials').floors[0].rooms.find(r => r.center).center;
+    lk({ x: cave[0], y: cave[1], z: cave[2] });
+    let k = ''; for (let i = 1; i <= 8; i++) k = lk({ x: cave[0] + (valt.x - cave[0]) * i / 8, y: cave[1] + (valt.y - cave[1]) * i / 8, z: cave[2] + (valt.z - cave[2]) * i / 8 }).k;
+    ok(k === 'surface', 'walking out of the Cave of Trials ends on the surface (' + k + ')'); }
+  // other outdoor points in regions that HAVE underground layers: every datapack spawn there that levelKey calls surface gets surface + world art
+  // on a first look, and no spawn inside any dungeon box gets a different level from trackLevel than from levelKey
+  let outdoor = 0, outBad = [];
+  spawns.forEach(sp => {
+    const [rx, ry] = reg(sp); if (!have[rx + '_' + ry] || MF.levelKey(M, sp) !== 'surface') return;
+    outdoor++; const l = MF.trackLevel(M, {}, sp, 1); if (l.k !== 'surface' || MF.tileSuffix(l, rx, ry, sp, zmap, have) !== '') outBad.push(sp.name + ' ' + sp.x + ',' + sp.y + ',' + sp.z + ' -> ' + l.k);
+  });
+  ok((!HAVEART || outdoor > 1000) && !outBad.length, `outdoor points in layered regions: surface + world art (${outdoor} checked; bad: ${outBad.slice(0, 3).join(' | ')})`);
+  let boxN = 0, boxBad = 0;
+  spawns.forEach(sp => { if (!MF.floorOf(M, sp.x, sp.y, sp.z)) return; boxN++; if (MF.trackLevel(M, {}, sp, 1).k !== MF.levelKey(M, sp)) boxBad++; });
+  ok(boxN > 5000 && boxBad === 0, `trackLevel == levelKey for every spawn inside a dungeon box (${boxN} checked, ${boxBad} differ)`);
+
   // 9) NPC TARGETS (2026-10-13): server.js moves a selected peaceful NPC from doing.target to doing.npc (no more "fighting Helvetia")
   {
     const src = srv, a = src.indexOf('const NPC_ATTACKABLE_RX'), b = src.indexOf('function readStates() {');
     ok(a > 0 && b > a && /try \{ splitNpcTarget\(s\); \}/.test(src), 'server.js: readStates splits NPC targets');
     const readJson = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')); } catch (e) { return d; } };   // eslint-disable-line no-unused-vars
-    const split = new Function('fs', 'path', 'DATA', 'readJson', src.slice(a, b) + '; return splitNpcTarget;')(fs, path, DATA, readJson);
+    const split = new Function('fs', 'path', 'DATA', 'ROOT', 'readJson', src.slice(a, b) + '; return splitNpcTarget;')(fs, path, DATA, ROOT, readJson);
     const kind = (n) => { const s = { doing: { target: { name: n, hp: 100, dist: 533 } } }; split(s); return s.doing.target ? 'mob' : 'npc'; };
     ok(['Priest of Dawn', 'Helvetia', 'Graham', 'Peta', 'Gatekeeper Ziggurat'].every(n => kind(n) === 'npc'), 'merchants / priests / gatekeepers are NPC visits');
     ok(['Dark Lord', 'Giran Guard', 'Zaken', 'Wolf', 'Lucky Pig'].every(n => kind(n) === 'mob'), 'monsters, guards, bosses and names shared with monsters stay fights');

@@ -1146,8 +1146,7 @@
     }
   },
   "unreachableNotes": {
-    "raid:25484": "Zaken's Chief Mate Tillion: a plateau on Devil's Isle enclosed by cliffs; the shortest geodata way in crosses 9 blocked cells climbing 700 (41864,217432,-3712 -> 42136,218008,-2984). No NPC / teleport leads there in the datapack. Needs a live walk recording (dashboard route editor 'Record its walk').",
-    "area:plains-of-lizardmen-33": "Abyss Weed / Energy Plant (stationary, level 85) in a pit: no walk in even ignoring walls (needs drops > 600 into the pit). Not worth a route."
+    "area:plains-of-lizardmen-33": "Abyss Weed / Energy Plant (stationary, level 85) in a pit (13,047 cells). Re-checked 2026-10-13: no water zone there, and even under the server's own move rule (L2J GeoData.canMove: only the NSWE flag of the cell you leave counts, no height limit) the cells that can walk INTO the pit form a closed set of 150,541 cells (48-step rule: 14,366) that no landing belongs to: walls on every side. Not reachable on foot or swimming."
   },
   "longLegs": [
     {
@@ -1210,5 +1209,8 @@
       ],
       "read": "INFERRED (geodata A*, 8.1 km; the worker cap of ~1 M cells was too small)"
     }
-  ]
+  ],
+  "resolvedNotes": {
+    "raid:25484": "2026-10-13: reachable by SWIMMING (user screenshots: Pirate Tunnel, water, Light Bringers, Tillion on the beach). Giran -> Devil Isle landing, walk along Devil's Isle, swim ~5 km south-west past the Light Bringers onto Tillion's beach (43240,219256). The old note (plateau enclosed by cliffs) was the land-only path finder: the beach can only be reached from the water. Water zones: Scripts/data/water_zones.json, docs/plan/tools/water_zones.js."
+  }
 }

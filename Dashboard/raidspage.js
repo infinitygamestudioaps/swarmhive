@@ -787,7 +787,7 @@
     try { routeEditor(b).then(() => { if (RP.scrollTo === 'route') { RP.scrollTo = ''; const el = $id('rpbRouteBox'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }).catch(e => { const el = $id('routeEd'); if (el) el.textContent = e.message; }); } catch (e) { }
     try { raidAreaInfo(b); } catch (e) { }
     // ROUTE VIEW 2026-10-12 (Dashboard/routeview.js): the 'use' switch (computed path | saved route), every door / teleporter / need on the way, where to get the items (the editor map above draws both paths)
-    try { if (window.RouteView) RouteView.mount($id('rpbRv'), 'raid:' + b.id, { map: false, party: selParty(), title: b.name, onUse: () => { try { routeEditor(b); } catch (e) { } } }); else { const el = $id('rpbRv'); if (el) el.textContent = 'needs Dashboard/routeview.js (dashboard server restart)'; } } catch (e) { }
+    try { if (window.RouteView) RouteView.mount($id('rpbRv'), 'raid:' + b.id, { map: 'dungeon', party: selParty(), title: b.name, onUse: () => { try { routeEditor(b); } catch (e) { } } }); else { const el = $id('rpbRv'); if (el) el.textContent = 'needs Dashboard/routeview.js (dashboard server restart)'; } } catch (e) { }
     renderBossReports();
   }
   /** EPIC GUIDE box: the tactic in plain language + the requirement check for the selected party (epicCheck = the bots' own check) */

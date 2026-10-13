@@ -105,7 +105,7 @@ async function attach(name) {
     if (APPLY) await mcp('manage_account_scripts', { ...sel, action: 'start', script_name: ag.name });
     outcome.moved.push(name); return true;
   }
-  const file = `agent2_${name.replace(/[^A-Za-z0-9]/g, '')}.js`, src = fs.readFileSync(path.join(SCRIPTS, 'agent2.js'), 'utf8');
+  const file = `agent2_${name.replace(/[^A-Za-z0-9]/g, '')}.js`, src = fs.readFileSync(fs.existsSync(path.join(SCRIPTS, 'agent2.js')) ? path.join(SCRIPTS, 'agent2.js') : path.join(ROOT, 'Scripts_dev', 'agent2.js'), 'utf8');
   say(`${name}: create its own copy Scripts/${file} (${src.length} chars from Scripts/agent2.js) and start it — Scripts/agent2.js is not touched`);
   if (!APPLY) { outcome.moved.push(name); return true; }
   // a leftover copy that is not attached here can only be this character's own (the name carries it): remove it so create can write it
@@ -136,7 +136,7 @@ async function back(name) {
 }
 
 function sync() {
-  const src = fs.readFileSync(path.join(SCRIPTS, 'agent2.js'), 'utf8');
+  const src = fs.readFileSync(fs.existsSync(path.join(SCRIPTS, 'agent2.js')) ? path.join(SCRIPTS, 'agent2.js') : path.join(ROOT, 'Scripts_dev', 'agent2.js'), 'utf8');
   const copies = fs.readdirSync(SCRIPTS).filter(f => /^agent2_[A-Za-z0-9]+\.js$/i.test(f));
   let n = 0;
   for (const f of copies) {
@@ -165,6 +165,18 @@ function sync() {
   }
   if (!names.length) { say('usage: --names A,B [--apply] [--force] | --all [--apply] [--gap ms] | --back --names A,B [--apply] | --sync [--apply]'); process.exit(2); }
   if (!APPLY) say('DRY RUN (add --apply to act)');
+  // AGENTFILE-2026-10-13 (tester: "ENOENT ... Scripts\agent2.js" for every character AFTER "stop swarm.js" = characters left with no script):
+  // the agent file must exist BEFORE anything is stopped; an install where update.cmd did not copy it gets it from Scripts_dev\agent2.js here
+  if (!BACK) {
+    const liveA = path.join(SCRIPTS, 'agent2.js'), devA = path.join(ROOT, 'Scripts_dev', 'agent2.js');
+    if (!fs.existsSync(liveA)) {
+      if (!fs.existsSync(devA)) { say('REFUSED: neither Scripts/agent2.js nor Scripts_dev/agent2.js exists - nothing was stopped. Run update.cmd again.'); process.exit(2); }
+      const chk = require('child_process').spawnSync(process.execPath, ['--check', devA], { encoding: 'utf8' });
+      if (chk.status !== 0) { say('REFUSED: Scripts_dev/agent2.js has a syntax error - nothing was stopped: ' + String(chk.stderr || '').slice(0, 200)); process.exit(2); }
+      if (APPLY) { fs.copyFileSync(devA, liveA); say('Scripts/agent2.js was missing - copied it from Scripts_dev/agent2.js'); }
+      else say('Scripts/agent2.js is missing - --apply copies it from Scripts_dev/agent2.js first');
+    }
+  }
   if (!BACK && !poolRunning()) {
     if (APPLY && !FORCE) { say('REFUSED: the brain pool is not running (Logs/brain_host_stats.json is older than 60 s). Start / restart the dashboard (it starts the pool when brain_host.json is on), then run this again; --force overrides'); process.exit(2); }
     say('WARNING: the brain pool is not running (Logs/brain_host_stats.json older than 60 s) — moved characters would only have the agent\'s reflexes until it runs');

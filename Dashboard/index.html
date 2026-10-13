@@ -346,14 +346,38 @@ details.tact > summary b { color: var(--gold); }
 /* GHOST SLOTS 2026-10-13: every row (real or empty) has the same minimum height, so a card is always 9 rows tall; content stays centred */
 .members > .mem2 { min-height: 70px; align-content: center; }
 @container mem (min-width: 420px) { .members > .mem2 { min-height: 60px; } }
+/* NOJUMP-2026-10-13 (user: "it keeps jumping up and down"): every member row has ONE fixed height and fixed row tracks; a cell that is empty keeps
+   its space, every cell is one line (clipped with ...), so a task text, a warning chip or a cast bar never changes the row / card height */
+.members > .mem2 { height: 98px; min-height: 0; overflow: hidden; align-content: start; grid-template-rows: 18px 10px 18px 18px 17px; }
+.members > .mem2.ghost { grid-template-rows: none; }
+.mem2 > .wrn:empty, .mem2 > .bdg:empty, .mem2 > .eta:empty { display: block; }
+.mem2:has(> .wrn:empty) { grid-template-areas: "ic lvl nm xp ad" "ic bars bars eta eta" "ic task task bdg bdg" "ic wrn wrn wrn wrn"; }
+.mem2:has(> .wrn:empty):has(> .bdg:empty) { grid-template-areas: "ic lvl nm xp ad" "ic bars bars eta eta" "ic task task task task" "ic wrn wrn wrn wrn"; }
+.mem2 .task, .mem2 .task * { white-space: nowrap !important; } .mem2 .task { overflow: hidden; text-overflow: ellipsis; max-height: 18px; line-height: 18px; }
+.mem2 .task br { display: none; }
+.mem2 .wrn { flex-wrap: nowrap; overflow: hidden; max-height: 18px; }
+.mem2 .eta { max-height: 12px; line-height: 12px; } .mem2 .nm, .mem2 .bdg { max-height: 18px; }
+.mem2 .live.cslot { grid-column: 1 / -1; }
+@container mem (min-width: 420px) {
+  .members > .mem2 { height: 78px; grid-template-rows: 18px 10px 18px 17px; }
+  .members > .mem2.ghost { grid-template-rows: none; }
+  .mem2:has(> .wrn:empty) { grid-template-areas: "ic lvl nm bdg xp ad" "ic bars bars bars eta eta" "ic task task task wrn wrn"; }
+  .mem2:has(> .wrn:empty):has(> .bdg:empty) { grid-template-areas: "ic lvl nm nm xp ad" "ic bars bars bars eta eta" "ic task task task wrn wrn"; }
+}
 .mem2.ghost { display: flex; align-items: center; justify-content: center; cursor: default; background: transparent; border: 1px dashed rgba(160, 138, 90, .35); opacity: .7; }
 .mem2.ghost .gh { font-size: var(--fs-mini); color: var(--muted); letter-spacing: .5px; }
 .mem2.ghost .ghn { display: none; }
 /* phones: all free slots of a party collapse into ONE thin line ("8 free slots of 9"), no 9 long rows per party */
-@media (max-width: 480px) { .members > .mem2.ghost { min-height: 0; padding: 0 6px; } .members > .mem2.ghost:not(.gfirst) { display: none; }
+@media (max-width: 480px) { .members > .mem2.ghost { min-height: 0; height: auto; padding: 0 6px; } .members > .mem2.ghost:not(.gfirst) { display: none; }
   .mem2.ghost .gh { display: none; } .mem2.ghost .ghn { display: inline; font-size: var(--fs-mini); color: var(--muted); line-height: 16px; } }
 /* LIVE CAST + ESCAPE under a member row (2026-10-08): SoE / .town / long casts as a bar, escape from a fight with a small live map */
 .mem2 .live { grid-column: 1 / -1; min-width: 0; margin-top: 3px; cursor: default; }
+/* NOJUMP-2026-10-13: fixed cast slot + fixed banner strip + cards aligned at the top (no stretch) */
+.mem2 .live.cslot { height: 17px; margin-top: 2px; overflow: hidden; }
+.mem2 .cslot .castrow { height: 17px; flex-wrap: nowrap; overflow: hidden; } .mem2 .cslot .castrow > span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.mem2 .cslot .castbar { height: 12px; } .mem2 .cslot .escline { white-space: nowrap; text-overflow: ellipsis; display: block; line-height: 17px; color: #ff9a8a; }
+.pbanners { height: 58px; overflow-y: auto; overflow-x: hidden; min-width: 0; margin: 2px 0 4px; scrollbar-width: thin; }
+.pbanners:not(:has(*)) { visibility: hidden; }
 .castrow { display: flex; align-items: center; gap: 5px; min-width: 0; font-size: var(--fs-cap); }
 .castrow img.ic { width: 18px; height: 18px; flex: none; }
 .castbar { position: relative; flex: 1; min-width: 60px; height: 12px; background: #1b1610; border: 1px solid #5a4a2a; overflow: hidden; }
@@ -372,6 +396,8 @@ main { grid-template-columns: minmax(0, 1fr); } main > section { min-width: 0; }
 #tab-parties .win { max-width: 100%; min-width: 0; } .pwrap, .members { min-width: 0; }
 .pmap { margin: 4px 0 6px; overflow: hidden; border: 1px solid var(--line2); background: #0d2a33; }
 .pmap svg { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; max-height: 70vh; }
+/* NOJUMP-2026-10-13: the legend under a party map has a fixed height (its items change with the map: doors, gatekeepers, routes) */
+.pwrap .pmap .pmlegend { height: 68px; overflow-y: auto; overflow-x: hidden; align-content: flex-start; scrollbar-width: thin; }
 .pmap text { font-family: Tahoma, Verdana, sans-serif; fill: #fff; }
 .redmap { max-width: 620px; }
 .redmap svg { max-height: none !important; touch-action: none; cursor: crosshair; }
@@ -1151,6 +1177,7 @@ function route() {
   if (window.KamaPage && KamaPage.route(kind, arg)) return;     // KAMALOKA PAGE 2026-10-09: #/kamaloka[/<id>|/live] v2, every party (Dashboard/kamapage.js); closes itself on other pages
   if (window.ClassPage && ClassPage.route(kind, arg)) return;   // CLASS PLANS 2026-10-10: #/classes[/<leader>] (Dashboard/classpage.js); closes itself on other pages
   if (window.NavAtlasPage && NavAtlasPage.route(kind, arg)) return;   // NAV ATLAS 2026-10-12: #/navatlas[/<target key>] (Dashboard/navatlas.js, read-only); closes itself on other pages
+  if (window.RouteEditPage && RouteEditPage.route(kind, arg)) return;   // ROUTESWITCH 2026-10-13: #/routeedit/<type>/<id> own route for ANY target (Dashboard/routeedit.js); closes itself on other pages
   if (window.BuffPage && BuffPage.route(kind, arg)) return;     // BUFF PLANS 2026-10-10: #/buffs[/<leader>] (Dashboard/buffpage.js); closes itself on other pages
   if (window.TradePage && TradePage.route(kind, arg)) return;   // HANDOVER 2026-10-10: #/trade[/party:<leader>|char:<name>] (Dashboard/tradepage.js); closes itself on other pages
   if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
@@ -1310,7 +1337,19 @@ function memberRow(c) {
     <div class="bars">${gauge('hp', c.hp, 'HP ' + c.hp + '%', c.hp < 30 ? 'warn' : '')}${gauge('mp', c.mp, 'MP ' + c.mp + '%')}</div>
     <div class="eta">${eta}</div>
     ${taskHtml}
-    <div class="wrn">${warn}</div>${liveUnder(c)}</div>`;
+    <div class="wrn">${warn}</div>${castSlot(c)}</div>`;
+}
+// NOJUMP-2026-10-13 (user: "each time a character casts something the card height increases ... make sure the casting bar and skills are part of it so
+// the UI does not jump"): every member row has ONE fixed-height slot for the cast bar / escape line, always rendered (empty when idle); the big
+// escape box with its map stays on the character page (liveUnder)
+function castSlot(c) {
+  let h = '';
+  if (c.ageSec <= 30) {
+    const e = c.escape, cast = castHtml(c);
+    if (cast) h = cast;
+    else if (e && e.on) h = `<div class="castrow escline" title="open the character for the escape map">${escStatus(e)}</div>`;
+  }
+  return `<div class="live cslot" onclick="event.stopPropagation()">${h}</div>`;
 }
 // ---------- LIVE CAST + ESCAPE under a member row (user 2026-10-08 18:05 / 18:07) ----------
 // swarm_state.cast   = { kind: 'soe'|'town'|'skill'|'cc', id, skill, name, start (ISO), ms, target, ended, endedAt }  (my long cast right now)
@@ -2022,7 +2061,7 @@ function dungeonPickHtml() {
   const R = SPK.room && rooms.find(r => r.id === SPK.room);
   const info = R ? `<b>${esc(R.name)}</b> · monsters lvl ${(R.levelRange || []).join('–')} · suits party lvl ${(R.suits || []).join('–')} · outline: ${esc(R.quality || 'circle')}${R.reachable ? '' : ' · <span class="st-dead">no walk route from the floor entry</span>'}
       <div class="muted">${esc((R.monsters || []).join(', '))}</div>${heldBy('', 'room:' + R.id)}
-      <div class="act"><button data-spkroom="${esc(R.id)}">Hunt only in this room</button></div>` : ((F.links || []).length ? '<div class="muted" style="margin-bottom:4px">Ways off this floor: ' + F.links.map(l => esc((l.npc || (l.kind === 'walk' ? 'stairs' : l.kind)) + ' → ' + l.toName + (l.text ? ' ("' + l.text + '")' : '') + (l.verified === true ? ' ✓ live' : l.verified === 'geodata' ? ' (geodata)' : ''))).join(' · ') + '</div>' : '') + '<span class="muted">Tap rooms to choose them (tap again = remove; several rooms, also on other floors: the party moves on to the next one when a room is empty). Green = fits the party, gold = close, grey = other levels, red = other players, party colour = one of our parties. Green shields = safe spots.</span>';
+      <div class="act"><button data-spkroom="${esc(R.id)}">Hunt only in this room</button><button class="rv-routebtn" data-rvopen="room:${esc(R.id)}" data-rvtitle="Route to ${esc(R.name)}" data-rvparty="${esc(SPK.party)}" title="the computed path, your own route and which one the bots use">Route ›</button></div>` : ((F.links || []).length ? '<div class="muted" style="margin-bottom:4px">Ways off this floor: ' + F.links.map(l => esc((l.npc || (l.kind === 'walk' ? 'stairs' : l.kind)) + ' → ' + l.toName + (l.text ? ' ("' + l.text + '")' : '') + (l.verified === true ? ' ✓ live' : l.verified === 'geodata' ? ' (geodata)' : ''))).join(' · ') + '</div>' : '') + '<span class="muted">Tap rooms to choose them (tap again = remove; several rooms, also on other floors: the party moves on to the next one when a room is empty). Green = fits the party, gold = close, grey = other levels, red = other players, party colour = one of our parties. Green shields = safe spots.</span>';
   const allRooms = m.floors.flatMap((f, fi) => (f.rooms || []).map(r => Object.assign({ fi }, r)));
   const selbar = selBarHtml((SPK.sel || []).map(id => { const r = allRooms.find(x => x.id === id); return { id, t: r ? (r.fi !== SPK.floor ? 'F' + (r.fi + 1) + ' ' : '') + id.split('-').slice(2).join('-') : id }; }), 'room', 'this floor');
   // catacomb / necropolis: can the party get in NOW (Seven Signs, user rule 2026-10-08 21:55)? Entry is ONLY through the Gatekeeper Ziggurat
@@ -2160,7 +2199,7 @@ function fieldPickHtml() {
   const info = A ? `<b>${esc(A.name)}</b> · monsters lvl ${A.levelRange.join('–')}${A.levelAll && A.levelAll[1] > A.levelRange[1] ? ' (up to ' + A.levelAll[1] + ')' : ''} · suits party lvl ${(A.suits || []).join('–')} · ${A.spawns} monsters, ${Math.round((A.aggressiveShare || 0) * 100)} % aggressive${A.respawnSec ? ', respawn ~' + A.respawnSec + ' s' : ''}
       <div class="muted">${esc((A.monsters || []).join(', '))}</div>
       <div class="muted">${!A.reachable ? `<span class="st-dead">not reachable: ${esc(A.unreachable || 'no gatekeeper landing within the walk limit')}</span> — the bots never go here; it cannot be chosen` : A.skipToday ? `<span class="st-dead">skipped by every party until 06:30 — could not be reached twice today (${esc((A.skipToday.fails || []).join(', '))})</span>` : A.entry ? `way in: ${esc(A.entry.desc)} + ${(A.entry.walk / 1000).toFixed(1)}k walk` : '<span class="st-dead">no walkable way from a gatekeeper landing</span>'}${(A.neighbours || []).length ? ' · next to ' + A.neighbours.map(n => 'area ' + n.id.split('-').pop() + ' (' + (n.walk / 1000).toFixed(1) + 'k)').join(', ') : ''}${(A.raidBosses || []).length ? ' · <span class="st-dead">raid boss near: ' + esc(A.raidBosses.map(b => b.name + ' ' + b.level).join(', ')) + '</span>' : ''}</div>
-      ${heldBy('', 'area:' + A.id)}` : '<span class="muted">Tap areas to choose them (tap again = remove). The party hunts the first one and moves on to the next when an area has had no monster for ~35 s, when other players hunt there, or when another of our parties takes it.</span>';
+      ${heldBy('', 'area:' + A.id)}<div class="act"><button class="rv-routebtn" data-rvopen="area:${esc(A.id)}" data-rvtitle="Route to ${esc(A.name)}" data-rvparty="${esc(SPK.party)}" title="the computed path, your own route and which one the bots use">Route ›</button></div>` : '<span class="muted">Tap areas to choose them (tap again = remove). The party hunts the first one and moves on to the next when an area has had no monster for ~35 s, when other players hunt there, or when another of our parties takes it.</span>';
   const selbar = selBarHtml((SPK.sel || []).map(id => { const a = areas.find(x => x.id === id); return { id, t: a ? `area ${a.n} (${a.levelRange.join('-')})` : id }; }), 'area', 'green');
   return `<div class="spotbox"><div class="shead"><h2>${esc(m.name)} · party ${esc(SPK.party)} <span class="muted">(lvl ${L}–${Lx})</span></h2>
       <button data-spkback>← List</button><button data-spkclose>Close</button>
@@ -2225,7 +2264,7 @@ function ghostRows(leader, list) {
 function renderParties() {
   const parties = {};
   STATE.chars.forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
-  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip() + /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).map(([leader, list]) => {
+  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip() + /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).sort((a, b) => (b[0] === mainLeader()) - (a[0] === mainLeader()) || a[0].localeCompare(b[0])).map(([leader, list]) => {   /* NOJUMP: fixed order */
     list.sort((a, b) => (b.name === leader) - (a.name === leader) || a.name.localeCompare(b.name));
     const lv = list.map(c => c.level);
     const live = list.filter(c => c.ageSec <= 30).length;
@@ -2238,7 +2277,7 @@ function renderParties() {
     return `<div class="win pcard">
       <div class="whead phead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
@@ -2251,9 +2290,10 @@ function renderParties() {
           <button data-quick="${tgt}|!stop|STOP everything" title="Stop everything">Stop</button>
           <div class="pdo"><select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button></div>
         </div></div>
+      <div class="pbanners">${window.OrdersView ? OrdersView.partyBanner(leader) : ''}
       ${window.PartyStatus ? PartyStatus.banner(leader, list) : ''}
       ${alertsHtml(alerts, list)}
-      ${queue}
+      ${queue}</div>
       ${tacticsHtml(leader, list)}
       ${spotPickHtml(leader, list)}
       <div class="pwrap">${partyMap(leader, list)}<div class="members">${list.map(memberRow).join('')}${ghostRows(leader, list)}</div></div></div>`;
@@ -3211,6 +3251,8 @@ async function routeEditor(b) {
   const d = await api('/api/route?id=' + encodeURIComponent(b.id));
   if (!$('routeEd')) return;
   if (d.error) { $('routeEd').textContent = d.error; return; }
+  // DUNGEON STEPS 2026-10-13: a route with dungeon / floor steps (Mozella into Cruma ...) is edited in the route editor for every target (#/routeedit)
+  if (d.route && Array.isArray(d.route.points) && d.route.points.some(p => p && (p.do === 'floor' || p.do === 'dungeon'))) { $('routeEd').innerHTML = '<div class="muted">This route goes into a dungeon (it has dungeon / floor steps) — edit it in the <a href="#/routeedit/epic/' + encodeURIComponent(d.id) + '">route editor with dungeon steps ›</a></div>'; return; }
   const r = d.route, L = d.landingDefault;
   const ATL = window.RouteAtlas ? await RouteAtlas.get(d.id) : null;   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): the nav atlas computed path of this boss
   if (!$('routeEd')) return;
@@ -3218,7 +3260,9 @@ async function routeEditor(b) {
   const pts = r ? r.points.map(p => (p.layer ? { x: p.x, y: p.y, z: p.z, layer: p.layer } : { x: p.x, y: p.y, z: p.z })) : (L ? [{ x: L.x, y: L.y, z: L.z }, { x: d.boss.x, y: d.boss.y, z: d.boss.z }] : []);
   if (RED && RED.rec) { clearInterval(RED.rec.timer); recHold(RED.rec.name, false); }
   RED = { gkLand: d.gkLand || {}, id: d.id, boss: d.boss, L, route: r, landing: (r && r.landing) || (L && L.desc) || '', start: (r && r.start) || (!r && L && /->/.test(L.desc || '') ? { kind: 'gk', desc: L.desc } : null), gkStarts: d.gkStarts || [], towns: d.towns || {}, layers: d.layers || {}, layer: 0, pts, sel: pts.length ? pts.length - 1 : -1, dirty: !r, msg: r ? '' : 'No saved route yet — this is a draft from the landing to the spawn. Add points and press Save.' };
-  RED.atlas = ATL; if (!r && window.RouteAtlas) RouteAtlas.prefillRed(RED);   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): no saved route = the list starts as the computed path (not saved)
+  RED.atlas = ATL; if (!r && window.RouteAtlas) RouteAtlas.prefillRed(RED);
+  { let prev = null, n = 0, bad = ''; (r ? r.points : []).forEach(p => { if (bad || !p || !isFinite(p.x)) return; n++; if (prev && Math.abs(p.z - prev.z) > 1500 && !p.drop && !r.floorOk) bad = 'point ' + (n - 1) + ' -> ' + n + ' jumps ' + Math.abs(Math.round(p.z - prev.z)) + ' in height with no dungeon step'; prev = p; });   // DUNGEON STEPS 2026-10-13
+    if (bad) RED.msg = '⚠ NOT walkable: ' + bad + ' — the bots take the computed path instead. Fix it in the route editor with dungeon steps: #/routeedit/epic/' + d.id + ' (insert the teleporter step into the dungeon), or remove the jump here.'; }   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): no saved route = the list starts as the computed path (not saved)
   renderRouteEd();
 }
 /** The view that shows the whole route + landing + boss. */
@@ -4797,6 +4841,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <!-- command center (2026-10-08): the command catalog + the palette / command sheets; until server.js serves them the old "Tell them" bar stays -->
 <script src="/commands.js"></script>
 <script src="/cmdcenter.js"></script>
+<script src="/orders.js"></script><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
+
 <!-- RAIDLIVE HUD 2026-10-09: live raid / Kamaloka view for every device (served by server.js once restarted; without it the old view stays) -->
 <link rel="stylesheet" href="/raidlive.css">
 <script src="/raidlive.js"></script>
@@ -4891,6 +4937,10 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <!-- ROUTE VIEW 2026-10-12: the shared route block (computed path + saved route + which one the bots use + obstacles + where to get needed items) on the boss page, circuit list, quest page and nav atlas page. Data /api/routeview (Dashboard/routeview_api.js; served once server.js is restarted). -->
 <link rel="stylesheet" href="/routeview.css"><script src="/routeview.js"></script>
 <script src="/navatlas.js"></script>
+<!-- ROUTESWITCH 2026-10-13: #/routeedit/<type>/<id> — record / draw / lock your own route for ANY target (raid, epic, NPC, quest step, field area, room, dungeon)
+     + the computed | own route | auto switch. Data: /api/route?type=&id= (server.js -> Dashboard/routestore.js); served by routeview_api.js once the server restarts. -->
+<script src="/routeedit.js"></script>
+<script>if (window.RouteEditPage && /^#\/routeedit(\/|$)/.test(location.hash)) route();</script>
 <script>if (window.NavAtlasPage && /^#\/navatlas(\/|$)/.test(location.hash)) route();</script>
 <!-- TOWN PATHS 2026-10-12: every town's street graph (+ Giran's recorded routes) as a toggleable layer on the Parties maps, the character mini-map and the Map tab (town picker there). Data: /api/townpaths (Dashboard/townpaths_api.js; served once server.js is restarted). -->
 <script src="/townpaths.js"></script>

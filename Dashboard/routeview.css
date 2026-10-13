@@ -46,3 +46,13 @@
 .rv-sheethead { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 10px; padding: 8px 0; background: inherit; border-bottom: 1px solid rgba(255, 255, 255, .1); margin-bottom: 6px; }
 .rv-sheethead b { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rv-sheethead button { min-width: 40px; min-height: 40px; }
+/* ROUTESWITCH-2026-10-13: 3-way switch for every target + the editor link */
+.rv-seg button:disabled { opacity: .45; cursor: not-allowed; }
+.rv-now { color: var(--gold, #e3c27a); }
+.rv-edit { white-space: nowrap; min-height: 34px; display: inline-flex; align-items: center; }
+.rv-routebtn { min-height: 34px; }
+/* DUNGEON STEPS 2026-10-13: a route that jumps floors (red), the map's level tabs (surface / dungeon floors) */
+.rv-invalid { flex-basis: 100%; margin-top: 4px; padding: 6px 8px; border: 1px solid #d9534f; border-radius: 4px; background: rgba(217, 83, 79, .14); color: #ffb3ad; font-weight: 600; overflow-wrap: anywhere; }
+.rv-levels { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 4px; }
+.rv-levels button { min-height: 34px; padding: 4px 10px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 4px; background: transparent; color: inherit; }
+.rv-levels button.on { background: #5b3a7a; color: #fff; font-weight: 700; border-color: #cc66ff; }

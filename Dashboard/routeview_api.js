@@ -4,10 +4,12 @@
 //   GET /api/routeview?target=<t>[&party=<leader>][&from=x,y,z]          (key checked here)
 //     t = raid:<id> | npc:<id> | npc:<id>@x,y | area:<id> | room:<id> | dungeon:<key> | quest:<id>[:<step index>] | any nav atlas key
 //     -> { target, quest?, atlas (the nav atlas route: town > gk > walk > door / floor / enter / need > arrive), summary,
-//          custom (the saved route: raid routes today), use ('atlas' | 'custom'), useSet, useDefault, canChoose,
+//          custom (the saved route of ANY target type: Dashboard/routestore.js, ROUTESWITCH 2026-10-13), use ('atlas' | 'custom' = what the bots take),
+//          choice { stored atlas|custom|auto, use, why }, store { type, id, editHref }, useSet, useDefault, canChoose,
 //          obstacles [{ kind, title, text, at, blocked, onPath, door?, items? }], items [{ id, name, consumed, why, have, partyHas, sources }],
 //          from { x, y, z, toStart, toTarget } }
-//   The 'use' choice itself is written by POST /api/route { id, action: 'use', use } (server.js routeApi, raid routes; history kept).
+//   The 'use' choice itself is written by POST /api/route { type, id, action: 'use', use: atlas|custom|auto } (server.js: raid -> routeApi, every other
+//   type -> Dashboard/routestore.js; history kept). The editor for any target: #/routeedit/<type>/<id> (Dashboard/routeedit.js, served from here).
 // Sources (all read on demand, re-read when they change): Scripts/data/nav_atlas (index + t/<key>.json + npcid), nav_doors.json (doors: kind,
 // keys, Unlock, timers, owners, conditions), quest_items_h5.json (drops / quest rewards), quests_h5.json (steps, monsters + their field areas,
 // start NPCs), npcs_h5.json, spawns_h5.json, dp/buylists (who sells an item), Dashboard/data/items.json (names), Logs/bag_<name>.json (who has it),
@@ -15,7 +17,8 @@
 // Test: docs/plan/tools/test_route_atlas.js (API part).
 'use strict';
 const fs = require('fs'), path = require('path');
-const STATIC = { '/routeview.js': 'text/javascript; charset=utf-8', '/routeview.css': 'text/css; charset=utf-8' };
+const STATIC = { '/routeview.js': 'text/javascript; charset=utf-8', '/routeview.css': 'text/css; charset=utf-8', '/routeedit.js': 'text/javascript; charset=utf-8', '/routeedit.css': 'text/css; charset=utf-8' };   // ROUTESWITCH-2026-10-13: + the route editor for every target type
+const RS = require('./routestore');   // ROUTESWITCH-2026-10-13: one saved-route store + choice for every target type
 const C = {};
 const mtime = (f) => { try { return fs.statSync(f).mtimeMs; } catch (e) { return 0; } };
 /** JSON file cached until it changes (null when missing / broken) */
@@ -215,19 +218,36 @@ function itemInfo(ctx, it, party) {
   return Object.assign({}, it, { have, partyHas: have.some(h => h.inParty), members: members || null, sources: { drops: drops.slice(0, 8), quests: givers.slice(0, 6), shops: sold } });
 }
 // ------------------------------------------------------------------------------------------------ the view
-function customOf(ctx, key) {
-  const m = String(key || '').match(/^raid:(\d+)$/); if (!m) return null;
-  const r = J(path.join(ctx.DATA, 'routes', 'raid', m[1] + '.json')); if (!r || !Array.isArray(r.points)) return null;
-  return { kind: 'raid', id: m[1], points: r.points, start: r.start || null, landing: r.landing || '', manual: !!r.manual, use: r.use || '', uses: r.uses || 0, fails: r.fails || 0, length: r.length || 0, editedAt: r.editedAt || r.savedAt || null };
+// ROUTESWITCH-2026-10-13: the store key of the target (raid / npc / area / room / dungeon from the atlas key; a quest step -> quest <id>_<cond>)
+function storeOf(R) {
+  if (R && R.quest && R.quest.steps && R.quest.steps[R.quest.sel]) { const st = R.quest.steps[R.quest.sel]; return { type: 'quest', id: RS.cleanId('quest', R.quest.id + '_' + st.cond) }; }
+  return R ? RS.storeOfKey(R.key) : null;
+}
+function customOf(ctx, store) {
+  if (!store || !store.id) return null;
+  const f = RS.fileOf(ctx.DATA, store.type, store.id), r = f ? J(f) : null; if (!r || !Array.isArray(r.points)) return null;
+  const fc = RS.floorCheck(r);   // DUNGEON STEPS 2026-10-13: + the dungeon / floor steps (segments) and the floor check (a route that jumps floors)
+  return { kind: store.type, id: store.id, points: RS.points(r), segments: RS.segments(r), steps: r.points.filter(RS.isStep), floorOk: !!r.floorOk, invalid: fc.ok ? null : fc.why, invalidAt: fc.ok ? null : fc.at, raw: { points: r.points, manual: !!r.manual, use: r.use, floorOk: !!r.floorOk }, start: r.start || null, landing: r.landing || '', manual: !!r.manual, use: r.use || '', uses: r.uses || 0, fails: r.fails || 0, length: r.length || 0, editedAt: r.editedAt || r.savedAt || null, lastFail: r.lastFail || null, lastFailWhy: r.lastFailWhy || '' };
+}
+/** DUNGEON STEPS 2026-10-13: the levels a route crosses — 'surface' and every dungeon floor of its floor / enter steps (+ the target's floor) —
+ *  for the route view's level tabs: [{ key, name, dungeon, floor, z: [lo, hi] }] (empty = surface only) */
+function levelsOf(ctx, atlas, custom) {
+  const D = J(path.join(ctx.DATA, 'dungeon_rooms.json')) || [], out = [], add = (d, fi) => { const F = d && d.floors && d.floors[fi]; if (!F || !Array.isArray(F.z)) return; const key = d.key + ':' + fi; if (!out.some(x => x.key === key)) out.push({ key, name: d.name + ' · ' + F.name, dungeon: d.name, dungeonKey: d.key, floor: fi, z: F.z, bbox: d.bbox || null }); };
+  const byStep = (s) => { const d = D.find(x => x.key === s.dungeonKey || x.name === s.dungeon); if (d && isFinite(Number(s.floor))) add(d, Number(s.floor)); };
+  ((atlas && atlas.steps) || []).forEach(s => { if (s.do === 'floor') byStep(s); });
+  if (atlas && atlas.dungeonKey && isFinite(atlas.floor)) add(D.find(x => x.key === atlas.dungeonKey), atlas.floor);
+  ((custom && custom.steps) || []).forEach(byStep);
+  return out.length ? [{ key: 'surface', name: 'surface', z: null }].concat(out) : [];
 }
 function view(ctx, q) {
   const fromP = (() => { const v = String(q.get('from') || ''); const n = v.split(/[ ,]+/).map(Number); return n.length >= 2 && n.every(isFinite) ? { x: n[0], y: n[1], z: n[2] || 0 } : null; })();
   const R = resolve(ctx, q.get('target'), fromP);
   if (R.error) return { error: R.error };
   const atlas = R.key ? atlasRoute(ctx.DATA, R.key) : null;
-  const custom = customOf(ctx, R.key);
+  const store = storeOf(R), custom = customOf(ctx, store);
+  const ch = RS.choice(custom ? custom.raw : null);   // ROUTESWITCH-2026-10-13: same rule as swarm.js rsChoice
   const useDefault = custom ? (custom.manual ? 'custom' : 'atlas') : 'atlas';
-  const use = custom && (custom.use === 'atlas' || custom.use === 'custom') ? custom.use : useDefault;
+  const use = ch.use;
   const ob = obstaclesOf(ctx, atlas);
   const party = String(q.get('party') || '') || null;
   const items = ob.items.map(i => itemInfo(ctx, i, party));
@@ -236,6 +256,9 @@ function view(ctx, q) {
   return {
     target: { key: R.key, type: atlas ? atlas.type : String(R.key || '').split(':')[0], name: atlas ? atlas.name : (R.quest ? R.quest.name : R.key), x: tgt && tgt.x, y: tgt && tgt.y, z: tgt && tgt.z, spawns: R.spawns || null },
     quest: R.quest || null, atlas, custom, use, useSet: !!(custom && custom.use), useDefault, canChoose: !!(custom && atlas),
+    store: store ? { type: store.type, id: store.id, typeName: RS.TYPE_NAME[store.type] || store.type, editHref: store.type === 'raid' && atlas ? '#/raid/' + store.id + '/route' : RS.editHref(store.type === 'raid' ? 'epic' : store.type, store.id), editHrefGeneric: RS.editHref(store.type === 'raid' ? 'epic' : store.type, store.id) } : null,
+    choice: { stored: ch.stored, use: ch.use, why: ch.why, has: ch.has, locked: ch.locked, invalid: ch.invalid || null },
+    levels: levelsOf(ctx, atlas, custom),   // DUNGEON STEPS 2026-10-13: the map's levels (surface / dungeon floors) for the floor art
     obstacles: ob.out, items,
     from: fromP ? { x: fromP.x, y: fromP.y, z: fromP.z, toStart: start ? Math.round(d2(fromP, start)) : null, toTarget: tgt ? Math.round(d2(fromP, tgt)) : null } : null,
     generated: (atlasIndex(ctx.DATA) || {}).generated || null,
@@ -250,4 +273,4 @@ async function handle(req, res, url, ctx) {
   catch (e) { ctx.json(res, 500, { error: 'routeview: ' + e.message }); }
   return true;
 }
-module.exports = { handle, view, resolve, obstaclesOf, itemInfo, questTargets };
+module.exports = { handle, view, resolve, obstaclesOf, itemInfo, questTargets, atlasRoute, quests };   // ROUTESWITCH-2026-10-13: + atlasRoute, quests (Dashboard/routestore.js)

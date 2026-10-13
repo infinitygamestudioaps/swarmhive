@@ -1,6 +1,14 @@
 {
  "on": true,
- "use": { "raid": true, "npc": true, "near": true, "dungeon": true },
+ "use": {
+  "raid": true,
+  "npc": true,
+  "near": true,
+  "dungeon": true,
+  "area": true,
+  "room": true,
+  "quest": true
+ },
  "maxStraight": 5000,
- "note": "swarm.js NAV ATLAS (patch_navatlas.js) reads this live (30 s): on=false or use.<x>=false switches the atlas off for raid travel / goToNpc / teleportNear / dungeonEntryTrip; maxStraight = most units of not-yet-computed walking a used route may have"
+ "note": "swarm.js NAV ATLAS (patch_navatlas.js) reads this live (30 s): on=false or use.<x>=false switches the atlas off for raid travel / goToNpc / teleportNear / dungeonEntryTrip; ROUTESWITCH 2026-10-13: area / room / quest = the computed path for field-area and dungeon-room hunting trips and quest hunting steps (route choice 'atlas' or 'auto' without a locked own route; false = the old travel code there); maxStraight = most units of not-yet-computed walking a used route may have"
 }

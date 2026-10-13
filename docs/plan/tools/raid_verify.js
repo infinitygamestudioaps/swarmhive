@@ -87,7 +87,7 @@ for (const b of rb.bosses) {
   const tryOne = (l, ms, pad) => {
     const r = geo.findPath({ x: l.x, y: l.y, z: l.z }, { x: b.x, y: b.y, z: b.z }, { maxMs: ms, pad, maxLeg: 1000, maxNodes: 8e6 });
     tried.push(`${l.desc}: ${r.ok ? r.lengthUnits + ' units' : r.reason}`);
-    if (r.ok && (!best || r.lengthUnits < best.len)) best = { l, len: r.lengthUnits, pts: [{ x: l.x, y: l.y, z: l.z }].concat(r.points) };
+    if (r.ok && (!best || r.lengthUnits < best.len)) best = { l, len: r.lengthUnits, pts: [{ x: l.x, y: l.y, z: l.z }].concat(r.points), swim: r.swimUnits ? { units: r.swimUnits, longest: r.maxSwimRun } : null };   // SWIMMING 2026-10-13
   };
   for (const l of cands) tryOne(l, 8000, 4000);
   if (!best) for (const l of cands.slice(0, 2)) tryOne(l, 25000, 6000);     // long routes: a second, longer try
@@ -97,7 +97,7 @@ for (const b of rb.bosses) {
     b.nearestTeleport = { from: best.l.town, to: best.l.dest, desc: best.l.desc, x: best.l.x, y: best.l.y, z: best.l.z, price: best.l.price, walkDist: best.len, verified: true, liveMenu: best.l.liveMenu };
     b.walkReal = best.len; b.reachable = true;
     b.routeMaxMobLevel = dg.max; b.routeDanger = dg.worst ? `${dg.worst.n} lvl ${dg.worst.l} at ${dg.worst.x},${dg.worst.y} (on the walk)` : '';
-    b.verified = { at: new Date().toISOString(), landing: best.l.desc, walk: best.len, waypoints: best.pts.length - 1, liveMenu: best.l.liveMenu, tried };
+    b.verified = Object.assign({ at: new Date().toISOString(), landing: best.l.desc, walk: best.len, waypoints: best.pts.length - 1, liveMenu: best.l.liveMenu, tried }, best.swim ? { swim: best.swim } : {});
     ok++;
   } else {
     b.reachable = false;

@@ -10,10 +10,13 @@
 //   cell int16: height = (cell & ~15) >> 1 (keep the sign: int16 -> int32 first), NSWE = cell & 0x0F : EAST 1 (x+), WEST 2 (x-), SOUTH 4 (y+), NORTH 8 (y-)
 //   world x = (geoX << 4) - 294912 (region 11 starts there), region X = (geoX >> 11) + 11; same for y with -262144 and region Y + 10.
 //
-// Use:  node geopath.js x1 y1 z1 x2 y2 z2 [--json out.json]     (prints a summary; --json writes the waypoints)
+// Use:  node geopath.js x1 y1 z1 x2 y2 z2 [--json out.json] [--noswim]   (prints a summary; --json writes the waypoints)
+// SWIMMING (2026-10-13): water zones (Scripts/data/water_zones.json) are crossed by swimming (no geodata checks there, cost x3.5, legs <= 650,
+//   waypoints marked swim:true at the swim height); opts.swim === false = the old land-only rules. See water_zones.js.
 //       require('./geopath').findPath({x,y,z}, {x,y,z}, opts) -> { ok, points: [{x,y,z}], cells, ms, reason }
 const fs = require('fs');
 const path = require('path');
+const WATER = require('./water_zones');            // SWIMMING (2026-10-13): water zones = no geodata checks for a swimmer (see water_zones.js)
 const GEO_DIR = process.env.GEO_DIR || path.join(__dirname, '..', '..', '..', 'Geodata');
 const WORLD_X0 = -294912, WORLD_Y0 = -262144;     // world coords of geo (0,0) = region 11_10's corner
 const E = 1, W = 2, S = 4, N = 8;
@@ -157,7 +160,10 @@ function findPath(a, b, opts = {}) {
   const blocked = (gx, gy) => avoid.some(o => Math.hypot(gx - o.gx, gy - o.gy) <= o.r);
   const maxNodes = opts.maxNodes || 4e6, pad = opts.pad || 6000, maxMs = opts.maxMs || 20000;
   const HW = opts.hWeight > 1 ? opts.hWeight : 1.001;   // opts.hWeight (nav_atlas 2026-10-12): weighted A* for long offline walks (faster, at most hWeight x longer)
-  const s = snap(a.x, a.y, a.z), g = snap(b.x, b.y, b.z ?? a.z, 10) || snap(b.x, b.y, b.z ?? a.z, 10, true);   // goal height often unknown: any floor
+  // SWIMMING (user 2026-10-13, Tillion behind the Pirate Tunnel water): inside a water zone the server skips geodata checks, so a swimmer
+  // crosses water cells freely (cost x SWIM.cost) and climbs out onto a low shore. opts.swim === false / opts.noSwim = land rules only.
+  const SW = opts.swim === false || opts.noSwim ? null : WATER.swimGraph(SWACC), swimCost = opts.swimCost > 0 ? opts.swimCost : WATER.SWIM.cost;
+  const s = snapSwim(SW, a, 6) || snap(a.x, a.y, a.z), g = snapSwim(SW, b, 10) || snap(b.x, b.y, b.z ?? a.z, 10) || snap(b.x, b.y, b.z ?? a.z, 10, true);   // goal height often unknown: any floor
   if (!s) return { ok: false, reason: 'start is not on walkable geodata', ms: Date.now() - t0 };
   if (!g) return { ok: false, reason: 'goal is not on walkable geodata', ms: Date.now() - t0 };
   const bx1 = Math.min(s.gx, g.gx) - (pad >> 4), bx2 = Math.max(s.gx, g.gx) + (pad >> 4);
@@ -175,28 +181,66 @@ function findPath(a, b, opts = {}) {
     if (++expanded > maxNodes) return { ok: false, reason: `gave up after ${expanded} cells (too far or no way)`, ms: Date.now() - t0 };
     if ((expanded & 65535) === 0 && Date.now() - t0 > maxMs) return { ok: false, reason: `gave up after ${maxMs} ms`, ms: Date.now() - t0 };
     const gc = gScore.get(k);
+    const swimHere = SW ? SW.swimming(gx, gy, li) : false;
     for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) {
       if (!dx && !dy) continue;
       const nx = gx + dx, ny = gy + dy;
       if (nx < bx1 || nx > bx2 || ny < by1 || ny > by2) continue;
       if (avoid.length && blocked(nx, ny)) continue;
-      const nl = dx && dy ? diag(gx, gy, li, dx, dy) : step(gx, gy, li, dx, dy);
-      if (nl < 0) continue;
-      const nk = KEY(nx, ny, nl), ng = gc + (dx && dy ? Math.SQRT2 : 1);
-      const old = gScore.get(nk);
-      if (old !== undefined && old <= ng) continue;
-      gScore.set(nk, ng); from.set(nk, k); open.push(ng + h(nx, ny) * HW, nk);
+      const base = dx && dy ? Math.SQRT2 : 1;
+      const relax = (nl, mul) => {
+        if (nl < 0 || nl > 63) return;
+        const nk = KEY(nx, ny, nl), ng = gc + base * mul;
+        const old = gScore.get(nk);
+        if (old !== undefined && old <= ng) return;
+        gScore.set(nk, ng); from.set(nk, k); open.push(ng + h(nx, ny) * HW, nk);
+      };
+      if (swimHere) { for (const m of SW.swimMoves(gx, gy, li, dx, dy)) relax(m.nl, m.swim ? swimCost : 1); continue; }
+      let nl = dx && dy ? diag(gx, gy, li, dx, dy) : step(gx, gy, li, dx, dy);
+      if (nl < 0 && SW) nl = SW.dropIn(gx, gy, li, dx, dy);
+      relax(nl, 1);
     }
   }
   if (found < 0) return { ok: false, reason: `no way through (searched ${expanded} cells)`, ms: Date.now() - t0 };
   const cells = [];
   for (let k = found; k !== undefined; k = from.get(k)) cells.push(unkey(k));
   cells.reverse();
-  const pts = smooth(cells, opts.maxLeg || 1000, avoid.length ? blocked : null);
-  return { ok: true, points: pts, cells: cells.length, expanded, ms: Date.now() - t0, lengthUnits: Math.round((gScore.get(found) || 0) * 16) };
+  const pts = smooth(cells, opts.maxLeg || 1000, avoid.length ? blocked : null, SW);
+  const st = SW ? swimStats(cells, SW) : null;
+  // lengthUnits = the real distance (a swim cell counts once); costUnits = what the search weighed (swim x SWIM.cost)
+  return Object.assign({ ok: true, points: pts, cells: cells.length, expanded, ms: Date.now() - t0, lengthUnits: st ? st.len : Math.round((gScore.get(found) || 0) * 16) },
+    st && st.swim ? { swimUnits: st.swim, maxSwimRun: st.maxRun, costUnits: Math.round((gScore.get(found) || 0) * 16) } : {});
 }
+// --- swimming helpers (2026-10-13) -------------------------------------------------------------------------------------------------
+const SWACC = { heights: (gx, gy) => { const ls = layers(gx, gy); return ls ? ls.map(l => l.h) : null; }, nswe: (gx, gy, li) => { const ls = layers(gx, gy); return ls && ls[li] ? ls[li].nswe : 0; }, toWorldX: (gx) => toWorldX(gx), toWorldY: (gy) => toWorldY(gy) };
+/** a point inside a water zone (a swimmer, or a target under water): its cell's water floor, whatever the depth (snap() wants |h - z| < 400) */
+function snapSwim(SW, p, r) {
+  if (!SW || !p || !isFinite(p.x) || !isFinite(p.y)) return null;
+  if (p.z != null && !WATER.zoneAt(p.x, p.y, p.z)) return null;
+  const gx = toGeoX(p.x), gy = toGeoY(p.y);
+  for (let rr = 0; rr <= (r || 0); rr++) for (let dx = -rr; dx <= rr; dx++) for (let dy = -rr; dy <= rr; dy++) {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) !== rr) continue;
+    const ws = SW.info(gx + dx, gy + dy); if (!ws) continue;
+    let w = null, bd = 1e9; for (const o of ws) { const d = p.z == null ? -o.h : (p.z < o.lo ? o.lo - p.z : p.z > o.hi ? p.z - o.hi : 0); if (d < bd) { bd = d; w = o; } }
+    if (w && (p.z == null || bd <= 300)) return { gx: gx + dx, gy: gy + dy, li: w.li };
+  }
+  return null;
+}
+/** real length, swim length and the longest unbroken swim of a cell path (breath: 60 s under water, then 1 % HP a second) */
+function swimStats(cells, SW) {
+  let len = 0, swim = 0, run = 0, maxRun = 0;
+  for (let i = 1; i < cells.length; i++) {
+    const p = cells[i - 1], c = cells[i], d = (p[0] !== c[0] && p[1] !== c[1] ? Math.SQRT2 : 1) * 16;
+    len += d;
+    if (SW.swimming(p[0], p[1], p[2]) && SW.swimming(c[0], c[1], c[2])) { swim += d; run += d; if (run > maxRun) maxRun = run; } else run = 0;
+  }
+  return { len: Math.round(len), swim: Math.round(swim), maxRun: Math.round(maxRun) };
+}
+/** a swimmer's straight move from cell a to cell b (no geodata check on the server): every cell between is water, b is water or the shore */
+function swimClear(a, b, SW, blocked) { return SW.clear(a, b, blocked); }   // the rule lives in water_zones.js (slots)
 /** Straight line between two cells (Bresenham, layer-following) without hitting a wall: the walker can go straight there. */
-function clear(a, b, blocked) {
+// endLayer (2026-10-13): the walk must end on b's own floor (a leg from a tunnel floor to the water surface above it is no straight walk)
+function clear(a, b, blocked, endLayer) {
   let [x, y, li] = a; const [x2, y2] = b;
   const dx = Math.abs(x2 - x), dy = Math.abs(y2 - y), sx = x < x2 ? 1 : -1, sy = y < y2 ? 1 : -1;
   let err = dx - dy;
@@ -209,17 +253,20 @@ function clear(a, b, blocked) {
     x += mx; y += my; li = nl;
     if (blocked && blocked(x, y)) return false;               // an avoided spot (a bot got stuck there)
   }
-  return true;
+  return !endLayer || b[2] === undefined || li === b[2];
 }
 /** Cells -> few waypoints: the furthest cell still in a clear straight line, legs at most maxLeg world units. */
-function smooth(cells, maxLeg, blocked) {
-  const out = [], maxC = Math.max(4, Math.floor(maxLeg / 16));
+function smooth(cells, maxLeg, blocked, SW) {
+  const out = [], maxC = Math.max(4, Math.floor(maxLeg / 16)), maxSwimC = Math.max(4, Math.floor(Math.min(maxLeg, WATER.SWIM.maxLeg) / 16));
   let i = 0;
   while (i < cells.length - 1) {
-    let j = Math.min(cells.length - 1, i + maxC);
-    while (j > i + 1 && !clear(cells[i], cells[j], blocked)) j--;
-    const c = cells[j], l = layers(c[0], c[1])[c[2]];
-    out.push({ x: toWorldX(c[0]), y: toWorldY(c[1]), z: l.h });
+    // a leg that STARTS in water is a swim (the server skips geodata, cuts it at 700): all water cells, <= SWIM.maxLeg; else the wall check
+    const swim = SW && SW.swimming(cells[i][0], cells[i][1], cells[i][2]);
+    let j = Math.min(cells.length - 1, i + (swim ? maxSwimC : maxC));
+    const far = (q) => swim && Math.hypot(cells[q][0] - cells[i][0], cells[q][1] - cells[i][1]) * 16 > WATER.SWIM.maxLeg;
+    while (j > i + 1 && (far(j) || !(swim ? swimClear(cells[i], cells[j], SW, blocked) : clear(cells[i], cells[j], blocked, !!SW)))) j--;
+    const c = cells[j], l = layers(c[0], c[1])[c[2]], w = SW ? SW.slotOf(c[0], c[1], c[2]) : null;
+    out.push(w ? { x: toWorldX(c[0]), y: toWorldY(c[1]), z: w.z, swim: true } : { x: toWorldX(c[0]), y: toWorldY(c[1]), z: l.h });
     i = j;
   }
   return out;
@@ -228,6 +275,20 @@ function smooth(cells, maxLeg, blocked) {
 function lineClear(a, b) {
   const s = snap(a.x, a.y, a.z, 2), g = snap(b.x, b.y, b.z ?? a.z, 2);
   return !!(s && g && clear([s.gx, s.gy, s.li], [g.gx, g.gy, g.li]));
+}
+/** Is the straight move a -> b allowed on the server? A start inside a water zone on a water cell = a swim (every cell between is water,
+ *  b in the water or on a shore <= SWIM.climb above it, <= 700 units: the server's water move cap); else lineClear (walls). */
+function legOk(a, b) {
+  const SW = WATER.swimGraph(SWACC);
+  const s = snapSwim(SW, a, 1);
+  if (s) {
+    if (Math.hypot(b.x - a.x, b.y - a.y) > 700) return false;
+    const gb = [toGeoX(b.x), toGeoY(b.y)], ls = layers(gb[0], gb[1]) || [];
+    // every floor of b (nearest to b.z first): a swim slot or a shore floor that the swim line reaches
+    const order = ls.map((l, i) => i).sort((p, q) => Math.abs(ls[p].h - (b.z ?? ls[p].h)) - Math.abs(ls[q].h - (b.z ?? ls[q].h)));
+    return order.some(i => SW.clear([s.gx, s.gy, s.li], [gb[0], gb[1], i], null));
+  }
+  return lineClear(a, b);
 }
 /** Point in polygon (poly = [[x,y],...] or [{x,y},...]), ray casting. */
 function inPoly(x, y, poly) {
@@ -305,14 +366,14 @@ function fleeSpot(a, dangers, opts = {}) {
   return { ok: true, flee: true, kind, name, spot, clearance: Math.round(Math.min(clearOf(spot.x, spot.y), 99999)), points: pts.length ? pts : [spot],
     lengthUnits: Math.round((gScore.get(pick) || 0) * 16), expanded, ms: Date.now() - t0 };
 }
-module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, layers, layerAt, toGeoX, toGeoY, toWorldX, toWorldY, region };
+module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, layers, layerAt, toGeoX, toGeoY, toWorldX, toWorldY, region };
 
 if (require.main === module) {
   const ji = process.argv.indexOf('--json');
   const a = process.argv.slice(2).filter((v, i) => !v.startsWith('--') && i + 2 !== ji + 1).map(Number);
-  if (a.length < 6 || a.some(isNaN)) { console.log('usage: node geopath.js x1 y1 z1 x2 y2 z2 [--json out.json]'); process.exit(1); }
-  const r = findPath({ x: a[0], y: a[1], z: a[2] }, { x: a[3], y: a[4], z: a[5] });
-  console.log(r.ok ? `OK: ${r.points.length} waypoints, ${r.cells} cells, ~${r.lengthUnits} units walked (straight line ${Math.round(Math.hypot(a[3] - a[0], a[4] - a[1]))}), ${r.expanded} cells searched, ${r.ms} ms`
+  if (a.length < 6 || a.some(isNaN)) { console.log('usage: node geopath.js x1 y1 z1 x2 y2 z2 [--json out.json] [--noswim]'); process.exit(1); }
+  const r = findPath({ x: a[0], y: a[1], z: a[2] }, { x: a[3], y: a[4], z: a[5] }, { swim: !process.argv.includes('--noswim'), maxNodes: 8e6, maxMs: 120000, pad: 6000 });
+  console.log(r.ok ? `OK: ${r.points.length} waypoints, ${r.cells} cells, ~${r.lengthUnits} units walked (straight line ${Math.round(Math.hypot(a[3] - a[0], a[4] - a[1]))}), ${r.expanded} cells searched, ${r.ms} ms${r.swimUnits ? `, swims ${r.swimUnits} units (longest ${r.maxSwimRun})` : ''}`
     : `NO PATH: ${r.reason} (${r.ms} ms)`);
   if (ji > 0) fs.writeFileSync(process.argv[ji + 1], JSON.stringify({ from: { x: a[0], y: a[1], z: a[2] }, to: { x: a[3], y: a[4], z: a[5] }, ...r }));
 }

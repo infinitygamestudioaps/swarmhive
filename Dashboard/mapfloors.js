@@ -139,24 +139,35 @@
   // point between two floor bands of the same dungeon (stairs) keeps the floor. tileSuffix() then picks each map piece: surface -> the world art,
   // a dungeon floor -> that floor's underground layer (/api/maplayersz table) or null = NO art for this floor here (the caller draws the floor's
   // room outlines on a dark background instead; never the surface art under an underground position).
-  const JUMP_XY = 2500, JUMP_Z = 800, STAIRS_DZ = 800, LOOK_MS = 1000;
+  const JUMP_XY = 2500, JUMP_Z = 800, LOOK_MS = 1000;
   function lvlOf(M, k) {
     if (!k || k === 'surface') return { k: 'surface', d: null, dn: '', fi: -1, n: 'surface', z: null };
     const [dk, fs] = k.split('#'), d = M && (M.dungeons || []).find(x => x.key === dk), fi = +fs, f = d && d.floors[fi];
     return { k, d: dk, dn: d ? d.name : dk, fi, n: f ? f.n : '', z: f ? f.z : null };
   }
-  const bandDist = (f, z) => !f || !f.z ? Infinity : z < f.z[0] ? f.z[0] - z : z > f.z[1] ? z - f.z[1] : 0;
   /** the level a position would get on its own: a floor key, 'surface', or 'door:<dungeon>' (inside a dungeon box, on no floor band) */
   function rawLevel(M, p) {
     const f = floorOf(M, p.x, p.y, p.z);
     return f && f.k ? f.k : f ? 'door:' + f.d : 'surface';
   }
-  /** a door / stairs point: the nearest floor of that dungeon within STAIRS_DZ of its band, else the surface */
-  function doorLevel(M, raw, p) {
+  /** a 'door:' point (inside a dungeon's box, on no floor band / outside the floor areas). FIX 2026-10-13 13:52 (party Char1 OUTDOORS at
+   *  6120,-107059,-2336 got 'caveoftrials#0' = the dark Cave of Trials layer, because a door point took any floor within 800 of its band):
+   *  only a point in the GAP between two floor bands of that dungeon (stairs between floors, x/y inside one of their floor areas) counts as a
+   *  floor — the current one when it is one of the two, else the nearer one. Anything else (above / below every band, in a band but outside
+   *  the floor's area, a one-floor dungeon) is the SURFACE, exactly like floorOf() / levelKey(). */
+  function doorLevel(M, raw, p, cur) {
     const dk = raw.slice(5), d = M && (M.dungeons || []).find(x => x.key === dk); if (!d) return 'surface';
-    let best = -1, bd = STAIRS_DZ;
-    d.floors.forEach((f, i) => { const v = bandDist(f, +p.z); if (v <= bd) { bd = v; best = i; } });
-    return best >= 0 ? dk + '#' + best : 'surface';
+    const x = +p.x, y = +p.y, z = +p.z;
+    const inBox = (f) => !f.box || (x >= f.box[0] && x <= f.box[2] && y >= f.box[1] && y <= f.box[3]);
+    const fl = d.floors.map((f, i) => ({ f, i })).filter(o => o.f.z).sort((a, b) => a.f.z[0] - b.f.z[0]);
+    for (let k = 0; k + 1 < fl.length; k++) {
+      const lo = fl[k], hi = fl[k + 1];
+      if (!(z > lo.f.z[1] + BAND && z < hi.f.z[0] - BAND) || !(inBox(lo.f) || inBox(hi.f))) continue;
+      const kl = dk + '#' + lo.i, kh = dk + '#' + hi.i;
+      if (cur === kl || cur === kh) return cur;
+      return z - lo.f.z[1] <= hi.f.z[0] - z ? kl : kh;
+    }
+    return 'surface';
   }
   /** S = this viewer's state object (kept by the caller), p = {x,y,z}, now = ms. Returns the stable level + changed (switched on this look). */
   function trackLevel(M, S, p, now) {
@@ -164,14 +175,11 @@
     if (!P(p)) { const L0 = lvlOf(M, S.k || 'surface'); L0.changed = false; return L0; }
     let raw = rawLevel(M, p);
     if (!S.k) {                                            // first look: a door point goes to the nearest floor (stairs) or the surface
-      S.k = raw.startsWith('door:') ? doorLevel(M, raw, p) : raw;
+      S.k = raw.startsWith('door:') ? doorLevel(M, raw, p, null) : raw;
       Object.assign(S, { px: +p.x, py: +p.y, pz: +p.z, cand: null, n: 0, lookAt: now });
       const L1 = lvlOf(M, S.k); L1.changed = true; return L1;
     }
-    if (raw.startsWith('door:')) {                         // stairs / gap: keep my floor of that dungeon while close to its band
-      const cur = lvlOf(M, S.k);
-      raw = cur.d === raw.slice(5) && bandDist(cur, +p.z) <= STAIRS_DZ ? S.k : doorLevel(M, raw, p);
-    }
+    if (raw.startsWith('door:')) raw = doorLevel(M, raw, p, S.k);   // stairs between two floors keep my floor; anything else = surface
     const jump = Math.hypot(+p.x - S.px, +p.y - S.py) >= JUMP_XY || Math.abs(+p.z - S.pz) >= JUMP_Z;
     let changed = false;
     if (raw === S.k) { S.cand = null; S.n = 0; }
@@ -188,10 +196,7 @@
    *  zmap = /api/maplayersz ({ 'X_Y': [[zlo, zhi, layer, bx0, by0, bx1, by1], ...] }), layers = /api/maplayers ({ 'X_Y': [1, 2] }), p = the viewer */
   function tileSuffix(lvl, rx, ry, p, zmap, layers) {
     const key = rx + '_' + ry;
-    if (!lvl || lvl.k === 'surface') {
-      // not a known dungeon floor: the world art; deep underground in a region with a layer (a place dungeon_rooms.json does not know) -> layer 1
-      return P(p) && +p.z < -4500 && layers && layers[key] ? '_L1' : '';
-    }
+    if (!lvl || lvl.k === 'surface') return '';   // a surface viewer ALWAYS gets the world art (fix 2026-10-13 13:52: no layer guess from the height)
     if (!lvl.z) return null;
     const mid = (lvl.z[0] + lvl.z[1]) / 2, Z = (zmap || {})[key];
     if (!Z) return null;
@@ -216,7 +221,8 @@
   const get = () => B.model;
   // one stable level per map viewer id ('pmap:<leader>', 'cp:<name>', 'lp:<name>', 'esc:<name>', 'mini:<name>')
   const VIEW = {};
-  function view(id, p) { const S = VIEW[id] || (VIEW[id] = {}); return trackLevel(B.model, S, p, Date.now()); }
+  // no tracking before the model arrives (a first look without floor data would pin the viewer to the surface until 2 more looks)
+  function view(id, p) { if (!B.model) return null; const S = VIEW[id] || (VIEW[id] = {}); return trackLevel(B.model, S, p, Date.now()); }
   function tile(lvl, rx, ry, p) {
     const W = typeof window !== 'undefined' ? window : {};
     if (!B.model) return P(p) && +p.z < -4500 && W.MAP_LAYERS && W.MAP_LAYERS[rx + '_' + ry] ? '_L1' : '';   // model not loaded yet: old rule

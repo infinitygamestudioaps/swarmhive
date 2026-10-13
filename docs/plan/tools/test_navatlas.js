@@ -50,8 +50,9 @@ const BLOCK = SRC.slice(a, b);
 // call sites
 ok(/navAtlasNear\(x, y, why\)\) === true\) return true/.test(SRC), 'teleportNear asks the atlas first');
 ok(/navAtlasTrip\(\{ type: 'raid'[\s\S]{0,400}there = na && na\.ok \? true : await travelToSpot\(spot\)/.test(SRC), 'raid travel: atlas first, travelToSpot as fallback');
-ok(/navAtlasTrip\(\{ type: 'npc'[\s\S]{0,600}else if \(na\) plan = npcTripPlan/.test(SRC), 'goToNpc: atlas first, the old plan re-made from where we stand on failure');
-ok(/if \(!er\.manual && typeof navAtlasTrip === 'function'\)/.test(SRC), 'dungeonEntryTrip: atlas only for non-manual saved routes (manual routes win)');
+// ROUTESWITCH 2026-10-13: goToNpc goes through routeSwitchTrip (the route choice; atlas on auto without a locked own route), dungeonEntryTrip reads rsChoice(er)
+ok(/(?:navAtlasTrip|routeSwitchTrip)\(\{ type: 'npc'[\s\S]{0,800}else if \(na\) plan = npcTripPlan/.test(SRC), 'goToNpc: atlas first, the old plan re-made from where we stand on failure');
+ok(/if \(!er\.manual && typeof navAtlasTrip === 'function'\)/.test(SRC) || /const erC = rsChoice\(er\);[\s\S]{0,400}if \(erC\.use !== 'custom' && typeof navAtlasTrip === 'function'\)/.test(SRC), 'dungeonEntryTrip: atlas only for non-manual saved routes (manual routes win, or the dashboard choice)');
 
 function world(opts) {
   const W = { t: 1e9, calls: [], said: [], notes: [], me: Object.assign({ X: 0, Y: 0, Z: 0, Level: 40, Name: 'Tester', IsDead: false, ClassId: 0 }, opts.me || {}), items: opts.items || {}, skills: opts.skills || {}, doors: opts.doors || {}, town: opts.town || null, npcs: opts.npcs || [] };

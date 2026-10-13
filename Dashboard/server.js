@@ -306,8 +306,15 @@ function peacefulNpcNames() {
   NPC_PEACEFUL = new Set([...calm].filter(n => !atk.has(n)));
   return NPC_PEACEFUL;
 }
+// OWN CHARACTERS as a target (user 2026-10-13: "Bishop6: fighting Nuker18" = a healer that has its teammate selected): never a fight
+let OWN_CHARS = { at: 0, set: new Set() };
+function ownCharNames() {
+  if (Date.now() - OWN_CHARS.at > 60000) { const c = readJson(path.join(ROOT, 'swarm.config.json'), {}) || {}; OWN_CHARS = { at: Date.now(), set: new Set((c.accounts || []).map(a => String(a.character || '')).filter(Boolean)) }; }
+  return OWN_CHARS.set;
+}
 function splitNpcTarget(s) {
   const d = s && s.doing, t = d && d.target;
+  if (t && t.name && ownCharNames().has(String(t.name))) { d.mate = { name: String(t.name), dist: t.dist != null ? t.dist : null }; d.target = null; return; }   // a teammate selected (heal / buff / assist)
   if (!t || !t.name || !peacefulNpcNames().has(String(t.name))) return;
   d.npc = { name: String(t.name), dist: t.dist != null ? t.dist : null };
   d.target = null;
@@ -1361,8 +1368,9 @@ function routeApi(b, qid) {
   if (b.action === 'use') { if (!cur) return { error: 'no saved route for this boss: the bots use the computed path' }; keep(); if (b.use === 'atlas' || b.use === 'custom') cur.use = b.use; else delete cur.use; cur.editedAt = new Date().toISOString(); write(cur); return { ...info, route: cur, msg: cur.use ? `the bots now use the ${cur.use === 'atlas' ? 'computed path (nav atlas)' : 'saved route'}` : 'default: ' + (cur.manual ? 'the saved route (locked)' : 'the computed path') }; }
   if (b.action === 'unlock' || b.action === 'lock') { if (!cur) return { error: 'no route saved for this boss' }; keep(); cur.manual = b.action === 'lock'; cur.editedAt = new Date().toISOString(); write(cur); return { ...info, route: cur }; }
   // save: points [{x,y,z}] (2..500, numbers), landing text = the teleport the bots use to get there (must match, or the route is not used)
-  const pts = Array.isArray(b.points) ? b.points.map(p => { const o = { x: Math.round(+p.x), y: Math.round(+p.y), z: Math.round(+p.z) }; if (+p.layer > 0 && +p.layer < 10) o.layer = Math.round(+p.layer); return o; }) : [];
-  if (pts.length < 2 || pts.length > 500 || pts.some(p => ![p.x, p.y, p.z].every(Number.isFinite) || Math.abs(p.x) > 400000 || Math.abs(p.y) > 400000 || Math.abs(p.z) > 30000)) return { error: 'need 2-500 points with numeric x, y, z' };
+  // DUNGEON STEPS 2026-10-13 (Dashboard/routestore.js cleanPoints): plain points (+ swim / drop marks) and dungeon / floor steps (Mozella into Cruma ...)
+  const cpts = require('./routestore').cleanPoints(DATA, b.points); if (cpts.error) return { error: cpts.error };
+  const pts = cpts.pts;
   // START (user 2026-10-06): { kind: 'town', town: 'Heine' } = .heine, or { kind: 'gk', desc: 'Dion -> Plains of Dion' }; the bots then walk this route
   // from there with every member. Without a start the old landing text is kept (recorded routes).
   let start = b.start === undefined ? (cur && cur.start) || null : b.start;
@@ -1375,9 +1383,12 @@ function routeApi(b, qid) {
   if (!landing) return { error: 'landing (the teleport, e.g. "Dion -> Plains of Dion") is required' };
   keep();
   const now = new Date().toISOString();
-  const o = { boss: boss.name, id: boss.id, landing, start, length: routeLen(pts), points: pts, savedAt: (cur && cur.savedAt) || now, editedAt: now, uses: (cur && cur.uses) || 0, lastOk: (cur && cur.lastOk) || null, fails: 0, manual: b.manual !== false };
+  const o = { boss: boss.name, id: boss.id, landing, start, length: routeLen(cpts.plain), points: pts, savedAt: (cur && cur.savedAt) || now, editedAt: now, uses: (cur && cur.uses) || 0, lastOk: (cur && cur.lastOk) || null, fails: 0, manual: b.manual !== false };
   { const u = b.use !== undefined ? b.use : cur && cur.use; if (u === 'atlas' || u === 'custom') o.use = u; }   // ROUTE USE kept across saves
+  if (b.floorOk === true) o.floorOk = true;   // DUNGEON STEPS: the user accepted the height jumps (real drops)
   write(o);
+  const fcs = require('./routestore').floorCheck(o);   // DUNGEON STEPS 2026-10-13: a route that jumps floors is saved, but said so (the bots take the computed path)
+  if (!fcs.ok) return { ...info, route: o, msg: 'saved — but NOT walkable: ' + fcs.why + '. The bots use the computed path until you add the dungeon step (or mark the jump as a real drop).' };
   return { ...info, route: o, msg: o.manual ? 'saved and locked — the bots use exactly this route' : 'saved' };
 }
 
@@ -1776,15 +1787,18 @@ function commandPlan(b, chars) {
   const sends = [];
   if (kind === 'swarm') {
     const seen = new Set();
-    const add = (from, note, txt) => {
+    const add = (from, note, txt, scope) => {
       if (seen.has(from)) return; seen.add(from);
       const tx = txt || raw;
       const mates = chars.filter(c => partyOf(c) === partyOf(chars.find(x => x.name === from) || { name: from }));
       const solo = mates.length <= 1;   // no party: party chat never arrives -> normal chat, which its own window reads too (2026-10-07)
-      sends.push({ to: from, via: solo ? 'say' : 'party', text: solo ? tx : '#' + tx, online: live(from), note });
+      // ORDERQ (2026-10-13): who has to hear it = the order queue's recipients (a LEADER's party-chat line reaches his whole party; anyone else's
+      // line is obeyed by its own window only; a name in the text limits it to that character)
+      const recipients = scope === 'party' && !solo ? [...new Set([from].concat(mates.map(c => c.name)))] : [from];
+      sends.push({ to: from, via: solo ? 'say' : 'party', text: solo ? tx : '#' + tx, online: live(from), note, recipients });
     };
-    tg.parties.forEach(p => add(p, `party ${p}: ${chars.filter(c => partyOf(c) === p).length} characters hear it`));
-    tg.names.forEach(n => { const c = chars.find(x => x.name === n); const isLead = c && partyOf(c) === n && chars.filter(x => partyOf(x) === n).length > 1; const tx = nameText(n); add(n, tx !== raw ? `named: only ${n} acts${isLead ? ` (his party hears it, the name limits it to him)` : ''}` : isLead ? `${n} leads party ${n}: the whole party hears it` : `only ${n}'s own window obeys`, tx); });
+    tg.parties.forEach(p => add(p, `party ${p}: ${chars.filter(c => partyOf(c) === p).length} characters hear it`, undefined, 'party'));
+    tg.names.forEach(n => { const c = chars.find(x => x.name === n); const isLead = c && partyOf(c) === n && chars.filter(x => partyOf(x) === n).length > 1; const tx = nameText(n); add(n, tx !== raw ? `named: only ${n} acts${isLead ? ` (his party hears it, the name limits it to him)` : ''}` : isLead ? `${n} leads party ${n}: the whole party hears it` : `only ${n}'s own window obeys`, tx, isLead && tx === raw && w !== '!ov' ? 'party' : 'self'); });
   } else {
     const names = new Set(tg.names); tg.parties.forEach(p => chars.filter(c => partyOf(c) === p).forEach(c => names.add(c.name)));
     [...names].forEach(n => sends.push({ to: n, via: kind === 'bot' ? 'command' : raw.slice(1), text: raw, online: live(n) }));
@@ -1826,6 +1840,23 @@ const BOT_VIA_FILE = new Set(['/sit', '/stand']), BOT_ALSO_FILE = new Set(['/sto
 const MCP_DOWN = { until: 0, why: '', at: 0 };
 const fileChannelCan = (kind, text) => kind === 'swarm' || (kind === 'bot' && FILE_BOT.has(CMDS.firstWord(String(text || ''))));
 let cmdSeq = 0;
+// --- ORDER QUEUE (2026-10-13, user: "make sure the state machine runs as it should - it is annoying that the commands we send keep not
+// working"): every '!' order is queued per character in Logs\orders (Dashboard/orderqueue.js + the ORDERQ block of Scripts_dev/swarm.js):
+// a window that is not connected / not ready yet gets it when its swarm.js starts, exactly once (also after reloads / pool restarts /
+// relogins), with delivered / acknowledged / running / done / failed (why) / superseded / expired / cancelled; /api/orders + Dashboard/orders.js
+// show it. A window that never wrote a heartbeat runs the old swarm.js: it still gets the MCP party-chat line (its entry is 'done', legacy).
+// The LIVE folder is used only by the process that really listens on the dashboard port (ORDERQ_LIVE, set in the listen callback); tests
+// set SWARM_ORDERS_DIR / SWARM_CMD_DIR (temp folders) - a sandbox server without them has the queue off and works exactly as before.
+const OQM = require('./orderqueue');
+const ORDERQ_LIVE = { on: false };
+const ORDERQ = OQM.create({ dir: () => process.env.SWARM_ORDERS_DIR || (process.env.SWARM_CMD_DIR ? path.join(CMD_DIR, 'orders') : (ORDERQ_LIVE.on ? path.join(LOGS, 'orders') : null)) });
+setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
+/** one line per send: how many of its characters picked the order up, and who still waits (and why) */
+function orderSummary(rs) {
+  const by = {}; rs.forEach(r => { by[r.state] = (by[r.state] || 0) + 1; });
+  const wait = rs.filter(r => r.waiting || (r.pending && r.state === 'delivered'));
+  return 'order queue: ' + Object.keys(by).map(k => `${by[k]} ${k}`).join(', ') + (wait.length ? ' - ' + wait.map(r => r.why).join('; ') : '');
+}
 function cmdInboxWrite(newEntries) {
   fs.mkdirSync(CMD_DIR, { recursive: true });
   let cur = []; try { cur = JSON.parse(fs.readFileSync(CMD_INBOX, 'utf8')); if (!Array.isArray(cur)) cur = []; } catch (e) { cur = []; }
@@ -1884,12 +1915,25 @@ async function commandRun(b) {
   if (p.error) return { code: p.code || 400, body: { error: p.error } };
   if (p.safety === 'destructive' && b.confirmDanger !== true) return { code: 409, body: { error: `${p.command} is destructive — confirm it explicitly in the command center`, needConfirm: true, plan: p } };
   if (b.dryRun) return { code: 200, body: { ok: true, dryRun: true, ...p } };
+  // ORDERQ (2026-10-13): a '!' order goes into every recipient's queue first (durable); sends whose recipients all run the queue-aware
+  // swarm.js are NOT said in party chat any more (their windows read the queue within a second, or when they start); the others (old
+  // swarm.js, never a heartbeat) still get the MCP party chat below, exactly as before
+  let oqRes = null;
+  if (p.kind === 'swarm' && ORDERQ.enabled()) {
+    try {
+      const pol = OQM.policy(CMDS.classify(p.command), p.command), id = OQM.newId(Date.now());
+      oqRes = ORDERQ.add({ id, cmd: p.command, at: Date.now(), label: p.target, targets: Array.isArray(b.targets) && b.targets.length ? b.targets.map(String) : (b.target ? [String(b.target)] : undefined),
+        safety: p.safety, specId: p.spec ? p.spec.id : '', ttlMs: pol.ttlMs, stop: pol.stop, sends: p.sends.map(s => ({ from: s.to, text: s.text, via: s.via, recipients: s.recipients || [s.to] })) }, chars.map(c => c.name));
+      if (oqRes) p.sends.forEach(s => { const rs = oqRes.recipients.filter(r => (s.recipients || [s.to]).includes(r.name)); s.orderId = id; s.queueOnly = rs.length > 0 && rs.every(r => !r.legacy); });
+    } catch (e) { oqRes = null; console.error('order queue:', e.message); }
+  }
   const toFile = (s, why) => {
     if (!fileChannelCan(p.kind, s.text)) return { ...s, ok: false, channel: 'none', error: `needs MCP - ${why}; ${p.kind === 'action' ? s.text : CMDS.firstWord(s.text)} cannot go through the file channel` };
     const fileId = 'c' + Date.now().toString(36) + (++cmdSeq).toString(36) + Math.random().toString(36).slice(2, 6);
     return { ...s, ok: true, channel: 'file', fileId, why };
   };
   const sends = await pmap(p.sends, 4, async (s) => {
+    if (s.queueOnly) return { ...s, ok: true, channel: 'queue' };          // ORDERQ: durable in the queue; no party-chat copy needed
     if (MCP_DOWN.until > Date.now()) return toFile(s, MCP_DOWN.why);
     if (p.kind === 'bot' && BOT_VIA_FILE.has(CMDS.firstWord(s.text))) return toFile(s, 'state-aware: L2Swarm\'s sit/stand is one toggle, swarm.js checks first');   // CMDFIX2 botparty
     try {
@@ -1932,11 +1976,26 @@ async function commandRun(b) {
       });
     } catch (e) { viaFile.forEach(s => { s.ok = false; s.error = 'file channel: could not write Logs\\cmd\\inbox.json: ' + e.message; }); }
   }
-  const channel = viaFile.length ? (viaFile.length === sends.length ? 'file' : 'mixed') : 'mcp';
-  const channelNote = viaFile.length ? `sent via file channel - ${(MCP_DOWN.until > Date.now() && MCP_DOWN.why) || (viaFile[0] && viaFile[0].why) || MCP_DOWN.why || 'MCP is not answering'}` : undefined;   // CMDFIX2 botparty: sit/stand go there on purpose
-  try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), `${new Date().toISOString()} ${p.command} -> ${p.target} (${sends.filter(s => s.ok).length}/${sends.length} ok${viaFile.length ? ', ' + viaFile.length + ' via file channel' : ''})${sends.filter(s => !s.ok).map(s => ' [' + s.to + ': ' + (s.error || s.out || '').slice(0, 80) + ']').join('')}\r\n`); } catch (e) { }
+  // ORDERQ: per character: did its window pick the order up? (wait up to ackWaitMs, default 2.5 s, only while a window that is UP has not)
+  let orders;
+  if (oqRes) {
+    try {
+      const names = oqRes.recipients.map(r => r.name), legacy = new Set(oqRes.recipients.filter(r => r.legacy).map(r => r.name));
+      const waitMs = b.ackWaitMs != null ? Math.max(0, Math.min(10000, Number(b.ackWaitMs) || 0)) : 2500;
+      const st = waitMs > 0 && oqRes.recipients.some(r => !r.legacy && r.window === 'up') ? await ORDERQ.waitAcks(oqRes.id, names, waitMs) : ORDERQ.status(oqRes.id, names);
+      const rec = st.map(x => ({ name: x.name, from: x.from, state: x.state, why: x.why || '', how: x.how || '', pending: !!x.pending, waiting: !!x.waiting, legacy: legacy.has(x.name) }));
+      orders = [{ id: oqRes.id, cmd: p.command, recipients: rec, pending: rec.filter(r => r.pending).length }];
+      sends.forEach(s => { if (s.orderId !== oqRes.id) return; const rs = rec.filter(r => (s.recipients || [s.to]).includes(r.name)); const q = orderSummary(rs); s.out = s.channel === 'queue' ? q : (s.out ? s.out + ' | ' : '') + q; if (rs.some(r => r.pending)) s.pending = true; });
+    } catch (e) { console.error('order queue status:', e.message); }
+  }
+  const kinds = new Set(sends.map(s => s.channel === 'queue' ? 'queue' : s.channel === 'file' ? 'file' : 'mcp'));
+  const channel = kinds.size > 1 ? 'mixed' : ([...kinds][0] || 'mcp');
+  const qWait = orders ? orders[0].recipients.filter(r => r.waiting) : [];
+  const channelNote = viaFile.length ? `sent via file channel - ${(MCP_DOWN.until > Date.now() && MCP_DOWN.why) || (viaFile[0] && viaFile[0].why) || MCP_DOWN.why || 'MCP is not answering'}`   // CMDFIX2 botparty: sit/stand go there on purpose
+    : kinds.has('queue') ? `order queue (${orders ? orders[0].id : '?'}): ${orders ? orders[0].recipients.length - orders[0].pending : 0}/${orders ? orders[0].recipients.length : 0} picked up${qWait.length ? ` - waiting for ${qWait.map(r => r.name).join(', ')} (not connected / not ready yet) - delivered when they start` : ''}` : undefined;
+  try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), `${new Date().toISOString()} ${p.command} -> ${p.target} (${sends.filter(s => s.ok).length}/${sends.length} ok${viaFile.length ? ', ' + viaFile.length + ' via file channel' : ''}${oqRes ? ', order ' + oqRes.id + ' queued for ' + oqRes.recipients.length : ''})${sends.filter(s => !s.ok).map(s => ' [' + s.to + ': ' + (s.error || s.out || '').slice(0, 80) + ']').join('')}\r\n`); } catch (e) { }
   const one = sends.length === 1 ? sends[0] : null;
-  return { code: 200, body: { ok: true, command: p.command, kind: p.kind, safety: p.safety, target: p.target, sends, sent: sends.filter(s => s.ok).length, solo: !!(one && one.via === 'say'), channel, channelNote, out: one ? (one.out || one.error) : undefined } };
+  return { code: 200, body: { ok: true, command: p.command, kind: p.kind, safety: p.safety, target: p.target, sends, sent: sends.filter(s => s.ok).length, solo: !!(one && one.via === 'say'), channel, channelNote, out: one ? (one.out || one.error) : undefined, orders } };
 }
 // --- end COMMAND CENTER ---------------------------------------------------------------------------------------------------
 
@@ -2118,6 +2177,9 @@ http.createServer(async (req, res) => {
     if (await require('./buffpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // TRADE / HAND-OVER 2026-10-10 (Dashboard/tradepage_api.js): /tradepage.js|css, /tradelogic.js (public) + /api/trade/* (key checked inside):
     // pick givers / receiver (clan leader default) / items from the live bags, dry run, then "!handover <id>" (Logs/handover/<id>.json)
+    // ORDERS VIEW 2026-10-13 (Dashboard/orders_api.js): /orders.js (public) + GET/POST /api/orders (key checked inside): the durable order queue
+    // (pending / acknowledged / running / done / failed + why / superseded / expired), re-send, cancel
+    if (await require('./orders_api').handle(req, res, url, { DIR: __dirname, ORDERQ, readStates, partyOf, allowed, json, send, body, commandRun })) return;
     if (await require('./tradepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;
     // ADENA 2026-10-12 (Dashboard/fundpage_api.js): /fundpage.js|css (public) + GET/POST /api/fundrules (key checked inside):
     // cross-party adena rules (Scripts/data/fund_rules.json, read by swarm.js fundRules() every 30 s), live adena per character, Logs/fund_log.json
@@ -2417,8 +2479,19 @@ http.createServer(async (req, res) => {
       });
     }
     // --- Raid routes: view / correct / lock the saved walk landing -> boss (user 2026-10-06) ---
-    if (url.pathname === '/api/route') { const r = routeApi(req.method === 'POST' ? await body(req) : null, url.searchParams.get('id')); return json(res, r.error ? 400 : 200, r); }
-    if (url.pathname === '/api/routes') return json(res, 200, { routes: routeList() });
+    // ROUTESWITCH-2026-10-13 (Dashboard/routestore.js): /api/route?type=<raid|epic|npc|quest|area|room|dungeon>&id= — known raid bosses (also an epic boss in
+    // raidbosses_h5.json) keep the raid routeApi (unchanged file format); every other target goes to the generic store. Both answer with choice { use, stored, why }.
+    if (url.pathname === '/api/route') {
+      const b = req.method === 'POST' ? await body(req) : null, type = String((b && b.type) || url.searchParams.get('type') || 'raid'), qid = (b && b.id != null ? b.id : url.searchParams.get('id'));
+      const RS = require('./routestore');
+      let r;
+      if (((b && b.type) || url.searchParams.get('type')) && (type === 'raid' || type === 'epic') && bossById(String(qid || '').replace(/[^0-9]/g, ''))) { r = routeApi(b, url.searchParams.get('id')); if (!r.error) { let ti = null; try { ti = RS.targetInfo({ DATA, RV: require('./routeview_api'), LOGS, ROOT, DIR: __dirname }, 'epic', r.id); } catch (e) { ti = null; }   // DUNGEON STEPS: + the computed path for 'Start from the computed path'
+        Object.assign(r, { type: 'raid', choice: RS.choice(r.route), floorCheck: RS.floorCheck(r.route), dungeons: RS.dungeonList(DATA), editHref: '#/raid/' + r.id + '/route', target: Object.assign({}, ti || {}, { name: r.boss && r.boss.name, x: r.boss && r.boss.x, y: r.boss && r.boss.y, z: r.boss && r.boss.z }) }); } }
+      else if (!((b && b.type) || url.searchParams.get('type'))) r = routeApi(b, url.searchParams.get('id'));   // old callers (no type): the raid answer exactly as before
+      else r = RS.api({ DATA, RV: require('./routeview_api'), towns: TOWN_LANDINGS, gkStarts: gkStartList, gkLand: () => Object.fromEntries((landings().gk || []).map(g => [g.desc, [g.x, g.y, g.z]])), layers: mapLayers, LOGS, ROOT, DIR: __dirname }, type === 'raid' ? 'epic' : type, qid, b);
+      return json(res, r.error ? 400 : 200, r);
+    }
+    if (url.pathname === '/api/routes') { const t = url.searchParams.get('type'); if (t) return json(res, 200, { routes: require('./routestore').list({ DATA }, t === 'all' ? '' : t) }); return json(res, 200, { routes: routeList() }); }   // ROUTESWITCH: ?type=<type>|all = the generic store
     // GIRAN TOWN ROUTES (user 2026-10-06: editable like the raid routes): start -> grocer / warehouse / weapons / armor / jewelry / …
     // Scripts/data/giran_routes.json, read by swarm.js giranGo() (re-read every minute, no deploy). Every save keeps the old file.
     if (url.pathname === '/api/townroute') {
@@ -2988,4 +3061,9 @@ http.createServer(async (req, res) => {
   } catch (e) {
     json(res, 500, { error: String(e.message || e) });
   }
-}).listen(PORT, '0.0.0.0', () => console.log(`dashboard on http://127.0.0.1:${PORT} (LAN needs ?key=)`));
+}).listen(PORT, '0.0.0.0', function () {
+  // ORDERQ (2026-10-13): the live Logs\orders queue only in the process that really listens on the dashboard port (a test / sandbox server
+  // listens elsewhere and calls this without its server: queue off unless it set SWARM_ORDERS_DIR / SWARM_CMD_DIR)
+  try { const a = this && typeof this.address === 'function' ? this.address() : null; if (a && a.port === PORT) { ORDERQ_LIVE.on = true; ORDERQ.ensure(); } } catch (e) { }
+  console.log(`dashboard on http://127.0.0.1:${PORT} (LAN needs ?key=)${ORDERQ_LIVE.on ? ' - order queue: Logs\\orders' : ''}`);
+});

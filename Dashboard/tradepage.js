@@ -22,7 +22,7 @@
   // ======================================================================== data
   async function loadInfo() {
     try { const d = await api('/api/trade/info'); if (d && !d.error) TP.info = d; else if (d) flash(d.error, true); }
-    catch (e) { flash('The dashboard server has no Trade API yet (it needs a restart).', true); }
+    catch (e) { const m = String((e && e.message) || e || ''); flash(/404|not found/i.test(m) ? 'The dashboard server has no Trade API yet (it needs a restart).' : 'Trade info failed: ' + m.slice(0, 200), true); }   // TRADEERR-2026-10-13: a tester saw the restart text after restarting - show the real error
     render();
   }
   async function loadBags(fresh) {

@@ -2,6 +2,22 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.3 (2026-10-13)
+
+- Move accounts to the new engine: Scripts/agent2.js is checked BEFORE anything is stopped and copied from Scripts_dev when an update did not deploy it (tester: every character was left with no script, ENOENT agent2.js)
+- update.cmd restarts the running dashboard by itself (the new tabs did nothing until a manual restart)
+- Trade tab shows the real error instead of always saying it needs a restart
+- Order queue: every dashboard order is delivered exactly once with a receipt (queued, delivered, running, done or failed), survives brain and dashboard restarts, party orders reach every member - Orders button on the dashboard
+- Route choice (computed path, own route, auto) for EVERY target: NPCs, quest steps, hunting areas, dungeon rooms and entrances, epic and raid bosses, with a route editor (#/routeedit) - draw, record a walk, paste /loc lines, swim points walk at swim speed
+- Seven Signs: the walk to the Priest of Dawn is retried 4 times (.giran again when the party pulled the character out of town)
+- Quest engine: waits 15 s for NPC pages, a same page after a click is clicked once more, menus named Quest. are recognised, class-transfer, clan and shop links are never clicked as continue
+- Selling: items you mark for sale (all bots / this bot, every enchant level) are really sold - one failed sale no longer bans items for good (strikes, marked items retried after 24 h), junk is sold in every supply run (no-grade, plus lower grades when the whole team is past them), !sell says why when nothing is sold (worn, untradeable, refused before, no merchant)
+- Routes into dungeons: a target inside a dungeon floor (e.g. Archon Suscepter, Cruma Tower 1st floor) is reached via the entrance NPC and the floor teleport, own routes can hold dungeon steps, a route that jumps floors is flagged red and the bots use the computed path
+- route_snapz tool puts hand-drawn points on the ground
+- Tillion and other targets across water: swimming is part of route finding (water zones from the datapack, swim speed, swim legs), Tillion reachable via Devil Isle
+- Dashboard: the Parties page no longer jumps (fixed party order, fixed-height member rows with a cast-bar slot, fixed banner strip and map legend)
+- party maps show the world map for a party outdoors next to a dungeon (dark map fixed), your own characters as targets are shown as with X instead of fighting X
+
 ## v1.6.2 (2026-10-13)
 
 - Seven Signs: Dawn sign-up works on L2Toggle (tested live) - L2Toggle reuses link codes on every page, pages may take > 6 s under load (wait 15 s, no re-click), server message #1275 counts as signed, leveling steps aside during the visit

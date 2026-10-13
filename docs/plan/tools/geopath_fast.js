@@ -1,3 +1,4 @@
+// SWIMMING (2026-10-13): water zones are crossed by swimming like geopath.js (water_zones.js); opts.swim === false = land only.
 // GEOPATH FAST (nav_atlas 2026-10-12): the same walk rules as geopath.js (L2J geodata, 16-unit cells, NSWE walls, 48 max step, no cut corners,
 // same snap, same smoothing into wall-checked straight legs <= maxLeg) but ~20x faster for the OFFLINE atlas: every region is decoded once into
 // typed arrays (no object per cell lookup), the A* keeps its scores in typed arrays over the search box (no Map per node) and skips stale heap
@@ -6,6 +7,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const geo = require('./geopath');                       // learnedAvoid (geo_blocked.json) + the raw region parser
+const WATER = require('./water_zones');                // SWIMMING (2026-10-13): same swim rules as geopath.js (water_zones.js)
 const GEO_DIR = process.env.GEO_DIR || path.join(__dirname, '..', '..', '..', 'Geodata');
 const WORLD_X0 = -294912, WORLD_Y0 = -262144, MAX_STEP = 48;
 const toGeoX = (x) => (Math.round(x) - WORLD_X0) >> 4, toGeoY = (y) => (Math.round(y) - WORLD_Y0) >> 4;
@@ -66,6 +68,22 @@ function diag(gx, gy, li, dx, dy) {
   const b1 = step(gx + dx, gy, ax, 0, dy), b2 = step(gx, gy + dy, ay, dx, 0); if (b1 < 0 || b2 < 0) return -1;
   return b1;
 }
+// --- swimming (2026-10-13, same rules as geopath.js: water_zones.swimGraph) ---
+const SWACC = { heights: (gx, gy) => { const r = reg(gx, gy); if (!r) return null; const i = cix(gx, gy), n = r.cnt[i]; if (!n) return null; const f = r.first[i], out = new Array(n); for (let l = 0; l < n; l++) out[l] = r.H[f + l]; return out; },
+  nswe: (gx, gy, li) => { const r = reg(gx, gy); if (!r) return 0; const i = cix(gx, gy); return li < r.cnt[i] ? r.N[r.first[i] + li] : 0; }, toWorldX, toWorldY };
+function snapSwim(SW, p, r) {
+  if (!SW || !p || !isFinite(p.x) || !isFinite(p.y)) return null;
+  if (p.z != null && !WATER.zoneAt(p.x, p.y, p.z)) return null;
+  const gx = toGeoX(p.x), gy = toGeoY(p.y);
+  for (let rr = 0; rr <= (r || 0); rr++) for (let dx = -rr; dx <= rr; dx++) for (let dy = -rr; dy <= rr; dy++) {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) !== rr) continue;
+    const ws = SW.info(gx + dx, gy + dy); if (!ws) continue;
+    let w = null, bd = 1e9; for (const o of ws) { const d = p.z == null ? -o.h : (p.z < o.lo ? o.lo - p.z : p.z > o.hi ? p.z - o.hi : 0); if (d < bd) { bd = d; w = o; } }
+    if (w && (p.z == null || bd <= 300)) return { gx: gx + dx, gy: gy + dy, li: w.li };
+  }
+  return null;
+}
+function swimClear(a, b, SW, blocked) { return SW.clear(a, b, blocked); }   // the rule lives in water_zones.js (slots)
 function snap(x, y, z, r = 6, anyZ = false) {
   const gx = toGeoX(x), gy = toGeoY(y);
   for (let rr = 0; rr <= r; rr++) for (let dx = -rr; dx <= rr; dx++) for (let dy = -rr; dy <= rr; dy++) {
@@ -76,7 +94,8 @@ function snap(x, y, z, r = 6, anyZ = false) {
   }
   return null;
 }
-function clear(a, b, blocked) {
+// endLayer (2026-10-13): the walk must end on b's own floor (a leg from a tunnel floor to the water surface above it is no straight walk)
+function clear(a, b, blocked, endLayer) {
   let [x, y, li] = a; const [x2, y2] = b;
   const dx = Math.abs(x2 - x), dy = Math.abs(y2 - y), sx = x < x2 ? 1 : -1, sy = y < y2 ? 1 : -1; let err = dx - dy;
   while (x !== x2 || y !== y2) {
@@ -85,14 +104,17 @@ function clear(a, b, blocked) {
     const nl = mx && my ? diag(x, y, li, mx, my) : step(x, y, li, mx, my); if (nl < 0) return false;
     x += mx; y += my; li = nl; if (blocked && blocked(x, y)) return false;
   }
-  return true;
+  return !endLayer || b[2] === undefined || li === b[2];
 }
-function smooth(cells, maxLeg, blocked) {
-  const out = [], maxC = Math.max(4, Math.floor(maxLeg / 16)); let i = 0;
+function smooth(cells, maxLeg, blocked, SW) {
+  const out = [], maxC = Math.max(4, Math.floor(maxLeg / 16)), maxSwimC = Math.max(4, Math.floor(Math.min(maxLeg, WATER.SWIM.maxLeg) / 16)); let i = 0;
   while (i < cells.length - 1) {
-    let j = Math.min(cells.length - 1, i + maxC);
-    while (j > i + 1 && !clear(cells[i], cells[j], blocked)) j--;
-    const c = cells[j]; out.push({ x: toWorldX(c[0]), y: toWorldY(c[1]), z: hAt(c[0], c[1], c[2]) }); i = j;
+    const swim = SW && SW.swimming(cells[i][0], cells[i][1], cells[i][2]);     // a leg that starts in water is a swim (no geodata check, <= 650)
+    let j = Math.min(cells.length - 1, i + (swim ? maxSwimC : maxC));
+    const far = (q) => swim && Math.hypot(cells[q][0] - cells[i][0], cells[q][1] - cells[i][1]) * 16 > WATER.SWIM.maxLeg;
+    while (j > i + 1 && (far(j) || !(swim ? swimClear(cells[i], cells[j], SW, blocked) : clear(cells[i], cells[j], blocked, !!SW)))) j--;
+    const c = cells[j], w = SW ? SW.slotOf(c[0], c[1], c[2]) : null;
+    out.push(w ? { x: toWorldX(c[0]), y: toWorldY(c[1]), z: w.z, swim: true } : { x: toWorldX(c[0]), y: toWorldY(c[1]), z: hAt(c[0], c[1], c[2]) }); i = j;
   }
   return out;
 }
@@ -109,7 +131,8 @@ function findPath(a, b, opts = {}) {
   const avoid = (opts.avoid || []).concat(opts.noLearned ? [] : geo.learnedAvoid(a, b, opts.pad || 6000)).map(o => ({ gx: toGeoX(o.x), gy: toGeoY(o.y), r: Math.max(1, Math.round((o.r || 150) / 16)) }));
   const blocked = avoid.length ? (gx, gy) => avoid.some(o => Math.hypot(gx - o.gx, gy - o.gy) <= o.r) : null;
   const maxNodes = opts.maxNodes || 4e6, pad = opts.pad || 6000, maxMs = opts.maxMs || 20000, HW = opts.hWeight > 1 ? opts.hWeight : 1.001;
-  const s = snap(a.x, a.y, a.z), g = snap(b.x, b.y, b.z ?? a.z, 10) || snap(b.x, b.y, b.z ?? a.z, 10, true);
+  const SW = opts.swim === false || opts.noSwim ? null : WATER.swimGraph(SWACC), swimCost = opts.swimCost > 0 ? opts.swimCost : WATER.SWIM.cost;
+  const s = snapSwim(SW, a, 6) || snap(a.x, a.y, a.z), g = snapSwim(SW, b, 10) || snap(b.x, b.y, b.z ?? a.z, 10) || snap(b.x, b.y, b.z ?? a.z, 10, true);
   if (!s) return { ok: false, reason: 'start is not on walkable geodata', ms: Date.now() - t0 };
   if (!g) return { ok: false, reason: 'goal is not on walkable geodata', ms: Date.now() - t0 };
   const bx1 = Math.min(s.gx, g.gx) - (pad >> 4), bx2 = Math.max(s.gx, g.gx) + (pad >> 4), by1 = Math.min(s.gy, g.gy) - (pad >> 4), by2 = Math.max(s.gy, g.gy) + (pad >> 4);
@@ -132,14 +155,21 @@ function findPath(a, b, opts = {}) {
     if (gx === g.gx && gy === g.gy && (b.z == null || li === g.li)) { found = k; break; }
     if (++expanded > maxNodes) return { ok: false, reason: `gave up after ${expanded} cells (too far or no way)`, ms: Date.now() - t0, expanded };
     if ((expanded & 65535) === 0 && Date.now() - t0 > maxMs) return { ok: false, reason: `gave up after ${maxMs} ms`, ms: Date.now() - t0, expanded };
+    const swimHere = SW ? SW.swimming(gx, gy, li) : false;
     for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) {
       if (!dx && !dy) continue;
       const nx = gx + dx, ny = gy + dy;
       if (nx < bx1 || nx > bx2 || ny < by1 || ny > by2) continue;
       if (blocked && blocked(nx, ny)) continue;
-      const nl = dx && dy ? diag(gx, gy, li, dx, dy) : step(gx, gy, li, dx, dy);
+      const base = dx && dy ? Math.SQRT2 : 1;
+      if (swimHere) {
+        for (const m of SW.swimMoves(gx, gy, li, dx, dy)) { if (m.nl > 63) continue; const nk = node(nx, ny, m.nl), ng = gc + base * (m.swim ? swimCost : 1); if (getG(nk) <= ng) continue; setG(nk, ng, k); open.push(ng + h(nx, ny) * HW, nk); }
+        continue;
+      }
+      let nl = dx && dy ? diag(gx, gy, li, dx, dy) : step(gx, gy, li, dx, dy);
+      if (nl < 0 && SW) nl = SW.dropIn(gx, gy, li, dx, dy);
       if (nl < 0 || nl > 63) continue;
-      const nk = node(nx, ny, nl), ng = gc + (dx && dy ? Math.SQRT2 : 1);
+      const nk = node(nx, ny, nl), ng = gc + base;
       if (getG(nk) <= ng) continue;
       setG(nk, ng, k); open.push(ng + h(nx, ny) * HW, nk);
     }
@@ -148,18 +178,53 @@ function findPath(a, b, opts = {}) {
   const cells = [];
   for (let k = found; k >= 0; k = getP(k)) { const c = Math.floor(k / 64), li = k - c * 64; cells.push([(c % W) + bx1, Math.floor(c / W) + by1, li]); }
   cells.reverse();
-  const pts = smooth(cells, opts.maxLeg || 1000, blocked);
-  return { ok: true, points: pts, cells: cells.length, expanded, ms: Date.now() - t0, lengthUnits: Math.round(getG(found) * 16) };
+  const pts = smooth(cells, opts.maxLeg || 1000, blocked, SW);
+  if (!SW) return { ok: true, points: pts, cells: cells.length, expanded, ms: Date.now() - t0, lengthUnits: Math.round(getG(found) * 16) };
+  let len = 0, swim = 0, run = 0, maxRun = 0;                         // real length (a swim cell counts once), swim length, longest unbroken swim
+  for (let i = 1; i < cells.length; i++) { const p = cells[i - 1], c = cells[i], d = (p[0] !== c[0] && p[1] !== c[1] ? Math.SQRT2 : 1) * 16; len += d;
+    if (SW.swimming(p[0], p[1], p[2]) && SW.swimming(c[0], c[1], c[2])) { swim += d; run += d; if (run > maxRun) maxRun = run; } else run = 0; }
+  return Object.assign({ ok: true, points: pts, cells: cells.length, expanded, ms: Date.now() - t0, lengthUnits: Math.round(len) },
+    swim ? { swimUnits: Math.round(swim), maxSwimRun: Math.round(maxRun), costUnits: Math.round(getG(found) * 16) } : {});
 }
 /** cells reachable from (x,y,z) by the walk rules, up to cap (BFS): a small number = a closed pocket (an island, a closed room, a platform) */
-function pocket(x, y, z, cap) {
-  const s = snap(x, y, z, 10) || snap(x, y, z, 10, true); if (!s) return 0;
+/** the straight (non-diagonal) moves out of node (gx,gy,li) one cell in (dx,dy): walk step, swim moves, drop into water -> [next layer] */
+function fwd(SW, gx, gy, li, dx, dy) {
+  if (SW && SW.swimming(gx, gy, li)) return SW.swimMoves(gx, gy, li, dx, dy).map(m => m.nl);
+  let nl = step(gx, gy, li, dx, dy); if (nl < 0 && SW) nl = SW.dropIn(gx, gy, li, dx, dy);
+  return nl < 0 ? [] : [nl];
+}
+/** cells reachable from (x,y,z) by the walk rules, up to cap (BFS): a small number = a closed pocket (an island, a closed room, a platform) */
+function pocket(x, y, z, cap, opts = {}) {
+  const SW = opts.swim === false || opts.noSwim ? null : WATER.swimGraph(SWACC);   // swim edges too: a beach next to the sea is no closed pocket
+  const s = snapSwim(SW, { x, y, z }, 10) || snap(x, y, z, 10) || snap(x, y, z, 10, true); if (!s) return 0;
   const seen = new Set(), q = [[s.gx, s.gy, s.li]]; seen.add((s.gx * 32768 + s.gy) * 64 + s.li);
   for (let qi = 0; qi < q.length; qi++) {
     if (seen.size >= cap) return cap;
     const [gx, gy, li] = q[qi];
-    for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) { if (!dx && !dy || (dx && dy)) continue; const nl = step(gx, gy, li, dx, dy); if (nl < 0) continue; const k = ((gx + dx) * 32768 + gy + dy) * 64 + nl; if (seen.has(k)) continue; seen.add(k); q.push([gx + dx, gy + dy, nl]); }
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) for (const nl of fwd(SW, gx, gy, li, dx, dy)) { const k = ((gx + dx) * 32768 + gy + dy) * 64 + nl; if (seen.has(k)) continue; seen.add(k); q.push([gx + dx, gy + dy, nl]); }
   }
   return seen.size;
 }
-module.exports = { findPath, pocket, dropRegions, regionsLoaded: () => RC.size, internals: { reg, cix, layerAt, hAt, step, toGeoX, toGeoY, toWorldX, toWorldY } };   // internals: nav_atlas_longlegs.js (2026-10-12)
+/**
+ * POCKET IN (2026-10-13): the cells that can walk INTO (x,y,z), up to cap (reverse BFS over the same moves). pocket() only says whether a
+ * goal can be LEFT: a pit with one-way edges in (a drop down from the rim, a beach you swim onto) looked closed although it can be entered.
+ * A small number = nothing outside leads in (the atlas skips the search: "the goal is a closed pocket").
+ */
+function pocketIn(x, y, z, cap, opts = {}) {
+  const SW = opts.swim === false || opts.noSwim ? null : WATER.swimGraph(SWACC);
+  const s = snapSwim(SW, { x, y, z }, 10) || snap(x, y, z, 10) || snap(x, y, z, 10, true); if (!s) return 0;
+  const seen = new Set(), q = [[s.gx, s.gy, s.li]]; seen.add((s.gx * 32768 + s.gy) * 64 + s.li);
+  for (let qi = 0; qi < q.length; qi++) {
+    if (seen.size >= cap) return cap;
+    const [vx, vy, vl] = q[qi];
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const ux = vx - dx, uy = vy - dy, hs = SWACC.heights(ux, uy); if (!hs) continue;
+      for (let ui = 0; ui < hs.length && ui < 64; ui++) {
+        const k = (ux * 32768 + uy) * 64 + ui; if (seen.has(k)) continue;
+        if (fwd(SW, ux, uy, ui, dx, dy).includes(vl)) { seen.add(k); q.push([ux, uy, ui]); }
+      }
+    }
+  }
+  return seen.size;
+}
+module.exports = { findPath, pocket, pocketIn, dropRegions, regionsLoaded: () => RC.size, internals: { reg, cix, layerAt, hAt, step, toGeoX, toGeoY, toWorldX, toWorldY, SWACC } };   // internals: nav_atlas_longlegs.js (2026-10-12)

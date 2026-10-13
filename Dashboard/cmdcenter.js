@@ -276,7 +276,7 @@
   function resultHtml() {
     const r = CC.result; if (r.error) return `<div class="ccres bad">✗ ${ESC(r.error)}</div>`;
     const bad = (r.sends || []).filter(s => !s.ok);
-    return `<div class="ccres ${bad.length ? 'warn' : 'ok'}">${bad.length ? '⚠' : '✓'} ${ESC(r.command || '')} → ${ESC(r.target || '')}: ${r.sent ?? (r.sends || []).length}/${(r.sends || []).length || 1} sent${r.channelNote ? `<div>${ESC(r.channelNote)}</div>` : ''}${bad.map(s => `<div>${ESC(s.to)}: ${ESC(s.error || s.out || 'failed')}</div>`).join('')}${r.target === 'PC' ? (r.sends || []).filter(s => s.ok && s.out).map(s => `<div>${ESC(s.out)}</div>`).join('') : ''}</div>`;   // CMDFIX2 botparty: deploy says SKIP / DEPLOYED
+    return `<div class="ccres ${bad.length ? 'warn' : 'ok'}">${bad.length ? '⚠' : '✓'} ${ESC(r.command || '')} → ${ESC(r.target || '')}: ${r.sent ?? (r.sends || []).length}/${(r.sends || []).length || 1} sent${r.channelNote ? `<div>${ESC(r.channelNote)}</div>` : ''}${bad.map(s => `<div>${ESC(s.to)}: ${ESC(s.error || s.out || 'failed')}</div>`).join('')}${window.OrdersView ? OrdersView.resultLines(r) : ''}${r.target === 'PC' ? (r.sends || []).filter(s => s.ok && s.out).map(s => `<div>${ESC(s.out)}</div>`).join('') : ''}</div>`;   // CMDFIX2 botparty: deploy says SKIP / DEPLOYED
   }
   function footHtml() {
     if (CC.view !== 'form') return CC.view === 'search' ? '<span class="muted">↑↓ choose · Enter open · Esc close · ! swarm · / L2Swarm</span>' : '<span class="muted">Tap a command to set it up — nothing is sent before you confirm.</span>';
@@ -476,7 +476,7 @@
     const m = document.getElementById('msg');
     if (m) m.innerHTML = r.error ? GI(UI.warn, 'sm') + ' ' + ESC(r.error) : GI(UI.yes, 'sm') + ` ${ESC(r.command || c.title)} → ${ESC(r.target || '')} (${r.sent ?? 1}/${(r.sends || []).length || 1} sent${r.channelNote ? ' - ' + ESC(r.channelNote) : ''}). The characters confirm it in their notes.`;
     render();
-    if (!r.error && !(r.sends || []).some(s => !s.ok)) setTimeout(() => { if (CC.open && CC.result === r) closeCC(); }, 1400);
+    if (!r.error && !(r.sends || []).some(s => !s.ok) && !(r.orders || []).some(o => (o.recipients || []).some(x => x.waiting))) setTimeout(() => { if (CC.open && CC.result === r) closeCC(); }, 1400);   // ORDERQ: stays open while someone still waits for it
   }
 
   // ---------- page hooks ----------

@@ -21,6 +21,8 @@
 //           hideWhy says why (CMDFIX 2026-10-12: dead in the leader-controlled design / nothing to run / duplicate)
 //   nameForChar  true = a char:/chars: target gets its own name appended ('!delevel 40 Healer6'), so only that window acts even when the
 //           character leads a party (party chat from a leader reaches his whole party; CMDFIX2 2026-10-12)
+//   ttl     seconds a '!' order waits in the ORDER QUEUE (Dashboard/orderqueue.js, 2026-10-13) for a character that is not connected / not
+//           ready yet before it expires unrun. Default: 10 min, 'safe' reports 2 min, !stop 5 min (a late retreat is worse than none: !soe 2 min)
 (function (root) {
   const CATS = [
     ['move', 'Move / Travel', 'icon/etc_scroll_of_return_i00'],
@@ -64,7 +66,7 @@
       args: [{ key: 'npc', label: 'NPC / role [town] / teleport:…', type: 'text', placeholder: 'grocer giran  ·  Penelope  ·  priest of dawn  ·  teleport:Cruma Tower 2nd floor' }], kw: 'npc find walk go priest grocer warehouse gatekeeper atlas' },
     { id: 'park', cat: 'move', kind: 'swarm', title: 'Park in Giran', tpl: '!park[ {place}]', handler: 'each', targets: PT, def: 'party', safety: 'confirm',
       desc: 'Everyone stops, goes to Giran, walks the recorded route to the place and waits for orders (leveling stays paused).', args: [{ key: 'place', label: 'Place', type: 'park', def: 'grocer' }], kw: 'wait giran grocer warehouse' },
-    { id: 'soe', cat: 'move', kind: 'swarm', title: 'Retreat (escape to town)', tpl: '!soe', handler: 'each', targets: PT, def: 'party', safety: 'confirm',
+    { id: 'soe', cat: 'move', kind: 'swarm', title: 'Retreat (escape to town)', tpl: '!soe', handler: 'each', targets: PT, def: 'party', safety: 'confirm', ttl: 120,
       desc: 'Everyone (leader too) runs out of the fight and uses .townname (never a scroll). Inside a raid / Kamaloka it still retreats (your order wins) but warns in party chat first: raids are normally fought to the end.', kw: 'escape flee run' },
     { id: 'regroup', cat: 'move', kind: 'swarm', title: 'Regroup (home, restock, back)', tpl: '!regroup', handler: 'leader', targets: ['party', 'all', 'clan'], def: 'party', safety: 'confirm',
       desc: 'Old regroup: everyone home, restock, back together. In leader mode !level / !supply are the normal way.', kw: 'home' },

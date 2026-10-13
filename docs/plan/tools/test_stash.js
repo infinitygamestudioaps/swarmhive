@@ -196,7 +196,7 @@ async function flow(name, setup) {
 
   // ---- 5) source checks ---------------------------------------------------------------------------------------------------------
   check(/\n  stash: \{ on: true, auto: (true|false),[^\n]*\n?\s*above: 120, dest: 'private'/.test(src), 'CONFIG.stash (on, auto on/off, above 120, private)');   // auto OFF until the supervised live test (2026-10-09)
-  check(/slots: num\(Inventory\.Count\), sell, stash: stashWanted\(\) \}/.test(src), "supplyneed reports 'stash'");
+  check(/slots: num\(Inventory\.Count\), sell, (?:sellWhy, )?stash: stashWanted\(\) \}/.test(src), "supplyneed reports 'stash'");   // SELLPICK 2026-10-13: + sellWhy
   check(/if \(action === 'stashrun'\) \{/.test(src) && /teamStep\(runId, 'stashrun'/.test(src), "supply run step 'stashrun' + its team action");
   check(src.indexOf("teamStep(runId, 'stashrun'") < src.indexOf('// 4. UNLOAD (user 2026-10-06)'), 'the stash step runs before the unload');
   check(/'enchant', 'stash', 'unload loot'/.test(src), 'party status step list has "stash"');

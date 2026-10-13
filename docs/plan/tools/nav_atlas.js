@@ -21,6 +21,10 @@
 // docs/plan/tools/nav_doors.js): a closed door on the way becomes a 'door' step (timed wait / Unlock / key item / NPC) or blocks the route.
 // Output: Scripts/data/nav_atlas/index.json + raid.json, npc.json, area.json, room.json, dungeon.json; docs/plan/nav_atlas_report.md;
 // progress in Logs/nav_atlas_progress.json. Routes with  manual: true  in the type files are never overwritten (manual_guard lock + atomic write).
+// SWIMMING (2026-10-13, Tillion): the path finders cross water zones by swimming (water_zones.js). A walk step gets  swim: [point indices
+//   inside a water zone]  (the walker allows the slow swim speed there and does not turn back when the breath runs out), swimLen / maxSwim
+//   (the longest unbroken swim, breath ~60 s, then 1 % HP a second) and flags 'swim' / 'long-swim'. The goal's "closed pocket" check is
+//   pocketIn (who can walk IN), not pocket (who can walk out): a beach you swim onto or a pit you drop into is no closed pocket.
 // Run:  node docs/plan/tools/nav_atlas.js [--no-walks] [--max-jobs N] [--retry-failed] [--mem MB] [--only raid,npc,...]
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os'), cp = require('child_process');
@@ -33,6 +37,8 @@ const J = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 const tryJ = (f, d) => { try { return J(f); } catch (e) { return d; } };
 const atomic = (f, s) => { const t = f + '.tmp' + process.pid; fs.writeFileSync(t, s); fs.renameSync(t, f); };
 const progress = (o) => { try { atomic(PROGRESS, JSON.stringify(Object.assign({ at: new Date().toISOString(), pid: process.pid }, o))); } catch (e) { } };
+const WATER = require('./water_zones');                                     // SWIMMING (2026-10-13)
+const SWIM_SPEED = 50;                                                       // H5 player swim speed (baseStats fastSwim 50; run 115-130)
 const MEM_MB = +argv('--mem', 700), FREE_MIN_MB = +argv('--free-min', 450);   // the bot PC runs L2Swarm: MemWatch restarts it below 300 MB free
 const P = { maxLeg: 1000, walkSpeed: 120, townSec: 20, gkSec: 25, floorSec: 15, npcSec: 10, maxWalkBot: 25000, maxSearch: 48000, maxNodes: 2000000, maxMs: 15000, hWeight: 2, cand: 3, doorPad: 40 };
 fs.mkdirSync(OUTDIR, { recursive: true }); fs.mkdirSync(LOGS, { recursive: true });
@@ -61,12 +67,12 @@ if (has('--worker')) {
       else {
         // a closed pocket (platform, island, sealed room) around either end: no search needed
         // both ends in the SAME closed pocket (same cell count from either end: a transport hub's room, 2026-10-12) = search inside it
-        const pa = geo.pocket ? geo.pocket(j.a.x, j.a.y, j.a.z, 60000) : 60000, pb = geo.pocket ? geo.pocket(j.b.x, j.b.y, j.b.z, 60000) : 60000;
+        const pa = geo.pocket ? geo.pocket(j.a.x, j.a.y, j.a.z, 60000) : 60000, pb = geo.pocketIn ? geo.pocketIn(j.b.x, j.b.y, j.b.z, 60000) : geo.pocket ? geo.pocket(j.b.x, j.b.y, j.b.z, 60000) : 60000;   // 2026-10-13: walk IN
         const same = pa < 60000 && pa === pb;
         const p = same ? geo.findPath(j.a, j.b, { maxNodes: pa * 4 + 1000, maxMs: P.maxMs, maxLeg: P.maxLeg, hWeight: P.hWeight, pad: 3000, noLearned: false, avoid: j.avoid || [] })
           : pa < 60000 ? { ok: false, reason: `the start is a closed pocket of ${pa} cells on the geodata (platform / island / sealed room: no walk out)` } : pb < 60000 ? { ok: false, reason: `the goal is a closed pocket of ${pb} cells on the geodata (no walk in)` }
           : geo.findPath(j.a, j.b, { maxNodes: Math.min(P.maxNodes, Math.round(1.6 * ((Math.abs(j.a.x - j.b.x) + (straight > 20000 ? 6000 : 10000)) / 16) * ((Math.abs(j.a.y - j.b.y) + (straight > 20000 ? 6000 : 10000)) / 16))), maxMs: P.maxMs, maxLeg: P.maxLeg, hWeight: P.hWeight, pad: straight > 20000 ? 3000 : 5000, noLearned: false, avoid: j.avoid || [] });
-        r = p.ok ? { ok: true, pts: [].concat(...p.points.map(q => [q.x, q.y, q.z])), len: p.lengthUnits || 0, ms: p.ms } : { ok: false, why: String(p.reason || 'no way'), ms: p.ms };
+        r = p.ok ? Object.assign({ ok: true, pts: [].concat(...p.points.map(q => [q.x, q.y, q.z])), len: p.lengthUnits || 0, ms: p.ms }, p.swimUnits ? { swimLen: p.swimUnits, maxSwim: p.maxSwimRun } : {}) : { ok: false, why: String(p.reason || 'no way'), ms: p.ms };
       }
     } catch (e) { r = { ok: false, why: 'error: ' + e.message }; }
     r.at = Date.now(); r.by = process.pid; cache.walks[j.k] = r; n++; since++;
@@ -357,8 +363,18 @@ function walkSteps(pts, how, extra) {
 }
 function mkWalk(pts, how, extra) {
   let dg = 0; for (let i = 0; i < pts.length; i += 3) dg = Math.max(dg, dangerAt(pts[i], pts[i + 1], pts[i + 2]));
-  return Object.assign({ do: 'walk', points: pts.map(Math.round), len: plen(pts), danger: dg, how }, extra || {});   // extra.len (field-areas-gap) overrides
+  return Object.assign({ do: 'walk', points: pts.map(Math.round), len: plen(pts), danger: dg, how }, how === 'straight' ? {} : swimInfo(pts), extra || {});   // extra.len (field-areas-gap) overrides
 }
+/** SWIMMING (2026-10-13): the points of a walk inside a water zone (the server's swim check: zone box + height) -> { swim: [point index],
+ *  swimLen (legs between two swim points), maxSwim (longest unbroken run of them) } or {} */
+function swimInfo(pts) {
+  const idx = []; for (let i = 0, k = 0; i < pts.length; i += 3, k++) if (WATER.zoneAt(pts[i], pts[i + 1], pts[i + 2])) idx.push(k);
+  if (!idx.length) return {};
+  let len = 0, run = 0, max = 0; const set = new Set(idx);
+  for (let k = 1; k * 3 < pts.length; k++) { const d = Math.hypot(pts[k * 3] - pts[k * 3 - 3], pts[k * 3 + 1] - pts[k * 3 - 2]); if (set.has(k)) { len += d; run += d; if (run > max) max = run; } else run = 0; }   // a leg that ends in the water is swum
+  return { swim: idx, swimLen: Math.round(len), maxSwim: Math.round(max) };
+}
+const swimExtraSec = (s) => s.swimLen ? s.swimLen / SWIM_SPEED - s.swimLen / P.walkSpeed : 0;
 /** walk a -> b as steps (geodata when known); returns { steps, ok, pending, why } */
 const doorCircle = (d) => ({ x: d.x, y: d.y, r: Math.round(Math.max(...d.poly.map(p => Math.hypot(p[0] - d.x, p[1] - d.y))) + 48) });
 /** the doors on a walk the party cannot pass (owner / script / no opener) */
@@ -414,7 +430,7 @@ function finish(t, steps, meta) {
   steps.push({ do: 'arrive', target: t.key, x: t.x, y: t.y, z: t.z });
   let len = 0, sec = 0, legs = { geodata: 0, 'field-areas-gap': 0, saved: 0, 'town-graph': 0, 'dungeon-rooms': 0, 'field-areas': 0, straight: 0, adjacent: 0 }, links = { live: 0, datapack: 0, unknownTown: 0 }, maxDanger = 0, blocked = [];
   for (const s of steps) {
-    if (s.do === 'walk') { len += s.len; sec += s.len / P.walkSpeed; legs[s.how] = (legs[s.how] || 0) + 1; maxDanger = Math.max(maxDanger, s.danger || 0); }
+    if (s.do === 'walk') { len += s.len; sec += s.len / P.walkSpeed + swimExtraSec(s); legs[s.how] = (legs[s.how] || 0) + 1; maxDanger = Math.max(maxDanger, s.danger || 0); }
     else if (s.do === 'town') sec += P.townSec;
     else if (s.do === 'gk') { sec += P.gkSec; if (s.live === true) links.live++; else if (s.live === false) links.datapack++; else links.unknownTown++; }
     else if (s.do === 'floor') sec += P.floorSec;
@@ -432,6 +448,8 @@ function finish(t, steps, meta) {
   if (links.unknownTown) flags.push('link-unverified');
   if (steps.some(s => s.do === 'walk' && s.len > P.maxWalkBot) && meta.source !== 'saved') flags.push('long-walk');
   if (steps.some(s => s.do === 'door')) flags.push('doors');
+  if (steps.some(s => s.do === 'walk' && s.swim)) flags.push('swim');                                   // SWIMMING (2026-10-13)
+  if (steps.some(s => s.do === 'walk' && (s.maxSwim || 0) > 3000)) flags.push('long-swim');           // > ~60 s under water: drowning damage (1 % HP a second)
   if (steps.some(s => s.do === 'door' && s.need.wait)) flags.push('timed-door');
   if (needs.items || needs.skills || needs.other || needs.level) flags.push('conditions');
   let status = 'ok';
@@ -591,6 +609,10 @@ const T = [];
 const want = (type) => !ONLY || ONLY.includes(type);
 // raid / grand / epic bosses
 const routeFile = (id) => tryJ(path.join(DATA, 'routes', 'raid', `${id}.json`), null);
+const RSTORE = require(path.join(ROOT, 'Dashboard', 'routestore.js'));   // ROUTESWITCH 2026-10-13: floorCheck / segments of saved routes (same rules as swarm.js)
+// --keys raid:25395,npc:...  (ROUTESWITCH 2026-10-13): plan ONLY these targets and merge them into the existing type files + index (every other
+// route stays as it is; the per-target files are rewritten by nav_atlas_split.js only where they changed). Without --keys: the whole atlas.
+const KEYS = argv('--keys', '') ? argv('--keys', '').split(',').map(x => x.trim()).filter(Boolean) : null;
 if (want('raid')) for (const b of RAIDS) {
   T.push({ key: `raid:${b.id}`, type: (b.type === 'raid' ? 'raid' : 'epic'), id: b.id, name: b.name, x: b.x, y: b.y, z: b.z, level: b.level, boss: b, epic: EPIC[b.id] || null });
 }
@@ -604,6 +626,7 @@ if (want('area')) for (const r of FAREAS.regions || []) for (const a of r.areas 
 if (want('room')) for (const d of DROOMS) (d.floors || []).forEach((F, fi) => (F.rooms || []).forEach(r => T.push({ key: `room:${r.id}`, type: 'room', id: r.id, name: `${d.name}: ${r.name}`, x: r.center[0], y: r.center[1], z: r.center[2], room: r, d, fi })));
 if (want('dungeon')) for (const d of DROOMS) { const F = d.floors[0] || {}; const s = floorStart(F) || (d.entrance && isFinite(d.entrance.x) ? d.entrance : null); if (s) T.push({ key: `dungeon:${d.key}`, type: 'dungeon', id: d.key, name: d.name, x: s.x, y: s.y, z: s.z, d, fi: 0 }); }
 
+if (KEYS) { const keep = T.filter(t => KEYS.includes(t.key)); T.length = 0; T.push(...keep); console.log(`nav_atlas: --keys: planning ${T.length} of ${KEYS.length} key(s)`); }   // ROUTESWITCH 2026-10-13
 // instance bosses: where the entry NPC stands (conditions[].via)
 const INST_VIA = {}, INST_COND = {}; COND.forEach(c => (c.bossIds || []).forEach(id => { if (c.via) { INST_VIA[id] = Array.isArray(c.via) ? c.via[0] : c.via; INST_COND[id] = c; } }));
 const BZ = (DOORS.bossZones || []);
@@ -668,15 +691,26 @@ function planTarget(t) {
       return [finish(Object.assign({}, t, { x: v.x, y: v.y, z: v.z }), s, Object.assign({ conds, why: [`instance boss: the route ends at its entry NPC ${v.npc} (${v.npcId})`] }, extra))];
     }
     // saved route (user / recorded) wins
-    const sr = routeFile(b.id);
+    let sr = routeFile(b.id);
+    // ROUTESWITCH 2026-10-13 (DUNGEON STEPS, user: "Archon Suscepter is on floor 1 of Cruma Tower. But our road is showing a path outside"): a saved
+    // route that jumps floors (two points > 1500 apart in height with no dungeon / floor step: Archon 25395 surface -3440 -> boss -11900) is not
+    // used (the file stays: the user decides); the boss is planned the computed way (inside a dungeon: town > gk > walk > entry NPC > floor > walk)
+    const srCheck = sr ? RSTORE.floorCheck(sr) : { ok: true };
+    if (sr && !srCheck.ok) { why.push(`saved route routes/raid/${b.id}.json not used: ${srCheck.why} — fix it on the dashboard (add the dungeon step)`); extra.extra.savedInvalid = { file: `routes/raid/${b.id}.json`, manual: !!sr.manual, why: srCheck.why }; sr = null; }
     if (sr && Array.isArray(sr.points) && sr.points.length > 1) {
       const st = sr.start || (sr.landing && sr.landing !== 'walking' ? { kind: 'gk', desc: sr.landing } : null);
       let pre = null;
       if (st && st.kind === 'town') pre = stepsToTown(tkOf(st.town) || st.town);
       else if (st && st.kind === 'gk' && st.desc) { const fk = tkOf(String(st.from || st.desc.split('->')[0]).trim()); const l = fk && (GKL[fk] || []).find(x => gkNorm(x.desc) === gkNorm(st.desc) || gkNorm(x.dest) === gkNorm(st.desc.split('->').pop())); if (l) pre = stepsToTown(fk).concat([gkStep(l)]); }
       if (pre) {
-        const pts = flat(sr.points), last = sr.points[sr.points.length - 1];
-        let s = pre.concat(walkSteps(pts, 'saved', { manual: !!sr.manual, file: `routes/raid/${b.id}.json` }));
+        // DUNGEON STEPS: the saved route in segments: its points (saved walks) and its dungeon / floor steps (the atlas 'floor' step)
+        const plainPts = sr.points.filter(p => p && isFinite(p.x) && isFinite(p.y)), last = plainPts[plainPts.length - 1];
+        let s = pre.slice();
+        RSTORE.segments(sr).forEach(sg => {
+          if (sg.pts) { if (sg.pts.length > 1) s = s.concat(walkSteps(flat(sg.pts), 'saved', { manual: !!sr.manual, file: `routes/raid/${b.id}.json` })); return; }
+          const e = sg.step, d = DROOMS.find(x => x.key === e.dungeonKey || x.name === e.dungeon), F = d && d.floors[Number(e.floor)], E = (F && F.enter) || {}, N = E.npc || e.npc || null;
+          s.push({ do: 'floor', dungeon: d ? d.name : e.dungeon, dungeonKey: d ? d.key : (e.dungeonKey || null), floor: Number(e.floor), floorName: F ? F.name : e.floorName || null, npc: N ? { id: N.id, name: N.name, x: N.x, y: N.y, z: N.z } : null, link: (N && N.link) || e.link || null, landing: E.landing || e.landing || null, needs: E.needs || undefined, verified: !!E.verified, saved: true });
+        });
         if (Math.hypot(last.x - b.x, last.y - b.y) > 1500) s = s.concat(walkAB(pt(last), t, b.name).steps);
         const alt = (() => { const o = fieldRoute(t, b.name)[0]; return o ? summarize(o.steps) : null; })();
         return [finish(t, s, Object.assign({ conds, why, source: 'saved', extra: Object.assign(extra.extra, { saved: { file: `routes/raid/${b.id}.json`, manual: !!sr.manual, uses: sr.uses || 0, fails: sr.fails || 0 }, alt }) }))];
@@ -755,7 +789,7 @@ function fieldFinish(t, opts, meta) {
   const ex = Object.assign({}, meta.extra || {}, { alt: opts[1] ? summarize(opts[1].steps) : null });
   return finish(t, opts[0].steps, Object.assign({}, meta, { extra: ex }));
 }
-function summarize(steps) { let len = 0, sec = 0; steps.forEach(s => { if (s.do === 'walk') { len += s.len; sec += s.len / P.walkSpeed; } else if (s.do === 'town') sec += P.townSec; else if (s.do === 'gk') sec += P.gkSec; }); return { via: steps.filter(s => s.do !== 'walk').map(s => s.do === 'town' ? s.cmd : s.do === 'gk' ? s.desc : s.do === 'door' ? `door ${s.doorId}` : s.do).join(' > '), length: Math.round(len), sec: Math.round(sec), walksPending: steps.some(s => s.do === 'walk' && s.how === 'straight') }; }
+function summarize(steps) { let len = 0, sec = 0; steps.forEach(s => { if (s.do === 'walk') { len += s.len; sec += s.len / P.walkSpeed + swimExtraSec(s); } else if (s.do === 'town') sec += P.townSec; else if (s.do === 'gk') sec += P.gkSec; }); return { via: steps.filter(s => s.do !== 'walk').map(s => s.do === 'town' ? s.cmd : s.do === 'gk' ? s.desc : s.do === 'door' ? `door ${s.doorId}` : s.do).join(' > '), length: Math.round(len), sec: Math.round(sec), walksPending: steps.some(s => s.do === 'walk' && s.how === 'straight') }; }
 
 // =============================================================================================================================== RUN
 function planAll() { JOBSET.clear(); const R = []; for (const t of T) { try { R.push(...planTarget(t)); } catch (e) { R.push(finish(t, [], { why: ['planner error: ' + e.message], unreachable: true })); } } return R; }
@@ -781,11 +815,12 @@ for (const [f, m] of Object.entries(fileGroups)) {
   mg.withLock(file, () => {
     const disk = tryJ(file, null);
     if (disk && disk.routes) for (const [k, r] of Object.entries(disk.routes)) if (r && r.manual === true) { m[k] = r; keptManual++; }
+    if (KEYS && disk && disk.routes) for (const [k, r] of Object.entries(disk.routes)) if (!(k in m)) m[k] = r;   // --keys: every other route stays
     mg.atomicWrite(file, JSON.stringify({ generated: new Date().toISOString(), tool: 'docs/plan/tools/nav_atlas.js', routes: m }));
   }, { who: 'nav_atlas.js' });
 }
 // ---- index ----
-const all = Object.values(fileGroups).flatMap(m => Object.values(m));
+const all = KEYS ? [...new Set(Object.values(FILES))].flatMap(fn => Object.values((tryJ(path.join(OUTDIR, fn), { routes: {} }) || {}).routes || {})) : Object.values(fileGroups).flatMap(m => Object.values(m));   // --keys: the index over every type file
 const counts = {}; all.forEach(r => { const c = counts[r.type] = counts[r.type] || { targets: 0, ok: 0, unverified: 0, conditional: 0, blocked: 0, unreachable: 0, saved: 0 }; c.targets++; c[r.status]++; if (r.source === 'saved') c.saved++; });
 const index = { generated: new Date().toISOString(), tool: 'docs/plan/tools/nav_atlas.js', version: 1, params: P,
   stepKinds: ['town', 'gk', 'walk', 'door', 'floor', 'enter', 'need', 'arrive'], files: Object.fromEntries(Object.entries(FILES).map(([k, v]) => [k, v])),

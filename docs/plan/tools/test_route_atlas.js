@@ -1,5 +1,5 @@
 // TEST: ROUTE ATLAS LAYER in the raid boss route editor (2026-10-12, Dashboard/raidspage.js RouteAtlas + index.html routeEditor hooks).
-// 1) the pure block (ROUTEATLAS-PURE) against the real nav atlas files: Orfen (gk + 23 geodata points), an unreachable boss (no prefill,
+// 1) the pure block (ROUTEATLAS-PURE) against the real nav atlas files: Orfen (gk + 23 geodata points), Tillion = a swim route (2026-10-13), an unreachable / blocked boss (no prefill,
 //    reason), floor / door / enter markers, every raid route parses; 2) the hooks in index.html / circuitpage.js are there and every inline
 //    script compiles; 3) the live dashboard API (read-only GETs, skipped when :8090 is down): /api/navatlas?key=raid:29014, ?list=unreachable,
 //    /api/route?id=29014. Never writes anything. Use: node docs/plan/tools/test_route_atlas.js
@@ -47,10 +47,12 @@ raidRows.forEach(t => {
 });
 ok(checked === raidRows.length, `every raid row has a route (${checked}/${raidRows.length})`);
 ok(errs === 0, 'no exceptions over all raid routes');
-ok(bad >= 1, 'at least one unreachable / blocked raid (Tillion)');
+ok(bad >= 1, 'at least one unreachable / blocked raid (Benom: castle doors)');
 ok(kinds.floor > 0 && kinds.door > 0 && kinds.enter > 0, 'floor / door / enter markers seen ' + JSON.stringify(kinds));
 const till = routes['raid:25484'];
-ok(till && F.raSummary(till).bad && F.raPrefill(till) === null && /closed pocket/.test(F.raSummary(till).why.join(' ')), 'Tillion: unreachable, no prefill, reason');
+// Tillion (2026-10-13): reachable by SWIMMING (Devil Isle landing, walk, ~5 km of sea onto his beach; water_zones.js, test_swim_routes.js)
+const tillP = till && F.raPrefill(till);
+ok(till && !F.raSummary(till).bad && till.status !== 'unreachable' && (till.flags || []).includes('swim') && tillP && tillP.start && /Devil Isle/.test(tillP.start.desc || ''), 'Tillion: reachable (swim route), prefill starts at Giran -> Devil Isle');
 const g = routes['raid:25244'], gp = g && F.raPrefill(g);
 ok(gp && /Dwyph/.test(gp.partial) && gp.pts.length < F.raWalkPts(g).length, 'Giants Cave boss: prefill ends at the floor teleporter Dwyph');
 ok(F.raPrefill(null) === null && F.raSummary(null).bad && F.raWalkPts({ steps: [{ do: 'walk', points: [1, 2] }] }).length === 0, 'empty / broken input');
@@ -79,7 +81,7 @@ ok(!/\balert\(|\bconfirm\(|\bprompt\(/.test(src.slice(src.indexOf('ROUTE ATLAS L
   const o = V('raid:29014', { from: '82760,53578,-1470', party: 'Tank1' });
   ok(!o.error && o.atlas && o.atlas.status === 'ok' && o.target.name === 'Orfen' && o.from && o.from.toStart > 0, 'routeview Orfen: atlas + from distances');
   ok(o.use === (o.custom ? (o.custom.use || (o.custom.manual ? 'custom' : 'atlas')) : 'atlas') && o.canChoose === !!o.custom, 'routeview Orfen: use + canChoose consistent');
-  const t = V('raid:25484'); ok(t.atlas && t.atlas.status === 'unreachable' && (t.atlas.why || []).length > 0, 'routeview Tillion: unreachable + why');
+  const t = V('raid:25484'); ok(t.atlas && t.atlas.status !== 'unreachable' && (t.atlas.flags || []).includes('swim'), 'routeview Tillion: reachable, swim route');
   const a = V('raid:25029'); ok(a.obstacles.some(x => x.kind === 'door') && a.obstacles.some(x => x.kind === 'skill') && a.items.some(i => i.id === 1661 && (i.sources.shops.length > 0 || !fs.existsSync(path.join(ROOT, 'Scripts', 'data', 'dp', 'buylists')))), 'routeview Atraiban: Unlock door + Thief Key with shops (shops = datapack buylists, dev install only)');
   const b = V('raid:29020', { party: 'Tank1' }); const bf = b.items.find(i => i.id === 4295);
   ok(bf && bf.sources.drops.length > 0 && bf.sources.drops.some(d => (d.areas || []).length) && bf.sources.quests.length > 0 && typeof bf.partyHas === 'boolean', 'routeview Baium: Blooded Fabric — who drops it, where, which quest, party has?');
@@ -117,7 +119,7 @@ const get = (p) => new Promise((res) => { const rq = http.get({ host: '127.0.0.1
     ok(a.d && a.d.route && F.raPrefill(a.d.route) && F.raPrefill(a.d.route).pts.length === 23, 'API route prefills 23 points');
     const u = await get('/api/navatlas?list=unreachable');
     const ki = u && u.d && u.d.cols ? u.d.cols.indexOf('key') : -1;
-    ok(u && u.d && (u.d.rows || []).some(r => r[ki] === 'raid:25484'), 'API unreachable list has Tillion');
+    ok(u && u.d && !(u.d.rows || []).some(r => r[ki] === 'raid:25484') && (u.d.rows || []).some(r => r[ki] === 'area:plains-of-lizardmen-33'), 'API unreachable list: Tillion gone (swim route), Plains of Lizardmen 33 still there');
     const r = await get('/api/route?id=29014');
     ok(r && r.d && r.d.boss && r.d.boss.name === 'Orfen', 'API /api/route?id=29014 answers (' + (r && r.d && r.d.route ? 'saved route' : 'no saved route') + ')');
   }
