@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.6 (2026-10-13)
+
+- HOTFIX: casters cast again - in v1.6.5 every spell was refused with 'agent not reached' (a new cast acknowledgement never arrived), so no caster used magic
+- casts are sent the proven way again
+- raid fixes: damage dealers attack when no monster is on a teammate (the 'full aggro' wait never ended because the new engine has no monster target data), the leader's focus uses every minion again (a too strict HP filter emptied the list) and focuses a minion the tank cannot hold, damage dealers never heal teammates in a raid while the party has a living healer
+
 ## v1.6.5 (2026-10-13)
 
 - Engine much faster in fights: the agent no longer reads 5 creature fields L2Swarm 3.8.18 does not have (each failed read cost ~230 us on up to 100 creatures every report) - about 9x less CPU per fighting character, ticks of 2-3 ms instead of 25-100 ms, orders run between report jobs, the whole party switches to fast ticks while one member fights, and a cast is only called 'no answer' once the agent really sent it (optional instant 'push' orders: brain_host.json agentPush)

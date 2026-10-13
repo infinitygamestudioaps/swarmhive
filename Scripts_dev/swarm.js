@@ -3366,8 +3366,11 @@ setInterval(() => {
     const near = partyMembersAlive().filter(m => Math.hypot(m.X - Me.X, m.Y - Me.Y) < SUPPORT_HEAL.range);
     let hurt = canHeal ? near.filter(m => m.HpPercent < below && (!drainingNow(m.Name) || m.HpPercent < HEAL.drainEmergencyBelow)).sort((a, b) => a.HpPercent - b.HpPercent) : [];
     // SUPPORT HEAL GATE (CASTPRIO 2026-10-13): damage casters leave teammates to the healers / to the one caster that claimed them
-    const dmgCaster = !hsIsHealerClass() && !isHealerRole() && (skillPlan && skillPlan.attacks || []).some(x => x.magic);
+    const dmgCaster = !hsIsHealerClass() && !isHealerRole();   // NOHEALDD-2026-10-13 (owner: 'they heal instead of attacking', Repiro): every non-healer
     if (dmgCaster && hurt.length) {
+      // NOHEALDD: in a raid / instance a damage dealer NEVER heals teammates while the party has a living healer (only itself, below)
+      const anyHealer = partyMembersAlive().some(p => p.Name !== Me.Name && (() => { const lp = livePos[p.Name] || {}; return !!lp.healer || HEALER_ROLES.test(lp.role || CONFIG.roster[p.Name] || ''); })());
+      if ((inRaid() || (typeof inst !== 'undefined' && inst.on)) && anyHealer) hurt = hurt.filter(m => m.Name === Me.Name);
       const healers = partyMembersAlive().filter(p => p.Name !== Me.Name && (() => { const lp = livePos[p.Name] || {}; return !!lp.healer || HEALER_ROLES.test(lp.role || CONFIG.roster[p.Name] || ''); })());
       hurt = hurt.filter(m => supportHealAllowed({ caster: true, self: m.Name === Me.Name, hp: num(m.HpPercent), claimed: claimedByOther(m.Name, num(m.HpPercent)),
         healerNear: healers.some(h => Math.hypot(h.X - m.X, h.Y - m.Y) < SUPPORT_GATE.healerRange) }));
@@ -4152,7 +4155,9 @@ async function castNow(info, opts) {
     // when the brain queued it. An agent that is behind (slow L2Swarm tick, asleep) used to turn into a false 'no answer' + a fallback cast queued
     // behind the late primary (caster_stats 1.4-4.8 per cast since 2026-10-12). Inside L2Swarm (no __sendAck) nothing changes.
     const ack = { at: 0, fail: false };
-    if (typeof __sendAck === 'function') { try { __sendAck('Send.RequestMagicSkillUse', [id], CASTLOOP.ackMaxMs).then(() => { ack.at = now(); }, () => { ack.fail = true; }); } catch (e) { ack.fail = true; } }
+    // ACKOFF-2026-10-13 (Repiro, 23:54: every cast 'agent not reached', the spellsingers cast NOTHING): the ack path failed live, so casts go out
+    // the plain way again (the start window from the request); CASTLOOP.useAck = true switches the ack path back on once it is proven live
+    if (CASTLOOP.useAck === true && typeof __sendAck === 'function') { try { __sendAck('Send.RequestMagicSkillUse', [id], CASTLOOP.ackMaxMs).then(() => { ack.at = now(); }, () => { ack.fail = true; try { Send.RequestMagicSkillUse(id); } catch (e2) { } ack.at = now(); }); } catch (e) { Send.RequestMagicSkillUse(id); ack.at = t0; } }
     else { Send.RequestMagicSkillUse(id); ack.at = t0; }
     // 1) started? my OnMagicSkillUse for THIS skill; while another cast of mine runs, ours waits queued behind it on the server
     const extraStart = (opts && opts.extraStartMs) || 0;
@@ -25197,6 +25202,9 @@ function fullAggro() {
   const L = partyMember(CONFIG.leader), lp = livePos[CONFIG.leader] || {};
   if ((L && L.IsDead) || (lp.at && now() - lp.at < 10000 && lp.IsDead)) return true;
   if (now() - aggroMsg.at > 6000) return now() - (inst.focusAt || raidCtl.aggroAt || 0) > BEHIND.waitAggroMs && !!(inst.focus || raidCtl.aggroAt);
+  // FULLAGGRO2-2026-10-13 (Repiro: the spellsingers never attacked): 'not full' with NOTHING on a teammate (the leader sees no monster target -
+  // the brain engine has no monster target data) blocked the dealers forever; hold only while a monster is really on a teammate
+  if (!aggroMsg.full && !(aggroMsg.off && aggroMsg.off.length) && now() - (raidCtl.aggroAt || inst.focusAt || 0) > 6000 && (raidCtl.aggroAt || inst.focusAt)) return true;
   return aggroMsg.full;
 }
 // L2Swarm's own assist (FollowAtk) makes members hit whatever the leader hits at once — that would break "nobody attacks before full
@@ -34878,16 +34886,24 @@ setInterval(() => {
   const FX = globalThis.__focusFix = globalThis.__focusFix || { seen: {}, skip: {} };
   const hpOf = (m) => { try { const v = m.HpPercent; return v === null || v === undefined || !isFinite(Number(v)) ? null : Number(v); } catch (e) { return null; } };
   if (raidFocus.id) { const fm = bossMinions(boss).find(m => m.objId === raidFocus.id); if (fm) { const hp = hpOf(fm), sn = FX.seen[fm.objId];
-    if (!sn || (hp !== null && hp < sn.hp - 0.5)) FX.seen[fm.objId] = { hp: hp === null ? 101 : hp, at: now() };
+    // FOCUSFIX2-2026-10-13 (Repiro: the spellsingers stood still): 'no damage' only counts while the team may attack (full aggro / stuck off-tank);
+    // while everybody holds for the tank, the minion naturally loses nothing - the old rule skipped every minion and the focus fell on the boss
+    const attacking = !!(fullAgg.full || fullAgg.stuck);
+    if (!sn || !attacking || (hp !== null && hp < sn.hp - 0.5)) FX.seen[fm.objId] = { hp: hp === null ? 101 : hp, at: now() };
     else if (now() - sn.at > 15000) { FX.skip[fm.objId] = now() + 120000; note(`raid: ${fm.Name} takes no damage (HP ${hp === null ? 'unknown' : hp + ' %'} for 15 s) - focus moves on`, true); } } }
-  const mins = bossMinions(boss).filter(m => hpOf(m) !== null && !(FX.skip[m.objId] > now()));
+  // FOCUSFIX3-2026-10-13: no HP filter (the HP read is not reliable on the brain engine - it emptied the list, focus 0); only minions proven
+  // to take no damage while the team attacked are skipped, and never all of them
+  const minsAll = bossMinions(boss), minsOk = minsAll.filter(m => !(FX.skip[m.objId] > now())), mins = minsOk.length ? minsOk : minsAll;
   // a minion on a healer / caster (anyone but me, the tank) goes first: switch to it at once (2026-10-05 Pastu: a Shadow sat on Chanter1 for a minute)
   const onMate = mins.filter(m => { const h = minionOnMate[m.objId]; return h && now() - h.at < 4000; }).sort((a, b) => (minionOnMate[a.objId].prio - minionOnMate[b.objId].prio))[0];
   // ARCHERS FIRST (user 2026-10-05 after Remmel: 'prioritise archers, they must die first'): ranged minions shoot the healers/casters from
   // behind, out of the tank's reach. Then a minion that hits a healer/caster, then the current focus, then the nearest.
   const archer = mins.filter(m => /archer|shooter|bowman|sniper|marksman|ranger|crossbow/i.test(String(m.Name))).sort((a, b) => Math.hypot(a.X - Me.X, a.Y - Me.Y) - Math.hypot(b.X - Me.X, b.Y - Me.Y))[0];
   const keepArcher = raidFocus.id && mins.find(m => m.objId === raidFocus.id && /archer|shooter|bowman|sniper|marksman|ranger|crossbow/i.test(String(m.Name)));
-  let cur = keepArcher || archer || onMate || (raidFocus.id ? mins.find(m => m.objId === raidFocus.id) : null);
+  // FOCUSFIX2: the tank cannot hold a minion (stuck off-tank for 8 s): that minion is the focus, so the dealers (who may only hit off-tank
+  // monsters then) really attack something instead of waiting for full aggro that never comes
+  const offTank = fullAgg.stuck && fullAgg.off && fullAgg.off.length ? mins.find(m => fullAgg.off.includes(String(m.Name))) : null;
+  let cur = keepArcher || archer || onMate || offTank || (raidFocus.id ? mins.find(m => m.objId === raidFocus.id) : null);
   if (!cur && mins.length) cur = mins.sort((a, b) => Math.hypot(a.X - Me.X, a.Y - Me.Y) - Math.hypot(b.X - Me.X, b.Y - Me.Y))[0];
   raidFocus.id = cur ? cur.objId : 0;
   App.emit('swarm.focus', { focus: cur ? cur.objId : boss.objId, boss: boss.objId, tank: Me.Name, minions: mins.length });
