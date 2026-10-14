@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.6.8 (2026-10-14)
+
+- raids: damage dealers no longer wait for the tank's full aggro - they attack 2.5 s after the tank's first pull (or at once when the boss is already hurt)
+- the tank keeps spamming Aggression / Aura of Hate (casters held for minutes while loose monsters hit a teammate)
+- new Gear page setting 'Never buy these grades' (e.g. tick B: nobody buys B-grade weapons, armor or jewels, every class)
+- Kamael characters get their Kamael weapon by class (ancient sword / rapier / crossbow via Change Weapon) and never a mace or other weapon they cannot use - a wrong weapon already worn is replaced
+- route walks: HP lost under water (drowning) no longer counts as a fight, so the team does not stand still in the sea
+
 ## v1.6.7 (2026-10-14)
 
 - casters: in raids the strongest single-target spell (e.g. Hydro Blast, or the boss's weak element) goes first - area spells only while it reloads

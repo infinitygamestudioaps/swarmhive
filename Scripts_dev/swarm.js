@@ -9815,11 +9815,16 @@ function giranShopIndex() {
 }
 const GEAR_GRADES = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
 const KAMAEL_WEAPON = { kamaelAS: 'ANCIENTSWORD', kamaelRapier: 'RAPIER' };   // the weapon type each Kamael role fights with
+// KAMAELCLASS-2026-10-14 (tester: "2 Kamael parties bought a Bonebreaker mace for every Kamael"): a Kamael with a plain melee / archer role
+// got the best D weapon of ANY type. The Kamael weapon now follows the CLASS too: Trooper line = ancient sword, Soul Breaker / Hound / Inspector /
+// Judicator / female soldier = rapier, Warder line = crossbow (bought as the sword / bow twin, then Change Weapon 1473).
+const KAMAEL_CLASS_WEAPON = { 123: 'ANCIENTSWORD', 125: 'ANCIENTSWORD', 127: 'ANCIENTSWORD', 131: 'ANCIENTSWORD', 124: 'RAPIER', 128: 'RAPIER', 129: 'RAPIER', 132: 'RAPIER', 133: 'RAPIER', 135: 'RAPIER', 136: 'RAPIER', 126: 'CROSSBOW', 130: 'CROSSBOW', 134: 'CROSSBOW' };
+function kamaelWeaponFor(role) { if (KAMAEL_WEAPON[role]) return KAMAEL_WEAPON[role]; try { return KAMAEL_CLASS_WEAPON[num(Me.ClassId)] || null; } catch (e) { return null; } }
 const CHANGE_WEAPON_SKILL = 1473;                                             // Kamael "Change Weapon": sword <-> rapier / ancient sword
 
 /** Kamael: if I wear a sword whose Change Weapon twin is my weapon type, cast Change Weapon and check it. Returns a text or ''. */
 async function kamaelChangeWeapon() {
-  const want = KAMAEL_WEAPON[gearRole()];
+  const want = kamaelWeaponFor(gearRole());
   if (!want) return '';
   const items = gearDb().items, w = (myGear().eq.weapon || [])[0];
   if (!w || w.info.t === want) return '';
@@ -9938,8 +9943,11 @@ function ggPolicy(file, name, party) {
   if (typeof ch.auto === 'boolean') { auto = ch.auto; from = 'character'; }
   return { auto, lock: ch.lock === true, from,
     sameGradeSwap: typeof F.sameGradeSwap === 'boolean' ? F.sameGradeSwap : D.sameGradeSwap,
-    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : D.keepArmorType, starterGear: sgMode(F) };   // STARTERGEAR
+    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : D.keepArmorType, starterGear: sgMode(F),
+    skipGrades: ggSkipGrades(F, pa, ch) };   // STARTERGEAR; SKIPGRADE-2026-10-14: grades nobody buys (Gear page)
 }
+/** SKIPGRADE-2026-10-14 (tester: "nobody should buy B-grade, it is a waste"): gear_auto.json skipGrades ['B'] — character > party > all */
+function ggSkipGrades(F, pa, ch) { const L = Array.isArray(ch.skipGrades) ? ch.skipGrades : Array.isArray(pa.skipGrades) ? pa.skipGrades : Array.isArray(F.skipGrades) ? F.skipGrades : []; return L.map(g => String(g).toUpperCase()).filter(g => GEARGUARD.grades.includes(g)); }
 const ggGrade = (g) => GEARGUARD.grades.indexOf(String(g || 'NONE').toUpperCase());
 /** two-handed in the sense "no shield next to it" */
 function ggTwoHanded(w) { return !!w && (!!w.two || /^(BOW|CROSSBOW|POLE|DUAL|DUALFIST|DUALDAGGER|ANCIENTSWORD|FISHINGROD|FLAG)$/.test(String(w.t || ''))); }
@@ -9951,12 +9959,14 @@ function ggCheck(o) {
   const P = (o && o.policy) || GEARGUARD.defaults, c = o && o.cand, slot = String((o && o.slot) || (c && c.s) || '');
   if (!c) return 'unknown item';
   if (P.lock) return 'equipment locked (Gear page)';
+  if ((P.skipGrades || []).includes(String(c.g || 'NONE').toUpperCase())) return `${String(c.g).toUpperCase()}-grade is switched off on the Gear page (never bought)`;   // SKIPGRADE-2026-10-14: also items named in a gear plan
   const worn = ((o && o.worn) || []).filter(Boolean), ex = !!(o && o.explicit);
   if (slot === 'shield' && ggTwoHanded(o && o.weapon)) return `no shield: the weapon is two-handed (${(o.weapon && o.weapon.n) || o.weapon.t})`;
   if (!worn.length) return '';
   // earrings / rings: two slots — judged against the weaker one that would go
   const cmp = (slot === 'earring' || slot === 'ring') ? (worn.length < 2 ? null : worn.slice().sort((a, b) => ggGrade(a.g) - ggGrade(b.g))[0]) : worn[0];
   if (!cmp) return '';
+  if (slot === 'weapon' && o.kamael && c.t === o.kamael && cmp.t !== o.kamael) return '';   // KAMAELCLASS-2026-10-14: a mace / non-Kamael weapon on a Kamael never holds the slot
   // STARTERGEAR: a starter piece (Squire's Sword, Apprentice's Wand, Squire's Shirt ...) is no choice: its type never holds the slot
   // (a bow / crossbow for a starter melee weapon only with the archer role: o.ranged)
   const st = sgIsStarter(cmp) && !(slot === 'weapon' && /^(BOW|CROSSBOW)$/.test(String(c.t || '')) && !/^(BOW|CROSSBOW)$/.test(String(cmp.t || '')) && !(o && o.ranged));
@@ -10014,7 +10024,7 @@ function gearPolicy() {
 /** host wrapper: may `info` go into `slot` given my gear `g` (myGear(), virtual picks included)? '' = ok */
 function gearGuard(slot, info, g, explicit) {
   const S = String(slot || (info && info.s) || '').replace(/2$/, ''), w = ((g && g.eq && g.eq.weapon) || [])[0];
-  return ggCheck({ slot: S, cand: info, worn: (((g && g.eq) || {})[S] || []).map(e => e.info), weapon: S === 'shield' ? (w && w.info) : null, explicit, policy: gearPolicy(), ranged: gearRole() === 'archer' });   // STARTERGEAR: an archer may trade a starter sword for a bow
+  return ggCheck({ slot: S, cand: info, worn: (((g && g.eq) || {})[S] || []).map(e => e.info), weapon: S === 'shield' ? (w && w.info) : null, explicit, policy: gearPolicy(), ranged: gearRole() === 'archer', kamael: kamaelWeaponFor(gearRole()) });   // STARTERGEAR: an archer may trade a starter sword for a bow
 }
 /** OWNTYPE (tester 2026-10-13): the worn REAL pieces of a type my role plan does not use = the player's choice: { weapon?, chest?, legs?,
  *  _wr } (item infos). Fighter roles only for the weapon (not Kamael: Change Weapon decides there); the _weapon rule of gear_prefs.json
@@ -10024,7 +10034,7 @@ function gearOwnTypes(g, GP, WR) {
   try {
     const role = gearRole(), R = ROLE_RULES[role], w = ((g && g.eq && g.eq.weapon) || [])[0];
     if (!R) return own;
-    if (R.stat === 'pa' && !KAMAEL_WEAPON[role] && w && !sgIsStarter(w.info) && !R.weapon(w.info)) {
+    if (R.stat === 'pa' && !kamaelWeaponFor(role) && w && !sgIsStarter(w.info) && !R.weapon(w.info)) {
       if (WR && (WR.type || WR.two)) own._wr = true; else own.weapon = w.info;
     }
     BODY_SLOTS.forEach(s => { const e = ((g && g.eq && g.eq[s]) || [])[0]; if (e && (!GP || GP.keepArmorType) && e.info.t && !sgIsStarter(e.info) && !R.armor.includes(e.info.t)) own[s] = e.info; });
@@ -10272,7 +10282,7 @@ function planUpgrades(budget) {
       const offers = [];
       ids.forEach(i => (idx[i] || []).forEach(o => offers.push({ ...o, id: num(i) })));
       // Kamael: the sword twin of a wanted rapier / ancient sword, bought and turned with Change Weapon
-      const kwant = slot === 'weapon' ? KAMAEL_WEAPON[role] : null;
+      const kwant = slot === 'weapon' ? kamaelWeaponFor(role) : null;
       if (kwant && info.t === kwant && info.cw) gearTwins(info.cw).forEach(i => (idx[i] || []).forEach(o => offers.push({ ...o, id: num(i) })));
       const pick = gearPrefChoose(offers, E.buy, casterArmor, realWanted);
       if (!pick) continue;
@@ -10351,7 +10361,7 @@ function planUpgrades(budget) {
       // Kamael twin (item field cw, see docs/plan/kamael_weapons.md): judge a sword by the weapon it becomes, buy it, change it.
       let judgeId = num(id), judge = info, change = 0;
       if (slot === 'weapon') {
-        const want = KAMAEL_WEAPON[role];
+        const want = kamaelWeaponFor(role);
         if (want && info.t !== want) {
           const tw = info.cw ? items[info.cw] : null;
           if (!tw || tw.t !== want) continue;
@@ -10491,7 +10501,7 @@ async function equipCommonFromBag() {
       if (b.info.s === 'weapon' && w && isSaWeapon(w.info.n) && GEAR_GRADES.indexOf(b.info.g) <= GEAR_GRADES.indexOf(w.info.g)) continue;   // S.A.: same grade stays
       if (b.info.s === 'weapon' && gearRole() === 'fighter2h' && !b.info.two && !oko) continue;
       if (b.info.s === 'weapon' && WRb && ((WRb.type && b.info.t !== WRb.type) || (WRb.two && !b.info.two))) continue;   // weapon rule (gear_prefs.json _weapon)
-      const kw = KAMAEL_WEAPON[gearRole()];
+      const kw = kamaelWeaponFor(gearRole());
       if (b.info.s === 'weapon' && kw && b.info.t !== kw && !(b.info.cw && (gearDb().items[b.info.cw] || {}).t === kw)) continue;
       const gain = upgradeGain(b.id, b.info, g, oko);
       if (gain >= CONFIG.gear.upgrade.minGain && gearGuard(b.info.s, kw && b.info.t !== kw && b.info.cw ? (gearDb().items[b.info.cw] || b.info) : b.info, g, false)) continue;   // GEARGUARD
@@ -25225,10 +25235,20 @@ function fullAggro() {
   if (isLeader()) return true;
   const L = partyMember(CONFIG.leader), lp = livePos[CONFIG.leader] || {};
   if ((L && L.IsDead) || (lp.at && now() - lp.at < 10000 && lp.IsDead)) return true;
+  // TANKOPEN-2026-10-14 (owner: "the tank does not need full aggro, it just spams Aggression and Aura of Hate when there are minions"): the dealers
+  // attack 2.5 s after the tank's first pull, or at once when the boss is already hurt (a reload mid-fight). CONFIG.raidWaitFullAggro = true = old rule.
+  if (CONFIG.raidWaitFullAggro !== true) {
+    const at = raidCtl.aggroAt || inst.focusAt || 0;
+    if (at && now() - at > 2500) return true;
+    try { const b = raidCtl.bossId ? mobById(raidCtl.bossId) : null; if (b && !b.IsDead && num(b.HpPercent) < 99) return true; } catch (e) { }
+  }
   if (now() - aggroMsg.at > 6000) return now() - (inst.focusAt || raidCtl.aggroAt || 0) > BEHIND.waitAggroMs && !!(inst.focus || raidCtl.aggroAt);
   // FULLAGGRO2-2026-10-13 (Repiro: the spellsingers never attacked): 'not full' with NOTHING on a teammate (the leader sees no monster target -
   // the brain engine has no monster target data) blocked the dealers forever; hold only while a monster is really on a teammate
   if (!aggroMsg.full && !(aggroMsg.off && aggroMsg.off.length) && now() - (raidCtl.aggroAt || inst.focusAt || 0) > 6000 && (raidCtl.aggroAt || inst.focusAt)) return true;
+  // HOLDCAP-2026-10-14 (Nakondas: Medusa / Wyrm - plain monsters, no minions - stayed on Nuker6, the 6 spellsingers held for minutes while the
+  // boss was at 43 %): the hold is for the opening only - 20 s after the tank's aggro the dealers attack whatever is still loose
+  if (!aggroMsg.full && (raidCtl.aggroAt || inst.focusAt) && now() - (raidCtl.aggroAt || inst.focusAt || 0) > 20000) return true;
   return aggroMsg.full;
 }
 // L2Swarm's own assist (FollowAtk) makes members hit whatever the leader hits at once — that would break "nobody attacks before full
@@ -26623,8 +26643,9 @@ setInterval(() => {
 /** circuit travel: one of us is fighting right now (hit in the last 8 s, near me) — the travel waits for it instead of failing */
 function rcTravelFighting() {
   try {
-    if (now() - (lastAttackerOnMe.at || 0) < 8000 || now() - (hpWatch.dropAt || 0) < 6000) return true;
-    return teamNames().some(n => { const lp = livePos[n]; return lp && !lp.IsDead && now() - (lp.at || 0) < 8000 && (lp.hit === undefined ? !!lp.fight : !!lp.hit) && Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) < 3000; });
+    // DROWNFIGHT-2026-10-14: only a creature hitting us counts — HP lost under water (drowning) kept party Tank3 waiting 93 min in the sea at Devil Isle
+    if (now() - (lastAttackerOnMe.at || 0) < 8000) return true;
+    return teamNames().some(n => { const lp = livePos[n]; return lp && !lp.IsDead && now() - (lp.at || 0) < 8000 && (lp.atk !== undefined ? !!lp.atk : lp.hit === undefined ? !!lp.fight : !!lp.hit) && Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) < 3000; });
   } catch (e) { return false; }
 }
 /** leadRouteWalk's hop: inside a circuit a fight on the way / a failed hop is not the end of the travel — wait out the fight, re-plan, try again (3x) */
@@ -30608,13 +30629,14 @@ setInterval(() => {
     lead: isLeader() ? Me.Name : CONFIG.leader,   // TEAMLEAD-2026-10-13: WHOSE party I am with (withLeader alone made party Jade count in party Yellow)
     fight: !!(now() - lastAttackerOnMe.at < 6000 || Me.IsInCombat || Me.IsAttacking || now() - hpWatch.dropAt < 6000),
     // PAIRSGATE (2026-10-09 17:55): REALLY in a fight = a monster hits ME / my HP drops (a teleport hold counts only these, never a fresh pull)
-    hit: !!((now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) || now() - hpWatch.dropAt < 6000) }));   // the leader never ports while someone fights or takes damage
+    hit: !!((now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) || now() - hpWatch.dropAt < 6000),
+    atk: !!(now() - lastAttackerOnMe.at < 6000) }));   // DROWNFIGHT-2026-10-14: a creature really hits me (HP lost to drowning / falling / poison alone is NOT a fight)   // the leader never ports while someone fights or takes damage
 }, 3000);
 App.on('swarm.pos', (event) => {
   const d = event.data;
   if (!d || !d.name) return;
   try { const src = event.source; if (src && src.accountId) posAcct[d.name] = String(src.accountId); } catch (e) { }
-  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, withLeader: !!d.withLeader, lead: d.lead ? String(d.lead) : '', low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, dlv: !!d.dlv, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
+  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, atk: d.atk === undefined ? undefined : !!d.atk, withLeader: !!d.withLeader, lead: d.lead ? String(d.lead) : '', low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, dlv: !!d.dlv, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
   try { if (livePos[d.name]) livePos[d.name].keys = Array.isArray(d.keys) ? d.keys : []; } catch (e) { }   // DUNGEON ENTRY ITEMS 2026-10-12
   try { if (livePos[d.name]) livePos[d.name].rk = d.rk && typeof d.rk === 'object' ? d.rk : null; } catch (e) { }   // RESURRECTION 2026-10-13: its res kit (resGather)
   rkRosterLearn(d.name, d.role);                // ROLE KINDS: a teammate's kind / auto role -> its token
