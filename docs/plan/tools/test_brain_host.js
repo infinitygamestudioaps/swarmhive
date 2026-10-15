@@ -246,7 +246,9 @@ async function scenario() {
   ok(lc.some(f => /StartCombat|SetCombat|UseCombat|Send.Attack|Attack/.test(f)), `leader fights: ${Array.from(new Set(lc)).join(', ')}`);
   const mem = ['Spoiler1', 'Healer1'].map(n => world.chars.get(n));
   const memMoves = mem.map(c => byWho(c.name).filter(f => /MoveBackwardToLocation|GoToPoint|MoveToPoint|Send.Attack|^Attack$|Send.Action/.test(f)).length);
-  ok(memMoves.every(n => n > 0), `members act on their own script orders (move / target / attack calls: ${mem.map((c, i) => `${c.name} ${memMoves[i]}`).join(', ')}; L2Swarm follow: ${mem.map(c => `${c.name}->${c.opts.FollowName || '-'}`).join(', ')})`);
+  // ASSIST-2026-10-15: members now kill fast next to the leader — a member that stayed within 900 of him needs no move (the healer heals from there)
+  const lead0 = world.chars.get('Crafter1'), near = (c) => Math.hypot((c.me ? c.me.X : c.X) - (lead0.me ? lead0.me.X : lead0.X), (c.me ? c.me.Y : c.Y) - (lead0.me ? lead0.me.Y : lead0.Y)) <= 900;
+  ok(memMoves.every((n, i) => n > 0 || near(mem[i])), `members act on their own script orders or stay with the leader (move / target / attack calls: ${mem.map((c, i) => `${c.name} ${memMoves[i]}`).join(', ')}; L2Swarm follow: ${mem.map(c => `${c.name}->${c.opts.FollowName || '-'}`).join(', ')})`);
   ok((world.kills || 0) >= 1, `monsters killed in the field: ${world.kills || 0}`);
   const dist = mem.map(c => Math.round(Math.hypot(c.me.X - L.me.X, c.me.Y - L.me.Y)));
   console.log(`   member calls: Spoiler1 [${Array.from(new Set(byWho('Spoiler1'))).join(', ')}] Healer1 [${Array.from(new Set(byWho('Healer1'))).join(', ')}]; distance to the leader ${dist.join(' / ')}`);

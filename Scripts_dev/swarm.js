@@ -123,6 +123,9 @@ const SCHED = (() => {
 })();
 try { setInterval = SCHED.every; } catch (e) { }             // prelude: `const Repeat = setInterval = (...)` -> setInterval is a writable global
 try { if (setInterval !== SCHED.every) globalThis.setInterval = SCHED.every; } catch (e) { }
+// LEAK-2026-10-15 (brain host memory guard restarted party Tank1 7x on 2026-10-15): maps keyed per monster objId / per order run were never
+// pruned. pruneKeys(o, max, old) drops the entries old(value, key) says are done once the map holds more than `max` keys (cheap: a count first).
+function pruneKeys(o, max, old) { let n = 0; for (const k in o) n++; if (n <= max) return; for (const k in o) { let gone = true; try { gone = !!old(o[k], k); } catch (e) { } if (gone) delete o[k]; } }
 
 // PARTY CHAT THROTTLE (2026-10-12, docs/plan/memory_2026-10-12.md): every party-chat line is parsed into WPF text objects in the L2Swarm chat
 // view of EVERY party member (~2,300 live text objects per account). Commands ('!...' / '#!...') always pass. Important tags pass, but the same
@@ -137,7 +140,7 @@ var CHATT = { last: 0, seen: {}, sent: 0, dropped: 0 };
     const t = String(text == null ? '' : text), nowMs = Date.now();
     if (/^#?!/.test(t)) { CHATT.sent++; return raw(text); }
     const key = t.replace(/\d+/g, '#').slice(0, 160), seenAt = CHATT.seen[key] || 0;
-    if (IMPORTANT.test(t)) { if (nowMs - seenAt < 60000) { CHATT.dropped++; return; } CHATT.seen[key] = nowMs; CHATT.sent++; return raw(text); }
+    if (IMPORTANT.test(t)) { if (nowMs - seenAt < 60000) { CHATT.dropped++; return; } CHATT.seen[key] = nowMs; CHATT.sent++; if (Object.keys(CHATT.seen).length > 400) { for (const k of Object.keys(CHATT.seen)) if (nowMs - CHATT.seen[k] > 300000) delete CHATT.seen[k]; } return raw(text); }   // LEAK-2026-10-15: important lines prune too
     if (nowMs - seenAt < 300000 || nowMs - CHATT.last < 15000) { CHATT.dropped++; return; }
     CHATT.seen[key] = nowMs; CHATT.last = nowMs; CHATT.sent++;
     if (Object.keys(CHATT.seen).length > 400) { for (const k of Object.keys(CHATT.seen)) if (nowMs - CHATT.seen[k] > 300000) delete CHATT.seen[k]; }
@@ -4366,7 +4369,12 @@ function casterTarget() {
   // CAST REACH: an 'invalid target' answer keeps that monster out for a while; the in-range alternative is held while the leader's target is out of reach
   const bad = (id) => Number(castBadTgt[num(id)]) > now();
   if (cur && bad(cur.id)) cur = null;
-  let leader = assist ? leaderFightTarget() : null; if (leader && bad(leader.id)) leader = null;
+  let leader = assist ? leaderFightTarget() : null;
+  // ASSIST-2026-10-15: the leader's announced target (swarm.ltgt) — the brain has no TargetObjId and an empty profile no FollowAtk; else the
+  // nearest monster hitting a teammate. A monster hitting ME still comes first (assistChoose)
+  if (!leader) { try { const v = assistOn() && !assistBlocked() ? (assistLeaderView() || assistMateAttackers().filter(t => t.d <= ASSIST.nextRange)[0] || null) : null;
+    if (v && v.inArea !== false && Math.abs(v.dz) <= assistZl()) { leader = { id: v.id, alive: true, fighting: true, hpPct: 100, targetsUs: false, dist: v.d, dz: v.dz }; assist = true; } } catch (e) { } }
+  if (leader && bad(leader.id)) leader = null;
   let keep = null; const A = castReach.alt;
   if (A && now() < A.until) { const m = mobById(A.id); if (m && !m.IsDead && !bad(A.id) && !(leader && leader.id === A.id)) keep = { id: A.id, alive: true }; else castReach.alt = null; }
   return assistChoose({ cur, attacker, leader, assist, keep, chaseMax: CASTLOOP.chaseMax, zLimit: CONFIG.rest.zLimit });
@@ -4884,7 +4892,7 @@ async function autoSkillTick() {
     castStats.fightMs += now() - fightT0;
     if (!r.started && r.refuse) {
       if (r.refuse.key === 'los') { castReach.losTid = tid; castReach.losAt = now(); }                               // closer / sideways next tick ('out of range': castRangeCut)
-      else if (r.refuse.act === 'switch') { castBadTgt[tid] = now() + 10000; try { Send.RequestTargetCancel(0); } catch (e) { } }   // another target
+      else if (r.refuse.act === 'switch') { castBadTgt[tid] = now() + 10000; pruneKeys(castBadTgt, 200, (u) => Number(u) < now()); try { Send.RequestTargetCancel(0); } catch (e) { } }   // another target
     }
     return { next: r.started ? 0 : r.refuse && r.refuse.act === 'retry' ? Math.max(30, castEnd.gap) : 60 };
   }
@@ -8709,7 +8717,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
   { const rs = mtResume(mtLoad(), sig, { x: Me.X, y: Me.Y, z: Me.Z }, now(), pts); if (rs >= -1) { i = rs; note(`route to ${label}: resuming the team walk at point ${rs + 2}/${n} (saved before the reload)`, true); } }
   const L = MTL = { id, pts, cum: mtCum(pts), label, floor: opt && opt.dungeon ? { dungeon: opt.dungeon, floor: opt.floor } : null, cfg: mtCfg(routeRulesNow()), gate: Math.max(0, i + 1), trk: {}, trail: new Set(), left: new Set(), gateSince: now(), paceSince: 0, hold: 0, town: startTown || '', chkAt: 0, brk: '' };
   Object.keys(MTREP).forEach(k => delete MTREP[k]);
-  L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, hold: L.hold > now() ? L.hold : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
+  L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, hold: L.hold > now() ? L.hold : 0, fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
   L.emit(true);
   intent('lead team', `route to ${label}: ${n} points — the team walks together and waits at every point (max ${Math.round(L.cfg.maxWaitMs / 1000)} s; a stuck member: ${Math.round(L.cfg.leaveMs / 1000)} s, then it catches up)`, pts[n - 1]);
   const tick = setInterval(() => L.emit(false), 4000);              // keep-alive + the current waypoint (members stay in route mode)
@@ -8856,7 +8864,7 @@ App.on('swarm.routewalk', (event) => {
     if (d.mt && d.id && !d.points && memberRoute.leftId !== d.id && now() - (memberRoute.askAt || 0) > 10000) { memberRoute.askAt = now(); try { App.emit('swarm.mt.need', { id: d.id }); } catch (e) { } }
     return;
   }
-  if (d.mt) { memberRoute.mt = true; if (isFinite(d.gate)) memberRoute.gate = Number(d.gate); memberRoute.hold = Number(d.hold) || 0; }   // the leader's current waypoint + a fight hold
+  if (d.mt) { memberRoute.mt = true; if (isFinite(d.gate)) memberRoute.gate = Number(d.gate); memberRoute.hold = Number(d.hold) || 0; memberRoute.fid = Number(d.fid) || 0; }   // the leader's current waypoint + a fight hold
   memberRoute.until = now() + 120000;                                 // no word from the leader for 2 min: back to following
   try { Options.ActiveFollow = false; } catch (e) { }
 });
@@ -8983,7 +8991,7 @@ setInterval(() => {
   }
   // MOVETOGETHER-2026-10-13: a fight on the way holds the whole team; never past the leader's current waypoint; stuck = the unstick ladder
   if (m.mt) {
-    if (now() < (m.hold || 0)) { setTask(`route to ${m.label}: the team stopped for a fight — on from point ${m.my + 2}/${m.pts.length} after it`); return; }
+    if (now() < (m.hold || 0)) { const hm = typeof mtHelpTarget === 'function' ? mtHelpTarget(memberRoute.fid) : null; if (hm) { if (now() - (m.helpAt || 0) > 1500) { m.helpAt = now(); engage(hm).catch(e => logError('route fight help', e)); } setTask(`route to ${m.label}: helping the fight on the way (${hm.Name}) — on from point ${m.my + 2}/${m.pts.length} after it`); return; } setTask(`route to ${m.label}: the team stopped for a fight — on from point ${m.my + 2}/${m.pts.length} after it`); return; }
     if (m.turnBack) {                                                 // out of breath soon: back to the last dry waypoint, catch my breath, again
       const tb = m.turnBack, id = m.id; m.busy = true; mtMemberReport(m, true);
       setTask(`route to ${m.label}: ${MT_WORDS.breath} (point ${tb.idx + 1})`);
@@ -10161,8 +10169,12 @@ function ggCheck(o) {
   // STARTERGEAR: a starter piece (Squire's Sword, Apprentice's Wand, Squire's Shirt ...) is no choice: its type never holds the slot
   // (a bow / crossbow for a starter melee weapon only with the archer role: o.ranged)
   const st = sgIsStarter(cmp) && !(slot === 'weapon' && /^(BOW|CROSSBOW)$/.test(String(c.t || '')) && !/^(BOW|CROSSBOW)$/.test(String(cmp.t || '')) && !(o && o.ranged));
-  if (slot === 'weapon' && !ex && !st && ggWeaponFamily(c) !== ggWeaponFamily(cmp)) return `different weapon type (${cmp.n || cmp.t} -> ${c.t}${c.two ? ' 2h' : ''})`;
-  if ((slot === 'chest' || slot === 'legs') && !ex && !st && P.keepArmorType && cmp.t && c.t && cmp.t !== c.t) return `different armor type (${cmp.t} -> ${c.t})`;
+  // ROLEFIT-2026-10-15: a piece that breaks the ROLE's rule is no player choice: a two-handed weapon on a shield role (tank) may become one-handed,
+  // light armor on a heavy role (tank / destroyer) may become heavy (docs/plan/gear.md §6)
+  const roleFix = !!(o.hb && cmp.n && o.hb.has(cmp.n)) && ((slot === 'weapon' && o.roleShield && ggTwoHanded(cmp) && /^(SWORD|BLUNT)$/.test(String(cmp.t || '')) && !ggTwoHanded(c)) || ((slot === 'chest' || slot === 'legs') && o.roleMain && c.t === o.roleMain && cmp.t && cmp.t !== o.roleMain));
+  if (roleFix) return ggGrade(c.g) < ggGrade(cmp.g) ? `lower grade (${cmp.n || ''} ${cmp.g} -> ${c.g})` : '';   // ROLEFIT: same grade is fine, the role is wrong
+  if (slot === 'weapon' && !ex && !st && !roleFix && ggWeaponFamily(c) !== ggWeaponFamily(cmp)) return `different weapon type (${cmp.n || cmp.t} -> ${c.t}${c.two ? ' 2h' : ''})`;
+  if ((slot === 'chest' || slot === 'legs') && !ex && !st && !roleFix && P.keepArmorType && cmp.t && c.t && cmp.t !== c.t) return `different armor type (${cmp.t} -> ${c.t})`;
   if (ex) return '';
   if (ggGrade(c.g) < ggGrade(cmp.g)) return `lower grade (${cmp.n || ''} ${cmp.g} -> ${c.g})`;
   // OWNTYPE 2026-10-13: a STARTER piece never holds its slot on "same grade" (a level-19 destroyer with Training Gloves never got the
@@ -10215,7 +10227,18 @@ function gearPolicy() {
 /** host wrapper: may `info` go into `slot` given my gear `g` (myGear(), virtual picks included)? '' = ok */
 function gearGuard(slot, info, g, explicit) {
   const S = String(slot || (info && info.s) || '').replace(/2$/, ''), w = ((g && g.eq && g.eq.weapon) || [])[0];
-  return ggCheck({ slot: S, cand: info, worn: (((g && g.eq) || {})[S] || []).map(e => e.info), weapon: S === 'shield' ? (w && w.info) : null, explicit, policy: gearPolicy(), ranged: gearRole() === 'archer', kamael: kamaelWeaponFor(gearRole()) });   // STARTERGEAR: an archer may trade a starter sword for a bow
+  return ggCheck({ slot: S, cand: info, worn: (((g && g.eq) || {})[S] || []).map(e => e.info), weapon: S === 'shield' ? (w && w.info) : null, explicit, policy: gearPolicy(), ranged: gearRole() === 'archer', kamael: kamaelWeaponFor(gearRole()), hb: hiveBoughtNames(), roleShield: !!(ROLE_RULES[gearRole()] || {}).shield, roleMain: ((ROLE_RULES[gearRole()] || {}).armor || [])[0] || '' });   // STARTERGEAR; ROLEFIT-2026-10-15: role shield / main armor type: an archer may trade a starter sword for a bow
+}
+/** ROLEFIT-2026-10-15 (owner: "never overrule the players' own decisions"): names of the items THIS character bought itself in a supply run
+ *  (Logs/gear_upgrades.log '[Name] ... <item> <price>: bought'). Only such a piece may be corrected by the role rule; anything a player gave,
+ *  crafted or chose stays. Cached 5 min. */
+const HIVEBOUGHT = { at: 0, set: new Set() };
+function hiveBoughtNames() {
+  if (now() - HIVEBOUGHT.at < 300000) return HIVEBOUGHT.set;
+  HIVEBOUGHT.at = now(); const set = new Set();
+  try { const root = typeof SWARM_ROOT !== 'undefined' ? SWARM_ROOT : (typeof __SCRIPTS__ !== 'undefined' ? __SCRIPTS__ + '\\..' : '.'); const t = File.ReadAllText(root + '\\Logs\\gear_upgrades.log'); const tag = '[' + Me.Name + ']';
+    t.split('\n').forEach(l => { if (l.indexOf(tag) < 0) return; const re = /(?:^|[:;|]\s*)([^:;|]+?) \d+: bought/g; let m; while ((m = re.exec(l))) set.add(m[1].trim()); }); } catch (e) { }
+  HIVEBOUGHT.set = set; return set;
 }
 /** OWNTYPE (tester 2026-10-13): the worn REAL pieces of a type my role plan does not use = the player's choice: { weapon?, chest?, legs?,
  *  _wr } (item infos). Fighter roles only for the weapon (not Kamael: Change Weapon decides there); the _weapon rule of gear_prefs.json
@@ -10225,7 +10248,7 @@ function gearOwnTypes(g, GP, WR) {
   try {
     const role = gearRole(), R = ROLE_RULES[role], w = ((g && g.eq && g.eq.weapon) || [])[0];
     if (!R) return own;
-    if (R.stat === 'pa' && !kamaelWeaponFor(role) && w && !sgIsStarter(w.info) && !R.weapon(w.info)) {
+    if (R.stat === 'pa' && !kamaelWeaponFor(role) && w && !sgIsStarter(w.info) && !R.weapon(w.info) && !(R.shield && ggTwoHanded(w.info) && /^(SWORD|BLUNT)$/.test(String(w.info.t || '')))) {   // ROLEFIT-2026-10-15: a 2h sword / blunt on a tank is no choice
       if (WR && (WR.type || WR.two)) own._wr = true; else own.weapon = w.info;
     }
     BODY_SLOTS.forEach(s => { const e = ((g && g.eq && g.eq[s]) || [])[0]; if (e && (!GP || GP.keepArmorType) && e.info.t && !sgIsStarter(e.info) && !R.armor.includes(e.info.t)) own[s] = e.info; });
@@ -10444,6 +10467,23 @@ function planUpgrades(budget) {
   const prefSkipped = [], prefRows = [];
   const prefs = gearPrefsFor(), keepWhenManual = prefs._fallback === 'keep';
   const wornCount = (slot, ids) => (g.eq[slot] || []).filter(e => ids.includes(num(e.id))).length;
+  // FULLARMOR-2026-10-15 (tester: destroyers 'running around shirtless' with 4 pairs of Plated Leather Gaiters in the bag): a one-piece armor
+  // (Full Plate Armor ...) worn - or planned - in the chest slot covers the legs. The chest row was 'kept' by the armor-type rule, the legs row did not
+  // know and bought gaiters; putting them on took the full armor off (shirtless), the full plate went back on later and the next supply run bought
+  // gaiters again. Judged on the CURRENT (virtual) chest, so a planned two-piece top still gets its matching legs.
+  // ROLEFIT-2026-10-15 (owner: "why would a tank use a two-handed weapon ... specific armor types for specific classes"; docs/plan/gear.md §6): the
+  // per-CLASS recommendation (gear_rec) is a damage kit - a Bounty Hunter / Paladin playing the party TANK got a two-handed Berserker Blade + light
+  // Theca, destroyers light Plated Leather. The ROLE decides: weapon must pass the role's weapon rule (a shield role never two-handed), chest / legs
+  // must be the role's FIRST armor type (tank / fighter2h = HEAVY). A recommendation that breaks it = the automatic role pick instead.
+  const roleRecFit = (slot, info) => {
+    if (!R || !info) return '';
+    if (slot === 'weapon') { if (R.shield && ggTwoHanded(info)) return `${info.n} is two-handed - the ${role} carries a shield`; if (R.weapon && !R.weapon(info)) return `${info.n} is no ${role} weapon`; }
+    if (slot === 'shield' && !R.shield) return `the ${role} uses no shield`;
+    if ((slot === 'chest' || slot === 'legs') && Array.isArray(R.armor) && R.armor.length && info.t && info.t !== R.armor[0]) return `${info.n} is ${String(info.t).toLowerCase()} armor - the ${role} wears ${String(R.armor[0]).toLowerCase()}`;
+    return '';
+  };
+  const roleBroken = (slot) => { const wi = (((g.eq[slot] || [])[0]) || {}).info; if (!wi || !R || !hiveBoughtNames().has(wi.n)) return false;   /* only what the hive bought itself */ if (slot === 'weapon') return !!R.shield && ggTwoHanded(wi) && /^(SWORD|BLUNT)$/.test(String(wi.t || '')); if (slot === 'chest' || slot === 'legs') return Array.isArray(R.armor) && R.armor.length > 1 && !!wi.t && wi.t !== R.armor[0] && R.armor.includes(wi.t); return false; };   // ROLEFIT: the worn piece breaks the role (2h on a tank, light on a heavy role)
+  const legsCovered = () => { const c = (g.eq.chest || [])[0]; return c && c.info && c.info.full ? c.info.n || 'the full armor' : ''; };
   GEARPREF_SLOTS.filter(s => prefs[s]).forEach(s => {
     const E = prefs[s], slot = s.replace(/2$/, ''), cands = [E.id].concat(E.alt || []);
     const nameOf = (id) => (items[id] || {}).n || (id === E.id && E.name) || `item ${id}`;
@@ -10454,10 +10494,12 @@ function planUpgrades(budget) {
     const want = gearPrefWant(prefs, s);
     if (!want) { row.status = 'same as ' + slot; return; }
     if (locked[slot] && locked[slot] !== 'preferred') { row.status = 'kept'; row.detail = locked[slot]; return; }   // S.A. weapon stays
+    if (slot === 'legs' && legsCovered()) { row.status = 'covered'; row.detail = `covered by ${legsCovered()} (full armor) - legs only together with a two-piece top`; return; }   // FULLARMOR-2026-10-15
     // wearing ANY of the wanted items (or its Common twin / Kamael Change Weapon twin) = done
     const allIds = []; cands.forEach(c => gearTwins(c).forEach(i => { allIds.push(num(i)); const cw = num((items[i] || {}).cw); if (cw) allIds.push(cw); }));
     const wearing = wornCount(slot, allIds);
     const fromClass = /^class/.test(E.from), fromRec = E.from === 'recommended';
+    if (fromRec) { const ri = items[num(E.id)]; const rf = ri && roleRecFit(slot, ri); if (rf) { row.status = 'skipped'; row.detail = rf + ' - role pick instead'; return; } }   // ROLEFIT-2026-10-15: a role-breaking recommendation never counts, also not as 'wearing'
     let done = false, recGuard = '';                                              // STARTERGEAR: a guarded recommendation = automatic pick
     for (let k = 0; k < cands.length && !done; k++) {
       const ids = gearTwins(cands[k]), info = items[ids[0]];
@@ -10466,6 +10508,7 @@ function planUpgrades(budget) {
       // the class planner's choice is the user's: only grade + race are checked (the role rules decide the automatic picks)
       const usable = fromClass || fromRec ? (gradeOk(info.g) && (!info.r || info.r.split(',').includes(myRace()))) : canUse(info);
       if (!usable) { if (!fromRec) prefSkipped.push(`${info.n}: preferred, but I cannot wear it`); continue; }
+      if (fromRec) { const rf = roleRecFit(slot, info); if (rf) { recGuard = recGuard || rf; continue; } }   // ROLEFIT-2026-10-15
       if (enchGrade[slot] !== undefined && GEAR_GRADES.indexOf(info.g) <= enchGrade[slot]) { locked[slot] = 'enchanted'; row.status = 'kept'; row.detail = 'enchanted piece'; done = true; break; }
       // the REAL weapon (not its Common twin) when the rule wants one: real: true always, 'crystal' once my soul crystal for it is ready
       const realWanted = slot === 'weapon' && !!WR && (WR.real === true || (WR.real === 'crystal' && soulCrystalReadyFor(info.n)));
@@ -10529,8 +10572,9 @@ function planUpgrades(budget) {
   // b) every other slot: the best COMMON piece I can use
   for (const slot of U.order) {
     if (locked[slot]) continue;
+    if (slot === 'legs' && legsCovered()) continue;                                // FULLARMOR-2026-10-15: the worn / planned chest is a one-piece armor
     if (slot === 'shield' && !R.shield) continue;
-    let best = null, bestNormal = null;
+    let best = null, bestNormal = null, bestOff = null;   // ROLEFIT: bestOff = a piece of the role's fallback armor type
     // OWNTYPE: a weapon type with no Common piece in Giran (No-Grade two-handed swords: only the normal Zweihander 217k; the player's
     // own type) -> the best NORMAL piece of that type, only when no Common piece beats what I wear (tester 2026-10-13: "Zweihander
     // can't be purchased" = the Common-only rule never bought it, and the base-class recommendation was a bow)
@@ -10564,13 +10608,15 @@ function planUpgrades(budget) {
       }
       if (slot !== 'earring' && slot !== 'ring' && picks.some(p => p.id === num(id))) continue;
       const gain = upgradeGain(judgeId, judge, g, ownOk(slot, judge));
-      if (gain < U.minGain) continue;
+      if (gain < U.minGain && !roleBroken(slot)) continue;                           // ROLEFIT-2026-10-15: a role-breaking piece is replaced even by a 'weaker' right one
       if (guard(slot, judge, slot === 'weapon' && wrOverride && weaponFits(info))) continue;   // OWNTYPE: the user's _weapon rule may change the type
       const cand = { id: num(id), info, slot, offer, gain, change, normal };
+      if ((slot === 'chest' || slot === 'legs') && R && Array.isArray(R.armor) && R.armor.length > 1 && info.t && info.t !== R.armor[0]) { if (!bestOff || gain > bestOff.gain || (gain === bestOff.gain && offer.price < bestOff.offer.price)) bestOff = cand; continue; }   // ROLEFIT-2026-10-15: heavy first for tank / fighter2h
       if (normal) { if (!bestNormal || gain > bestNormal.gain || (gain === bestNormal.gain && offer.price < bestNormal.offer.price)) bestNormal = cand; continue; }
       if (!best || gain > best.gain || (gain === best.gain && offer.price < best.offer.price)) best = cand;
     }
     if (!best && bestNormal) best = bestNormal;                                     // OWNTYPE: no Common piece of my type beats what I wear
+    if (!best && bestOff && String((((g.eq[slot] || [])[0] || {}).info || {}).t || '') !== R.armor[0]) best = bestOff;   // ROLEFIT-2026-10-15: the fallback armor type only when no main-type piece is better and I do not wear the main type
     if (best) { picks.push(best); virtualEquip(g, best.change ? { ...best, id: best.change, info: items[best.change] } : best); }
   }
   // c) budget: in slot order (weapon and body first)
@@ -11932,7 +11978,7 @@ async function equipAll(maxItems) {
     const after = myGear();
     const on = (after.eq[best.info.s] || []).some(e => e.objId === best.objId);
     if (on) note(`equipping: ${best.info.n} (${best.info.s}, +${Math.round(best.gain)})`);
-    else { badEquip[best.objId] = now(); note(`could not equip ${best.info.n} — skipping for 30 min`); }
+    else { badEquip[best.objId] = now(); pruneKeys(badEquip, 100, (t) => now() - t > 1800000); note(`could not equip ${best.info.n} — skipping for 30 min`); }
   }
   enableShots();
   return n;
@@ -12038,6 +12084,68 @@ function tradeRangeDecide(me, other, near) {
   return { act: 'walk', d, dz: Math.round(dz), to: { x: Math.round(Number(me.x) + dx * k), y: Math.round(Number(me.y) + dy * k), z: Math.round(Number(other.z != null ? other.z : me.z)) } };
 }
 // TRADEEV-PURE-END
+// TRADEWIN-2026-10-15 (live 13:30: "[Tank1] trade -> Dagger1: Animal Skin x18, Thread x21, ... Suede x7 — OK" but only Animal Skin moved).
+// ROOT CAUSE (server side, not the bridge: link.js / agent2.js run every queued order in order, nothing is coalesced): L2J AddTradeItem refuses
+// every item once EITHER side has confirmed ("#122 You may no longer adjust items in the trade because the trade has been confirmed"). The
+// receiver Dagger1 still had a 'late receive' session of the PREVIOUS giver (Doombringer1, 11:29:54) re-confirming every 3 s; that confirm landed in
+// Tank1's new trade right after his first item -> items 2..8 refused, Tank1 confirmed, the trade completed with Animal Skin only, #123 said
+// "successful" and the old code reported OK (and NOTRADELIVE learned the 7 never-added items as 'refused').
+// Now the giver (1) watches the server's TradeOwnAdd (0x1A) packets = what really is in MY trade window (layout: L2Swarm Data/base.db
+// PacketsGSServer 1A=TradeOwnAdd h(count) h(type1) d(ObjectID) d(ItemID) q(Count) ...; 82=TradeOtherDone; client 1B=AddTradeItem), (2) re-adds
+// the missing ones once, (3) confirms only what is in the window and reports the rest as 'not added' (never as refused), (4) cancels when
+// nothing got in; the receiver's sessions are bound to the giver's trade token and end on the giver's 'swarm.trade.end'.
+// TRADEWIN-PURE-BEGIN (no host calls: docs/plan/tools/test_trade_window.js runs this block in node)
+const TRADEWIN = { waitMs: 3000, ownAdd: 0x1A, otherDone: 0x82, done: 0x1C, sysConfirmed: 121, sysLocked: 122, stride: 54 };
+/** raw OnIncomingPacket bytes (L2Swarm hands them WITH the 2-byte length header; header-less accepted too) -> { op, objIds? } for the trade
+ *  packets TradeOwnAdd 0x1A / TradeOtherDone 0x82 / TradeDone 0x1C | null for anything else */
+function tradeWinParse(p, n) {
+  if (!p || !(n >= 1)) return null;
+  const B = (i) => Number(p[i]) & 255, OPS = [TRADEWIN.ownAdd, TRADEWIN.otherDone, TRADEWIN.done];
+  const fits = (off) => { const op = B(off), len = n - off; return op === TRADEWIN.otherDone ? len >= 1 && len <= 3 : op === TRADEWIN.done ? len >= 5 && len <= 7 : op === TRADEWIN.ownAdd ? len >= 3 + 18 : false; };
+  let off = -1;
+  if (n >= 3 && (B(0) | (B(1) << 8)) === n) { if (OPS.includes(B(2)) && fits(2)) off = 2; }   // [len lo, len hi, opcode, ...]: a valid header = never re-read header-less
+  else if (OPS.includes(B(0)) && fits(0)) off = 0;
+  if (off < 0) return null;
+  const op = B(off);
+  if (op !== TRADEWIN.ownAdd) return { op };
+  const D = (i) => ((B(i) | (B(i + 1) << 8) | (B(i + 2) << 16) | (B(i + 3) << 24)) >>> 0);
+  const cnt = Math.max(1, Math.min(50, B(off + 1) | (B(off + 2) << 8))), body = n - off - 3;
+  const stride = cnt > 1 && body % cnt === 0 ? body / cnt : TRADEWIN.stride;
+  const objIds = [];
+  for (let k = 0; k < cnt; k++) { const at = off + 3 + k * stride + 2; if (at + 4 > n) break; const o = D(at); if (o) objIds.push(o); }   // h(type1) then d(ObjectID)
+  return objIds.length ? { op, objIds } : null;
+}
+/** the giver after its AddTradeItem orders: sent = [objId], seen = [objId from TradeOwnAdd], info = { readded, locked (#121 / #122 /
+ *  TradeOtherDone before my confirm), packets (any trade packet captured), elapsed (ms since the last add) }
+ *  -> { act: 'wait' | 'readd' | 'confirm' | 'cancel', missing, inWindow, verified } */
+function tradeWinDecide(sent, seen, info) {
+  const I = info || {}, S = new Set((seen || []).map(String)), all = (sent || []).map(String);
+  const missing = all.filter(o => !S.has(o)), inWindow = all.filter(o => S.has(o));
+  if (!missing.length) return { act: 'confirm', missing: [], inWindow, verified: true };
+  const verified = !!(I.packets || S.size || I.locked);
+  if (!I.locked && (Number(I.elapsed) || 0) < TRADEWIN.waitMs) return { act: 'wait', missing, inWindow, verified };
+  // no packet feedback at all (old agent / capture off): as before, and NEVER re-add blind (a re-added stack / adena that did land would double)
+  if (!verified) return { act: 'confirm', missing: [], inWindow: all, verified: false };
+  if (!I.locked && !I.readded) return { act: 'readd', missing, inWindow, verified };
+  if (!inWindow.length) return { act: 'cancel', missing, inWindow, verified };
+  return { act: 'confirm', missing, inWindow, verified };
+}
+/** which rows may NOTRADELIVE count as refused: confirmed in the window (inWindow known) and still not moved; unknown window = none */
+function tradeRefusedRows(moves, inWindow) {
+  if (!Array.isArray(inWindow)) return [];
+  const W = new Set(inWindow.map(String));
+  return (moves || []).filter(m => m && m.row && !m.row.adena && !(m.moved > 0) && W.has(String(m.row.objId))).map(m => m.row);
+}
+// TRADEWIN-PURE-END
+const TWIN = { cap: null, fn: null };
+function tradeWinCapture(p) { if (!TWIN.cap) return; try { const r = tradeWinParse(p, num(p.length || p.Length)); if (r) TWIN.cap.push(Object.assign({ at: now() }, r)); } catch (e) { } }
+function tradeWinHook() {
+  if (TWIN.fn && globalThis.OnIncomingPacket === TWIN.fn) return;
+  const prev = globalThis.OnIncomingPacket;                         // chained like the henna / market / crafter captures
+  TWIN.fn = (p) => { try { if (prev) prev(p); } catch (e) { } tradeWinCapture(p); };
+  globalThis.OnIncomingPacket = TWIN.fn;
+}
+const tradeEndedToks = {};                                          // receiver: giver trade tokens that ended (a late 'added' must not start a session)
 let tradeQuietUntil = 0, tradeAnsAt = 0;
 function tradeLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\trade.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
 function tradeEv(ev) {
@@ -12078,8 +12186,12 @@ setTimeout(() => { try { if (IsCharacterReady()) clearStuckTrade('script start')
 
 App.on('swarm.trade.added', (event) => {
   const d = (event && event.data) || {};
+  if (d.tok && tradeEndedToks[d.tok]) { tradeLog(`ignored added from ${d.giver || '?'}: that trade already ended on the giver's side`); return; }   // TRADEWIN
   if (tradeState && tradeState.role === 'take') {
     if (!tradeState.started) { tradeState.started = true; tradeState.startedAt = now(); }
+    // TRADEWIN: the session now belongs to THIS giver's trade (its 'swarm.trade.end' ends it; a lingering re-confirm never reaches the next trade)
+    if (d.tok) tradeState.tok = String(d.tok);
+    if (d.giver && tradeState.other !== d.giver) { tradeLog(`take: the trade open now is ${d.giver}'s (session was for ${tradeState.other})`); tradeState.other = String(d.giver); }
     tradeState.added = now(); tradeStage('confirm'); const w = d.what; if (w && !tradeState.what) tradeState.what = String(w).slice(0, 90);
     tradeLog(`take ${tradeState.other}: the giver added ${String(d.what || '?').slice(0, 80)} — confirming`);
     Send.TradeDone(1);
@@ -12090,9 +12202,21 @@ App.on('swarm.trade.added', (event) => {
   try {
     if (!tradeState && d.giver && CONFIG.roster[d.giver] && ((HOV.host.givers[d.giver] || 0) > now() || d.team)) {
       tradeLog(`take ${d.giver}: items added but no receiver session was running — starting one and confirming`);
-      receiveItems({ giver: d.giver, what: d.what || '', step: 'late', added: true }).catch(e => logError('late receive', e));
+      receiveItems({ giver: d.giver, what: d.what || '', step: 'late', added: true, tok: d.tok || '' }).catch(e => logError('late receive', e));
     }
   } catch (e) { }
+});
+// TRADEWIN: the giver's trade is over (completed, failed or cancelled) -> my receiver session for exactly that trade ends now; without this a
+// 'late receive' session kept re-confirming for up to 18 s into the NEXT giver's trade and locked it after his first item (#122)
+App.on('swarm.trade.end', (event) => {
+  const d = (event && event.data) || {};
+  if (!d.tok) return;
+  const t = now(); tradeEndedToks[String(d.tok)] = t;
+  Object.keys(tradeEndedToks).forEach(k => { if (t - tradeEndedToks[k] > 600000) delete tradeEndedToks[k]; });
+  if (tradeState && tradeState.role === 'take' && tradeState.tok === String(d.tok) && !tradeState.done) {
+    tradeState.done = 'giver-ended';
+    tradeLog(`take ${d.giver || tradeState.other}: the giver ended its trade (${d.ok ? 'given' : 'not given'}) — session over`);
+  }
 });
 
 async function waitTrade(field, ms) {
@@ -12107,6 +12231,8 @@ async function giveItems(d) {
   tradeState = { role: 'give', other: d.receiver, until: now() + T * 2, what: tradeWhat(d.items), since: now(), stage: 'walking', stageAt: now(), tries: 0, step: d.step || '' };
   setTask(`trade -> `);
   const wasEnabled = IsEnabled;
+  const tok = `${Me.Name}:${now()}`;                                // TRADEWIN: this trade's token (receiver session binding)
+  let twOpt = null, endOk = false;                                  // TRADEWIN: packet capture switched on by me (restored in finally)
   try {
     stopCombatG();
     if (IsEnabled) DisableBot();
@@ -12117,8 +12243,9 @@ async function giveItems(d) {
     const adenaBefore = itemCount(57);
     const stackBefore = {};                          // stackables (supplies): judge success by the count, the stack objId stays
     d.items.forEach(i => { if (i.stack && i.id) stackBefore[i.id] = itemCount(i.id); });
+    let chk = d.items;                                               // TRADEWIN: the items really in the trade window (all of them until checked)
     const gone0 = () => { try { const left = new Set(); Inventory.forEach(it => left.add(String(it.objId)));
-      return d.items.every(i => i.adena ? itemCount(57) <= adenaBefore - i.count + 1 : i.stack && i.id ? itemCount(i.id) <= stackBefore[i.id] - i.count : !left.has(String(i.objId))); } catch (e) { return false; } };
+      return chk.every(i => i.adena ? itemCount(57) <= adenaBefore - i.count + 1 : i.stack && i.id ? itemCount(i.id) <= stackBefore[i.id] - i.count : !left.has(String(i.objId))); } catch (e) { return false; } };
     // the receiver's objId straight from the party list (tested 2026-10-03: that trade opened in 0.2 s and completed).
     // The objId passed in the team-step ack (.NET long -> BigInt -> JSON) was the reason every trade since ~15:57 failed.
     let pm = null;
@@ -12158,10 +12285,45 @@ async function giveItems(d) {
     }
     if (!opened) return tradeEnd({ ok: false, msg: `${d.receiver} did not open the trade${lastSysMsg && now() - lastSysMsg.at < 15000 ? ' (server: ' + lastSysMsg.text + ')' : ''}` });
     tradeStage('open');
+    // TRADEWIN: capture the server's TradeOwnAdd / TradeOtherDone packets from now on (what really lands in MY trade window)
+    const tw0 = now();
+    try { twOpt = !!Options.EnableJSOnIncomingPacket; Options.EnableJSOnIncomingPacket = true; } catch (e) { twOpt = null; }
+    tradeWinHook(); TWIN.cap = [];
     await sleep(500);
     // the giver fills in its own objIds when the leader only knew the template id (adena from a member, 2026-10-04)
     d.items.forEach(it => { if (!it.objId) { const inv = Inventory.GetItemByID(it.adena ? 57 : it.id); if (inv) it.objId = String(inv.objId); } });
     for (const it of d.items) { Send.AddTradeItem(Number(it.objId), Number(it.count || 1)); await sleep(400); }   // numbers: a string objId threw "invalid arguments" (2026-10-04)
+    // TRADEWIN: wait (max ~3 s) until the server confirmed every item in my window, re-add the missing ones ONCE, then confirm only what is in it
+    let win = null, readded = false, tAdd = now();
+    for (let guard = 0; guard < 80; guard++) {
+      await sleep(250);
+      if (!tradeState || tradeState.done === 'cancel' || tradeState.done === 'closed') break;
+      const seen = []; let packets = false, otherDone = false;
+      (TWIN.cap || []).forEach(c => { packets = true; if (c.op === TRADEWIN.ownAdd) (c.objIds || []).forEach(o => seen.push(String(o))); if (c.op === TRADEWIN.otherDone) otherDone = true; });
+      let locked = otherDone;
+      try { if (!locked) locked = sysMsgRing.some(m => m && Number(m.at) >= tw0 && (num(m.id) === TRADEWIN.sysLocked || num(m.id) === TRADEWIN.sysConfirmed)); } catch (e) { }
+      win = tradeWinDecide(d.items.map(i => String(i.objId)), seen, { readded, locked, packets, elapsed: now() - tAdd });
+      if (win.act === 'wait') continue;
+      if (win.act === 'readd') {
+        readded = true;
+        tradeLog(`give ${d.receiver}: not in my trade window yet: ${win.missing.length} of ${d.items.length} — adding them again`);
+        for (const o of win.missing) { const it = d.items.find(i => String(i.objId) === o); if (it) { Send.AddTradeItem(Number(o), Number(it.count || 1)); await sleep(400); } }
+        tAdd = now(); continue;
+      }
+      if (locked && win.missing.length) tradeLog(`give ${d.receiver}: ${d.receiver} confirmed before all my items were in (server: no more changes) — ${win.missing.length} not added`);
+      break;
+    }
+    let notAdded = [], inWindow = null;
+    if (win && win.verified) {
+      inWindow = win.inWindow.slice();
+      const W = new Set(inWindow); chk = d.items.filter(i => W.has(String(i.objId)));
+      notAdded = d.items.filter(i => !W.has(String(i.objId))).map(i => i.name || ('item ' + (i.id || i.objId)));
+      tradeLog(`give ${d.receiver}: trade window checked: ${chk.length}/${d.items.length} in${notAdded.length ? ' — not added: ' + notAdded.join(', ') : ''}`);
+      if (win.act === 'cancel' || !chk.length) {
+        note(`trade -> ${d.receiver}: nothing got into the trade window (not added: ${notAdded.join(', ')}) — cancelled`);
+        return tradeEnd({ ok: false, msg: 'nothing got into the trade window', inWindow, notAdded });
+      }
+    } else tradeLog(`give ${d.receiver}: no trade-window packets seen — cannot check which items are in (confirming all, as before)`);
     await sleep(800);
     // TRADEEV: confirm only within reach (the server cancels a confirm beyond 150): settle, measure against HIS live position, step closer
     for (let k = 0; k < 3 && tradeState && !tradeState.done; k++) {
@@ -12174,7 +12336,7 @@ async function giveItems(d) {
     }
     Send.TradeDone(1);
     tradeStage('confirm');
-    App.emitTo(d.receiverAccountId, 'swarm.trade.added', { giver: Me.Name, what: tradeState ? tradeState.what : '' });
+    App.emitTo(d.receiverAccountId, 'swarm.trade.added', { giver: Me.Name, what: tradeState ? tradeState.what : '', tok });
     // TRADEEV: wait for the server (or my bag) — and confirm again every 3 s (a confirm that came before my item landed is reset)
     let done = null; { const tEnd = now() + T; let rc = 0, lastRc = now();
       while (now() < tEnd && tradeState && !tradeState.done) {
@@ -12190,7 +12352,7 @@ async function giveItems(d) {
       const left = new Set();
       try { Inventory.forEach(it => left.add(String(it.objId))); } catch (e) { }
       // adena is one stack that only shrinks: check the amount instead of the objId
-      return d.items.every(i => i.adena ? itemCount(57) <= adenaBefore - i.count + 1
+      return chk.every(i => i.adena ? itemCount(57) <= adenaBefore - i.count + 1
         : i.stack && i.id ? itemCount(i.id) <= stackBefore[i.id] - i.count : !left.has(String(i.objId)));
     };
     let ok = gone();
@@ -12202,12 +12364,16 @@ async function giveItems(d) {
     const srvOk = () => { try { return sysMsgRing.some(m => m && Number(m.at) >= t0trade && (num(m.id) === 123 || /trade was successful/i.test(String(m.text || '')))); } catch (e) { return false; } };
     for (let i = 0; !ok && (done === 'completed' || srvOk()) && i < 30; i++) { await sleep(500); ok = gone(); }
     if (!ok && srvOk()) { ok = true; tradeLog(`give ${d.receiver}: the server said the trade was successful (#123) - my bag had not caught up yet`); }
-    note(`trade -> ${d.receiver}: ${d.items.map(i => i.name).join(', ')} — ${ok ? 'OK' : (done || 'timeout')}`);
+    note(`trade -> ${d.receiver}: ${chk.map(i => i.name).join(', ')} — ${ok ? 'OK' : (done || 'timeout')}${notAdded.length ? ` (NOT added to the trade window: ${notAdded.join(', ')} — still in my bag)` : ''}`);
     // EXACT count check (2026-10-06 05:42: "Soulshot (D) x1999 — OK", but Crafter1 lost his whole stack of ~4000 to Spoiler1)
     d.items.forEach(i => { if (i.stack && i.id) { const sent = stackBefore[i.id] - itemCount(i.id); if (sent > i.count + 20) note(`TRADE COUNT WRONG -> ${d.receiver}: ${i.name} asked ${i.count}, ${sent} left my bag (had ${stackBefore[i.id]})`, true); } });
-    return tradeEnd({ ok, msg: ok ? 'given' : `trade ${done || 'timeout'}` });
+    endOk = ok;
+    return tradeEnd({ ok, msg: ok ? (notAdded.length ? `given (not added: ${notAdded.join(', ')})` : 'given') : `trade ${done || 'timeout'}`, inWindow, notAdded });
   } finally {
     if (!tradeState || !tradeState.done) { try { Send.TradeDone(0); } catch (e) { } }   // never leave a trade hanging (it blocks all NPCs)
+    // TRADEWIN: capture off again (as I found it) + tell the receiver this trade is over (its session for this token ends at once)
+    TWIN.cap = null; if (twOpt !== null) { try { Options.EnableJSOnIncomingPacket = twOpt; } catch (e) { } }
+    try { if (d.receiverAccountId) App.emitTo(d.receiverAccountId, 'swarm.trade.end', { giver: Me.Name, tok, ok: endOk }); } catch (e) { }
     tradeQuiet();                                                     // TRADEEV: this session's late events must not end the next one
     tradeFinish();
     tradeState = null;
@@ -12218,7 +12384,7 @@ async function giveItems(d) {
 /** Modtager: stå stille og accepter trade fra giveren. */
 async function receiveItems(d) {
   const T = CONFIG.gear.tradeTimeoutMs;
-  tradeState = { role: 'take', other: d.giver, until: now() + T * 2, what: d.what || tradeWhat(d.items), since: now(), stage: 'waiting', stageAt: now(), tries: 0, step: d.step || '' };
+  tradeState = { role: 'take', other: d.giver, until: now() + T * 2, what: d.what || tradeWhat(d.items), since: now(), stage: 'waiting', stageAt: now(), tries: 0, step: d.step || '', tok: d.tok ? String(d.tok) : '' };
   setTask(`trade <- `);
   const wasEnabled = IsEnabled;
   try {
@@ -13289,17 +13455,36 @@ async function gearTeamAction(action, data) {
 // ---------------------------------------------------------------------------
 const WALK = { cell: 150, maxStep: 700, maxDz: 250, dir: SWARM_ROOT + '\\Logs\\walkpaths' };
 const cellKey = (x, y) => `${Math.round(x / WALK.cell)}_${Math.round(y / WALK.cell)}`;
-const myWalk = { nodes: {}, edges: {}, dirty: false, loaded: false };
+// WALKDELTA (LEAK-2026-10-15): the whole recording used to live in memory for good (walk_Tank1.json 2.3 MB = 27,775 cells = 9.9 MB heap PER
+// CHARACTER, ~90 MB for a 9-character party, growing with every new cell, never released; reloaded at every start) and was stringified whole
+// every 30 s while walking. Now myWalk holds only the cells walked since the last write (the DELTA); every WALK.flushMs it is merged into the
+// file (cells already there keep their first position, edges are a union = the same file as before). Readers get file + delta (walkMine()).
+const myWalk = { nodes: {}, edges: {}, dirty: false, loaded: false, n: 0, lastFlush: 0 };
 let walkPrev = null;
+WALK.flushMs = 120000; WALK.deltaMax = 5000;
 
-function loadMyWalk() {
-  if (myWalk.loaded) return;
-  myWalk.loaded = true;
-  try {
-    const j = JSON.parse(File.ReadAllText(`${WALK.dir}\\walk_${Me.Name}.json`));
-    myWalk.nodes = j.nodes || {};
-    myWalk.edges = j.edges || {};
-  } catch (e) { /* ny fil */ }
+function loadMyWalk() { myWalk.loaded = true; }        // nothing is held in memory any more (kept for the callers)
+/** the recording on disk: { nodes, edges } | {} for a missing file | null when it exists but cannot be read (never overwritten then) */
+function readMyWalkFile() {
+  const f = `${WALK.dir}\\walk_${Me.Name}.json`;
+  let txt = null; try { txt = String(File.ReadAllText(f)); } catch (e) { try { return File.Exists(f) ? null : { nodes: {}, edges: {} }; } catch (e2) { return null; } }
+  try { const j = JSON.parse(txt); return { nodes: (j && j.nodes) || {}, edges: (j && j.edges) || {} }; } catch (e) { return null; }
+}
+/** merge a delta into a recording (in place); -> number of new cells + edges */
+function walkMerge(base, d) {
+  let added = 0;
+  for (const k in d.nodes) if (!base.nodes[k]) { base.nodes[k] = d.nodes[k]; added++; }
+  for (const a in d.edges) for (const b of d.edges[a]) { const g = base.edges[a] || (base.edges[a] = []); if (!g.includes(b)) { g.push(b); added++; } }
+  return added;
+}
+/** my whole recording (file + the cells not written yet): a fresh object for the route builder, garbage after it */
+function walkMine() { const j = readMyWalkFile() || { nodes: {}, edges: {} }; walkMerge(j, myWalk); return j; }
+function walkFlush() {
+  if (!myWalk.dirty || !Me.Name) return;                 // (no name yet: Logs/walkpaths/walk_null.json came from that)
+  const j = readMyWalkFile(); if (!j) return;            // unreadable right now: keep the delta, next round
+  myWalk.lastFlush = now();
+  if (walkMerge(j, myWalk) > 0) { try { File.WriteAllText(`${WALK.dir}\\walk_${Me.Name}.json`, JSON.stringify({ nodes: j.nodes, edges: j.edges })); } catch (e) { return; } }
+  myWalk.nodes = {}; myWalk.edges = {}; myWalk.n = 0; myWalk.dirty = false;
 }
 
 function addEdge(g, a, b) {
@@ -13312,7 +13497,7 @@ setInterval(() => {
   loadMyWalk();
   const cur = { x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z) };
   const k = cellKey(cur.x, cur.y);
-  if (!myWalk.nodes[k]) { myWalk.nodes[k] = [cur.x, cur.y, cur.z]; myWalk.dirty = true; }
+  if (!myWalk.nodes[k] && myWalk.n < WALK.deltaMax) { myWalk.nodes[k] = [cur.x, cur.y, cur.z]; myWalk.n++; myWalk.dirty = true; }
   if (walkPrev && walkPrev.k !== k) {
     const d = Math.hypot(cur.x - walkPrev.x, cur.y - walkPrev.y);
     if (d < WALK.maxStep && Math.abs(cur.z - walkPrev.z) < WALK.maxDz) { addEdge(myWalk.edges, walkPrev.k, k); myWalk.dirty = true; }
@@ -13320,12 +13505,7 @@ setInterval(() => {
   walkPrev = { ...cur, k };
 }, 1200);
 
-setInterval(() => {
-  if (!myWalk.dirty) return;
-  myWalk.dirty = false;
-  try { File.WriteAllText(`${WALK.dir}\\walk_${Me.Name}.json`, JSON.stringify({ nodes: myWalk.nodes, edges: myWalk.edges })); }
-  catch (e) { myWalk.dirty = true; }
-}, 30000);
+setInterval(() => { if (myWalk.dirty && now() - myWalk.lastFlush >= WALK.flushMs) walkFlush(); }, 30000);
 
 // WALKREC-PURE-BEGIN (no host calls in here: docs/plan/tools/test_return_trip_block.js runs this block in node with the real Logs/walkpaths files)
 // RECORDED ROUTES WITHOUT A FREEZE (2026-10-13, the brain-host watchdog killed party Tank2's worker 6x in 7 min: "after an await ... 7.8 s"):
@@ -13421,7 +13601,7 @@ async function teamWalkGraphFor(box) {
   if (recWalk.building) { try { const g0 = await recWalk.building; if (g0 && recBoxHas(g0.box, box)) return g0; } catch (e) { } }
   loadMyWalk();
   const big = [box[0] - WALKREC.margin, box[1] + WALKREC.margin, box[2] - WALKREC.margin, box[3] + WALKREC.margin];
-  const io = Object.assign(recIo(), { names: Object.keys(CONFIG.roster), read: (name) => name === Me.Name ? myWalk : JSON.parse(String(File.ReadAllText(`${WALK.dir}\\walk_${name}.json`))) });
+  const io = Object.assign(recIo(), { names: Object.keys(CONFIG.roster), read: (name) => name === Me.Name ? walkMine() : JSON.parse(String(File.ReadAllText(`${WALK.dir}\\walk_${name}.json`))) });
   const p = recWalk.building = recGraphBuild(big, io);
   try { const g = await p; Object.assign(recWalk, { g, at: now() }); return g; } finally { if (recWalk.building === p) recWalk.building = null; }
 }
@@ -13532,6 +13712,20 @@ const MT_LEASH = 1200;
 function mtHoldCentre(gp) {
   const qs = teamNames().map(n => partyMember(n)).filter(q => q && !q.IsDead && Math.hypot(num(q.X) - gp.x, num(q.Y) - gp.y) < 3000);
   return qs.length ? { x: qs.reduce((s, q) => s + num(q.X), 0) / qs.length, y: qs.reduce((s, q) => s + num(q.Y), 0) / qs.length, z: gp.z } : gp;
+}
+// MTHELP-2026-10-15 (tester video + own Tank1 team: the leader fought alone 600-1000 away while the members held "the team stopped for a fight"):
+// the leader sends the monster he fights with the hold; every member that is not a healer and not busy with its own attacker walks over and
+// hits it (engage = the normal help-a-mate attack: skills, shots), but only when it is within MTHELP_RANGE of me. Healers keep healing.
+const MTHELP_RANGE = 1800;
+function mtFightId() { try { if (Target && !Target.IsDead && (Me.IsAttacking || IsInCombat || now() - (lastAttackerOnMe.at || 0) < 8000)) return num(Target.objId); } catch (e) { } try { if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000) return num(lastAttackerOnMe.id); } catch (e) { } return 0; }
+function mtHelpTarget(fid) {
+  try {
+    if (!fid || isHealerRole() || Me.IsDead) return null;
+    if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 6000 && num(lastAttackerOnMe.id) !== num(fid)) return null;   // my own attacker first (self-defence)
+    const m = mobById(fid); if (!m || m.IsDead || ignoredMob(m)) return null;
+    if (Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) > MTHELP_RANGE || Math.abs(num(m.Z) - Me.Z) > 500) return null;
+    return m;
+  } catch (e) { return null; }
 }
 async function mtLeashFight(gp, abort) {
   try { if (IsInCombat) stopCombatG(); } catch (e) { }
@@ -16228,7 +16422,7 @@ async function scoutRun(text, o) {
   finally {
     // back to town (never a fight; useEscape runs out of a fight first, then .townname)
     try { if (!currentTownKey() && !Me.IsDead) { setTask(`scout: back to town after ${b.name}`); await useEscape(null, `scout ${b.name}: back to town`); } } catch (e) { logError('scout return', e); }
-    clearInterval(holdFlee); clearInterval(speedTimer); state.fleeUntil = 0;
+    SCHED.clear(holdFlee); SCHED.clear(speedTimer); state.fleeUntil = 0;   // LEAK-2026-10-15: clearInterval left both jobs running forever (fleeUntil re-set every second)
     scoutCtl.on = false; scoutAway(false); state.followHoldUntil = 0;
     scoutWrite(Object.assign({}, res || {}, { phase: 'back', town: currentTownKey() || '' }));
   }
@@ -19257,7 +19451,9 @@ async function hovTradeBatch(o, rv, rows, label, hold) {
   // NOTRADELIVE-2026-10-15: the trade went through for other items but the server did not take these -> untradeable, remember them for every giver
   try {
     if (mv.some(m => m.moved > 0)) {
-      const refused = mv.filter(m => m.row && !m.row.adena && !(m.moved > 0)).map(m => m.row);
+      // TRADEWIN-2026-10-15: only an item the server CONFIRMED in my trade window (TradeOwnAdd) that still did not move counts as refused; an item
+      // that never got into the window (the receiver confirmed early -> #122) is 'not added', never a refusal; unknown window = learn nothing
+      const refused = tradeRefusedRows(mv, g && Array.isArray(g.inWindow) ? g.inWindow : null);
       if (refused.length) {
         withFileLock('notrade_live', () => { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; let j = {}; try { if (File.Exists(f)) j = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { } refused.forEach(r => { const o = j[String(r.id)] || {}; const n = num(o.n) + 1; j[String(r.id)] = Object.assign(o, { name: r.name, n, by: Me.Name, at: new Date().toISOString() }); if (n >= 3 && !o.sure) { try { hovNotrade().add(num(r.id)); } catch (e) { } } }); File.WriteAllText(f, JSON.stringify(j, null, 1)); }).catch(() => { });
         note(`handover: the server did not take ${refused.map(r => r.name).join(', ')} this time (after 3 separate refusals an item counts as not tradeable)`);
@@ -19265,7 +19461,8 @@ async function hovTradeBatch(o, rv, rows, label, hold) {
     }
   } catch (e) { logError('notrade learn', e); }
   const sm = lastSysMsg && lastSysMsg.at >= t0 ? ` (server: ${String(lastSysMsg.text).slice(0, 80)})` : '';
-  const why = g && g.ok ? '' : `${(g && g.msg) || 'trade failed'}${sm}`;
+  const na = g && Array.isArray(g.notAdded) && g.notAdded.length ? `not added to the trade window: ${g.notAdded.join(', ')}` : '';   // TRADEWIN
+  const why = g && g.ok ? na : `${(g && g.msg) || 'trade failed'}${sm}`;
   const n = mv.filter(m => m.moved > 0).length;
   note(`handover ${o.id}: ${label} -> ${o.receiver}: ${n}/${live.length} kinds${why ? ' — ' + why : ' OK'}`, true);
   intent('handover', `${label}: ${n}/${live.length} kinds to ${o.receiver}${why ? ' — ' + why : ''}`);
@@ -31518,6 +31715,7 @@ App.on('swarm.attacked', (event) => {
     if (hp && Math.hypot(num(mob.X) - num(hp.x), num(mob.Y) - num(hp.y)) > 1500) return; }
   if (isMarkedForOther(mob)) return;                                       // ejerens quest-mob: han dræber den selv
   if (Target && Target.objId === mob.objId && (IsInCombat || Me.IsAttacking)) { if (selfDef.started && lastAttackerOnMe.for) lastAttackerOnMe.at = now(); return; }   // still helping: keep the fight alive
+  if (num(assistSt.issued.id) === num(mob.objId) && now() - assistSt.issued.at < 8000) return;   // ASSIST-2026-10-15: already walking in on it (the leader's target)
   const healerHit = /bishop|shilliensaint|healer/.test((livePos[d.name] || {}).role || '') || (CONFIG.gear.roles[d.name] === 'mage' && /Healer1|Bishop1|Saint1/.test(d.name));
   if (now() - lastAttackerOnMe.at < 4000 && !lastAttackerOnMe.for && !(healerHit && isLeader())) return;   // the leader always takes monsters off the healer (user 2026-10-04 23:20)                          // jeg bliver selv slået: klar mig selv først
   intent('help', `${d.name} is being hit by ${mob.Name} — helping`, { x: mob.X, y: mob.Y, z: mob.Z });
@@ -31525,7 +31723,10 @@ App.on('swarm.attacked', (event) => {
   // same as self-defence (2026-10-04 23:02): target once, L2Swarm combat with skills + shots in a small square, stops 8 s after the fight
   try { Send.Action(mob.objId); } catch (e) { }
   if (!IsInCombat && !inRaid() && state.mode !== 'autolevel' && state.mode !== 'raidclear') {
-    if (memberScriptFight(mob)) lastAttackerOnMe = { id: mob.objId, at: now(), for: d.name };
+    // ASSIST-2026-10-15: a lead-mode member with Hive skills fights it with script attacks (skills by the cast loop), NOT L2Swarm combat in a
+    // 1200 square around the MONSTER's spot (it stood there after the kill = "waits at the dead mob's location")
+    if (assistOn() && leadMode() && !isLeader() && !hiveOwnCombat() && !recHold() && !casterOwnsAttacks()) { srvAttack(mob.objId); selfDef.started = now(); lastAttackerOnMe = { id: mob.objId, at: now(), for: d.name }; }
+    else if (memberScriptFight(mob)) lastAttackerOnMe = { id: mob.objId, at: now(), for: d.name };
     else {
       try { combatSquare(1200, mob.X, mob.Y, mob.Z || Me.Z); } catch (e) { }
       if (!IsEnabled) EnableBot();
@@ -31533,6 +31734,143 @@ App.on('swarm.attacked', (event) => {
     }
   }
   enableShots();
+});
+
+// ---------------------------------------------------------------------------
+// ASSIST-2026-10-15 (public tester Vykaax, hunting parties on the brain engine, members' L2Swarm profiles EMPTY: "The followers are several
+// seconds behind ... they don't even move until the leader reaches the mob and hits it, by then the Necromancer kills it and the followers
+// continue to run to the dead mob location and wait there until the leader fully arrives at the next mob and hits it").
+// Root cause (docs/plan/AUTOMATION_LOG.md 2026-10-15 ASSIST): in lead-mode leveling a member had NO way to learn the leader's target before
+// a monster HIT the leader: (1) assist = L2Swarm's FollowAtk (empty profile = off); (2) the script's assist (casterTarget -> leaderFightTarget)
+// reads the leader's TargetObjId from CharList, which the brain never has (agent2's creature snapshot has no TargetObjId: always 0) and is
+// gated by Options.FollowAtk too; (3) the only trigger left was 'swarm.attacked' (the leader is HIT, max every 3 s) -> select / attack, on
+// L2Swarm 3.8.11+ as L2Swarm combat in a 1200 square around the MONSTER's spot: when it died the members stood in that square ("wait at the
+// dead mob's spot"). The necromancer only looked better because it casts from where it stands.
+// Now: the LEADER says the monster he selects at once ('swarm.ltgt', on every change, refreshed every 2 s, id 0 = dropped / dead); every
+// member that is not a healer / buffer walks to it and hits it (melee: script select + attack, the server walks there; casters: the cast loop
+// takes it as its assist target and steps into range); when it dies the members drop it at once (stop the walk, end a help fight) and take
+// the leader's next target or the nearest monster hitting a teammate. Never in raids / instances / missions / raid clear / hunting pairs /
+// team route walks (MTHELP) / towns; never through floors (height limit 250 on stacked floors, else 500) or outside the hunting room.
+// Switch: Scripts/data/party_tactics.json "<leader>": { "assist": false } (default ON). Test: docs/plan/tools/test_member_assist.js.
+// ASSIST-PURE-BEGIN
+var ASSIST = { tickMs: 150, refreshMs: 2000, freshMs: 4000, chase: 2500, nextRange: 1500, reissueMs: 1500, mateHitMs: 6000 };
+/** what a member does with the leader's target. o = { on, healer, blocked (why | ''), attacker (a monster hits me: self-defence owns it),
+ *  lt: { id, alive, d, dz, inArea }, mates: [{ id, alive, d, dz, inArea }] (monsters hitting a teammate), chase, zl, nextRange,
+ *  caster (the cast loop selects), selectOnly, cur: { id, attacking, dead }, sinceIssue (ms since I issued an attack on cur), reissueMs,
+ *  stopDead (my target died while I walked to it) } -> { act: none|keep|attack|select|stop, id, why } */
+function assistDecide(o) {
+  const c = o || {};
+  if (!c.on) return { act: 'none', why: 'assist off' };
+  if (c.healer) return { act: 'none', why: 'healer' };
+  if (c.blocked) return { act: 'none', why: String(c.blocked) };
+  const okT = (t) => !!(t && t.id && t.alive && !(Number(t.d) > (c.chase || ASSIST.chase)) && !(Math.abs(Number(t.dz) || 0) > (c.zl || 500)) && t.inArea !== false);
+  if (c.attacker && !(c.lt && c.lt.id === c.attacker)) return { act: c.stopDead ? 'stop' : 'none', why: 'a monster hits me (self-defence)' };
+  let pick = null, why = '';
+  if (okT(c.lt)) { pick = c.lt; why = 'leader target'; }
+  else { const m = (c.mates || []).filter(t => okT(t) && Number(t.d) <= (c.nextRange || ASSIST.nextRange)).sort((a, b) => a.d - b.d)[0]; if (m) { pick = m; why = 'monster on a teammate'; } }
+  if (!pick) return { act: c.stopDead ? 'stop' : 'none', why: c.stopDead ? 'my target died' : 'nothing to assist' };
+  if (c.caster) return { act: 'none', id: pick.id, why: why + ' (cast loop)' };
+  const same = c.cur && c.cur.id === pick.id && !c.cur.dead;
+  if (same && (c.cur.attacking || Number(c.sinceIssue) < (c.reissueMs || ASSIST.reissueMs))) return { act: 'keep', id: pick.id, why };
+  if (same && c.selectOnly) return { act: 'keep', id: pick.id, why };
+  return { act: c.selectOnly ? 'select' : 'attack', id: pick.id, why };
+}
+// ASSIST-PURE-END
+const assistSt = { lt: null, emit: { id: -1, at: 0 }, issued: { id: 0, at: 0 }, holdUntil: 0, n: 0, stops: 0, lastWhy: '' };
+function assistOn() { try { return partyTactics().assist !== false; } catch (e) { return true; } }
+/** modes whose own routines own every target (raids, instances, missions, the raid clear) */
+function assistOwnedMode() { try { return inRaid() || inst.on || inKamaInstance() || state.mode === 'raidclear' || state.mode === 'mission'; } catch (e) { return true; } }
+function assistZl() { return (typeof zState !== 'undefined' && zState.layered) ? 250 : (CONFIG.rest.zLimit || 500); }
+function assistView(m) {
+  if (!m) return null;
+  const dead = !!m.IsDead || (m.HpPercent !== undefined && num(m.HpPercent) <= 0);
+  let area = true; try { area = !ignoredMob(m) && inHuntRoom(m) && !foreignTagged(m) && !isMarkedForOther(m); } catch (e) { }
+  return { id: num(m.objId), alive: !dead, d: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), dz: num(m.Z || Me.Z) - num(Me.Z), inArea: area };
+}
+/** the leader's announced target as a view (null = none / stale / dead) */
+function assistLeaderView() {
+  const lt = assistSt.lt; if (!lt || now() - lt.at > ASSIST.freshMs) return null;
+  const m = mobById(lt.id); if (!m) return null;
+  const v = assistView(m); return v && v.alive ? v : null;
+}
+/** monsters hitting a teammate right now (OnAttack seen by me), nearest first */
+function assistMateAttackers() {
+  const out = [], me = num(Me.objId);
+  try { Object.keys(posHits).forEach(k => { const h = posHits[k]; if (!h || now() - h.at > ASSIST.mateHitMs) return; const tg = num(h.target); if (tg !== me && !livePosByObj(tg)) return;
+    const m = mobById(num(k)); const v = m ? assistView(m) : null; if (v && v.alive) out.push(v); }); } catch (e) { }
+  return out.sort((a, b) => a.d - b.d);
+}
+/** why a member must not assist now ('' = free) */
+function assistBlocked() {
+  try {
+    if (recHold()) return 'recording';
+    if (benched()) return 'benched';
+    if (assistOwnedMode()) return 'owned mode';
+    if (currentTownKey()) return 'town';
+    if (state.gkBusy || state.escaping || ESC.on || tradeState || state.buffTurn) return 'busy';
+    if (rest.sitting || Me.IsSitting) return 'resting';
+    if (memberRoute.id && !(assistSt.lt && now() - assistSt.lt.at < ASSIST.freshMs)) return 'team route walk';   // the leader's announced target = he fights: the walk holds (MOVETOGETHER), so the members join it
+    if (resBusy || comeHere.busy || stuckFollow.busy || unstickRun.busy) return 'busy walking';
+    if (now() < (state.fleeUntil || 0) || now() < (state.disengageUntil || 0)) return 'pulling back';
+    if (myPair.on && pairActive()) return 'hunting pair';
+    if (escort.active) return 'escort';
+    if (DLV.on) return 'delevel';
+    if (now() < (state.followHoldUntil || 0) && state.followHoldUntil !== assistSt.holdUntil) return 'follow held by another task';
+  } catch (e) { return 'error'; }
+  return '';
+}
+function assistFollowHold(ms) { followHold(ms); assistSt.holdUntil = state.followHoldUntil; }
+/** Leader: say the monster I selected (every change at once, the same every 2 s, 0 = none / dead) */
+function assistLeaderTick() {
+  if (!state.role || !leadMode() || !isLeader() || !IsCharacterReady()) return;
+  let id = 0, m = null;
+  try {
+    if (!Me.IsDead && !isHealerRole() && assistOn() && !assistOwnedMode() && !currentTownKey()) {
+      const T = Target; const tid = T ? num(T.objId) : 0;
+      if (tid) { m = mobById(tid); if (m && !m.IsDead && !(m.HpPercent !== undefined && num(m.HpPercent) <= 0) && !ignoredMob(m)) id = tid; else m = null; }
+    }
+  } catch (e) { id = 0; m = null; }
+  const E = assistSt.emit;
+  if (id === E.id && (id === 0 || now() - E.at < ASSIST.refreshMs)) return;
+  if (id === 0 && E.id <= 0) { E.id = 0; return; }
+  E.id = id; E.at = now();
+  try { App.emit('swarm.ltgt', { leader: Me.Name, id, x: m ? Math.round(num(m.X)) : 0, y: m ? Math.round(num(m.Y)) : 0, z: m ? Math.round(num(m.Z)) : 0, at: now() }); } catch (e) { }
+}
+/** Member: act on the leader's target (force = right after his event) */
+function assistMemberTick(force) {
+  if (!state.role || isLeader() || !leadMode() || !IsCharacterReady() || Me.IsDead) return;
+  const ltFresh = assistSt.lt && now() - assistSt.lt.at < ASSIST.freshMs;
+  const iss = assistSt.issued;
+  if (!ltFresh && !iss.id) return;                                     // nothing announced, nothing of mine running: no work (cheap)
+  let cur = null; try { const T = Target, tid = T ? num(T.objId) : 0; if (tid) { const m = mobById(tid); cur = { id: tid, attacking: !!Me.IsAttacking, dead: !m || !!m.IsDead || (m.HpPercent !== undefined && num(m.HpPercent) <= 0) }; } } catch (e) { }
+  const myDead = !!(iss.id && (!cur || cur.id === iss.id) && (() => { const m = mobById(iss.id); return !m || m.IsDead || (m.HpPercent !== undefined && num(m.HpPercent) <= 0); })());
+  let attacker = 0; try { if (now() - lastAttackerOnMe.at < 3000 && !lastAttackerOnMe.for) { const m = mobById(lastAttackerOnMe.id); if (m && !m.IsDead) attacker = num(m.objId); } } catch (e) { }
+  const caster = (() => { try { return casterOwnsAttacks(); } catch (e) { return false; } })();
+  const selectOnly = !caster && (noMelee() || CASTER_ROLES.test(state.role || ''));   // a caster whose L2Swarm profile fights (Hive skills OFF): select only, never melee
+  const d = assistDecide({ on: assistOn(), healer: isHealerRole() || HEALER_ROLES.test(state.role || '') || (noMelee() && !caster), blocked: assistBlocked(), attacker,
+    lt: assistLeaderView(), mates: (ltFresh && assistSt.lt.id) ? [] : assistMateAttackers(), chase: ASSIST.chase, zl: assistZl(), nextRange: ASSIST.nextRange,
+    caster, selectOnly, cur, sinceIssue: cur && cur.id === iss.id ? now() - iss.at : 1e9, reissueMs: ASSIST.reissueMs, stopDead: myDead && !!Me.IsMoving });
+  assistSt.lastWhy = d.why;
+  if (myDead && d.act !== 'keep') { assistSt.issued = { id: 0, at: 0 }; if (assistSt.holdUntil && state.followHoldUntil === assistSt.holdUntil) { state.followHoldUntil = 0; assistSt.holdUntil = 0; } }
+  if (d.act === 'stop' || (myDead && (d.act === 'attack' || d.act === 'select'))) {
+    // the monster I walked to died: never walk on to its spot; a help fight L2Swarm started around it ends (nothing hits me)
+    assistSt.stops++;
+    if (d.act === 'stop') { try { Send.StopMove(); } catch (e) { } }
+    try { if (selfDef.started && !attacker && IsInCombat) { stopCombatG(); selfDef.started = 0; } } catch (e) { }
+  }
+  if (d.act === 'attack') {
+    standUp(); srvAttack(d.id); assistSt.issued = { id: d.id, at: now() }; assistSt.n++; assistFollowHold(3000);
+    try { const m = mobById(d.id); intent('assist', `${m ? m.Name : d.id} (${d.why})`, m ? { x: m.X, y: m.Y, z: m.Z } : null); } catch (e) { }
+  } else if (d.act === 'select') {
+    if (!cur || cur.id !== d.id) { try { Send.Action(d.id); } catch (e) { } assistSt.issued = { id: d.id, at: now() }; assistSt.n++; }
+  } else if (d.act === 'keep' && !selectOnly) assistFollowHold(3000);
+}
+setInterval(() => { try { assistLeaderTick(); } catch (e) { logError('assist leader', e); } try { assistMemberTick(false); } catch (e) { logError('assist member', e); } }, ASSIST.tickMs);
+App.on('swarm.ltgt', (event) => {
+  const d = event.data || {};
+  if (!d.leader || d.leader !== CONFIG.leader || d.leader === Me.Name || isLeader()) return;
+  assistSt.lt = num(d.id) ? { id: num(d.id), x: num(d.x), y: num(d.y), z: num(d.z), at: now() } : null;
+  try { assistMemberTick(true); } catch (e) { logError('assist event', e); }
 });
 
 // ---------------------------------------------------------------------------
@@ -32419,7 +32757,7 @@ setInterval(() => {
 //  Lederen venter på buff-køen, tager gatekeeper Gludin -> Wasteland og går
 //  til CONFIG.regroup.destination; han venter på efternølere undervejs.
 // ---------------------------------------------------------------------------
-const teamAcks = {};                             // `${runId}:${action}` -> { navn: data }  (NB: "Map" er en L2Swarm-type her)
+const teamAcks = {}, teamAckAt = {};                             // `${runId}:${action}` -> { navn: data }  (NB: "Map" er en L2Swarm-type her)
 let regroupRun = null;                           // { id, reason } mens den kører
 let lastAttackerOnMe = { id: 0, at: 0 };
 
@@ -32841,6 +33179,7 @@ function invRows(need) { try { return rowsWith(hostSnap.inv(), need); } catch (e
 
 function recordAck(key, data) {
   (teamAcks[key] = teamAcks[key] || {})[data.name] = data;
+  teamAckAt[key] = now(); pruneKeys(teamAckAt, 40, (t, k) => { const old = now() - t > 3600000; if (old) delete teamAcks[k]; return old; });   // LEAK-2026-10-15: one entry per run:action, never dropped
 }
 
 function sendAck(runId, action, data) {
@@ -35315,8 +35654,12 @@ function hiveHealsOn() { return hiveSw().heals !== false; }
 function hivePotionsOn() { return hiveSw().potions !== false; }
 function hiveToggles() { hiveSw(); return HIVESW.toggles; }
 /** SUPPLYAMT: my own amounts (my level band, my party's settings) */
-/** ORE 2026-10-14: my learned skills that eat Spirit Ore (names) */
-function oreSkills() { const out = []; try { SkillsList.forEach(sk => { if (num(sk.ItemConsumeId) === 3031 && sk.IsActive !== false) out.push(String(sk.Name || sk.Id)); }); } catch (e) { } return out; }
+/** ORE 2026-10-14: my learned skills that eat Spirit Ore (names)
+ *  OREUSE-2026-10-15 (tester: "Leader is trading spirit ore to every bot in the party"): only skills the hive really CASTS count — a healer's heals
+ *  (Major Heal / Major Group Heal), cubics (cubic keeper), a summoner's own summons. Wizards' unused Summon Kat / Unicorn / Shadow, Mana
+ *  Regeneration, Erase, Turn Undead, Soul Gathering, chants ... got 300 Spirit Ore each for nothing. */
+function oreSkillUsed(name, healer, summoner) { const n = String(name || ''); if (/^Summon \w+ Cubic$/.test(n)) return true; if (healer && /Heal/i.test(n)) return true; if (summoner && /^Summon /.test(n)) return true; return false; }
+function oreSkills() { const out = []; let healer = false, summoner = false; try { healer = !!isHealerRole(); summoner = state.role === 'summoner'; } catch (e) { } try { SkillsList.forEach(sk => { if (num(sk.ItemConsumeId) === 3031 && sk.IsActive !== false && oreSkillUsed(sk.Name, healer, summoner)) out.push(String(sk.Name || sk.Id)); }); } catch (e) { } return out; }
 function supplyAmounts() {
   const S = CONFIG.lead.supply;
   const builtin = { soulshots: S.shotsFighter, spiritshots: S.shotsMage, mana: S.manaPotions || 2000, healing: S.healingPotions || 30, soe: S.soe, sor: S.sor, ore: S.oreUsers || 300 };
@@ -37439,7 +37782,7 @@ setInterval(() => {
 const raidFocus = { id: 0 };
 const minionOnMate = {};
 const bossOnOther = { at: 0, who: '' };          // the boss hits a teammate who is not the tank                         // minion objId -> { at, prio } (0 = on a healer, 1 = on another non-tank)
-App.on('swarm.attacked', (e) => { try { if (!isLeader() || state.mode !== 'raid') return; const d = e.data; if (!d || d.name === Me.Name) return; const lp = livePos[d.name] || {}; minionOnMate[d.attacker] = { at: now(), prio: lp.healer ? 0 : 1 }; { const am = mobById(d.attacker); if (am && state.bossName && String(am.Name) === state.bossName && isRaidBossMob(am)) { bossOnOther.at = now(); bossOnOther.who = d.name; } } } catch (er) { } });
+App.on('swarm.attacked', (e) => { try { if (!isLeader() || state.mode !== 'raid') return; const d = e.data; if (!d || d.name === Me.Name) return; const lp = livePos[d.name] || {}; pruneKeys(minionOnMate, 200, (h) => now() - h.at > 60000); minionOnMate[d.attacker] = { at: now(), prio: lp.healer ? 0 : 1 }; { const am = mobById(d.attacker); if (am && state.bossName && String(am.Name) === state.bossName && isRaidBossMob(am)) { bossOnOther.at = now(); bossOnOther.who = d.name; } } } catch (er) { } });
 setInterval(() => {
   if (!isLeader() || state.mode !== 'raid' || !state.bossName) return;
   if (epicCtl.on) { try { epicFocusTick(); } catch (e) { } return; }   // EPIC (2026-10-10): the phase decides the focus (EPIC-PURE epicFocusPick)
@@ -38355,7 +38698,7 @@ async function bishopLoop() {
   try { File.AppendAllText(SWARM_ROOT + '\\Logs\\swarm_errors.log', `${new Date().toISOString()} startup: ${err.stack}\r\n`); } catch (e) { }
 });
 
-globalThis.OnBeforeScriptStop = () => { state.running = false; try { l2sSkillGuard(true); } catch (e) { } };   // CAST LOOP: L2Swarm combat skills this script switched off go back on
+globalThis.OnBeforeScriptStop = () => { state.running = false; try { l2sSkillGuard(true); } catch (e) { } try { walkFlush(); } catch (e) { } };   // WALKDELTA: the unwritten cells   // CAST LOOP: L2Swarm combat skills this script switched off go back on
 
 // ---------------------------------------------------------------------------
 // KORT-KLIK LOGGER  —  når brugeren klikker på kortet: log koordinater + den sti L2Swarm selv går (20 s)

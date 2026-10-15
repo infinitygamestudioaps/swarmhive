@@ -238,6 +238,7 @@ function ltaEnv(cfg, me) {
       JSON.stringify(ws.map(w => [w.id, w.want, w.need])));
     // ORE 2026-10-14: a character whose skills eat Spirit Ore buys it (built-in 300 or the table); one without such a skill does not
     check(!g(3031).id, 'Spirit Ore: a character without a skill that eats it buys none');
+    W.env.isHealerRole = () => true;   // OREUSE-2026-10-15: only a healer's heals count
     W.env.SkillsList = { forEach: (f) => [{ Id: 1401, Name: 'Major Heal', ItemConsumeId: 3031, ItemConsumeCount: 1, IsActive: true }].forEach(f) };
     const ws2 = H2.supplyNeeds(), o2 = ws2.find(w => w.id === 3031) || {};
     check(o2.want === 300 && o2.need === 300, 'Spirit Ore: a bishop with Major Heal asks for the built-in 300', JSON.stringify(o2));

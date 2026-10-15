@@ -1,0 +1,23 @@
+// MTHELP-2026-10-15: a fight on a team route walk — members help the leader's fight instead of standing (tester video, Tank1's team)
+const fs = require('fs'), path = require('path');
+const ROOT = path.resolve(__dirname, '..', '..', '..');
+const src = fs.readFileSync(process.env.SWARM_JS || path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
+let pass = 0, fail = 0; const ok = (c, m) => { if (c) pass++; else { fail++; console.log('  FAIL ' + m); } };
+ok(src.includes("fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0"), 'the leader sends the monster he fights with the hold');
+ok(src.includes('memberRoute.fid = Number(d.fid) || 0;'), 'members store it');
+ok(src.includes("const hm = typeof mtHelpTarget === 'function' ? mtHelpTarget(memberRoute.fid) : null; if (hm) { if (now() - (m.helpAt || 0) > 1500) { m.helpAt = now(); engage(hm)"), 'a holding member engages it (throttled)');
+const blk = src.slice(src.indexOf('function mtHelpTarget(fid) {'), src.indexOf('async function mtLeashFight('));
+let T = 1e9, env;
+const mk = () => new Function('env', 'with (env) {\n' + blk + '\nreturn mtHelpTarget; }')(env);
+const mob = (o) => Object.assign({ objId: 7, X: 1000, Y: 0, Z: 0, IsDead: false, Name: 'Grave Lich' }, o);
+const base = (o) => Object.assign({ num: Number, now: () => T, Math, MTHELP_RANGE: 1800, isHealerRole: () => false, Me: { X: 0, Y: 0, Z: 0, IsDead: false }, lastAttackerOnMe: { id: 0, at: 0 }, ignoredMob: () => false, mobs: { 7: mob() }, mobById: (id) => env.mobs[id] || null }, o || {});
+env = base(); ok(mk()(7) && mk()(7).objId === 7, 'a dealer 1000 away helps');
+env = base({ isHealerRole: () => true }); ok(!mk()(7), 'a healer keeps healing');
+env = base({ mobs: { 7: mob({ X: 2500 }) } }); ok(!mk()(7), 'beyond 1800: no (stays with the route)');
+env = base({ lastAttackerOnMe: { id: 9, at: T - 1000 } }); ok(!mk()(7), 'my own attacker first');
+env = base({ lastAttackerOnMe: { id: 7, at: T - 1000 } }); ok(!!mk()(7), 'the same monster on me: helps');
+env = base({ mobs: { 7: mob({ IsDead: true }) } }); ok(!mk()(7), 'dead monster: no');
+env = base({ mobs: { 7: mob({ Z: 900 }) } }); ok(!mk()(7), 'another floor: no');
+env = base(); ok(!mk()(0), 'no fight id: no');
+console.log(`mt help: ${pass} passed, ${fail} failed`);
+process.exit(fail ? 1 : 0);

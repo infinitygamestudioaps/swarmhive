@@ -2,6 +2,36 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.3 (2026-10-15)
+
+- Gear: a one-piece armor (Full Plate Armor ...) covers the legs - the supply run no longer buys gaiters next to it (characters were left shirtless and bought a new pair every run)
+- Gear: the job decides - a tank gets a one-handed weapon + shield + heavy armor, destroyers and other heavy roles heavy armor
+- the per-class damage kit (two-handed Berserker Blade, light Theca / Plated Leather) is no longer forced on them
+- Gear: only pieces the hive bought itself are corrected
+- anything you gave, crafted or chose stays (your choice is never overruled)
+- Memory: the walk recorder no longer keeps every walked cell in memory (about 10 MB per well-travelled character, about 200 MB for a full roster) and no longer rewrites it every 30 s
+- Memory: scout trips no longer leave timers running forever (one of them also kept self-defence switched off)
+- Hand-over trades: a stale confirm from the receiver no longer makes the server refuse the rest of the items
+- the giver checks the trade window before confirming and re-adds missing items
+- Spirit Ore only for skills the hive really casts (healer heals, cubics, summoners) - wizards no longer get 300 for Summon Cat / Unicorn / Shadow
+- Team walks: members now help the leader's fight on the way instead of standing still
+- Followers react at once: the leader announces the monster he picks
+- members walk to it and attack within half a second (was 8-11 s, they only reacted after a monster hit the leader) and drop it the moment it dies instead of walking to the dead monster's spot (switch: party_tactics.json <leader>: { assist: false })
+
+## v1.7.3 (2026-10-15)
+
+- Gear: a one-piece armor (Full Plate Armor ...) covers the legs - the supply run no longer buys gaiters next to it (characters were left shirtless and bought a new pair every run)
+- Gear: the job decides - a tank gets a one-handed weapon + shield + heavy armor, destroyers and other heavy roles heavy armor
+- the per-class damage kit (two-handed Berserker Blade, light Theca / Plated Leather) is no longer forced on them
+- Gear: only pieces the hive bought itself are corrected
+- anything you gave, crafted or chose stays (your choice is never overruled)
+- Memory: the walk recorder no longer keeps every walked cell in memory (about 10 MB per well-travelled character, about 200 MB for a full roster) and no longer rewrites it every 30 s
+- Memory: scout trips no longer leave timers running forever (one of them also kept self-defence switched off)
+- Hand-over trades: a stale confirm from the receiver no longer makes the server refuse the rest of the items
+- the giver checks the trade window before confirming and re-adds missing items
+- Spirit Ore only for skills the hive really casts (healer heals, cubics, summoners) - wizards no longer get 300 for Summon Cat / Unicorn / Shadow
+- Team walks: members now help the leader's fight on the way instead of standing still
+
 ## v1.7.2 (2026-10-15)
 
 - Loot hand-over: an item now only counts as untradeable after the server refused it in 3 separate trades (v1.7.1 learned it after one refusal, so normal materials such as Suede, Thread or Animal Bone could stop being handed over) - if you updated to v1.7.1, delete Logs\notrade_live.json once

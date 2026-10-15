@@ -84,7 +84,7 @@ function world(o) {
     walkTo: async (x, y, z) => { if (o.walkFails) return false; Object.assign(Me, { X: x, Y: y, Z: z }); return true; },
     snapMobs: () => (o.mobs || []).map(m => Object.assign({ IsDead: false, HpPercent: 100, Level: 50 }, m)), Send: { StopMove() { } }, setTask() { },
     raidStatusSet: (nm, alive, s) => status.push({ nm, alive, s }), currentTownKey: () => ctx.inTown || '', useEscape: async (id, why) => { esc.push(why); ctx.inTown = 'giran'; },
-    sleep: async (ms) => { T += ms; ivs.slice().forEach(f => f()); await Promise.resolve(); }, setInterval: (f) => { ivs.push(f); return ivs.length; }, clearInterval: (i) => { ivs[i - 1] = () => { }; },
+    sleep: async (ms) => { T += ms; ivs.slice().forEach(f => f()); await Promise.resolve(); }, setInterval: (f) => { ivs.push(f); return ivs.length; }, clearInterval: (i) => { ivs[i - 1] = () => { }; }, SCHED: { clear: (i) => { if (i) ivs[i - 1] = () => { }; } },   // LEAK-2026-10-15: swarm.js stops scout jobs with SCHED.clear
     followHoldUntil: 0,
   };
   // the pure scout* + epic* functions
