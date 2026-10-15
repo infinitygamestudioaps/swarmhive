@@ -15,6 +15,10 @@
 // Idempotent: old seeded entries are replaced, live entries are never changed (only `route`, old value in `routeWas`).
 //   node docs/plan/tools/giran_shop_seed.js [--dry]
 'use strict';
+// LIVE LINK TEXTS (2026-10-15, Nuker4's live page Logs/npc_Nuker4.html): Sandra's menu is 'Buy/Sell/Refund.' | 'Buy bracelet or talisman.' |
+// 'Buy basic-type accessory.' (= the Common jewels) — NOT Denkus's 'Buy/Sell/Refund Common Items.' (copied guess; the supply run bought 0/5: 'no link').
+// Ellie stands next to her with the same dialog. Add a merchant here when its live page is known.
+const LIVE_LINKS = { 30090: { normal: 'Buy/Sell/Refund.', common: 'Buy basic-type accessory.' }, 30091: { normal: 'Buy/Sell/Refund.', common: 'Buy basic-type accessory.' } };
 const fs = require('fs'), path = require('path');
 const ROOT = process.env.SWARM_ROOT_DIR || path.join(__dirname, '..', '..', '..');
 const DATA = path.join(ROOT, 'Scripts', 'data');
@@ -67,7 +71,8 @@ function seed(opt) {
     lists.forEach(L => {
       const common = L.ids.filter(i => /^Common Item/.test(I[i].n)).length > L.ids.length / 2;
       const t = tl.find(l => l.items.some(i => /^Common Item/.test(i.name)) === common);
-      entry.lists.push({ path: t ? t.path.slice() : [common ? 'Buy/Sell/Refund Common Items.' : 'Buy/Sell/Refund.'], pathGuess: true, list: L.list,
+      const live = LIVE_LINKS[n.id] && LIVE_LINKS[n.id][common ? 'common' : 'normal'];   // the link text SEEN on the live page wins over a copied guess
+      entry.lists.push({ path: live ? [live] : t ? t.path.slice() : [common ? 'Buy/Sell/Refund Common Items.' : 'Buy/Sell/Refund.'], pathGuess: !live, list: L.list,
         items: L.ids.map(i => ({ id: i, name: I[i].n, price: Math.round((I[i].p || 0) * tax), est: 1 })) });
       L.ids.forEach(i => known.add(i));
     });

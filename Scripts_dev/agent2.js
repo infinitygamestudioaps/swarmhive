@@ -64,6 +64,23 @@ function plain(v) {
   return undefined;
 }
 function pick(o, fields) { const r = {}; for (let i = 0; i < fields.length; i++) { const f = fields[i]; let v; try { v = o[f]; } catch (e) { continue; } if (v === undefined) continue; const p = plain(v); if (p !== undefined) r[f] = p; } return r; }
+// PERF-2026-10-15 DEAD MEMBERS (owner: "fix the memory and cpu issues"; L2Swarm.exe ~53 % CPU with 59 agents): ClearScript answers a member the
+// .NET type does NOT have (L2User has no IsCasting / IsAttacking, and IsWeaponEquiped is spelled IsWeaponEquipped there) with undefined, but
+// only after its failed-member path: 350-450 us per read (AgentBench, the live L2Swarm.Core 3.8.18 + ClearScript 7.5.1) against 4-10 us for a
+// real member. fastEdges read Me.IsCasting on EVERY tick (16 a second while fast), report() IsCasting + IsAttacking, fighting() IsCasting again.
+// pick() skips undefined anyway, so the brain never got those fields: a member that read undefined is remembered as dead for Me and skipped;
+// every full report (60 s) forgets the list and probes again. Same output, no failed reads.
+const DEADME = {};
+function pickMe(fields, edge) {   // edge: a fast-edge read (counted apart in AG.hrE, so hostReads/s stays comparable with the old perf lines)
+  const o = Me, r = {}; let n = 0;
+  for (let i = 0; i < fields.length; i++) {
+    const f = fields[i]; if (DEADME[f]) continue; let v; n++;
+    try { v = o[f]; } catch (e) { continue; }
+    if (v === undefined) { DEADME[f] = 1; continue; }
+    const p = plain(v); if (p !== undefined) r[f] = p;
+  }
+  if (edge) AG.hrE = (AG.hrE || 0) + n; else AG.hr += n; return r;
+}
 function ser(v, d) {
   const p = plain(v); if (p !== undefined || v === null || v === undefined) return p === undefined ? null : p;
   if ((d || 0) > 2) return null;
@@ -409,9 +426,13 @@ function skEl(s, id) {
 // FAST EDGES (TIMING): what a cast / target / hit changes, sent the moment it changed (every tick that is no report); report() then finds
 // AG.last already up to date and does not send it twice. A marker (null / -1 / 2) set by OnMagicSkillUse / OnTargetSelected forces a re-send.
 const FAST_ME = ['IsCasting', 'HP', 'HpPercent', 'MP', 'MpPercent', 'CP'];
+const FAST_ME0 = ['IsCasting', 'HP', 'MP', 'CP'];         // PERF-2026-10-15: HpPercent / MpPercent only when HP / MP moved (a MaxHP-only change goes with the next report)
 function fastEdges() {
   const msg = { t: 'st' }; let n = 0;
-  const me = pick(Me, FAST_ME), d = diffObj(AG.last.me, me); if (d) { msg.me = d; n++; }
+  const me = pickMe(FAST_ME0, true);
+  if (me.HP !== undefined && me.HP !== AG.last.me.HP) Object.assign(me, pickMe(['HpPercent'], true));
+  if (me.MP !== undefined && me.MP !== AG.last.me.MP) Object.assign(me, pickMe(['MpPercent'], true));
+  const d = diffObj(AG.last.me, me); if (d) { msg.me = d; n++; }
   let at = false; try { at = !!IsAttacking; } catch (e) { at = !!AG.last.fl.IsAttacking; }
   if (AG.last.fl.IsAttacking !== at) { AG.last.fl.IsAttacking = at; msg.fl = { IsAttacking: at }; n++; }
   let tg = AG.last.tgt; try { tg = Target ? num(Target.objId) : 0; } catch (e) { }
@@ -419,7 +440,7 @@ function fastEdges() {
   if (n) { AG.fastSent++; agSend(msg); }
 }
 /** I am fighting (party HP + monsters every report instead of every 2nd) */
-function fighting() { try { return !!IsAttacking || !!Me.IsInCombat || !!Me.IsCasting; } catch (e) { return false; } }
+function fighting() { try { return !!IsAttacking || !!Me.IsInCombat || (!DEADME.IsCasting && !!Me.IsCasting); } catch (e) { return false; } }   // PERF-2026-10-15: no failed read of a dead member
 function snapArr(coll) {
   try { if (coll && typeof coll.snapshotJson === 'function') return JSON.parse(coll.snapshotJson()); } catch (e) { }
   try { if (coll && typeof coll.SnapshotJson === 'function') return JSON.parse(coll.SnapshotJson()); } catch (e) { }
@@ -439,8 +460,16 @@ const KIND = { Char: 0, Npc: 1, Mob: 2, Summon: 3 };
 // ticks took 3-6 s (agent_slow.log 18:40-19:20: 'cr=3000-6400 ms' in 98 % of the slow ticks), orders waited for those ticks and casts got
 // 'no answer'. Now: the same values without a single read. Bench (field, 60 monsters): creature job 87 ms -> ~4 ms.
 const CR_CAP = { box: 3000 };                          // kept for old readers; nothing reads creatures live any more
-function creatures() {
-  let arr = snapArr(CreaturesList); AG.hr++;
+/** the creature snapshot TEXT (one host call), or null = no snapshot in this L2Swarm (PERF-2026-10-15: JOBS.cr compares it with the last one) */
+function crRaw() {
+  const c = CreaturesList;
+  try { if (c && typeof c.snapshotJson === 'function') return String(c.snapshotJson()); } catch (e) { }
+  try { if (c && typeof c.SnapshotJson === 'function') return String(c.SnapshotJson()); } catch (e) { }
+  return null;
+}
+function creatures(raw) {
+  let arr = null; if (typeof raw === 'string') { try { arr = JSON.parse(raw); } catch (e) { arr = null; } }
+  if (!arr) { arr = snapArr(CreaturesList); AG.hr++; }
   if (!arr) { arr = []; try { CreaturesList.forEach(o => { const r = pick(o, 'objId Id Name X Y Z HP MaxHP HpPercent MP MaxMP MpPercent Level IsDead Title IsInCombat ClassId IsSpoiled IsSitting'.split(' ')); AG.hr += 20; let t = 3; try { const s = String(o.crtType); t = KIND[s] !== undefined ? KIND[s] : num(o.crtType); } catch (e) { } r.crtType = t; arr.push(r); }); } catch (e) { } }
   // L2Swarm 3.8.10+ snapshotJson lacks a few fields swarm.js reads on monsters / players near me (DESIGN.md §2.2): read them from the live object
   const sup = arr.length && !('IsStunned' in arr[0]), supT = arr.length && !('TargetObjId' in arr[0]);
@@ -466,7 +495,7 @@ function storeTypes() {
   if (now() - STORE.at < 15000) return STORE.map;
   STORE.at = now(); const m = {};
   try { CharList.forEach(o => { let v = ''; try { const t = o.StoreType; v = String(t && t.ToString ? t.ToString() : (t === undefined || t === null ? '' : t)); } catch (e) { } AG.hr++; if (v && v !== 'NONE' && v !== '0') m[num(o.objId)] = v; }); } catch (e) { }
-  STORE.map = m; return m;
+  STORE.map = m; return m;   // (PERF-2026-10-15: JOBS.cr's same-snapshot shortcut only runs while this map cannot refresh: STORE.at < 15 s)
 }
 function section(name, build, msg, force) {
   let v; try { v = build(); } catch (e) { return; }
@@ -483,7 +512,10 @@ function skElId(id, row) {
   return e;
 }
 const ME_FAST = 'X Y Z HP MaxHP HpPercent MP MaxMP MpPercent CP MaxCP IsDead IsCasting IsInCombat IsAttacking IsSitting IsMoving IsRunning Heading IsStunned IsSleeping IsParalyzed IsOutOfControl'.split(' ');
-const ME_SLOW = ME_FIELDS.filter(f => ME_FAST.indexOf(f) < 0);   // Name, level, class, exp, stats, hennas, load, ...: once a second (every 4th report)
+const ME_SLOW = ME_FIELDS.filter(f => ME_FAST.indexOf(f) < 0);
+const ME_CORE = 'X Y Z HP HpPercent MP MpPercent CP IsDead IsCasting IsInCombat IsSitting IsMoving'.split(' ');   // PERF-2026-10-15: what an asleep report reads every second
+/** a skill of mine is on cooldown (or my cast just marked one): readiness is checked on every report then, asleep too */
+function skrPending() { const s = AG.last.skr; for (const k in s) if (s[k] !== 1) return true; return false; }   // Name, level, class, exp, stats, hennas, load, ...: once a second (every 4th report)
 function partyRows() {
   let a = null; try { if (typeof PartyList.SnapshotJson === 'function') a = JSON.parse(PartyList.SnapshotJson()); } catch (e) { a = null; } AG.hr++;
   if (!a || !a.length || !a.every(p => p && p.objId !== undefined)) a = snapArr(PartyList);   /* 2026-10-12: SnapshotJson (what swarm.js reads in L2Swarm) carries objId; the healers' Recharge/heal targets had no id */
@@ -508,14 +540,19 @@ const JOBS = {
     const b = []; BuffsList.forEach(x => { const r = pick(x, BUFF_FIELDS); AG.hr += BUFF_FIELDS.length; r.RemainTime = Math.round(num(r.RemainTime) / 5) * 5; b.push(r); }); return b;
   }, msg, force),
   cr: (msg, force) => {                               // creatures every 2nd report (500 ms); every report (250 ms) while I fight (TIMING: monster HP / TargetObjId)
-    const cur = creatures(), prev = AG.last.cr, set = [], upd = [], del = [];
+    // PERF-2026-10-15: the same snapshot text as last time (nobody moved, no HP changed: idle in a quiet place) = the same rows = nothing to
+    // send; the parse + the per-creature diff (2-10 ms for 80-340 creatures) are skipped. Not when the StoreType map would refresh in this run.
+    const raw = crRaw(); AG.hr++;
+    if (!force && raw !== null && raw === AG.last.crRaw && now() - STORE.at < 15000) return;
+    AG.last.crRaw = raw;
+    const cur = creatures(raw), prev = AG.last.cr, set = [], upd = [], del = [];
     for (const id in cur) { const p = prev[id]; if (!p) { set.push(cur[id]); continue; } const d = diffObj(p, cur[id]); if (d) upd.push([num(id), d]); }
     for (const id in prev) if (!cur[id]) del.push(num(id));
     if (force) msg.cr = { all: true, set: Object.keys(cur).map(k => cur[k]) };
     else if (set.length || upd.length || del.length) msg.cr = { set, upd, del };
     const keep = {}; for (const id in cur) keep[id] = prev[id] && !force ? prev[id] : Object.assign({}, cur[id]); AG.last.cr = keep;
   },
-  meSlow: (msg) => { const me = pick(Me, ME_SLOW); AG.hr += ME_SLOW.length; const d = diffObj(AG.last.me, me); if (d) msg.me = Object.assign(msg.me || {}, d); },
+  meSlow: (msg) => { const me = pickMe(ME_SLOW); const d = diffObj(AG.last.me, me); if (d) msg.me = Object.assign(msg.me || {}, d); },
   clan: (msg, force) => { try { const c = Me.Clan; AG.hr += 6; const cid = num(c && (c.Id || c.ClanId)); const cl = c ? { Id: cid, Name: plain(c.Name), Level: num(c.Level), ClanId: cid, AllyName: plain(c.AllyName) } : null; /* #12: swarm.js reads Me.Clan.Id */ const s = JSON.stringify(cl); if (force || s !== AG.last.clan) { AG.last.clan = s; (msg.me = msg.me || {}).Clan = cl; } } catch (e) { } },
   inv: (msg, force) => { AG.invDirty = false; const pi = AG.last.sec.inv; section('inv', invRows, msg, force); if (msg.inv) { if (AG.last.sec.inv !== pi) AG.invVer++; msg.iv = AG.invVer; } },   // a bag change goes out with the next report (250 ms)
   skills: (msg, force) => {                           // full objects only when the list (id/level) changed; readiness as the small skr diff
@@ -553,23 +590,36 @@ function report() {
   const t0 = Date.now(); AGCUR.w = 'report me';
   // Me + flags + target FIRST (AGENTPERF): on a full report they leave at once in their own message, so the brain is ready
   // (IsCharacterReady: me.objId / Name / ClassId + fl.IsConnected) whatever the heavy sections cost
-  if (full) { const me = pick(Me, ME_FIELDS); AG.hr += ME_FIELDS.length; AG.last.me = Object.assign({}, me); msg.me = me; msg.full = true; }
-  else { const me = pick(Me, ME_FAST); AG.hr += ME_FAST.length; const d = diffObj(AG.last.me, me); if (d) msg.me = d; }
-  const fl = { IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsEnabled: !!IsEnabled, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting, IsPartyLeader: !!IsPartyLeader,
-    IsInParty: !!IsInParty, IsFollowModeOn: !!IsFollowModeOn, IsFollowMaster: !!IsFollowMaster, CurrentZone: plain(CurrentZone) }; AG.hr += 10;
+  // PERF-2026-10-15 ASLEEP (mode sleep: 60 s without an order / event / fight / walk; one report every 2 s): every report reads only what can
+  // change on its own while nothing happens (position, HP / MP / CP regeneration, dead, combat, sitting) + the 4 core flags + the target; every
+  // 2nd asleep report (4 s) reads the whole fast set as before. Anything that matters wakes the agent (an order, an attack on me, my cast,
+  // a teleport, a dialog, moving > 40, a fight) and the next report is a normal one. Awake (fast / calm) nothing changed.
+  const asleep = AG.mode === 'sleep' && !full; AG.slp = asleep ? (AG.slp || 0) + 1 : 0; const sk = AG.slp, deep = !asleep || sk % 2 === 0;
+  if (full) { for (const k in DEADME) delete DEADME[k]; const me = pickMe(ME_FIELDS); AG.last.me = Object.assign({}, me); msg.me = me; msg.full = true; }   // a full report probes the dead members again
+  else { const me = pickMe(deep ? ME_FAST : ME_CORE); const d = diffObj(AG.last.me, me); if (d) msg.me = d; }
+  const fl = deep ? { IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsEnabled: !!IsEnabled, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting, IsPartyLeader: !!IsPartyLeader,
+    IsInParty: !!IsInParty, IsFollowModeOn: !!IsFollowModeOn, IsFollowMaster: !!IsFollowMaster, CurrentZone: plain(CurrentZone) } : { IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting }; AG.hr += deep ? 10 : 4;
   if (full) { AG.last.fl = Object.assign({}, fl); msg.fl = fl; } else { const d = diffObj(AG.last.fl, fl); if (d) msg.fl = d; }
   let tg = 0; try { tg = Target ? num(Target.objId) : 0; } catch (e) { } AG.hr += 2;
   if (full || tg !== AG.last.tgt) { msg.tgt = tg; AG.last.tgt = tg; }
   if (full) { AG.myId = num(msg.me && msg.me.objId); { const nx = num(msg.me && msg.me.X), ny = num(msg.me && msg.me.Y), p = AG.movePt; if (p && Math.abs(nx - p.x) + Math.abs(ny - p.y) > 40) wake('moving'); AG.movePt = { x: nx, y: ny }; }   /* a move seen by a full report counts too */ JOBS.clan(msg, true); AG.full = false; AG.lastFull = now(); agSend(msg); msg = { t: 'st', seq: AG.rep }; recalibrate(); }
   { const ms = Date.now() - t0; if (ms >= 3) AG.tp.me = ms; }
-  const fight = fighting(); AG.hr += 3; const r = AG.rep;
+  const fight = !!AG.last.fl.IsAttacking || !!AG.last.me.IsInCombat || !!AG.last.me.IsCasting; const r = AG.rep;   // PERF-2026-10-15: = fighting(), from the values just read (IsAttacking flag, Me.IsInCombat, Me.IsCasting), no second read
   if (msg.me && msg.me.objId !== undefined) AG.myId = num(msg.me.objId);
   if (fight) wake('fight'); else if (!full && msg.me && (msg.me.X !== undefined || msg.me.Y !== undefined)) { const mx = num(AG.last.me.X), my = num(AG.last.me.Y), p = AG.movePt || (AG.movePt = { x: mx, y: my }); if (Math.abs(mx - p.x) + Math.abs(my - p.y) > 40) { AG.movePt = { x: mx, y: my }; wake('moving'); } }   // TICKMODE: fighting / moving (> 40 units: no wake on position jitter) = fast ticks
-  const due = {
+  // PERF-2026-10-15 ASLEEP cadence (reports are 2 s apart): skill readiness every 4 s (every report while a cooldown runs), party every 2 s,
+  // buffs / creatures every 4 s, the bag every 8 s (a bag change at once, as before: OnInventoryUpdate -> the next 1 s tick), slow Me fields
+  // every 12 s, clan every 48 s, the rest (skills list, drops, buy list, pets, watched Options, quests, LastHTML) every 8 s. Was: a report every
+  // second with the awake cadence counted in reports (creatures / party / buffs every 2 s, the rest every 4 s): ~55 host reads a second idle.
+  const due = asleep ? {
+    skr: sk % 2 === 0 || skrPending(), party: true, buffs: sk % 2 === 1, cr: sk % 2 === 0 || fight,
+    meSlow: sk % 6 === 3, clan: sk % 24 === 5, inv: sk % 4 === 3 || AG.invDirty,
+  } : {
     skr: !full, party: full || r % 2 === 1 || fight, buffs: full || r % 2 === 1 || fight, cr: full || r % 2 === 0 || fight,
     meSlow: !full && r % 4 === 0, clan: !full && r % 24 === 0, inv: full || r % 4 === 0 || AG.invDirty,
   };
-  JOB_ORDER.forEach(k => { if (due[k] !== undefined ? due[k] : (full || r % 4 === 0)) queueJob(k, full); });
+  const dflt = asleep ? sk % 4 === 1 : (full || r % 4 === 0);
+  JOB_ORDER.forEach(k => { if (due[k] !== undefined ? due[k] : dflt) queueJob(k, full); });
   runPend(msg);
 }
 
@@ -659,8 +709,8 @@ function perfLine() {
   if (sec < 300) return;
   let nm = ''; try { nm = String(Me.Name || ''); } catch (e) { }
   const line = new Date(t).toISOString() + ' [' + nm + '] perf ticks=' + P.ticks + ' avgMs=' + (P.ticks ? Math.round(P.ms / P.ticks) : 0) + ' maxMs=' + P.max +
-    ' hostReads/s=' + Math.round((AG.hr - P.hr) / sec) + ' deferred=' + (AG.deferred - P.def) + ' pend=' + AG.pend.length + ' sent=' + AG.sent + ' mode=' + AG.mode + ' modeSec=' + modeSecs() + ' rearms=' + AG.rearms + ' lat[p50/p95/max ms]=' + latSum() + ' push=' + (AG.pushOff ? 'off:' + AG.pushErr.replace(/s/g, '_') : AG.push ? 'on:' + AG.pushN : 'no') + ' wakes=' + wakeSum();
-  AG.ps = { at: t, ticks: 0, ms: 0, max: 0, hr: AG.hr, def: AG.deferred };
+    ' hostReads/s=' + Math.round((AG.hr - P.hr) / sec) + ' edgeReads/s=' + Math.round(((AG.hrE || 0) - (P.hrE || 0)) / sec) + ' deferred=' + (AG.deferred - P.def) + ' pend=' + AG.pend.length + ' sent=' + AG.sent + ' mode=' + AG.mode + ' modeSec=' + modeSecs() + ' rearms=' + AG.rearms + ' lat[p50/p95/max ms]=' + latSum() + ' push=' + (AG.pushOff ? 'off:' + AG.pushErr.replace(/s/g, '_') : AG.push ? 'on:' + AG.pushN : 'no') + ' wakes=' + wakeSum();
+  AG.ps = { at: t, ticks: 0, ms: 0, max: 0, hr: AG.hr, hrE: AG.hrE || 0, def: AG.deferred };
   try { File.AppendAllText(__DIR__ + String.fromCharCode(92) + 'Logs' + String.fromCharCode(92) + 'agent_perf.log', line + String.fromCharCode(13, 10)); } catch (e) { }
   try { if (AG.st) agSend({ t: 'log', text: line.slice(line.indexOf('perf')) }); } catch (e) { }
 }
@@ -673,7 +723,9 @@ function perfLine() {
 // Any brain order (read on the next tick: <= 250 ms calm, <= 1 s asleep) or such an event switches to fast AT ONCE (events re-arm the
 // interval from their handler). Creatures go every 2nd report, party / buffs every 2nd, the rest every 4th, as before (so asleep: creatures 2 s,
 // the bag 4 s unless it changed: OnInventoryUpdate queues it for the next tick). Fast edges (HP/MP/cast/target) still go out on every tick.
-const TMODE = { fast: { ms: 62, rep: 4 }, calm: { ms: 250, rep: 2 }, sleep: { ms: 1000, rep: 1 } };
+// PERF-2026-10-15: asleep = a tick a second (orders / events / a bag change / the fast edges HP-MP-CP-target still every second) and a report
+// every 2nd tick (was every tick); the report cadences below are counted in those 2 s reports.
+const TMODE = { fast: { ms: 62, rep: 4 }, calm: { ms: 250, rep: 2 }, sleep: { ms: 1000, rep: 2 } };
 AG.wk = {}; AG.mode = 'fast'; AG.sinceRep = 0; AG.actAt = Date.now(); AG.myId = 0; AG.timerId = null; AG.rearms = 0; AG.modeMs = { fast: 0, calm: 0, sleep: 0 }; AG.modeAt = Date.now();
 function rearm(mode) {
   const t = now(); AG.modeMs[AG.mode] = (AG.modeMs[AG.mode] || 0) + (t - AG.modeAt); AG.modeAt = t;
@@ -703,7 +755,7 @@ function orderWake(m) {
 }
 function tickMode() {
   const idle = now() - AG.actAt;
-  const want = (AG.full || AG.pend.length || AG.invDirty || idle < 10000) ? 'fast' : idle < 60000 ? 'calm' : 'sleep';
+  const want = (AG.full || (AG.pend.length && AG.mode !== 'sleep') || AG.invDirty || idle < 10000) ? 'fast' : idle < 60000 ? 'calm' : 'sleep';   // PERF-2026-10-15: asleep, report jobs a slow tick left over run on the next 1 s tick (no fast-tick round trip + re-arm)
   if (want !== AG.mode) rearm(want);
 }
 function agTick() {

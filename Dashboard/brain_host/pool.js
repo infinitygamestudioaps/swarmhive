@@ -40,7 +40,7 @@
 //   - MEMORY GUARD (--max-rss-mb N [--mem-restart]): above N MB an ALERT; with --mem-restart the worker with the biggest heap is restarted,
 //     never a party with a live fight (at most once per 10 min), and only when it stands out (heap >= 2x the median of the other workers or
 //     >= N/2: a leak). A pool that is big because of its real load only gets the alert (restarting would free nothing). (review 2026-10-12)
-// CLI: node Dashboard/brain_host/pool.js --port 8095 --allow A,B,C | --allow-all  [--bridge] [--shared-parse] [--geopath] [--stall-ms 8000]
+// CLI: node Dashboard/brain_host/pool.js --port 8095 --allow A,B,C | --allow-all  [--bridge] [--no-shared-parse (shared parse is ON by default since 2026-10-15)] [--geopath] [--stall-ms 8000]
 //      [--cb-timeout ms] [--verbose] [--script Scripts/swarm.js] [--watch-script [5000]] [--config file] [--roster swarm.config.json] [--stats-file file] [--max-rss-mb N] [--mem-restart]
 //      (as a child process with IPC: answers {k:'stats'} / {k:'st'} / {k:'health'} / {k:'reload'} / {k:'revive'} / {k:'eval'} (with --test-eval))
 'use strict';
@@ -446,7 +446,7 @@ class Pool {
       const out = { at: new Date(t).toISOString(), pid: s.pid, port: this.o.port, rssMb, heapMb: Math.round(s.mem.heapUsed / 1048576), st: s.st, script: this.srcHash || '',
         allow: this.o.allow, quarantined: Array.from(this.quarantined).map(n => ({ name: n, until: this.quarUntil.has(n) ? new Date(this.quarUntil.get(n)).toISOString() : null })),
         alerts: this.alerts.slice(-20), restarts: Array.from(this.fails.entries()).map(([p, a]) => ({ party: p, last2min: a.filter(x => t - x < 120000).length })),
-        mainLag: this.mainLag(), workers: s.workers.map(w => ({ party: w.party, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), lag: w.lag || null, hot: w.hot || 0, contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
+        mainLag: this.mainLag(), workers: s.workers.map(w => ({ party: w.party, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), lag: w.lag || null, hot: w.hot || 0, vfsMb: w.vfsMb, shared: w.shared, contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
         missingWorkers: Array.from(this.workers.values()).filter(W => !W.dead && !s.workers.some(w => w.party === W.party)).map(W => W.party) };
       this.memGuard(rssMb, out); this.lagLog(out);
       if (this.o.statsFile) { const tmp = this.o.statsFile + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(out)); fs.renameSync(tmp, this.o.statsFile); }
@@ -471,6 +471,9 @@ class Pool {
   /** ENGINELAT live switches from brain_host.json: "agentPush": true | [names] (orders pushed to the agent by its async read), "partyHot": false
    *  turns the fight hint off. Sent to every worker now; new workers get them in their runner options. */
   applyAgentCfg(j) {
+    // PERF-2026-10-15 kill switch: "sharedParse": false in brain_host.json = workers started from now on (restart / reload / new party) parse
+    // their own copies again (the old way); the running ones keep what they have until they restart
+    if (typeof j.sharedParse === 'boolean' && this.o.runner && this.o.runner.sharedParse !== j.sharedParse) { this.o.runner = Object.assign({}, this.o.runner, { sharedParse: j.sharedParse }); this.log(`shared parse ${j.sharedParse ? 'ON' : 'OFF'} for workers started from now on (brain_host.json "sharedParse")`); }
     const push = j.agentPush === true ? true : Array.isArray(j.agentPush) ? j.agentPush.map(String) : false, hot = j.partyHot !== false;
     const sig = JSON.stringify([push, hot]); if (sig === this.agentCfgSig) return; this.agentCfgSig = sig;
     this.o.runner = Object.assign({}, this.o.runner || {}, { agentPush: push, partyHot: hot });
@@ -597,7 +600,7 @@ if (require.main === module) {
     watchScriptMs: a.includes('--watch-script') ? (Number(opt('--watch-script', '')) || 5000) : 0,
     configFile: opt('--config', null) ? path.resolve(opt('--config')) : null, rosterFile: opt('--roster', null) ? path.resolve(opt('--roster')) : null, statsFile: opt('--stats-file', null) ? path.resolve(opt('--stats-file')) : null,
     maxRssMb: Number(opt('--max-rss-mb', 0)) || 0, memRestart: a.includes('--mem-restart'),
-    runner: { sharedParse: a.includes('--shared-parse'), bridge: a.includes('--bridge'), cbTimeoutMs: Number(opt('--cb-timeout', 0)) || 0, allowProcess: a.includes('--allow-process') } });
+    runner: { sharedParse: !a.includes('--no-shared-parse'),   /* PERF-2026-10-15: on by default (big Scripts\data datasets parsed once per party worker; --no-shared-parse = the old private copies) */ bridge: a.includes('--bridge'), cbTimeoutMs: Number(opt('--cb-timeout', 0)) || 0, allowProcess: a.includes('--allow-process') } });
   pool.start().then(() => { if (process.send) process.send({ k: 'listening', port: pool.o.port }); }).catch(e => { console.error(e.message); process.exit(2); });
   if (process.send) process.on('message', async (m) => {
     if (m.k === 'stats') process.send({ k: 'stats', id: m.id, v: await pool.stats() });

@@ -20,6 +20,7 @@ const NAME_RE = /^[A-Za-z0-9_\-]{1,40}$/;
 const SEAL = { 6360: 'blue', 6361: 'green', 6362: 'red' };
 const CHANGE_UTC_HOUR = 18, CHECK_EVERY_MS = 6 * 3600e3;   // = swarm.js CONFIG.sevenSigns.changeUtcHour / checkEveryMs
 
+const SSL = require('./sslogic');   // SSREASON-2026-10-15: the bots' gate + its one-sentence reason
 let G = null;
 function guard(ctx) { if (!G) G = require(path.join(ctx.ROOT, 'docs', 'plan', 'tools', 'manual_guard.js')); return G; }
 const cfgFile = (ctx) => process.env.SWARM_SEVENSIGNS_FILE || ctx.sevenSignsFile || path.join(ctx.DATA, 'seven_signs.json');
@@ -100,9 +101,18 @@ function info(ctx, tNow) {
     return { name: n, level: s.level != null ? Number(s.level) : null, cls: s.cls || '', classId: s.classId != null ? Number(s.classId) : null, online: s.ageSec != null && s.ageSec <= 90, ageSec: s.ageSec != null ? s.ageSec : null,
       enrolled: !!via, via, registered: sideOf(r, cur.cycle), status: r.cycle === cur.cycle ? (r.status || '') : '', recCycle: r.cycle || '', tries: r.cycle === cur.cycle ? (r.tries || 0) : 0,
       at: r.at || 0, signedAt: r.signedAt || 0, skipped: r.skipped || '', skipAt: r.skipAt || 0, denied: r.denied || null, stonesGiven: r.stonesGiven || 0,
-      allowed: v.ok === undefined ? null : !!v.ok, why: v.why || '', viewAt: v.at || 0, stones };
+      allowed: v.ok === undefined ? null : !!v.ok, why: v.why || '', reason: v.reason || '', viewAt: v.at || 0, stones, _rec: r, _classId: s.classId != null ? Number(s.classId) : (r.classId != null ? Number(r.classId) : null) };
   };
-  const P = parties(ctx).map(({ leader, names }) => ({ leader, enrolled: (cfg.parties || []).some(x => String(x).toLowerCase() === String(leader).toLowerCase()), members: names.map(n => member(n, leader)) }));
+  // SSREASON-2026-10-15: the party's catacomb / necropolis gate in the bot's own words (Dashboard/sslogic.js = swarm.js SSGATE-PURE + ssTeamAllowed)
+  const spots = (ctx.readJson(path.join(ctx.DATA, 'party_spots.json'), null) || {}).spots || {};
+  const gateOf = (leader, mem) => {
+    const e = spots[leader], consent = !!(e && e.mode === 'manual' && /necropolis|catacomb/i.test(String(e.dungeon || e.spot || e.rooms || '')));   // = swarm.js ssChosenDungeon
+    const one = (kind) => { const g = SSL.partyGate({ state: state || {}, members: mem.map(m => ({ name: m.name, rec: m._rec, classId: m._classId })), party: leader, kind, optin: cfg, consent, t }); return { state: g.state, ok: !!g.ok, reason: g.reason, until: g.until ? new Date(g.until).toISOString() : '' }; };
+    const c = one('catacomb'), n = one('necropolis');
+    return { catacomb: c, necropolis: n, same: c.reason === n.reason, consent };
+  };
+  const P = parties(ctx).map(({ leader, names }) => { const mem = names.map(n => member(n, leader)), gate = gateOf(leader, mem); mem.forEach(m => { delete m._rec; delete m._classId; });
+    return { leader, enrolled: (cfg.parties || []).some(x => String(x).toLowerCase() === String(leader).toLowerCase()), members: mem, gate }; });
   return { file: path.basename(cfgFile(ctx)), exists: !!R.exists, rev: R.rev, broken: R.broken || null,
     cfg: { parties: Array.isArray(cfg.parties) ? cfg.parties : [], chars: Array.isArray(cfg.chars) ? cfg.chars : [], contributeStones: cfg.contributeStones === undefined ? true : !!cfg.contributeStones },
     state, cur: Object.assign({}, cur, { nextChange: new Date(cur.nextChange).toISOString() }), parties: P, log: logTail(path.join(ctx.LOGS, 'dawn.log'), 40) };

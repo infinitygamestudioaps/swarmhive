@@ -1,0 +1,57 @@
+/* OUR CRAFTER panel (CRAFTER-2026-10-15): Storage page box "Our crafter" + the party settings line (Dashboard/crafterpanel.js). Phone first. */
+.crf-card { border: 1px solid rgba(200, 170, 110, .25); border-radius: 8px; padding: 10px; margin: 8px 0; display: grid; gap: 8px; min-width: 0; }
+.crf-closed { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.crf-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.crf-top b { font-size: 1.05em; }
+.crf-pill { margin-left: auto; padding: 1px 8px; border-radius: 10px; font-size: .85em; border: 1px solid currentColor; }
+.crf-pill.on { color: #7fd47f; } .crf-pill.off { color: #aaa; }
+.crf-state { line-height: 1.35; overflow-wrap: anywhere; }
+.crf-sw { display: flex; gap: 8px; align-items: flex-start; cursor: pointer; line-height: 1.35; }
+.crf-sw input { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 1px; }
+.crf-f { display: grid; gap: 4px; }
+.crf-f select { min-height: 36px; max-width: 220px; }
+.crf-chips { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.crf-chips label { display: flex; gap: 6px; align-items: center; min-height: 32px; }
+.crf-chips input { width: 18px; height: 18px; }
+.crf-tbl { display: grid; gap: 2px; font-size: .95em; }
+.crf-tr { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, .8fr) minmax(0, 1fr); gap: 4px 8px; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.crf-tr > span:nth-child(4) { grid-column: 1 / -1; }
+.crf-th { font-weight: bold; opacity: .8; }
+.crf-th > span:nth-child(4) { display: none; }
+.crf-tr input { width: 100%; min-height: 34px; box-sizing: border-box; }
+.crf-note { color: #c9b98f; font-size: .9em; overflow-wrap: anywhere; }
+.crf-note:empty { display: none; }
+.crf-mats { line-height: 1.6; overflow-wrap: anywhere; }
+.crf-hint { font-size: .9em; }
+.crf-more summary { cursor: pointer; min-height: 32px; line-height: 32px; }
+.crf-lims { display: grid; gap: 6px; }
+.crf-lims label { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.crf-lims input[type=number] { width: 110px; min-height: 34px; }
+.crf-last { margin: 4px 0 0 18px; padding: 0; }
+.crf-acts { display: flex; flex-wrap: wrap; gap: 6px; }
+.crf-acts .uk-btn { min-height: 40px; }
+.crf-pline { display: grid; gap: 4px; padding: 6px 0; }
+@media (min-width: 700px) {
+  .crf-tr { grid-template-columns: minmax(0, 1.4fr) minmax(0, .7fr) minmax(0, .9fr) minmax(0, 2.4fr); }
+  .crf-tr > span:nth-child(4) { grid-column: auto; }
+  .crf-th > span:nth-child(4) { display: block; }
+}
+/* CRAFTER ITEMS (CRAFTITEMS-2026-10-15): crystallize, recipes in the bag, give items to the crafter */
+.crf-items { display: grid; gap: 4px; border-top: 1px solid rgba(200, 170, 110, .2); padding-top: 6px; }
+.crf-sub { font-weight: bold; opacity: .85; }
+.crf-items .crf-f { margin: 6px 0; }
+.crf-list { display: grid; gap: 2px; max-height: 360px; overflow-y: auto; overscroll-behavior: contain; margin: 6px 0; }
+.crf-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; padding: 6px 2px; border-bottom: 1px solid rgba(255, 255, 255, .06); min-height: 36px; }
+.crf-item input[type=checkbox] { width: 20px; height: 20px; }
+.crf-item.off { opacity: .6; }
+.crf-in { overflow-wrap: anywhere; }
+.crf-ig { font-size: .9em; color: #c9b98f; white-space: nowrap; }
+.crf-iw { grid-column: 2 / -1; font-size: .85em; color: #d9a07a; overflow-wrap: anywhere; }
+div.crf-item { grid-template-columns: minmax(0, 1fr) auto; }
+div.crf-item .crf-iw { grid-column: 1 / -1; }
+div.crf-item .uk-btn { grid-column: 1 / -1; justify-self: start; min-height: 36px; }
+.crf-items select { min-height: 38px; max-width: 100%; }
+.crf-danger { background: #7a1f1f !important; color: #fff !important; border-color: #b33 !important; }
+.crf-danger[disabled] { opacity: .5; }
+@media (min-width: 700px) { div.crf-item { grid-template-columns: minmax(0, 1fr) auto auto; } div.crf-item .uk-btn { grid-column: auto; } }
+.crf-items .crf-more summary { line-height: 1.35; padding: 6px 0; min-height: 36px; }

@@ -100,7 +100,7 @@ parentPort.on('message', (m) => {
     }
     case 'stats': {
       const r = runner.report(), h = v8.getHeapStatistics(), elu = performance.eventLoopUtilization(lastElu); lastElu = performance.eventLoopUtilization();
-      post({ k: 'stats', id: m.id, party: W.party, heapUsed: h.used_heap_size, heapTotal: h.total_heap_size, elu: elu.utilization, lag: eldMs(), hot: r.st.hot || 0, st: r.st, bus: r.bus,
+      post({ k: 'stats', id: m.id, party: W.party, heapUsed: h.used_heap_size, heapTotal: h.total_heap_size, elu: elu.utilization, lag: eldMs(), hot: r.st.hot || 0, st: r.st, bus: r.bus, vfsMb: +((runner.vfs.st.bytesCached || 0) / 1048576).toFixed(1), shared: { files: runner.shared ? runner.shared.size : 0, hits: r.st.sharedHits || 0, parses: r.st.sharedParses || 0 },   /* PERF-2026-10-15 */
         contexts: r.contexts.map(c => ({ name: c.name, booted: c.booted, connected: c.connected, timers: c.timers, title: c.title })), missing: Array.from(r.missing.entries()), errors: Array.from(r.errors.entries()) });
       break;
     }

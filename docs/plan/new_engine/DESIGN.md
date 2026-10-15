@@ -126,6 +126,11 @@ The full per-name table is `host_api.md` (§1 "shim" column, §5 coverage). Summ
 
 - swarm.js is compiled once (`vm.Script`) and run in every context: the bytecode is shared.
 - `File.ReadAllText` hands every context the **same string** for an unchanged file (vfs cache by path + mtime + size, 64 MB cap).
+- **2026-10-15 (PERF, AUTOMATION_LOG "CPU + RAM"):** the pool turns `sharedParse` ON by default (`--no-shared-parse` / brain_host.json
+  `"sharedParse": false` = off); v2 shares only files under `Scripts\data\` (keyed by path + mtime + size, the vfs hands the runner each text
+  >= 100 KB it reads), the entries are WeakRefs (an object nobody holds any more is freed; the old map kept every text + object forever). The vfs
+  read cache is 16 MB LRU per worker, files > 2 MB not cached. Broadcast App events go into L2Swarm (bridge) only while a swarm.js engine runs
+  there (seen by its own 'ap' events within 2 min). Options writes equal to the mirrored value are not sent again.
 - `sharedParse` (runner option, off by default): a context's `JSON.parse` of a text >= 100 KB returns ONE parsed object shared by all
   contexts. It only pays off when swarm.js never mutates parsed data; the memory test hashes every shared object after the run and reports
   mutations. Without it each context parses its own copy, exactly like today.

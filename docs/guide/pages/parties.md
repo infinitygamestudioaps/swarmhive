@@ -310,6 +310,10 @@ of your zones or a datapack spot. Your choice wins over the automatic pick until
 Further chips on the line: the **rotation chip** while the party moves between several rooms or areas, and for a chosen catacomb or
 necropolis a red or gold **Seven Signs chip** when the party cannot enter now.
 
+**Hunting timer** (2026-10-15): every choice in the picker first asks **how long** the party hunts there and **what then**, and shows
+the supplies it needs for that time. A running timer is shown on this line as **⏱ Hunting at … — 1 h 12 min left** with **Extend** and
+**End now**. See [Hunting timer](hunt-timer.md).
+
 ### Live status of your choice (every state)
 
 The leader reports the state of your choice every few seconds. Two pictures show all states (on these two pictures the maps and member
@@ -452,6 +456,29 @@ state:
    - red **closed: …** with the reason and *until* when (e.g. *closed: Seven Signs validation — only Dusk winners until Mon 12 Oct
      20:00 (local)*). In the validation period nobody can sign up; only those signed up in the last competition (on the winning side) may enter.
 2. **Way in** - the reminder that only the Gatekeeper Ziggurat leads in and every member must be signed up.
+
+<a id="seven-signs-why"></a>**Why it is open or closed (2026-10-15).** Next to the chip (in the list, on the room map, on the party card's hunting line, in the
+"is closed now" question and in the hunting-timer window) one plain sentence says **why**, with the next change in your local time.
+It is the bots' own rule and the bots' own words: when a bot skips a catacomb it writes the same sentence in its notes. The possible
+sentences:
+
+| Situation | The sentence starts with |
+|---|---|
+| Everyone signed up this week | *Open: everyone in the party is signed up with the Lords of Dawn this week.* |
+| Validation week, our side won | *Open: it is the Seven Signs validation week, Dawn won …* |
+| Gate set to "try" (7 Signs tab) | *Open: the Seven Signs gate is set to "try" — the Ziggurat decides …* |
+| Competition week, someone not signed up (party enrolled or the catacomb is your own choice) | *Not signed up yet: … — the leader takes them to the Priest of Dawn (free) first, then goes in.* |
+| Competition week, not signed up and not enrolled | *Not open for …: not signed up with the Lords of Dawn, and the Seven Signs sign-up is switched off … — sign up on the 7 Signs tab* |
+| Validation week, not signed up last week | *Closed this week: it is the Seven Signs validation period and … were not signed up in the last competition — opens again Mon … (local time) (next competition).* |
+| Validation week, the other side won | *Closed this week: … Dusk won, so only Dusk members may enter — … opens again Mon …* |
+| No 1st class transfer yet | *Not open for …: no 1st class transfer yet, so it cannot join the Seven Signs — change class first.* |
+| The Ziggurat refused this period | *Closed for … until Mon … (local time): the Ziggurat refused it this period.* |
+| Sign-up failed 3 times / fee asked | *Not open for … this week: the Dawn sign-up failed 3 times …* / *… asked for a fee or an item …* |
+| Nobody read the Priest of Dawn yet | *Unknown: no character has read the Priest of Dawn's page this cycle yet — the leader reads it in a town first, then decides.* |
+| Not enrolled and period unknown | *Seven Signs sign-up is switched off for this party (opt-in on the 7 Signs tab) …* |
+
+The [7 Signs tab](../02-concepts.md#seven-signs) shows the same sentence per party, and the [Automations page](automations.md) shows it
+in the *Seven Signs sign-up* row.
 
 Choosing a room of a **closed** catacomb opens this question instead of the normal one:
 

@@ -99,6 +99,9 @@ function host(o) {
     File: { ReadAllText: () => JSON.stringify({ parties: o.rules }) }, logError: (w, e) => { throw new Error(w + ': ' + (e && e.message)); },
     Inventory: { forEach: (f) => bag.forEach(f), Count: bag.length }, gearDb: () => ({ items: gearItems }),
     stashPlanMine: () => ({ deposit: o.deposit.map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count || 1, stackable: !!b.stack })) }),
+    // LOOTALL-2026-10-15: loot rule mode 'all' asks the warehouse plan in 'all' mode (o.depositAll = what that plan would give; default = o.deposit)
+    stashCtx: () => ({ mode: 'rules', settings: { mode: 'rules' } }), stashItems: () => [],
+    stashPlan: (items, c) => { env.__planMode = c && c.mode; return { deposit: (c && c.mode === 'all' && o.depositAll ? o.depositAll : o.deposit).map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count || 1, stackable: !!b.stack })) }; },
     hovNotrade: () => new Set(), itemCount: (id) => bag.filter(b => b.Id === id).reduce((a, b) => a + b.Count, 0), qeProtected: () => false,
     clanLeaderName: () => 'Dagger1', CONFIG: { leader: o.leader }, Me: { Name: o.me }, note: (m) => notes.push(m), appendShared: (f, t) => logs.push({ f, t }),
     myGear: () => ({}), upgradeGain: () => 0,
@@ -202,5 +205,7 @@ if (live && fs.existsSync(path.join(ROOT, 'Dashboard', 'circuitpage.js'))) {   /
 } else check(true, 'public install: no owner file to check');
 if (fs.existsSync(path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'))) check(/'loot_rules\.json'/.test(fs.readFileSync(path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'), 'utf8')), 'release_build.js never ships loot_rules.json (public = no file = OFF)');
 
+// LOOTALL-2026-10-15: a loot rule 'all' builds the list from the warehouse plan in 'all' mode (raid items, coins, tattoos ... were skipped)
+{ const lr = src.slice(src.indexOf('function lootRowsMine'), src.indexOf('function lootRowsMine') + 2500); check(lr.includes("lootNorm(R).mode !== 'all'") && lr.includes("c.mode = 'all'") && lr.includes('stashPlan(stashItems(), c)'), "loot rule 'all' = the warehouse plan in 'all' mode (not the character's warehouse mode)"); }
 console.log(`\n${n - fails}/${n} checks passed${fails ? ` — ${fails} FAILED` : ''}`);
 process.exit(fails ? 1 : 0);

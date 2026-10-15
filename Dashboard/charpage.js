@@ -384,13 +384,64 @@
     const sum = !K.ready.swap ? `<b class="bad">The gear swap does nothing yet</b>: no high-HP piece in the bag, so it drains by ${K.partners.length ? 'hitting ' + esc(K.partners.join(' / ')) : 'nothing (no other destroyer in the party!)'} only.`
       : lowM || highM ? `<b class="warn">Gear swap partly possible</b>: ${lowM} low-HP and ${highM} high-HP piece(s) missing.` : '<b class="ok">Everything for the gear swap is there.</b>';
     const roleW = K.roleOk === false ? `<div class="fk-sum"><b class="bad">This character's role is "${esc(K.role || '?')}", not destroyer: the bots never drain or cast Frenzy with it.</b></div>` : '';
-    patch($id('cp_frenzy'), `${roleW}<div class="fk-sum">${sum}</div>
+    const buyBtn = lowM || highM ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkbuy="1">Buy what is missing…</button><small>Never automatic: the destroyer only goes shopping when you press this and confirm.</small></div>` : '';   // KITBUY 2026-10-15
+    patch($id('cp_frenzy'), `${roleW}<div class="fk-sum">${sum}</div>${buyBtn}
       <div class="fk-sub">Skills ${skM ? '<small>(' + skM + ' not learned yet)</small>' : ''}</div><div class="fk-chips">${skills}</div>
       <div class="fk-sub">Drain partner (they lower each other's HP)</div><div class="fk-row"><span class="fk-st ${K.partners.length ? 'ok' : 'no'}">${K.partners.length ? '✓' : '✗'}</span><span class="fk-what"><b>${K.partners.length ? esc(K.partners.join(', ')) : 'No other destroyer in the party'}</b><small>${K.partners.length ? 'they hit each other carefully until both are low enough' : 'without one (and without the gear swap) it cannot get its HP low for Frenzy'}${(K.otherDestroyers || []).length > 1 ? ' · pairs in name order: ' + esc(K.otherDestroyers.length + 1) + ' destroyers in the party' : ''}</small></span></div>
       <div class="fk-sub">1 · Low-HP set (put on first) ${lowM ? '<small>' + lowM + ' missing</small>' : ''}</div>${set('low').map(row).join('')}
       <div class="fk-sub">2 · High-HP set (put on next: Max HP up, the % drops) ${highM ? '<small>' + highM + ' missing</small>' : ''}</div>${set('high').map(row).join('')}
       <div class="fk-sub">Optional</div>${set('btb').map(row).join('')}
-      <div class="fk-note">In a raid the bot swaps to whatever it has of set 1, then set 2, casts Zealot → Frenzy → Guts → Rage → Battle Roar, then puts its own gear back. Items in the clan warehouse (▣) must be taken out first (Storage page → Clan warehouse → Take out). Not done by the bots: the Blessed Body trick and the weight-penalty trick. Prices are the game's reference prices, not shop prices.</div>`);
+      <div class="fk-note">In a raid the bot swaps to whatever it has of set 1, then set 2, casts Zealot → Frenzy → Guts → Rage → Battle Roar, then puts its own gear back. Items in the clan warehouse (▣) must be taken out first (Storage page → Clan warehouse → Take out). Not done by the bots: the Blessed Body trick and the weight-penalty trick. Prices are the game's reference prices, not shop prices. The kit is never bought by itself: use “Buy what is missing”.</div>`);
+  }
+
+  // KITBUY 2026-10-15 (owner: "The destroyer swap kit should never be bought automatically, there should be a button to make the character go
+  // purchase what is needed"): /api/frenzykit?buy=1 -> one styled dialog (uidialog uiForm, a checkbox per piece) -> the order '!kitbuy <Name> <ids>'
+  // (swarm.js KITBUY block: only that character, .giran first by the order rules, buys exactly the ticked pieces, puts nothing on). Pieces in the
+  // clan warehouse: the clan leader may take them out instead ('!whtake <id>:1 clan <Name>'), anyone else gets a note.
+  async function frenzyBuy() {
+    const name = CP.name;
+    let d = null; try { d = await api('/api/frenzykit?name=' + encodeURIComponent(name) + '&buy=1'); } catch (e) { return uiError('Could not read the Frenzy kit: ' + e.message); }
+    if (!d || d.error || !d.buy) return uiError((d && d.error) || 'No answer about the shops (the dashboard server may need a restart).');
+    if (CP.name !== name) return;
+    const B = d.buy, rows = B.rows || [], aden = (n) => nf(n) + ' adena';
+    const buyRows = rows.filter(r => r.status === 'buy'), notSold = rows.filter(r => r.status !== 'buy' && !r.clanId), clanRows = rows.filter(r => r.clanId);
+    const notSoldList = notSold.length ? [uiH('Not sold in Giran (get these elsewhere)'), uiList(notSold.map(r => [uiEm(r.label), ': ' + r.name + ' (' + (r.grade || '?') + ') — ' + r.why]))] : [];
+    const clanNote = clanRows.length && !B.isClanLeader ? [uiH('Already in the clan warehouse'), uiList(clanRows.map(r => [uiEm(r.label), ': ' + (r.clanName || r.name) + ' — only the clan leader' + (B.clanLeader ? ' (' + B.clanLeader + ')' : '') + ' can take it out (Storage page → Clan warehouse)']))] : [];
+    if (!rows.length) return uiAlert({ title: name + ': nothing is missing', body: 'Every piece of the low-HP and the high-HP set is worn or in the bag.', kind: 'ok' });
+    if (!buyRows.length && !(clanRows.length && B.isClanLeader)) {
+      return uiAlert({ title: name + ': nothing here can be bought in Giran', kind: 'info', body: [uiP('None of the missing pieces is sold by a Giran merchant we have a recorded route to' + (B.scanAt ? ' (shop lists from ' + String(B.scanAt).slice(0, 10) + ')' : '') + '. Giran\'s weapon and armor merchants sell up to C grade; the Doom (B) and Tallum (A) heavy pieces and every weapon with a Special Ability come from drops, crafting or trades.'), ...notSoldList, ...clanNote,
+        uiNote('Nothing was sent. The bot uses whatever kit pieces it carries in the bag for the HP swap before Frenzy.')] });
+    }
+    const where = B.inGiran ? name + ' is in Giran: it walks the recorded Giran routes to the merchants.'
+      : B.solo || B.isLeader ? name + (B.solo ? ' is not in Giran: it goes there with .giran first' : ' leads party ' + B.party + ' and is not in Giran: the whole party goes to Giran with .giran first') + ' (the normal safe-teleport checks: fights finished, out of aggro), buys, then ' + (B.leveling ? 'leveling starts again.' : 'waits for your next order.')
+      : name + ' is a member of party ' + B.party + ' and not in Giran: its leader takes the whole party to Giran (a member never teleports alone), waits until it has bought, then the party carries on with what it was doing.';
+    const warns = [];
+    if (B.raid) warns.push(uiWarn('The party is busy (' + B.raid + '): ' + name + ' waits until that is over (max 45 min) and never shops during a raid fight.'));
+    if (B.huntTimer && !B.inGiran) warns.push(uiWarn('The party\'s hunting timer is running: this is your order, so the party still goes to Giran (the timer only holds automatic trips).'));
+    if (!B.online) warns.push(uiWarn(name + ' is not reporting in right now: the order waits in the order queue until it is online (10 min).'));
+    const fields = [];
+    if (buyRows.length) fields.push({ id: 'buy', label: 'Buy in Giran (one of each, not worn)', multi: true, column: true,
+      options: buyRows.map(r => ({ value: r.id, checked: !r.clanId, label: pieceName(r) + ' — ' + aden(r.price) + ' at ' + r.npc + (r.clanId ? ' (one is in the clan warehouse)' : '') + (r.est ? ' (estimated price)' : ''), hint: r.why })) });
+    if (clanRows.length && B.isClanLeader) fields.push({ id: 'clan', label: 'Take out of the clan warehouse instead (free)', multi: true, column: true,
+      options: clanRows.map(r => ({ value: r.clanId, checked: true, label: r.label + ': ' + (r.clanName || r.name) })) });
+    function pieceName(r) { const l = String(r.label || '').replace(/ \(heavy\)$/, ''); return String(r.name || '').indexOf(l) === 0 ? r.name : r.label + ': ' + r.name; }   // 'Doom Plate Armor' once, not twice
+    const priceOf = (id) => { const r = buyRows.find(x => x.id === id); return r ? r.price : 0; };
+    const res = await uiForm({ title: name + ': buy the missing Frenzy kit pieces?', fields,
+      body: [uiP(where), ...warns, ...notSoldList, ...clanNote],
+      render: (v) => {
+        const ids = v.buy || [], sum = ids.reduce((a, id) => a + priceOf(id), 0), tax = Math.round(sum * 0.2), have = B.adena;
+        const out = [uiKV([['Ticked', ids.length + ' piece(s)' + ((v.clan || []).length ? ' + ' + v.clan.length + ' from the clan warehouse' : '')], ['Price', aden(sum)], ['+ castle tax (about 20 %)', aden(tax)], ['Total', aden(sum + tax)], [name + ' has', have == null ? 'unknown' : aden(have)]])];
+        if (have != null && sum + tax > have) out.push(uiWarn('Not enough adena for all ticked pieces: it buys in the order shown and skips what it cannot pay (it checks the price and its adena before each piece). Give it adena first (Trade page) or untick some.'));
+        out.push(uiNote('Nothing is put on: the bot wears these pieces only during the HP swap before Frenzy, then its own gear goes back on. A piece of a slot it already owns is never bought twice. Report: party chat + Logs/frenzykit_buys.log.'));
+        return out;
+      },
+      buttons: [{ label: 'Send the order', value: 'go', primary: true }] });
+    if (!res || res.value !== 'go') { toast(name + ': Frenzy kit — cancelled', null); return; }
+    const ids = (res.values.buy || []).map(Number).filter(Boolean), clan = (res.values.clan || []).map(Number).filter(Boolean);
+    if (!ids.length && !clan.length) { toast(name + ': nothing ticked — nothing sent', false); return; }
+    if (clan.length) await post('!whtake ' + clan.map(id => id + ':1').join(',') + ' clan ' + name, 'take ' + clan.length + ' kit piece(s) out of the clan warehouse');
+    if (ids.length) await post('!kitbuy ' + name + ' ' + ids.join(','), 'Frenzy kit: buy ' + ids.length + ' piece(s) in Giran');
+    CP.fkAt = 0;
   }
 
   // ---------------------------------------------------------------- inventory grid
@@ -868,6 +919,7 @@
       const q = t.closest('[data-cpq]'); if (q && !q.disabled) { e.stopPropagation(); quick(q.dataset.cpq); return; }
       const sk = t.closest('.cp-sk'); if (sk) { e.stopPropagation(); skillPop(sk); return; }
       const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); itemPop(it); return; }
+      const fb = t.closest('[data-fkbuy]'); if (fb) { e.stopPropagation(); frenzyBuy().catch(er => toast(er.message, false)); return; }   // KITBUY 2026-10-15
       const cm = t.closest('[data-cpclient]'); if (cm) { e.stopPropagation(); try { setClientMode(CP.name, cm.dataset.cpclient); } catch (er) { toast(er.message, false); } return; }
       const ov = t.closest('[data-cpovmenu]'); if (ov && window.Override) { e.stopPropagation(); Override.open(CP.name, ov, { context: 'char', title: CP.name }); return; }
     });

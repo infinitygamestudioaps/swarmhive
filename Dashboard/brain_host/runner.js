@@ -35,7 +35,7 @@ class Runner {
    */
   constructor(opts) {
     this.o = Object.assign({ port: 8094, host: '127.0.0.1', script: path.join(ROOT, 'Scripts_dev', 'swarm.js'), root: ROOT, overlay: null, isolate: [],
-      allow: null, sharedParse: false, bigint: true, geopath: false, disposeAfterMs: 600000, bridge: false, bridgeNames: null, cbTimeoutMs: 0, invokeMark: null, brainAccounts: null, onAppOut: null, logFile: path.join(ROOT, 'Logs', 'brain_host.log'), verbose: false, version: '3.8.14-brain' }, opts || {});
+      allow: null, sharedParse: false, bigint: true, geopath: false, disposeAfterMs: 600000, bridge: false, bridgeNames: null, bridgeIdleMs: 120000, cbTimeoutMs: 0, invokeMark: null, brainAccounts: null, onAppOut: null, logFile: path.join(ROOT, 'Logs', 'brain_host.log'), verbose: false, version: '3.8.14-brain' }, opts || {});
     this.clock = this.o.clock || new Clock({ virtual: false });
     this.vfs = createVfs({ root: this.o.root, overlay: this.o.overlay, isolate: this.o.isolate, onWrite: (p, t) => { if (this.geo) this.geo.onWrite(p, t); } });
     // geopath: true = answer swarm.js's route requests in-process (worker thread); false = the dashboard's geopath_service.js does it (live today)
@@ -44,9 +44,15 @@ class Runner {
     this.bus.onOut = (env, target, from) => this.busOut(env, target, from);
     this.ctxs = new Map();            // name -> CharCtx
     this.st = { contexts: 0, created: 0, disposed: 0, hellos: 0, disconnects: 0, events: 0, stateMsgs: 0, stateBytes: 0, errors: 0, unhandled: 0, compileMs: 0, bootErrors: 0,
-      bridgeOut: 0, bridgeIn: 0, bridgeLoopDrops: 0, bridgeNoAgent: 0, cbTimeouts: 0 };
+      bridgeOut: 0, bridgeIn: 0, bridgeLoopDrops: 0, bridgeNoAgent: 0, bridgeQuiet: 0, cbTimeouts: 0 };
+    this.bridgeSince = Date.now(); this.foreignApAt = 0;   // PERF-2026-10-15 (busOut): when the bridge started / the last App event of a swarm.js engine INSIDE L2Swarm
     this.errorsByWhere = new Map();
-    this.shared = new Map();          // sharedParse: text -> { obj, hash, file }
+    // sharedParse (PERF-2026-10-15 v2): file version 'path|mtime|size' -> { ref: WeakRef(parsed), len, hits, file }. Was keyed by the TEXT and
+    // held text + object forever (every version of every big file ever parsed). Now an entry lives only while some context still holds the
+    // object (FinalizationRegistry drops it), and only files under Scripts\data\ are shared (static datasets; Logs\ state files are
+    // read-modify-written by the contexts and must stay private).
+    this.shared = new Map(); this.lastBig = null; this.st.sharedHits = 0; this.st.sharedParses = 0;
+    this.sharedGone = new FinalizationRegistry((key) => { const e = this.shared.get(key); if (e && !e.ref.deref()) this.shared.delete(key); });
     this.server = null;
   }
   log(m) { const line = `${new Date(this.clock.now()).toISOString()} ${m}`; if (this.o.verbose) console.log(line); try { if (this.o.logFile) fs.appendFileSync(this.o.logFile, line + '\r\n'); } catch (e) { } }
@@ -72,13 +78,25 @@ class Runner {
   }
   sharedParseFn() {
     const runner = this;
+    // t = the text a context passes to JSON.parse (>= 100 KB). It is shared only when it is the text vfs.readText just handed out for a file
+    // under Scripts\data\ (runner.lastBig, set by the vfs hook; the usual JSON.parse(File.ReadAllText(f).replace(BOM, '')) runs both in one
+    // synchronous step, so nothing can come in between). Anything else -> null = the context parses its own copy as before.
     return function (t) {
-      let e = runner.shared.get(t);
-      if (!e) { e = { obj: JSON.parse(t), len: t.length, hits: 0 }; e.hash = quickHash(e.obj); runner.shared.set(t, e); }
-      e.hits++;
-      return e.obj;
+      const lb = runner.lastBig; runner.lastBig = null;
+      if (!lb || !(lb.text === t || (lb.text.length === t.length + 1 && lb.text.charCodeAt(0) === 0xFEFF && lb.text.endsWith(t)))) return null;
+      let e = runner.shared.get(lb.key), o = e ? e.ref.deref() : undefined;
+      if (o === undefined) {
+        o = JSON.parse(t); runner.st.sharedParses++;
+        if (o === null || typeof o !== 'object') return o;
+        e = { ref: new WeakRef(o), len: t.length, hits: 0, file: lb.rel, hash: runner.o.sharedHash ? quickHash(o) : null };
+        runner.shared.set(lb.key, e); runner.sharedGone.register(o, lb.key);
+      }
+      e.hits++; runner.st.sharedHits++;
+      return o;
     };
   }
+  /** vfs hook: a text >= 100 KB was read; remember it for the very next JSON.parse when it is a dataset under Scripts\data\ */
+  onBigRead(rel, key, text) { this.lastBig = rel && /^scripts\\data\\/i.test(rel) ? { rel, key, text } : null; }
   /** create (or return) the context of one character */
   context(name, accountId) {
     let C = this.ctxs.get(name);
@@ -95,7 +113,8 @@ class Runner {
     C.ctx = ctx;
     host.setRealm({ Promise: vm.runInContext('Promise', ctx), JSON: vm.runInContext('JSON', ctx) });
     if (this.o.sharedParse) {
-      vm.runInContext(`(function (sp) { const P = JSON.parse; JSON.parse = function (t, r) { if (typeof t === 'string' && t.length >= 100000 && r === undefined) return sp(t); return P.call(JSON, t, r); }; })`, ctx)(this.sharedParseFn());
+      if (!this.vfs.onBigRead) this.vfs.onBigRead = (rel, key, text) => this.onBigRead(rel, key, text);   // (worker.js may have replaced this.vfs: hooked here)
+      vm.runInContext(`(function (sp) { const P = JSON.parse; JSON.parse = function (t, r) { if (typeof t === 'string' && t.length >= 100000 && r === undefined) { const o = sp(t); if (o !== null) return o; } return P.call(JSON, t, r); }; })`, ctx)(this.sharedParseFn());
     }
     this.bus.join({ accountId: C.accountId, name, scriptId: `brain-${name}`, scriptName: 'swarm.js', connected: () => link.connected() && !!mirror.fl.IsConnected,
       parse: vm.runInContext('JSON.parse', ctx), invoke });
@@ -328,6 +347,12 @@ class Runner {
     if (this.o.onAppOut) { try { this.o.onAppOut(env, target, from); } catch (e) { this.noteError('onAppOut', e); } }   // worker pool: other workers
     if (!this.o.bridge) return;
     if (target && this.isBrainAccount(target)) return;                // reached through the brain (local bus or the pool)
+    // PERF-2026-10-15 QUIET BRIDGE (live 2026-10-15: all 59 characters in the brain, still ~8 broadcasts a second re-emitted into L2Swarm,
+    // where EVERY agent's bridge App.on callback ran and dropped it = ~470 engine entries a second for nobody). A broadcast goes into L2Swarm
+    // only while a swarm.js engine runs THERE: one is seen by its own App events coming back as 'ap' from a non-brain account (swarm.js
+    // broadcasts swarm.pos at least every 15 s). Always during the first bridgeIdleMs after the start; targeted emits to a non-brain account
+    // always. bridgeIdleMs 0 = the old behaviour (every broadcast).
+    if (!target && this.o.bridgeIdleMs > 0) { const t = Date.now(); if (t - this.bridgeSince > this.o.bridgeIdleMs && t - this.foreignApAt > this.o.bridgeIdleMs) { this.st.bridgeQuiet++; return; } }
     const C = this.ctxByAccount(from);
     if (!C || !C.hello || !(Number(C.hello.v) >= 3) || !C.link.connected()) { this.st.bridgeNoAgent++; return; }
     C.link.write(target ? { a: 'appemit', name: env.name, j: env.json, to: target } : { a: 'appemit', name: env.name, j: env.json });
@@ -338,6 +363,7 @@ class Runner {
     if (!this.o.bridge || !m || typeof m.name !== 'string') return;
     const src = m.source || {};
     if (this.isBrainAccount(src.accountId)) { this.st.bridgeLoopDrops++; return; }   // our own emit coming back through another agent: already delivered in the brain
+    this.foreignApAt = Date.now();                                    // PERF-2026-10-15: a swarm.js engine runs inside L2Swarm -> broadcasts go there (busOut)
     const json = typeof m.j === 'string' ? m.j : JSON.stringify(m.d === undefined ? null : m.d);
     this.st.bridgeIn++;
     this.injectFor(C, { id: String(m.id || ('l2' + this.st.bridgeIn)), name: m.name, sentAtUtc: m.sentAtUtc || new Date(this.clock.now()).toISOString(),

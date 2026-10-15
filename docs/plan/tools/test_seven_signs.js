@@ -179,6 +179,7 @@ const mem = (name, rec, base) => ({ name, rec: rec || {}, base: !!base });
   let glue = blk(html, '// SSGATE-UI-BEGIN', 'function spotPickHtml(leader, list) {').replace('function askChoice(', 'function askChoice_real(');
   const env = { asked: [], answers: [], posted: [] };
   const U = new Function('env', `
+    const window = {}; // HUNTTIMER-2026-10-15: spotChoiceChecks asks window.HuntTimer (absent here = the old single confirm)
     const esc = (s) => String(s); const api = () => Promise.resolve({}); let TAB = 'parties', STATE = { get chars() { return env.chars; } }; let SPK = null;
     const PSPOT = { get data() { return env.pspot; } }; const renderParties = () => {}; const renderSpotPicker = () => {};
     const partyLevels = (p) => { const L = STATE.chars.filter(c => c.party === p).map(c => c.level); return { min: Math.min(...L), max: Math.max(...L) }; };

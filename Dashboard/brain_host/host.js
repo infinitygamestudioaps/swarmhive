@@ -203,8 +203,14 @@ function createHost(o) {
       count('Options.' + String(k) + '=');
       let val = typeof v === 'bigint' ? Number(v) : v;
       if (OPT_ENUM[k]) { const n = enumName(OPT_ENUM[k], val); if (n !== null) val = n; }   // an enum Option: kept as its name (see OPT_ENUM)
+      // PERF-2026-10-15 ONLY ON CHANGE (live: swarm.js re-asserts UseCombatZLimit / CombatZLimit every 3 s on every character = ~40 'set'
+      // orders a second into L2Swarm, each a .NET property write + a forced re-report): a plain value equal to what the mirror holds (the
+      // agent's last report, or a write of ours still on its way) is not sent again. A refused write is re-reported by the agent with the
+      // real value, so the next write differs and goes out; reconnect replay (optWritten) is unchanged.
+      const same = (k in mirror.opt) && mirror.opt[k] === val && (val === null || typeof val !== 'object');
       mirror.opt[k] = val;                                       // L2Swarm applies an option at once (the same tick reads it back)
       optWritten.set(String(k), val);                            // replayed to the agent on (re)connect (H.onAttach)
+      if (same && k !== 'EnableJSOnIncomingPacket') return true;
       if (link.connected()) link.set('Options.' + String(k), optWire(String(k), val));
       if (k === 'EnableJSOnIncomingPacket') link.watch('packets', !!val);
       return true;

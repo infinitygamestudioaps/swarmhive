@@ -140,7 +140,7 @@
       return `<div class="s7-mem${m.online ? '' : ' off'}">
         <div class="s7-who"><a href="#/char/${encodeURIComponent(m.name)}"><b>${h(m.name)}</b></a> <span class="muted">${m.level != null ? m.level : '?'} ${h(m.cls || '')}${m.online ? '' : ' · offline'}</span></div>
         <div class="s7-reg">${chip(m)} <span class="muted s7-st-txt">${h(statusText(m))}</span></div>
-        <div class="s7-dun muted" title="${h(m.why || '')}">${m.allowed === null ? '' : m.allowed ? 'Ziggurat: may enter' : 'Ziggurat: closed'}</div>
+        <div class="s7-dun muted" title="${h(m.reason || m.why || '')}">${m.allowed === null ? '' : m.allowed ? 'Ziggurat: may enter' : 'Ziggurat: closed'}</div>
         <div class="s7-stones">${stonesHtml(m)}</div>
         <div class="s7-act">${p.enrolled ? `<span class="s7-via" title="enrolled through the party — switch the party off to choose per character">✓ via party</span>` : sw(`data-s7char="${h(m.name)}"`, own, own ? 'Enrolled' : 'Enroll', 'this character signs up by itself')}
           <button class="s7-btn" data-s7sign="char:${h(m.name)}" ${S7.busy ? 'disabled' : ''} title="send !dawn ${h(m.name)}: only ${h(m.name)} goes to the Priest of Dawn now">Sign up</button></div>
@@ -150,7 +150,16 @@
       <summary><b>Party ${h(p.leader)}</b> <span class="muted">${p.members.length} chars</span> <span class="chip ${dawn === p.members.length ? 'ssdawn' : 'ssnone'}" title="signed up with Dawn this cycle">☀ ${dawn}/${p.members.length}</span>${p.enrolled ? ' <span class="s7-tag">enrolled</span>' : enr ? ` <span class="s7-tag part">${enr} enrolled</span>` : ''}</summary>
       <div class="s7-prow">${sw(`data-s7party-enroll="${h(p.leader)}"`, p.enrolled, p.enrolled ? 'Whole party enrolled' : 'Enroll the whole party', 'every character of this party signs up by itself (now and new members later)')}
         <button class="s7-btn gold" data-s7sign="party:${h(p.leader)}" ${S7.busy ? 'disabled' : ''} title="send !dawn: ${h(p.leader)} takes the party to the Priest of Dawn in Giran now">Sign up party now</button></div>
+      ${gateHtml(p.gate)}
       <div class="s7-mems">${rows}</div></details>`;
+  }
+
+  /** SSREASON-2026-10-15 (tester: "bots can't get back to necropolises and catacombs they went to before"): the party's catacomb / necropolis
+   *  gate in ONE plain sentence — the bots' own rule and words (Dashboard/sslogic.js = swarm.js SSGATE-PURE ssGateDecide + ssgReason) */
+  function gateHtml(g) {
+    if (!g || !g.catacomb) return '';
+    const line = (label, x) => `<div class="s7-gate ${x.ok ? 'ok' : x.state === 'closed' ? 'bad' : 'wait'}"><b>${h(label)}:</b> ${h(x.reason)}</div>`;
+    return g.same ? line('Catacombs & necropolises', g.catacomb) : line('Catacombs', g.catacomb) + line('Necropolises', g.necropolis);
   }
 
   // ============================================================================================ actions

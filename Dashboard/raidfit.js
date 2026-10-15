@@ -54,7 +54,7 @@ function fitSafeGround(ROOT, o) {
   const safe = (gx, gy) => cell.has(key(gx, gy)) && !unsafe.has(key(gx, gy));
   if (!safe(gx0, gy0)) return { ok: false, error: 'the centre itself is at a cliff edge or in water — move the boss marker / pick another centre', cells: cell.size };
   // rays from the centre: the last safe cell along each
-  const cuts = { cliff: 0, water: 0, wall: 0, radius: 0 }, pts = [];
+  const cuts = { cliff: 0, water: 0, wall: 0, radius: 0 }, pts = [], rays = [];   // rays: [x, y, why] per direction (2026-10-15: the raid page draws cliff / water edges)
   for (let i = 0; i < FIT.rays; i++) {
     const a = i * 2 * Math.PI / FIT.rays, ux = Math.cos(a), uy = Math.sin(a);
     let last = [cx, cy], why = 'radius';
@@ -65,6 +65,7 @@ function fitSafeGround(ROOT, o) {
     }
     cuts[why]++;
     pts.push([Math.round(last[0]), Math.round(last[1])]);
+    rays.push([Math.round(last[0]), Math.round(last[1]), why]);
   }
   // simplify: drop points that add little (keeps the outline, <= maxPts)
   let P = pts.slice();
@@ -73,6 +74,6 @@ function fitSafeGround(ROOT, o) {
   // drop duplicates / near-duplicates (a ray that stopped at the centre)
   P = P.filter((p, i) => { const q2 = P[(i + 1) % P.length]; return Math.hypot(p[0] - q2[0], p[1] - q2[1]) > 8; });
   if (P.length < 3) return { ok: false, error: 'too little safe ground around the centre', cells: cell.size, cuts };
-  return { ok: true, poly: P, cuts, cells: cell.size, unsafe: unsafe.size, r: R, ms: Date.now() - t0 };
+  return { ok: true, poly: P, cuts, rays, cells: cell.size, unsafe: unsafe.size, r: R, ms: Date.now() - t0 };
 }
 module.exports = { fitSafeGround, FIT };

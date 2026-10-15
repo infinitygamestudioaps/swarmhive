@@ -188,3 +188,11 @@ edit is needed. Characters that do not exist yet: create them in game (or with t
 Still hardcoded (game data, not machine data): the old per-team constants in swarm.js (`CONFIG.roster`/`teams` defaults,
 `daily.hallTeam`, `escortOrder`), the team keys in `Scripts\data\custom_zones.json`, and the one-off team creation scripts
 `docs\plan\tools\team3_configs.ps1` / `team45_configs.ps1`. The config overrides the roster/teams/leader at script start.
+
+## Windows Defender: exclude the Logs folder (recommended, 2026-10-15)
+The bots write their status, intent and log files many times a minute. Defender's real-time scan checked every write and used ~7 % CPU on
+the owner's PC. Exclude ONLY the Logs folder (bot status and logs, no programs) in an **administrator** PowerShell:
+
+    Add-MpPreference -ExclusionPath "C:\L2Swarm\Logs"
+
+(use your own install folder). Undo: `Remove-MpPreference -ExclusionPath "C:\L2Swarm\Logs"`. It is the player's decision; SETUP never does it.

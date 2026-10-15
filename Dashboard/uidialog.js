@@ -6,6 +6,11 @@
 //   uiAlert({ title, body, details?, kind: 'info'|'error'|'ok', okText? })                -> Promise<void>
 //   uiPrompt({ title, body, label, value, placeholder, inputmode, type?, validate?, confirmText, cancelText }) -> Promise<string|null>
 //   uiChoice({ title, body, buttons: [{ label, value, primary?, danger? }] })              -> Promise<value|null>   (null = cancelled)
+//   uiForm({ title, body, fields: [{ id, label, options: [{ label, value, hint? }], value }], render?(values) -> rich, buttons: [...as uiChoice] })
+//                                                                                         -> Promise<{ value, values }|null>   (HUNTTIMER 2026-10-15)
+//     fields = rows of big tap targets (radio groups); render(values) fills a live part under them, redrawn on every change.
+//     KITBUY 2026-10-15: a field with multi: true = CHECKBOXES (options may carry checked / disabled / hint); its value is the array of
+//     ticked option values (field.value = the start array, else the options marked checked); column: true = one option per line.
 //   Each also takes a plain string (= body). body / details = RICH content, every text is escaped (no HTML from names):
 //     string                 paragraphs split on blank lines, "• x" / "- x" lines become a list, single \n = line break
 //     [block, block, ...]    blocks: string | uiH(...) heading | uiP(...inline) | uiList([...]) | uiPath([...]) | uiWarn(...) | uiNote(...) | uiKV([[k, v]])
@@ -106,6 +111,8 @@
     const s = job.spec, id = 'uid' + (++seq);
     const test = window.UIDIALOG_TEST;
     const disabledOpener = job.from && 'disabled' in job.from && /^(BUTTON|INPUT|SELECT)$/.test(job.from.tagName) && !job.from.disabled && !job.from.closest('.uid-ov') ? job.from : null;
+    const vals = {}; (s.fields || []).forEach(f => { vals[f.id] = f.multi ? (Array.isArray(f.value) ? f.value.slice() : (f.options || []).filter(o => o.checked && !o.disabled).map(o => o.value)) : f.value !== undefined ? f.value : ((f.options || [])[0] || {}).value; });   // uiForm (multi = checkboxes, KITBUY)
+    const liveHtml = () => { if (!s.render) return ''; try { return block(s.render(Object.assign({}, vals))); } catch (e) { console.error('uidialog render', e); return ''; } };
     const ov = document.createElement('div');
     ov.className = 'uid-ov' + (s.danger ? ' uid-danger' : '') + (s.kind ? ' uid-k-' + s.kind : '');
     const kind = s.danger ? 'danger' : s.kind || (s.type === 'alert' ? 'info' : '');
@@ -114,6 +121,8 @@
       <div class="uid-head">${kind ? `<span class="uid-ic uid-ic-${kind}" aria-hidden="true">${ICON[kind] || 'i'}</span>` : ''}<h2 id="${id}t">${E(s.title)}</h2></div>
       <div class="uid-body" id="${id}b">${block(s.body)}${s.details ? `<details class="uid-det"><summary>${E(s.detailsLabel || 'Details')}</summary>${block(s.details)}</details>` : ''}
         ${s.type === 'prompt' ? `<label class="uid-field"><span class="uid-lbl">${E(s.label || '')}</span><input id="${id}i" class="uid-in" type="${E(s.inputType || 'text')}" value="${E(s.value == null ? '' : s.value)}" placeholder="${E(s.placeholder || '')}"${s.inputmode ? ` inputmode="${E(s.inputmode)}"` : ''} autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="${id}e"><span class="uid-err" id="${id}e" role="alert"></span></label>` : ''}
+        ${s.fields ? s.fields.map((f, fi) => `<fieldset class="uid-seg${f.multi ? ' uid-multi' : ''}"><legend class="uid-lbl">${E(f.label || '')}</legend><div class="uid-segrow${f.column ? ' uid-col' : ''}">${(f.options || []).map((o, oi) => `<label class="uid-opt${f.multi ? ' uid-chk' : ''}"${o.hint ? ` title="${E(o.hint)}"` : ''}><input type="${f.multi ? 'checkbox' : 'radio'}" name="${id}f${fi}" value="${oi}" data-uidf="${fi}"${(f.multi ? (vals[f.id] || []).includes(o.value) : o.value === vals[f.id]) ? ' checked' : ''}${o.disabled ? ' disabled' : ''}><span>${E(o.label)}</span></label>`).join('')}</div>${f.note ? `<p class="uid-note">${E(f.note)}</p>` : ''}</fieldset>`).join('') : ''}
+        ${s.fields || s.render ? `<div class="uid-live" id="${id}l" aria-live="polite">${liveHtml()}</div>` : ''}
         ${s.typeToConfirm ? `<label class="uid-field uid-ttc"><span class="uid-lbl">Type <b>${E(s.typeToConfirm)}</b> to confirm</span><input id="${id}i" class="uid-in" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="${id}e"><span class="uid-err" id="${id}e"></span></label>` : ''}
       </div>
       <div class="uid-foot${s.buttons.length > 2 ? ' uid-many' : ''}">${btns}</div></div>`;
@@ -142,6 +151,7 @@
       if (s.type === 'confirm') val = !!(b && b.primary);
       else if (s.type === 'prompt') val = b && b.primary ? input.value : null;
       else if (s.type === 'choice') val = b ? b.value : null;
+      else if (s.type === 'form') val = b && !b.cancel ? { value: b.value, values: Object.assign({}, vals) } : null;
       else val = undefined;
       window.removeEventListener('keydown', onKey, true);
       const close = () => {
@@ -171,6 +181,9 @@
       }
     });
     if (input) input.addEventListener('input', check);
+    const setMulti = (fi, list) => { const f = s.fields[fi]; if (!f) return; const want = (list || []).filter(v => (f.options || []).some(o => o.value === v && !o.disabled)); vals[f.id] = want; (f.options || []).forEach((o, oi) => { const cb = ov.querySelector('input[data-uidf="' + fi + '"][value="' + oi + '"]'); if (cb) cb.checked = want.includes(o.value); }); const l = ov.querySelector('.uid-live'); if (l) l.innerHTML = liveHtml(); };   // KITBUY: checkboxes
+    const setField = (fi, oi) => { const f = s.fields[fi], o = f && (f.options || [])[oi]; if (!o) return; if (f.multi) { const cur = (vals[f.id] || []).slice(), cb = ov.querySelector('input[data-uidf="' + fi + '"][value="' + oi + '"]'), on = cb ? cb.checked : !cur.includes(o.value); return setMulti(fi, on ? cur.concat(cur.includes(o.value) ? [] : [o.value]) : cur.filter(v => v !== o.value)); } vals[f.id] = o.value; const rb = ov.querySelector('input[data-uidf="' + fi + '"][value="' + oi + '"]'); if (rb && !rb.checked) rb.checked = true; const l = ov.querySelector('.uid-live'); if (l) l.innerHTML = liveHtml(); };
+    if (s.fields) ov.addEventListener('change', (e) => { const r = e.target; if (r && r.dataset && r.dataset.uidf !== undefined) setField(+r.dataset.uidf, +r.value); });
     function focusables() { return [...card.querySelectorAll('button:not([disabled]), input, summary, a[href], [tabindex]:not([tabindex="-1"])')].filter(x => x.offsetParent !== null || x === document.activeElement); }
     function onKey(e) {
       if (!document.contains(ov)) return;
@@ -202,11 +215,15 @@
     const firstFocus = input || (s.danger ? ov.querySelector(`[data-uid="${cancelIdx}"]`) : prim) || ov.querySelector('.uid-btn') || card;
     try { firstFocus.focus({ preventScroll: true }); if (input && s.type === 'prompt') input.select(); } catch (e) { }
     if (test) {   // UI tests: answer at once, log the dialog
-      const info = { type: s.type, title: String(s.title || ''), msg: [s.title, plain(s.body), s.details ? plain(s.details) : ''].filter(Boolean).join('\n\n'), danger: !!s.danger, typeToConfirm: s.typeToConfirm || '', buttons: s.buttons.map(b => b.label) };
+      const info = { type: s.type, title: String(s.title || ''), msg: [s.title, plain(s.body), s.render ? (() => { try { return plain(s.render(Object.assign({}, vals))); } catch (e) { return ''; } })() : '', s.details ? plain(s.details) : ''].filter(Boolean).join('\n\n'), danger: !!s.danger, typeToConfirm: s.typeToConfirm || '', fields: s.fields ? s.fields.map(f => ({ id: f.id, value: vals[f.id], options: (f.options || []).map(o => o.value) })) : undefined, buttons: s.buttons.map(b => b.label) };
       try { console.debug('UIDIALOG ' + JSON.stringify(info)); } catch (e) { }
       let a = typeof test.answer === 'function' ? test.answer(info) : (test.answer === undefined ? true : test.answer);
       setTimeout(() => {
         if (s.type === 'alert') return finish(0);
+        if (s.type === 'form') {   // answer: true = primary, false = cancel, { values: { id: value }, button: value } = set the fields, press that button
+          if (a && typeof a === 'object') { Object.keys(a.values || {}).forEach(k => { const fi = s.fields.findIndex(f => f.id === k); if (fi >= 0 && s.fields[fi].multi) { setMulti(fi, Array.isArray(a.values[k]) ? a.values[k] : []); return; } const oi = fi >= 0 ? (s.fields[fi].options || []).findIndex(o => o.value === a.values[k]) : -1; if (oi >= 0) setField(fi, oi); }); const bi = a.button !== undefined ? s.buttons.findIndex(b => b.value === a.button) : s.buttons.findIndex(b => b.primary); try { console.debug('UIDIALOG ' + JSON.stringify(Object.assign({}, info, { type: 'form-answer', msg: plain(s.render ? s.render(Object.assign({}, vals)) : '') }))); } catch (e) { } return finish(bi >= 0 ? bi : cancelIdx); }
+          const pi = s.buttons.findIndex(b => b.primary); return finish(a === false || a == null ? cancelIdx : (typeof a === 'number' ? a : pi));
+        }
         if (s.type === 'choice') { const pi = s.buttons.findIndex(b => b.primary), ni = s.buttons.findIndex(b => !b.cancel); const i = typeof a === 'number' ? a : (a === false || a == null ? -1 : (pi >= 0 ? pi : ni)); return finish(i >= 0 ? i : cancelIdx); }
         if (s.type === 'prompt') { if (a === false || a == null) return finish(cancelIdx); input.value = typeof a === 'string' ? a : (test.prompt != null ? test.prompt : input.value); return check() ? finish(primIdx) : finish(cancelIdx); }
         if (s.typeToConfirm && a) { input.value = typeof a === 'string' ? a : s.typeToConfirm; if (!check()) return finish(cancelIdx); }
@@ -240,8 +257,15 @@
     const ordered = [...bs.filter(b => b.cancel), ...bs.filter(b => !b.cancel && !b.primary), ...bs.filter(b => !b.cancel && b.primary)];
     return enqueue({ type: 'choice', title: o.title || 'Choose', body: o.body, details: o.details, danger: !!o.danger, buttons: ordered });
   }
+  function uiForm(o) {   // HUNTTIMER 2026-10-15: radio-group fields + a live part (see the header)
+    o = norm(o);
+    const bs = (o.buttons || [{ label: o.confirmText || 'OK', value: 'ok', primary: true }]).map(b => ({ label: b.label, value: b.value, primary: !!b.primary, danger: !!b.danger, cancel: b.value == null }));
+    if (!bs.some(b => b.cancel)) bs.unshift({ label: o.cancelText || 'Cancel', value: null, cancel: true });
+    const ordered = [...bs.filter(b => b.cancel), ...bs.filter(b => !b.cancel && !b.primary), ...bs.filter(b => !b.cancel && b.primary)];
+    return enqueue({ type: 'form', title: o.title || 'Choose', body: o.body, details: o.details, fields: (o.fields || []).filter(f => f && f.id), render: typeof o.render === 'function' ? o.render : null, buttons: ordered });
+  }
   // the common "error from an API call" alert
   const uiError = (msg, title) => uiAlert({ title: title || 'Not done', body: msg, kind: 'error' });
-  Object.assign(window, { uiConfirm, uiAlert, uiPrompt, uiChoice, uiError, uiH, uiP, uiEm, uiCode, uiPath, uiList, uiWarn, uiNote, uiKV });
-  window.UIDialog = { confirm: uiConfirm, alert: uiAlert, prompt: uiPrompt, choice: uiChoice, error: uiError, render: block, plain, isOpen: () => !!cur, queued: () => Q.length };
+  Object.assign(window, { uiConfirm, uiAlert, uiPrompt, uiChoice, uiForm, uiError, uiH, uiP, uiEm, uiCode, uiPath, uiList, uiWarn, uiNote, uiKV });
+  window.UIDialog = { confirm: uiConfirm, alert: uiAlert, prompt: uiPrompt, choice: uiChoice, form: uiForm, error: uiError, render: block, plain, isOpen: () => !!cur, queued: () => Q.length };
 })();

@@ -185,7 +185,8 @@ function fullStatus(chars) {
   const clan = w.clan && w.clan.full ? w.clan : null;
   const priv = Object.keys(w.private || {}).filter(n => w.private[n] && w.private[n].full).map(n => Object.assign({ name: n }, w.private[n]));
   const ore = (chars || []).filter(c => c && c.oreOut && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, skill: c.oreOut.skill || '' }));   // ORE 2026-10-14
-  return { bags, clan, private: priv, ore };
+  const stuck = (chars || []).filter(c => c && c.immobile && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, mins: c.immobile.mins, fails: c.immobile.fails, at: c.immobile.at || '' }));   // IMMOBILE 2026-10-15
+  return { bags, clan, private: priv, ore, stuck };
 }
 /** Teams (character -> party leader): swarm.config.json accounts[].party (the source of truth, as in swarm.js SWARM_CFG), plus the
  *  hardcoded swarm.js CONFIG.teams for names the config does not have; everyone else follows the main leader. */
@@ -2280,6 +2281,9 @@ http.createServer(async (req, res) => {
     if (await require('./partyauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // RESURRECTION 2026-10-13 (Dashboard/resrules_api.js): /respanel.js (public: the Resurrect dialog + party card) + GET/POST /api/resrules (key checked
     // inside): automatic res on/off, scrolls, scrolls on healers in raids, who may read scrolls, how far a resser walks (Scripts/data/res_rules.json, read by swarm.js every 5 s)
+    // HUNT TIMER 2026-10-15 (Dashboard/hunttimer_api.js): /huntlogic.js, /hunttimer.js|css (public) + GET/POST /api/hunttimer (key checked inside): how long a party hunts
+    // at its chosen spot + what then (Scripts/data/hunt_timers.json, read by swarm.js HUNTTIMER every 5 s; the clock in Logs/hunt_timer_<leader>.json)
+    if (await require('./hunttimer_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, allowed, json, send })) return;
     if (await require('./resrules_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // LOOT RULES 2026-10-13 (Dashboard/lootrules_api.js): /lootlogic.js (public: the decision logic) + GET/POST /api/lootrules (key checked inside): what a
     // party's loot does — hand it to a collector (clan leader / a character), keep it, only non-gear, keep S-grade / enchanted / special gear, never / always lists
@@ -2293,10 +2297,16 @@ http.createServer(async (req, res) => {
     if (await require('./marketpage_api').handle(req, res, url, { DIR: __dirname, LOGS, readJson, allowed, json, send })) return;
     // FRENZY KIT 2026-10-14 (Dashboard/frenzykit_api.js): GET /api/frenzykit?name= — what a destroyer has / lacks for the HP-swap Frenzy (key checked inside)
     if (await require('./frenzykit_api').handle(req, res, url, { DATA, LOGS, readJson, readStates, teamMap, allowed, json, send })) return;
+    // OUR CRAFTER 2026-10-15 (Dashboard/crafter_api.js): /crafterpanel.js|css (public) + GET/POST /api/crafter (key checked inside): the Dwarf crafter that
+    // keeps shots in stock and supplies parties first in their supply runs (Scripts/data/crafter_rules.json, read live by swarm.js CRAFT-PURE)
+    if (await require('./crafter_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;   // CRAFTITEMS-2026-10-15: + body / mcpCallChar / commandRun (hand-ins, crystallize)
     if (await require('./storagepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // 7 SIGNS 2026-10-12 (Dashboard/sevensigns_api.js): /sevensigns.js|css (public) + GET/POST /api/sevensigns (key checked inside): who signs up with the
     // Lords of Dawn by itself (Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s), period / registration / seal stones per character
     if (await require('./sevensigns_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // AUTOMATIONS 2026-10-15 (Dashboard/autooverview_api.js, READ-ONLY): /autocatalog.js, /autooverview.js|css (public) + GET /api/autooverview (key checked inside):
+    // every automation per party — on / off / waiting for Start and why, what it does now, where it is switched (catalog Dashboard/autocatalog.js)
+    if (await require('./autooverview_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // SKILL ENCHANT 2026-10-12 (Dashboard/skillenchant_api.js): /skillenchantpage.js|css, /skillenchant_logic.js (public) + GET/POST /api/skillenchant (key checked inside)
     if (await require('./skillenchant_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, reloadCfg: () => SC.reload(), allowed, json, send, mcpCallChar })) return;
     // CLAN AUTOMATION 2026-10-12 (Dashboard/clanauto_api.js): /clanauto.js|css (public) + GET/POST /api/clanauto (key checked inside):

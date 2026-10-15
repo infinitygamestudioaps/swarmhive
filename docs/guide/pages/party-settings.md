@@ -85,6 +85,18 @@ switches selling and symbols on or off for one character; its own choice wins ov
 symbols only for the characters whose switch is on, also a supply run you order yourself. **Your orders always work**, even with
 every switch off: **Supply run now** (!supply), **Sell now** (!sell) and !dyes on a character standing in Giran.
 
+**Buy shots from player shops (B / A / S).** Helvetia, the shop NPC in Giran, sells no-grade, D and C shots only. Open *Buy shots
+from player shops* under Supplies to let the leader buy B, A and S grade soulshots and (blessed) spiritshots from other players'
+private shops in Giran during supply runs. It is **off** on a new install.
+- Fill in a **max price per shot** for each grade you want (for example *Soulshots, B grade: 12*). An empty box means "never bought
+  from players". Plain spiritshots are only bought when blessed ones of that grade cannot be had, and are then handed out instead.
+- *Most adena per supply run* (default 5,000,000) and *always keeps at least* (default 1,000,000) protect the leader's money.
+- The leader uses the newest shop scan (Market page). When it is older than *Shop scan may be this old* (default 120 minutes) he
+  scans the Giran shops first, unless you untick that box. Then he skips player shops and says why.
+- He picks the cheapest shops at or below your price, walks there, **checks the price again in the shop** and buys until the team has
+  enough, then hands the shots out like the Helvetia ones. If nothing is cheap enough he buys nothing and says so in party chat, for
+  example "no Soulshot (B) at or below 12 adena — cheapest seen 15 at SomeShop". See [Market](market.md) for current prices.
+
 **Gear.** *Buy gear upgrades by themselves* means the characters buy better gear during supply runs. That costs adena, so Save warns
 you when you switch it on. *Per character* can switch it on or off for one character, or **lock** a character's gear so nothing it wears
 is ever changed. Enchanting is never automatic: you always start it yourself.

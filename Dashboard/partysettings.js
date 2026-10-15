@@ -133,6 +133,7 @@
       const PA = obj(obj(obj(d.parties)[L]).amounts), amt = {};
       amtBands().forEach(b => { const r = obj(PA[String(b.start)]); amt[b.start] = {}; amtKeys().forEach(k => { amt[b.start][k.key] = isSet(r[k.key]) ? String(r[k.key]) : ''; }); });
       W.supplies = { party, chars, amt, allToo: false };
+      W.supplies.pshop = pshopModel(d, L);   // PSHOP-2026-10-15: shots from player shops (strings while typing)
       // HIVESW-2026-10-15: Combat (null = no own setting: the all-parties setting / like the party)
       const cp = {}, cc = {};
       cbKinds().forEach(k => { cp[k.key] = bool(P[k.key]); });
@@ -384,6 +385,7 @@
         const v = c[k.key], pe = paParty(k.key);
         return sel(`supplies.chars.${n}.${k.key}`, v === null || v === undefined ? '' : v ? 'on' : 'off', [['', `Like the party (${pe ? 'on' : 'off'})`], ['on', 'On'], ['off', 'Off']], k.key === 'sell' ? 'Selling' : 'Symbols', { kind: 'tri' }); }).join('')}</div>`; }).join('');
     const onK = K.filter(k => paParty(k.key)).map(k => PA_SHORT[k.key] || k.key);
+    if (s.pshop && s.pshop.on) onK.push('player-shop shots');   // PSHOP
     const sum = !onK.length ? 'Off — nothing by itself' : `${onK.join(' · ')}${run ? '' : ' (waits for Start)'}`;
     // SUPPLYAMT 2026-10-14: how much each character carries (every member uses the row of its own level)
     const lvOf = (n) => Number(memberInfo(n).level) || 0, bandOf = (lv) => amtBands().map(b => b.start).filter(b => b <= Math.max(1, lv)).pop() || 1;
@@ -403,6 +405,8 @@
     const body = `
       ${items}
       ${amtBlock}
+      ${pshopBlock(s)}
+      <div class="crf-slot" data-crafter-party="${E(PS.leader)}"></div><!-- CRAFTER-2026-10-15: filled by Dashboard/crafterpanel.js -->
       <details class="ps-more"><summary>Per character</summary>${rows}<div class="ps-what">A character's own choice wins over the party's switch for selling and symbols.</div></details>
       ${note('Your orders always work, also while these are off: <b>Supply run now</b> (!supply), <b>Sell now</b> (!sell), and !dyes on a character in Giran. A supply run sells and draws symbols only for the characters whose switch is on.', 'info')}
       ${acts}
@@ -717,6 +721,55 @@
     document.querySelectorAll('#psBody details.ps-sec').forEach(d => { const k = d.dataset.pssec, dot = d.querySelector('summary .ps-dot'); const dirty = ds.includes(k === 'fight' ? 'tactics' : k) || (k === 'daily' && ds.includes('ss')); if (dirty && !dot) { const b = d.querySelector('summary .ps-st b'); if (b) b.insertAdjacentHTML('beforeend', ' <span class="ps-dot" title="unsaved changes">●</span>'); } else if (!dirty && dot) dot.remove(); });
   }
 
+  // PSHOP-2026-10-15 (owner "Shots step 2"): buy B / A / S shots from PLAYER shops in Giran at or below a max price (party_auto.json parties.<leader>.pshop)
+  const PSHOP_FALLBACK = { kinds: [{ key: 'soulshot', label: 'Soulshots' }, { key: 'blessed', label: 'Blessed Spiritshots' }, { key: 'spiritshot', label: 'Spiritshots (plain — only when blessed ones of that grade cannot be had)' }],
+    grades: ['B', 'A', 'S'], defaults: { budget: 5000000, keep: 1000000, maxAgeMin: 120 }, limits: { price: 10000000, budget: 100000000000, keep: 100000000000, maxAgeMin: 1440 } };
+  const pshopInfo = () => (ok(PS.D.pauto) && PS.D.pauto.pshop ? PS.D.pauto.pshop : PSHOP_FALLBACK);
+  function pshopModel(d, L) {
+    const own = obj(obj(obj(d.parties)[L]).pshop), all = obj(obj(d.default).pshop), src = Object.keys(own).length ? own : all, I = pshopInfo(), max = {};
+    I.kinds.forEach(k => { const m = obj(obj(src.max)[k.key]); max[k.key] = {}; I.grades.forEach(g => { max[k.key][g] = isSet(m[g]) && Number(m[g]) > 0 ? fmtN(m[g]) : ''; }); });
+    return { on: src.on === true, scan: src.scan !== false, max, budget: isSet(src.budget) ? fmtN(src.budget) : '', keep: isSet(src.keep) ? fmtN(src.keep) : '',
+      maxAgeMin: isSet(src.maxAgeMin) ? String(src.maxAgeMin) : '', from: Object.keys(own).length ? 'party' : Object.keys(all).length ? 'all' : 'none' };
+  }
+  /** the model -> the table the API stores (null = nothing of its own) */
+  function pshopTable(w) {
+    if (!w) return null;
+    const I = pshopInfo(), out = {}, max = {}, n = (v) => { const x = amt(v); return x == null || Number.isNaN(x) ? null : x; };
+    I.kinds.forEach(k => { const r = {}; I.grades.forEach(g => { const v = n((w.max[k.key] || {})[g]); if (v) r[g] = v; }); if (Object.keys(r).length) max[k.key] = r; });
+    if (w.on) out.on = true;
+    if (!w.scan) out.scan = false;
+    if (Object.keys(max).length) out.max = max;
+    ['budget', 'keep', 'maxAgeMin'].forEach(k => { const v = n(w[k]); if (v != null) out[k] = v; });
+    return Object.keys(out).length ? out : null;
+  }
+  function pshopPrices(w) {
+    const I = pshopInfo(), out = [];
+    I.kinds.forEach(k => I.grades.forEach(g => { const v = amt((w.max[k.key] || {})[g]); if (v > 0) out.push(`${k.label.split(' (')[0].replace(/s$/, '')} ${g} ≤ ${fmtN(v)}`); }));
+    return out;
+  }
+  function pshopBlock(s) {
+    const w = s.pshop; if (!w) return '';
+    const I = pshopInfo(), D = I.defaults, run = runOn(), prices = pshopPrices(w);
+    const rows = I.kinds.map(k => `<div class="ps-pshband"><div class="ps-amth">${E(k.label)}</div><div class="ps-pshrow">${I.grades.map(g =>
+      inp(`supplies.pshop.max.${k.key}.${g}`, (w.max[k.key] || {})[g] || '', `${g} grade: max price`, { ph: 'not bought', small: true })).join('')}</div></div>`).join('');
+    const warn = w.on && !prices.length ? note('Switched on, but no max price is filled in — nothing will be bought. Fill in at least one price.', 'bad') : '';
+    const onTxt = `On — in supply runs ${PS.leader} buys the B / A / S shots the team still needs from player shops in Giran${run ? '' : ' (works once you press Start, or in a supply run you order)'}`;
+    return `<details class="ps-more" data-pshop${w.on || w.from !== 'none' ? ' open' : ''}><summary>Buy shots from player shops (B / A / S)${w.on ? ' — on' : ' — off'}</summary>
+      ${item(sw('supplies.pshop.on', !!w.on, 'Buy shots from player shops', onTxt, OFF),
+        'The shop NPC in Giran (Helvetia) sells no-grade, D and C shots only. With this on, the leader looks at the newest shop scan (Market page), picks the <b>cheapest</b> player shops at or below <b>your max price</b>, walks there, checks the price again in the shop (shops change) and buys until the team\'s need is covered. Then he hands them out like the shots from the shop NPC. An empty price = never bought from players.')}
+      ${rows}
+      <div class="ps-pshrow ps-pshmoney">
+        ${inp('supplies.pshop.budget', w.budget, 'Most adena per supply run', { ph: fmtN(D.budget), small: true })}
+        ${inp('supplies.pshop.keep', w.keep, `${PS.leader} always keeps at least`, { ph: fmtN(D.keep), small: true })}
+        ${inp('supplies.pshop.maxAgeMin', w.maxAgeMin, 'Shop scan may be this old (minutes)', { ph: String(D.maxAgeMin), small: true })}
+      </div>
+      <label class="ps-chk"><input type="checkbox" data-pschk="supplies.pshop.scan"${w.scan ? ' checked' : ''}> When the last shop scan is older, the leader scans the Giran shops first (takes a few minutes)</label>
+      ${warn}
+      ${note(`Who buys: <b>${E(PS.leader)}</b> (the party leader) with his own adena, in Giran, during supply runs. Nothing cheap enough? He buys nothing and says so in party chat (for example "no Soulshot (B) at or below 12 adena — cheapest seen 15 at …").${w.from === 'all' ? ' These values come from the setting for all parties; saving makes them this party\'s own.' : ''}`, 'info')}
+      <div class="ps-acts">${link('#/market', 'Current prices on the Market page')}</div>
+    </details>`;
+  }
+
   // ============================================================================================ events
   function validate(path, raw) {
     delete PS.bad[path];
@@ -725,6 +778,7 @@
     if (path === 'loot.adena') { const n = amt(raw); if (Number.isNaN(n)) PS.bad[path] = 'a number, e.g. 5m, 300k or 0'; return; }   // LOOT RULES 2026-10-13
     if (/^storage\.party\.(above|weightPct|gapMin)$/.test(path)) { if (raw === '') return; const n = Number(raw), lim = { above: [1, 500], weightPct: [1, 100], gapMin: [0, 1440] }[path.split('.').pop()]; if (!Number.isFinite(n) || n < lim[0] || n > lim[1]) PS.bad[path] = `${lim[0]} to ${lim[1]}`; return; }
     if (/^routes\./.test(path)) { const r = routeRule(path.slice(7)); if (!r || r.type !== 'number' || raw === '') return; const n = Number(raw); if (!Number.isFinite(n) || n < r.min || n > r.max || Math.round(n) !== n) PS.bad[path] = `a whole number from ${r.min} to ${r.max}`; return; }   // MOVETOGETHER step 2
+    if (/^supplies\.pshop\./.test(path)) { if (raw === '') return; const n = amt(raw), L = pshopInfo().limits, k = path.split('.')[2], lim = k === 'max' ? L.price : L[k] || L.price, lo = k === 'maxAgeMin' ? 5 : 0; if (n == null || Number.isNaN(n) || n < lo || n > lim) PS.bad[path] = `a number from ${fmtN(lo)} to ${fmtN(lim)}${k === 'max' ? ' adena per shot' : ''}`; return; }   // PSHOP
     if (/^supplies\.amt\./.test(path)) { if (raw === '') return; const k = path.split('.').pop(), K = amtKeys().find(x => x.key === k), max = K ? K.max : 100000, n = Number(raw.replace(/[\s,]/g, '')); if (!Number.isFinite(n) || n < 0 || Math.round(n) !== n || n > max) PS.bad[path] = `0 to ${fmtN(max)}`; return; }   // SUPPLYAMT
     if (/^tactics\.(minDealers|levelMargin|fallbackHp)$/.test(path)) { const n = Number(raw), lim = { minDealers: [1, 9], levelMargin: [-5, 10], fallbackHp: [5, 90] }[path.split('.').pop()]; if (raw === '' || !Number.isFinite(n) || n < lim[0] || n > lim[1]) PS.bad[path] = `${lim[0]} to ${lim[1]}`; }
   }
@@ -738,7 +792,7 @@
   }
   function onChange(e) {
     const t = e.target; if (!t.dataset) return;
-    if (t.dataset.psin) { const p = t.dataset.psin; validate(p, t.value.trim()); if (/^(money\.|loot\.adena$)/.test(p) && !PS.bad[p] && t.value.trim()) { const n = amt(t.value); if (n != null && !Number.isNaN(n)) { t.value = fmtN(n); setP(p, t.value); } } t.toggleAttribute('aria-invalid', !!PS.bad[p]); renderBar(); return; }   // no re-render: the next field keeps the focus
+    if (t.dataset.psin) { const p = t.dataset.psin; validate(p, t.value.trim()); if (/^(money\.|loot\.adena$|supplies\.pshop\.(max|budget|keep))/.test(p) && !PS.bad[p] && t.value.trim()) { const n = amt(t.value); if (n != null && !Number.isNaN(n)) { t.value = fmtN(n); setP(p, t.value); } } t.toggleAttribute('aria-invalid', !!PS.bad[p]); renderBar(); return; }   // no re-render: the next field keeps the focus
     if (t.dataset.pssel) {
       const p = t.dataset.pssel; let v = t.value;
       if (t.dataset.kind === 'tri') v = v === '' ? null : v === 'on';
@@ -838,6 +892,11 @@
     if (W.supplies && J(W.supplies) !== J(W0.supplies)) {
       supKinds().forEach(k => { const a = W0.supplies.party[k.key], b = W.supplies.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : onoff(b)}`); });
       if (J(amtTable(W.supplies.amt)) !== J(amtTable(W0.supplies.amt))) out.push(`Supply amounts (party ${PS.leader}): ${amtTable(W.supplies.amt) ? 'own amounts' : 'the standard amounts'}`);   // SUPPLYAMT
+      if (W.supplies.pshop && J(pshopTable(W.supplies.pshop)) !== J(pshopTable(W0.supplies.pshop))) {   // PSHOP
+        const p = W.supplies.pshop, pr = pshopPrices(p);
+        out.push(`Buy shots from player shops (party ${PS.leader}): ${p.on ? 'on' : 'off'}${pr.length ? ' — max ' + pr.join(', ') : ' — no max prices'}`);
+        if (p.on) out.push(`Player shops: at most ${p.budget || fmtN(pshopInfo().defaults.budget)} adena per run, ${PS.leader} always keeps ${p.keep || fmtN(pshopInfo().defaults.keep)}`);
+      }
       if (W.supplies.allToo) out.push(`Supply amounts for every party without its own: ${amtTable(W.supplies.amt) ? 'these amounts' : 'the standard amounts'}`);
       PS.M.forEach(n => supKinds().filter(k => k.char).forEach(k => { const a = (W0.supplies.chars[n] || {})[k.key], b = (W.supplies.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key === 'sell' ? 'selling' : 'symbols'} ${b === null || b === undefined ? 'like the party' : onoff(b)}`); }));
     }
@@ -928,6 +987,7 @@
       const body = { party: PS.leader, values, chars, rev: fresh.rev, by: 'party settings' };
       const t = amtTable(b.amt); if (J(t) !== J(amtTable(a.amt))) body.amounts = t;   // SUPPLYAMT 2026-10-14
       if (b.allToo) body.defaultAmounts = t;
+      { const pa = pshopTable(a.pshop), pb = pshopTable(b.pshop); if (J(pa) !== J(pb)) body.pshop = pb; }   // PSHOP-2026-10-15: this party's own table (null = removed)
       const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify(body) });
       return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
     },

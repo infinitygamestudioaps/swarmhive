@@ -69,3 +69,22 @@ html.uid-open, html.uid-open body { overflow: hidden; }
 @keyframes uid-pop { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes uid-nudge { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 @media (prefers-reduced-motion: reduce) { .uid-ov, .uid-card, .uid-out, .uid-out .uid-card, .uid-nudge { animation: none !important; } }
+/* uiForm (HUNTTIMER 2026-10-15): radio groups as big tap chips (44 px) + the live part under them */
+.uid-seg { border: 0; margin: 4px 0 10px; padding: 0; min-width: 0; }
+.uid-seg > legend { padding: 0; margin-bottom: 5px; color: var(--gold, #e3c27a); font-weight: 700; }
+.uid-segrow { display: flex; flex-wrap: wrap; gap: 6px; }
+.uid-opt { position: relative; display: inline-flex; }
+.uid-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.uid-opt span { display: inline-flex; align-items: center; min-height: 44px; padding: 4px 12px; border: 1px solid var(--line2, #575141); border-radius: 4px;
+  background: rgba(0, 0, 0, .35); color: var(--ink, #d9cfb6); cursor: pointer; user-select: none; line-height: 1.25; }
+.uid-opt input:checked + span { border-color: var(--gold, #e3c27a); background: rgba(227, 194, 122, .18); color: #f6ebcf; font-weight: 700; box-shadow: inset 0 0 0 1px rgba(227, 194, 122, .5); }
+.uid-opt input:focus-visible + span { box-shadow: 0 0 0 2px rgba(227, 194, 122, .7); }
+.uid-live { border-top: 1px solid var(--line, #3b382f); padding-top: 8px; margin-top: 2px; }
+.uid-live .uid-kv dd.ok, .uid-live .uid-ok { color: var(--ok, #86cf6e); }
+@media (max-width: 420px) { .uid-opt span { padding: 4px 10px; } }
+/* uiForm multi: true (KITBUY 2026-10-15): checkboxes with a box mark; column: true = one option per line, full width */
+.uid-segrow.uid-col { flex-direction: column; flex-wrap: nowrap; }
+.uid-segrow.uid-col .uid-opt, .uid-segrow.uid-col .uid-opt span { display: flex; width: 100%; box-sizing: border-box; }
+.uid-chk span::before { content: ''; flex: 0 0 auto; width: 16px; height: 16px; margin-right: 9px; border: 1px solid var(--line2, #575141); border-radius: 3px; background: rgba(0, 0, 0, .4); }
+.uid-chk input:checked + span::before { content: '\2713'; display: inline-flex; align-items: center; justify-content: center; color: #1b1608; background: var(--gold, #e3c27a); border-color: var(--gold, #e3c27a); font-weight: 900; font-size: 12px; }
+.uid-opt input:disabled + span { opacity: .5; cursor: not-allowed; }

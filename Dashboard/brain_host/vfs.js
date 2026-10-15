@@ -11,7 +11,10 @@
 const fs = require('fs'), path = require('path');
 
 function createVfs(opts) {
-  const o = Object.assign({ root: 'C:\\L2Swarm', overlay: null, isolate: [], cacheMax: 64 * 1024 * 1024, log: null, onWrite: null }, opts || {});
+  // PERF-2026-10-15: cacheMax 64 -> 16 MB per worker (13 workers) and LRU: the old cache only ever grew (every version of every file >= 4 KB
+  // ever read stayed until the 64 MB were full, then nothing new was cached); files over cacheFileMax (2 MB) are not cached (the big datasets
+  // are shared PARSED by the runner, the text itself is garbage right after the parse).
+  const o = Object.assign({ root: 'C:\\L2Swarm', overlay: null, isolate: [], cacheMax: 16 * 1024 * 1024, cacheFileMax: 2 * 1024 * 1024, log: null, onWrite: null }, opts || {});
   const rootN = path.win32.normalize(o.root).replace(/[\\/]+$/, '').toLowerCase();
   const st = { reads: 0, hits: 0, writes: 0, bytesCached: 0, files: 0, errors: 0 };
   const cache = new Map();                    // realPath(lower) -> { mtimeMs, size, text }
@@ -49,14 +52,17 @@ function createVfs(opts) {
     const f = locate(p); if (!f) throw enoent(p);
     let s; try { s = fs.statSync(f); } catch (e) { throw enoent(p); }
     const k = f.toLowerCase(), c = cache.get(k);
-    if (c && c.mtimeMs === s.mtimeMs && c.size === s.size) { st.hits++; return c.text; }
+    if (c && c.mtimeMs === s.mtimeMs && c.size === s.size) { st.hits++; cache.delete(k); cache.set(k, c); return big(p, k, s, c.text); }   // LRU: most recent last
     let text = fs.readFileSync(f, 'utf8');
-    if (s.size >= 4096 && st.bytesCached + s.size < o.cacheMax) {
-      if (c) st.bytesCached -= c.size; else st.files++;
-      cache.set(k, { mtimeMs: s.mtimeMs, size: s.size, text }); st.bytesCached += s.size;
+    if (c) { cache.delete(k); st.bytesCached -= c.size; st.files--; }
+    if (s.size >= 4096 && s.size <= o.cacheFileMax && s.size <= o.cacheMax) {
+      for (const [ok, oc] of cache) { if (st.bytesCached + s.size <= o.cacheMax) break; cache.delete(ok); st.bytesCached -= oc.size; st.files--; st.evicted = (st.evicted || 0) + 1; }
+      cache.set(k, { mtimeMs: s.mtimeMs, size: s.size, text }); st.bytesCached += s.size; st.files++;
     }
-    return text;
+    return big(p, k, s, text);
   }
+  /** PERF-2026-10-15: a text >= 100 KB goes past api.onBigRead (the runner's shared parse) with its file version key */
+  function big(p, k, s, text) { if (api.onBigRead && text.length >= 100000) { try { api.onBigRead(rel(p), k + '|' + s.mtimeMs + '|' + s.size, text); } catch (e) { } } return text; }
   const File = {
     ReadAllText: (p) => readText(p),
     ReadAllLines: (p) => readText(p).split(/\r?\n/).filter((l, i, a) => i < a.length - 1 || l !== ''),
@@ -103,7 +109,8 @@ function createVfs(opts) {
     GetLastWriteTimeUtc: (p) => { const f = locate(p); return netDate(f ? fs.statSync(f).mtimeMs : Date.UTC(1601, 0, 1)); },
     GetLastWriteTime: (p) => { const f = locate(p); return netDate(f ? fs.statSync(f).mtimeMs : Date.UTC(1601, 0, 1)); },
   };
-  return { File, st, cache, locate, readText, rel };
+  const api = { File, st, cache, locate, readText, rel, onBigRead: null };
+  return api;
 }
 
 // .NET DateTime look-alike: swarm.js reads .Ticks (fileStamp) and calls ToString()

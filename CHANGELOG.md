@@ -2,6 +2,25 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.1 (2026-10-15)
+
+- Hunting time: choosing a room, area or spot asks how long to hunt (until stopped, 1-8 h) and what happens when the time is up (go to town and wait / town, supplies, come back / keep hunting) - the party is not pulled away by supply trips, Kamaloka, stash runs, Seven Signs or spot hopping meanwhile - the party card shows the time left with Extend / End now
+- The hunting-time window shows the expected soulshots, spiritshots, Spirit Ore, potions (and Holy Water / Soul Ore for characters whose skills use them) and warns who runs out first, with a Supply run first button - each character now measures its own use per hour
+- Market scan fixed: it found the player shops but read no items (wrong packet byte, lost handler) - now every shop's list is read
+- NEW buy B/A/S soulshots and spiritshots from player shops in a supply run, cheapest first, never above your max price per grade (party Settings - Supplies, OFF by default), with a budget and an adena floor - Market tab - Shots view shows the cheapest offers against your max prices
+- NEW Our crafter (Storage page): a Dwarf crafter keeps shots in stock by crafting them (recipes per grade, what is missing, daily limits) - supply runs take shots from him first, then the grocer, then player shops - OFF by default
+- Crafter: turn chosen items into crystals (red confirm, worn items never, enchanted / special items only when ticked), give him items, recipes and materials from any character or the clan warehouse, Learn button per recipe
+- NEW Automations tab: every automation per party - on / off / waits for Start / always on, why, what it does now, and a button to where it is switched
+- Seven Signs: every catacomb and necropolis says in one sentence why it is open or closed (validation week, not signed up, sign-up switched off ...) and when it opens again - on the dashboard and in the bots' notes
+- Frenzy kit: a Buy what is missing button on the destroyer page (never bought by itself) - kit pieces are never stored or sold by the automatic stash / junk sale
+- C-grade jewels: Sandra's real menu text is used (supply runs bought 0 of 5 jewels before)
+- Raid boss page map: the path the bots really walk is drawn bright (the other faded), plus the fight area, clear area, stage point and the cliff and water edges around the boss
+- Warning bar: a red Cannot move line when a character has not moved for 10+ minutes while every walk and town port failed
+- Much lower CPU and RAM: the game-side agents no longer read fields the game client does not have (each such read cost 50-100x a normal one), idle characters report less often, no more broadcast messages into L2Swarm and no repeated setting writes - about 30-50 % less agent CPU in L2Swarm - and the brain engine shares the big data files between characters (a 9-character party: 444 MB -> 261 MB)
+- Loot to the collector: a loot rule of everything now really hands over everything (raid items, coins, tattoos, enchant scrolls were left in the bags), givers take turns with the receiver (two trades at once were both closed), the receiver no longer switches on its soulshots during the hand-over (that cancelled the next trade), and items the server refuses are remembered and never offered again
+- A party leader no longer freezes the brain engine while a teammate travels back from far away (an endless loop got the character quarantined)
+- Crafter: the hand-in and crystallize buttons, Learn per recipe, items from the clan warehouse
+
 ## v1.7.0 (2026-10-15)
 
 - LOOT TO THE COLLECTOR: every member of a party now hands over its own loot (before only the leader's loot arrived - the members never answered in time)

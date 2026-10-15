@@ -63,6 +63,7 @@
       <div class="box"><h3>Collector</h3><div id="stgColl"></div></div>
       <div class="box"><h3>Never store</h3><div id="stgNever"></div></div>
       <div class="box" id="stgCwhBox"><h3>Clan warehouse</h3><div id="stgCwh"></div></div>
+      <div class="box" id="stgCraftBox"><h3>Our crafter</h3><div id="stgCraft"></div></div><!-- CRAFTER-2026-10-15: filled by Dashboard/crafterpanel.js -->
       <div class="box"><h3>Event letters</h3><div id="stgLet"></div></div>
       <div class="box"><h3>Loot from hunting</h3><div id="stgLoot"></div></div>
       <div class="box"><h3>Per party and character</h3><div class="fnd-parties" id="stgParties"></div></div>

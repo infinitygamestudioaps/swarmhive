@@ -214,6 +214,8 @@ table.l2 tbody tr:hover td { background: url('/icons/L2UI_CT1/ListCtrl_DF_Highli
 .chip { font-size: var(--fs-mini); padding: 1px 6px 1px 3px; border: 1px solid var(--line2); background: rgba(0, 0, 0, .35); border-radius: 2px; display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
 .chip .gi { width: 14px; height: 14px; }
 .chip.ok { color: var(--ok); border-color: #3f5e34; } .chip.bad { color: var(--bad); border-color: #6b3128; }
+/* SSREASON-2026-10-15: the plain Seven Signs sentence next to a catacomb / necropolis chip (wraps on a phone) */
+.ssreason { display: inline; font-size: var(--fs-mini, 12px); color: var(--muted, #b9b0a0); white-space: normal; overflow-wrap: anywhere; }
 
 /* ---- layout ---- */
 header { position: sticky; top: 0; z-index: 20; padding: 6px 8px 0; padding-top: max(6px, env(safe-area-inset-top)); background: linear-gradient(#0b0f10 70%, rgba(11, 15, 16, 0)); }
@@ -666,6 +668,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
     <div id="liveBanner"></div>
     <nav id="tabs">
       <button data-tab="parties" class="on"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Clan.png" alt=""> Parties</button>
+      <button data-tab="auto" title="What runs by itself: every automation per party, on or off and why"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_SystemMenu.png" alt=""> Automations</button><!-- AUTOMATIONS 2026-10-15 -->
       <button data-tab="map"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Map</button>
       <button data-tab="logs"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Action.png" alt=""> What they do</button>
       <button data-tab="tp"><img class="gi" src="/icons/icon/etc_scroll_of_return_i00.png" alt=""> Teleports</button>
@@ -1204,6 +1207,7 @@ function route() {
   if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
   if (window.MarketPage && MarketPage.route(kind, arg)) return;   // MARKET 2026-10-14: #/market player shops (Dashboard/marketpage.js)
   if (window.StoragePage && StoragePage.route(kind, arg)) return;   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
+  if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
   if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
@@ -1681,7 +1685,7 @@ let PSPOT = { at: 0, data: null, loading: false };
 function loadPartySpots(force) {
   if (PSPOT.loading || (!force && Date.now() - PSPOT.at < 30000)) return;
   PSPOT.loading = true;
-  api('/api/partyspot').then(d => { if (d && !d.error) { PSPOT.data = d; PSPOT.at = Date.now(); if (TAB === 'parties' && STATE) renderParties(); } })
+  api('/api/partyspot').then(d => { if (d && !d.error) { PSPOT.data = d; PSPOT.at = Date.now(); if (SPK) renderSpotPicker(); /* HUNTTIMER-2026-10-15: an open picker left 'Loading…' when the data came after it opened */ if (TAB === 'parties' && STATE) renderParties(); } })
     .catch(() => { }).finally(() => { PSPOT.loading = false; PSPOT.at = PSPOT.at || Date.now(); });
 }
 const spotLabel = (e) => {
@@ -1799,50 +1803,83 @@ function ssgNow(s, t, h, everyMs) {
 function ssgSide(r, cycle) { r = r || {}; return r.cycle && r.cycle === cycle ? (/^(signed|member)$/.test(r.status || '') ? 'dawn' : r.status === 'dusk' ? 'dusk' : '') : ''; }
 function ssgOne(cur, m, kind, o) {
   o = o || {}; const r = m.rec || {}, side = ssgSide(r, cur.cycle), n = m.name;
-  const R = (state, why, until) => ({ ok: state === 'enter', state, why, side, name: n, until: until || 0 });
-  if (m.base) return R('closed', `${n} has no 1st class transfer yet: cannot join the Seven Signs, so no catacombs/necropolises`);
+  const R = (state, why, until, code) => ({ ok: state === 'enter', state, why, side, name: n, until: until || 0, code: code || state });   // SSREASON: code = which rule (ssgReason)
+  if (m.base) return R('closed', `${n} has no 1st class transfer yet: cannot join the Seven Signs, so no catacombs/necropolises`, 0, 'base');
   const dn = r.denied;
-  if (dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind)) return R('closed', `the Ziggurat refused ${n} this period (${dn.dungeon || '?'}: ${String(dn.why || '').slice(0, 80)})`, cur.nextChange);
-  if (!cur.period || cur.period === 'unknown') return R('check', 'the Seven Signs period is not known yet — the Priest of Dawn has to be read first');
-  if (cur.period === 'recruiting' || cur.period === 'results') return R('check', `the 15-min ${cur.period} break of the Seven Signs — read the Priest of Dawn again`);
+  if (dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind)) return R('closed', `the Ziggurat refused ${n} this period (${dn.dungeon || '?'}: ${String(dn.why || '').slice(0, 80)})`, cur.nextChange, 'denied');
+  if (!cur.period || cur.period === 'unknown') return R('check', 'the Seven Signs period is not known yet — the Priest of Dawn has to be read first', 0, 'unknown');
+  if (cur.period === 'recruiting' || cur.period === 'results') return R('check', `the 15-min ${cur.period} break of the Seven Signs — read the Priest of Dawn again`, 0, 'break');
   if (cur.period === 'competition') {
-    if (side) return R('enter', `competition period: ${n} is signed up (${side})`);
-    if (r.cycle === cur.cycle && r.status === 'fee') return R('closed', `${n}: the Priest of Dawn asked for a fee/item this cycle (not paid: Dawn is free on L2Toggle — see Logs/dawn.log)`, cur.nextChange);
-    if (r.cycle === cur.cycle && (r.tries || 0) >= (o.maxTries || 3)) return R('closed', `${n}: the Dawn sign-up failed ${r.tries} times this cycle (${r.status || '?'})`, cur.nextChange);
+    if (side) return R('enter', `competition period: ${n} is signed up (${side})`, 0, 'signed');
+    if (r.cycle === cur.cycle && r.status === 'fee') return R('closed', `${n}: the Priest of Dawn asked for a fee/item this cycle (not paid: Dawn is free on L2Toggle — see Logs/dawn.log)`, cur.nextChange, 'fee');
+    if (r.cycle === cur.cycle && (r.tries || 0) >= (o.maxTries || 3)) return R('closed', `${n}: the Dawn sign-up failed ${r.tries} times this cycle (${r.status || '?'})`, cur.nextChange, 'tries');
     return R('signup', `competition period: ${n} is not signed up yet`);
   }
   // seal validation: nobody can sign up now
-  if (!side) return R('closed', `seal validation period: ${n} was not signed up in the last competition (nobody can sign up before the next competition)`, cur.nextChange);
-  if (cur.winner === 'dawn' || cur.winner === 'dusk') return side === cur.winner ? R('enter', `seal validation period: ${cur.winner} won and ${n} is ${side}`) : R('closed', `seal validation period: only the winners (${cur.winner}) may enter — ${n} is ${side}`, cur.nextChange);
-  return R('enter', `seal validation period (${cur.winner === 'none' ? 'no decisive winner' : 'winner not read yet'}); ${n} is ${side}`);
+  if (!side) return R('closed', `seal validation period: ${n} was not signed up in the last competition (nobody can sign up before the next competition)`, cur.nextChange, 'notsigned');
+  if (cur.winner === 'dawn' || cur.winner === 'dusk') return side === cur.winner ? R('enter', `seal validation period: ${cur.winner} won and ${n} is ${side}`, 0, 'winner') : R('closed', `seal validation period: only the winners (${cur.winner}) may enter — ${n} is ${side}`, cur.nextChange, 'loser');
+  return R('enter', `seal validation period (${cur.winner === 'none' ? 'no decisive winner' : 'winner not read yet'}); ${n} is ${side}`, 0, 'nowinner');
 }
 function ssGateDecide(cur, members, kind, o) {
   o = o || {};
-  if (o.enabled === false) return { state: 'enter', ok: true, why: 'the Seven Signs check is off (CONFIG.sevenSigns.blockDungeons)', until: 0, need: [], who: [] };
+  if (o.enabled === false) return { state: 'enter', ok: true, why: 'the Seven Signs check is off (CONFIG.sevenSigns.blockDungeons)', until: 0, need: [], who: [], code: 'off' };
   // TRY MODE (2026-10-13, tester: 'it says I need to sign with the Priest of Dawn but the party fails, yet I can manually teleport into the catacombs'):
   // L2Toggle lets characters that are NOT signed up through the Ziggurat (seen 2026-10-07 with Dagger1 too). o.mode 'try' = go and let the
   // Ziggurat decide; only a refusal it really gave this period (rec.denied, ssMarkDenied) closes it until the period change. No mode = the old rule.
   if (o.mode === 'try') {
     const den = (members || []).filter(m => { const dn = ((m && m.rec) || {}).denied; return dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind); });
-    if (den.length) return { state: 'closed', ok: false, why: 'the Ziggurat refused ' + den.map(m => m.name).join(', ') + ' this period (Seven Signs)', until: cur.nextChange || 0, need: [], who: den.map(m => m.name) };
-    return { state: 'enter', ok: true, why: 'Seven Signs gate "try": the Ziggurat decides (no sign-up needed first)', until: 0, need: [], who: [] };
+    if (den.length) return { state: 'closed', ok: false, why: 'the Ziggurat refused ' + den.map(m => m.name).join(', ') + ' this period (Seven Signs)', until: cur.nextChange || 0, need: [], who: den.map(m => m.name), code: 'denied' };
+    return { state: 'enter', ok: true, why: 'Seven Signs gate "try": the Ziggurat decides (no sign-up needed first)', until: 0, need: [], who: [], code: 'try' };
   }
   const all = (members || []).map(m => ssgOne(cur, m, kind, o));
   const closed = all.filter(a => a.state === 'closed');
   if (closed.length) {
     const until = closed.some(a => !a.until) ? 0 : Math.max(...closed.map(a => a.until));
-    return { state: 'closed', ok: false, why: closed[0].why + (closed.length > 1 ? ` (+${closed.length - 1} more: ${closed.slice(1).map(a => a.name).join(', ')})` : ''), until, need: [], who: closed.map(a => a.name) };
+    return { state: 'closed', ok: false, why: closed[0].why + (closed.length > 1 ? ` (+${closed.length - 1} more: ${closed.slice(1).map(a => a.name).join(', ')})` : ''), until, need: [], who: closed.map(a => a.name), code: closed[0].code, whoSame: closed.filter(a => a.code === closed[0].code).map(a => a.name) };
   }
   const chk = all.find(a => a.state === 'check');
-  if (chk) return { state: 'check', ok: false, why: chk.why, until: 0, need: [], who: [] };
+  if (chk) return { state: 'check', ok: false, why: chk.why, until: 0, need: [], who: [], code: chk.code };
   const need = all.filter(a => a.state === 'signup').map(a => a.name);
-  if (need.length) return { state: 'signup', ok: false, why: `competition period: ${need.join(', ')} ${need.length === 1 ? 'is' : 'are'} not signed up yet — Lords of Dawn sign-up first (Priest of Dawn, free)`, until: 0, need, who: need };
-  return { state: 'enter', ok: true, why: all.length ? all[0].why : 'nobody to check', until: 0, need: [], who: [] };
+  if (need.length) return { state: 'signup', ok: false, why: `competition period: ${need.join(', ')} ${need.length === 1 ? 'is' : 'are'} not signed up yet — Lords of Dawn sign-up first (Priest of Dawn, free)`, until: 0, need, who: need, code: 'signup' };
+  return { state: 'enter', ok: true, why: all.length ? all[0].why : 'nobody to check', until: 0, need: [], who: [], code: all.length ? all[0].code : 'nobody' };
 }
 function ssgUntilText(ms) {
   if (!ms) return '';
   const d = new Date(ms), p = (v) => String(v).padStart(2, '0');
   return `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()]} ${d.getDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()]} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+/** SSREASON-2026-10-15 (tester: "bots can't get back to necropolises and catacombs they went to before"): ONE plain sentence why a catacomb /
+ *  necropolis is open or closed for a party right now. g = ssGateDecide (+ ssoGate) result, cur = ssgNow(). The bot's notes and the dashboard
+ *  (spot picker, party card, hunt popup, 7 Signs tab, Automations page) all use THIS function (copies: Dashboard/index.html SSGATE-UI and
+ *  Dashboard/sslogic.js; docs/plan/tools/test_seven_signs_reasons.js checks they are identical). Times = the machine's local time. */
+function ssgReason(g, cur) {
+  cur = cur || {};
+  if (!g) return 'Unknown: no Seven Signs data from the bots yet.';
+  const who = (L) => { L = (L || []).filter(Boolean); return L.length <= 3 ? L.join(', ') : L.slice(0, 3).join(', ') + ' and ' + (L.length - 3) + ' more'; };
+  const isAre = (L) => ((L || []).length === 1 ? 'is' : 'are'), wasWere = (L) => ((L || []).length === 1 ? 'was' : 'were');
+  const at = (ms) => (ms ? ssgUntilText(ms) + ' (local time)' : 'the next Monday period change');
+  const W = (w) => (w === 'dawn' ? 'Dawn' : w === 'dusk' ? 'Dusk' : '');
+  const same = g.whoSame && g.whoSame.length ? g.whoSame : (g.who || []), more = (g.who || []).length - same.length;
+  const plus = more > 0 ? ` (${more} more ${more === 1 ? 'member is' : 'members are'} closed for another reason)` : '';
+  const nx = at(cur.nextChange || g.until), c = g.code || (g.optin ? 'optin' : g.state);
+  if (c === 'off') return 'Open: the Seven Signs check is switched off.';
+  if (c === 'try') return 'Open: the Seven Signs gate is set to "try" — the party goes to the Ziggurat and the Ziggurat decides (no sign-up first).';
+  if (c === 'signed') return 'Open: everyone in the party is signed up with the Lords of Dawn this week.';
+  if (c === 'winner') return `Open: it is the Seven Signs validation week, ${W(cur.winner)} won and everyone was on the ${W(cur.winner)} side.`;
+  if (c === 'nowinner') return 'Open: it is the Seven Signs validation week and everyone was signed up in the last competition (no clear winner known).';
+  if (g.state === 'enter') return 'Open: nobody in the party is blocked by the Seven Signs.';
+  if (c === 'signup') return `Not signed up yet: ${who(g.need || g.who)} — it is the competition week, so the leader takes them to the Priest of Dawn (free) first, then goes in.`;
+  if (c === 'unknown') return 'Unknown: no character has read the Priest of Dawn\'s page this cycle yet — the leader reads it in a town first, then decides.';
+  if (c === 'break') return 'Short Seven Signs break (15 minutes at the Monday change) — the leader reads the Priest of Dawn again, then decides.';
+  if (c === 'optin-check') return 'Seven Signs sign-up is switched off for this party (opt-in on the 7 Signs tab) and nobody has read the Priest of Dawn this cycle yet — enroll the party or press Sign up now on the 7 Signs tab.';
+  if (c === 'optin') return `Not open for ${who(g.who)}: not signed up with the Lords of Dawn, and the Seven Signs sign-up is switched off for ${(g.who || []).length === 1 ? 'this character' : 'them'} — sign up on the 7 Signs tab (enroll, or Sign up now).`;
+  if (c === 'notsigned') return `Closed this week: it is the Seven Signs validation period and ${who(same)} ${wasWere(same)} not signed up in the last competition — opens again ${nx} (next competition)${plus}.`;
+  if (c === 'loser') return `Closed this week: it is the Seven Signs validation period and ${W(cur.winner) || 'the other side'} won, so only ${W(cur.winner) || 'its'} members may enter — ${who(same)} ${isAre(same)} not — opens again ${nx} (next competition)${plus}.`;
+  if (c === 'base') return `Not open for ${who(same)}: no 1st class transfer yet, so ${same.length === 1 ? 'it' : 'they'} cannot join the Seven Signs — change class first${plus}.`;
+  if (c === 'denied') return `Closed for ${who(same)} until ${at(g.until || cur.nextChange)}: the Ziggurat refused ${same.length === 1 ? 'it' : 'them'} this period${plus}.`;
+  if (c === 'fee') return `Not open for ${who(same)} this week: the Priest of Dawn asked for a fee or an item (not paid) — the next try is after ${nx}${plus}.`;
+  if (c === 'tries') return `Not open for ${who(same)} this week: the Dawn sign-up failed 3 times — press Sign up on the 7 Signs tab to try again${plus}.`;
+  return `Closed: ${g.why || 'the Seven Signs rule'}${g.until ? ' — until ' + at(g.until) : ''}.`;
 }
 function manualLevelGate(lvMin, lvMax, landing, teamMax, margin, override) {
   const lim = teamMax + margin, mon = Number(lvMin) || 0, land = Number(landing) || 0;
@@ -1874,9 +1911,9 @@ function ssGateParty(party, dungeon, t) {
   const O = S.optin || {}, lc = (x) => String(x || '').toLowerCase(), enr = (n) => true || (O.chars || []).some(x => lc(x) === lc(n)) || (O.parties || []).some(x => lc(x) === lc(party));   // SSGATE2-2026-10-13: picking a catacomb = consent to its Dawn sign-up (swarm.js ssChosenDungeon)
   let g = ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 99, mode: String(O.gate || '').toLowerCase() === 'try' ? 'try' : 'strict' });   // SSGATE2: strict = the default
   const hint = 'enroll on the 7 Signs tab for the automatic sign-up (or send !dawn)';
-  if (g.state === 'signup') { const no = (g.need || []).filter(n => !enr(n)); if (no.length) g = { state: 'closed', ok: false, optin: true, why: 'competition period: ' + no.join(', ') + (no.length === 1 ? ' is' : ' are') + ' not signed up and not enrolled — ' + hint, until: 0, need: [], who: no }; }
-  else if (g.state === 'check' && !mem.some(m => enr(m.name))) g = { state: 'closed', ok: false, optin: true, why: g.why + ' — nobody of the team is enrolled: ' + hint, until: 0, need: [], who: [] };
-  return Object.assign(g, { cur });
+  if (g.state === 'signup') { const no = (g.need || []).filter(n => !enr(n)); if (no.length) g = { state: 'closed', ok: false, optin: true, why: 'competition period: ' + no.join(', ') + (no.length === 1 ? ' is' : ' are') + ' not signed up and not enrolled — ' + hint, until: 0, need: [], who: no, code: 'optin' }; }
+  else if (g.state === 'check' && !mem.some(m => enr(m.name))) g = { state: 'closed', ok: false, optin: true, why: g.why + ' — nobody of the team is enrolled: ' + hint, until: 0, need: [], who: [], code: 'optin-check' };
+  return Object.assign(g, { cur, reason: ssgReason(g, cur) });   // SSREASON-2026-10-15: the bot's own sentence (SSGATE-UI ssgReason)
 }
 /** one line for the picker: green enter, red closed (until when), gold sign-up first, grey period not read */
 function ssGateText(g) {
@@ -1889,7 +1926,9 @@ function ssGateText(g) {
   if (c.period === 'validation' && /not signed up/.test(g.why)) return { cls: 'bad', t: `closed: Seven Signs validation — only ${win ? win + ' winners' : 'characters signed up in the last competition'}${until}` };
   return { cls: 'bad', t: `closed: ${g.why}${until}` };
 }
-const ssChip = (g) => { const x = ssGateText(g); return `<span class="chip ${x.cls}" title="${esc(g ? g.why : '')}">${esc(x.t)}</span>`; };
+const ssChip = (g) => { const x = ssGateText(g); return `<span class="chip ${x.cls}" title="${esc(g ? g.reason || g.why : '')}">${esc(x.t)}</span>`; };
+// SSREASON-2026-10-15 (tester: 'bots cannot get back to catacombs they went to before'): the chip + the ONE plain sentence why (also on a phone: no tooltip needed)
+const ssChipWhy = (g, always) => ssChip(g) + (g && g.reason && (always || g.state !== 'enter') ? ` <span class="ssreason">${esc(g.reason)}</span>` : '');
 /** the monster levels of what the user is about to choose (room / any room / zone / datapack spot) */
 function spotMonsterLevels(body) {
   const d = PSPOT.data || {}, o = d.options || {};
@@ -1927,10 +1966,10 @@ async function spotChoiceChecks(party, body, label) {
     const g = ssGateParty(party, dName);
     if (g && g.state === 'closed') {
       asked = true;
-      const v = await askChoice(`${dName} is closed now`, `Party ${party} (${n} characters): ${label}\n\n${ssGateText(g).t}\n(${g.why})\n\nThe party will NOT go there: it hunts its automatic spot meanwhile and goes there by itself once the Seven Signs period changes${g.until ? ' (' + ssgUntilText(g.until) + ' local)' : ''} — in the competition period every member signs up with the Lords of Dawn first.\n\nSave the choice anyway?`,
+      const v = await askChoice(`${dName} is closed now`, `Party ${party} (${n} characters): ${label}\n\n${ssGateText(g).t}\n\n${g.reason || g.why}\n\nThe party will NOT go there: it hunts its automatic spot meanwhile and goes there by itself once the Seven Signs period changes${g.until ? ' (' + ssgUntilText(g.until) + ' local)' : ''} — in the competition period every member signs up with the Lords of Dawn first.\n\nSave the choice anyway?`,
         [{ label: 'Save anyway (blocked until it opens)', value: 'save' }, { label: 'Cancel', value: null }]);
       if (v !== 'save') return null;
-    } else if (g && g.state !== 'enter') parts.push(ssGateText(g).t + '.');
+    } else if (g && g.state !== 'enter') parts.push(g.reason || ssGateText(g).t + '.');   // SSREASON: the plain sentence (also in the hunt popup)
   }
   const ml = body.mode === 'manual' ? spotMonsterLevels(body) : null;
   const mg = ml ? manualLevelGate(+ml[0], +ml[1], 0, lv.max, DANGER_MARGIN, false) : null;
@@ -1940,6 +1979,12 @@ async function spotChoiceChecks(party, body, label) {
       [{ label: 'Yes, override', value: 'override', cls: 'on' }, { label: 'Save without override', value: 'plain' }, { label: 'Cancel', value: null }]);
     if (!v) return null;
     if (v === 'override') Object.assign(body, { override: true, overrideBy: 'dashboard', overrideNote: `party ${lv.min}-${lv.max}, monsters ${ml[0]}-${ml[1]}` });
+  }
+  // HUNTTIMER-2026-10-15 (owner: "I did not get asked how many hours"): a place = the hunt popup (how long, what then, the supplies it needs) — it is the confirmation
+  if (body.mode === 'manual' && window.HuntTimer) {
+    const ch = await HuntTimer.ask(party, label, { parts, stay: body.stay });
+    if (!ch) return null;
+    body._hunt = ch; return body;
   }
   if (!asked && !await uiConfirm({ title: `Hunting spot for party ${party}`,
     body: [uiP(`Party ${party} (${n} characters): hunting spot = `, uiEm(label), body.stay ? ' (stay even if occupied)' : '', '?'),
@@ -1957,7 +2002,7 @@ function spotPickHtml(leader, list) {
   loadSevenSigns(false);
   const ssd = man && e.kind === 'rooms' && ssDungeonName(e.dungeon) ? ssGateParty(leader, e.dungeon) : null;   // Seven Signs state of a chosen catacomb / necropolis
   return `<div class="spotline">${GI(UI.map || UI.clan, 'sm')} <b>Hunting spot:</b> <span class="chip${man ? ' warn' : ''}">${esc(spotLabel(e))}${man && e.stay ? ' · stay' : ''}${man && e.override ? ' · level override' : ''}</span>
-    ${manualStatusHtml(lead, e)}${rotationHtml(lead)}${spotWatchHtml(lead)}${ssd && ssd.state !== 'enter' ? ' ' + ssChip(ssd) : ''}
+    ${manualStatusHtml(lead, e)}${window.HuntTimer ? HuntTimer.chipHtml(leader) : ''}${rotationHtml(lead)}${spotWatchHtml(lead)}${ssd && ssd.state !== 'enter' ? ' ' + ssChipWhy(ssd) : ''}
     ${now ? `<span class="muted">now: ${esc(now)}</span>` : ''}
     <button data-spotpick="${esc(leader)}">Choose…</button>${man ? `<button data-spotauto="${esc(leader)}">Back to auto</button>` : ''}
     ${d ? '' : '<span class="muted">(needs the dashboard server restarted for /api/partyspot)</span>'}</div>`;
@@ -2008,9 +2053,9 @@ function renderSpotPicker() {
   const cur = (d.spots || {})[SPK.party];
   const row = (attrs, lv, name, extra) => `<div class="si" ${attrs}><span class="lv">${lv}</span><b>${esc(name)}</b> ${extra || ''}</div>`;
   const dun = (d.options.dungeons || []).filter(x => match(x.name) && fits(x.levelRange[0], x.levelRange[1]))
-    .map(x => row(`data-spkdun="${esc(x.name)}"`, x.levelRange.join('–'), x.name, `<span class="muted">${x.rooms} rooms · tap for the map</span> ${x.catacomb || ssDungeonName(x.name) ? ssChip(ssGateParty(SPK.party, x.name)) : ''} ${heldBy(x.name)}`)).join('');
+    .map(x => row(`data-spkdun="${esc(x.name)}"`, x.levelRange.join('–'), x.name, `<span class="muted">${x.rooms} rooms · tap for the map</span> ${x.catacomb || ssDungeonName(x.name) ? ssChipWhy(ssGateParty(SPK.party, x.name)) : ''} ${heldBy(x.name)}`)).join('');
   const zon = (d.options.zones || []).filter(z => z.enabled && match(z.name) && fits(z.levelMin, z.levelMax))
-    .map(z => row(`data-spkzone="${esc(z.name)}"`, z.levelMin + '–' + z.levelMax, z.name, `<span class="muted">${esc(z.kind)}${z.rooms ? ' · ' + esc(z.rooms) : ''}${z.teams ? ' · for ' + esc(z.teams.join(', ')) : ''}</span> ${z.rooms && ssDungeonName(z.rooms) ? ssChip(ssGateParty(SPK.party, z.rooms)) : ''} ${heldBy(z.name)}`)).join('');
+    .map(z => row(`data-spkzone="${esc(z.name)}"`, z.levelMin + '–' + z.levelMax, z.name, `<span class="muted">${esc(z.kind)}${z.rooms ? ' · ' + esc(z.rooms) : ''}${z.teams ? ' · for ' + esc(z.teams.join(', ')) : ''}</span> ${z.rooms && ssDungeonName(z.rooms) ? ssChipWhy(ssGateParty(SPK.party, z.rooms)) : ''} ${heldBy(z.name)}`)).join('');
   const reg = (d.options.regions || []).filter(x => x.levelRange && match(x.name) && fits(x.levelRange[0], x.levelRange[1]))
     .map(x => row(`data-spkreg="${esc(x.id)}"`, x.levelRange.join('–'), x.name, `<span class="muted">${x.areas} areas${x.reachable < x.areas ? ' (' + (x.areas - x.reachable) + ' not reachable)' : ''} · ${esc(x.landing || 'no landing')} · tap for the map</span> ${regionHeld(x.id)}`)).join('');
   const dp = (d.options.datapack || []).filter(s => match(s.name) && fits(s.levelMin, s.levelMax)).slice(0, 150)
@@ -2030,10 +2075,12 @@ async function saveSpot(body, label) {
   // Seven Signs (closed / sign-up first) + level above the safe limit ("Yes, override") — user 2026-10-08 21:55 / 21:58
   if (body && body.mode === 'manual' && SPK && body.moveOn === undefined) body.moveOn = !!SPK.moveOn;   // 'move on when outgrown' (user 2026-10-09)
   body = await spotChoiceChecks(party, body, label); if (!body) return;
+  const hunt = body._hunt || null; delete body._hunt;   // HUNTTIMER-2026-10-15
   try {
     const r = await api('/api/partyspot', { method: 'POST', body: JSON.stringify(Object.assign({ party }, body)) });
     if (!r || r.error) throw new Error((r && r.error) || 'save failed');
     if (PSPOT.data) PSPOT.data.spots = r.spots;
+    if (window.HuntTimer) await HuntTimer.afterSave(party, hunt, label, body.mode);   // HUNTTIMER-2026-10-15: the timer (or none) + "Supply run first"
     closeSpotPicker(); renderParties();
   } catch (er) { uiError(er.message, 'Could not save'); }
 }
@@ -2089,7 +2136,7 @@ function dungeonPickHtml() {
   const selbar = selBarHtml((SPK.sel || []).map(id => { const r = allRooms.find(x => x.id === id); return { id, t: r ? (r.fi !== SPK.floor ? 'F' + (r.fi + 1) + ' ' : '') + id.split('-').slice(2).join('-') : id }; }), 'room', 'this floor');
   // catacomb / necropolis: can the party get in NOW (Seven Signs, user rule 2026-10-08 21:55)? Entry is ONLY through the Gatekeeper Ziggurat
   const ssg = m.catacomb || ssDungeonName(m.name) ? ssGateParty(SPK.party, m.name) : null;
-  const ssBanner = m.catacomb || ssDungeonName(m.name) ? `<div class="shead">${ssChip(ssg)} <span class="muted">Way in: only the Gatekeeper Ziggurat (every member uses it); every member must be signed up with the Seven Signs (always Dawn).</span></div>` : '';
+  const ssBanner = m.catacomb || ssDungeonName(m.name) ? `<div class="shead">${ssChipWhy(ssg, true)} <span class="muted">Way in: only the Gatekeeper Ziggurat (every member uses it); every member must be signed up with the Seven Signs (always Dawn).</span></div>` : '';
   return `<div class="spotbox"><div class="shead"><h2>${esc(m.name)} · party ${esc(SPK.party)} <span class="muted">(lvl ${SPK.lvl.min}–${SPK.lvl.max})</span></h2>
       <button data-spkback>← List</button><button data-spkany>Any free room</button><button data-spkclose>Close</button></div>${ssBanner}
     <div class="shead">${m.floors.map((f, i) => `<button data-spkfloor="${i}"${i === SPK.floor ? ' class="on"' : ''}>${esc(f.name)}${f.levelRange ? ' (' + f.levelRange.join('–') + ')' : ''}</button>`).join('')}
@@ -3285,6 +3332,20 @@ async function routeEditor(b) {
   if (RED && RED.rec) { clearInterval(RED.rec.timer); recHold(RED.rec.name, false); }
   RED = { gkLand: d.gkLand || {}, id: d.id, boss: d.boss, L, route: r, landing: (r && r.landing) || (L && L.desc) || '', start: (r && r.start) || (!r && L && /->/.test(L.desc || '') ? { kind: 'gk', desc: L.desc } : null), gkStarts: d.gkStarts || [], towns: d.towns || {}, layers: d.layers || {}, layer: 0, pts, sel: pts.length ? pts.length - 1 : -1, dirty: !r, msg: r ? '' : 'No saved route yet — this is a draft from the landing to the spawn. Add points and press Save.' };
   RED.atlas = ATL; if (!r && window.RouteAtlas) RouteAtlas.prefillRed(RED);
+  // RAIDMAP-2026-10-15 (owner: "When I click Computed path it does not show up, also I don't see ANY of the cliffs and zones for raid bosses"):
+  // the map shows the boss's fight area (+ clear area, stage point, Stay inside), the cliff / water edges around the boss from the geodata,
+  // and which path the bots really walk (that one bright, the other faded). Read-only; nothing is saved here.
+  try {
+    const [ar, fit, rv] = await Promise.all([
+      api('/api/polyedit?kind=raidarea&id=' + encodeURIComponent(d.id)).catch(() => null),
+      api('/api/polyedit?action=fit&kind=raidarea&id=' + encodeURIComponent(d.id), { method: 'POST', body: JSON.stringify({}) }).catch(() => null),
+      api('/api/routeview?target=' + encodeURIComponent('raid:' + d.id)).catch(() => null)]);
+    if (RED && RED.id === d.id) {
+      RED.area = ar && ar.orig && ar.item ? ar.item : null;
+      RED.edges = fit && fit.ok && Array.isArray(fit.rays) ? fit.rays.filter(e => e[2] === 'cliff' || e[2] === 'water') : [];
+      RED.use = rv && rv.choice ? rv.choice.use : '';
+    }
+  } catch (e) { }
   { let prev = null, n = 0, bad = ''; (r ? r.points : []).forEach(p => { if (bad || !p || !isFinite(p.x)) return; n++; if (prev && Math.abs(p.z - prev.z) > 1500 && !p.drop && !r.floorOk) bad = 'point ' + (n - 1) + ' -> ' + n + ' jumps ' + Math.abs(Math.round(p.z - prev.z)) + ' in height with no dungeon step'; prev = p; });   // DUNGEON STEPS 2026-10-13
     if (bad) RED.msg = '⚠ NOT walkable: ' + bad + ' — the bots take the computed path instead. Fix it in the route editor with dungeon steps: #/routeedit/epic/' + d.id + ' (insert the teleporter step into the dungeon), or remove the jump here.'; }   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): no saved route = the list starts as the computed path (not saved)
   renderRouteEd();
@@ -3309,8 +3370,23 @@ function routeMapSvg() {
   }
   const label = (x, y, t, size, fill) => `<text x="${x}" y="${y}" font-size="${(size || 10) * u}" fill="${fill || '#fff'}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
   let over = '';
-  if (RED.atlas && window.RouteAtlas) over += RouteAtlas.svgLayer(RED.atlas, u);   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): computed path layer under the editable route
-  if (P.length > 1) over += `<polyline points="${P.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="#ffd34d" stroke-width="${2.2 * u}" stroke-linejoin="round"/>`;
+  // RAIDMAP-2026-10-15: fight area (green), clear area (orange, dashed), stage point, cliff (red) / water (blue) edges near the boss
+  const pts2 = (A) => A.map(p => p[0] + ',' + p[1]).join(' ');
+  if (RED.area) {
+    const A = RED.area;
+    if (A.clearPoly && A.clearPoly.length >= 3) over += `<polygon points="${pts2(A.clearPoly)}" fill="#ff9f40" fill-opacity="0.08" stroke="#ff9f40" stroke-width="${1.4 * u}" stroke-dasharray="${6 * u} ${4 * u}"/>`;
+    if (A.poly && A.poly.length >= 3) {
+      over += `<polygon points="${pts2(A.poly)}" fill="#4ade80" fill-opacity="${A.enabled === false ? 0.06 : 0.2}" stroke="#4ade80" stroke-width="${1.8 * u}"${A.enabled === false ? ` stroke-dasharray="${3 * u} ${3 * u}"` : ''}/>`;
+      const top = A.poly.reduce((m, p) => p[1] < m[1] ? p : m, A.poly[0]);
+      over += label(top[0] - 30 * u, top[1] - 6 * u, 'fight area' + (A.stay ? ' · stay inside' : '') + (A.enabled === false ? ' (off)' : ''), 9, '#4ade80');
+    }
+    if (A.stage) over += `<path d="M${A.stage[0] - 6 * u},${A.stage[1]} L${A.stage[0]},${A.stage[1] - 6 * u} L${A.stage[0] + 6 * u},${A.stage[1]} L${A.stage[0]},${A.stage[1] + 6 * u}Z" fill="#4ade80" stroke="#000" stroke-width="${u}"/>` + label(A.stage[0] + 8 * u, A.stage[1] + 3 * u, 'stage', 8, '#4ade80');
+  }
+  (RED.edges || []).forEach(e => { over += `<circle cx="${e[0]}" cy="${e[1]}" r="${3.4 * u}" fill="${e[2] === 'water' ? '#4aa3ff' : '#ff4d4d'}" stroke="#000" stroke-width="${0.7 * u}"><title>${e[2] === 'water' ? 'water' : 'cliff edge'}</title></circle>`; });
+  // which path the bots walk: that one bright, the other faded (RED.use from /api/routeview: 'atlas' = computed path, 'custom' = own route)
+  const useAtlas = RED.use === 'atlas' || (!RED.use && !RED.route), fadeA = RED.use && !useAtlas ? 0.3 : 1, fadeC = useAtlas && RED.use ? 0.3 : 1;
+  if (RED.atlas && window.RouteAtlas) over += `<g opacity="${fadeA}">${RouteAtlas.svgLayer(RED.atlas, u)}</g>`;   // ROUTE ATLAS 2026-10-12 (Dashboard/raidspage.js RouteAtlas): computed path layer under the editable route
+  if (P.length > 1) over += `<polyline points="${P.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="#ffd34d" stroke-opacity="${fadeC}" stroke-width="${(fadeC < 1 ? 1.6 : 2.6) * u}" stroke-linejoin="round"/>`;
   if (RED.start && RED.start.kind === 'town' && RED.towns[RED.start.town]) { const T = RED.towns[RED.start.town]; over += `<rect x="${T[0] - 8 * u}" y="${T[1] - 8 * u}" width="${16 * u}" height="${16 * u}" fill="#7be0a0" stroke="#000" stroke-width="${u}"/>` + label(T[0] + 11 * u, T[1] - 9 * u, '.' + RED.start.town.toLowerCase() + ' landing', 9, '#7be0a0'); }
   if (RED.L && !(RED.start && RED.start.kind === 'town')) over += `<rect x="${RED.L.x - 7 * u}" y="${RED.L.y - 7 * u}" width="${14 * u}" height="${14 * u}" fill="#5aa9ff" stroke="#000" stroke-width="${u}"/>` + label(RED.L.x + 10 * u, RED.L.y - 8 * u, 'landing', 9, '#5aa9ff');
   over += `<circle cx="${B.x}" cy="${B.y}" r="${10 * u}" fill="#f0c040" stroke="#000" stroke-width="${1.4 * u}"/>` + label(B.x + 13 * u, B.y + 4 * u, '♛ ' + B.name, 10, '#f0c040');
@@ -3325,7 +3401,7 @@ function routeMapSvg() {
     over += `<circle cx="${c.x}" cy="${c.y}" r="${4 * u}" fill="${partyColor(c.party)}" stroke="#fff" stroke-width="${u}"/>` + label(c.x + 6 * u, c.y + 4 * u, c.name, 8);
   });
   return `<div class="pmap redmap"><svg id="redSvg" viewBox="${x0} ${y0} ${W} ${W}" preserveAspectRatio="xMidYMid slice" style="cursor:crosshair"><rect x="${x0}" y="${y0}" width="${W}" height="${W}" fill="#0d2a33"/>${imgs}${over}</svg>
-    <div class="pmlegend">${RED.atlas && window.RouteAtlas ? RouteAtlas.legend(RED.atlas) : ''}<span><i style="background:#5aa9ff"></i>landing</span><span><i style="background:#fff"></i>waypoint</span><span><i style="background:#ff5a45"></i>selected</span><span><i style="background:#c9a2ff"></i>inside (dungeon layer)</span><span style="color:#f0c040">♛ boss spawn</span><span>click = new point after the selected one · drag = move the map · wheel = zoom</span></div></div>`;
+    <div class="pmlegend">${RED.use ? `<span><b style="color:${useAtlas ? '#7fd4ff' : '#ffd34d'}">the bots walk: ${useAtlas ? 'the computed path' : 'your own route'}</b> (the other one is faded)</span>` : ''}${RED.atlas && window.RouteAtlas ? RouteAtlas.legend(RED.atlas) : '<span><i style="background:#ffd34d"></i>your own route</span>'}${RED.area ? '<span><i style="background:#4ade80"></i>fight area' + (RED.area.clearPoly ? ' · <i style="background:#ff9f40"></i>clear area' : '') + '</span>' : '<span class="muted">no fight area set</span>'}${(RED.edges || []).length ? '<span><i style="background:#ff4d4d"></i>cliff edge <i style="background:#4aa3ff"></i>water (near the boss)</span>' : ''}<span><i style="background:#5aa9ff"></i>landing</span><span><i style="background:#fff"></i>waypoint</span><span><i style="background:#ff5a45"></i>selected</span><span><i style="background:#c9a2ff"></i>inside (dungeon layer)</span><span style="color:#f0c040">♛ boss spawn</span><span>click = new point after the selected one · drag = move the map · wheel = zoom</span></div></div>`;
 }
 /** 2026-10-10 (user: "I click the down arrow, it does nothing, so I can't select another teleport"): the landing was an <input list> +
  *  <datalist>, which iPhone Safari never opens from the arrow. A real <select> (native picker), grouped by town; the current value stays
@@ -4227,8 +4303,8 @@ function renderBrake(B, stale, cursed) {
 function renderFull(F) {
   const el = $('fullBar'); if (!el) return;
   F = F || {}; const bags = F.bags || [], full = bags.filter(b => b.level === 'full'), near = bags.filter(b => b.level !== 'full'), priv = F.private || [];
-  const ore = F.ore || [];
-  if (!F.clan && !priv.length && !bags.length && !ore.length) { el.hidden = true; el.innerHTML = ''; return; }
+  const ore = F.ore || [], stuck = F.stuck || [];
+  if (!F.clan && !priv.length && !bags.length && !ore.length && !stuck.length) { el.hidden = true; el.innerHTML = ''; return; }
   const hm = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }); };
   const who = (L) => L.map(b => `<a href="#/char/${encodeURIComponent(b.name)}" title="${esc(b.why)}">${esc(b.name)}</a>`).join(', ');
   const lines = [];
@@ -4237,7 +4313,9 @@ function renderFull(F) {
   if (full.length) lines.push(`<div class="bk-t">⚠ Bag FULL: <span class="bk-n">${who(full)}</span></div><div class="bk-w">The server refuses quests and trades for them. Sell (mark items on the Gear page) or store (Storage page).</div>`);
   if (near.length) lines.push(`<div class="bk-b">Bag nearly full: ${who(near)}</div>`);
   if (ore.length) lines.push(`<div class="bk-t">⚠ Out of Spirit Ore: <span class="bk-n">${who(ore.map(o => ({ name: o.name, why: o.skill + ' skipped' })))}</span></div><div class="bk-w">They keep healing with their other heals (no trip for it); the next supply run buys more.</div>`);   // ORE 2026-10-14
-  el.className = 'brakebar fullbar ' + (F.clan || full.length || priv.length ? 'bad' : '');
+  // IMMOBILE 2026-10-15: a character that has not moved for 10+ min while every walk / town port failed (Tank1's in-game client, 2 h)
+  if (stuck.length) lines.push(`<div class="bk-t">⚠ Cannot move: <span class="bk-n">${stuck.map(s => `<a href="#/char/${encodeURIComponent(s.name)}">${esc(s.name)}</a> (${s.mins} min at one spot, ${s.fails} town ports did nothing)`).join(', ')}</span></div><div class="bk-w">Its commands do not reach the game. In-game character: look at its game window (a popup? disconnected?). Otherwise log it out and in again (character page → Client).</div>`);
+  el.className = 'brakebar fullbar ' + (F.clan || full.length || priv.length || stuck.length ? 'bad' : '');
   el.innerHTML = lines.join(''); el.hidden = false;
 }
 async function refresh() {
@@ -5020,6 +5098,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/marketpage.css"><script src="/marketpage.js"></script><!-- MARKET 2026-10-14 -->
 <link rel="stylesheet" href="/storagepage.css">
 <script src="/storagepage.js"></script>
+<link rel="stylesheet" href="/crafterpanel.css"><script src="/crafterpanel.js"></script><!-- OUR CRAFTER 2026-10-15: Storage box "Our crafter" + party settings line (Dashboard/crafterpanel.js, served by crafter_api.js) -->
 <!-- PARTY SETTINGS 2026-10-13 (owner: "a popup with settings per party, you set up the different things yourself"): "⚙ Settings" on every party card +
      the character page = one popup over the existing settings APIs (adena, gear, storage, tactics, route rules, daily, 7 Signs, clan invites, run switch). -->
 <link rel="stylesheet" href="/partysettings.css">
@@ -5031,6 +5110,11 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/partyplan.js"></script>
 <script src="/lootlogic.js"></script><!-- LOOT RULES 2026-10-13: window.LootLogic (Dashboard/lootlogic.js, served by lootrules_api.js) for the Loot section's examples -->
 <script src="/respanel.js"></script><!-- RESURRECTION 2026-10-13: Resurrect dialog + dead card (Dashboard/respanel.js, served by resrules_api.js) -->
+<!-- HUNT TIMER 2026-10-15 (owner: "I asked Tank1's team to go to the catacomb but I did not get asked how many hours etc."): the spot picker asks how long +
+     what then + the supplies it needs (Dashboard/hunttimer.js + huntlogic.js, /api/hunttimer -> Scripts/data/hunt_timers.json); party card "⏱ … left · Extend · End now". -->
+<link rel="stylesheet" href="/hunttimer.css">
+<script src="/huntlogic.js"></script>
+<script src="/hunttimer.js"></script>
 <!-- HEAL SCHEMES 2026-10-13 (public tester: "let me set my own heal / MP schemes"): "✚ Healing" on the character page + section "Healing" in the party
      settings popup = one sheet per character / class (Dashboard/healschemes.js, /api/healschemes, Scripts/data/heal_schemes.json; automatic until changed). -->
 <link rel="stylesheet" href="/healschemes.css">
@@ -5043,6 +5127,13 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
      Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s). -->
 <link rel="stylesheet" href="/sevensigns.css">
 <script src="/sevensigns.js"></script>
+<!-- AUTOMATIONS 2026-10-15 (Discord player: "one page with everything that runs by itself"): #/auto[/<leader>] every automation per party, on / off /
+     waits for Start and why, what it does now, a button to where it is switched. Data: /api/autooverview (Dashboard/autooverview_api.js, read-only);
+     the list = Dashboard/autocatalog.js (shared with the API and docs/plan/tools/test_auto_overview.js). -->
+<link rel="stylesheet" href="/autooverview.css">
+<script src="/autocatalog.js"></script>
+<script src="/autooverview.js"></script>
+<script>if (window.AutoPage && /^#\/auto(\/|$)/.test(location.hash)) route();</script>
 <script>if (window.SevenSignsPage && /^#\/sevensigns(\/|$)/.test(location.hash)) route();</script>
 <!-- SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (each character's enchantable skills, recommended route, chance, expected cost) + a box on #/char/<name>.
      Data: /api/skillenchant (Dashboard/skillenchant_api.js -> Scripts/data/skill_enchant.json, skill_enchant_settings.json, skill_enchant_plan.json). -->

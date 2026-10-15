@@ -5950,6 +5950,14 @@ function huntWithoutReturning(o) {
   const healer = alive.some(m => /healer|bishop|shilliensaint|cleric|elder|oracle/i.test(m.role || ''));
   return healer && alive.length >= Math.ceil((o.total || 1) / 2);
 }
+/** SPINFIX-2026-10-15 (Char1 quarantined 3x by the brain host watchdog: autolevel's "far teammate -> await gatherTeam(); continue"
+ *  looped with NO macrotask wait while Bishop6 travelled back 405k away: gatherTeam answered "hunting on" at once, the loop called it
+ *  again = an endless promise-continuation spin, 8 s -> worker killed). After gatherTeam said true: 'hunt' when every teammate is near
+ *  (<= lim) and alive or alive and on its own way back (returning(name)); else 'gather' (the caller then waits >= 1 s before looping). */
+function huntGatherDecide(o) {
+  const lim = o.lim || 9000, ret = o.returning || (() => false);
+  return (o.spread || []).every(m => !m.dead && (m.d <= lim || ret(m.name))) ? 'hunt' : 'gather';
+}
 /** A second hold right after a finished one (a town port ran the gatekeeper hold AND the .town hold): reuse the first. */
 function holdReuseOk(o) { return !!(o.last && o.last.at && o.now - o.last.at < TEAMJOIN.holdReuseMs && o.moved < 400 && !o.fighting); }
 // STUCK MEMBER ESCALATION (user 2026-10-09 13:05, party Tank3 12:48: "Wait for Nuker9 (1.4k away) — before .giran" for minutes while
@@ -10736,6 +10744,190 @@ async function gearUpgrade(why) {
   } finally { try { await giranGo('start'); } catch (e) { } state.gkBusy = false; GUP.busy = false; }
 }
 
+// --- FRENZY KIT BUY (KITBUY 2026-10-15, owner: "The destroyer swap kit should never be bought automatically, there should be a button to make
+// the character go purchase what is needed") ------------------------------------------------------------------------------------------
+// The HP-swap kit (Scripts/data/frenzy_kit.json: Conversion / Health S.A. weapons, Tallum / Doom heavy pieces) is bought ONLY by the order
+// '!kitbuy <Name> <id,id,...>' (dashboard character page -> Frenzy kit -> "Buy what is missing", a confirm with a checkbox per piece). NOTHING
+// automatic calls kitBuyRun / kitBuyOrder (docs/plan/tools/test_frenzykit_buy.js checks the call sites). Only <Name> obeys: outside Giran a
+// leader / solo character goes .giran itself (orderTownTrip: the normal safe-teleport hold, the whole team along); a party MEMBER never ports
+// alone (one-owner rule): it asks its leader (App 'swarm.kitbuy.trip'), who brings the team to Giran, waits until the member reports
+// 'swarm.kitbuy.done' (max 15 min) and then goes back to leveling if it was leveling. Never during a raid / mission: the order waits (max 45 min).
+// In Giran: the recorded route to each merchant, the merchant's live list is read again, the price + my adena (list price + 20 % castle tax)
+// are checked before EACH piece, a piece of a slot I already own (worn / bag) is never bought, nothing is put on (hpSwap wears them only for
+// Frenzy), then back to the Giran start. Report: party chat + intent log + Logs/frenzykit_buys.log. Today (shop scan 2026-10-06) Giran sells
+// none of the kit pieces (its merchants go up to C grade; shops never sell S.A. weapons): the dialog says "not sold in Giran" for them.
+// ==== KITBUY-PURE begin (no host calls: docs/plan/tools/test_frenzykit_buy.js runs this block in node)
+/** '!kitbuy <Name> <id,id,...>' -> { ok, name, ids, why } (max 10 distinct ids, numbers only) */
+function kitBuyParse(parts) {
+  const p = Array.isArray(parts) ? parts : [], name = String(p[1] || '').trim();
+  if (!/^[A-Za-z0-9_\-]{1,40}$/.test(name)) return { ok: false, why: 'use "!kitbuy <character> <item id,item id,...>"' };
+  const ids = [];
+  p.slice(2).join(',').split(/[,\s]+/).filter(Boolean).forEach(t => { const n = Number(t); if (/^\d{1,6}$/.test(t) && n > 0 && !ids.includes(n)) ids.push(n); });
+  if (!ids.length) return { ok: false, name, why: 'no item ids (the dashboard "Buy what is missing" button sends them)' };
+  return { ok: true, name, ids: ids.slice(0, 10) };
+}
+/** kit = frenzy_kit.json, ids = the ticked pieces, idx = id -> Giran offers [{ npc, alt, route, path, price, common }] (giranShopIndex),
+ *  have = Set of item ids I own (worn + bag). -> one row per id: { id, name, key, status: 'buy' | 'have' | 'notsold' | 'notkit' | 'dup', offer, why }
+ *  'have' = I own ANY piece of that slot (never bought twice); 'dup' = a second id for a slot already in this order; Common copies never count. */
+function kitBuyPlan(kit, ids, idx, have) {
+  const slots = ((kit && kit.slots) || []).filter(s => s.set === 'low' || s.set === 'high'), used = {}, out = [];
+  (ids || []).forEach(id0 => {
+    const id = Number(id0), s = slots.find(x => (x.ids || []).some(y => Number(y.id) === id));
+    if (!s) { out.push({ id, name: 'item ' + id, key: '', status: 'notkit', offer: null, why: 'not a Frenzy kit piece, not bought' }); return; }
+    const it = s.ids.find(y => Number(y.id) === id), row = { id, name: it.name, key: s.key, offer: null };
+    if (s.ids.some(y => have && have.has(Number(y.id)))) { out.push(Object.assign(row, { status: 'have', why: `I already have a piece for "${s.label}", not bought` })); return; }
+    if (used[s.key]) { out.push(Object.assign(row, { status: 'dup', why: `"${s.label}" is already in this order (${used[s.key]}), not bought twice` })); return; }
+    const offer = ((idx && idx[id]) || []).filter(o => !o.common && o.route).sort((a, b) => a.price - b.price)[0] || null;
+    if (!offer) { out.push(Object.assign(row, { status: 'notsold', why: 'not sold by a Giran merchant with a recorded route, get it elsewhere' })); return; }
+    used[s.key] = it.name;
+    out.push(Object.assign(row, { status: 'buy', offer, why: `${offer.npc} (route "${offer.route}"), ~${offer.price} adena` }));
+  });
+  return out;
+}
+/** adena needed for one piece: the list price + the 20 % castle tax (buyAt's rule) */
+function kitBuyNeed(price) { return Math.ceil((Number(price) || 0) * 1.2); }
+// ==== KITBUY-PURE end
+let fkitCache = { at: 0, v: null };
+function frenzyKitData() {
+  if (now() - fkitCache.at > 60000) { let v = null; try { v = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\frenzy_kit.json`)).replace(/^﻿/, '')); } catch (e) { } fkitCache = { at: now(), v }; }
+  return fkitCache.v;
+}
+/** every item id of the kit (low / high / optional) */
+function frenzyKitIds() { const s = new Set(); try { ((frenzyKitData() || {}).slots || []).forEach(x => (x.ids || []).forEach(y => s.add(Number(y.id)))); } catch (e) { } return s; }
+/** Orc Raider 45 / Destroyer 46 / Titan 113, or the destroyer role: my kit pieces are never sold / stored by the automatic sell / stash */
+function iAmDestroyerKind() { try { return state.role === 'destroyer' || [45, 46, 113].includes(num(Me.ClassId)); } catch (e) { return false; } }
+function kitLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\frenzykit_buys.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
+/** Buy exactly these kit pieces (must stand in Giran; ONLY from kitBuyOrder = the user's order). Returns { ok, bought, msg }. */
+async function kitBuyRun(ids, why) {
+  const K = frenzyKitData();
+  if (!K) return { ok: false, bought: 0, msg: 'Scripts/data/frenzy_kit.json is missing (node docs/plan/tools/frenzy_kit.js)' };
+  if (currentTownKey() !== 'Giran') return { ok: false, bought: 0, msg: 'not in Giran' };
+  const have = new Set(); try { (hostSnap.inv() || Inventory).forEach(i => have.add(num(i.Id))); } catch (e) { }
+  const plan = kitBuyPlan(K, ids, giranShopIndex(), have), res = [];
+  plan.filter(r => r.status !== 'buy').forEach(r => { res.push(`${r.name}: ${r.why}`); kitLog(`(${why}) ${r.name} [${r.id}]: ${r.why}`); });
+  const buys = plan.filter(r => r.status === 'buy');
+  let bought = 0, spent = 0;
+  if (buys.length) {
+    const groups = {};
+    buys.forEach(r => { const k = `${r.offer.npc}|${r.offer.path.join('>')}`; (groups[k] = groups[k] || { offer: r.offer, rows: [] }).rows.push(r); });
+    state.gkBusy = true;
+    try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { }
+    standUp();
+    try {
+      for (const k of Object.keys(groups)) {
+        const G = groups[k];
+        if (!(await giranGo(G.offer.route))) { G.rows.forEach(r => res.push(`${r.name}: could not walk the Giran route '${G.offer.route}'`)); continue; }
+        let npc = null; const names = [G.offer.npc].concat(G.offer.alt || []); try { snapNpcs().forEach(n => { if (!npc && names.includes(n.Name)) npc = n.ref; }); } catch (e) { }
+        if (!npc) { G.rows.forEach(r => res.push(`${r.name}: ${names.join(' / ')} not found`)); continue; }
+        for (const r of G.rows) {
+          const before = bagCount(r.id);
+          if (before > 0) { res.push(`${r.name}: already in the bag, not bought`); continue; }   // never buy what I already have (re-checked now)
+          let sh = await scanClick(npc, G.offer.path, true);
+          if (!sh.items) { try { Send.RequestBuySellUIClose(); } catch (e) { } await sleep(1500); sh = await scanClick(npc, G.offer.path, true); }
+          if (!sh.items) { res.push(`${r.name}: ${G.offer.npc}'s shop did not open (${sh.error || 'a page instead of the list'})`); continue; }
+          const live = sh.items.find(i => num(i.id) === r.id), sellPart = slIsSellPart(sh.items.map(i => i.id), slBagIds());
+          if (!live && !sellPart) { res.push(`${r.name}: not in ${G.offer.npc}'s list any more`); try { Send.RequestBuySellUIClose(); } catch (e) { } continue; }
+          const price = live && num(live.price) > 0 ? num(live.price) : r.offer.price, need = kitBuyNeed(price), a0 = itemCount(57);
+          if (a0 < need) { res.push(`${r.name}: not enough adena (${price} + tax = ${need}, I have ${a0})`); try { Send.RequestBuySellUIClose(); } catch (e) { } continue; }
+          try { buyPacket(sh.shopId, [{ id: r.id, count: 1 }]); } catch (e) { res.push(`${r.name}: buy packet error ${e.message}`); try { Send.RequestBuySellUIClose(); } catch (er) { } continue; }
+          const ef = await DLG.effect({ check: () => bagCount(r.id) > before, base: 1500, label: `${G.offer.npc}: buy ${r.name}` });
+          try { Send.RequestBuySellUIClose(); } catch (e) { }
+          const got = bagCount(r.id) > before, paid = a0 - itemCount(57);
+          if (got) { bought++; spent += paid; }
+          const line = got ? `bought at ${G.offer.npc} for ${paid} adena (not worn: the HP swap puts it on only for Frenzy)` : `NOT bought (${ef && ef.sys ? ef.sys.why : 'the shop did not hand it over'})`;
+          res.push(`${r.name}: ${line}`); kitLog(`(${why}) ${r.name} [${r.id}]: ${line}`);
+          await sleep(400);
+        }
+      }
+    } finally { try { await giranGo('start'); } catch (e) { } state.gkBusy = false; }
+  }
+  const msg = `Frenzy kit: ${bought}/${plan.length} bought${spent ? ` for ${spent} adena` : ''}. ${res.join('; ')}`;
+  kitLog(`(${why}) ${msg}`);
+  return { ok: bought > 0 || !buys.length, bought, msg };
+}
+const KB = { busy: false, leadFor: '', doneFor: {} };
+/** the order '!kitbuy <Name> <ids>' (handleSay): only <Name> acts (see the block header) */
+async function kitBuyOrder(parts) {
+  const o = kitBuyParse(parts);
+  if (!o.ok) { if (!o.name || String(o.name).toLowerCase() === String(Me.Name).toLowerCase()) note(`kitbuy: ${o.why}`, true); return; }
+  if (String(o.name).toLowerCase() !== String(Me.Name).toLowerCase()) return;           // only that character obeys
+  if (KB.busy) { note('kitbuy: already buying Frenzy kit pieces, send the order again when that run is done', true); return; }
+  KB.busy = true;
+  const seq = orderState.seq, t0 = now(), stale = () => orderState.seq !== seq || !state.running;
+  let ctl = false, wasLvl = false, member = false, done = false;
+  const fail = (why) => { done = true; note(`kitbuy: NOT done (${why})`, true); intentDone('kitbuy', false, why); kitLog(`(!kitbuy) not done: ${why}`); };
+  try {
+    intent('kitbuy', `Frenzy kit: buying ${o.ids.length} piece(s) in Giran (your order)`);
+    note(`kitbuy: your order, buying ${o.ids.length} Frenzy kit piece(s) in Giran`, true);
+    let said = false;                                                                       // never during a raid / mission: wait for it
+    while ((inRaid() || state.mode === 'mission') && !stale() && now() - t0 < 45 * 60000) { if (!said) { said = true; note('kitbuy: waiting, the party is in a raid / mission; I go shopping after it', true); } await sleep(5000); }
+    if (stale()) return fail('a newer order replaced it');
+    if (inRaid() || state.mode === 'mission') return fail('the raid / mission did not end within 45 min');
+    if (currentTownKey() !== 'Giran') {
+      let team = teamNames().length > 0; try { team = team && !soloChar(); } catch (e) { }
+      if (team && !isLeader()) {
+        member = true;                                                                      // ONE OWNER: a member never ports alone, the leader brings the team
+        let ask = 0; const tw = now();
+        while (currentTownKey() !== 'Giran' && !stale() && now() - tw < 15 * 60000) {
+          if (now() - ask > 120000) { ask = now(); App.emit('swarm.kitbuy.trip', { name: Me.Name }); note(`kitbuy: asked my leader ${CONFIG.leader} to take the team to Giran`); }
+          await sleep(3000);
+        }
+        if (currentTownKey() !== 'Giran') return fail(stale() ? 'a newer order replaced it' : `my leader ${CONFIG.leader} did not take the team to Giran within 15 min`);
+      } else {
+        if (autoLvl.active) { wasLvl = true; autoLvl.stop = true; const tl = now(); while (autoLvl.active && now() - tl < 60000) await sleep(1000); }
+        if (!(await orderWaitControl('!kitbuy', seq))) return fail('another task held control (see the notes)');
+        ctl = true; stopCombatG();
+        const tr = await orderTownTrip('!kitbuy ' + Me.Name, 'Giran', { regroup: team, solo: !team, control: '!kitbuy' });
+        if (!tr.ok) return fail(tr.superseded ? 'a newer order replaced it' : `could not get ${team ? 'the team' : 'me'} to Giran (${tr.why || '?'})`);
+      }
+    }
+    if (!ctl) { if (!(await orderWaitControl('!kitbuy', seq))) return fail('another task held control (see the notes)'); ctl = true; }
+    const r = await kitBuyRun(o.ids, '!kitbuy');
+    done = true;
+    note(`[kitbuy] ${r.msg}`.slice(0, 400), true);
+    intentDone('kitbuy', r.ok, r.msg.slice(0, 300));
+  } catch (e) { logError('!kitbuy', e); if (!done) fail(String(e && e.message || e)); }
+  finally {
+    KB.busy = false;
+    if (ctl) orderRelease('!kitbuy', seq);
+    try { App.emit('swarm.kitbuy.done', { name: Me.Name }); } catch (e) { }
+    if (member) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
+    if (wasLvl && isLeader() && orderState.seq === seq && !leadPaused() && !autoLvl.active) leadLevel('after !kitbuy').catch(e => logError('kitbuy level', e));   // back to what it did
+  }
+}
+/** the leader: a member's !kitbuy needs Giran -> the whole team goes (orderTownTrip regroup), waits for its report, then back to leveling */
+async function kitBuyLeadTrip(who) {
+  const seq = orderState.seq, t0 = now(); let wasLvl = false, ctl = false;
+  KB.doneFor[who] = 0;
+  try {
+    while ((inRaid() || state.mode === 'mission') && orderState.seq === seq && now() - t0 < 45 * 60000) await sleep(5000);
+    if (orderState.seq !== seq || inRaid() || state.mode === 'mission') return;
+    note(`kitbuy: taking the team to Giran, ${who} buys Frenzy kit pieces (your order), then we carry on`, true);
+    if (autoLvl.active) { wasLvl = true; autoLvl.stop = true; const tl = now(); while (autoLvl.active && now() - tl < 60000) await sleep(1000); }
+    if (!(await orderWaitControl('!kitbuy-trip', seq))) return;
+    ctl = true; stopCombatG();
+    if (currentTownKey() !== 'Giran') {
+      const tr = await orderTownTrip('!kitbuy ' + who, 'Giran', { regroup: true, control: '!kitbuy-trip' });
+      if (!tr.ok) { if (!tr.superseded) note(`kitbuy: could not get the team to Giran for ${who} (${tr.why || '?'})`, true); return; }
+    }
+    const tw = now();
+    while (!KB.doneFor[who] && orderState.seq === seq && now() - tw < 15 * 60000) await sleep(2000);
+    note(`kitbuy: ${who} ${KB.doneFor[who] ? 'has finished shopping' : 'did not report back within 15 min'}`);
+  } finally {
+    if (ctl) orderRelease('!kitbuy-trip', seq);
+    if (wasLvl && orderState.seq === seq && !leadPaused() && !autoLvl.active) leadLevel('after !kitbuy').catch(e => logError('kitbuy level', e));
+  }
+}
+App.on('swarm.kitbuy.trip', (e) => {
+  try {
+    if (!isLeader() || !mateMsg(e) || e.source.characterName === Me.Name || KB.leadFor) return;
+    const who = String((e.data && e.data.name) || e.source.characterName);
+    KB.leadFor = who;
+    kitBuyLeadTrip(who).catch(er => logError('kitbuy trip', er)).then(() => { KB.leadFor = ''; });
+  } catch (er) { }
+});
+App.on('swarm.kitbuy.done', (e) => { try { if (mateMsg(e)) KB.doneFor[String((e.data && e.data.name) || e.source.characterName)] = now(); } catch (er) { } });
+
 // --- DYES / SYMBOLS (tattoos, user 2026-10-07) — UNTESTED ----------------------------------------------------------------------
 // Plan per role in Scripts/data/dye_plan.json (read live; destroyers first, every other role empty until the user fills it).
 // In every supply run (step 5c, after the gear upgrades) each member with a plan draws its NEXT planned symbol (one per run):
@@ -11784,8 +11976,13 @@ function shotNeed() {
 
 let shotsOn = 0;
 function enableShots() {
-  const id = shotId();
+  let id = shotId();
+  if (id && itemCount(id) <= 0 && PSHOP_ALT[id] && itemCount(PSHOP_ALT[id]) > 0) id = PSHOP_ALT[id];   // PSHOP-2026-10-15: no blessed left -> the plain spiritshots of my grade
   if (!id || itemCount(id) <= 0 || shotsOn === id) return;
+  // TRADESHOT-2026-10-15 (Tank1's party -> Dagger1 12:43: 0/2, 0/1 ... "trade closed" every ~10 s): switching auto-shots on is an item use, and the
+  // server (L2J UseItem) CANCELS an open trade. The receiver re-enabled its shots 1.5 s after every trade = in the middle of the next giver's trade.
+  // While a trade window is open or I am receiving a hand-over: wait, switch them on once afterwards.
+  if ((typeof tradeState !== 'undefined' && tradeState) || (typeof HOV !== 'undefined' && HOV.host && HOV.host.ctl)) { if (!enableShots.later) enableShots.later = setTimeout(() => { enableShots.later = 0; try { enableShots(); } catch (e) { } }, 5000); return; }
   try { Send.RequestAutoSoulShot(id, 1); shotsOn = id; note(`auto-shots enabled (${id})`); }
   catch (e) { logError('RequestAutoSoulShot', e); }
 }
@@ -12142,6 +12339,7 @@ function fundNeedy() {
 // ("trade closed" x2). Now: fundRound() runs at the END of the Giran regroup (after the supply run), and the 30 s fallback only when idle.
 async function fundRound(why, inline) {
   fundRules();
+  if (why === 'idle in town' && !collectorOn() && htHolds('fund round')) return false;   // HUNTTIMER-2026-10-15: no idle hand-out round during a timed hunt
   if (!FUND.on || !fundMayGive(Me.Name) || fund.busy || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead) return false;
   if (itemCount(57) < FUND.richAbove || inRaid() || state.mode === 'mission' || currentTownKey() !== FUND.town) return false;
   if (typeof STASH !== 'undefined' && STASH.busy) return false;          // STORAGE-2026-10-13: not while I walk to / stand at the warehouse (17:27 Dagger1)
@@ -12644,6 +12842,7 @@ function sellCandidatesEx(grades) {
   try {
     const keepIds = SELLKEEP.slice();
     try { ['red', 'green', 'blue'].forEach(c => SOUL_IDS[c].forEach(i => keepIds.push(i))); } catch (e) { }   // never sell a soul crystal, not even a marked one (2026-10-12)
+    try { if (iAmDestroyerKind()) frenzyKitIds().forEach(i => keepIds.push(i)); } catch (e) { }   // KITBUY 2026-10-15: a destroyer's HP-swap kit is never sold (junk grades / marks)
     const g = myGear(), wanted = teamWantedIds(), db = gearDb().items || {};
     r = spPick(sellBagRows(), { marks: sellMarks(), me: Me.Name, keepIds, noSale: unsellableRaw(), now: now(), nosell: spData().nosell,
       notrade: (() => { try { return hovNotrade(); } catch (e) { return new Set(); } })(),
@@ -15270,7 +15469,11 @@ function lootKeptNote(kept, party, where) {
 /** my loot list for the clan leader: the stash plan's deposit rows (+ enchant scrolls, + the always-give list, + adena above the keep), filtered by the party's loot rule */
 function lootRowsMine(rule) {
   const R = rule || {}, rows = [];
-  try { stashPlanMine('loot to the clan leader', false).deposit.forEach(d => rows.push({ objId: d.objId, id: d.id, name: d.name, count: d.count, stack: !!d.stackable })); } catch (e) { logError('loot rows', e); }
+  // LOOTALL-2026-10-15 (owner: "Death Egg, Destruction Tombstone, tattoos, enchants, Coin of Luck … why are they not handed over?"): the list came
+  // from the WAREHOUSE plan with the character's warehouse mode ('rules' = only the storage lists), so a loot rule "all" still handed over only
+  // materials / recipes. Loot rule mode 'all' = the warehouse plan in 'all' mode (everything except worn / quest / adena / my consumables).
+  const lootPlan = () => { if (lootNorm(R).mode !== 'all') return stashPlanMine('loot to the clan leader', false); const c = stashCtx(); c.mode = 'all'; c.settings = Object.assign({}, c.settings, { mode: 'all' }); return stashPlan(stashItems(), c); };
+  try { lootPlan().deposit.forEach(d => rows.push({ objId: d.objId, id: d.id, name: d.name, count: d.count, stack: !!d.stackable })); } catch (e) { logError('loot rows', e); }
   if (R.enchant !== false) { try { Inventory.forEach(it => { const id = num(it.Id); if (ENCHANT_IDS.has(id) && !rows.some(r => r.objId === num(it.objId))) rows.push({ objId: num(it.objId), id, name: String(it.Name || ''), count: Math.max(1, num(it.Count)), stack: true }); }); } catch (e) { } }
   const NR = lootNorm(R);                                                 // LOOTRULE: the always-give list also takes what the warehouse plan keeps (never worn / quest items / adena)
   if (NR.always.length) { try { Inventory.forEach(it => { const id = num(it.Id), oid = num(it.objId), nm = String(it.Name || ''); if (id === 57 || it.IsEquiped || it.IsQuestItem || qeProtected(id) || rows.some(r => r.objId === oid) || !lootListMatch(NR.always, { id, name: nm })) return;
@@ -16241,6 +16444,7 @@ function dailyEnabled(kind) { try { const j = JSON.parse(File.ReadAllText(SWARM_
 function dailyDue() {
   if (!dailyEnabled('kamaloka')) return null;
   try { if (nonstopOn()) return null; } catch (e) { }                  // NONSTOP / HUNT HERE 24/7 (2026-10-12)
+  try { if (htHolds('daily Kamaloka')) return null; } catch (e) { }    // HUNTTIMER-2026-10-15: not during a timed hunt
   try { if (!rcAuto('kamaloka')) return null; } catch (e) { }          // CIRCUIT 24/7 (2026-10-13): the raid circuit owns the party - no daily Kamaloka
   // teamNames() (PartyList + teammates' own reports): an in-game hooked leader's PartyList shows only himself (2026-10-05)
   const mates = kamaMates();
@@ -18282,7 +18486,7 @@ function stashCtx() {
   let stones = false; try { stones = !!(ssStonesOn() && ssEnrolled(Me.Name) && ssNow().period === 'competition' && !ssNeeds(Me.Name)); } catch (e) { }
   let team = false; try { team = teamNames().length > 0; } catch (e) { }
   const R = stashRules(), set = stashSettingsMine(R); let lk = null; try { lk = stashLetterKeep(stashLettersCfg(R), name, stashLetterTo(R)); } catch (e) { }
-  return { name, crafter: (S.crafters || []).includes(name) || state.role === 'crafter', createLvl: stashSkillLvl(172), commonLvl: stashSkillLvl(1320),
+  return { name, crafter: (S.crafters || []).includes(name) || state.role === 'crafter' || (() => { try { const c = craftMineCfg(); return !!(c && c.on); } catch (e) { return false; } })(),   /* CRAFTER-2026-10-15: our crafter keeps its crystals / ore */ createLvl: stashSkillLvl(172), commonLvl: stashSkillLvl(1320),
     keepIds: keep, stonesToPriest: stones, hasTeam: team, rules: R, data: stashData(), mode: set.mode, settings: set, letterKeep: lk, sellHold: whsHoldIds() };   // STORAGE-2026-10-13: mode + letters
 }
 /** My bag as classifier input. */
@@ -18291,6 +18495,7 @@ function stashItems() {
   try { g = myGear(); db = gearDb().items || {}; } catch (e) { }
   const sell = {}; try { sellCandidates(supplyJunkGrades()).forEach(s => { sell[num(s.id)] = 1; }); } catch (e) { }
   const spare = (CONFIG.hpSwap && CONFIG.hpSwap.on) ? (CONFIG.hpSwap.low || []).concat(CONFIG.hpSwap.high || []) : [];
+  const kitIds = (CONFIG.hpSwap && CONFIG.hpSwap.on && iAmDestroyerKind()) ? frenzyKitIds() : new Set();   // KITBUY 2026-10-15: by ID (the client drops the S.A. from the name, so the patterns missed the weapons)
   try {
     Inventory.forEach(it => {
       const id = num(it.Id), name = String(it.Name || ''), info = db[id];
@@ -18300,7 +18505,7 @@ function stashItems() {
       if (gear && info && g) { try { upgrade = upgradeGain(id, info, g) > 0; } catch (e) { } try { team = teammateWants(id); } catch (e) { } }
       let stack = false; try { stack = !!it.IsStackable; } catch (e) { }
       out.push({ objId: num(it.objId), id, name, count: Math.max(1, num(it.Count)), equipped: !!it.IsEquiped, quest: !!(it.IsQuest || it.IsQuestItem || qeProtected(id)), stackable: stack,
-        gear, upgrade, teamWants: team, spare: gear && spare.some(r => r.test(name)), sell: !!sell[id] });
+        gear, upgrade, teamWants: team, spare: gear && (spare.some(r => r.test(name)) || kitIds.has(id)), sell: !!sell[id] });
     });
   } catch (e) { logError('stashItems', e); }
   return out;
@@ -18643,6 +18848,7 @@ setInterval(() => {
     try { if (autoLvl.active || (typeof rcHolds === 'function' && rcHolds())) return; } catch (e) { }
     const d = stashDueMine({ inTown: true }); if (!d.due) return;
     if (!stashPlanMine('automatic check', false).deposit.length) { STASH_AUTO.nothingAt = now(); return; }
+    if (htHolds('warehouse stash')) return;                             // HUNTTIMER-2026-10-15
     if (!runAuto('warehouse stash')) return;                            // RUNSTATE (your !stash still works)
     stashAutoRun(d.why).catch(e => logError('stash auto', e));
   } catch (e) { }
@@ -18746,7 +18952,7 @@ async function lettersTick(manual) {
   finally { LETTERS.busy = false; }
 }
 setInterval(() => {
-  try { if (!state.role || !IsCharacterReady() || now() - scriptStartAt < 180000 || !runOnOrCollector()) return; lettersTick(false).catch(e => logError('letters tick', e)); } catch (e) { }   // RUNSTATE: OFF = no automatic letters trip (!letters still works)
+  try { if (state.role && !LETTERS.cur && htHolds('letters')) return; /* HUNTTIMER-2026-10-15 */ if (!state.role || !IsCharacterReady() || now() - scriptStartAt < 180000 || !runOnOrCollector()) return; lettersTick(false).catch(e => logError('letters tick', e)); } catch (e) { }   // RUNSTATE: OFF = no automatic letters trip (!letters still works)
 }, 60000);
 
 // --- HANDOVER (user 2026-10-10: "I need some buttons so I can tell teams and characters to go to the clan leader OR a character of own choice
@@ -18881,6 +19087,9 @@ function hovNotrade() {
   if (!hovNT || now() - hovNTAt > 600000) {
     try { const j = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Scripts\\data\\trade_items.json`).replace(/^﻿/, '')); hovNT = new Set((j.notrade || []).map(Number)); }
     catch (e) { if (!hovNT) { hovNT = new Set(); logError('trade_items.json', e); } }
+    // NOTRADELIVE-2026-10-15: items the SERVER refused in a trade that went through for the other items (L2Toggle custom items such as
+    // 'Unrefinhed Ore' 21769 are not in the datapack; 'Tutorial Guide' 5588): learned by every giver, never offered again
+    try { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; if (File.Exists(f)) Object.keys(JSON.parse(File.ReadAllText(f)) || {}).forEach(k => hovNT.add(Number(k))); } catch (e) { }
     hovNTAt = now();
   }
   return hovNT;
@@ -19023,12 +19232,37 @@ async function hovTradeBatch(o, rv, rows, label, hold) {
     .map(r => Object.assign({}, r, { count: r.adena || r.stack ? Math.min(r.count, before.i[r.id] || 0) : r.count }));
   if (!live.length) return { moved: [], why: 'not in my bag any more' };
   const items = live.map(r => ({ objId: String(r.objId), id: r.id, count: r.count, name: r.adena ? r.name : `${r.name}${r.count > 1 ? ' x' + r.count : ''}`, stack: !!r.stack && !r.adena, adena: !!r.adena }));
+  // TRADETURN-2026-10-15 (Tank1's party -> Dagger1: Bishop1 and Necro1 opened a trade with him in the same 0.01 s, the server closed both, again
+  // and again): one giver at a time per receiver. Logs/trade_turn_<receiver>.json = { giver, until }; wait (max 3 min) while another giver holds it.
+  const turnF = `${SWARM_ROOT}\\Logs\\trade_turn_${String(o.receiver).replace(/[^A-Za-z0-9_]/g, '')}.json`;
+  const turnRead = () => { try { return File.Exists(turnF) ? (JSON.parse(File.ReadAllText(turnF)) || {}) : {}; } catch (e) { return {}; } };
+  for (const tw = now(); now() - tw < 180000;) {
+    const t = turnRead();
+    if (!t.giver || t.giver === Me.Name || num(t.until) < now()) {
+      try { File.WriteAllText(turnF, JSON.stringify({ giver: Me.Name, until: now() + 60000, id: o.id })); } catch (e) { }
+      await sleep(250 + Math.floor(Math.random() * 250));
+      if (turnRead().giver === Me.Name) break;                           // another giver wrote at the same moment: the last writer wins, the other waits
+    } else { hold(); await sleep(1500 + Math.floor(Math.random() * 1000)); }
+  }
   try { App.emitTo(rv.accountId, 'swarm.handover.take', { id: o.id, giver: Me.Name, to: o.receiver, what: tradeWhat(items) }); } catch (e) { }
   await sleep(1500);
   const t0 = now();
-  const g = await giveItems({ receiver: o.receiver, receiverObjId: rv.objId, receiverAccountId: rv.accountId, items, step: 'handover' });
+  let g = null;
+  try { g = await giveItems({ receiver: o.receiver, receiverObjId: rv.objId, receiverAccountId: rv.accountId, items, step: 'handover' }); }
+  finally { try { if (turnRead().giver === Me.Name) File.Delete(turnF); } catch (e) { } }
   await sleep(700);
   const mv = hovMoved(live, before, hovBagMap(hovBag()));
+  // NOTRADELIVE-2026-10-15: the trade went through for other items but the server did not take these -> untradeable, remember them for every giver
+  try {
+    if (mv.some(m => m.moved > 0)) {
+      const refused = mv.filter(m => m.row && !m.row.adena && !(m.moved > 0)).map(m => m.row);
+      if (refused.length) {
+        withFileLock('notrade_live', () => { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; let j = {}; try { if (File.Exists(f)) j = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { } refused.forEach(r => { j[String(r.id)] = { name: r.name, by: Me.Name, at: new Date().toISOString() }; }); File.WriteAllText(f, JSON.stringify(j, null, 1)); }).catch(() => { });
+        refused.forEach(r => { try { hovNotrade().add(num(r.id)); } catch (e) { } });
+        note(`handover: the server would not take ${refused.map(r => r.name).join(', ')} — remembered as not tradeable (never offered again)`);
+      }
+    }
+  } catch (e) { logError('notrade learn', e); }
   const sm = lastSysMsg && lastSysMsg.at >= t0 ? ` (server: ${String(lastSysMsg.text).slice(0, 80)})` : '';
   const why = g && g.ok ? '' : `${(g && g.msg) || 'trade failed'}${sm}`;
   const n = mv.filter(m => m.moved > 0).length;
@@ -19125,6 +19359,7 @@ function hovCommand(parts) {
     const id = parts[2] || '*';
     if (HOV.busy && (id === '*' || id === HOV.id)) { HOV.stop = id; note(`handover ${HOV.id}: stopping`, true); }
     if (HOV.host.ctl && (id === '*' || id === HOV.host.id)) HOV.host.givers = {};
+    try { crinPendStop(id); } catch (e) { }                              // CRAFTITEMS-2026-10-15: a parked crafter hand-in too
     return;
   }
   const o = hovLoad(a);
@@ -19142,6 +19377,7 @@ function hovCommand(parts) {
     note(`handover ${o.id}: ${Object.keys(o.givers || {}).join(', ')} bring items to me`, true);
     return;
   }
+  if (o.sameTown) { crinGiver(o, false).catch(e => logError('!handover crafter', e)); return; }   // CRAFTITEMS-2026-10-15: waits for the crafter's town unless goNow
   hovGive(o).catch(e => logError('!handover', e));
 }
 
@@ -19377,6 +19613,7 @@ setInterval(() => {
   try {
     if (!state.role || !IsCharacterReady() || now() - scriptStartAt < CLANHAND_CFG.startDelayMs || !runOnOrCollector()) return;   // RUNSTATE: OFF = no automatic hand-over (!clanhand still works)
     if (!CLANHAND.cur && !clanAutoFlag('itemHandover', true)) { clanHandStatus({ state: 'none' }); return; }
+    if (!CLANHAND.cur && htHolds('clan hand-over')) return;             // HUNTTIMER-2026-10-15
     clanHandTick(false).catch(e => logError('clanhand tick', e));
   } catch (e) { }
 }, CLANHAND_CFG.tickMs);
@@ -19846,7 +20083,7 @@ function marketParse(b) {
   try {
     if (op === 0xA1) {
       const owner = r.d(), pkg = r.d(); r.q(); const n = r.d(), items = [];
-      for (let i = 0; i < n && r.left() > 0; i++) { r.d(); const id = r.d(); r.d(); const count = r.q(); const en = mkItemTail(r); const price = r.q(); r.q(); items.push({ id, count, price, enchant: en }); }
+      for (let i = 0; i < n && r.left() > 0; i++) { const oid = r.d(); const id = r.d(); r.d(); const count = r.q(); const en = mkItemTail(r); const price = r.q(); r.q(); items.push({ id, count, price, enchant: en, oid }); }   // PSHOP-2026-10-15: + oid = the seller's item objectId (what RequestPrivateStoreBuy names)
       return { kind: pkg ? 'package' : 'sell', owner, items };
     }
     if (op === 0xBE) {
@@ -19873,16 +20110,149 @@ function marketBuyHex(owner, rows) {
   const le = (v, n) => { let s = '', x = BigInt(Math.round(v)); if (x < 0n) x += 1n << BigInt(8 * n); for (let i = 0; i < n; i++) { s += Number(x & 255n).toString(16).padStart(2, '0').toUpperCase(); x >>= 8n; } return s; };
   return '83' + le(owner, 4) + le(rows.length, 4) + rows.map(r => le(r.objId, 4) + le(r.count, 8) + le(r.price, 8)).join('');
 }
+/** PSHOP-2026-10-15 (the first scan 2026-10-15 07:17 read 0 of 57 shops): L2Swarm hands OnIncomingPacket the packet WITH its 2-byte length
+ *  header ([len lo, len hi, opcode, ...], like the henna 0xEE / siege / clan readers use p[2]); the scan looked for the opcode at p[0] and so
+ *  never kept one. -> the bytes from the opcode on (b[0] = opcode) | null for any other packet. Header-less input (p[0] = opcode) still works. */
+function mktBytes(p, n) {
+  if (!p || !(n >= 3)) return null;
+  const B = (i) => Number(p[i]) & 255, OPS = [0xA1, 0xBE, 0xDF];
+  let off = -1;
+  if (OPS.includes(B(2)) && (B(0) | (B(1) << 8)) === n) off = 2;        // the header's length = the whole packet
+  else if (OPS.includes(B(0))) off = 0;
+  else if (OPS.includes(B(2))) off = 2;
+  if (off < 0) return null;
+  const b = []; for (let i = off; i < n; i++) b.push(B(i));
+  return b;
+}
 // MARKET-PURE-END
-const MKT = { cap: null, busy: false, last: null };
-function OnIncomingPacket(p) {
+// ===== PLAYER-SHOP SHOTS (PSHOP-2026-10-15, owner: "Shots step 2" — buy B / A / S soulshots and (blessed) spiritshots from PLAYER sell stores
+// in Giran with a maximum price, because the NPCs do not sell them (Helvetia sells No-grade / D / C only, Logs/shop_*.txt)). Settings per party
+// in Scripts/data/party_auto.json parties.<leader>.pshop (default.pshop = every party without its own; missing = OFF):
+//   { on, max: { soulshot: { B, A, S }, blessed: { B, A, S }, spiritshot: { B, A, S } }, budget, keep, maxAgeMin, scan }
+// max 0 / missing = never buy that one from players. budget = at most this many adena per supply run, keep = the leader never goes below it.
+// In a supply run (leadSupply, after Helvetia) the LEADER buys what the team still lacks of those shots: offers from the newest Giran market
+// scan (Logs/market_giran.json; older than maxAgeMin -> scanned first when scan is on, else skipped with a note), at or below the max price,
+// cheapest first, until the need is covered; walks to each shop the market scan's way (town street graph); re-reads the LIVE store list and
+// never pays above the max (shops change); RequestPrivateStoreBuy 0x83 (layout = L2Swarm Data/base.db PacketsGSClient line 102); checks the
+// bag count rose. Plain spiritshots only stand in for blessed ones of the same grade that could not be had (and are handed out in their place).
+// Logs/pshop_buys.log, Logs/pshop_last_<leader>.json (dashboard Market -> Shots), intent 'pshop'. Test: docs/plan/tools/test_pshop_shots.js.
+// PSHOP-PURE-BEGIN (no host calls)
+const PSHOP_GRADES = ['B', 'A', 'S'];
+const PSHOP_KINDS = { soulshot: { label: 'Soulshot', ids: { B: 1465, A: 1466, S: 1467 } }, blessed: { label: 'Blessed Spiritshot', ids: { B: 3950, A: 3951, S: 3952 } },
+  spiritshot: { label: 'Spiritshot', ids: { B: 2512, A: 2513, S: 2514 } } };
+const PSHOP_ALT = { 3947: 2509, 3948: 2510, 3949: 2511, 3950: 2512, 3951: 2513, 3952: 2514 };   // blessed -> the plain spiritshot of the same grade
+const PSHOP_DEF = { budget: 5000000, keep: 1000000, maxAgeMin: 120 };
+const pshopFmt = (n) => String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+/** item id -> { kind, g, id, name } | null (only the B / A / S shots this buys) */
+function pshopItem(id) {
+  id = Number(id);
+  for (const k of Object.keys(PSHOP_KINDS)) for (const g of PSHOP_GRADES) if (PSHOP_KINDS[k].ids[g] === id) return { kind: k, g, id, name: `${PSHOP_KINDS[k].label} (${g})` };
+  return null;
+}
+/** the party's settings (party > default > OFF), numbers cleaned */
+function pshopCfg(j, leader) {
+  const o = (x) => (x && typeof x === 'object' && !Array.isArray(x) ? x : {});
+  const J = o(j), P = o(o(J.parties)[leader]).pshop, D = o(J.default).pshop;
+  const has = (x) => !!(x && typeof x === 'object' && !Array.isArray(x)), src = has(P) ? P : has(D) ? D : {};
+  const n = (v, d) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) || Number(v) < 0 ? d : Math.round(Number(v)));
+  const max = {};
+  Object.keys(PSHOP_KINDS).forEach(k => { const m = o(o(src.max)[k]); max[k] = {}; PSHOP_GRADES.forEach(g => { max[k][g] = n(m[g], 0); }); });
+  return { on: src.on === true, max, budget: n(src.budget, PSHOP_DEF.budget), keep: n(src.keep, PSHOP_DEF.keep), maxAgeMin: Math.max(5, n(src.maxAgeMin, PSHOP_DEF.maxAgeMin)),
+    scan: src.scan !== false, src: has(P) ? 'party' : has(D) ? 'default' : 'none' };
+}
+function pshopMaxFor(cfg, id) { const it = pshopItem(id); return it ? Number(((cfg && cfg.max) || {})[it.kind] && cfg.max[it.kind][it.g]) || 0 : 0; }
+/** is the scan new enough? -> { fresh, ageMin } */
+function pshopFresh(market, nowMs, maxAgeMin) {
+  const at = Date.parse((market && market.at) || '') || 0, age = at ? nowMs - at : Infinity;
+  return { fresh: !!at && age <= maxAgeMin * 60000, ageMin: at ? Math.round(age / 60000) : null };
+}
+/** every READ sell offer of this item in a scan, cheapest first (then the bigger stack). Package stores are left out (they sell all or nothing). */
+function pshopOffers(market, id) {
+  const out = [];
+  ((market && market.shops) || []).forEach(s => {
+    if (!s || s.type !== 'sell' || !s.read) return;
+    (s.items || []).forEach(it => { if (Number(it.id) === Number(id) && Number(it.count) > 0 && Number(it.price) > 0) out.push({ owner: String(s.owner || ''), objId: Number(s.objId), x: Number(s.x), y: Number(s.y), z: Number(s.z), id: Number(id), price: Number(it.price), count: Number(it.count) }); });
+  });
+  return out.sort((a, b) => a.price - b.price || b.count - a.count);
+}
+/** needs [{ id, short }] (in this order) + the scan -> { picks: [offer + count, max], warn: [plain text], spend, left: { id: still short } }.
+ *  Spendable = min(adena - keep, budget); never an offer above the max price; cheapest first; partial fills. */
+function pshopPlan(needs, market, cfg, adena) {
+  let free = Math.max(0, Math.min(Number(adena) - cfg.keep, cfg.budget));
+  const picks = [], warn = [], left = {}; let spend = 0;
+  (needs || []).forEach(nd => {
+    const it = pshopItem(nd.id); let short = Math.max(0, Math.round(Number(nd.short) || 0));
+    if (!it || !short) return;
+    const max = pshopMaxFor(cfg, nd.id), offers = pshopOffers(market, nd.id);
+    if (!max) { warn.push(`${it.name}: no max price set — not bought from player shops`); left[nd.id] = short; return; }
+    const ok = offers.filter(o => o.price <= max);
+    if (!ok.length) {
+      warn.push(offers.length ? `no ${it.name} at or below ${pshopFmt(max)} adena — cheapest seen ${pshopFmt(offers[0].price)} at ${offers[0].owner}` : `no ${it.name} in any player shop of the last scan`);
+      left[nd.id] = short; return;
+    }
+    let broke = false;
+    for (const o of ok) {
+      if (short <= 0) break;
+      const afford = Math.floor(free / o.price);
+      if (afford <= 0) { broke = true; break; }
+      const c = Math.min(short, o.count, afford);
+      picks.push(Object.assign({}, o, { count: c, max }));
+      free -= c * o.price; spend += c * o.price; short -= c;
+    }
+    if (short > 0) warn.push(broke ? `${it.name}: ${pshopFmt(short)} not bought — the adena for this run is used up (keep ${pshopFmt(cfg.keep)}, at most ${pshopFmt(cfg.budget)} per run)`
+      : `${it.name}: only ${pshopFmt(Math.max(0, Math.round(Number(nd.short)) - short))} of ${pshopFmt(nd.short)} on offer at or below ${pshopFmt(max)} adena`);
+    left[nd.id] = short;
+  });
+  return { picks, warn, spend, left };
+}
+/** the LIVE store list (marketParse items with oid) -> the rows to buy now: { rows: [{ objId, count, price }], spend, why }.
+ *  Re-checked against the max price (shops change) and the adena left (free). */
+function pshopLiveRows(items, id, max, want, free) {
+  const rows = []; let spend = 0, need = Math.max(0, Math.round(Number(want) || 0)), money = Math.max(0, Number(free) || 0);
+  const same = (items || []).filter(it => Number(it.id) === Number(id) && Number(it.count) > 0 && it.oid);
+  if (!same.length) return { rows, spend, why: 'sold out' };
+  const ok = same.filter(it => Number(it.price) > 0 && Number(it.price) <= max).sort((a, b) => a.price - b.price);
+  if (!ok.length) return { rows, spend, why: `price now ${pshopFmt(Math.min.apply(null, same.map(x => Number(x.price))))} (above your ${pshopFmt(max)})` };
+  for (const it of ok) {
+    if (need <= 0) break;
+    const c = Math.min(need, Number(it.count), Math.floor(money / Number(it.price)));
+    if (c <= 0) break;
+    rows.push({ objId: Number(it.oid), count: c, price: Number(it.price) }); spend += c * Number(it.price); money -= c * Number(it.price); need -= c;
+  }
+  return { rows, spend, why: rows.length ? '' : 'not enough adena left for one' };
+}
+// PSHOP-PURE-END
+const MKT = { cap: null, busy: false, last: null, fn: null };
+/** PSHOP-2026-10-15: the market capture is CHAINED into OnIncomingPacket (it was a plain `function OnIncomingPacket`, which the character-list
+ *  capture at login replaces without calling it), and re-chained when another hook replaced the chain */
+function mktCapture(p) {
   if (!MKT.cap) return;
-  try {
-    const n = num(p.length || p.Length); if (n < 2) return;
-    const op = num(p[0]) & 255; if (op !== 0xA1 && op !== 0xBE && op !== 0xDF) return;
-    const b = []; for (let i = 0; i < n; i++) b.push(num(p[i]) & 255);
-    MKT.cap.push({ at: now(), b });
-  } catch (e) { }
+  try { const b = mktBytes(p, num(p.length || p.Length)); if (b) MKT.cap.push({ at: now(), b }); } catch (e) { }
+}
+function mktHook() {
+  if (MKT.fn && globalThis.OnIncomingPacket === MKT.fn) return;
+  const prev = globalThis.OnIncomingPacket;
+  MKT.fn = (p) => { try { if (prev) prev(p); } catch (e) { } mktCapture(p); };
+  globalThis.OnIncomingPacket = MKT.fn;
+}
+/** walk to a player shop the way the market scan does (the town street graph = atlas paths; the last few steps straight) */
+async function marketWalk(s, TD) {
+  if (Math.hypot(s.x - Me.X, s.y - Me.Y) <= 150) return true;
+  let ok = false;
+  if (TD) { try { const r = await rgWalk(TD, { x: s.x, y: s.y, z: s.z }, { team: false, label: `shop of ${s.owner}`, maxReplans: 2, timeoutMs: 90000 }); ok = r.ok; } catch (e) { } }   // the atlas street path
+  if (!ok && Math.hypot(s.x - Me.X, s.y - Me.Y) < 600) { try { await walkTo(s.x, s.y, s.z, 120, 20000); } catch (e) { } }
+  return Math.hypot(s.x - Me.X, s.y - Me.Y) < 600;
+}
+/** click a player shop and read its list from the server packet -> marketParse result | null (packet capture must be on) */
+async function marketRead(s, waitMs) {
+  mktHook();
+  MKT.cap = []; const c0 = now();
+  try { Send.Action(s.objId); await sleep(350); Send.Action(s.objId); } catch (e) { }
+  while (now() - c0 < (waitMs || 4500) && !MKT.cap.some(x => (marketParse(x.b) || {}).owner === s.objId)) await sleep(150);
+  const got = MKT.cap.map(x => marketParse(x.b)).filter(x => x && x.owner === s.objId);
+  if (!MKT.last && MKT.cap.length) { MKT.last = MKT.cap[0]; try { File.WriteAllText(SWARM_ROOT + '\\Logs\\market_raw_sample.json', JSON.stringify({ at: new Date().toISOString(), len: MKT.cap[0].b.length, head: MKT.cap[0].b.slice(0, 64) })); } catch (e) { } }
+  MKT.cap = null;
+  return got[0] || null;
 }
 function marketStores(range) {
   const out = [];
@@ -19895,38 +20265,763 @@ async function marketScan(why) {
   if (MKT.busy) return { ok: false, msg: 'already scanning' };
   const town = currentTownKey(); if (!town) return { ok: false, msg: 'not in a town' };
   if (!takeControl('!market', PRIO.ORDER)) return { ok: false, msg: control.owner + ' comes first' };
+  try { return await marketScanRun(town, why); }
+  finally { releaseControl('!market'); }
+}
+/** the scan itself, without taking control (PSHOP: the supply run holds control and scans inline when the last scan is too old) */
+async function marketScanRun(town, why) {
+  if (MKT.busy) return { ok: false, msg: 'already scanning' };
   MKT.busy = true; let opt = false;
   const shops = [], t0 = now();
   try {
     try { opt = !!Options.EnableJSOnIncomingPacket; Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+    mktHook();
     const list = marketOrder({ x: Me.X, y: Me.Y }, marketStores(5000));
     note(`[market] ${town}: ${list.length} player shop(s) in sight — visiting each`, true); intent('market', `scanning ${list.length} player shops in ${town}`);
     const TD = townGraphD(town);
     for (const s of list) {
       if (!state.running || Me.IsDead) break;
       setTask(`market scan ${town}: ${shops.length + 1}/${list.length} ${s.owner}`);
-      if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 150) {
-        let ok = false;
-        if (TD) { try { const r = await rgWalk(TD, { x: s.x, y: s.y, z: s.z }, { team: false, label: `shop of ${s.owner}`, maxReplans: 2, timeoutMs: 90000 }); ok = r.ok; } catch (e) { } }   // the atlas street path
-        if (!ok && Math.hypot(s.x - Me.X, s.y - Me.Y) < 600) { try { await walkTo(s.x, s.y, s.z, 120, 20000); } catch (e) { } }
-      }
-      MKT.cap = []; const c0 = now();
-      try { Send.Action(s.objId); await sleep(350); Send.Action(s.objId); } catch (e) { }
-      while (now() - c0 < 4500 && !MKT.cap.some(x => (marketParse(x.b) || {}).owner === s.objId)) await sleep(150);
-      const got = MKT.cap.map(x => marketParse(x.b)).filter(x => x && x.owner === s.objId);
-      if (!MKT.last && MKT.cap.length) { MKT.last = MKT.cap[0]; try { File.WriteAllText(SWARM_ROOT + '\\Logs\\market_raw_sample.json', JSON.stringify({ at: new Date().toISOString(), len: MKT.cap[0].b.length, head: MKT.cap[0].b.slice(0, 64) })); } catch (e) { } }
-      const g = got[0];
+      await marketWalk(s, TD);
+      const g = await marketRead(s, 4500);
       shops.push(Object.assign({}, s, { type: g ? g.kind : (/MANUFACTURE/i.test(s.storeType) ? 'craft' : /BUY/i.test(s.storeType) ? 'buy' : /PACKAGE/i.test(s.storeType) ? 'package' : 'sell'), items: g && g.items ? g.items : [], recipes: g && g.recipes ? g.recipes : [], read: !!g, seenAt: new Date().toISOString() }));
-      MKT.cap = null;
       await sleep(300);
     }
     const out = { at: new Date().toISOString(), by: Me.Name, town, ms: now() - t0, shops };
     try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\market_${String(town).toLowerCase()}.json`, JSON.stringify(out)); } catch (e) { logError('market write', e); }
     const read = shops.filter(s => s.read).length, msg = `${town}: ${shops.length} shop(s), ${read} read (${shops.reduce((a, s) => a + s.items.length + s.recipes.length, 0)} items)`;
     intentDone('market', read > 0 || !shops.length, msg); note('[market] ' + msg, true);
-    return { ok: true, msg };
+    return { ok: true, msg, read, shops: shops.length };
   } catch (e) { logError('market scan', e); return { ok: false, msg: 'error: ' + e.message }; }
-  finally { MKT.cap = null; try { Options.EnableJSOnIncomingPacket = opt; } catch (e) { } MKT.busy = false; releaseControl('!market'); }
+  finally { MKT.cap = null; try { Options.EnableJSOnIncomingPacket = opt; } catch (e) { } MKT.busy = false; }
+}
+/** PSHOP: "!pshop plan|buy <item id> <count> [name]" — a dry run (what the last scan offers at or below the party's max price) or a real buy of
+ *  this many (same rules as the supply run: switched on, max price, keep, budget). For the first live test: one small stack at a low max price. */
+async function pshopOrder(parts) {
+  const sub = String(parts[1] || '').toLowerCase(), id = num(parts[2]), cnt = Math.round(num(parts[3]));
+  if (!['buy', 'plan'].includes(sub) || !pshopItem(id) || !(cnt > 0)) { note('pshop: use "!pshop plan|buy <item id> <count> [name]" — soulshot B/A/S 1465/1466/1467, blessed spiritshot 3950/3951/3952, spiritshot 2512/2513/2514', true); return; }
+  const cfg = pshopCfg(pautoData(), CONFIG.leader), it = pshopItem(id);
+  if (sub === 'plan') {
+    const m = marketFile('giran'), fr = pshopFresh(m, Date.now(), cfg.maxAgeMin), p = pshopPlan([{ id, short: cnt }], m, cfg, itemCount(57));
+    const txt = `plan ${pshopFmt(cnt)} ${it.name} (max ${pshopFmt(pshopMaxFor(cfg, id))}, switch ${cfg.on ? 'ON' : 'OFF'}, scan ${fr.ageMin == null ? 'missing' : fr.ageMin + ' min old'}): ${p.picks.length ? p.picks.map(x => `${pshopFmt(x.count)} at ${pshopFmt(x.price)} from ${x.owner}`).join(', ') + ' = ' + pshopFmt(p.spend) + ' adena' : 'nothing'}${p.warn.length ? ' — ' + p.warn.join('; ') : ''}`;
+    note('[pshop] ' + txt, true); pshopLog(txt); return;
+  }
+  if (!cfg.on) { note('[pshop] buying from player shops is switched OFF for this party (party card -> Settings -> Supplies) — nothing bought', true); return; }
+  if (!takeControl('!pshop', PRIO.ORDER)) { note(`[pshop] ${control.owner} comes first — try again after it`, true); return; }
+  try {
+    const r = await pshopBuyRun([{ id, target: itemCount(id) + cnt }], '!pshop', { direct: true });
+    note(`[pshop] ${r ? r.text : 'nothing to buy'}${r && r.warn.length ? ' — ' + r.warn.join('; ') : ''}`.slice(0, 600), true);
+  } catch (e) { logError('!pshop', e); }
+  finally { releaseControl('!pshop'); }
+}
+/** PSHOP: the newest scan of a town (null = none / unreadable) */
+function marketFile(town) {
+  try { const F = `${SWARM_ROOT}\\Logs\\market_${String(town).toLowerCase()}.json`; if (!File.Exists(F)) return null; return JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, '')); } catch (e) { return null; }
+}
+const pshopLog = (msg) => { try { appendShared(SWARM_ROOT + '\\Logs\\pshop_buys.log', `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } };
+/** PSHOP: the leader buys the shots the team still lacks from player shops (in a supply run, in Giran, after Helvetia).
+ *  buys = leadSupply's list [{ id, name, count, target }] (target = what I must hold for me + the members' shares).
+ *  -> null (switched off / nothing to buy) | { text, warn: [], bought: [{ id, name, count, price, owner }], spent, plain: { plainId: count } } */
+async function pshopBuyRun(buys, why, opts) {
+  const cfg = pshopCfg(pautoData(), CONFIG.leader);
+  if (!cfg.on) return null;
+  const direct = !!(opts && opts.direct);                              // !pshop buy: exactly this item (plain spiritshots too)
+  const needs = (buys || []).filter(b => { const it = pshopItem(b.id); return it && (direct || it.kind !== 'spiritshot'); })
+    .map(b => ({ id: b.id, short: Math.max(0, num(b.target) - itemCount(b.id)) })).filter(n => n.short > 0);
+  if (!needs.length) return null;
+  const res = { text: '', warn: [], bought: [], spent: 0, plain: {}, at: new Date().toISOString(), leader: Me.Name, why: String(why || '') };
+  const fin = (text) => {
+    res.text = text;
+    try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\pshop_last_${Me.Name}.json`, JSON.stringify(res)); } catch (e) { }
+    pshopLog(`run: ${text}${res.warn.length ? ' | ' + res.warn.join(' | ') : ''}`);
+    intentDone('pshop', res.bought.length > 0, (text + (res.warn.length ? ' — ' + res.warn.join('; ') : '')).slice(0, 400));
+    return res;
+  };
+  intent('pshop', `buy ${needs.map(n => `${pshopItem(n.id).name} x${pshopFmt(n.short)}`).join(', ')} from player shops in Giran (max prices from the party settings)`);
+  if (!/giran/i.test(String(currentTownKey() || ''))) { res.warn.push('not in Giran — player shops skipped'); return fin('not in Giran'); }
+  let market = marketFile('giran'), fr = pshopFresh(market, Date.now(), cfg.maxAgeMin);
+  if (!fr.fresh) {
+    if (!cfg.scan) { res.warn.push(`the last shop scan is ${fr.ageMin == null ? 'missing' : fr.ageMin + ' min old'} — player shops skipped (switch on "scan first" or press Scan now on the Market page)`); return fin('no fresh scan'); }
+    note(`[pshop] the last shop scan is ${fr.ageMin == null ? 'missing' : fr.ageMin + ' min old'} — scanning the Giran shops first (a few minutes)`, true);
+    const sc = await marketScanRun('Giran', 'supply run: shot prices');
+    market = marketFile('giran'); fr = pshopFresh(market, Date.now(), cfg.maxAgeMin);
+    if (!fr.fresh || !sc || !sc.read) { res.warn.push(`the shop scan read no shop lists (${(sc && sc.msg) || 'no answer'}) — player shops skipped`); return fin('scan failed'); }
+  }
+  res.scanAt = market.at;
+  // the plan: blessed / soulshots first, then plain spiritshots for blessed ones still missing (same grade)
+  const p1 = pshopPlan(needs, market, cfg, itemCount(57));
+  const alt = direct ? [] : needs.filter(n => PSHOP_ALT[n.id] && p1.left[n.id] > 0 && pshopMaxFor(cfg, PSHOP_ALT[n.id]) > 0).map(n => ({ id: PSHOP_ALT[n.id], short: p1.left[n.id] }));
+  const p2 = alt.length ? pshopPlan(alt, market, Object.assign({}, cfg, { budget: Math.max(0, cfg.budget - p1.spend) }), itemCount(57) - p1.spend) : { picks: [], warn: [], spend: 0, left: {} };
+  res.warn.push(...p1.warn, ...p2.warn);
+  const picks = p1.picks.concat(p2.picks);
+  if (!picks.length) return fin('nothing at or below your max prices');
+  // visit the chosen shops nearest-next; re-read each live list, buy only at or below the max
+  const want = {}; needs.concat(alt).forEach(n => { want[n.id] = (want[n.id] || 0) + n.short; });
+  const byShop = {}; picks.forEach(pk => { (byShop[pk.objId] = byShop[pk.objId] || { owner: pk.owner, objId: pk.objId, x: pk.x, y: pk.y, z: pk.z, ids: [] }).ids.push(pk.id); });
+  const TD = townGraphD('Giran');
+  let opt = false; try { opt = !!Options.EnableJSOnIncomingPacket; Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  state.gkBusy = true;
+  try {
+    for (const s of marketOrder({ x: Me.X, y: Me.Y }, Object.values(byShop))) {
+      if (!state.running || Me.IsDead) break;
+      setTask(`player shop ${s.owner}: shots`);
+      if (!(await marketWalk(s, TD))) { res.warn.push(`${s.owner}: could not walk to the shop`); continue; }
+      if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 130) { try { await walkTo(s.x, s.y, s.z, 80, 15000); } catch (e) { } }   // L2J buys only within 150 of the seller
+      const g = await marketRead(s, 5000);
+      if (!g) { res.warn.push(`${s.owner}: the shop did not open (gone or closed)`); continue; }
+      if (g.kind !== 'sell') { res.warn.push(`${s.owner}: is a ${g.kind} shop now — skipped`); continue; }
+      const rows = [], what = [];
+      for (const id of [...new Set(s.ids)]) {
+        const max = pshopMaxFor(cfg, id), free = Math.min(itemCount(57) - cfg.keep, cfg.budget - res.spent) - rows.reduce((a, r) => a + r.count * r.price, 0);
+        const lr = pshopLiveRows(g.items, id, max, want[id] || 0, free);
+        if (!lr.rows.length) { res.warn.push(`${pshopItem(id).name} at ${s.owner}: ${lr.why}`); continue; }
+        lr.rows.forEach(r => { rows.push(r); what.push({ id, count: r.count, price: r.price }); });
+      }
+      if (!rows.length) continue;
+      const before = {}; what.forEach(w => { before[w.id] = itemCount(w.id); });
+      try { Send.SendHex(marketBuyHex(s.objId, rows)); } catch (e) { res.warn.push(`${s.owner}: buy packet failed (${e.message})`); continue; }
+      const t0 = now(); while (now() - t0 < 8000 && !what.every(w => itemCount(w.id) > before[w.id])) await sleep(300);
+      const ids = [...new Set(what.map(w => w.id))];
+      ids.forEach(id => {
+        const got = Math.max(0, itemCount(id) - before[id]), price = what.find(w => w.id === id).price, it = pshopItem(id);
+        if (got > 0) {
+          res.bought.push({ id, name: it.name, count: got, price, owner: s.owner }); res.spent += got * price; want[id] = Math.max(0, (want[id] || 0) - got);
+          if (it.kind === 'spiritshot') res.plain[id] = (res.plain[id] || 0) + got;
+          pshopLog(`bought ${pshopFmt(got)} x ${it.name} at ${pshopFmt(price)} from ${s.owner} = ${pshopFmt(got * price)} adena (max ${pshopFmt(pshopMaxFor(cfg, id))})`);
+        } else { res.warn.push(`${it.name} at ${s.owner}: sent the buy, the bag did not change (the shop may have sold out or refused)`); pshopLog(`NOT bought: ${it.name} at ${s.owner} (${pshopFmt(price)}) — bag unchanged after 8 s`); }
+      });
+      await sleep(400);
+    }
+  } finally { state.gkBusy = false; MKT.cap = null; try { Options.EnableJSOnIncomingPacket = opt; } catch (e) { } }
+  const txt = res.bought.length ? `bought ${res.bought.map(b => `${pshopFmt(b.count)} ${b.name} at ${pshopFmt(b.price)} (${b.owner})`).join(', ')} for ${pshopFmt(res.spent)} adena` : 'bought nothing';
+  return fin(txt);
+}
+// ===== OUR CRAFTER (CRAFTER-2026-10-15, Discord player Vykaax: "crafter supplier") — a Dwarf crafter (Artisan / Warsmith / Maestro) that stays in
+// its town, keeps a stock of soulshots / spiritshots / blessed spiritshots topped up by CRAFTING them from the crystals + Soul Ore / Spirit Ore it
+// already has (never crystallizes anything by itself: only the owner's "!crystallize" order, block CRAFTER ITEMS), and hands them to the parties it supplies in their supply runs (leadSupply step 1c, BEFORE
+// Helvetia and the player shops: crafter > NPC > player shops). Settings: Scripts/data/crafter_rules.json (dashboard Storage page -> "Our crafter",
+// party settings -> Supplies shows it; Dashboard/crafter_api.js). Missing file / entry = OFF. Read live every 10 s.
+//   crafters.<Name> = { on, town ('Giran'), parties: [leader names] | ['*'] (= every party), stock: { 'soulshot:D': 10000, ... } (target stock;
+//   missing / 0 = not made), daily: { D, C, B, A, S (crystals per day), soulOre, spiritOre } (0 / missing = no limit), learn (use recipe scrolls
+//   from the bag to learn a missing shot recipe; default false), maxBatches (crafts per round, default 20) }
+// Crafting = L2J RequestRecipeItemMakeSelf 0xB8 d(recipe LIST id = recipes.xml "id", NOT the scroll item id); recipe book = RequestRecipeBookOpen
+// 0xB5 d(0 = dwarven) -> RecipeBookItemList 0xDC d(0 = dwarven) d(maxMP) d(n) n x [d listId, d slot]; result RecipeItemMakeInfo 0xDD d(listId)
+// d(type) d(curMP) d(maxMP) d(success). Layouts: L2Swarm Data/base.db PacketsGSClient B5/B8 + PacketsGSServer DC/DD (verified 2026-10-15);
+// the craft itself is NOT yet verified live. Logs/crafter.log, Logs/crafter_<name>.json (status for the dashboard), Logs/crafter_usage_<name>.json.
+// Orders: !craft [name] (one round now), !craft book [name] (read the recipe book), !craft one <kind:grade> [name] (exactly one craft).
+// Test: docs/plan/tools/test_crafter.js.
+// CRAFT-PURE-BEGIN (no host calls)
+const CRAFT_GRADES = ['D', 'C', 'B', 'A', 'S'];
+const CRAFT_KINDS = { soulshot: 'Soulshot', spiritshot: 'Spiritshot', blessed: 'Blessed Spiritshot' };
+const CRAFT_MATS = { 1785: 'Soul Ore', 3031: 'Spirit Ore', 1458: 'D crystals', 1459: 'C crystals', 1460: 'B crystals', 1461: 'A crystals', 1462: 'S crystals' };
+const CRAFT_CRYSTAL = { 1458: 'D', 1459: 'C', 1460: 'B', 1461: 'A', 1462: 'S' };
+// H5 datapack Scripts/data/dp/recipes.xml = L2Swarm Data/base.db Recipes (same numbers): list = what 0xB8 names, scroll = the recipe item,
+// lvl = Create Item (172) level, product + count per craft, mp, ing = [[item, count]]. Success 100 % for all of them.
+const CRAFT_RECIPES = [
+  { key: 'soulshot:D', list: 20, scroll: 1804, lvl: 2, product: 1463, count: 468, mp: 72, ing: [[1785, 9], [1458, 3]] },
+  { key: 'soulshot:C', list: 21, scroll: 1805, lvl: 4, product: 1464, count: 952, mp: 84, ing: [[1785, 30], [1459, 2]] },
+  { key: 'soulshot:B', list: 22, scroll: 1806, lvl: 6, product: 1465, count: 450, mp: 100, ing: [[1785, 54], [1460, 1]] },
+  { key: 'soulshot:A', list: 23, scroll: 1807, lvl: 7, product: 1466, count: 300, mp: 120, ing: [[1785, 36], [1461, 1]] },
+  { key: 'soulshot:S', list: 24, scroll: 1808, lvl: 8, product: 1467, count: 350, mp: 150, ing: [[1785, 40], [1462, 1]] },
+  { key: 'spiritshot:D', list: 317, scroll: 3032, lvl: 2, product: 2510, count: 100, mp: 60, ing: [[3031, 3], [1458, 1]] },
+  { key: 'spiritshot:C', list: 318, scroll: 3033, lvl: 4, product: 2511, count: 200, mp: 120, ing: [[3031, 10], [1459, 1]] },
+  { key: 'spiritshot:B', list: 319, scroll: 3034, lvl: 6, product: 2512, count: 150, mp: 180, ing: [[3031, 15], [1460, 1]] },
+  { key: 'spiritshot:A', list: 320, scroll: 3035, lvl: 7, product: 2513, count: 200, mp: 240, ing: [[3031, 22], [1461, 1]] },
+  { key: 'spiritshot:S', list: 321, scroll: 3036, lvl: 8, product: 2514, count: 200, mp: 300, ing: [[3031, 15], [1462, 1]] },
+  { key: 'blessed:D', list: 323, scroll: 3953, lvl: 2, product: 3948, count: 100, mp: 60, ing: [[3031, 8], [1458, 2]] },
+  { key: 'blessed:C', list: 324, scroll: 3954, lvl: 4, product: 3949, count: 200, mp: 120, ing: [[3031, 30], [1459, 2]] },
+  { key: 'blessed:B', list: 325, scroll: 3955, lvl: 6, product: 3950, count: 100, mp: 180, ing: [[3031, 16], [1460, 2]] },
+  { key: 'blessed:A', list: 326, scroll: 3956, lvl: 7, product: 3951, count: 200, mp: 240, ing: [[3031, 70], [1461, 2]] },
+  { key: 'blessed:S', list: 327, scroll: 3957, lvl: 8, product: 3952, count: 200, mp: 300, ing: [[3031, 50], [1462, 2]] },
+];
+const CRAFT_DEF = { town: 'Giran', maxBatches: 20 };
+const CRAFT_TOWNS = ['Gludin', 'Gludio', 'Dion', 'Giran', 'Oren', 'Aden', 'Hunters', 'Heine', 'Goddard', 'Rune', 'Schuttgart'];
+const craftFmt = (n) => String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+function craftRecipe(key) { return CRAFT_RECIPES.find(r => r.key === key) || null; }
+function craftByProduct(id) { return CRAFT_RECIPES.find(r => r.product === Number(id)) || null; }
+function craftName(key) { const [k, g] = String(key).split(':'); return CRAFT_KINDS[k] ? `${CRAFT_KINDS[k]} (${g})` : String(key); }
+/** one crafter's settings, cleaned (the same rules as Dashboard/crafter_api.js craftCfgOf; test_crafter.js checks both) */
+function craftCfgOf(j, name) {
+  const o = (x) => (x && typeof x === 'object' && !Array.isArray(x) ? x : {});
+  const c = o(o(o(j).crafters)[name]);
+  const n = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) || Number(v) < 0 ? 0 : Math.round(Number(v)));
+  const stock = {}; CRAFT_RECIPES.forEach(r => { const v = n(o(c.stock)[r.key]); if (v > 0) stock[r.key] = Math.min(v, 10000000); });
+  const daily = {}; CRAFT_GRADES.forEach(g => { daily[g] = n(o(c.daily)[g]); }); daily.soulOre = n(o(c.daily).soulOre); daily.spiritOre = n(o(c.daily).spiritOre);
+  const parties = Array.isArray(c.parties) ? [...new Set(c.parties.map(x => String(x || '').trim()).filter(x => x === '*' || /^[A-Za-z0-9_\-]{1,40}$/.test(x)))] : [];
+  const mb = n(c.maxBatches);
+  return { name: String(name || ''), on: c.on === true, town: CRAFT_TOWNS.includes(c.town) ? c.town : CRAFT_DEF.town, parties, stock, daily,
+    learn: c.learn === true, maxBatches: mb >= 1 && mb <= 200 ? mb : CRAFT_DEF.maxBatches, exists: Object.keys(c).length > 0 };
+}
+/** the crafter that supplies this party (switched on, the party on its list or '*'); '' = none. A crafter never supplies itself through this. */
+function craftCrafterFor(j, leader) {
+  const C = (j && j.crafters && typeof j.crafters === 'object') ? j.crafters : {};
+  const names = Object.keys(C).sort();
+  for (const n of names) { const c = craftCfgOf(j, n); if (c.on && n !== leader && (c.parties.includes(leader) || c.parties.includes('*'))) return n; }
+  return '';
+}
+/** the crafting day (resets 06:30 local, like the dailies) for a Date */
+function craftDay(d) { const t = new Date(d.getTime() - 6.5 * 3600000); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`; }
+/** how much of this material the daily limit still allows (Infinity = no limit) */
+function craftDailyLeft(cfg, used, mat) {
+  const g = CRAFT_CRYSTAL[mat], lim = g ? cfg.daily[g] : mat === 1785 ? cfg.daily.soulOre : mat === 3031 ? cfg.daily.spiritOre : 0;
+  return lim > 0 ? Math.max(0, lim - (Number((used || {})[mat]) || 0)) : Infinity;
+}
+/** "120 C crystals + 30 Soul Ore" */
+function craftMatText(m) { return Object.keys(m || {}).filter(k => m[k] > 0).sort((a, b) => (CRAFT_CRYSTAL[a] ? 0 : 1) - (CRAFT_CRYSTAL[b] ? 0 : 1)).map(k => `${craftFmt(m[k])} ${CRAFT_MATS[k] || 'item ' + k}`).join(' + '); }
+/** the plan for the stock. s = { bag: { itemId: count }, createLvl, known: [list ids] | null (book not read yet), used: { mat: count today },
+ *  learnable: [list ids whose scroll is in the bag] }. -> { rows: [{ key, name, product, have, target, short, want (crafts), can (crafts now),
+ *  per, need: { mat: count for the whole shortage }, missing: { mat: count still lacking }, why, text }], next: row | null } */
+function craftPlan(cfg, s) {
+  s = s || {}; const bag = s.bag || {}, lvl = Number(s.createLvl) || 0, rows = [];
+  Object.keys(cfg.stock || {}).forEach(key => {
+    const r = craftRecipe(key); if (!r) return;
+    const have = Number(bag[r.product]) || 0, target = cfg.stock[key], short = Math.max(0, target - have), want = Math.ceil(short / r.count);
+    const need = {}, missing = {}; let can = want, why = '';
+    r.ing.forEach(([m, c]) => { need[m] = c * want; const h = Number(bag[m]) || 0; if (h < need[m]) missing[m] = need[m] - h; can = Math.min(can, Math.floor(h / c), Math.floor(craftDailyLeft(cfg, s.used, m) / c)); });
+    const nm = craftName(key);
+    if (!short) { can = 0; why = 'stock is full'; }
+    else if (lvl < r.lvl) { can = 0; why = `needs Create Item level ${r.lvl} (mine ${lvl})`; }
+    else if (s.known && !s.known.includes(r.list)) { can = 0; why = (s.learnable || []).includes(r.list) ? `recipe not learned yet — "Recipe: ${nm}" is in the bag${cfg.learn ? ' (learning it)' : ' (tick "learn recipes from the bag" or use it by hand)'}` : `recipe not learned — needs "Recipe: ${nm}"`; }
+    else if (can <= 0) {
+      const lim = r.ing.map(([m, c]) => craftDailyLeft(cfg, s.used, m) < c && (Number(bag[m]) || 0) >= c ? m : 0).filter(Boolean);
+      why = lim.length ? `daily limit reached for ${lim.map(m => CRAFT_MATS[m]).join(' + ')}` : `missing ${craftMatText(missing)}`;
+      can = 0;
+    } else if (can < want) why = `can make ${craftFmt(can * r.count)} of ${craftFmt(short)} now — still missing ${craftMatText(missing)}`;
+    const text = !short ? `${nm}: ${craftFmt(have)} of ${craftFmt(target)} — full` : Object.keys(missing).length
+      ? `${nm}: ${craftFmt(have)} of ${craftFmt(target)} — needs ${craftMatText(need)} for ${craftFmt(short)} ${nm}; missing ${craftMatText(missing)}`
+      : `${nm}: ${craftFmt(have)} of ${craftFmt(target)} — ${can ? `can make ${craftFmt(Math.min(can, want) * r.count)} now (${craftMatText(need)})` : why}`;
+    rows.push({ key, name: nm, product: r.product, have, target, short, want, can: Math.min(can, want), per: r.count, need, missing, why, text });
+  });
+  const next = rows.filter(r => r.short > 0 && r.can > 0).sort((a, b) => (b.short / b.target) - (a.short / a.target) || a.key.localeCompare(b.key))[0] || null;
+  return { rows, next };
+}
+/** the server packet bytes from the opcode on (b[0] = opcode) for one of these opcodes, with or without L2Swarm's 2-byte length header */
+function craftBytes(p, n, ops) {
+  if (!p || !(n >= 3)) return null;
+  const B = (i) => Number(p[i]) & 255; let off = -1;
+  if (ops.includes(B(2)) && (B(0) | (B(1) << 8)) === n) off = 2; else if (ops.includes(B(0))) off = 0; else if (ops.includes(B(2))) off = 2;
+  if (off < 0) return null;
+  const b = []; for (let i = off; i < n; i++) b.push(B(i));
+  return b;
+}
+const craftD = (b, i) => ((b[i] | (b[i + 1] << 8) | (b[i + 2] << 16) | (b[i + 3] << 24)) >>> 0);
+/** RecipeBookItemList 0xDC -> { dwarven, maxMp, ids: [list ids] } | null */
+function craftParseBook(b) {
+  if (!b || b[0] !== 0xDC || b.length < 13) return null;
+  const n = craftD(b, 9), ids = [];
+  for (let i = 0; i < n && 13 + i * 8 + 4 <= b.length; i++) ids.push(craftD(b, 13 + i * 8));
+  return { dwarven: craftD(b, 1) === 0, maxMp: craftD(b, 5), ids };
+}
+/** RecipeItemMakeInfo 0xDD -> { list, mp, maxMp, ok } | null */
+function craftParseResult(b) { if (!b || b[0] !== 0xDD || b.length < 21) return null; return { list: craftD(b, 1), mp: craftD(b, 9), maxMp: craftD(b, 13), ok: craftD(b, 17) === 1 }; }
+const craftLe = (v, n) => { let s = '', x = Math.max(0, Math.round(Number(v) || 0)); for (let i = 0; i < n; i++) { s += (x % 256).toString(16).padStart(2, '0').toUpperCase(); x = Math.floor(x / 256); } return s; };
+/** RequestRecipeItemMakeSelf 0xB8 d(list id) */
+function craftMakeHex(list) { return 'B8' + craftLe(list, 4); }
+/** RequestRecipeBookOpen 0xB5 d(0 = dwarven book, 1 = common) — L2J reads `readD() == 0` as dwarven */
+function craftBookHex(dwarven) { return 'B5' + craftLe(dwarven === false ? 1 : 0, 4); }
+/** SUPPLY ORDER (crafter > NPC > player shops): what the leader still has to get, item by item [{ id, name, count }], against the crafter's
+ *  stock { itemId: count } -> { take: [{ id, name, count }] from the crafter, rest: [{ id, name, count }] for Helvetia, then the player shops }.
+ *  Only shots the crafter can make are taken; keep = { itemId: count } the crafter holds back (0 = none). */
+function craftSupplySplit(needs, stock, keep) {
+  const take = [], rest = [];
+  (needs || []).forEach(n => {
+    const c = Math.max(0, Math.round(Number(n.count) || 0)); if (!c) return;
+    const r = craftByProduct(n.id), avail = r ? Math.max(0, (Number((stock || {})[n.id]) || 0) - (Number((keep || {})[n.id]) || 0)) : 0;
+    const t = Math.min(c, avail);
+    if (t > 0) take.push({ id: Number(n.id), name: n.name || craftName(r.key), count: t });
+    if (c - t > 0) rest.push({ id: Number(n.id), name: n.name || '', count: c - t });
+  });
+  return { take, rest };
+}
+/** take shots from the crafter in this supply run? o = { crafter, status: { at (ms), town, inTown, on } | null, recv: hovWhere() answer | null,
+ *  myTown, nowMs } -> { act: 'take' | 'skip', why } (never a long trip: another town / the field = skip with a note) */
+function craftSupplyDecide(o) {
+  o = o || {};
+  if (!o.crafter) return { act: 'skip', why: 'no crafter supplies this party' };
+  const st = o.status, fresh = st && st.at && (o.nowMs || 0) - st.at < 10 * 60000;
+  if (!fresh) return { act: 'skip', why: `${o.crafter} has not reported for 10 minutes (offline, or its swarm.js is not running) — buying everything` };
+  const r = o.recv, town = (r && r.town) || st.town || '';
+  if (r && r.dead) return { act: 'skip', why: `${o.crafter} is dead — buying everything` };
+  if (!o.myTown) return { act: 'skip', why: 'I am not in a town — buying everything' };
+  if (town !== o.myTown) return { act: 'skip', why: `${o.crafter} is ${town ? 'in ' + town : 'out in the field'}, not here in ${o.myTown} — no trip for it; buying everything` };
+  return { act: 'take', why: `${o.crafter} is here in ${o.myTown}` };
+}
+// CRAFT-PURE-END
+const CRAFTX = { busy: false, cap: null, fn: null, book: null, last: [], rules: null, rulesAt: 0, said: {}, statusAt: 0, nextAt: 0 };
+function craftLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\crafter.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
+function craftRules() {
+  if (now() - CRAFTX.rulesAt > 10000) { CRAFTX.rulesAt = now(); try { const F = `${__SCRIPTS__}\\data\\crafter_rules.json`; CRAFTX.rules = File.Exists(F) ? (JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, '')) || {}) : {}; } catch (e) { CRAFTX.rules = CRAFTX.rules || {}; } }
+  return CRAFTX.rules || {};
+}
+function craftMineCfg() { const c = craftCfgOf(craftRules(), String(Me.Name)); return c.exists ? c : null; }
+function craftBag() { const b = {}; try { Inventory.forEach(it => { const id = num(it.Id); b[id] = (b[id] || 0) + Math.max(1, num(it.Count)); }); } catch (e) { } return b; }
+function craftUsageFile() { return `${SWARM_ROOT}\\Logs\\crafter_usage_${Me.Name}.json`; }
+function craftUsed() { try { const j = JSON.parse(File.ReadAllText(craftUsageFile())); if (j.day === craftDay(new Date())) return j.used || {}; } catch (e) { } return {}; }
+function craftUse(rec, n) {
+  const used = craftUsed(); rec.ing.forEach(([m, c]) => { used[m] = (Number(used[m]) || 0) + c * n; });
+  try { File.WriteAllText(craftUsageFile(), JSON.stringify({ day: craftDay(new Date()), used })); } catch (e) { }
+}
+function craftCapture(p) { if (!CRAFTX.cap) return; try { const b = craftBytes(p, num(p.length || p.Length), [0xDC, 0xDD]); if (b) CRAFTX.cap.push({ at: now(), b }); } catch (e) { } }
+function craftHook() {
+  if (CRAFTX.fn && globalThis.OnIncomingPacket === CRAFTX.fn) return;
+  const prev = globalThis.OnIncomingPacket;
+  CRAFTX.fn = (p) => { try { if (prev) prev(p); } catch (e) { } craftCapture(p); };
+  globalThis.OnIncomingPacket = CRAFTX.fn;
+}
+async function craftCapWhile(fn, ms, until) {
+  let opt = false; try { opt = !!Options.EnableJSOnIncomingPacket; Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  craftHook(); CRAFTX.cap = [];
+  try { fn(); const t0 = now(); while (now() - t0 < ms) { await sleep(200); const r = until(CRAFTX.cap); if (r) return r; } return until(CRAFTX.cap, true) || null; }
+  finally { CRAFTX.cap = null; try { Options.EnableJSOnIncomingPacket = opt; } catch (e) { } }
+}
+/** read my dwarven recipe book (0xB5 -> 0xDC); cached 10 min */
+async function craftReadBook(force) {
+  if (!force && CRAFTX.book && now() - CRAFTX.book.at < 600000) return CRAFTX.book;
+  const r = await craftCapWhile(() => Send.SendHex(craftBookHex(true)), 5000, (cap) => { for (const c of cap) { const b = craftParseBook(c.b); if (b && b.dwarven) return b; } return null; });
+  if (r) { CRAFTX.book = { at: now(), ids: r.ids, maxMp: r.maxMp }; craftLog(`recipe book: ${r.ids.length} dwarven recipes (${CRAFT_RECIPES.filter(x => r.ids.includes(x.list)).map(x => x.key).join(', ') || 'no shot recipes'})`); }
+  else craftLog('recipe book: no answer from the server (0xDC) in 5 s');
+  return CRAFTX.book;
+}
+/** one craft of this recipe -> { ok, got, why } (success = the product count in the bag rose) */
+async function craftOnce(rec) {
+  const before = itemCount(rec.product);
+  const r = await craftCapWhile(() => Send.SendHex(craftMakeHex(rec.list)), 6000, (cap, end) => {
+    if (itemCount(rec.product) > before) return { ok: true };
+    for (const c of cap) { const x = craftParseResult(c.b); if (x && x.list === rec.list && !x.ok) return { ok: false, mp: x.mp }; }
+    return end ? { ok: itemCount(rec.product) > before } : null;
+  });
+  await sleep(300);
+  const got = itemCount(rec.product) - before;
+  if (got > 0) return { ok: true, got };
+  const sm = lastSysMsg && now() - num(lastSysMsg.at || 0) < 8000 ? String(lastSysMsg.text || lastSysMsg.msg || '').slice(0, 160) : '';
+  return { ok: false, got: 0, why: sm || (r && r.ok === false ? 'the server says the craft failed' : 'no answer from the server') };
+}
+function craftBusyWhy() {
+  if (CRY.busy) return 'crystallizing';                                  // CRAFTITEMS-2026-10-15
+  const w = clanHandBusyWhy(); if (w) return w;
+  try { if (autoLvl.active) return 'out leveling'; if (raidHunt.active) return 'raid hunting'; if (Me.IsDead) return 'dead'; } catch (e) { }
+  return '';
+}
+function craftStatus(o) {
+  try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\crafter_${Me.Name}.json`, JSON.stringify(Object.assign({ name: Me.Name, at: new Date().toISOString(), atMs: now(), town: currentTownKey() || '', mp: num(Me.MP), maxMp: num(Me.MaxMP),
+    createLvl: stashSkillLvl(172), last: CRAFTX.last.slice(-12) }, o))); } catch (e) { }
+}
+/** one round: plan, then craft the most-short shot up to maxBatches crafts. manual = an order (also when switched off / the run switch is off) */
+async function craftTick(manual, onlyKey) {
+  if (CRAFTX.busy) return { act: 'busy', msg: 'already crafting' };
+  const cfg = craftMineCfg();
+  if (!cfg) return { act: 'none', msg: 'I am not set up as a crafter (dashboard Storage page -> Our crafter)' };
+  CRAFTX.busy = true;
+  let ctl = false;
+  try {
+    const bag = craftBag(), lvl = stashSkillLvl(172), myTown = currentTownKey() || '';
+    const book = lvl > 0 && myTown && !IsInCombat ? await craftReadBook(false) : CRAFTX.book;
+    const learnable = CRAFT_RECIPES.filter(r => (bag[r.scroll] || 0) > 0).map(r => r.list);
+    let plan = craftPlan(cfg, { bag, createLvl: lvl, known: book ? book.ids : null, used: craftUsed(), learnable });
+    const base = { on: cfg.on, cfgTown: cfg.town, parties: cfg.parties, stock: plan.rows, known: book ? CRAFT_RECIPES.filter(r => book.ids.includes(r.list)).map(r => r.key) : null,
+      mats: Object.keys(CRAFT_MATS).reduce((o, k) => { o[k] = bag[k] || 0; return o; }, {}), products: CRAFT_RECIPES.reduce((o, r) => { o[r.product] = bag[r.product] || 0; return o; }, {}),
+      objIds: (() => { const o = {}; try { Inventory.forEach(it => { const id = num(it.Id); if (craftByProduct(id)) o[id] = num(it.objId); }); } catch (e) { } return o; })(), used: craftUsed() };
+    const say = (state, why) => { craftStatus(Object.assign({}, base, { state, why })); return { act: state, msg: why }; };
+    if (!cfg.on && !manual) return say('off', 'switched off (dashboard Storage page -> Our crafter)');
+    if (!lvl) return say('blocked', 'this character has no Create Item skill (a Dwarf Artisan / Warsmith crafts)');
+    if (myTown !== cfg.town) return say('waiting', `not in ${cfg.town} (${myTown ? 'in ' + myTown : 'out in the field'}) — I craft when I am there; I never travel for it by myself`);
+    const busy = craftBusyWhy(); if (busy) return say('waiting', `busy: ${busy}`);
+    // learn a missing shot recipe from a scroll in the bag (only with learn: true)
+    if (cfg.learn && book) {
+      const r = CRAFT_RECIPES.find(x => cfg.stock[x.key] && !book.ids.includes(x.list) && (bag[x.scroll] || 0) > 0 && lvl >= x.lvl);
+      if (r) { try { UseItem(r.scroll); craftLog(`learning ${craftName(r.key)} from its recipe scroll`); await sleep(1500); await craftReadBook(true); } catch (e) { logError('craft learn', e); } }
+    }
+    const next = onlyKey ? plan.rows.find(r => r.key === onlyKey) || (craftRecipe(onlyKey) ? { key: onlyKey, name: craftName(onlyKey), can: 1, want: 1, short: 1 } : null) : plan.next;
+    if (!next || !(next.can > 0 || onlyKey)) {
+      const todo = plan.rows.filter(r => r.short > 0);
+      return say(todo.length ? 'stuck' : 'full', todo.length ? todo.map(r => r.text).join(' | ') : 'every shot is at its target stock');
+    }
+    if (control.owner && control.owner !== 'craft') return say('waiting', `${control.owner} runs — I craft after it (one owner at a time)`);   // ONE OWNER: never take over another task, not even one of the same priority
+    if (!takeControl('craft', PRIO.UPKEEP)) return say('waiting', `${control.owner} comes first`);
+    ctl = true; const g0 = control.gen;
+    const rec = craftRecipe(next.key), max = onlyKey ? 1 : Math.min(next.can, cfg.maxBatches);
+    intent('craft', `crafting ${craftName(rec.key)}: up to ${max} craft(s) of ${rec.count}`);
+    setTask(`crafting ${craftName(rec.key)}`);
+    standUp();
+    let made = 0, crafts = 0, why = '';
+    for (let i = 0; i < max; i++) {
+      if (interrupted(g0) || Me.IsDead || IsInCombat) { why = 'interrupted (a more important task)'; break; }
+      if (num(Me.MP) < rec.mp) {                                          // wait for MP (sitting regenerates faster), max 4 min
+        try { if (!Me.IsSitting) RunCommand('/sit'); } catch (e) { }
+        const t0 = now(); while (num(Me.MP) < Math.min(num(Me.MaxMP), rec.mp * 3) && now() - t0 < 240000 && !interrupted(g0) && !IsInCombat) await sleep(2000);
+        standUp(); await sleep(1200);
+        if (num(Me.MP) < rec.mp) { why = `not enough MP (${num(Me.MP)} of ${rec.mp})`; break; }
+      }
+      const r = await craftOnce(rec);
+      if (!r.ok) { why = r.why; break; }
+      made += r.got; crafts++; craftUse(rec, 1);
+    }
+    const msg = `${craftName(rec.key)}: made ${craftFmt(made)} in ${crafts} craft(s)${why ? ` — stopped: ${why}` : ''}`;
+    CRAFTX.last.push({ at: new Date().toISOString(), key: rec.key, made, crafts, why });
+    craftLog(msg); intentDone('craft', made > 0, msg); if (manual || why) note(`[craft] ${msg}`, true);
+    plan = craftPlan(cfg, { bag: craftBag(), createLvl: lvl, known: CRAFTX.book ? CRAFTX.book.ids : null, used: craftUsed(), learnable });
+    base.stock = plan.rows; base.products = CRAFT_RECIPES.reduce((o, r) => { o[r.product] = itemCount(r.product); return o; }, {}); base.used = craftUsed();
+    return say(made > 0 ? 'crafted' : 'stuck', msg);
+  } catch (e) { logError('craft', e); return { act: 'error', msg: 'error: ' + (e && e.message || e) }; }
+  finally { if (ctl) { releaseControl('craft'); setTask(''); } CRAFTX.busy = false; }
+}
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name || now() - scriptStartAt < 120000) return;
+    const cfg = craftMineCfg(); if (!cfg) return;
+    if (!cfg.on || !runOnOrCollector()) {                               // RUNSTATE: OFF = no automatic crafting (!craft still works); the status still shows
+      if (now() - CRAFTX.statusAt > 120000) { CRAFTX.statusAt = now(); const p = craftPlan(cfg, { bag: craftBag(), createLvl: stashSkillLvl(172), known: CRAFTX.book ? CRAFTX.book.ids : null, used: craftUsed() });
+        craftStatus({ on: cfg.on, cfgTown: cfg.town, parties: cfg.parties, stock: p.rows, state: 'off', why: !cfg.on ? 'switched off (dashboard Storage page -> Our crafter)' : 'the run switch of my party is off (press Start, or make me the collector)',
+          known: CRAFTX.book ? CRAFT_RECIPES.filter(r => CRAFTX.book.ids.includes(r.list)).map(r => r.key) : null, products: CRAFT_RECIPES.reduce((o, r) => { o[r.product] = itemCount(r.product); return o; }, {}),
+          mats: Object.keys(CRAFT_MATS).reduce((o, k) => { o[k] = itemCount(num(k)); return o; }, {}), used: craftUsed() }); }
+      return;
+    }
+    if (now() < CRAFTX.nextAt) return;
+    CRAFTX.nextAt = now() + 60000;
+    craftTick(false).then(r => { if (r && /stuck|waiting|blocked/.test(r.act) && now() - (CRAFTX.said[r.msg] || 0) > 1800000) { CRAFTX.said[r.msg] = now(); craftLog(`${r.act}: ${r.msg}`); } }).catch(e => logError('craft tick', e));
+  } catch (e) { }
+}, 30000);
+/** !craft [name] | !craft book [name] | !craft one <kind:grade> [name] */
+function craftCommand(parts) {
+  const a = String(parts[1] || '').toLowerCase();
+  const who = a === 'book' ? parts[2] : a === 'one' || a === 'learn' ? parts[3] : parts[1];   // CRAFTITEMS-2026-10-15: !craft learn <recipeItemId> [name]
+  if (who && String(who).toLowerCase() !== String(Me.Name).toLowerCase()) return;
+  if (!who && !craftMineCfg()) return;                                  // no name = every crafter
+  if (a === 'book') { craftReadBook(true).then(b => note(`[craft] recipe book: ${b ? `${b.ids.length} dwarven recipes; shots: ${CRAFT_RECIPES.filter(r => b.ids.includes(r.list)).map(r => craftName(r.key)).join(', ') || 'none'}` : 'no answer'}`, true)).catch(e => logError('!craft book', e)); return; }
+  if (a === 'learn') { const sc = num(parts[2]); if (!(sc > 0)) { note('[craft] learn: which recipe? use "!craft learn <recipe item id> [name]"', true); return; } rcpLearn(sc).then(m => note(`[craft] ${m}`.slice(0, 400), true)).catch(e => logError('!craft learn', e)); return; }
+  if (a === 'one') { const key = String(parts[2] || ''); if (!craftRecipe(key)) { note(`[craft] unknown shot "${key}" — use soulshot:D, spiritshot:C, blessed:B ...`, true); return; } craftTick(true, key).then(r => note(`[craft] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!craft one', e)); return; }
+  craftTick(true).then(r => note(`[craft] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!craft', e));
+}
+/** SUPPLY RUN step 1c (leader, in Giran): take the shots the team needs from our crafter first (HANDOVER: the crafter walks over and trades),
+ *  then Helvetia and the player shops buy only the rest. total = leadSupply's { id: { id, name, members, mine } }. -> text for the report | '' */
+async function crafterSupplyStep(total, runId) {
+  const R = craftRules(), crafter = craftCrafterFor(R, Me.Name);
+  if (!crafter) return '';
+  let st = null; try { st = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Logs\\crafter_${crafter}.json`)); } catch (e) { }
+  const needs = Object.values(total).map(t => {
+    const myWant = t.mine && t.mine.need > 0 ? t.mine.want : (t.mine ? Math.min(t.mine.have, t.mine.want) : 0);
+    return { id: num(t.id), name: t.name, count: Math.max(0, myWant + num(t.members) - itemCount(t.id)) };
+  }).filter(n => n.count > 0 && craftByProduct(n.id));
+  if (!needs.length) return '';
+  let rv = null; try { rv = await hovWhere(crafter, 'craft'); } catch (e) { }
+  const d = craftSupplyDecide({ crafter, status: st ? { at: num(st.atMs) || Date.parse(st.at) || 0, town: st.town } : null, recv: rv, myTown: currentTownKey() || '', nowMs: now() });
+  if (d.act !== 'take') { const m = `our crafter: ${d.why}`; note(`[supply] ${m}`, true); craftLog(`supply for ${Me.Name}: skipped — ${d.why}`); return m; }
+  const sp = craftSupplySplit(needs, (st && st.products) || {}, {});
+  if (!sp.take.length) { const m = `our crafter ${crafter} has none of ${needs.map(n => n.name).join(', ')} in stock`; note(`[supply] ${m}`, true); craftLog(`supply for ${Me.Name}: ${m}`); return m; }
+  const id = `craft_${String(Me.Name).toLowerCase()}_${Date.now().toString(36)}`;
+  const oid = (st && st.objIds) || {};
+  try { File.WriteAllText(`${HOV_DIR}\\${id}.json`, JSON.stringify({ id, receiver: Me.Name, batch: HOV_CFG.batch, givers: { [crafter]: { items: sp.take.map(t => ({ objId: num(oid[t.id]) || 0, id: t.id, name: t.name, count: t.count, stack: true })), adena: 0 } },
+    kind: 'crafter', by: Me.Name, why: `supply run: shots from our crafter`, created: new Date().toISOString() }, null, 1)); }
+  catch (e) { logError('crafter order', e); return 'crafter: could not write the hand-over order'; }
+  const before = {}; sp.take.forEach(t => { before[t.id] = itemCount(t.id); });
+  const what = sp.take.map(t => `${craftFmt(t.count)} ${t.name}`).join(', ');
+  SayToParty(`[supply] our crafter ${crafter} brings ${what} — the shop buys only the rest`.slice(0, 250));
+  intent('craftsupply', `${crafter} brings ${what}`); craftLog(`supply for ${Me.Name}: asking ${crafter} for ${what} (order ${id})`);
+  try { App.emit('swarm.hovcall', { id }); } catch (e) { }
+  hovCommand(['!handover', id]);
+  const t0 = now(); let s = null;
+  while (now() - t0 < 480000 && regroupAlive(runId)) {
+    await sleep(5000);
+    try { s = JSON.parse(File.ReadAllText(`${HOV_DIR}\\${id}_${crafter}.json`)); } catch (e) { s = null; }
+    if (s && /^(done|failed|stopped)$/.test(String(s.state || ''))) break;
+  }
+  const got = sp.take.map(t => ({ name: t.name, n: Math.max(0, itemCount(t.id) - before[t.id]) })).filter(x => x.n > 0);
+  const m = got.length ? `got ${got.map(x => `${craftFmt(x.n)} ${x.name}`).join(', ')} from ${crafter}` : `${crafter} gave nothing (${(s && (s.msg || s.state)) || 'no answer in 8 min'}) — buying everything`;
+  intentDone('craftsupply', got.length > 0, m); craftLog(`supply for ${Me.Name}: ${m}`); note(`[supply] ${m}`, true);
+  return m;
+}
+// ===== CRAFTER ITEMS (CRAFTITEMS-2026-10-15, owner: "He is my designated crafter, he should also have the option to disenchant items into crystals.
+// So there should be an option to hand him items he can then disenchant. And he should also be able to send recipes and materials to him.")
+// NOTHING here runs by itself: every crystallize / learn / hand-in is the owner's button (dashboard Storage page -> Our crafter) or order.
+//  1. CRYSTALLIZE: "!crystallize <crafter> <objId,objId,...> [enchanted] [special]" — the crafter crystallizes EXACTLY those pieces of its own
+//     bag. Packet RequestCrystallizeItem 0x2F d(objectId) q(count) = L2Swarm's catalog Data/base.db PacketsGSClient "2F=ReqCrystallizeItem=
+//     d(ObjectID)q(Count)" (verified 2026-10-15; the host helper Send.ReqCrystallizeItem(objId) is the fallback when the bag did not change).
+//     Every piece is checked again first (cryJudge / cryAllowed): never worn; enchanted only with "enchanted"; quest / untradeable / augmented /
+//     special ability (S.A.) only with "special"; Crystallize (248) level >= the grade rank (D 1, C 2, B 3, A 4, S / S80 / S84 5 = L2J
+//     RequestCrystallizeItem). After each: the piece must be gone and the crystals up. Logs/crystallize.log + intent log + party chat.
+//  2. BAG REPORT Logs/crafter_bag_<name>.json (every minute while it changes; only a character with Crystallize or a crafter entry): every
+//     crystallizable piece (grade, crystals, why not), every recipe in the bag (learnable? already known?), skill levels, recipe book size.
+//  3. LEARN: "!craft learn <recipeItemId> [name]" — uses that recipe scroll once (Create Item / Create Common Item level checked first).
+//  4. HAND-IN: hand-over orders (Logs/handover/<id>.json) written by Dashboard/crafter_api.js with sameTown: true — a giver that is NOT in the
+//     crafter's town parks the order (Logs/handover/_pending_<name>.json, state 'pending') and runs it the next time it stands idle in the same
+//     town as the crafter (CRYIN-PURE crinDecide + clanHandBusyWhy); goNow: true orders travel at once (the normal HANDOVER walk / .townname).
+// Data: Scripts/data/crafter_items.json (docs/plan/tools/crafter_items.js). Test: docs/plan/tools/test_crafter_items.js.
+// CRYST-PURE-BEGIN (no host calls)
+// L2J H5 CrystalType: crystal item + the enchant bonus per level (armor / weapon); S80 / S84 = S crystals, Crystallize level 5
+const CRY_GRADE = { D: { rank: 1, id: 1458, ba: 11, bw: 90 }, C: { rank: 2, id: 1459, ba: 6, bw: 45 }, B: { rank: 3, id: 1460, ba: 11, bw: 67 }, A: { rank: 4, id: 1461, ba: 20, bw: 145 }, S: { rank: 5, id: 1462, ba: 25, bw: 250 } };
+const CRY_MAX_IDS = 100;
+function cryGrade(g) { g = String(g || '').toUpperCase(); return /^S(80|84)?$/.test(g) ? 'S' : CRY_GRADE[g] ? g : ''; }
+/** crystals for one piece: the datapack count at +0, plus L2J's enchant bonus (Item.getCrystalCount(enchant)) */
+function cryCount(base, kind, enchant, grade) {
+  const G = CRY_GRADE[cryGrade(grade)]; if (!G) return 0;
+  const b = Math.max(0, Math.floor(Number(base) || 0)), e = Math.max(0, Math.floor(Number(enchant) || 0)), w = kind === 'w';
+  if (!e) return b;
+  if (e > 3) return b + (w ? G.bw * (2 * e - 3) : G.ba * (3 * e - 6));
+  return b + (w ? G.bw : G.ba) * e;
+}
+/** one bag piece vs the datapack -> { objId, id, name, grade, kind, crystalId, crystals, enchant, special: [why], hard: '' | why never,
+ *  equipped }. row = { objId, id, name, count, enchant, equipped, quest, aug }, ent = crafter_items.json crystal[id] = [count, grade, kind, flags]
+ *  | undefined, o = { skillLvl, notrade: Set | [ids] } */
+function cryJudge(row, ent, o) {
+  o = o || {}; row = row || {};
+  const r = { objId: Number(row.objId) || 0, id: Number(row.id) || 0, name: String(row.name || ('item ' + row.id)), grade: '', kind: '', crystalId: 0, crystals: 0,
+    enchant: Math.max(0, Math.floor(Number(row.enchant) || 0)), special: [], hard: '', equipped: !!row.equipped };
+  if (!Array.isArray(ent) || !cryGrade(ent[1]) || !(Number(ent[0]) > 0)) { r.hard = 'cannot be crystallized'; return r; }
+  const g = cryGrade(ent[1]), fl = String(ent[3] || ''), NT = o.notrade instanceof Set ? o.notrade : new Set((o.notrade || []).map(Number));
+  Object.assign(r, { grade: g, kind: String(ent[2] || 'a'), crystalId: CRY_GRADE[g].id, crystals: cryCount(ent[0], ent[2], r.enchant, g) });
+  if (row.quest) r.special.push('quest item');
+  if (fl.includes('t') || NT.has(r.id)) r.special.push('not tradeable');
+  if (Number(row.aug) > 0) r.special.push('augmented');
+  if (fl.includes('s')) r.special.push('special ability (S.A.)');
+  const lvl = Math.max(0, Math.floor(Number(o.skillLvl) || 0));
+  if (r.equipped) r.hard = 'worn (equipped) — never';
+  else if (!lvl) r.hard = 'no Crystallize skill';
+  else if (CRY_GRADE[g].rank > lvl) r.hard = `${g}-grade needs Crystallize level ${CRY_GRADE[g].rank} (mine ${lvl})`;
+  return r;
+}
+/** may this judged piece be crystallized with the owner's ticks t = { enchanted, special }? -> '' = yes, else why not */
+function cryBlock(j, t) {
+  t = t || {};
+  if (!j) return 'unknown piece';
+  if (j.hard) return j.hard;
+  if (j.enchant > 0 && t.enchanted !== true) return `enchanted +${j.enchant} — tick "include enchanted items"`;
+  if (j.special.length && t.special !== true) return `${j.special.join(', ')} — tick "include special items"`;
+  return '';
+}
+/** crystals per grade of the pieces that may go: { D: n, C: n, ..., pieces: n } */
+function cryTotals(list, t) {
+  const o = { pieces: 0 };
+  (list || []).forEach(j => { if (cryBlock(j, t)) return; o.pieces++; o[j.grade] = (o[j.grade] || 0) + j.crystals; });
+  return o;
+}
+/** "!crystallize <name> <objId,objId,...> [enchanted] [special]" -> { name, ids, enchanted, special, err } */
+function cryParseOrder(parts) {
+  const p = (parts || []).slice(1).map(x => String(x || '').trim()).filter(Boolean);
+  const out = { name: '', ids: [], enchanted: false, special: false, err: '' };
+  if (!p.length) { out.err = 'no crafter named'; return out; }
+  out.name = p[0];
+  if (!/^[A-Za-z0-9_\-]{1,40}$/.test(out.name)) { out.err = 'not a character name'; return out; }
+  const ids = []; let bad = '';
+  (p[1] || '').split(',').map(s => s.trim()).filter(Boolean).forEach(s => { if (/^\d{1,10}$/.test(s) && Number(s) > 0) { if (!ids.includes(Number(s))) ids.push(Number(s)); } else bad = s; });
+  if (bad) { out.err = `"${bad.slice(0, 20)}" is not an item object id`; return out; }
+  if (!ids.length) { out.err = 'no items listed'; return out; }
+  if (ids.length > CRY_MAX_IDS) { out.err = `at most ${CRY_MAX_IDS} pieces per order`; return out; }
+  out.ids = ids;
+  for (const f of p.slice(2)) { const k = f.toLowerCase(); if (k === 'enchanted') out.enchanted = true; else if (k === 'special') out.special = true; else { out.err = `unknown word "${f.slice(0, 20)}" (only "enchanted" / "special")`; return out; } }
+  return out;
+}
+const cryLe = (v, n) => { let s = '', x = Math.max(0, Math.floor(Number(v) || 0)); for (let i = 0; i < n; i++) { s += (x % 256).toString(16).padStart(2, '0').toUpperCase(); x = Math.floor(x / 256); } return s; };
+/** RequestCrystallizeItem 0x2F d(objectId) q(count) for Send.SendHex (upper-case, no spaces) */
+function cryHex(objId, count) { return '2F' + cryLe(objId, 4) + cryLe(Math.max(1, Math.floor(Number(count) || 1)), 8); }
+/** a recipe scroll in the bag -> { scroll, list, lvl, type ('d' dwarven / 'c' common), product, known (true / false / null = unknown), ok, why }.
+ *  ent = crafter_items.json recipes[scroll] = [list, lvl, 'd'|'c', product]; o = { createLvl, commonLvl, known: [dwarven list ids] | null } */
+function rcpJudge(scroll, ent, o) {
+  o = o || {};
+  const r = { scroll: Number(scroll) || 0, list: 0, lvl: 0, type: '', product: 0, known: null, ok: false, why: '' };
+  if (!Array.isArray(ent)) { r.why = 'not a recipe'; return r; }
+  Object.assign(r, { list: Number(ent[0]) || 0, lvl: Number(ent[1]) || 1, type: ent[2] === 'c' ? 'c' : 'd', product: Number(ent[3]) || 0 });
+  const have = r.type === 'd' ? Math.floor(Number(o.createLvl) || 0) : Math.floor(Number(o.commonLvl) || 0), sk = r.type === 'd' ? 'Create Item' : 'Create Common Item';
+  if (r.type === 'd' && Array.isArray(o.known)) r.known = o.known.includes(r.list);
+  if (r.known === true) r.why = 'already in the recipe book';
+  else if (have < r.lvl) r.why = `needs ${sk} level ${r.lvl} (mine ${have})`;
+  else { r.ok = true; r.why = r.type === 'd' ? `${sk} level ${have} is enough` : `common recipe — ${sk} level ${have} is enough`; }
+  return r;
+}
+// CRYST-PURE-END
+// CRYIN-PURE-BEGIN (no host calls)
+/** a crafter hand-in order that waits for the same town: o = { goNow, recv: hovWhere() answer | null, me: { town, busy } }
+ *  -> { act: 'now' | 'wait', why } */
+function crinDecide(o) {
+  o = o || {}; const r = o.recv, me = o.me || {};
+  if (o.goNow) return { act: 'now', why: 'go now (ticked "go to the crafter now")' };
+  if (!r) return { act: 'wait', why: 'the crafter does not answer (offline, or its swarm.js is not running)' };
+  if (r.dead) return { act: 'wait', why: `${r.name} is dead` };
+  if (!r.town) return { act: 'wait', why: `${r.name} is not in a town` };
+  if (me.town !== r.town) return { act: 'wait', why: `${r.name} is in ${r.town}, I am ${me.town ? 'in ' + me.town : 'out in the field'} — I hand it in on my next visit to ${r.town}` };
+  if (me.busy) return { act: 'wait', why: `in ${r.town} with ${r.name}, but busy: ${me.busy}` };
+  if (r.busy) return { act: 'wait', why: `${r.name} is busy (${r.busy})` };
+  return { act: 'now', why: `both in ${r.town}` };
+}
+/** pending list housekeeping: list = [{ id, at }], drop ids whose result is over or older than maxMs -> { keep: [...], drop: [{ id, why }] } */
+function crinPendClean(list, results, nowMs, maxMs) {
+  const keep = [], drop = [];
+  (list || []).forEach(p => {
+    if (!p || !p.id) return;
+    const st = String(((results || {})[p.id] || {}).state || '');
+    if (/^(done|failed|stopped)$/.test(st)) drop.push({ id: p.id, why: st });
+    else if (nowMs - (Number(p.at) || 0) > maxMs) drop.push({ id: p.id, why: 'expired' });
+    else if (!keep.some(k => k.id === p.id)) keep.push(p);
+  });
+  return { keep, drop };
+}
+// CRYIN-PURE-END
+const CRY = { busy: false, data: null, dataAt: 0, sig: '', wroteAt: 0, last: [], pendAt: 0, pingAt: {} };
+const CRY_PEND_MAX = 7 * 24 * 3600000;
+function cryLog(msg) { try { appendShared(`${SWARM_ROOT}\\Logs\\crystallize.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
+function cryData() {
+  if (!CRY.data || now() - CRY.dataAt > 600000) {
+    CRY.dataAt = now();
+    try { const j = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\crafter_items.json`)).replace(/^﻿/, '')); CRY.data = { crystal: j.crystal || {}, recipes: j.recipes || {} }; }
+    catch (e) { if (!CRY.data) { CRY.data = { crystal: {}, recipes: {} }; logError('crafter_items.json', e); } }
+  }
+  return CRY.data;
+}
+function cryRowOf(it) {
+  let aug = 0; try { aug = num(it.AugmentBonus); } catch (e) { }
+  const id = num(it.Id);
+  let q = false; try { q = !!(it.IsQuest || qeProtected(id)); } catch (e) { }
+  return { objId: num(it.objId), id, name: String(it.Name || ''), count: Math.max(1, num(it.Count)), enchant: num(it.EnchantLvl), equipped: !!it.IsEquiped, quest: q, aug };
+}
+function cryFind(objId) { let f = null; try { Inventory.forEach(it => { if (!f && num(it.objId) === objId) f = it; }); } catch (e) { } return f; }
+/** the bag report for the dashboard (crystallizable pieces + recipes); written when it changed, else every 5 min */
+function cryReport(force) {
+  try {
+    const D = cryData(), skill = stashSkillLvl(248), createLvl = stashSkillLvl(172), commonLvl = stashSkillLvl(1320), NT = hovNotrade();
+    const known = CRAFTX.book ? CRAFTX.book.ids : null, cry = [], rcp = [];
+    Inventory.forEach(it => {
+      const row = cryRowOf(it);
+      if (D.crystal[row.id]) cry.push(cryJudge(row, D.crystal[row.id], { skillLvl: skill, notrade: NT }));
+      else if (D.recipes[row.id]) rcp.push(Object.assign(rcpJudge(row.id, D.recipes[row.id], { createLvl, commonLvl, known }), { objId: row.objId, name: row.name, count: row.count }));
+    });
+    const sig = JSON.stringify([skill, createLvl, commonLvl, known ? known.length : -1, cry.map(j => j.objId + ':' + j.enchant + j.hard + j.equipped), rcp.map(r => r.scroll + ':' + r.count + ':' + r.known), CRY.last.length]);
+    if (!force && sig === CRY.sig && now() - CRY.wroteAt < 300000) return;
+    CRY.sig = sig; CRY.wroteAt = now();
+    File.WriteAllText(`${SWARM_ROOT}\\Logs\\crafter_bag_${Me.Name}.json`, JSON.stringify({ name: Me.Name, at: new Date().toISOString(), atMs: now(), town: currentTownKey() || '',
+      skill, createLvl, commonLvl, book: CRAFTX.book ? { dwarven: CRAFTX.book.ids.length, at: CRAFTX.book.at } : null, bookLimitNote: 'L2J default: 50 recipes per book (dwarven and common); a server can change it',
+      cryst: cry, recipes: rcp, busy: CRY.busy, last: CRY.last.slice(-10) }));
+  } catch (e) { logError('crafter bag report', e); }
+}
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name || now() - scriptStartAt < 90000) return;
+    if (stashSkillLvl(248) <= 0 && !craftMineCfg()) return;
+    cryReport(false);
+  } catch (e) { }
+}, 60000);
+function cryBusyWhy() {
+  try {
+    if (Me.IsDead) return 'dead';
+    if (IsInCombat || now() - lastAttackerOnMe.at < 6000) return 'fighting';
+    if (tradeState) return 'trading';
+    if (HOV.busy) return `hand-over ${HOV.id} runs`;
+    if (CRAFTX.busy) return 'crafting';
+    if (STASH.busy || WH.busy) return 'busy at the warehouse';
+  } catch (e) { }
+  return '';
+}
+/** crystallize exactly these pieces (an owner order) -> { ok, msg, done: [{ name, grade, got }], failed: [{ name, why }], skipped: [{ name, why }] } */
+async function cryRun(p) {
+  if (CRY.busy) return { ok: false, msg: 'already crystallizing — wait for the report' };
+  const busy = cryBusyWhy(); if (busy) return { ok: false, msg: `not now: ${busy} — send it again afterwards` };
+  CRY.busy = true;
+  const res = { done: [], failed: [], skipped: [], got: {} };
+  const D = cryData(), skill = stashSkillLvl(248), NT = hovNotrade(), t = { enchanted: !!p.enchanted, special: !!p.special };
+  intent('crystallize', `crystallizing ${p.ids.length} piece(s) — owner order${t.enchanted ? ', enchanted allowed' : ''}${t.special ? ', special items allowed' : ''}`);
+  setTask('crystallizing (owner order)');
+  cryLog(`order: ${p.ids.length} piece(s) [${p.ids.join(',')}]${t.enchanted ? ' +enchanted' : ''}${t.special ? ' +special' : ''}; Crystallize level ${skill}`);
+  try {
+    for (const objId of p.ids) {
+      if (Me.IsDead || IsInCombat) { res.failed.push({ name: 'object ' + objId, why: Me.IsDead ? 'I died' : 'a fight started — stopped' }); break; }
+      const it = cryFind(objId);
+      if (!it) { res.skipped.push({ name: 'object ' + objId, why: 'not in my bag any more' }); continue; }
+      const row = cryRowOf(it), j = cryJudge(row, D.crystal[row.id], { skillLvl: skill, notrade: NT }), why = cryBlock(j, t);
+      if (why) { res.skipped.push({ name: j.name + (j.enchant ? ' +' + j.enchant : ''), why }); cryLog(`skipped ${j.name}: ${why}`); continue; }
+      const before = itemCount(j.crystalId), t0 = now();
+      let via = 'packet 2F', gone = false;
+      try { Send.SendHex(cryHex(objId, row.count)); } catch (e) { via = 'packet 2F failed: ' + (e && e.message || e); }
+      for (let i = 0; i < 25 && !gone; i++) { await sleep(200); gone = !cryFind(objId); }
+      if (!gone) {                                                       // nothing happened: L2Swarm's own helper once (same packet, its own layout)
+        try { Send.ReqCrystallizeItem(objId); via = 'Send.ReqCrystallizeItem'; } catch (e) { }
+        for (let i = 0; i < 25 && !gone; i++) { await sleep(200); gone = !cryFind(objId); }
+      }
+      await sleep(500);
+      const got = Math.max(0, itemCount(j.crystalId) - before), nm = j.name + (j.enchant ? ' +' + j.enchant : '');
+      if (gone) {
+        res.done.push({ name: nm, grade: j.grade, got, expect: j.crystals }); res.got[j.grade] = (res.got[j.grade] || 0) + got;
+        cryLog(`crystallized ${nm} (${j.grade}) -> ${got} ${j.grade} crystals (expected ${j.crystals}) via ${via}`);
+        if (got !== j.crystals) cryLog(`  note: got ${got}, the datapack says ${j.crystals}${got === 0 ? ' — the crystals did not show up (yet)' : ''}`);
+      } else {
+        const sm = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text || '').slice(0, 140) : '';
+        res.failed.push({ name: nm, why: sm || 'the server did not take it (bag unchanged)' });
+        cryLog(`NOT crystallized ${nm}: ${sm || 'bag unchanged after 10 s'} (tried ${via})`);
+      }
+      await sleep(400);
+    }
+  } catch (e) { logError('crystallize', e); res.failed.push({ name: '?', why: 'error: ' + (e && e.message || e) }); }
+  finally { CRY.busy = false; setTask(''); }
+  const g = Object.keys(res.got).filter(k => res.got[k] > 0).map(k => `${craftFmt(res.got[k])} ${k}`).join(' + ');
+  const msg = `crystallized ${res.done.length} of ${p.ids.length}${g ? ' -> ' + g + ' crystals' : ''}${res.failed.length ? `; ${res.failed.length} failed (${res.failed.slice(0, 3).map(f => f.name + ': ' + f.why).join('; ')})` : ''}${res.skipped.length ? `; ${res.skipped.length} skipped (${res.skipped.slice(0, 3).map(f => f.name + ': ' + f.why).join('; ')})` : ''}`;
+  CRY.last.push({ at: new Date().toISOString(), kind: 'crystallize', msg: msg.slice(0, 300), done: res.done.length, failed: res.failed.length, skipped: res.skipped.length, got: res.got });
+  cryLog(msg); intentDone('crystallize', res.done.length > 0 && !res.failed.length, msg);
+  cryReport(true);
+  return Object.assign({ ok: res.done.length > 0, msg }, res);
+}
+/** !crystallize <name> <objId,...> [enchanted] [special] */
+function cryCommand(parts) {
+  const p = cryParseOrder(parts);
+  if (!p.name || p.name.toLowerCase() !== String(Me.Name).toLowerCase()) return;
+  if (p.err) { note(`[crystallize] ${p.err} — use "!crystallize <name> <objId,objId,...> [enchanted] [special]" (the Storage page sends it)`, true); return; }
+  cryRun(p).then(r => note(`[crystallize] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!crystallize', e));
+}
+/** !craft learn <recipeItemId> [name]: use that recipe scroll once */
+async function rcpLearn(scroll) {
+  const D = cryData(), ent = D.recipes[scroll], name = (() => { let n = ''; try { Inventory.forEach(it => { if (!n && num(it.Id) === scroll) n = String(it.Name || ''); }); } catch (e) { } return n || 'recipe ' + scroll; })();
+  if (!ent) return `${name}: not a recipe I know of`;
+  if (itemCount(scroll) <= 0) return `${name} is not in my bag`;
+  const busy = cryBusyWhy(); if (busy) return `not now: ${busy}`;
+  const book = ent[2] === 'd' ? await craftReadBook(true) : null;
+  const j = rcpJudge(scroll, ent, { createLvl: stashSkillLvl(172), commonLvl: stashSkillLvl(1320), known: book ? book.ids : null });
+  if (!j.ok) return `${name}: ${j.why}`;
+  const before = itemCount(scroll), t0 = now();
+  try { UseItem(scroll); } catch (e) { return `${name}: could not use it (${e && e.message || e})`; }
+  await sleep(2500);
+  const used = itemCount(scroll) < before, sm = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text || '').slice(0, 140) : '';
+  let known = null; if (j.type === 'd') { const b2 = await craftReadBook(true); known = b2 ? b2.ids.includes(j.list) : null; }
+  const msg = used || known ? `learned ${name}${known ? ' (it is in the recipe book now)' : ''}${CRAFTX.book ? ` — ${CRAFTX.book.ids.length} dwarven recipes known` : ''}` : `${name} NOT learned — ${sm || 'the scroll was not used (book full? the server says why in the system messages)'}`;
+  CRY.last.push({ at: new Date().toISOString(), kind: 'learn', msg: msg.slice(0, 300) });
+  craftLog(msg); intent('craftlearn', msg); cryReport(true);
+  return msg;
+}
+// --- hand-in orders that wait for the same town (sameTown: true)
+function crinPendFile() { return `${HOV_DIR}\\_pending_${Me.Name}.json`; }
+function crinPendRead() { try { const j = JSON.parse(File.ReadAllText(crinPendFile())); return Array.isArray(j.ids) ? j.ids : []; } catch (e) { return []; } }
+function crinPendWrite(list) { try { if (!list.length) { if (File.Exists(crinPendFile())) File.Delete(crinPendFile()); return; } File.WriteAllText(crinPendFile(), JSON.stringify({ name: Me.Name, ids: list })); } catch (e) { logError('crafter hand-in pending', e); } }
+function crinPendAdd(id) { const l = crinPendRead(); if (!l.some(p => p.id === id)) { l.push({ id, at: now() }); crinPendWrite(l); } }
+function crinPendDel(id) { const l = crinPendRead(), k = l.filter(p => p.id !== id); if (k.length !== l.length) crinPendWrite(k); }
+/** a giver got a sameTown order: hand it in now when we are in the crafter's town, else park it (auto = the pending check: also idle only) */
+async function crinGiver(o, auto) {
+  const rv = await hovWhere(o.receiver, o.id);
+  let busy = '';
+  if (auto) { busy = clanHandBusyWhy(); try { if (!busy && supplyHoldsTeam()) busy = 'the supply run holds the team'; } catch (e) { } }
+  const d = crinDecide({ goNow: !!o.goNow, recv: rv, me: { town: currentTownKey() || '', busy } });
+  if (d.act === 'now') { crinPendDel(o.id); if (auto) note(`handover ${o.id}: ${d.why} — handing my items to ${o.receiver} now`, true); return hovGive(o); }
+  crinPendAdd(o.id);
+  const g = (o.givers && o.givers[Me.Name]) || {};
+  hovSave(o.id, { role: 'giver', receiver: o.receiver, state: 'pending', step: d.why, msg: `waiting — ${d.why}`, given: [], failed: [], skipped: [], waiting: (g.items || []).length });
+  if (!auto) { note(`handover ${o.id}: ${(g.items || []).length} kinds for ${o.receiver} wait — ${d.why}`, true); intent('handover', `parked for ${o.receiver}: ${d.why}`); }
+  return null;
+}
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name || now() - scriptStartAt < 180000 || HOV.busy || now() < CRY.pendAt) return;
+    const list = crinPendRead(); if (!list.length) return;
+    const results = {}; list.forEach(p => { try { results[p.id] = JSON.parse(File.ReadAllText(`${HOV_DIR}\\${p.id}_${Me.Name}.json`)); } catch (e) { } });
+    const c = crinPendClean(list, results, now(), CRY_PEND_MAX);
+    c.drop.forEach(x => { if (x.why === 'expired') { hovSave(x.id, Object.assign({}, results[x.id] || {}, { state: 'stopped', msg: 'waited 7 days for the same town as the crafter — given up (send it again)' })); note(`handover ${x.id}: waited 7 days — given up`, true); } });
+    if (c.drop.length) crinPendWrite(c.keep);
+    if (!c.keep.length || !currentTownKey()) return;                    // only a character standing in a town asks the crafter where it is
+    const p = c.keep[0]; if (now() - (CRY.pingAt[p.id] || 0) < 120000) return;
+    CRY.pingAt[p.id] = now(); CRY.pendAt = now() + 30000;
+    const o = hovLoad(p.id); if (!o || hovRoleOf(o, Me.Name) !== 'giver') { crinPendDel(p.id); return; }
+    crinGiver(o, true).catch(e => logError('crafter hand-in', e));
+  } catch (e) { }
+}, 60000);
+/** "!handover stop [id]" also ends a parked hand-in (id '*' = all of mine) */
+function crinPendStop(id) {
+  const l = crinPendRead(); if (!l.length) return;
+  const k = l.filter(p => !(id === '*' || p.id === id));
+  l.filter(p => id === '*' || p.id === id).forEach(p => { hovSave(p.id, { role: 'giver', state: 'stopped', msg: 'stopped (!handover stop) while it waited for the same town', given: [], failed: [], skipped: [] }); note(`handover ${p.id}: stopped (it was waiting for the crafter's town)`, true); });
+  if (k.length !== l.length) crinPendWrite(k);
 }
 /** !whtake <id>[:count],<id>[:count] [private|clan] [name] */
 function whCommand(parts) {
@@ -20683,9 +21778,9 @@ function ssoGate(g, names, enrolled) {
   const hint = 'enroll on the 7 Signs tab for the automatic sign-up (or send !dawn)';
   if (g.state === 'signup') {
     const no = (g.need || []).filter(n => !enrolled(n)); if (!no.length) return g;
-    return { state: 'closed', ok: false, optin: true, why: `competition period: ${no.join(', ')} ${no.length === 1 ? 'is' : 'are'} not signed up and not enrolled — ${hint}`, until: 0, need: [], who: no };
+    return { state: 'closed', ok: false, optin: true, why: `competition period: ${no.join(', ')} ${no.length === 1 ? 'is' : 'are'} not signed up and not enrolled — ${hint}`, until: 0, need: [], who: no, code: 'optin' };
   }
-  if (g.state === 'check' && !(names || []).some(enrolled)) return { state: 'closed', ok: false, optin: true, why: `${g.why} — nobody of the team is enrolled: ${hint}`, until: 0, need: [], who: [] };
+  if (g.state === 'check' && !(names || []).some(enrolled)) return { state: 'closed', ok: false, optin: true, why: `${g.why} — nobody of the team is enrolled: ${hint}`, until: 0, need: [], who: [], code: 'optin-check' };
   return g;
 }
 // SSOPTIN-PURE-END
@@ -20776,53 +21871,86 @@ function ssgSide(r, cycle) { r = r || {}; return r.cycle && r.cycle === cycle ? 
 /** One character. m = { name, rec, base (no 1st class transfer) }, kind 'necropolis' | 'catacomb' | '' -> { ok, state enter|signup|check|closed, why, side, until } */
 function ssgOne(cur, m, kind, o) {
   o = o || {}; const r = m.rec || {}, side = ssgSide(r, cur.cycle), n = m.name;
-  const R = (state, why, until) => ({ ok: state === 'enter', state, why, side, name: n, until: until || 0 });
-  if (m.base) return R('closed', `${n} has no 1st class transfer yet: cannot join the Seven Signs, so no catacombs/necropolises`);
+  const R = (state, why, until, code) => ({ ok: state === 'enter', state, why, side, name: n, until: until || 0, code: code || state });   // SSREASON: code = which rule (ssgReason)
+  if (m.base) return R('closed', `${n} has no 1st class transfer yet: cannot join the Seven Signs, so no catacombs/necropolises`, 0, 'base');
   const dn = r.denied;
-  if (dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind)) return R('closed', `the Ziggurat refused ${n} this period (${dn.dungeon || '?'}: ${String(dn.why || '').slice(0, 80)})`, cur.nextChange);
-  if (!cur.period || cur.period === 'unknown') return R('check', 'the Seven Signs period is not known yet — the Priest of Dawn has to be read first');
-  if (cur.period === 'recruiting' || cur.period === 'results') return R('check', `the 15-min ${cur.period} break of the Seven Signs — read the Priest of Dawn again`);
+  if (dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind)) return R('closed', `the Ziggurat refused ${n} this period (${dn.dungeon || '?'}: ${String(dn.why || '').slice(0, 80)})`, cur.nextChange, 'denied');
+  if (!cur.period || cur.period === 'unknown') return R('check', 'the Seven Signs period is not known yet — the Priest of Dawn has to be read first', 0, 'unknown');
+  if (cur.period === 'recruiting' || cur.period === 'results') return R('check', `the 15-min ${cur.period} break of the Seven Signs — read the Priest of Dawn again`, 0, 'break');
   if (cur.period === 'competition') {
-    if (side) return R('enter', `competition period: ${n} is signed up (${side})`);
-    if (r.cycle === cur.cycle && r.status === 'fee') return R('closed', `${n}: the Priest of Dawn asked for a fee/item this cycle (not paid: Dawn is free on L2Toggle — see Logs/dawn.log)`, cur.nextChange);
-    if (r.cycle === cur.cycle && (r.tries || 0) >= (o.maxTries || 3)) return R('closed', `${n}: the Dawn sign-up failed ${r.tries} times this cycle (${r.status || '?'})`, cur.nextChange);
+    if (side) return R('enter', `competition period: ${n} is signed up (${side})`, 0, 'signed');
+    if (r.cycle === cur.cycle && r.status === 'fee') return R('closed', `${n}: the Priest of Dawn asked for a fee/item this cycle (not paid: Dawn is free on L2Toggle — see Logs/dawn.log)`, cur.nextChange, 'fee');
+    if (r.cycle === cur.cycle && (r.tries || 0) >= (o.maxTries || 3)) return R('closed', `${n}: the Dawn sign-up failed ${r.tries} times this cycle (${r.status || '?'})`, cur.nextChange, 'tries');
     return R('signup', `competition period: ${n} is not signed up yet`);
   }
   // seal validation: nobody can sign up now
-  if (!side) return R('closed', `seal validation period: ${n} was not signed up in the last competition (nobody can sign up before the next competition)`, cur.nextChange);
-  if (cur.winner === 'dawn' || cur.winner === 'dusk') return side === cur.winner ? R('enter', `seal validation period: ${cur.winner} won and ${n} is ${side}`) : R('closed', `seal validation period: only the winners (${cur.winner}) may enter — ${n} is ${side}`, cur.nextChange);
-  return R('enter', `seal validation period (${cur.winner === 'none' ? 'no decisive winner' : 'winner not read yet'}); ${n} is ${side}`);
+  if (!side) return R('closed', `seal validation period: ${n} was not signed up in the last competition (nobody can sign up before the next competition)`, cur.nextChange, 'notsigned');
+  if (cur.winner === 'dawn' || cur.winner === 'dusk') return side === cur.winner ? R('enter', `seal validation period: ${cur.winner} won and ${n} is ${side}`, 0, 'winner') : R('closed', `seal validation period: only the winners (${cur.winner}) may enter — ${n} is ${side}`, cur.nextChange, 'loser');
+  return R('enter', `seal validation period (${cur.winner === 'none' ? 'no decisive winner' : 'winner not read yet'}); ${n} is ${side}`, 0, 'nowinner');
 }
 /** The team gate (me + teammates) for a catacomb / necropolis trip. members = [{ name, rec, base }].
  *  -> { state enter|signup|check|closed, ok, why, until (ms of the period change, 0 = not a date thing), need: [names to sign up], who } */
 function ssGateDecide(cur, members, kind, o) {
   o = o || {};
-  if (o.enabled === false) return { state: 'enter', ok: true, why: 'the Seven Signs check is off (CONFIG.sevenSigns.blockDungeons)', until: 0, need: [], who: [] };
+  if (o.enabled === false) return { state: 'enter', ok: true, why: 'the Seven Signs check is off (CONFIG.sevenSigns.blockDungeons)', until: 0, need: [], who: [], code: 'off' };
   // TRY MODE (2026-10-13, tester: 'it says I need to sign with the Priest of Dawn but the party fails, yet I can manually teleport into the catacombs'):
   // L2Toggle lets characters that are NOT signed up through the Ziggurat (seen 2026-10-07 with Dagger1 too). o.mode 'try' = go and let the
   // Ziggurat decide; only a refusal it really gave this period (rec.denied, ssMarkDenied) closes it until the period change. No mode = the old rule.
   if (o.mode === 'try') {
     const den = (members || []).filter(m => { const dn = ((m && m.rec) || {}).denied; return dn && dn.cycle === cur.cycle && dn.period === cur.period && (!kind || !dn.kind || dn.kind === kind); });
-    if (den.length) return { state: 'closed', ok: false, why: 'the Ziggurat refused ' + den.map(m => m.name).join(', ') + ' this period (Seven Signs)', until: cur.nextChange || 0, need: [], who: den.map(m => m.name) };
-    return { state: 'enter', ok: true, why: 'Seven Signs gate "try": the Ziggurat decides (no sign-up needed first)', until: 0, need: [], who: [] };
+    if (den.length) return { state: 'closed', ok: false, why: 'the Ziggurat refused ' + den.map(m => m.name).join(', ') + ' this period (Seven Signs)', until: cur.nextChange || 0, need: [], who: den.map(m => m.name), code: 'denied' };
+    return { state: 'enter', ok: true, why: 'Seven Signs gate "try": the Ziggurat decides (no sign-up needed first)', until: 0, need: [], who: [], code: 'try' };
   }
   const all = (members || []).map(m => ssgOne(cur, m, kind, o));
   const closed = all.filter(a => a.state === 'closed');
   if (closed.length) {
     const until = closed.some(a => !a.until) ? 0 : Math.max(...closed.map(a => a.until));
-    return { state: 'closed', ok: false, why: closed[0].why + (closed.length > 1 ? ` (+${closed.length - 1} more: ${closed.slice(1).map(a => a.name).join(', ')})` : ''), until, need: [], who: closed.map(a => a.name) };
+    return { state: 'closed', ok: false, why: closed[0].why + (closed.length > 1 ? ` (+${closed.length - 1} more: ${closed.slice(1).map(a => a.name).join(', ')})` : ''), until, need: [], who: closed.map(a => a.name), code: closed[0].code, whoSame: closed.filter(a => a.code === closed[0].code).map(a => a.name) };
   }
   const chk = all.find(a => a.state === 'check');
-  if (chk) return { state: 'check', ok: false, why: chk.why, until: 0, need: [], who: [] };
+  if (chk) return { state: 'check', ok: false, why: chk.why, until: 0, need: [], who: [], code: chk.code };
   const need = all.filter(a => a.state === 'signup').map(a => a.name);
-  if (need.length) return { state: 'signup', ok: false, why: `competition period: ${need.join(', ')} ${need.length === 1 ? 'is' : 'are'} not signed up yet — Lords of Dawn sign-up first (Priest of Dawn, free)`, until: 0, need, who: need };
-  return { state: 'enter', ok: true, why: all.length ? all[0].why : 'nobody to check', until: 0, need: [], who: [] };
+  if (need.length) return { state: 'signup', ok: false, why: `competition period: ${need.join(', ')} ${need.length === 1 ? 'is' : 'are'} not signed up yet — Lords of Dawn sign-up first (Priest of Dawn, free)`, until: 0, need, who: need, code: 'signup' };
+  return { state: 'enter', ok: true, why: all.length ? all[0].why : 'nobody to check', until: 0, need: [], who: [], code: all.length ? all[0].code : 'nobody' };
 }
 /** "Mon 12 Oct 20:00" in the machine's local time */
 function ssgUntilText(ms) {
   if (!ms) return '';
   const d = new Date(ms), p = (v) => String(v).padStart(2, '0');
   return `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()]} ${d.getDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()]} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+/** SSREASON-2026-10-15 (tester: "bots can't get back to necropolises and catacombs they went to before"): ONE plain sentence why a catacomb /
+ *  necropolis is open or closed for a party right now. g = ssGateDecide (+ ssoGate) result, cur = ssgNow(). The bot's notes and the dashboard
+ *  (spot picker, party card, hunt popup, 7 Signs tab, Automations page) all use THIS function (copies: Dashboard/index.html SSGATE-UI and
+ *  Dashboard/sslogic.js; docs/plan/tools/test_seven_signs_reasons.js checks they are identical). Times = the machine's local time. */
+function ssgReason(g, cur) {
+  cur = cur || {};
+  if (!g) return 'Unknown: no Seven Signs data from the bots yet.';
+  const who = (L) => { L = (L || []).filter(Boolean); return L.length <= 3 ? L.join(', ') : L.slice(0, 3).join(', ') + ' and ' + (L.length - 3) + ' more'; };
+  const isAre = (L) => ((L || []).length === 1 ? 'is' : 'are'), wasWere = (L) => ((L || []).length === 1 ? 'was' : 'were');
+  const at = (ms) => (ms ? ssgUntilText(ms) + ' (local time)' : 'the next Monday period change');
+  const W = (w) => (w === 'dawn' ? 'Dawn' : w === 'dusk' ? 'Dusk' : '');
+  const same = g.whoSame && g.whoSame.length ? g.whoSame : (g.who || []), more = (g.who || []).length - same.length;
+  const plus = more > 0 ? ` (${more} more ${more === 1 ? 'member is' : 'members are'} closed for another reason)` : '';
+  const nx = at(cur.nextChange || g.until), c = g.code || (g.optin ? 'optin' : g.state);
+  if (c === 'off') return 'Open: the Seven Signs check is switched off.';
+  if (c === 'try') return 'Open: the Seven Signs gate is set to "try" — the party goes to the Ziggurat and the Ziggurat decides (no sign-up first).';
+  if (c === 'signed') return 'Open: everyone in the party is signed up with the Lords of Dawn this week.';
+  if (c === 'winner') return `Open: it is the Seven Signs validation week, ${W(cur.winner)} won and everyone was on the ${W(cur.winner)} side.`;
+  if (c === 'nowinner') return 'Open: it is the Seven Signs validation week and everyone was signed up in the last competition (no clear winner known).';
+  if (g.state === 'enter') return 'Open: nobody in the party is blocked by the Seven Signs.';
+  if (c === 'signup') return `Not signed up yet: ${who(g.need || g.who)} — it is the competition week, so the leader takes them to the Priest of Dawn (free) first, then goes in.`;
+  if (c === 'unknown') return 'Unknown: no character has read the Priest of Dawn\'s page this cycle yet — the leader reads it in a town first, then decides.';
+  if (c === 'break') return 'Short Seven Signs break (15 minutes at the Monday change) — the leader reads the Priest of Dawn again, then decides.';
+  if (c === 'optin-check') return 'Seven Signs sign-up is switched off for this party (opt-in on the 7 Signs tab) and nobody has read the Priest of Dawn this cycle yet — enroll the party or press Sign up now on the 7 Signs tab.';
+  if (c === 'optin') return `Not open for ${who(g.who)}: not signed up with the Lords of Dawn, and the Seven Signs sign-up is switched off for ${(g.who || []).length === 1 ? 'this character' : 'them'} — sign up on the 7 Signs tab (enroll, or Sign up now).`;
+  if (c === 'notsigned') return `Closed this week: it is the Seven Signs validation period and ${who(same)} ${wasWere(same)} not signed up in the last competition — opens again ${nx} (next competition)${plus}.`;
+  if (c === 'loser') return `Closed this week: it is the Seven Signs validation period and ${W(cur.winner) || 'the other side'} won, so only ${W(cur.winner) || 'its'} members may enter — ${who(same)} ${isAre(same)} not — opens again ${nx} (next competition)${plus}.`;
+  if (c === 'base') return `Not open for ${who(same)}: no 1st class transfer yet, so ${same.length === 1 ? 'it' : 'they'} cannot join the Seven Signs — change class first${plus}.`;
+  if (c === 'denied') return `Closed for ${who(same)} until ${at(g.until || cur.nextChange)}: the Ziggurat refused ${same.length === 1 ? 'it' : 'them'} this period${plus}.`;
+  if (c === 'fee') return `Not open for ${who(same)} this week: the Priest of Dawn asked for a fee or an item (not paid) — the next try is after ${nx}${plus}.`;
+  if (c === 'tries') return `Not open for ${who(same)} this week: the Dawn sign-up failed 3 times — press Sign up on the 7 Signs tab to try again${plus}.`;
+  return `Closed: ${g.why || 'the Seven Signs rule'}${g.until ? ' — until ' + at(g.until) : ''}.`;
 }
 // LOCAL FALLBACK (user 2026-10-08 21:50: "I selected a room, but it made a square selecting a HUGE area?" — after a failed trip the party hunted
 // "locally" at the necropolis landing in the x3 square, 9000-12000 wide). Now: a failed trip takes the NEXT spot; only when nothing is left (or
@@ -21048,7 +22176,7 @@ function ssGateMode() { try { return (ssOpt() || {}).gate === 'try' ? 'try' : 's
  *  (the user's hard rule 2026-10-08 21:55, see SSGATE-PURE: registered with Dawn or Dusk, and on the winning side in the validation period) */
 function ssAllowed(n, kind) {
   const cur = ssNow(), g = ssGateDecide(cur, [ssMember(n)], kind, ssGateOpts());
-  return { ok: g.ok, state: g.state, why: g.why, registered: ssgSide(ssRead(n), cur.cycle), period: cur.period, winner: cur.winner, cycle: cur.cycle, nextChange: new Date(ssNextChange()).toISOString(), until: g.until ? new Date(g.until).toISOString() : '' };
+  return { ok: g.ok, state: g.state, why: g.why, reason: ssgReason(g, cur), registered: ssgSide(ssRead(n), cur.cycle), period: cur.period, winner: cur.winner, cycle: cur.cycle, nextChange: new Date(ssNextChange()).toISOString(), until: g.until ? new Date(g.until).toISOString() : '' };
 }
 const ssTeamCache = { at: 0, v: {} };
 /** No teammates on my roster team (solo Dagger1): I sign up / am checked alone. */
@@ -21059,7 +22187,8 @@ function ssTeamAllowed(kind) {
   if (now() - ssTeamCache.at > 30000) { ssTeamCache.at = now(); ssTeamCache.v = {}; }
   if (ssTeamCache.v[k]) return ssTeamCache.v[k];
   const ssN = [Me.Name].concat(ssSolo() ? [] : teamNames());
-  const v = ssoGate(ssGateDecide(ssNow(), ssN.map(ssMember), kind, ssGateOpts()), ssN, ssEnrolled);   // SSOPTIN-2026-10-12: a sign-up for someone not enrolled = closed
+  const v = ssoGate(ssGateDecide(ssNow(), ssN.map(ssMember), kind, ssGateOpts()), ssN, ssEnrolled), cur = ssNow();   // SSOPTIN-2026-10-12: a sign-up for someone not enrolled = closed
+  v.reason = ssgReason(v, cur);                                          // SSREASON-2026-10-15: one plain sentence (= the dashboard's)
   ssTeamCache.v[k] = v; return v;
 }
 /** The catacomb / necropolis whose INSIDE contains p ({x,y,z}; z must be known), or null. */
@@ -21090,7 +22219,7 @@ const ssSkipSaid = {};
 function ssSpotOk(s) {
   const kind = ssSpotKindOf(s); if (!kind) return true;
   const a = ssTeamAllowed(kind); if (a.state !== 'closed') return true;
-  const k = String(s.name || ''); if (now() - (ssSkipSaid[k] || 0) > 1800000) { ssSkipSaid[k] = now(); note(`autolevel: skipping ${k} — Seven Signs: ${a.why}${a.until ? ' (until ' + ssgUntilText(a.until) + ')' : ''}`); dungeonLog(`spot ${k} skipped: ${a.why}`); }
+  const k = String(s.name || ''); if (now() - (ssSkipSaid[k] || 0) > 1800000) { ssSkipSaid[k] = now(); note(`autolevel: skipping ${k} — ${a.reason || a.why}`); dungeonLog(`spot ${k} skipped: ${a.why}`); }
   return false;
 }
 /** THE GATE before every catacomb / necropolis trip (user rule 2026-10-08 21:55). closed -> no trip at all; must sign up / period unknown ->
@@ -21102,10 +22231,10 @@ async function ssGateTrip(spotName, kind) {
   const said = (m) => { note(`seven signs: ${m}`, true); try { dungeonLog(`Seven Signs gate (${spotName}): ${m}`); } catch (e) { } };
   if (g.state === 'closed') {
     gkFail = `Seven Signs: ${g.why}${g.until ? ' — until ' + ssgUntilText(g.until) : ''}`;
-    said(`NOT going to ${spotName} — ${g.why}${g.until ? '; possible again from ' + ssgUntilText(g.until) + ' (period change)' : ''}`);
+    said(`NOT going to ${spotName} — ${g.reason || g.why}`);
     return { ok: false, giran };
   }
-  said(`${g.why} — to the Priest of Dawn first, then ${spotName}`);
+  said(`${g.reason || g.why} (${spotName})`);
   if (!dawnPriestSpot(4000)) {
     if (leadMode() && !autoLvl.solo && isLeader()) giran = !!(await leadGoGiran(`Seven Signs sign-up before ${spotName}`));
     else { lastTownCmd = 0; await townCommand('seven signs', 'Giran'); await sleep(4000); giran = !!dawnPriestSpot(4000); }
@@ -21113,7 +22242,7 @@ async function ssGateTrip(spotName, kind) {
   if (dawnPriestSpot(4000)) { try { await ssTeamSignup(`before ${spotName}`, g.state === 'check', { gate: true }); } catch (e) { logError('seven signs gate', e); } }
   ssTeamCache.at = 0; g = ssTeamAllowed(kind);
   if (g.ok) { said(`everyone may use the Ziggurat now (${g.why}) — going to ${spotName}`); return { ok: true, giran }; }
-  gkFail = `Seven Signs: ${g.why}${g.until ? ' — until ' + ssgUntilText(g.until) : ''}`; said(`still not allowed into ${spotName}: ${g.why}`);
+  gkFail = `Seven Signs: ${g.why}${g.until ? ' — until ' + ssgUntilText(g.until) : ''}`; said(`still not allowed into ${spotName}: ${g.reason || g.why}`);
   return { ok: false, giran };
 }
 /** The Ziggurat said no: "deceive me / may not pass" (necro_no/cata_no) or "Only a Lord of Dawn / Revolutionary of Dusk may use this". */
@@ -21211,6 +22340,7 @@ setInterval(() => {
     const need = ssoPick((ssSolo() ? [] : teamNames()).filter(ssNeeds).concat(ssNeeds(Me.Name) ? [Me.Name] : []), ssEnrolled, false, null);   // SSOPTIN: enrolled only
     if (!need.length) return;
     if (!runAuto('Seven Signs sign-up')) return;                        // RUNSTATE
+    if (htHolds('Seven Signs sign-up')) return;                         // HUNTTIMER-2026-10-15
     ssAutoAt = now();
     note(`seven signs: competition period — ${need.join(', ')} not signed up with the Lords of Dawn yet — taking the team to the Priest of Dawn`, true);
     leadDawn({ auto: true }).catch(e => logError('auto dawn', e));
@@ -22453,9 +23583,9 @@ function manualSpot(level, solo) {
   { const k = ssSpotKindOf(s), g = k ? ssTeamAllowed(k) : null;
     if (g && g.state === 'closed') {
       const till = g.until ? ssgUntilText(g.until) : '';
-      manualSw.nullWhy = { kind: 'blocked', detail: `closed: Seven Signs — ${g.why}${till ? ' — until ' + till : ''}; hunting the automatic spot meanwhile (no trip)`, retryAt: g.until || 0 };
+      manualSw.nullWhy = { kind: 'blocked', detail: `${g.reason || 'closed: Seven Signs — ' + g.why + (till ? ' — until ' + till : '')} Hunting the automatic spot meanwhile (no trip).`, retryAt: g.until || 0 };
       const w = `${partySpotSig(e)}|${g.why}`;
-      if (manualState.blockSaid !== w) { manualState.blockSaid = w; note(`hunting spot chosen on the dashboard: ${label} is closed (Seven Signs: ${g.why})${till ? ' until ' + till : ''} — NOT going there; the automatic spot meanwhile, it goes there by itself once it opens`, true); pickLog(`hunting spot chosen on the dashboard: ${label} — blocked: Seven Signs: ${g.why}`); }
+      if (manualState.blockSaid !== w) { manualState.blockSaid = w; note(`hunting spot chosen on the dashboard: ${label} — ${g.reason || 'closed (Seven Signs: ' + g.why + ')'} NOT going there; the automatic spot meanwhile, it goes there by itself once it opens`, true); pickLog(`hunting spot chosen on the dashboard: ${label} — blocked: Seven Signs: ${g.why}`); }
       return null;
     }
   }
@@ -24696,6 +25826,7 @@ setInterval(async () => {
     if (inRaid() || state.mode === 'mission' || control.owner || ssBusy || leadRunBusy || tradeState || state.gkBusy || now() - lastAttackerOnMe.at < 15000) return;
     if (questRun.active) return;   // QFIX3-2026-10-12: a running quest owns the character (the priest walk fought the quest walk)
     if (!runOn()) return;          // RUNSTATE: OFF = no walk to the Priest of Dawn by itself
+    if (htHolds('Seven Signs sign-up')) return;                         // HUNTTIMER-2026-10-15
     if (ssBusyWhy()) return;   // SSOPTIN-2026-10-12: your order / quest / an order-level task first
     const ssMeIn = ssEnrolled(Me.Name);
     if (!ssMeIn && !(isLeader() && !ssSolo() && teamNames().some(ssEnrolled))) return;   // SSOPTIN: not enrolled (7 Signs tab) = never to the Priest of Dawn by itself
@@ -24748,6 +25879,7 @@ setInterval(async () => {
     const F = `${__DIR__}\\Logs\\clanskill_try.json`; let st = {}; try { st = JSON.parse(File.ReadAllText(F)); } catch (e) { }
     const day = new Date().toISOString().slice(0, 10); if (st.day === day) return;
     if (!runOn()) return;                                                 // RUNSTATE: no daily clan skill trip while OFF
+    if (htHolds('clan skill trip')) return;                               // HUNTTIMER-2026-10-15
     const cfg = clanCfg() || { clan: {} }; if (!cfg.clan || !clanAutoFlag('skillLearn', true) || (!cfg.clan.skillFocus && !clanAutoFlag('skillFocus', true))) return;
     { const pre = clanSkillPrecheck(); clanAutoNote('skill', pre.msg); if (!pre.ok) return; }   // CLANAUTO: no daily trip that the server refuses anyway
     st.day = day; File.WriteAllText(F, JSON.stringify(st));
@@ -24843,7 +25975,7 @@ async function enterDungeon(name) {
   if (insideDungeon(d)) return true;
   // SEVEN SIGNS = HARD PRECONDITION (user rule 2026-10-08 21:55), checked before any travel: not allowed -> no trip at all (travelToSpot's
   // ssGateTrip already took the team to the Priest of Dawn when a sign-up was possible)
-  { const a = ssTeamAllowed(ssKindOf(d.name)); if (!a.ok) { gkFail = `Seven Signs: ${a.why}${a.until ? ' — until ' + ssgUntilText(a.until) : ''}`; dungeonLog(`not going into ${d.name}: ${a.why}`); note(`dungeon: NOT going into ${d.name} — Seven Signs: ${a.why}${a.until ? ' (until ' + ssgUntilText(a.until) + ')' : ''}`, true); return false; } }
+  { const a = ssTeamAllowed(ssKindOf(d.name)); if (!a.ok) { gkFail = `Seven Signs: ${a.why}${a.until ? ' — until ' + ssgUntilText(a.until) : ''}`; dungeonLog(`not going into ${d.name}: ${a.why}`); note(`dungeon: NOT going into ${d.name} — ${a.reason || a.why}`, true); return false; } }
   const ent = d.entranceNpc;
   const nearEntr = () => ent && Math.hypot(ent.x - Me.X, ent.y - Me.Y) < 2500 && Math.abs(ent.z - Me.Z) < 600;
   if (!nearEntr()) {
@@ -24934,7 +26066,7 @@ async function travelToSpot(spot) {
     let inD = false; if (dd) { const w = dzFloor(D, Me.X, Me.Y, Me.Z); inD = !!(w && w.d && w.d.name === dd.name && w.fi >= 0 && rgGraphNearD(dd, { x: Me.X, y: Me.Y, z: Me.Z })); }
     return spotAtLanding(spot, { x: Me.X, y: Me.Y, z: Me.Z }, D, inD); } catch (e) { return false; } })();
   if (atLandingNow) note(`travel: already at the way in of ${spot.name} — no Giran trip, going in from here`, !autoLvl.solo);
-  if (leadMode() && !autoLvl.solo && isLeader() && !spot.noHub && !sameFloorRoom && !atLandingNow && !viaGiran && !nonstopOn() && Math.hypot(spot.center.x - Me.X, spot.center.y - Me.Y) >= 6000) {   // !nonstopOn: CMDFIX-2026-10-12
+  if (leadMode() && !autoLvl.solo && isLeader() && !spot.noHub && !sameFloorRoom && !atLandingNow && !viaGiran && !nonstopOn() && Math.hypot(spot.center.x - Me.X, spot.center.y - Me.Y) >= 6000 && !htHolds('giran hub')) {   /* HUNTTIMER-2026-10-15 */   // !nonstopOn: CMDFIX-2026-10-12
     if (spot.manual) manualSwSet('travelling', `regroup in ${CONFIG.lead.hub} first (supply run if due), then ${spot.name}`);
     pstStep('travel', 'regroup in Giran');
     if (!(await leadGoGiran(`next hunting spot: ${spot.name}`))) return false;
@@ -25231,7 +26363,17 @@ async function autoLevelLoop(solo) {
       }
       // Holdet først: jag aldrig alene
       // big combat circle (6000, 2026-10-04): members chasing mobs are not 'gone' — only gather when someone is really far (or dead)
-      if (!solo && teamSpread().some(m => m.d > (leadMode() ? 9000 : CONFIG.together.huntDist) || m.dead)) { await gatherTeam('during hunt'); continue; }
+      // SPINFIX-2026-10-15: a teammate travelling back on its own (gatherTeam: "hunting on") no longer loops gatherTeam forever without a
+      // macrotask wait (the brain host watchdog killed + quarantined Char1's worker 3x); the team hunts on, and any quick return waits 1 s
+      const huntLim = leadMode() ? 9000 : CONFIG.together.huntDist;
+      if (!solo && teamSpread().some(m => m.d > huntLim || m.dead)) {
+        const tg = now();
+        const gok = await gatherTeam('during hunt');
+        if (!(gok && huntGatherDecide({ spread: teamSpread(), lim: huntLim, returning: (n) => returningMate(n) }) === 'hunt')) {
+          if (now() - tg < 1000) await sleep(1000);
+          continue;
+        }
+      }
       // (Gen)vælg sted hvert 5. min eller når levelet er vokset ud af det
       // RE-PICK FIX 2026-10-09 (SPOTREPICK-PURE): the outgrown test uses the PICK level (team min), never for a dashboard choice; a re-pick that
       // gives the spot I already hunt at (same key, I am at it) keeps hunting — no claim / wait / travel / zone setup / notes again
@@ -25524,7 +26666,7 @@ async function autoLevelLoop(solo) {
         const outMin = (() => { try { return teamMinLevel(); } catch (e) { return num(Me.Level); } })();
         const outMax = !(autoLvl.spot && autoLvl.spot.manual) ? 0 : (autoLvl.spot.room && autoLvl.spot.room.levelRange) ? num(autoLvl.spot.room.levelRange[1])   // the ROOM's monsters, not the dungeon's range
           : (autoLvl.spot.area && Array.isArray(autoLvl.spot.area.levelRange)) ? num(autoLvl.spot.area.levelRange[1]) : (avgMob !== null ? Math.round(avgMob) : num(autoLvl.spot.levelMax));
-        if (autoLvl.spot && autoLvl.spot.manual && autoLvl.spot.moveOn && outMax > 0 && outMin > outMax + 3) {   // only when the player ticked 'move on when outgrown' (user 2026-10-09 07:10)
+        if (autoLvl.spot && autoLvl.spot.manual && autoLvl.spot.moveOn && outMax > 0 && outMin > outMax + 3 && !htHolds('move on')) {   /* HUNTTIMER-2026-10-15: not while the timer runs */   // only when the player ticked 'move on when outgrown' (user 2026-10-09 07:10)
           const name = autoLvl.spot.name;
           try {
             const j = partySpots(), key = j[CONFIG.leader] ? CONFIG.leader : claimTeam();
@@ -26735,7 +27877,7 @@ async function resumeActivity() {
     // CMDFIX2-2026-10-12: "!dungeon <name>" holds until "!dungeon off" — also after a deploy / restart (Seven Signs checked again)
     if (a.dungeon && isLeader() && !(leadMode() && leadPaused())) {
       const d = findDungeon(a.dungeon);
-      if (d) { ssTeamCache.at = 0; const g = ssTeamAllowed(ssKindOf(d.name)); if (g.state === 'closed') note(`resume: NOT back into ${d.name} — Seven Signs: ${g.why}`, true); else { autoLvl.forceSpot = dungeonSpot(d); autoLvl.spot = null; note(`resume: leveling in ${d.name} again (until "!dungeon off")`, true); } }
+      if (d) { ssTeamCache.at = 0; const g = ssTeamAllowed(ssKindOf(d.name)); if (g.state === 'closed') note(`resume: NOT back into ${d.name} — ${g.reason || g.why}`, true); else { autoLvl.forceSpot = dungeonSpot(d); autoLvl.spot = null; note(`resume: leveling in ${d.name} again (until "!dungeon off")`, true); } }
     }
     // !stop / !park paused the team: a restart must not start leveling again (2026-10-04 21:16: Tank1 took party 1 to Dion/Cruma after a restart)
     if (leadMode() && isLeader() && leadPaused()) { note('resume: leveling is paused (!stop/!park) — not resuming it', true); setActivity(null); }
@@ -30178,6 +31320,7 @@ setInterval(() => {
     if (!mine) { if (Q.running && Q.spec && Q.spec.farm) qeStopReq('quest farm switched off'); if (S.farm && S.farm.on) { S.farm.on = false; qeSave(true); } return; }
     if (Q.running || inRaid() || state.mode === 'mission' || tradeState || (typeof HOV !== 'undefined' && HOV.busy) || inKamaInstance()) return;
     if (!runOn()) return;                                                 // RUNSTATE: no quest farm start while OFF
+    if (htHolds('quest farm')) return;                                    // HUNTTIMER-2026-10-15
     if (orderState.at && now() - orderState.at < QE_CFG.farmAfterOrderMs) return;   // a user order came in lately: it wins
     const id = qfPickId(cfg, qeMe(), qeQuest);
     if (!id) { if (now() - Q.farmSaid > 1800000) { Q.farmSaid = now(); qeLog(null, 'quest farm: no planned quest fits level ' + num(Me.Level) + ' (Scripts/data/quest_farm.json plan.byLevel)', true); } return; }
@@ -30231,6 +31374,9 @@ setInterval(() => {
   const atHub = (n) => { const p = partyMember(n); return hubXY && p && Math.hypot(p.X - hubXY[0], p.Y - hubXY[1]) < 6000; };
   const who = [...new Set([...leftBehind, ...far])].filter(n => !atHub(n));   // already waiting where I am going
   if (!who.length) return;
+  { Object.keys(HT.splitSeen).forEach(n => { if (now() - HT.splitSeen[n] > 20 * 60000 && !splitWatch.farSince[n]) delete HT.splitSeen[n]; });
+    const farMin = Math.max(0, ...who.map(n => (now() - (splitWatch.farSince[n] || (HT.splitSeen[n] = HT.splitSeen[n] || now()))) / 60000)); Object.keys(HT.splitSeen).forEach(n => { if (!who.includes(n)) delete HT.splitSeen[n]; });
+    if (htHolds('split regroup', { farMin })) return; }                // HUNTTIMER-2026-10-15: a timed hunt waits up to 15 min for the teammate
   if (!runAuto('split regroup')) return;                               // RUNSTATE: no regroup walks while OFF
   if (!takeControl('regroup: left behind', PRIO.TEAM_SAFETY)) return;
   splitWatch.busy = true; splitWatch.lastRun = now();
@@ -31162,7 +32308,8 @@ setInterval(() => {
         const sid = shotIdQuick();
         return { adena: itemCount(57), soe: itemCount(736), res: itemCount(737), shotId: sid, shots: sid ? itemCount(sid) : 0,
           buffs: longBuffCount(), buffLeft: Math.max(0, ...buffTimes, 0),
-          combatRange: (() => { try { return num(Options.CombatRange); } catch (e) { return 0; } })() };
+          combatRange: (() => { try { return num(Options.CombatRange); } catch (e) { return 0; } })(),
+          sup: (() => { try { return supPublic(); } catch (e) { return null; } })() };   // HUNTTIMER-2026-10-15: hunting supplies carried + measured use per hour
       }) || SW.med || {};
       SW.medAt = now();
     }
@@ -31217,6 +32364,8 @@ setInterval(() => {
       npcTrip: state.npcTrip && now() - Date.parse(state.npcTrip.at || 0) < 1800000 ? state.npcTrip : null,   // NPC NAVIGATION trip (2026-10-09)
       manualSpot: (isLeader() || soloChar()) ? (() => { try { return manualSpotPublic(); } catch (e) { return null; } })() : null,   // dashboard spot choice: pending/travelling/arrived/... (2026-10-08 19:55)
       combatRange: SW.med.combatRange || 0,
+      sup: SW.med.sup || null,                                                     // HUNTTIMER-2026-10-15 (the spot picker's supply estimate)
+      huntTimer: (isLeader() || soloChar()) ? (() => { try { return htPublic(); } catch (e) { return null; } })() : null,   // HUNTTIMER-2026-10-15: the party card's clock
       questPlan: questPlanInfo(),
       escortQueue: escort.queue ? { order: escort.queue, current: escort.current || escort.owner || null } : null,
       priorities: priorityList(),
@@ -31241,6 +32390,9 @@ setInterval(() => {
     if (SW.slow.purse) { st.purse = Object.assign({}, SW.slow.purse); st.purse.have = st.adena; st.purse.need = purseNeed(st.purse); }   // PURSE: adena of now
     try { const sp = stashPub(); if (sp) st.stash = sp; } catch (e) { }
     try { const fp = fullPub(); if (fp) st.full = fp; } catch (e) { }
+    // IMMOBILE-2026-10-15 (Tank1, in-game client: 2 h at one spot, every walk / .town / even a Scroll of Escape did nothing, nobody was told):
+    // same spot (within TRAP.near) for 10+ min with 3+ refused town ports = the dashboard warning bar says so (check the game window / connection)
+    try { if (trapState.since && trapState.fails >= TRAP.fails && now() - trapState.since > 600000 && Math.hypot(Me.X - trapState.x, Me.Y - trapState.y) <= TRAP.near) st.immobile = { mins: Math.round((now() - trapState.since) / 60000), fails: trapState.fails, at: P(trapState.x, trapState.y) }; } catch (e) { }
     try { if (ORE_SAID._outAt && now() - ORE_SAID._outAt < 120000) st.oreOut = { skill: ORE_SAID._skill, at: new Date(ORE_SAID._outAt).toISOString() }; } catch (e) { }   // ORE: out of Spirit Ore (warning bar)              // FULLWARN 2026-10-14: bag nearly full / full (dashboard banner)          // WAREHOUSE STASH: last deposit + slots used (character page, 2026-10-09)
     if (SW.slow.clanInfo !== undefined) { st.clanInfo = SW.slow.clanInfo; st.ccRight = SW.slow.ccRight; }
     Object.assign(st, SW.heavy);
@@ -32544,6 +33696,253 @@ setInterval(() => {
 }, 3000);
 
 // ---------------------------------------------------------------------------
+// HUNT TIMER (owner 2026-10-15: "I asked Tank1's team to go to the catacomb but I did not get asked how many hours etc."). HUNTTIMER-2026-10-15
+// The dashboard spot picker asks HOW LONG (1-8 h or "until I stop it") and WHAT THEN (go to town and wait | town, supply run, come back |
+// keep hunting) and writes Scripts/data/hunt_timers.json { v, parties: { <leader>: { id, hours, endAction, from, at, endNow, spot, by } } }
+// (ONLY Dashboard/hunttimer_api.js writes it; "until I stop it" = no entry = today's behaviour). The leader's window keeps the clock in
+// Logs/hunt_timer_<leader>.json { id, startedAt, startWhy, endedFor, endedAt, action, result } (ONLY the leader writes it): the clock starts when
+// the party ARRIVES at the chosen spot (manualSw 'arrived'), at the latest 45 min after the choice. While it runs the party stays: no automatic
+// supply run (unless shots really run out: < 30), no daily Kamaloka, no Giran hub trip between spots, no 'move on when outgrown', no split
+// regroup in Giran for 15 min, no stash / letters / clan hand-over / Seven Signs / quest farm / clan skill / fund trips (htHolds). Survival,
+// deaths / wipes, escapes, rescues and every order of yours always work. When the time is up the leader runs the end action (htEndRun).
+// Each window also measures its real supply use while hunting (Logs/supply_use_<name>.json -> swarm_state.sup.use): the popup's estimate.
+// HUNTTIMER-PURE-BEGIN (no host calls in here: docs/plan/tools/test_hunt_timer.js runs this block in node; Dashboard/huntlogic.js = same clock)
+var HT_ACTIONS = ['town', 'resupply', 'keep'];
+var HT_ARRIVE_WAIT_MS = 45 * 60000;            // not arrived 45 min after the choice: the clock starts anyway
+var HT_SPLIT_MAX_MIN = 15;                     // a teammate far away longer than this: the normal Giran regroup runs again (nobody stranded)
+var HT_SHOT_CRIT = 30;                         // shots below this = "really out": the supply run may go (said in party chat)
+/** what an active timer holds back (kind -> rule). Not listed = never held (survival, orders, rescue, escape ...) */
+var HT_HOLD = { 'supply run': 'supply', 'daily Kamaloka': 'trip', 'giran hub': 'trip', 'move on': 'trip', 'split regroup': 'split', 'warehouse stash': 'trip',
+  'letters': 'trip', 'clan hand-over': 'trip', 'Seven Signs sign-up': 'trip', 'quest farm': 'trip', 'clan skill trip': 'trip', 'fund round': 'trip' };
+var HT_HOLD_TEXT = { 'supply run': 'no supply run', 'daily Kamaloka': 'no daily Kamaloka', 'giran hub': 'no Giran trip between spots', 'move on': 'staying at the chosen spot (not moving on)',
+  'split regroup': 'no Giran regroup for a teammate far away yet', 'warehouse stash': 'no warehouse trip', 'letters': 'no letters hand-over', 'clan hand-over': 'no clan item hand-over',
+  'Seven Signs sign-up': 'no Seven Signs trip', 'quest farm': 'no quest farm', 'clan skill trip': 'no clan skill trip', 'fund round': 'no adena hand-out round' };
+function htNorm(j) {
+  const o = j && typeof j === 'object' && !Array.isArray(j) ? j : {};
+  return { v: 1, parties: o.parties && typeof o.parties === 'object' && !Array.isArray(o.parties) ? o.parties : {} };
+}
+/** one party's entry, cleaned -> { id, hours, endAction, from, at (ms), endNow (ms|null), spot } | null (missing / broken / until-stop) */
+function htEntry(j, key) {
+  const e = htNorm(j).parties[key];
+  if (!e || typeof e !== 'object') return null;
+  const hours = Number(e.hours), at = Date.parse(e.at || '');
+  if (!e.id || !isFinite(hours) || hours <= 0 || hours > 48 || !isFinite(at)) return null;
+  const en = e.endNow ? Date.parse(e.endNow) : NaN;
+  return { id: String(e.id), hours, endAction: HT_ACTIONS.includes(e.endAction) ? e.endAction : 'town', from: e.from === 'now' ? 'now' : 'arrival', at, endNow: isFinite(en) ? en : null, spot: String(e.spot || '').slice(0, 120) };
+}
+/** the clock. e = htEntry, st = the leader's status file, nowMs -> { id, active, ended, done, started, startAt, endAt, leftMs, waitingArrival, ... } */
+function htClock(e, st, nowMs) {
+  if (!e) return { id: '', active: false, ended: false, done: false, started: false };
+  const S = st && typeof st === 'object' && st.id === e.id ? st : null;
+  let startAt = null, startWhy = '';
+  if (S && S.startedAt && isFinite(Date.parse(S.startedAt))) { startAt = Date.parse(S.startedAt); startWhy = S.startWhy || 'arrived'; }
+  else if (e.from === 'now') { startAt = e.at; startWhy = 'counted from the choice'; }
+  else if (nowMs - e.at >= HT_ARRIVE_WAIT_MS) { startAt = e.at + HT_ARRIVE_WAIT_MS; startWhy = 'not there after 45 min — counting anyway'; }
+  let endAt = startAt !== null ? startAt + e.hours * 3600000 : null;
+  if (e.endNow !== null) endAt = endAt === null ? e.endNow : Math.min(endAt, e.endNow);
+  const done = !!(S && S.endedFor === e.id);
+  const ended = done || (endAt !== null && nowMs >= endAt);
+  return { id: e.id, hours: e.hours, endAction: e.endAction, spot: e.spot, from: e.from, at: e.at, startAt, startWhy, endAt, started: startAt !== null, waitingArrival: startAt === null,
+    ended, done, active: !ended, leftMs: endAt !== null ? Math.max(0, endAt - nowMs) : null, endedNow: e.endNow !== null };
+}
+/** shots below crit in the supply watch's low list ["Name: Soulshot (C-Grade) 12, Mana Potion 80", ...] -> ["Name: Soulshot (C-Grade) 12"] */
+function htSupplyCritical(low, crit) {
+  const c = Number(crit) > 0 ? Number(crit) : HT_SHOT_CRIT, out = [];
+  (Array.isArray(low) ? low : []).forEach(line => {
+    const s = String(line || ''), i = s.indexOf(': '), who = i > 0 ? s.slice(0, i) : '', rest = i > 0 ? s.slice(i + 2) : s;
+    rest.split(/,\s*/).forEach(part => { const m = part.match(/^(.*shot.*?)\s+(\d+)\s*$/i); if (m && Number(m[2]) < c) out.push(`${who ? who + ': ' : ''}${m[1].trim()} ${m[2]}`); });
+  });
+  return out;
+}
+/** may an automatic task run while the timer clock c runs? kind = a HT_HOLD key, ctx = { low: [...], farMin } -> { hold, why, critical? } */
+function htHold(kind, c, ctx) {
+  const rule = HT_HOLD[kind], x = ctx || {};
+  if (!c || !c.active || !rule) return { hold: false, why: '' };
+  const what = HT_HOLD_TEXT[kind] || 'held';
+  if (rule === 'supply') {
+    const crit = htSupplyCritical(x.low, x.crit);
+    if (crit.length) return { hold: false, critical: true, why: `supplies really ran out (${crit.slice(0, 3).join('; ')}) — supply run now, then back to the hunting (the timer keeps counting)` };
+    return { hold: true, why: `hunting timer: ${what} until the time is up` };
+  }
+  if (rule === 'split') {
+    const far = Number(x.farMin) || 0;
+    if (far >= HT_SPLIT_MAX_MIN) return { hold: false, why: `a teammate is away for ${Math.round(far)} min — regrouping after all` };
+    return { hold: true, why: `hunting timer: ${what} (the teammate should come back by itself; after ${HT_SPLIT_MAX_MIN} min we regroup)` };
+  }
+  return { hold: true, why: `hunting timer: ${what} until the time is up` };
+}
+/** the end of the timer. c = htClock, ctx = { on (run switch), busy: '' | 'a raid' | ... } -> { act: 'none' | 'wait' | 'close' | 'end', action, why } */
+function htEndDecide(c, ctx) {
+  const x = ctx || {};
+  if (!c || !c.id || !c.ended || c.done) return { act: 'none', action: '', why: '' };
+  if (!x.on) return { act: 'close', action: 'none', why: 'the party is stopped — nothing to do' };
+  if (x.busy) return { act: 'wait', action: c.endAction, why: `time is up — after ${x.busy}` };
+  return { act: 'end', action: c.endAction, why: c.endedNow ? 'ended on the dashboard' : `${c.hours} h are up` };
+}
+/** "1 h 12 min" / "45 min" / "less than a minute" */
+function htFmt(ms) {
+  const m = Math.round(Math.max(0, Number(ms) || 0) / 60000);
+  if (m < 1) return 'less than a minute';
+  const h = Math.floor(m / 60), r = m % 60;
+  return h ? `${h} h${r ? ' ' + r + ' min' : ''}` : `${r} min`;
+}
+/** one minute of supply bookkeeping (each window, for its own bag). j = { v, b: [{ h: hour start ms, ms: hunting ms, u: { itemId: used } }] }
+ *  prev / cur = { itemId: count }; only drops while HUNTING count (town trades / sales / stashes are not hunting), a drop above cap per
+ *  minute is a hand-over, not use. Keeps 24 hourly buckets. */
+function supUseStep(j, prev, cur, hunting, nowMs, dtMs, cap) {
+  const J = { v: 1, b: (j && Array.isArray(j.b) ? j.b : []).filter(x => x && isFinite(x.h)).map(x => ({ h: x.h, ms: Number(x.ms) || 0, u: Object.assign({}, x.u || {}) })) };
+  if (hunting && prev && cur) {
+    const h = Math.floor(nowMs / 3600000) * 3600000;
+    let B = J.b.find(x => x.h === h); if (!B) { B = { h, ms: 0, u: {} }; J.b.push(B); }
+    B.ms += Math.max(0, Math.min(Number(dtMs) || 60000, 180000));
+    const lim = Number(cap) > 0 ? Number(cap) : 600;
+    Object.keys(cur).forEach(id => { const d = Number(prev[id]) - Number(cur[id]); if (isFinite(d) && d > 0 && d <= lim) B.u[id] = (B.u[id] || 0) + d; });
+  }
+  J.b = J.b.filter(x => nowMs - x.h < 24 * 3600000).sort((a, b) => a.h - b.h).slice(-24);
+  return J;
+}
+/** measured use over the last windowH hours -> { hours (hunting time seen), perHour: { itemId: n } } */
+function supUseRates(j, nowMs, windowH) {
+  const W = (Number(windowH) || 6) * 3600000; let ms = 0; const u = {};
+  (j && Array.isArray(j.b) ? j.b : []).forEach(x => { if (!x || nowMs - x.h >= W) return; ms += Number(x.ms) || 0; Object.keys(x.u || {}).forEach(id => { u[id] = (u[id] || 0) + (Number(x.u[id]) || 0); }); });
+  const perHour = {}; if (ms > 0) Object.keys(u).forEach(id => { perHour[id] = Math.round(u[id] * 3600000 / ms); });
+  return { hours: Math.round(ms / 36000) / 100, perHour };
+}
+// HUNTTIMER-PURE-END
+var HT = { j: null, chk: 0, stamp: '', st: {}, stChk: {}, said: {}, held: [], busy: false, splitSeen: {} };
+const HT_FILE = () => `${__DIR__}\\Scripts\\data\\hunt_timers.json`;
+const htStFile = (key) => `${SWARM_ROOT}\\Logs\\hunt_timer_${String(key).replace(/[^A-Za-z0-9_]/g, '')}.json`;
+function htData() {
+  if (HT.j && now() - HT.chk < 5000) return HT.j;
+  HT.chk = now();
+  const F = HT_FILE(), st = fileStamp(F);
+  if (!st) { HT.j = htNorm({}); HT.stamp = ''; return HT.j; }               // no file = no timers (today's behaviour)
+  if (!HT.j || st !== HT.stamp) {
+    try { HT.j = htNorm(JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, ''))); HT.stamp = st; }
+    catch (e) { if (!HT.j) HT.j = htNorm({}); }                             // half written: keep the last good one
+  }
+  return HT.j;
+}
+/** my party's key in the file (the leader's name; a solo / claim team like party_spots.json) */
+function htKey() { const p = htData().parties; if (p[CONFIG.leader]) return CONFIG.leader; let k = ''; try { k = claimTeam(); } catch (e) { } return k && p[k] ? k : CONFIG.leader; }
+function htStRead(key) {
+  if (HT.st[key] !== undefined && now() - (HT.stChk[key] || 0) < 5000) return HT.st[key];
+  HT.stChk[key] = now();
+  try { const F = htStFile(key); HT.st[key] = File.Exists(F) ? JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, '')) : null; } catch (e) { if (HT.st[key] === undefined) HT.st[key] = null; }
+  return HT.st[key];
+}
+function htStWrite(key, o) { try { o.at = new Date().toISOString(); File.WriteAllText(htStFile(key), JSON.stringify(o, null, 1)); HT.st[key] = o; HT.stChk[key] = now(); } catch (e) { logError('hunt timer status', e); } }
+/** my party's clock (null = no timer) */
+function htClockMine() { const key = htKey(), e = htEntry(htData(), key); if (!e) return null; return Object.assign(htClock(e, htStRead(key), now()), { key }); }
+function htActiveMine() { try { const c = htClockMine(); return !!(c && c.active); } catch (e) { return false; } }
+/** the gate at every early-leave path: true = held back (noted once per 10 min per kind; the leader keeps a list for the dashboard) */
+function htHolds(kind, ctx) {
+  let c = null; try { c = htClockMine(); } catch (e) { return false; }
+  if (!c || !c.active) return false;
+  const h = htHold(kind, c, ctx || {});
+  if (!h.hold) {
+    if ((h.critical || kind === 'split regroup') && h.why && now() - (HT.said['go:' + kind] || 0) > 600000) { HT.said['go:' + kind] = now(); note(`[hunt timer] ${h.why}`, true); try { if (isLeader()) SayToParty(`[hunt timer] ${h.why}`.slice(0, 250)); } catch (e) { } }
+    return false;
+  }
+  HT.held = [{ kind, why: h.why, at: now() }].concat(HT.held.filter(x => x.kind !== kind)).slice(0, 8);
+  if (now() - (HT.said[kind] || 0) > 600000) { HT.said[kind] = now(); note(`[hunt timer] ${h.why} — ${c.leftMs !== null ? htFmt(c.leftMs) + ' left' : 'the clock starts when we arrive'} at ${c.spot || 'the chosen spot'}`, isLeader()); }
+  return true;
+}
+/** NONSTOP or an active hunt timer: no automatic town trips (Giran regroup before leveling / between spots) */
+function noTownTrip() { return nonstopOn() || htActiveMine(); }
+/** swarm_state.huntTimer (leader): the clock + what it held back lately */
+function htPublic() {
+  const c = htClockMine(); if (!c) return null;
+  const st = htStRead(c.key) || {}, iso = (t) => t ? new Date(t).toISOString() : null;
+  return { id: c.id, hours: c.hours, endAction: c.endAction, spot: c.spot, active: c.active, ended: c.ended, done: c.done, startAt: iso(c.startAt), endAt: iso(c.endAt), leftMs: c.leftMs,
+    waitingArrival: c.waitingArrival, startWhy: c.startWhy || '', result: st.id === c.id ? (st.result || '') : '', held: HT.held.filter(x => now() - x.at < 3600000).map(x => ({ kind: x.kind, why: x.why, at: iso(x.at) })) };
+}
+/** the end action (leader): keep | town (+ supply run when switched on) and wait | town + supply run + back to the spot */
+async function htEndRun(action, e, key) {
+  const hub = CONFIG.lead.hub, label = e.spot || 'the chosen spot';
+  const fin = (result) => { const st = htStRead(key) || {}; if (st.endedFor === e.id) { st.result = String(result).slice(0, 200); htStWrite(key, st); } };
+  const msg = action === 'keep' ? `hunting time is up at ${label} — we keep hunting (your choice)` : action === 'resupply' ? `hunting time is up at ${label} — to ${hub}, supplies, then back` : `hunting time is up at ${label} — back to ${hub}, then waiting for your orders`;
+  note(`[hunt timer] ${msg}`, true); try { SayToParty(`[hunt timer] ${msg}`.slice(0, 250)); } catch (er) { }
+  if (action === 'keep') { fin('kept hunting'); return; }
+  autoLvl.stop = true; { const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
+  if (regroupRun) { try { abortRegroup('hunting time is up'); } catch (er) { } }
+  let ok = false; try { ok = await leadGoGiran('hunting time is up'); } catch (er) { logError('hunt timer town', er); }
+  let sup = '';
+  if (ok && pautoOn('supplyWatch')) { try { const r = await leadSupply('hunting time is up', { inline: true }); sup = r ? ` (supply run: ${r})` : ' + supply run'; } catch (er) { logError('hunt timer supply', er); sup = ' (supply run failed)'; } }
+  else if (ok) sup = ' (no supply run: switched off in the party settings)';
+  if (action === 'resupply') {
+    if (!ok) { fin(`could not get to ${hub} (${townFailWhy()}) — hunting goes on`); return; }
+    fin(`in ${hub}${sup} — back to the hunting`);
+    leadLevel('hunting time is up: back to the spot').catch(er => logError('hunt timer back', er));
+    return;
+  }
+  setLeadPaused(true, orderPauseTag('hunttimer', 'done'));
+  runSetMine(false, `hunting time is up — waiting in ${ok ? hub : 'place'}`);
+  fin(ok ? `waiting in ${hub}${sup}` : `could not get to ${hub} (${townFailWhy()}) — stopped where we are`);
+}
+// THE LEADER'S CLOCK (every 15 s): start on arrival, end action when the time is up
+setInterval(() => {
+  try {
+    if (!leadMode() || !state.role || !(isLeader() || soloChar()) || !IsCharacterReady() || HT.busy) return;
+    const key = htKey(), e = htEntry(htData(), key); if (!e) return;
+    let st = htStRead(key);
+    if (!st || st.id !== e.id) { htStWrite(key, { id: e.id, spot: e.spot, savedAt: new Date(e.at).toISOString(), startedAt: e.from === 'now' ? new Date(e.at).toISOString() : null, startWhy: e.from === 'now' ? 'counted from the choice' : '' }); return; }
+    if (!st.startedAt && st.endedFor !== e.id) {
+      let arrived = false; try { arrived = manualSw.mode === 'manual' && manualSw.status === 'arrived' && manualSw.sig === partySpotSig(partySpotEntry()); } catch (er) { }
+      if (arrived || now() - e.at >= HT_ARRIVE_WAIT_MS) {
+        st.startedAt = new Date(arrived ? now() : e.at + HT_ARRIVE_WAIT_MS).toISOString(); st.startWhy = arrived ? `arrived at ${manualSw.spotName || e.spot}` : 'not there after 45 min — counting anyway';
+        htStWrite(key, st);
+        const m = `[hunt timer] ${arrived ? 'arrived' : 'still travelling'} — hunting ${e.hours} h at ${e.spot || 'the chosen spot'} (until ${new Date(Date.parse(st.startedAt) + e.hours * 3600000).toTimeString().slice(0, 5)})`;
+        note(m, true); try { SayToParty(m.slice(0, 250)); } catch (er) { }
+      }
+      if (!e.endNow) return;
+    }
+    const c = htClock(e, st, now());
+    const d = htEndDecide(c, { on: runOn(), busy: inRaid() ? 'the raid' : state.mode === 'mission' ? 'the mission' : (typeof inKamaInstance === 'function' && inKamaInstance()) ? 'the instance' : '' });
+    if (d.act === 'none' || d.act === 'wait') return;
+    Object.assign(st, { endedFor: e.id, endedAt: new Date().toISOString(), action: d.act === 'close' ? 'none' : d.action, result: d.act === 'close' ? d.why : 'running', why: d.why });
+    htStWrite(key, st); HT.held = [];
+    if (d.act === 'close') { note(`[hunt timer] time is up at ${e.spot || 'the chosen spot'} — ${d.why}`); return; }
+    HT.busy = true;
+    htEndRun(d.action, e, key).catch(er => logError('hunt timer end', er)).finally(() => { HT.busy = false; });
+  } catch (er) { logError('hunt timer', er); }
+}, 15000);
+// MEASURED SUPPLY USE (every window, every 60 s): Logs/supply_use_<name>.json (saved every 10 min) -> swarm_state.sup.use (the popup's estimate)
+var SUPUSE = { j: null, prev: null, at: 0, saveAt: 0, loaded: false, pub: null, pubAt: 0, sk: null, skAt: 0 };
+const supUseFile = () => `${SWARM_ROOT}\\Logs\\supply_use_${Me.Name}.json`;
+const SUP_IDS = [728, 1061, 1060, 3031, 8874, 1785];
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name || !inventoryKnown()) return;
+    if (!SUPUSE.loaded) { SUPUSE.loaded = true; try { SUPUSE.j = JSON.parse(String(File.ReadAllText(supUseFile()))); } catch (e) { SUPUSE.j = { v: 1, b: [] }; } }
+    const ids = SUP_IDS.slice(); const sid = shotIdQuick(); if (sid && !ids.includes(sid)) ids.push(sid);
+    const cur = {}; ids.forEach(id => { cur[id] = itemCount(id); });
+    let hunting = false;
+    try { hunting = !currentTownKey() && !Me.IsDead && runOn() && !tradeState && !state.gkBusy && (IsInCombat || now() - lastAttackerOnMe.at < 300000 || !!autoLvl.active || !!(livePos[CONFIG.leader] && livePos[CONFIG.leader].fight)); } catch (e) { }
+    const dt = SUPUSE.at ? now() - SUPUSE.at : 60000;
+    SUPUSE.j = supUseStep(SUPUSE.j, SUPUSE.prev, cur, hunting, now(), dt, 600);
+    SUPUSE.prev = cur; SUPUSE.at = now();
+    if (now() - SUPUSE.saveAt > 600000) { SUPUSE.saveAt = now(); File.WriteAllText(supUseFile(), JSON.stringify(SUPUSE.j)); }
+  } catch (e) { }
+}, 60000);
+/** skills of mine that eat Spirit Ore / Einhasad's Holy Water / Soul Ore (names), cached 5 min */
+function supSkillItems() {
+  if (SUPUSE.sk && now() - SUPUSE.skAt < 300000) return SUPUSE.sk;
+  const o = { ore: [], holy: [], soul: [] };
+  try { SkillsList.forEach(sk => { if (sk.IsActive === false) return; const id = num(sk.ItemConsumeId), n = String(sk.Name || sk.Id); if (id === 3031) o.ore.push(n); else if (id === 8874) o.holy.push(n); else if (id === 1785) o.soul.push(n); }); } catch (e) { }
+  SUPUSE.sk = o; SUPUSE.skAt = now(); return o;
+}
+/** swarm_state.sup (medium tick, cached 30 s): what I carry of the hunting supplies + what I really used per hour while hunting */
+function supPublic() {
+  if (SUPUSE.pub && now() - SUPUSE.pubAt < 30000) return SUPUSE.pub;
+  const sk = supSkillItems(), r = supUseRates(SUPUSE.j, now(), 6);
+  let k = ''; try { k = shotKind() || ''; } catch (e) { }
+  SUPUSE.pub = { k, h: isHealerRole(), mana: itemCount(728), heal: itemCount(1061) + itemCount(1060), ore: itemCount(3031), oreSk: sk.ore.slice(0, 4),
+    holy: sk.holy.length ? itemCount(8874) : null, holySk: sk.holy.slice(0, 4), soulOre: sk.soul.length ? itemCount(1785) : null, soulSk: sk.soul.slice(0, 4), seenH: r.hours, use: r.perHour };
+  SUPUSE.pubAt = now(); return SUPUSE.pub;
+}
+
+// ---------------------------------------------------------------------------
 // LEADER CONTROL  (user design 2026-10-04, CONFIG.lead)
 //  !level        leader: everyone to Giran (.giran), regroup at the start, then the leader picks a hunting spot for the team's
 //                lowest level and teleports the team there (never fights inside a town)
@@ -32662,7 +34061,7 @@ async function leadLevel(why) {
   if (!runAuto('leveling')) { note(`leveling (${why}): not started — the party is switched OFF (dashboard Start / !start / !level switch it on)`); return; }   // RUNSTATE
   if (!rcAuto('level')) { note(`leveling (${why}): not started — the raid circuit owns this party (Stop it on the Circuit tab, or send your own order)`, true); return; }   // CIRCUIT 24/7 (2026-10-13)
   setLeadPaused(false);
-  if (nonstopOn() && !currentTownKey()) {                             // NONSTOP (2026-10-12, Discord D15): straight to the hunting, no Giran regroup
+  if (noTownTrip() && !currentTownKey()) {                            // NONSTOP (2026-10-12, Discord D15) / HUNTTIMER-2026-10-15: straight to the hunting, no Giran regroup
     if (autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 30000) await sleep(500); }
     autoLvl.spot = null; autoLevelLoop(false).catch(e => logError('autolevel', e)); return;
   }
@@ -32689,7 +34088,7 @@ function supplyWants() {
   out.push({ id: 736, name: 'Scroll of Escape', want: A.soe, below: A.soe });
   out.push({ id: 737, name: 'Scroll of Resurrection', want: A.sor, below: A.sor });
   const sid = shotId(), k = shotKind();
-  if (sid) out.push({ id: sid, name: `${k === 'mage' ? 'Spiritshot' : 'Soulshot'} (${weaponGrade()})`, want: k === 'mage' ? A.spiritshots : A.soulshots, below: Math.min(S.shotsBelow, k === 'mage' ? A.spiritshots : A.soulshots) });
+  if (sid) out.push({ id: sid, name: `${k === 'mage' ? 'Spiritshot' : 'Soulshot'} (${weaponGrade()})`, want: k === 'mage' ? A.spiritshots : A.soulshots, below: Math.min(S.shotsBelow, k === 'mage' ? A.spiritshots : A.soulshots), alt: PSHOP_ALT[sid] || 0 });   // PSHOP: plain spiritshots of my grade count too
   // OWNTYPE (tester 2026-10-13): a worn bow needs arrows, a crossbow bolts, of the weapon's grade (Helvetia sells Wooden..Mithril)
   { const am = myAmmo(); if (am && OWNTYPE.helvetia.includes(am.id)) out.push({ id: am.id, name: am.name, want: S.arrows || 5000, below: S.arrowsBelow || 1500 }); }
   // solo (user 2026-10-07: "when you hunt alone you need healing potions and mana potions"): 100 Healing Potions, nobody heals him
@@ -32728,7 +34127,7 @@ setInterval(() => {
   } catch (e) { }
 }, 15000);
 function supplyNeeds() {
-  return supplyWants().map(w => ({ ...w, have: itemCount(w.id) }))
+  return supplyWants().map(w => ({ ...w, have: itemCount(w.id) + (w.alt ? itemCount(w.alt) : 0) }))   // PSHOP: + plain spiritshots of my grade (player-shop stand-ins)
     // below = when the supply WATCH starts a run; during a run everyone below 75 % of want is topped up as well
     // (2026-10-06: Spoiler1 had > 500 Soulshots at the 05:10 run, got nothing, ran dry 30 min later -> a second run)
     .map(w => ({ ...w, need: (w.have < w.below || w.have < w.want * 0.75) ? w.want - w.have : 0 }));
@@ -32801,7 +34200,7 @@ async function leadSupply(why, opts) {
   const wasLvl = !inline && (autoLvl.active || !!(opts && opts.resumeLevel));
   let noGiran = false, lootAfter = '';   // lootAfter: the loot handover runs after the hold (engine audit #18)
   intent('supply', `buy SoE/SoR/shots/spirit ore for the team in ${CONFIG.lead.hub} (${why})`);
-  const SUP = ['regroup in Giran', 'collect needs', 'members sell', 'gear upgrades', 'buy at Helvetia', 'hand out', 'enchant', 'stash', 'unload loot', 'dyes', 'collect adena'];   // TESTERS2: sell + gear before buying
+  const SUP = ['regroup in Giran', 'collect needs', 'members sell', 'gear upgrades', 'our crafter', 'buy at Helvetia', 'player shops', 'hand out', 'enchant', 'stash', 'unload loot', 'dyes', 'collect adena'];   // TESTERS2: sell + gear before buying
   pstRun('supply', why, inline ? SUP.slice(1) : SUP);                  // PARTY STATUS 2026-10-09
   let T = null;
   try {
@@ -32875,10 +34274,14 @@ async function leadSupply(why, opts) {
     const total = {};                                  // id -> { name, members: sum of member needs }
     members.forEach(a => (a.needs || []).forEach(n => { if (n.need > 0) { const t = total[n.id] = total[n.id] || { id: n.id, name: n.name, members: 0 }; t.members += n.need; } }));
     mine.forEach(n => { const t = total[n.id] = total[n.id] || { id: n.id, name: n.name, members: 0 }; t.mine = n; });
+    // 1c. CRAFTER-2026-10-15 (SUPPLY ORDER: our crafter > Helvetia > player shops): the crafter that supplies this party (Storage page -> Our crafter)
+    //     brings the shots it has in stock when it stands in this town (HANDOVER); the buys below are worked out from my bag AFTER it, so the
+    //     shop and the player shops only get the rest. Elsewhere / not reporting = skipped with a note (no trips).
+    try { if (craftCrafterFor(craftRules(), Me.Name) && regroupAlive(runId)) { pstStep('supply', 'our crafter'); const cm = await crafterSupplyStep(total, runId); if (cm) res.push('crafter: ' + cm); T.mark('crafter', now(), String(cm || '').slice(0, 60)); } } catch (e) { logError('crafter supply', e); }
     // buy enough for the members' shares + my own top-up
     const buys = Object.values(total).map(t => {
       const have = itemCount(t.id), myWant = t.mine && t.mine.need > 0 ? t.mine.want : (t.mine ? Math.min(t.mine.have, t.mine.want) : 0);
-      return { id: t.id, name: t.name, count: Math.max(0, myWant + t.members - have) };
+      return { id: t.id, name: t.name, count: Math.max(0, myWant + t.members - have), target: myWant + t.members };   // PSHOP: target = what I must hold after buying
     }).filter(b => b.count > 0);
     const summary = Object.values(total).filter(t => t.members > 0).map(t => `${t.name} ${t.members}`).join(', ');
     SayToParty(`[supply] team needs: ${summary || 'nothing'}${buys.length ? ' — buying ' + buys.map(b => `${b.name} x${b.count}`).join(', ') : ''}`);
@@ -32899,6 +34302,22 @@ async function leadSupply(why, opts) {
       await giranGo('start');
     }
     T.mark('shop', now(), buys.length || junk.length ? `${buys.length} buys, ${junk.length} sells` : 'nothing');
+    // 2b. PSHOP-2026-10-15: B / A / S shots Helvetia does not sell -> PLAYER shops at or below the party's max prices (party settings -> Supplies;
+    //     off = nothing happens). Warn, never refuse: what could not be had is said in party chat + the supply report.
+    let pshopRes = null;
+    try {
+      if (pshopCfg(pautoData(), CONFIG.leader).on && buys.some(b => pshopItem(b.id) && itemCount(b.id) < num(b.target)) && regroupAlive(runId)) {
+        pstStep('supply', 'player shops', { info: 'B / A / S shots from player shops (your max prices)' });
+        pshopRes = await pshopBuyRun(buys, why);
+        if (pshopRes) {
+          res.push('player shops: ' + pshopRes.text);
+          SayToParty(`[supply] player shops: ${pshopRes.text}${pshopRes.warn.length ? ' — ' + pshopRes.warn.slice(0, 2).join('; ') : ''}`.slice(0, 250));
+          if (pshopRes.warn.length) note(`[supply] player shops: ${pshopRes.warn.join(' | ')}`.slice(0, 900), true);
+          if (/giran/i.test(String(currentTownKey() || ''))) { try { await giranGo('start'); } catch (e) { } }
+        }
+        T.mark('player shops', now(), pshopRes ? pshopRes.text.slice(0, 60) : 'nothing');
+      }
+    } catch (e) { logError('pshop', e); }
     // 3. hand out: one trade per member with everything it needs (as much as I have)
     pstStep('supply', 'hand out', { n: 0, m: members.length, pending: members.map(a => a.name), cur: '', info: '' });
     await gatherTeam('supply hand-out');
@@ -32912,6 +34331,12 @@ async function leadSupply(why, opts) {
         const am = myAmmo(), myKeep = n.id === 736 ? supplyAmounts().soe : n.id === 737 ? supplyAmounts().sor :   /* SUPPLYAMT */ am && am.id === n.id ? (CONFIG.lead.supply.arrowsBelow || 1500) : 0;   // keep my own scrolls (+ my own arrows, OWNTYPE)
         const give = Math.min(n.need, Math.max(0, itemCount(n.id) - (shotId() === n.id ? Math.min(CONFIG.lead.supply.shotsBelow, shotKind() === 'mage' ? supplyAmounts().spiritshots : supplyAmounts().soulshots) : myKeep)));
         if (inv && give > 0) items.push({ objId: String(inv.objId), id: n.id, count: give, name: `${n.name} x${give}`, stack: true });
+        // PSHOP: blessed spiritshots still short -> the plain ones of the same grade bought from player shops in this run stand in
+        const alt = PSHOP_ALT[n.id], altLeft = alt && pshopRes && pshopRes.plain ? num(pshopRes.plain[alt]) : 0;
+        if (altLeft > 0 && Math.max(0, give) < n.need) {
+          const ai = Inventory.GetItemByID(alt), g2 = Math.min(n.need - Math.max(0, give), altLeft, itemCount(alt));
+          if (ai && g2 > 0) { items.push({ objId: String(ai.objId), id: alt, count: g2, name: `${pshopItem(alt).name} x${g2} (for ${n.name})`, stack: true }); pshopRes.plain[alt] -= g2; }
+        }
       });
       if (!items.length) { res.push(`${a.name}: nothing to give`); continue; }
       const r = await teamStep(runId, `trade#s${i++}`, CONFIG.gear.tradeTimeoutMs * 3,
@@ -33912,6 +35337,7 @@ setInterval(() => {
   if (num(Inventory.Count) > Math.min(CONFIG.lead.unload.above + 20, CONFIG.stash.on && CONFIG.stash.auto ? CONFIG.stash.above + 30 : 1e9) && now() - (globalThis.__invFullRunAt || 0) > 6 * 3600000) { globalThis.__invFullRunAt = now(); low.push(`${Me.Name}: inventory full (${num(Inventory.Count)} slots) — sell + stash + unload`); }   // the tank carries the loot
   if (!low.length) return;
   if (!runAuto('supply run')) return;                                  // RUNSTATE: the switch is OFF (your !supply still works)
+  if (htHolds('supply run', { low })) return;                          // HUNTTIMER-2026-10-15: a timed hunt holds it (unless shots really ran out)
   if (rcH) { rcSupplyAsk(low); return; }                              // CIRCUIT 24/7: asked, never a supply run of its own
   if (!pautoGate('supplyWatch')) return;                               // PARTYAUTO 2026-10-13: party settings -> Supplies (your !supply still works)
   note(`supply watch: running low — ${low.join(' | ').slice(0, 200)} — starting a supply run`, true);
@@ -34686,6 +36112,7 @@ function handleSay(charName, text, messageType) {
   // !gearup [name] (user 2026-10-07: "a way to send a command to a character OR team that they need to go and get better gear"): the leader
   // takes the team to Giran, then everyone (or only <name>) buys + puts on the upgrades (gearUpgrade = the same as the supply run's gear
   // step: Common items for fighters, the real set for casters/healers, never replacing an S.A. or enchanted piece), then leveling resumes.
+  if (cmd === '!kitbuy') { kitBuyOrder(parts).catch(e => logError('!kitbuy', e)); return; }   // KITBUY 2026-10-15: your Frenzy kit purchase (only <Name> acts; never automatic)
   if (cmd === '!gearup') {
     const who = parts.slice(1).join(' ').trim();
     if (!isLeader()) return;
@@ -34784,7 +36211,7 @@ function handleSay(charName, text, messageType) {
     const d = findDungeon(arg);
     if (!d) { note(`dungeon: unknown "${arg}" — names: ${catacombs().map(x => x.name).join(', ')}`, true); return; }
     // Seven Signs = hard precondition (user rule 2026-10-08 21:55): closed now -> no trip at all (a sign-up is done by the trip itself)
-    { ssTeamCache.at = 0; const g = ssTeamAllowed(ssKindOf(d.name)); if (g.state === 'closed') { note(`dungeon: NOT going into ${d.name} — Seven Signs: ${g.why}${g.until ? ' (possible again from ' + ssgUntilText(g.until) + ')' : ''}`, true); return; } }
+    { ssTeamCache.at = 0; const g = ssTeamAllowed(ssKindOf(d.name)); if (g.state === 'closed') { note(`dungeon: NOT going into ${d.name} — ${g.reason || g.why}`, true); return; } }
     autoLvl.forceSpot = dungeonSpot(d); autoLvl.spot = null;
     runSetMine(true, 'your order !dungeon ' + d.name);   // RUNSTATE
     note(`dungeon: the team levels in ${d.name} (lvl ${d.lvl[0]}-${d.lvl[1]}) until "!dungeon off"`, true);
@@ -35210,6 +36637,20 @@ function handleSay(charName, text, messageType) {
     case '!market': {                           // !market [name]: scan every player shop in my town (MARKET block, 2026-10-14)
       if (parts[1] && String(parts[1]).toLowerCase() !== String(Me.Name).toLowerCase()) break;
       marketScan('!market').then(r => note('[market] ' + r.msg, true)).catch(e => logError('!market', e));
+      break;
+    }
+    case '!pshop': {                            // !pshop plan|buy <item id> <count> [name]: shots from player shops (PSHOP 2026-10-15)
+      if (parts[4] && String(parts[4]).toLowerCase() !== String(Me.Name).toLowerCase()) break;
+      if (!parts[4] && !isLeader()) break;      // no name = the party leader (he pays in supply runs too)
+      pshopOrder(parts).catch(e => logError('!pshop', e));
+      break;
+    }
+    case '!craft': {                            // !craft [name] | !craft book [name] | !craft one <kind:grade> [name]: our crafter (CRAFTER-2026-10-15)
+      craftCommand(parts);
+      break;
+    }
+    case '!crystallize': {                      // !crystallize <name> <objId,...> [enchanted] [special]: our crafter crystallizes exactly these (CRAFTITEMS-2026-10-15, owner order only)
+      cryCommand(parts);
       break;
     }
     case '!whsell': {                           // !whsell <id>[:count|:all],...: the clan leader takes these out of the clan warehouse and sells them (WHSELL 2026-10-14)

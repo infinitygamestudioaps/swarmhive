@@ -1,0 +1,31 @@
+/* WHAT RUNS BY ITSELF — #/auto (Dashboard/autooverview.js). Phone first: one column, big tap targets, no horizontal page scroll. */
+.au { min-width: 0; }
+.au .box { margin-top: 10px; min-width: 0; }
+.au-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 6px; }
+.au-head h2 { margin: 0 4px 0 0; }
+.au-intro { flex: 1 1 260px; font-size: var(--fs-cap, 13px); }
+.au-parties { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 6px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.au-pbtn { flex: 0 0 auto; min-height: 44px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; }
+.au-pbtn.on { outline: 2px solid var(--accent, #c9a45c); }
+.au-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; background: #777; }
+.au-dot.go { background: #4caf50; } .au-dot.stop { background: #8a8a8a; }
+.au-sumrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.au-line { margin-top: 4px; line-height: 1.35; overflow-wrap: anywhere; }
+.au-counts { margin-top: 4px; font-size: var(--fs-cap, 13px); }
+.au-filter, .au-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.au button.au-fbtn, .au .au-acts button, .au button.au-go, .au button.au-pbtn { min-height: 44px; }   /* beats the global .box button rule */
+.au-fbtn.on { outline: 2px solid var(--accent, #c9a45c); }
+.au-grp h3 { margin: 0 0 4px; font-size: 1.02em; }
+.au-row { padding: 9px 0; border-top: 1px solid rgba(255, 255, 255, .08); min-width: 0; }
+.au-row:first-of-type { border-top: 0; }
+.au-top { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.au-pill { font-size: 11px; }
+.au-title { font-size: 1.02em; }
+.au-tag { font-size: var(--fs-mini, 12px); }
+.au-what { margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; }
+.au-why { margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; color: var(--text2, #e8dcc4); }
+.au-now { margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; font-size: var(--fs-cap, 13px); }
+.au-sw { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: var(--fs-cap, 13px); overflow-wrap: anywhere; }
+.au-go { margin-left: auto; }
+.au-foot { margin: 8px 0 16px; font-size: var(--fs-mini, 12px); }
+@media (max-width: 520px) { .au .au-go { margin-left: 0; } }

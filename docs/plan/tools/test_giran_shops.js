@@ -34,7 +34,7 @@ checkDp(!!sandra && sandra.alt.includes('Ellie'), 'Ellie (same spot, same lists)
 check(!s1.out.shops.some(s => s.npc === 'Ellie'), 'no separate Ellie entry');
 checkDp(!!denkus && denkus.route === 'grocer' && denkus.routeWas === 'jewelry', `Denkus moved to the 'grocer' route (ends next to him) from 'jewelry' (${denkus && denkus.route})`);
 const sComm = sandra && sandra.lists.find(l => l.items.some(i => i.id === 12335));
-checkDp(!!sComm && /Common/.test(sComm.path.join(' ')) && sComm.items.every(i => i.est), `Common Nassen's Earring on Sandra's Common list (${sComm && sComm.path.join(' > ')}), prices marked estimated`);
+checkDp(!!sComm && sComm.path.join(' ') === 'Buy basic-type accessory.' && !sComm.pathGuess && sComm.items.every(i => i.est), `Common Nassen's Earring on Sandra's Common list (${sComm && sComm.path.join(' > ')}), prices marked estimated`);
 checkDp(Math.abs(s1.tax - 1.155) < 0.01, `Giran tax factor measured on the scan: ${s1.tax}`);
 check(!s1.out.shops.some(s => /Clan Hall/.test(s.title || '')), 'clan hall managers (Pledge Shield) are no gear merchants');
 const s2 = SEED.seed(Object.assign({ scan: s1.out }, base));

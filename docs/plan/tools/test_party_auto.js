@@ -76,7 +76,7 @@ function supplyWatchRun(on, opts) {
   const intervals = [];
   Object.assign(W.env, {
     setInterval: (fn) => intervals.push(fn), leadMode: () => true, state: { role: 'sk', mode: 'level' }, isLeader: () => true, IsCharacterReady: () => true, leadPaused: () => false,
-    nonstopOn: () => false, rcHolds: () => !!o.circuit, supplyDue: () => true, lastSupplyAtGet: () => 0, leadRunBusy: false, regroupRun: null, inRaid: () => false,
+    nonstopOn: () => false, htHolds: () => false /* HUNTTIMER-2026-10-15: no hunt timer here (test_hunt_timer.js tests it) */, rcHolds: () => !!o.circuit, supplyDue: () => true, lastSupplyAtGet: () => 0, leadRunBusy: false, regroupRun: null, inRaid: () => false,
     scoutCtl: { on: false }, outranked: () => false, PRIO: { ORDER: 4, UPKEEP: 6 }, supplyLow: { what: o.low === false ? '' : 'SoE 0/5' }, teamNames: () => [], livePos: {}, num: Number, Inventory: { Count: 10 },
     CONFIG: { leader: 'Tank1', lead: { unload: { above: 70 } }, stash: { on: false, auto: false, above: 100 } }, globalThis: {},
     runAuto: () => o.run !== false, rcSupplyAsk: () => calls.push('rcSupplyAsk'), leadSupply: (why) => { calls.push('leadSupply ' + why); return Promise.resolve(); },
@@ -229,6 +229,7 @@ function ltaEnv(cfg, me) {
     // supplyWants on stubs: a level-12 fighter with a party table
     const W = world({ me: 'Bishop1', leader: 'Tank1' }); W.put({ parties: { Tank1: { amounts: { 1: { soulshots: 800, mana: 50, healing: 20, soe: 2, sor: 0 } } } } }); W.t += 6000;
     Object.assign(W.env, { num: Number, Me: { Name: 'Bishop1', Level: 12 }, CONFIG: { leader: 'Tank1', lead: { supply: { soe: 5, sor: 3, shotsFighter: 10000, shotsMage: 5000, shotsBelow: 2000, manaPotions: 2000, manaPotionsBelow: 500 } } },
+      PSHOP_ALT: { 3947: 2509, 3948: 2510, 3949: 2511, 3950: 2512, 3951: 2513, 3952: 2514 },   // PSHOP-2026-10-15 (supplyWants counts plain spiritshots)
       shotId: () => 1835, shotKind: () => 'fighter', weaponGrade: () => 'NG', myAmmo: () => null, OWNTYPE: { helvetia: [] }, teamNames: () => ['Tank1'],
       deathPenaltyLevel: () => 0, recoveryScroll: () => ({ id: 8594, name: 'Scroll: Recovery (No Grade)' }), state: { role: 'bishop' }, itemCount: (id) => ({ 1835: 100, 728: 0 })[id] || 0 });
     const H2 = new Function('env', 'with (env) {\n' + HOST + '\n' + sw + '\n' + fnSrc('function supplyNeeds()') + '\nreturn { supplyWants, supplyNeeds }; }')(W.env);

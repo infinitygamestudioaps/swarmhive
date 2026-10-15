@@ -313,13 +313,14 @@ async function scenario() {
 // loaded = every context also loads the big data a leveling / raiding swarm.js holds (gear db, npc strings, danger grid, raid templates,
 // hunting spots, grocer spawns, dungeon rooms, field areas) through its own loader functions
 const LOAD_ALL = "try { gearDb(); } catch (e) { } try { npcString(1); } catch (e) { } try { dangerAt(0, 0, 100, 0); } catch (e) { } try { raidTemplate('x'); } catch (e) { } try { huntingSpots(); } catch (e) { } try { grocerSpawns(); } catch (e) { } try { dungeonRooms(); } catch (e) { } try { fieldAreas(); } catch (e) { }";
+const LOAD_MORE = ' try { npcAtlas(); } catch (e) { } try { townGraphIndex(); } catch (e) { } try { navAtlasNearest(83000, 148000, -3400, { maxDist: 3000 }); } catch (e) { } try { dzFloor(dungeonRooms(), 17000, 114000, -6500); } catch (e) { }';
 async function memChild(n, shared, loaded) {
   const tmp = mkTmp(), overlay = path.join(tmp, 'overlay'); fs.mkdirSync(overlay);
   const port = 19500 + Math.floor(Math.random() * 400);
   const clock = new Clock({ virtual: true, start: Date.now() });
   const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'swarm.config.json'), 'utf8').replace(/^﻿/, ''));
   const names = Array.from(new Set((cfg.accounts || []).filter(a => a.character && a.enabled !== false).map(a => a.character))).slice(0, n);
-  const runner = new Runner({ port, clock, overlay, isolate: ['Logs'], allow: names, logFile: path.join(tmp, 'brain_host.log'), root: ROOT.replace(/\//g, '\\'), sharedParse: shared });
+  const runner = new Runner({ port, clock, overlay, isolate: ['Logs'], allow: names, logFile: path.join(tmp, 'brain_host.log'), root: ROOT.replace(/\//g, '\\'), sharedParse: shared, sharedHash: true });
   await runner.start();
   const world = new World(clock); world.sockets = new Set();
   world.addNpc('Clarissa', 30080, 83396, 147904, -3404, 'Gatekeeper'); world.addMob('Hatar Ratman', 20134, 42, 86200, 150500, -3400);
@@ -329,12 +330,12 @@ async function memChild(n, shared, loaded) {
   for (const c of world.chars.values()) world.startAgent(c, port, src);
   const cpu0 = process.cpuUsage(), w0 = Date.now();
   await run(clock, world, 20000, 250);
-  if (loaded) for (const C of runner.ctxs.values()) { try { vm.runInContext(LOAD_ALL, C.ctx); } catch (e) { } }
+  if (loaded) for (const C of runner.ctxs.values()) { try { vm.runInContext(LOAD_ALL + (process.env.MEM_LOAD_MORE ? LOAD_MORE : ''), C.ctx); } catch (e) { } }
   await run(clock, world, 70000, 250);
   const cpu = process.cpuUsage(cpu0), wall = Date.now() - w0;
   for (let i = 0; i < 3; i++) { global.gc(); await realTurn(20); }
   const m = process.memoryUsage();
-  let mutated = 0; const mutatedFiles = []; for (const [t, e] of runner.shared) { if (require(path.join(BH, 'runner.js')).quickHash(e.obj) !== e.hash) { mutated++; for (const [k, c] of runner.vfs.cache) if (c.text === t || c.text.replace(/^﻿/, '') === t) mutatedFiles.push(path.basename(k)); } }
+  let mutated = 0; const mutatedFiles = []; for (const [t, e] of runner.shared) { const o = e.ref ? e.ref.deref() : e.obj; if (o && e.hash && require(path.join(BH, 'runner.js')).quickHash(o) !== e.hash) { mutated++; mutatedFiles.push(path.basename(String(e.file || t).split('|')[0])); } }   // PERF-2026-10-15: entries keyed by file version (WeakRef)
   const rep = runner.report();
   const res = { n: names.length, shared, loaded: !!loaded, cpuMsPerSimSec: +(((cpu.user + cpu.system) / 1000) / 90).toFixed(1), wallMs: wall, heapMB: +(m.heapUsed / 1048576).toFixed(1), baseHeapMB: +(base.heapUsed / 1048576).toFixed(1), rssMB: +(m.rss / 1048576).toFixed(1),
     perCtxMB: names.length ? +(((m.heapUsed - base.heapUsed) / 1048576) / names.length).toFixed(2) : 0, booted: rep.contexts.filter(c => c.booted).length, errors: rep.st.errors,
@@ -345,7 +346,9 @@ async function memChild(n, shared, loaded) {
 }
 function memMain() {
   const rows = [];
-  for (const [n, shared, loaded] of [[0, false], [3, false], [3, true], [12, false], [12, true], [30, false], [30, true], [12, false, 1], [12, true, 1], [30, false, 1], [30, true, 1]]) {
+  // PERF-2026-10-15: --mem-rows 9:0:1,9:1:1 (contexts:shared:loaded) runs only those rows; MEM_LOAD_MORE=1 loads more of what live characters hold
+  const ROWS = process.argv.includes('--mem-rows') ? process.argv[process.argv.indexOf('--mem-rows') + 1].split(',').map(x => { const p = x.split(':').map(Number); return [p[0], !!p[1], p[2] ? 1 : 0]; }) : [[0, false], [3, false], [3, true], [12, false], [12, true], [30, false], [30, true], [12, false, 1], [12, true, 1], [30, false, 1], [30, true, 1]];
+  for (const [n, shared, loaded] of ROWS) {
     const r = cp.spawnSync(process.execPath, ['--expose-gc', '--max-old-space-size=8192', __filename, '--mem-child', String(n), shared ? '1' : '0', loaded ? '1' : '0'], { encoding: 'utf8', timeout: 900000 });
     const line = (r.stdout || '').split('\n').find(l => l.startsWith('MEMRESULT '));
     if (!line) { console.log(`n=${n} shared=${shared}: no result`, (r.stderr || '').slice(-800)); continue; }

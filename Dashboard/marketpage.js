@@ -18,7 +18,7 @@
         <div class="mkt-scan"><label class="muted" for="mkWho">Who scans</label><select id="mkWho" aria-label="who scans"></select><button type="button" id="mkScan">Scan now</button></div></div>
       <div class="muted mkt-intro">Player shops in town, as a bot last saw them: it walks the streets to every private store and reads its list. Prices are per piece.</div>
       <div class="mkt-tools"><input type="search" id="mkQ" placeholder="Search an item or a shop…" aria-label="search">
-        <div class="mkt-seg" role="tablist">${[['sell', 'Selling'], ['buy', 'Buying'], ['craft', 'Crafting']].map(([k, t]) => `<button type="button" data-mkkind="${k}">${t}</button>`).join('')}</div>
+        <div class="mkt-seg" role="tablist">${[['sell', 'Selling'], ['buy', 'Buying'], ['craft', 'Crafting'], ['shots', 'Shots B/A/S']].map(([k, t]) => `<button type="button" data-mkkind="${k}">${t}</button>`).join('')}</div>
         <select id="mkSort" aria-label="sort"><option value="name">Sort: name</option><option value="price">Sort: price (low first)</option><option value="priceDesc">Sort: price (high first)</option><option value="shop">Sort: shop</option></select>
         <select id="mkTown" aria-label="town"></select></div>
       <div id="mkList" class="mkt-list"></div>`;
@@ -79,8 +79,30 @@
     out.sort(MK.sort === 'price' ? (a, b) => a.price - b.price : MK.sort === 'priceDesc' ? (a, b) => b.price - a.price : MK.sort === 'shop' ? (a, b) => String(a.s.owner).localeCompare(String(b.s.owner)) || a.name.localeCompare(b.name) : (a, b) => a.name.localeCompare(b.name) || a.price - b.price);
     return { t, R: out, all: R.length };
   }
+  /** PSHOP-2026-10-15 ("Shots step 2"): the cheapest B / A / S shots in the newest Giran scan vs each party's max price (party settings -> Supplies) */
+  function renderShots(el) {
+    const nf = (n) => Number(n || 0).toLocaleString('en-US');   // 1,500 like the rest of the dashboard (not the browser locale)
+    const S = MK.d && MK.d.shots;
+    if (!S) { $id('mkSub').textContent = ''; el.innerHTML = '<div class="muted">This view needs a dashboard server restart.</div>'; return; }
+    $id('mkSub').textContent = S.at ? `· Giran shots, scanned ${ago(S.at)}` : '· no Giran scan yet';
+    const P = S.parties || [];
+    const items = (S.items || []).map(it => {
+      const best = it.offers[0];
+      const chips = P.filter(p => p.max[it.id] > 0).map(p => {
+        const okp = best && best.price <= p.max[it.id];
+        return `<span class="mkt-chip ${!p.on ? 'off' : !best ? '' : okp ? 'ok' : 'bad'}" title="${h(!p.on ? 'switched off for this party' : !best ? 'none on offer in the last scan' : okp ? 'cheap enough: bought in its next supply run' : 'too expensive: not bought')}">${h(p.leader)}: max ${nf(p.max[it.id])}${!p.on ? ' (off)' : !best ? '' : okp ? ' ✓' : ' ✗'}</span>`;
+      }).join('');
+      const more = it.offers.slice(1).map(o => `${nf(o.price)} (${h(o.owner)})`).join(', ');
+      return `<div class="mkt-shot"><div class="mkt-row"><img class="gi" src="${it.icon ? ico(it.icon) : ico(null)}" alt=""><span class="mkt-nm"><b>${h(it.name)}</b><small>${best ? `cheapest at ${h(best.owner)} (×${nf(best.count)})${more ? ' · next: ' + more : ''} · ${it.shops} offer(s)` : 'not on offer in the last scan'}</small></span><span class="mkt-p">${best ? nf(best.price) + ' <small>adena</small>' : '—'}</span></div>${chips ? `<div class="mkt-chips">${chips}</div>` : ''}</div>`;
+    }).join('');
+    const last = (S.last || []).map(l => `<div><b>${h(l.leader)}</b> · ${ago(l.at)}: ${h(l.text)}${l.warn.length ? ' — <span class="muted">' + h(l.warn.join('; ')) + '</span>' : ''}</div>`).join('');
+    el.innerHTML = `<div class="muted mkt-shots-intro">The cheapest B / A / S shots in Giran's player shops (the newest scan), against the max price each party set (party ⚙ Settings → Supplies → Buy shots from player shops). ✓ = cheap enough, bought in that party's next supply run; ✗ = too expensive, not bought. ${P.length ? '' : 'No party has set max prices yet.'}</div>
+      ${items}
+      ${last ? `<div class="mkt-last"><b>Last purchases from player shops</b>${last}</div>` : ''}`;
+  }
   function renderList() {
     const el = $id('mkList'); if (!el) return;
+    if (MK.kind === 'shots') { renderShots(el); return; }   // PSHOP-2026-10-15
     const { t, R, all } = rows();
     $id('mkSub').textContent = t ? `· ${t.town}: ${t.shops.length} shops, scanned ${ago(t.at)} by ${t.by}` : '';
     if (!t) { el.innerHTML = '<div class="muted">No scan yet. Pick a character that stands in a town and press <b>Scan now</b>.</div>'; return; }

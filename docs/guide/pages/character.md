@@ -240,6 +240,48 @@ Tap a worn item for its details. Worn items can never be used, equipped or dropp
 
 *Common Item - ...* pieces are the cheap no-set-bonus versions the bots buy for fighters (see [Gear](gear.md)).
 
+## Frenzy kit (destroyers only)
+
+Destroyers (Orc Raider, Destroyer, Titan) get an extra box: **Frenzy kit (HP swap)**. Before Frenzy, the bot puts on a low-HP set and then a
+high-HP set, so its maximum HP goes up while its current HP stays the same. Its HP % drops, and Frenzy, Zealot and Guts can be cast sooner.
+The box shows:
+
+1. **A summary**: everything there, partly there, or "the gear swap does nothing yet".
+2. **Skills**: Zealot, Frenzy, Guts, Rage and Battle Roar, learned or not.
+3. **Drain partner**: the other destroyer in the party it trades hits with.
+4. **1 · Low-HP set** (a weapon with the Special Ability *Conversion*, Tallum heavy pieces) and **2 · High-HP set** (a weapon with *Health*,
+   Doom heavy pieces). Each piece shows ✓ worn / in the bag, ▣ in the clan warehouse, or ✗ missing with the cheapest option.
+
+### Buy what is missing
+
+**The kit is never bought automatically.** Not by supply runs, gear upgrades or anything else. The bot only goes shopping when you
+press **Buy what is missing…** (shown when a piece is missing) and confirm. The dialog lists:
+
+- **Buy in Giran**: every missing piece that a Giran merchant with a recorded route sells, with its price and merchant. A checkbox per piece,
+  all ticked by default. Untick what you do not want. The total (price + about 20 % castle tax) and the character's adena update as you tick.
+  If the adena is not enough, it buys in the order shown and skips what it cannot pay.
+- **Not sold in Giran**: pieces nobody in Giran sells. Today that is every kit piece: Giran's weapon and armor merchants stop at C grade,
+  Doom is B and Tallum is A, and **no shop sells weapons with a Special Ability**. Get those from drops, crafting or trades, or put the S.A. on a
+  weapon with a soul crystal. When nothing can be bought, the dialog only explains this and sends nothing.
+- **Already in the clan warehouse**: the clan leader gets a second set of checkboxes, *Take out of the clan warehouse instead*. For everyone
+  else there is a note: only the clan leader can take it out (Storage page → Clan warehouse).
+- **Warnings**: the party is in a raid or mission (it waits until that is over and never shops during a raid fight), the hunting timer is
+  running (your order still goes), the character is not online (the order waits in the order queue).
+
+**What happens after you press "Send the order"** (the order `!kitbuy <Name> <item ids>`):
+
+1. Only that character acts. If it is already in Giran, it starts right away.
+2. If it is not in Giran: a party leader or a character playing alone uses `.giran` after the normal safe-teleport checks, and a leader takes
+   his whole party along. A party **member** never teleports alone: it asks its leader, who takes the whole party to Giran, waits until the
+   member has finished shopping, and then carries on.
+3. It walks the recorded Giran routes to each merchant. Before each piece it checks the price in the merchant's list, its own adena, and
+   whether it already owns a piece for that slot. It never buys a second piece for a slot.
+4. **It puts nothing on.** The pieces stay in the bag, and the HP swap wears them only for Frenzy.
+5. It reports each piece in party chat, in the step timeline and in `Logs/frenzykit_buys.log`. Then it walks back to the Giran start, and
+   leveling starts again if it was leveling.
+
+Kit pieces in a destroyer's bag are never sold by the automatic sell and never stored by the automatic warehouse stash.
+
 ## Inventory
 
 ![Inventory on a phone](../img/char_inv_phone.png) ![Inventory on a desktop](../img/char_inv_desktop.png)

@@ -35,7 +35,7 @@ const KINDS = [
 const KEYS = KINDS.map(k => k.key), CHAR_KEYS = KINDS.filter(k => k.char).map(k => k.key);
 // = swarm.js TOGGLE-PURE FIGHT_TOGGLES: the toggles Hive switches ON in fights for anyone (the dashboard shows them as 'always on in fights')
 const FIGHT_TOGGLES = ['Soul Cry', 'Vicious Stance', 'Accuracy', 'Focus Attack', 'Polearm Accuracy', 'Fury Fists'];
-const ABOUT = 'Party automations (dashboard -> party card -> Settings -> Supplies). Missing party / character = the "default" values; the public package ships every one OFF. supplyWatch = automatic supply runs when someone is low; sell = selling on town visits + in supply runs; dyes = drawing planned symbols in supply runs. amounts (party / default) = what each character carries per level band (1, 20, 40, 52, 61, 76): soulshots, spiritshots, mana, healing, soe, sor; missing = the built-in amounts. Your orders (!supply, !sell, !dyes) always work. skills / heals / potions (party, chars.<name>; missing = ON) = Hive picks skills / heals / drinks potions; OFF = the L2Swarm profile does it. chars.<name>.toggles = fight toggles the player ticked. Read live by swarm.js every 5 s.';
+const ABOUT = 'Party automations (dashboard -> party card -> Settings -> Supplies). Missing party / character = the "default" values; the public package ships every one OFF. supplyWatch = automatic supply runs when someone is low; sell = selling on town visits + in supply runs; dyes = drawing planned symbols in supply runs. amounts (party / default) = what each character carries per level band (1, 20, 40, 52, 61, 76): soulshots, spiritshots, mana, healing, soe, sor; missing = the built-in amounts. pshop (party / default; missing = OFF) = buy B / A / S shots from player shops in Giran during supply runs: on, max { soulshot | blessed | spiritshot: { B, A, S } } (0 / missing = never), budget (adena per run), keep (the leader never goes below), maxAgeMin (scan age), scan (scan first when older). Your orders (!supply, !sell, !dyes, !pshop) always work. skills / heals / potions (party, chars.<name>; missing = ON) = Hive picks skills / heals / drinks potions; OFF = the L2Swarm profile does it. chars.<name>.toggles = fight toggles the player ticked. Read live by swarm.js every 5 s.';
 let G = null;
 function guard(ctx) { if (!G) G = require(path.join(ctx.ROOT || path.join(__dirname, '..'), 'docs', 'plan', 'tools', 'manual_guard.js')); return G; }
 const fileOf = (ctx) => process.env.SWARM_PARTYAUTO_FILE || (ctx && ctx.partyAutoFile) || path.join(ctx.DATA, 'party_auto.json');
@@ -112,6 +112,57 @@ function amountsIn(t, where, errors) {
   return Object.keys(out).length ? out : null;
 }
 
+// PSHOP-2026-10-15 (owner "Shots step 2"): buy B / A / S shots from PLAYER shops in Giran at or below a max price, in supply runs (the leader).
+// parties.<leader>.pshop (default.pshop = every party without its own; missing = OFF) =
+//   { on, max: { soulshot: { B, A, S }, blessed: { B, A, S }, spiritshot: { B, A, S } }, budget, keep, maxAgeMin, scan }
+// max 0 / missing = never buy that one from players. Same reading as swarm.js PSHOP-PURE pshopCfg (test_pshop_shots.js checks both).
+const PSHOP_GRADES = ['B', 'A', 'S'];
+const PSHOP_KINDS = [
+  { key: 'soulshot', label: 'Soulshots', ids: { B: 1465, A: 1466, S: 1467 } },
+  { key: 'blessed', label: 'Blessed Spiritshots', ids: { B: 3950, A: 3951, S: 3952 } },
+  { key: 'spiritshot', label: 'Spiritshots (plain — only when blessed ones of that grade cannot be had)', ids: { B: 2512, A: 2513, S: 2514 } },
+];
+const PSHOP_DEF = { budget: 5000000, keep: 1000000, maxAgeMin: 120 };
+const PSHOP_LIM = { price: 10000000, budget: 100000000000, keep: 100000000000, maxAgeMin: 1440 };
+function pshopCfg(j, leader) {
+  const o = obj, J = o(j), P = o(o(J.parties)[leader]).pshop, D = o(J.default).pshop;
+  const has = (x) => !!(x && typeof x === 'object' && !Array.isArray(x)), src = has(P) ? P : has(D) ? D : {};
+  const n = (v, d) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) || Number(v) < 0 ? d : Math.round(Number(v)));
+  const max = {};
+  PSHOP_KINDS.forEach(k => { const m = o(o(src.max)[k.key]); max[k.key] = {}; PSHOP_GRADES.forEach(g => { max[k.key][g] = n(m[g], 0); }); });
+  return { on: src.on === true, max, budget: n(src.budget, PSHOP_DEF.budget), keep: n(src.keep, PSHOP_DEF.keep), maxAgeMin: Math.max(5, n(src.maxAgeMin, PSHOP_DEF.maxAgeMin)),
+    scan: src.scan !== false, src: has(P) ? 'party' : has(D) ? 'default' : 'none' };
+}
+/** a pshop table from a POST -> the cleaned table | null (remove) | undefined (errors pushed) */
+function pshopIn(t, errors) {
+  if (t === null) return null;
+  if (!t || typeof t !== 'object' || Array.isArray(t)) { errors.push('player shops: a settings table'); return undefined; }
+  const out = {}, bad0 = errors.length;
+  const whole = (v, lim, what) => { if (v === null || v === undefined || v === '') return undefined; const x = Number(v); if (!Number.isFinite(x) || x < 0 || Math.round(x) !== x || x > lim) { errors.push(`player shops: ${what} must be a whole number from 0 to ${lim.toLocaleString('en-US')}`); return undefined; } return x; };
+  Object.keys(t).forEach(k => { if (!['on', 'max', 'budget', 'keep', 'maxAgeMin', 'scan'].includes(k)) errors.push(`player shops: unknown setting "${String(k).slice(0, 20)}"`); });
+  if (t.on !== undefined) { if (typeof t.on !== 'boolean') errors.push('player shops: on must be true or false'); else out.on = t.on; }
+  if (t.scan !== undefined) { if (typeof t.scan !== 'boolean') errors.push('player shops: scan must be true or false'); else out.scan = t.scan; }
+  ['budget', 'keep', 'maxAgeMin'].forEach(k => { const v = whole(t[k], PSHOP_LIM[k], { budget: 'the most per run', keep: 'always keep', maxAgeMin: 'scan age (minutes)' }[k]); if (v !== undefined) out[k] = v; });
+  if (out.maxAgeMin !== undefined && out.maxAgeMin < 5) { errors.push('player shops: the scan age must be at least 5 minutes'); }
+  if (t.max !== undefined && t.max !== null) {
+    if (typeof t.max !== 'object' || Array.isArray(t.max)) errors.push('player shops: max prices must be a table');
+    else {
+      const m = {};
+      Object.keys(t.max).forEach(k => {
+        const K = PSHOP_KINDS.find(x => x.key === k); if (!K) { errors.push(`player shops: unknown shot kind "${String(k).slice(0, 20)}"`); return; }
+        const row = t.max[k]; if (row === null) return;
+        if (!row || typeof row !== 'object' || Array.isArray(row)) { errors.push(`player shops: ${K.label} prices must be a table`); return; }
+        const r = {};
+        Object.keys(row).forEach(g => { if (!PSHOP_GRADES.includes(g)) { errors.push(`player shops: unknown grade "${String(g).slice(0, 5)}"`); return; } const v = whole(row[g], PSHOP_LIM.price, `the max price for ${K.label.split(' (')[0]} (${g})`); if (v !== undefined && v > 0) r[g] = v; });
+        if (Object.keys(r).length) m[k] = r;
+      });
+      if (Object.keys(m).length) out.max = m;
+    }
+  }
+  if (errors.length > bad0) return undefined;
+  return Object.keys(out).length ? out : null;
+}
+
 function readFile(ctx) {
   const F = fileOf(ctx); let raw = '';
   try { raw = fs.readFileSync(F, 'utf8'); } catch (e) { return { exists: false, raw: '', rev: '', data: pautoNorm({}) }; }
@@ -131,7 +182,8 @@ function info(ctx) {
     return { leader, members: names, eff, chars };
   });
   const amounts = { bands: BANDS.map(b => ({ start: b, label: BAND_LABEL[b] })), keys: AMT_KEYS.map(k => Object.assign({ key: k }, AMT_INFO[k])), builtin: BUILTIN, suggest: SUGGEST };
-  return { file: path.basename(fileOf(ctx)), exists: R.exists, rev: R.rev, broken: R.broken || null, data: D, kinds: KINDS, parties: P, amounts, fightToggles: FIGHT_TOGGLES };
+  const pshop = { kinds: PSHOP_KINDS, grades: PSHOP_GRADES, defaults: PSHOP_DEF, limits: PSHOP_LIM };   // PSHOP-2026-10-15
+  return { file: path.basename(fileOf(ctx)), exists: R.exists, rev: R.rev, broken: R.broken || null, data: D, kinds: KINDS, parties: P, amounts, fightToggles: FIGHT_TOGGLES, pshop };
 }
 
 /** apply one party's change to the file's data -> { ok, data } | { ok: false, errors } */
@@ -157,6 +209,10 @@ function applyChange(data, b) {
   if (b.defaultAmounts !== undefined) {   // SUPPLYAMT: the table for every party without its own
     const t = amountsIn(b.defaultAmounts, 'all-parties amounts', errors);
     if (t !== undefined) { const Dd = Object.assign({}, J.default); if (t) Dd.amounts = t; else delete Dd.amounts; J.default = Dd; }
+  }
+  if (b.pshop !== undefined) {   // PSHOP-2026-10-15: this party's whole player-shop table (null = removed: the all-parties table / OFF)
+    const t = pshopIn(b.pshop, errors);
+    if (t !== undefined) { const P = Object.assign({}, obj(J.parties[party])); if (t) P.pshop = t; else delete P.pshop; if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party]; }
   }
   if (Object.keys(chars).length > 60) errors.push('characters: at most 60 per save');
   Object.keys(chars).forEach(n => {
@@ -200,7 +256,7 @@ function post(ctx, b) {
       const hist = R.exists ? Gd.saveHistory(F, path.dirname(F), 50) : null;
       const txt = JSON.stringify(out, null, 1) + '\n';
       Gd.atomicWrite(F, txt);
-      const what = JSON.stringify({ party: b.party, values: b.values || {}, chars: b.chars || {}, amounts: b.amounts, defaultAmounts: b.defaultAmounts }).slice(0, 900);
+      const what = JSON.stringify({ party: b.party, values: b.values || {}, chars: b.chars || {}, amounts: b.amounts, defaultAmounts: b.defaultAmounts, pshop: b.pshop }).slice(0, 900);
       try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\tpartyauto\tsave\t${by}: ${what}\r\n`); } catch (e) { }
       result = { code: 200, ok: true, rev: sha(txt), data: pautoNorm(out), history: hist ? path.basename(hist) : null };
     }, { who: 'partyauto save' });
@@ -222,4 +278,4 @@ async function handle(req, res, url, ctx) {
   try { const r = post(ctx, b) || bad(500, 'no result'); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, post, readFile, fileOf, applyChange, pautoNorm, pautoEffective, pautoToggles, FIGHT_TOGGLES, pautoAmounts, amountsIn, BANDS, AMT_KEYS, BUILTIN, SUGGEST, KINDS, KEYS, CHAR_KEYS, ABOUT };
+module.exports = { pshopCfg, pshopIn, PSHOP_KINDS, PSHOP_GRADES, PSHOP_DEF, handle, info, post, readFile, fileOf, applyChange, pautoNorm, pautoEffective, pautoToggles, FIGHT_TOGGLES, pautoAmounts, amountsIn, BANDS, AMT_KEYS, BUILTIN, SUGGEST, KINDS, KEYS, CHAR_KEYS, ABOUT };

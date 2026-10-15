@@ -243,6 +243,35 @@ async function startServer(env) {
     await click('#psBar [data-psact="save"]');
     ok('A2b: "Clear" + Save removes the party amounts (back to the standard ones)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000) && !(fileA('SWARM_PARTYAUTO_FILE').parties[L] || {}).amounts, JSON.stringify(fileA('SWARM_PARTYAUTO_FILE').parties[L]));
   }
+  // ---- A2c (PSHOP-2026-10-15, "Shots step 2"): buy B / A / S shots from player shops — off by default, max prices, money limits, save, remove
+  { await openSec('supplies'); await sleep(100);
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    ok('A2c: the player-shop block shows OFF with 3 kinds x 3 grades of max prices + money limits', await ev(`!!document.querySelector('#psBody [data-psw="supplies.pshop.on"][data-eff="0"]') && document.querySelectorAll('#psBody [data-psin^="supplies.pshop.max."]').length === 9 && !!document.querySelector('#psBody [data-psin="supplies.pshop.budget"]') && !!document.querySelector('#psBody [data-psin="supplies.pshop.keep"]') && !!document.querySelector('#psBody [data-pschk="supplies.pshop.scan"]')`));
+    await click('#psBody [data-psw="supplies.pshop.on"]'); await sleep(100);
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    ok('A2c: switched on without a price = a plain warning (nothing would be bought)', await ev(`/no max price is filled in/.test(document.querySelector('#psBody [data-pshop]').textContent)`));
+    await setVal('#psBody [data-psin="supplies.pshop.max.soulshot.B"]', 'abc');
+    ok('A2c: a bad price is refused (Save off)', await ev(`/not valid/.test(document.getElementById('psBar').textContent) && document.querySelector('#psBar [data-psact="save"]').disabled`), await barText());
+    await setVal('#psBody [data-psin="supplies.pshop.max.soulshot.B"]', '12');
+    await setVal('#psBody [data-psin="supplies.pshop.max.blessed.S"]', '1,500');
+    await setVal('#psBody [data-psin="supplies.pshop.budget"]', '2m');
+    await ev(`(() => { const e = document.querySelector('#psBody [data-pshop]'); if (e) e.scrollIntoView({ block: 'start' }); return true; })()`); await sleep(150);
+    await shot('07c_iphone_pshop_shots');
+    dialogs.length = 0;
+    await click('#psBar [data-psact="save"]');
+    ok('A2c: saved', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000), await barText());
+    const ps = (fileA('SWARM_PARTYAUTO_FILE').parties[L] || {}).pshop || {};
+    ok(`A2c: party_auto.json parties.${L}.pshop = on, soulshot B 12, blessed S 1500, budget 2,000,000`, ps.on === true && ps.max && ps.max.soulshot && ps.max.soulshot.B === 12 && ps.max.blessed && ps.max.blessed.S === 1500 && ps.budget === 2000000 && !ps.keep, JSON.stringify(ps));
+    ok('A2c: the confirmation names the player shops in plain words', dialogs.some(d => d.type === 'confirm' && /Buy shots from player shops [(]party/.test(d.msg) && /1,500/.test(d.msg)), dialogs.map(d => d.msg).join(' | ').slice(0, 300));
+    await openSec('supplies'); await sleep(100);
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    ok('A2c: reopened: switch on + prices with thousands separators', await ev(`!!document.querySelector('#psBody [data-psw="supplies.pshop.on"][data-eff="1"]') && document.querySelector('#psBody [data-psin="supplies.pshop.max.blessed.S"]').value === '1,500' && document.querySelector('#psBody [data-psin="supplies.pshop.budget"]').value === '2,000,000'`));
+    await click('#psBody [data-psw="supplies.pshop.on"]'); await sleep(100);
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    for (const p of ['max.soulshot.B', 'max.blessed.S', 'budget']) await setVal(`#psBody [data-psin="supplies.pshop.${p}"]`, '');
+    await click('#psBar [data-psact="save"]');
+    ok('A2c: off + empty boxes + Save removes the party table (back to OFF)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000) && !(fileA('SWARM_PARTYAUTO_FILE').parties[L] || {}).pshop, JSON.stringify(fileA('SWARM_PARTYAUTO_FILE').parties[L]));
+  }
 
   // ---- A3 (RESURRECTION 2026-10-13): the Resurrection section — the file's values (missing = automatic ON), one save writes only parties.<L>
   const rs0 = fileA('SWARM_RESRULES_FILE') || {}, rsP = ((rs0.parties || {})[L]) || {}, rsDef = Object.assign({ auto: true, scrolls: true, raidHealerScrolls: true, raidAllScrolls: false }, rs0.default || {});

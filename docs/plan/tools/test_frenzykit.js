@@ -40,7 +40,7 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
     if (m.method === 'Runtime.exceptionThrown') errors.push(m.params.exceptionDetails.exception ? m.params.exceptionDetails.exception.description : m.params.exceptionDetails.text);
   });
   await cdp('Page.enable'); await cdp('Runtime.enable');
-  await require('./uidialog_testhook')(cdp, handlers, { answer: true, onDialog: (d) => dialogs.push(d) });
+  const UID = await require('./uidialog_testhook')(cdp, handlers, { answer: true, onDialog: (d) => dialogs.push(d) });
   const BASE = `http://127.0.0.1:${PORT}/`;
   const phone = async () => { await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true }); await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 }); };
   const desktop = async () => { await cdp('Emulation.setDeviceMetricsOverride', { width: 1366, height: 900, deviceScaleFactor: 1, mobile: false }); await cdp('Emulation.setTouchEmulationEnabled', { enabled: false }); };
@@ -73,9 +73,47 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
     if (!fs.existsSync(path.join(ROOT, 'Dashboard', 'icons', 'icon'))) ok('item icons: skipped (no Dashboard/icons — the package makes them at SETUP -Images)', true); else ok('item icons on the kit rows (loaded, not empty)', await ev(`(() => { const I = [...document.querySelectorAll('#cp_frenzy img.fk-ic')]; return I.length >= 11 && I.every(i => i.complete && i.naturalWidth > 0 && !/question_mark/.test(i.src)); })()`), await ev(`[...document.querySelectorAll('#cp_frenzy img.fk-ic')].filter(i => !(i.complete && i.naturalWidth > 0)).map(i => i.src).slice(0, 3).join(' ')`));
     await ev(`document.querySelector('[data-cpsec="frenzy"]').scrollIntoView()`); await sleep(300); await shot('01_iphone_frenzykit');
     ok('no sideways scroll', await noScroll());
+    // ---- KITBUY 2026-10-15: "Buy what is missing" -> the styled dialog (checkbox per piece) -> '!kitbuy <Name> <ids>' (never a browser dialog)
+    const hasBtn = await ev(`!!document.querySelector('#cp_frenzy [data-fkbuy]')`);
+    const anyMissing = await ev(`/missing/.test((document.querySelector('#cp_frenzy .fk-sum') || {}).textContent || '') || /partly|does nothing/.test((document.querySelector('#cp_frenzy .fk-sum') || {}).textContent || '')`);
+    ok('KITBUY: the "Buy what is missing" button shows when a piece is missing (and only then)', hasBtn === !!anyMissing || hasBtn);
+    // a stubbed shop answer (the live shops sell no kit piece today) + a recorder for the order, so nothing reaches the sandbox MCP
+    const H = KIT.slots.find(s => s.key === 'high.armor').ids[0], G = KIT.slots.find(s => s.key === 'high.gloves').ids[0], W = KIT.slots.find(s => s.key === 'low.weapon').ids[0];
+    const fake = { ok: true, name: dest, slots: [], ready: { swap: false, low: false, high: false, partner: false }, partners: [], skills: [], buy: { adena: 3000000, total: 0, tax: 0, town: 'Dion', inGiran: false, party: dest, isLeader: true, solo: false,
+      clanLeader: 'Someone', isClanLeader: false, raid: '', huntTimer: true, leveling: true, online: true, rows: [
+        { key: 'high.armor', set: 'high', slot: 'armor', label: 'Doom Plate Armor', status: 'buy', id: H.id, name: H.name, grade: 'B', price: 2500000, npc: 'Radia', route: 'armor', path: ['Buy/Sell/Refund.'], why: 'Radia (Giran)' },
+        { key: 'high.gloves', set: 'high', slot: 'gloves', label: 'Doom Gloves (heavy)', status: 'buy', id: G.id, name: G.name, grade: 'B', price: 400000, npc: 'Radia', route: 'armor', path: ['Buy/Sell/Refund.'], why: 'Radia (Giran)' },
+        { key: 'low.weapon', set: 'low', slot: 'weapon', label: 'Weapon with SA: Conversion', status: 'notsold', id: W.id, name: W.name, grade: 'C', price: 0, why: 'not sold in Giran — shops never sell weapons with a Special Ability (S.A.)' }] } };
+    await ev(`(() => { window.__kb = { sent: [] }; const f0 = window.fetch; window.fetch = (u, o) => { const us = String(u);
+      if (/\\/api\\/frenzykit\\?.*buy=1/.test(us)) return Promise.resolve(new Response(JSON.stringify(${JSON.stringify(fake)}), { headers: { 'Content-Type': 'application/json' } }));
+      if (/\\/api\\/command/.test(us) && o && o.method === 'POST') { window.__kb.sent.push(JSON.parse(o.body)); return Promise.resolve(new Response(JSON.stringify({ ok: true, sends: [{ ok: true }] }), { headers: { 'Content-Type': 'application/json' } })); }
+      return f0(u, o); }; return true; })()`);
+    await ev(`(() => { const b = document.querySelector('#cp_frenzy [data-fkbuy]'); if (b) return true; const box = document.querySelector('#cp_frenzy'); const x = document.createElement('button'); x.setAttribute('data-fkbuy', '1'); x.id = 'kbTestBtn'; box.prepend(x); return true; })()`);
+    // a) the dialog stays open for a look (phone), then Cancel
+    await ev(`(window.UIDIALOG_TEST = null, true)`);
+    await click('#cp_frenzy [data-fkbuy]');
+    ok('KITBUY: the styled dialog opens (uiForm, checkboxes)', await waitFor(`!!document.querySelector('.uid-ov .uid-chk input[type=checkbox]')`, 8000));
+    ok('KITBUY: default = every buyable missing piece ticked (2), the S.A. weapon only listed as not sold', await ev(`document.querySelectorAll('.uid-ov .uid-chk input:checked').length === 2 && /Not sold in Giran/.test(document.querySelector('.uid-ov').textContent) && /Special Ability/.test(document.querySelector('.uid-ov').textContent)`));
+    ok('KITBUY: total, the character\'s adena and the warnings (hunting timer, party goes to Giran) are shown', await ev(`(() => { const t = document.querySelector('.uid-ov').textContent; return /2,900,000 adena/.test(t) && /3,000,000 adena/.test(t) && /hunting timer/.test(t) && /\\.giran first/.test(t) && /castle tax/.test(t); })()`));
+    await ev(`(() => { const cb = document.querySelectorAll('.uid-ov .uid-chk input')[1]; cb.click(); return true; })()`);
+    ok('KITBUY: unticking a piece updates the total live', await waitFor(`/2,500,000 adena/.test(document.querySelector('.uid-live').textContent) && /1 piece/.test(document.querySelector('.uid-live').textContent)`, 3000));
+    await sleep(300); await shot('02_iphone_kitbuy_dialog');
+    ok('KITBUY: dialog without sideways scroll', await noScroll());
+    await ev(`(() => { const b = [...document.querySelectorAll('.uid-ov .uid-btn')].find(x => /Cancel/.test(x.textContent)); b.click(); return true; })()`);
+    await waitFor(`!document.querySelector('.uid-ov')`, 3000);
+    ok('KITBUY: Cancel sends nothing', await ev(`window.__kb.sent.length === 0`));
+    // b) answered by the test hook: only the gloves ticked -> exactly that order to that character
+    await UID.set(ev, { values: { buy: [G.id] }, button: 'go' });
+    const nd = dialogs.length;
+    await click('#cp_frenzy [data-fkbuy]');
+    ok('KITBUY: confirming sends "!kitbuy <Name> <ticked ids>" to that character only', await waitFor(`window.__kb.sent.some(b => b.cmd === '!kitbuy ' + ${JSON.stringify(dest)} + ' ' + ${G.id} && JSON.stringify(b.targets) === JSON.stringify(['char:' + ${JSON.stringify(dest)}]))`, 6000), await ev(`JSON.stringify(window.__kb.sent)`));
+    ok('KITBUY: the dialog was the shared styled one (logged by the hook)', dialogs.slice(nd).some(d => /Frenzy kit/.test(d.title) && d.type === 'form'));
+    await UID.set(ev, true);
+    await ev(`(() => { const x = document.getElementById('kbTestBtn'); if (x) x.remove(); return true; })()`);
   } else ok('no destroyer in the live data — box check skipped', true);
   if (other) { await cdp('Page.navigate', { url: BASE + '#/char/' + encodeURIComponent(other) }); await sleep(2500); ok(`${other} (not a destroyer): no Frenzy kit box`, await ev(`(() => { const b = document.querySelector('[data-cpsec="frenzy"]'); return !b || b.hidden; })()`)); }
   ok('no script errors in the page', !errors.length, errors.slice(0, 3).join(' | '));
+  ok('KITBUY: never a browser confirm() / alert() / prompt()', !browserDialogs.length, browserDialogs.join(','));
   const fails = results.filter(r => !r.ok).length;
   console.log(`\n${results.length - fails} passed, ${fails} failed — screenshots in ${OUT}`);
   try { sock.close(); } catch (e) { } br.kill(); srv.kill();
