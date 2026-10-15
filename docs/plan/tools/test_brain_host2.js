@@ -496,6 +496,24 @@ async function poolMain() {
     ok(['Crafter1', 'Spoiler1', 'Healer1'].every(n => r2[n]), `P1 party Crafter1 answers '!status' again after the restart: ${Object.keys(r2).join(', ')}`);
     W.stop(); await P.stop();
   }
+  // ---- P3 (LEAK-2026-10-15). heap probe through the pool: the flag in the overlay's Logs -> a probe line + a heap snapshot of that party's
+  // worker; the worker says 'busy' first, so the watchdog (stall 1500 ms here) does not kill it while the snapshot blocks the thread
+  {
+    const parties = partiesFromConfig(['Spoiler6']), all = [].concat(...Object.values(parties)), port = 21400 + Math.floor(Math.random() * 300);
+    const tmp = mkTmp(), overlay = path.join(tmp, 'overlay'); fs.mkdirSync(overlay); seedStrings(overlay); fs.mkdirSync(path.join(overlay, 'Logs'), { recursive: true });
+    const P = forkPool(port, ['--allow', all.join(','), '--overlay', overlay, '--log', path.join(tmp, 'pool.log'), '--stall-ms', '1500', '--test-eval']);
+    await P.listening;
+    const W = realWorld(port, parties); W.start();
+    await sleepR(15000);
+    fs.writeFileSync(path.join(overlay, 'Logs', 'brain_heap_probe.flag'), JSON.stringify({ party: 'Spoiler6', snapshot: true }));
+    const t0 = Date.now(); let line = null;
+    while (Date.now() - t0 < 60000 && !line) { await sleepR(1000); try { line = JSON.parse(fs.readFileSync(path.join(overlay, 'Logs', 'brain_heap_probe.log'), 'utf8').trim().split('\n')[0]); } catch (e) { } }
+    const snap = fs.readdirSync(path.join(overlay, 'Logs')).find(f => /^heap_Spoiler6_.*\.heapsnapshot$/.test(f));
+    const s = await P.stats(); const log = fs.readFileSync(path.join(tmp, 'pool.log'), 'utf8');
+    ok(!!line && line.contexts.length === all.length && !!snap && s.st.watchdogKills === 0 && /worker busy \(heap snapshot\)/.test(log),
+      `P3 heap probe via Logs/brain_heap_probe.flag: probe line (${line ? line.heap.used + ' MB used, ' + line.contexts.length + ' contexts, top ' + (line.contexts[0].top || []).slice(0, 2).map(x => x.join(' ')).join(', ') : 'none'}), snapshot ${snap || 'none'} (${line ? line.snapshotMs : '?'} ms), watchdog kills ${s.st.watchdogKills}`);
+    W.stop(); await P.stop();
+  }
   // ---- P2. CPU / memory: 3 parties x 9 characters, real time; pool (3 workers) vs the single-process runner
   const parties = partiesFromConfig(['Tank1', 'Tank2', 'Char1']);
   const all = [].concat(...Object.values(parties));

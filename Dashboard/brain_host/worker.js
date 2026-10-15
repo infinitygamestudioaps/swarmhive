@@ -116,6 +116,13 @@ parentPort.on('message', (m) => {
 });
 let lastElu = performance.eventLoopUtilization();
 function safe(x) { try { return JSON.parse(JSON.stringify(x, (k, v) => typeof v === 'bigint' ? Number(v) : v)); } catch (e) { return String(x); } }
+// LEAK-2026-10-15 heap probe (opt-in): Logs/brain_heap_probe.flag -> one JSON line per worker in Logs/brain_heap_probe.log (heap + the biggest
+// top-level containers of each context); { "snapshot": true } also writes Logs/heap_<party>_<time>.heapsnapshot (only with a pool that pauses
+// its watchdog for it: workerData.busyOk). Sim / overlay runs read the flag from the overlay, never the live Logs.
+try {
+  require('./heapprobe').startProbe({ party: W.party, root: runner.o.overlay || runner.o.root, runner, log: (m) => runner.log(m),
+    busy: (ms) => { if (!W.busyOk) return false; post({ k: 'busy', ms }); return true; } });
+} catch (e) { try { runner.log('heap probe not started: ' + (e && e.message)); } catch (e2) { } }
 // heartbeat: only sent when the event loop is free, so a context stuck in synchronous code stops it (main's watchdog then terminates us)
 setInterval(() => post({ k: 'hb', t: Date.now() }), W.hbMs || 250);
 // a script that does not compile (engine audit #33, 2026-10-12): Runner.start() threw synchronously -> uncaught -> exit 1 -> the pool restarted

@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.2 (2026-10-15)
+
+- Loot hand-over: an item now only counts as untradeable after the server refused it in 3 separate trades (v1.7.1 learned it after one refusal, so normal materials such as Suede, Thread or Animal Bone could stop being handed over) - if you updated to v1.7.1, delete Logs\notrade_live.json once
+- Brain engine: the memory guard now compares parties per character, so a big party is no longer restarted just for being big
+- a HEAP line every 5 min in Logs\brain_host.log shows each party's memory
+
 ## v1.7.1 (2026-10-15)
 
 - Hunting time: choosing a room, area or spot asks how long to hunt (until stopped, 1-8 h) and what happens when the time is up (go to town and wait / town, supplies, come back / keep hunting) - the party is not pulled away by supply trips, Kamaloka, stash runs, Seven Signs or spot hopping meanwhile - the party card shows the time left with Extend / End now

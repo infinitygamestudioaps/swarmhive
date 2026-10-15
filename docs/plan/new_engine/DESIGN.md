@@ -484,3 +484,17 @@ Test: `node docs/plan/tools/test_engine_default.js`. Owner's install: an explici
 - **Probes:** agent_perf.log `lat[p50/p95/max ms]=ord / cast / gap` + `push=`; brain_host.log `LAT <name>` (5 min) and `LAG (worst 10 s window, ms)`
   (main + every party worker event-loop delay); brain_host_stats.json `mainLag`, `workers[].lag`, `workers[].hot`.
 - Test: `node docs/plan/tools/test_engine_latency.js` (52 checks).
+
+## 17. Memory: heap probe, HEAP line, per-character guard (LEAK-2026-10-15; AUTOMATION_LOG.md 2026-10-15 LEAK)
+- **Heap probe (opt-in, nothing runs by default):** write `Logs/brain_heap_probe.flag` (any text, or JSON `{ "party": "Tank1" | "*", "snapshot": true,
+  "sizes": true }`). Each worker checks the flag's write time every 30 s; a new write time = one probe -> one JSON line per worker in
+  `Logs/brain_heap_probe.log` (v8 heap statistics + spaces; per context timers, pending agent calls, App subscriptions and the 25 biggest
+  top-level containers of swarm.js, counted in entries). Write the flag again an hour later and compare the two lines: what keeps growing is the
+  leak. `"snapshot": true` also writes `Logs/heap_<party>_<yyyymmdd-hhmmss>.heapsnapshot` (the worker first tells the pool `busy`, the watchdog
+  pauses up to 3 min; an older pool without that refuses the snapshot and says so). Compare two snapshots with
+  `node --max-old-space-size=8192 docs/plan/tools/heap_diff.js <a> <b>`. Code: `Dashboard/brain_host/heapprobe.js` (worker.js starts it).
+- **HEAP line + history:** every 5 min `brain_host.log` gets `HEAP (MB, per character) <party> <heap MB> (<MB per character>) | ...` and the
+  stats file `heapHist` keeps 24 h of 5-min samples `{ at, w: { party: [heapMb, contexts] } }`.
+- **Memory guard per character:** a worker is restarted only when its heap PER CHARACTER is >= memOutlier (2) x the median per character of
+  the other workers (or its heap >= half of maxRssMb). The old absolute compare always picked the biggest party (9 characters).
+- Test: `node docs/plan/tools/test_brain_leak.js` (static + simulated hours: stuck loops and a hunt with fresh objIds), `test_brain_host2.js --pool` P3.

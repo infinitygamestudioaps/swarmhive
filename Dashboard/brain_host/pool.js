@@ -161,7 +161,7 @@ class Pool {
     if (this.src === null && !this.loadSource('first worker')) { this.log(`worker for party ${party} NOT started: no compiling script (${this.o.script})`); return null; }
     const sab = new SharedArrayBuffer(32);           // Int32 [cur, depth, last, 0] + Float64 [entered ms, last left ms] (worker.js, audit #37)
     const runnerOpts = Object.assign({ script: this.o.script, root: this.o.root, overlay: this.o.overlay, isolate: this.o.isolate, logFile: this.o.logFile, verbose: this.o.verbose }, this.o.runner || {}, { source: this.src });
-    const w = new Worker(path.join(__dirname, 'worker.js'), { workerData: { party, sab, hbMs: this.o.hbMs, runner: runnerOpts, allowEval: !!this.o.allowEval, geoToMain: !!this.geo }, resourceLimits: this.o.resourceLimits });
+    const w = new Worker(path.join(__dirname, 'worker.js'), { workerData: { party, sab, hbMs: this.o.hbMs, runner: runnerOpts, allowEval: !!this.o.allowEval, geoToMain: !!this.geo, busyOk: true }, resourceLimits: this.o.resourceLimits });
     W = { party, w, sab, mark: new Int32Array(sab, 0, 4), markT: new Float64Array(sab, 16, 2), lastHb: Date.now(), names: [], ready: false, gen: (this.genSeq = (this.genSeq || 0) + 1), dead: false, hash: this.srcHash, startedAt: Date.now() };
     this.workers.set(party, W);
     w.on('message', (m) => this.fromWorker(W, m));
@@ -253,6 +253,7 @@ class Pool {
     }
     switch (m.k) {
       case 'hb': W.lastHb = Date.now(); break;
+      case 'busy': W.busyUntil = Number(m.ms) > 0 ? Date.now() + Math.min(Number(m.ms), 300000) : 0; W.lastHb = Date.now(); if (W.busyUntil) this.log(`party ${W.party}: worker busy (heap snapshot) up to ${Math.round(Number(m.ms) / 1000)} s — watchdog paused`); break;   // LEAK-2026-10-15 heap probe
       case 'ready': W.ready = true; W.runHash = m.hash || ''; break;
       case 'fatal': {                                          // worker.js: the Runner could not start (audit #33): restart with backoff, never a 200 ms loop
         this.st.fatal++; W.fatal = String(m.why || '').split('\n')[0].slice(0, 300);
@@ -289,7 +290,7 @@ class Pool {
   watch() {
     const t = Date.now();
     for (const W of Array.from(this.workers.values())) {
-      if (W.dead || t - W.lastHb < this.o.stallMs) continue;
+      if (W.dead || t - W.lastHb < this.o.stallMs || (W.busyUntil && t < W.busyUntil)) continue;
       // WHO (audit #37): inside a guarded callback (mark[0]) or, when that is 0, the context whose callback ran last (mark[2]; its promise
       // continuations run after the callback returned and keep the worker from reaching the setImmediate that clears it)
       const att = stallWho(W, t);
@@ -448,7 +449,7 @@ class Pool {
         alerts: this.alerts.slice(-20), restarts: Array.from(this.fails.entries()).map(([p, a]) => ({ party: p, last2min: a.filter(x => t - x < 120000).length })),
         mainLag: this.mainLag(), workers: s.workers.map(w => ({ party: w.party, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), lag: w.lag || null, hot: w.hot || 0, vfsMb: w.vfsMb, shared: w.shared, contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
         missingWorkers: Array.from(this.workers.values()).filter(W => !W.dead && !s.workers.some(w => w.party === W.party)).map(W => W.party) };
-      this.memGuard(rssMb, out); this.lagLog(out);
+      this.memGuard(rssMb, out); this.lagLog(out); this.heapLog(out); out.heapHist = this.heapHist || [];
       if (this.o.statsFile) { const tmp = this.o.statsFile + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(out)); fs.renameSync(tmp, this.o.statsFile); }
       this.lastStats = out;
     } catch (e) { this.log('stats file: ' + e.message); }
@@ -467,6 +468,15 @@ class Pool {
     if (!this.lagAt) { this.lagAt = t; return; } if (t - this.lagAt < (this.o.lagLogMs || 300000)) return; this.lagAt = t;
     const parts = Object.keys(W).sort((a, b) => W[b].p99 - W[a].p99).map(k => `${k} p50/p99/max=${W[k].p50}/${W[k].p99}/${W[k].max}${W[k].elu != null ? ' elu=' + W[k].elu + '%' : ''}`);
     this.lagWorst = {}; if (parts.length) this.log('LAG (worst 10 s window, ms) ' + parts.join(' | '));
+  }
+  // LEAK-2026-10-15: every heapLogMs (5 min) one HEAP line in brain_host.log (heap MB + MB per character of each worker, biggest first) and a
+  // sample in the stats file's heapHist (last 288 = 24 h: { at, w: { party: [heapMb, contexts] } }): a worker whose heap keeps climbing at the
+  // same character count leaks; the probe (Logs/brain_heap_probe.flag, heapprobe.js) then tells what grows.
+  heapLog(out) {
+    const t = Date.now(); if (this.heapAt && t - this.heapAt < (this.o.heapLogMs || 300000)) return; this.heapAt = t;
+    const ws = (out.workers || []).map(w => ({ p: w.party, mb: Number(w.heapMb) || 0, n: (w.contexts || []).length }));
+    const h = this.heapHist || (this.heapHist = []); h.push({ at: new Date(t).toISOString(), w: Object.fromEntries(ws.map(x => [x.p, [x.mb, x.n]])) }); if (h.length > 288) h.splice(0, h.length - 288);
+    if (ws.length) this.log('HEAP (MB, per character) ' + ws.sort((a, b) => b.mb - a.mb).map(x => `${x.p} ${x.mb} (${x.n ? (x.mb / x.n).toFixed(1) : '-'})`).join(' | '));
   }
   /** ENGINELAT live switches from brain_host.json: "agentPush": true | [names] (orders pushed to the agent by its async read), "partyHot": false
    *  turns the fight hint off. Sent to every worker now; new workers get them in their runner options. */
@@ -487,20 +497,23 @@ class Pool {
     if (!this.memAlertAt || t - this.memAlertAt > 600000) { this.memAlertAt = t; this.alert('memory', '', '', `pool RSS ${rssMb} MB > ${this.o.maxRssMb} MB`); }
     if (!this.o.memRestart || (this.memRestartAt && t - this.memRestartAt < this.o.memRestartGapMs)) return;
     const all = out.workers || [];
-    const cand = all.filter(w => !this.liveFight(w.party)).sort((a, b) => b.heapMb - a.heapMb)[0];
+    // LEAK-2026-10-15: judged per CHARACTER (heap / contexts): the old absolute compare always picked the biggest party (Tank1, 9 characters:
+    // 7 restarts on 2026-10-15) because a 9-character worker is >= 2x the median of mostly 2-3-character workers even without any leak
+    const per = (w) => (Number(w.heapMb) || 0) / Math.max(1, (w.contexts || []).length);
+    const cand = all.filter(w => !this.liveFight(w.party)).sort((a, b) => per(b) - per(a) || b.heapMb - a.heapMb)[0];
     const W = cand && this.workers.get(cand.party);
     if (!W) { this.log(`memory guard: every big worker has a live fight — not restarting anything`); return; }
     // ONLY A WORKER THAT STANDS OUT (review 2026-10-12): with many parties the pool is above the limit because of its real load (~90 MB per
     // character live); restarting the biggest worker then frees nothing (it boots back to the same size) and reboots one party every 10 min
     // forever. A restart needs a worker that looks like a leak: heap >= memOutlier x the median of the other workers, or >= half the limit.
-    const others = all.filter(w => w !== cand).map(w => Number(w.heapMb) || 0).sort((a, b) => a - b);
+    const others = all.filter(w => w !== cand).map(per).sort((a, b) => a - b);
     const med = others.length ? others[Math.floor(others.length / 2)] : 0;
-    const outlier = Number(cand.heapMb) >= this.o.maxRssMb / 2 || (others.length > 0 && Number(cand.heapMb) >= (this.o.memOutlier || 2) * Math.max(med, 1));
+    const outlier = Number(cand.heapMb) >= this.o.maxRssMb / 2 || (others.length > 0 && per(cand) >= (this.o.memOutlier || 2) * Math.max(med, 1));
     if (!outlier) {
-      if (!this.memNoteAt || t - this.memNoteAt > 600000) { this.memNoteAt = t; this.alert('memory', '', '', `pool RSS ${rssMb} MB > ${this.o.maxRssMb} MB but no worker stands out (biggest ${cand.party} ${cand.heapMb} MB, median of the others ${med} MB): the load is real — raise maxRssMb in brain_host.json; nothing restarted`); }
+      if (!this.memNoteAt || t - this.memNoteAt > 600000) { this.memNoteAt = t; this.alert('memory', '', '', `pool RSS ${rssMb} MB > ${this.o.maxRssMb} MB but no worker stands out (biggest per character ${cand.party} ${cand.heapMb} MB = ${per(cand).toFixed(1)} MB each, median of the others ${med.toFixed(1)} MB each): the load is real — raise maxRssMb in brain_host.json; nothing restarted`); }
       return;
     }
-    this.memRestartAt = t; this.alert('memrestart', W.party, '', `restarting party ${W.party} (heap ${cand.heapMb} MB) to free memory`);
+    this.memRestartAt = t; this.alert('memrestart', W.party, '', `restarting party ${W.party} (heap ${cand.heapMb} MB = ${per(cand).toFixed(1)} MB per character, median of the others ${med.toFixed(1)}) to free memory`);
     this.restart(W, 'memory guard', 200);
   }
   start() {

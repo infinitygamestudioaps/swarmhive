@@ -195,7 +195,7 @@ check(A.post(ctx, { action: 'set', key: 'itemHandover', on: true }).ok && readJs
   check((src.match(/tradeQuiet\(\);\s+\/\/ TRADEEV: this session's late events/g) || []).length === 2 && /tradeQuiet\(\);\s+\/\/ TRADEEV: its close event arrives late/.test(src), 'swarm.js: a quiet window after every giver / receiver session and after clearStuckTrade');
   check(/rc < TRADEEV\.reconfirmMax\) \{ rc\+\+; lastRc = now\(\); try \{ Send\.TradeDone\(1\)/.test(src) && /tradeState\.rcAt = now\(\); try \{ Send\.TradeDone\(1\)/.test(src), 'swarm.js: giver and receiver re-confirm every 3 s until done');
   check(/tradeRangeDecide\(\{ x: Me\.X, y: Me\.Y, z: Me\.Z \}/.test(src) && /walkDirect\(q\.X, q\.Y, zOf\(q\), 100, 8000, null, true\)/.test(src), 'swarm.js: the giver confirms only within reach and walks to the receiver at HIS z');
-  check(/receiveItems\(\{ giver: d\.giver, what: d\.what \|\| '', step: 'late', added: true \}\)/.test(src), 'swarm.js: a trade opened while no receiver session ran is still confirmed (our own hand-over givers only)');
+  check(/receiveItems\(\{ giver: d\.giver, what: d\.what \|\| '', step: 'late', added: true(, tok: d\.tok \|\| '')? \}\)/.test(src), 'swarm.js: a trade opened while no receiver session ran is still confirmed (our own hand-over givers only)');
   check(/if \(!CLANHAND\.loaded\)/.test(src), 'swarm.js: after a reload the running order / last failure is picked up from Logs/clanhand_<name>.json');
   const CMDS = require(path.join(ROOT, 'Dashboard', 'commands.js'));
   const ce = CMDS.COMMANDS.find(c => c.id === 'clanhand');

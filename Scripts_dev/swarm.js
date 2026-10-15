@@ -19089,7 +19089,9 @@ function hovNotrade() {
     catch (e) { if (!hovNT) { hovNT = new Set(); logError('trade_items.json', e); } }
     // NOTRADELIVE-2026-10-15: items the SERVER refused in a trade that went through for the other items (L2Toggle custom items such as
     // 'Unrefinhed Ore' 21769 are not in the datapack; 'Tutorial Guide' 5588): learned by every giver, never offered again
-    try { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; if (File.Exists(f)) Object.keys(JSON.parse(File.ReadAllText(f)) || {}).forEach(k => hovNT.add(Number(k))); } catch (e) { }
+    // 2026-10-15 13:40: ONE refusal is not proof (Suede, Thread, Animal Bone, Mithril Ore ... were 'not taken' once and got learned): only entries
+    // refused in 3 separate trades (n >= 3) or set by hand (sure) count
+    try { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; if (File.Exists(f)) { const j = JSON.parse(File.ReadAllText(f)) || {}; Object.keys(j).forEach(k => { const e = j[k] || {}; if (e.sure || num(e.n) >= 3) hovNT.add(Number(k)); }); } } catch (e) { }
     hovNTAt = now();
   }
   return hovNT;
@@ -19257,9 +19259,8 @@ async function hovTradeBatch(o, rv, rows, label, hold) {
     if (mv.some(m => m.moved > 0)) {
       const refused = mv.filter(m => m.row && !m.row.adena && !(m.moved > 0)).map(m => m.row);
       if (refused.length) {
-        withFileLock('notrade_live', () => { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; let j = {}; try { if (File.Exists(f)) j = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { } refused.forEach(r => { j[String(r.id)] = { name: r.name, by: Me.Name, at: new Date().toISOString() }; }); File.WriteAllText(f, JSON.stringify(j, null, 1)); }).catch(() => { });
-        refused.forEach(r => { try { hovNotrade().add(num(r.id)); } catch (e) { } });
-        note(`handover: the server would not take ${refused.map(r => r.name).join(', ')} — remembered as not tradeable (never offered again)`);
+        withFileLock('notrade_live', () => { const f = `${SWARM_ROOT}\\Logs\\notrade_live.json`; let j = {}; try { if (File.Exists(f)) j = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { } refused.forEach(r => { const o = j[String(r.id)] || {}; const n = num(o.n) + 1; j[String(r.id)] = Object.assign(o, { name: r.name, n, by: Me.Name, at: new Date().toISOString() }); if (n >= 3 && !o.sure) { try { hovNotrade().add(num(r.id)); } catch (e) { } } }); File.WriteAllText(f, JSON.stringify(j, null, 1)); }).catch(() => { });
+        note(`handover: the server did not take ${refused.map(r => r.name).join(', ')} this time (after 3 separate refusals an item counts as not tradeable)`);
       }
     }
   } catch (e) { logError('notrade learn', e); }

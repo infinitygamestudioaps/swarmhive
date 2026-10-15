@@ -26,7 +26,7 @@ class Clock {
       if (typeof fn !== 'function') return 0;
       const id = ++clock.seq; ms = Math.max(every ? 1 : 0, Number(ms) || 0);
       if (clock.virtual) {
-        const tm = { id, due: clock.t + ms, fn: wrap(fn, args), every: every ? ms : 0, owner: name, dead: false, ms };
+        const tm = { id, due: clock.t + ms, fn: wrap(fn, args), every: every ? ms : 0, owner: name, dead: false, ms, mine };   // mine: a fired one-shot leaves its owner's set (LEAK-2026-10-15: test-only growth)
         clock.q.push(tm); clock.byId.set(id, tm);
       } else {
         const h = every ? setInterval(wrap(fn, args), ms) : setTimeout(() => { mine.delete(id); clock.byId.delete(id); wrap(fn, args)(); }, ms);
@@ -62,7 +62,7 @@ class Clock {
       for (let i = 0; i < this.q.length; i++) { const tm = this.q[i]; if (!tm.dead && tm.due <= until && (!best || tm.due < best.due || (tm.due === best.due && tm.id < best.id))) best = tm; }
       if (!best) break;
       if (best.due > this.t) this.t = best.due;
-      if (best.every) best.due += best.every; else { best.dead = true; this.byId.delete(best.id); }
+      if (best.every) best.due += best.every; else { best.dead = true; this.byId.delete(best.id); if (best.mine) best.mine.delete(best.id); }
       this.fired++; n++;
       best.fn();
       if (n % 20 === 0 || n >= maxPerTurn) { await turn(); }
