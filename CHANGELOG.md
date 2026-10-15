@@ -2,6 +2,22 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.4 (2026-10-15)
+
+- Team routes: the leader no longer waits at the end (up to 15 min) for members already standing next to him - a member that walked the route again after a reload never sent its done
+- the leader now crosses off everyone he sees next to him and every new route starts with a clean list
+- Raids: Bounty Hunters / spoilers, Treasure Hunters / daggers and Warsmiths / crafters now fight the raid boss as damage dealers (they had no raid routine and stood still the whole fight)
+- they also stand behind the boss with the other melee and follow the team focus. Every role now has a raid job (checked all 19 role names)
+- Destroyer HP drain (destroyers hitting each other below 30 % for Frenzy / Zealot) is now a switch per party, OFF by default: party Settings -> Fighting -> Team fighting. Off = they never hit teammates
+- Frenzy / Zealot still fire when the fight brings HP low. The same card has Members attack the leader monster at once (on by default)
+- Raid circuit: the town stop now hands the party loot to the clan leader (party loot rule) when he is in that town, before the warehouse step - members outside the full clan used to put it into their OWN private warehouse, out of his reach
+
+## v1.7.4 (2026-10-15)
+
+- Team routes: the leader no longer waits at the end (up to 15 min) for members already standing next to him - a member that walked the route again after a reload never sent its done
+- the leader now crosses off everyone he sees next to him and every new route starts with a clean list
+- Raids: Bounty Hunters / spoilers, Treasure Hunters / daggers and Warsmiths / crafters now fight the raid boss as damage dealers (they had no raid routine and stood still the whole fight)
+
 ## v1.7.3 (2026-10-15)
 
 - Gear: a one-piece armor (Full Plate Armor ...) covers the legs - the supply run no longer buys gaiters next to it (characters were left shirtless and bought a new pair every run)

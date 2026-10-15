@@ -2885,6 +2885,8 @@ http.createServer(async (req, res) => {
         fallbackHp: Math.round(clamp(get('fallbackHp'), 5, 90, 40)), includeBuffers: !!get('includeBuffers'),
         // AOECFG-2026-10-14: area spells from N monsters (0 = never) + the raid rule (primary nuke first | value)
         aoeMin: Number(get('aoeMin')) === 0 ? 0 : Math.round(clamp(get('aoeMin'), 2, 8, 3)), raidAoe: String(get('raidAoe')) === 'value' ? 'value' : 'primary',
+        // ASSIST-2026-10-15 members take the leader's target at once (default ON); DESTROYERDRAIN-2026-10-15 destroyers hit each other below 30 % for Frenzy (default OFF)
+        assist: get('assist') !== false, destroyerDrain: get('destroyerDrain') === true,
       };
       ['maxAdds', 'expRange', 'hpAvgMin', 'noDeathMin', 'cooldownMin', 'helpHp'].forEach(k => { if (cur[k] !== undefined) t[k] = cur[k]; });   // expert fields: file only
       all[party] = t; all._updated = new Date().toISOString();

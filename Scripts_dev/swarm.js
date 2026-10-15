@@ -8717,6 +8717,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
   { const rs = mtResume(mtLoad(), sig, { x: Me.X, y: Me.Y, z: Me.Z }, now(), pts); if (rs >= -1) { i = rs; note(`route to ${label}: resuming the team walk at point ${rs + 2}/${n} (saved before the reload)`, true); } }
   const L = MTL = { id, pts, cum: mtCum(pts), label, floor: opt && opt.dungeon ? { dungeon: opt.dungeon, floor: opt.floor } : null, cfg: mtCfg(routeRulesNow()), gate: Math.max(0, i + 1), trk: {}, trail: new Set(), left: new Set(), gateSince: now(), paceSince: 0, hold: 0, town: startTown || '', chkAt: 0, brk: '' };
   Object.keys(MTREP).forEach(k => delete MTREP[k]);
+  routeRewalk.clear();                                               // REWALKFIX-2026-10-15: names from an earlier route never block this one
   L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, hold: L.hold > now() ? L.hold : 0, fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
   L.emit(true);
   intent('lead team', `route to ${label}: ${n} points — the team walks together and waits at every point (max ${Math.round(L.cfg.maxWaitMs / 1000)} s; a stuck member: ${Math.round(L.cfg.leaveMs / 1000)} s, then it catches up)`, pts[n - 1]);
@@ -8769,7 +8770,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
     }
     if (ok && routeRewalk.size) {                                      // someone walks the route again from the town (fell off): wait for him at the end
       const t0 = now();
-      while (now() - t0 < 900000 && routeRewalk.size && !stopped()) { setTask(`route to ${label}: at the end, waiting for ${[...routeRewalk].join(', ')} (walking the route again)`); await sleep(3000); }
+      while (now() - t0 < 900000 && routeRewalk.size && !stopped()) { routeRewalkPrune(); if (!routeRewalk.size) break; setTask(`route to ${label}: at the end, waiting for ${[...routeRewalk].join(', ')} (walking the route again)`); await sleep(3000); }
     }
   } finally {
     SCHED.clear(tick); state.noTeamWalk = false; routeFixCtx = null;
@@ -8844,6 +8845,13 @@ function routeFixSave(fixes, boss, pts, label) {
 }
 // a member that fell off the route walks it again from the start town (reported to the leader so he waits longer)
 const routeRewalk = new Set();
+// REWALKFIX-2026-10-15 (tester: "waiting beside this raid boss for 10 minutes, leader thinks it's waiting for some members but they are all there"):
+// a member only sent its 'done' when it still remembered its rewalk (m.rewalks) - after a reload / a new route it did not, and the set was never
+// cleared between routes. Now a member the leader SEES next to him (fresh position, < 900, same height) is crossed off, and every new route
+// walk starts with an empty set.
+function routeRewalkPrune() {
+  try { [...routeRewalk].forEach(n => { const lp = livePos[n]; if (!lp || now() - (lp.at || 0) > 15000) return; if (lp.IsDead || (Math.hypot((lp.X || 0) - Me.X, (lp.Y || 0) - Me.Y) < 900 && Math.abs((lp.Z || Me.Z) - Me.Z) < 400)) routeRewalk.delete(n); }); } catch (e) { }
+}
 App.on('swarm.routerewalk', (event) => { if (isLeader() && mateMsg(event)) { if (event.data && event.data.done) routeRewalk.delete(event.source.characterName); else routeRewalk.add(event.source.characterName); } });
 /** Member: walk the leader's route point by point, all the way to the end, at its own pace. */
 const memberRoute = { id: null, pts: null, my: 0, busy: false, until: 0, fails: 0, label: '', town: '', rewalks: 0 };
@@ -15697,7 +15705,7 @@ App.on('swarm.hovcall', (e) => { try { const id = String((e.data || {}).id || ''
 async function leadLootGive(why) {
   if (!isLeader()) return 'not the leader';
   const rule = lootRule(Me.Name); if (!rule) return 'off (loot_rules.json)';
-  if (why !== 'order' && rcHolds()) return 'not now — the raid circuit owns the party (its loot goes into the clan warehouse)';   // CIRCUIT 24/7 (2026-10-13): no hand-over walks
+  if (why !== 'order' && why !== 'circuit' && rcHolds()) return 'not now — the raid circuit owns the party (its loot goes into the clan warehouse)';   // RCLOOT-2026-10-15: the circuit's own town stop may   // CIRCUIT 24/7 (2026-10-13): no hand-over walks
   const to = !rule.to || rule.to === 'clanleader' ? clanLeaderName() : String(rule.to);
   if (!to) return 'no receiver';
   if (why === 'supply run' && to !== Me.Name) {                           // CMDFIX2-SUPPLY-2026-10-12
@@ -28986,6 +28994,18 @@ async function rcStash(why) {
   if (!CONFIG.stash.on) return 'stash off';
   RC.ownStep = true;
   try { if (currentTownKey() !== CONFIG.lead.hub && !(await leadGoGiran(`raid circuit: ${why}`))) return 'could not get the team to Giran'; } finally { RC.ownStep = false; }
+  // RCLOOT-2026-10-15 (owner: "I still don't see the raid teams delivering the items to Dagger1 in the city — mostly the circuit raids"): the circuit
+  // skipped the party's loot rule on purpose and stashed: clan members into the clan warehouse, everyone NOT in the (full) clan into his OWN private
+  // warehouse (Nuker4, Nuker5, Nuker8, Nuker9 ... - out of the clan leader's reach). Now, with the party's loot rule on and its receiver in
+  // this town, the team first hands its loot over (the same hand-over as !lootgive); the warehouse step then only takes what is left.
+  try {
+    const rule = lootRule(Me.Name), to = rule && (!rule.to || rule.to === 'clanleader' ? clanLeaderName() : String(rule.to));
+    if (rule && to && to !== Me.Name) {
+      let rv = null; try { rv = await hovWhere(to, 'loot'); } catch (e) { }
+      if (rv && rv.town && rv.town === currentTownKey()) { rcPhase('stash', `loot to ${to}: ${why}`); const lr = await leadLootGive('circuit'); rcEvent(`loot to ${to}: ${String(lr).slice(0, 80)}`); }
+      else rcEvent(`loot to ${to}: not in ${currentTownKey() || 'town'} (${rv ? rv.town || 'in the field' : 'unknown'}) - into the warehouse instead`);
+    }
+  } catch (e) { logError('circuit loot hand-over', e); }
   const runId = `${Date.now()}`; regroupRun = { id: runId, reason: 'raid circuit: warehouse' };
   state.stepCapMs = 2 * RC_STEP_CAP_MS;                // round 2: never a hanging warehouse step
   try {
@@ -29877,7 +29897,7 @@ setInterval(() => {
   if (isHealerRole() || noMelee()) return;        // healers + the Doomcryer do not hit back: they keep distance, the team kills it
   // RAIDROLE 2026-10-09: in a raid the routines own the target (the tank logged 'self-defence ... fighting it with skills' every 3 s and was
   // re-targeted onto minions between Aggression / Sting); the dealers' focus + the tank's re-aggro handle monsters on us
-  if (raidOwnsTargeting({ inRaid: inRaid(), raidRunning: !!(raidSeq && raidSeq.running), tank: /^(sk|tank)$/.test(state.role || ''), dealer: MELEE_DD.test(state.role || '') || CASTER_ROLES.test(state.role || '') })) return;
+  if (raidOwnsTargeting({ inRaid: inRaid(), raidRunning: !!(raidSeq && raidSeq.running), tank: /^(sk|tank)$/.test(state.role || ''), dealer: MELEE_DD.test(state.role || '') || RAID_MELEE_EXTRA.test(state.role || '') || CASTER_ROLES.test(state.role || '') })) return;
   if (now() < (state.fleeUntil || 0)) return;     // retreating: run, do not fight back
   // inside an instance members never start L2Swarm's own combat (it chases monsters around the room, user 2026-10-05 22:08): casters step
   // away, melee hit the team's target, the tank's Aggression loop takes the monster off them
@@ -33546,8 +33566,17 @@ async function duelHit(p) {
   await sleep(1300);                            // let the HP update reach everyone before the next decision
   return true;
 }
+// DESTROYERDRAIN-2026-10-15 (owner: "can you disable destroyers logic"): the HP drain (destroyers hit each other below 30 % for Frenzy / Zealot /
+// Guts) is a party setting, default OFF (nothing automatic unless switched on): party_tactics.json "<leader>": { "destroyerDrain": true }
+// (dashboard: party Settings -> Fighting -> Team fighting). Off = no duel, no drain helper; Frenzy & co. still fire when the fight brings HP low.
+// The user's own !draintest order always runs.
+function destroyerDrainOn() { try { return partyTactics().destroyerDrain === true; } catch (e) { return false; } }
 async function drainAndFrenzy(reengageBoss, opts) {
-  if (!hiveSkillsOn()) return;                                           // HIVESW-2026-10-15: no HP drain + Frenzy by the script (the player's profile owns Frenzy & co.)
+  if (!hiveSkillsOn()) return;
+  if (!destroyerDrainOn() && !(opts && opts.manual)) {                  // DESTROYERDRAIN-2026-10-15: off = ready at once (the !go prep waits for '!ready')
+    if (!reengageBoss && !(opts && opts.hold)) { try { App.emit('swarm.dready', { hp: Math.round(Me.HpPercent) }); SayToParty(`!ready ${Me.Name}`); } catch (e) { } }
+    return;
+  }                                           // HIVESW-2026-10-15: no HP drain + Frenzy by the script (the player's profile owns Frenzy & co.)
   opts = opts || {};
   if (state.draining) return;
   state.draining = true;
@@ -36961,7 +36990,7 @@ function handleSay(charName, text, messageType) {
       (async () => {
         const m0 = state.mode; state.mode = 'prep'; stopCombatG();
         const hp0 = Math.round(Me.HpPercent);
-        try { await drainAndFrenzy(false, {}); } finally { state.mode = m0 === 'prep' ? 'idle' : m0; }
+        try { await drainAndFrenzy(false, { manual: true }); } finally { state.mode = m0 === 'prep' ? 'idle' : m0; }
         await sleep(1500);
         const on = []; try { BuffsList.forEach(b => { if (/Frenzy|Guts|Battle Roar|Rage|Zealot/.test(String(b.Name))) on.push(String(b.Name)); }); } catch (e) { }
         note(`[draintest] ${Me.Name}: HP ${hp0}% -> ${Math.round(Me.HpPercent)}% — active: ${on.join(', ') || 'NONE'}`, true);
@@ -37529,7 +37558,11 @@ async function runRaidSequence() {
     case 'bishop':
       break;                                     // the healer brain (healTick) heals in raids too
     default: {                                   // ROLE KINDS (2026-10-10): generic tokens; legacy names without a case (crafter, spoiler, dagger, healer) do nothing as before
-      const rr = rkRaidRoutine(state.role);
+      let rr = rkRaidRoutine(state.role);
+      // RAIDDEALER-2026-10-15 (tester: "Bounty Hunter doesn't seem to be interested in killing this raid boss"): the old role names spoiler / dagger /
+      // crafter had no raid routine and stood still the whole fight. They are melee fighters: they deal damage like every other dealer
+      // (behind the boss, minions first with the focus, all their attack skills).
+      if (!rr && /^(spoiler|dagger|crafter)$/.test(String(state.role || ''))) rr = 'dealer';
       if (rr === 'tank') await raidSK(boss);    // the SK opener generalised: aggro by skill data (tankReady), emergency by AbnormalType
       else if (rr === 'dealer') await raidDealer(boss);   // melee / melee buffer behind the boss, archer + mystic buffer + summoner from range; buffer upkeep + servitor run beside it
     }
@@ -37755,6 +37788,9 @@ function bossMinions(boss, r) {
 function findMobByName(name, r) { let best = null, bd = 1e9; const boss = !!raidBossEntries(name) || EPIC_BOSS_RE.test(String(name || '')); try { snapMobs().forEach(m => { if (m.IsDead || m.Name !== name) return; if (boss && !isRaidBossMob(m)) return; const d = Math.hypot(m.X - meSnap().X, m.Y - meSnap().Y); if (d < (r || 3000) && d < bd) { bd = d; best = m; } }); } catch (e) { } return best ? best.ref : null; }   // HOSTTOUCH: .ref only for the winner
 // CASTER SPACING (2026-10-05 Remmel: Necro1 stood 210 from the boss, following the tank, and died twice in 20 s): in a raid, casters and
 // healers stop following and keep 650-900 away from the boss (still in cast range, out of its melee/AoE). Follow comes back after the raid.
+// RAIDDEALER-2026-10-15: melee classes on the old role names (Bounty Hunter = spoiler, Treasure Hunter = dagger, Warsmith = crafter) fight raids as
+// dealers: they stand behind the boss with the other melee and follow the team focus (MELEE_DD itself stays unchanged: test_role_kinds)
+const RAID_MELEE_EXTRA = /^(spoiler|dagger|crafter)$/;
 const CASTER_ROLES = ROLE_RE.caster;   // was /necromancer|nuker|doomcryer|bishop|shilliensaint|healer|mage|wizard/ — ROLE KINDS: + mystic buffer, summoner
 const spacing = { on: false, lastMove: 0 };
 setInterval(() => {
@@ -38256,7 +38292,7 @@ async function raidDealer(boss) {
     if (rkBuffBusy()) { await sleep(300); continue; }   // BOARD BUFFS OPTIONAL: a primary buffer's rebuff comes before its own damage
     // DRAIN HELPER (2026-10-11 Verfa: Destroyer2 reached Frenzy first and went back to the boss; Destroyer1's duel drain then had nobody hitting her,
     // stalled at ~50 % and timed out): a destroyer that is NOT draining keeps hitting its partner while the partner drains and is still >= 45 %
-    if (state.role === 'destroyer' && !state.draining) {
+    if (state.role === 'destroyer' && !state.draining && destroyerDrainOn()) {   // DESTROYERDRAIN-2026-10-15: no drain helper when the drain is off
       const pd = partnerDestroyer();
       if (pd && drainingNow(pd.Name)) { const php = partnerHpNow(pd); if (php !== null && php >= CONFIG.frenzyMaxHp) { setTask(`raid: helping ${pd.Name} drain for Frenzy`); if (await duelHit(pd)) continue; } }   // careful duel; a partner already under 60 % can cast Frenzy
     }
@@ -38284,7 +38320,7 @@ async function raidDealer(boss) {
     if (bossObj && await raidDebuffStep(bossObj)) continue;          // kamaels / necromancer: debuffs once the destroyers hit the boss
     // FORMATION (user 2026-10-05 22:20): melee BEHIND every target (opposite side of the tank, my place in the arc), re-checked every 2.5 s;
     // casters to their slot behind the boss group at range, once per full-aggro moment, then stand still
-    if (MELEE_DD.test(state.role || '') && tank && now() - lastPos > 2500) {
+    if ((MELEE_DD.test(state.role || '') || RAID_MELEE_EXTRA.test(state.role || '')) && tank && now() - lastPos > 2500) {
       lastPos = now();
       const b0 = behindSpot(tgt, tank, FORMATION.melee.r, null, formationOffset().off * FORMATION.melee.step), b = raClampXY(b0.x, b0.y);   // inside the fight area (RAIDAREA)
       if (Math.hypot(Me.X - b.x, Me.Y - b.y) > 90) { try { Send.MoveBackwardToLocation(Math.round(b.x), Math.round(b.y), Math.round(Me.Z)); } catch (e) { } await sleep(700); }

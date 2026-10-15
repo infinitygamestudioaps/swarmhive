@@ -60,7 +60,7 @@
     { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions', help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." }];
   const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions' };
   const GMODES = ['auto', 'list', 'none'];
-  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary' };
+  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false };
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
   const MODES = [['rules', 'Smart: materials, old gear, letters…'], ['all', 'Everything except what it uses'], ['off', 'Nothing']];
   const TRIGS = [['bag', 'When the bag holds more than … kinds'], ['weight', 'When it carries more than … % weight'], ['supply', 'Only during supply runs'], ['town', 'Whenever it is idle in its town']];
@@ -522,6 +522,13 @@
         ${seg('tactics.raidAoe', t.raidAoe, [['primary', 'Strongest single spell first'], ['value', 'Area spells when more monsters']], 'In raids')}
         <div class="ps-what">${t.raidAoe === 'value' ? 'In raids: an area spell is cast when it hits more in total than the best single spell (it can pull minions off the tank).' : 'In raids: the strongest single-target spell (e.g. Hydro Blast) goes first; area spells only while it reloads.'}</div>`;
       sum += t.aoeMin === 0 ? ' · no area spells' : '';
+      // ASSIST / DESTROYERDRAIN 2026-10-15
+      body += `<div class="ps-sub"><b>Team fighting</b></div>
+        <label class="ps-chk"><input type="checkbox" data-pschk="tactics.assist"${t.assist !== false ? ' checked' : ''}> Members attack the leader's monster at once</label>
+        <div class="ps-what">${t.assist !== false ? 'On — the leader says which monster he picks; members walk in and hit it right away and drop it when it dies.' : 'Off — members only help when a monster hits the leader or a teammate.'}</div>
+        <label class="ps-chk"><input type="checkbox" data-pschk="tactics.destroyerDrain"${t.destroyerDrain ? ' checked' : ''}> Destroyers lower their HP for Frenzy / Zealot (they hit each other)</label>
+        <div class="ps-what">${t.destroyerDrain ? 'On — before a raid pull (and when Frenzy is ready again) destroyers hit each other down below 30 % HP, then fire Frenzy, Zealot, Guts. Healers wait.' : 'Off — destroyers never hit teammates; they use Frenzy / Zealot only when the fight itself brings their HP low.'}</div>`;
+      if (t.destroyerDrain) sum += ' · destroyer drain';
     } else body += unavailable('tactics');
     body += adv(note('File: Scripts/data/party_tactics.json — ' + E(PS.leader) + ' (hunting pairs, leveling only). Hunting place: Scripts/data/party_spots.json.'));
     return section('fight', '⚔', 'Fighting', sum, body, { dirty: dirtySecs().includes('tactics') });
