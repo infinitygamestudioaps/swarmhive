@@ -246,7 +246,7 @@ function writeFixtures() {
     ok('fund receiver of another team', /Trading with Fundor: receiving 2\.0M adena \(fund round\) \(window open, waiting for the items/.test(R.Quill), R.Quill);
     ok('old script receiver: partner found by the task', /trading with Oldie \(receiving\)/.test(R.Moss), R.Moss);
     ok('old script bystander: who trades with whom', /waiting while Oldie trades with Moss/.test(R.Fern), R.Fern);
-    ok('dead + fighting rows', /dead/.test(R.Dusk) && /fighting Giggling Wind/.test(R.Hale), R.Dusk + ' | ' + R.Hale);
+    ok('dead + fighting rows', /dead/.test(R.Dusk) && /Giggling Wind/.test(R.Hale), R.Dusk + ' | ' + R.Hale);
     ok('every row has an activity icon', await ev(`[...document.querySelectorAll('.mem2 .task.ps-act')].every(t => t.querySelector('img.gi'))`));
     const M = await ev(`(() => { const svg = ${cardOf('Tankard')}.querySelector('.pmap svg'), f = ${cardOf('Fundor')}.querySelector('.pmap svg');
       return { lines: svg ? svg.querySelectorAll('path.ps-tline').length : -1, anim: svg ? svg.querySelectorAll('path.ps-tline animate').length : -1, dots: svg ? svg.querySelectorAll('circle animateMotion').length : -1,

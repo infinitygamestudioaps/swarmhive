@@ -50,13 +50,18 @@ function catalog(DIR) {
   return CAT;
 }
 /** Giran offers per item id from the live shop scan: [{ npc, price, common }] */
+// GIRANSHOPS 2026-10-15: SEEDED shops (docs/plan/tools/giran_shop_seed.js: Sandra's C jewels from the datapack until a !shopscan reads her) count,
+// their offers carry est (estimated price); a merchant with no recorded Giran route (unreachable) does NOT count as "sold in Giran" (the bots
+// only walk recorded routes there) and is listed in unreach per item id for the warning.
+let LASTG = null;
 function giranOffers(DATA, readJson) {
-  const sc = readJson(path.join(DATA, 'shopscan_giran.json'), { shops: [] }) || { shops: [] }, idx = {};
+  const sc = readJson(path.join(DATA, 'shopscan_giran.json'), { shops: [] }) || { shops: [] }, idx = {}, unreach = {};
   (sc.shops || []).forEach(s => (s.lists || []).forEach(l => (l.items || []).forEach(i => {
-    (idx[i.id] = idx[i.id] || []).push({ npc: s.npc, price: Number(i.price) || 0, common: /^Common Item/.test(i.name) });
+    if (s.unreachable || !s.route) { (unreach[i.id] = unreach[i.id] || []).push(s.npc); return; }
+    (idx[i.id] = idx[i.id] || []).push({ npc: s.npc, price: Number(i.price) || 0, common: /^Common Item/.test(i.name), est: i.est ? 1 : 0 });
   })));
-  Object.values(idx).forEach(L => L.sort((a, b) => a.price - b.price));
-  return { idx, at: sc.at || '' };
+  Object.values(idx).forEach(L => L.sort((a, b) => a.price - b.price || a.est - b.est));
+  return (LASTG = { idx, unreach, at: sc.at || '' });
 }
 const kitOf = (C, c) => C.arch[c.arch] || C.arch.fighter;
 /** Does item `it` (catalog row) go in `slot` for class `c` — fit = what the class line uses, ok = it can wear it at all. */
@@ -104,7 +109,9 @@ function srcText(C, id) {
   if (s.sp) out.push('spoil ' + s.sp.slice(0, 2).map(d => `${d[0]} L${d[1]} ${d[2]}%`).join(', '));
   if (it.saHow) out.push('S.A.: ' + it.saHow);
   // datapack shops last: L2Toggle's Giran merchants are known from the live scan, a datapack "Giran" shop may not sell it there
-  if (s.sh) out.push('datapack shop ' + s.sh.map(x => (x[1] || x[0]) === 'Giran' ? 'Giran (not in the shop scan)' : (x[1] || x[0])).join(', '));
+  // GIRANSHOPS: "(not in the shop scan)" only when the last read scan really lacks it; an unreachable Giran merchant is named with the reason
+  const inScan = LASTG && (LASTG.idx[id] || (it.tw && LASTG.idx[it.tw])), unr = LASTG && (LASTG.unreach[id] || (it.tw && LASTG.unreach[it.tw]));
+  if (s.sh) out.push('datapack shop ' + s.sh.map(x => (x[1] || x[0]) === 'Giran' ? (unr ? `Giran (${x[0]}: no recorded Giran route to walk there)` : inScan ? 'Giran' : 'Giran (not in the shop scan)') : (x[1] || x[0])).join(', '));
   if (!out.length && it.base) out.push('S.A. on ' + (C.items[it.base] || {}).n);
   return out.join(' · ') || 'quest / event (no source in the datapack)';
 }
@@ -224,8 +231,9 @@ function rowOf(C, G, c, kit, id, it, f, extra) {
   if (it.set != null && C.sets[it.set]) r.set = it.set;
   if (tw) r.tw = it.tw;
   if (f.viaChange) r.change = C.items[it.cw] ? C.items[it.cw].n : '';
-  if (real) r.gr = [real.npc, real.price];
-  if (com) r.gc = [com.npc, com.price];
+  if (real) r.gr = [real.npc, real.price, real.est ? 1 : 0];
+  if (com) r.gc = [com.npc, com.price, com.est ? 1 : 0];
+  const unr = (G.unreach || {})[id] || (it.tw && (G.unreach || {})[it.tw]); if (unr) r.gu = [...new Set(unr)];   // GIRANSHOPS: sold by a merchant we cannot walk to
   if (!real && !com && gg) r.gx = [gg.npc, gg.price, gg.how, (C.items[gg.id] || {}).n];
   if (it.src) r.src = it.src;
   return Object.assign(r, extra || {});

@@ -42,7 +42,7 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
     if (m.method === 'Runtime.exceptionThrown') errors.push(m.params.exceptionDetails.exception ? m.params.exceptionDetails.exception.description : m.params.exceptionDetails.text);
   });
   await cdp('Page.enable'); await cdp('Runtime.enable');
-  await require('./uidialog_testhook')(cdp, handlers, { answer: true, onDialog: (d) => dialogs.push(d) });
+  const UID = await require('./uidialog_testhook')(cdp, handlers, { answer: true, onDialog: (d) => dialogs.push(d) });
   const BASE = `http://127.0.0.1:${PORT}/`;
   const phone = async () => { await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true }); await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 }); };
   const desktop = async () => { await cdp('Emulation.setDeviceMetricsOverride', { width: 1366, height: 900, deviceScaleFactor: 1, mobile: false }); await cdp('Emulation.setTouchEmulationEnabled', { enabled: false }); };
@@ -93,6 +93,49 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   await setSel(`textarea[data-stglist="chars|${who}|depositNames"]`, '([');
   ok('a broken name pattern is marked and blocks saving', await waitFor(`/not valid/.test(document.getElementById('stgBar').textContent) && document.querySelector('[data-stgbar="save"]').disabled`, 3000));
   await setSel(`textarea[data-stglist="chars|${who}|depositNames"]`, '');
+  // COLLECTOR 2026-10-14
+  ok('collector: the box with on / who / town', await waitFor(`!!document.querySelector('#stgColl input[data-stgcoll="on"]') && !!document.querySelector('#stgColl select[data-stgcoll="name"]') && !!document.querySelector('#stgColl select[data-stgcoll="town"]')`, 5000));
+  const collWas = await ev(`document.querySelector('#stgColl input[data-stgcoll="on"]').checked`);   // the live file may already have it on
+  await ev(`(() => { const c = document.querySelector('#stgColl input[data-stgcoll="on"]'); c.checked = !c.checked; c.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`); await sleep(300);
+  await click('[data-stgbar="save"]');
+  for (let i = 0; i < 40; i++) { if (!!(file().collector || {}).on === !collWas) break; await sleep(250); }
+  ok('collector saved (switched to ' + (collWas ? 'off' : 'on') + ')', (() => { const C = file().collector || {}; return !!C.on === !collWas && C.town === 'Giran'; })(), JSON.stringify(file().collector));
+  ok('the save confirmation names it', dialogs.some(d => /Collector (ON|off)/.test(JSON.stringify(d))));
+  // WHSELL 2026-10-14: never store (Common items, names, sell instead) + the clan warehouse list
+  await click('[data-stgbar="undo"]'); await sleep(400);
+  ok('never store: the box with Common items / names / sell switches', await waitFor(`!!document.querySelector('#stgNever input[data-stgnv="common"]') && !!document.querySelector('#stgNever input[data-stgnv="sell"]') && !!document.querySelector('#stgNever textarea[data-stgnvnames]')`, 5000));
+  await ev(`(() => { const c = document.querySelector('#stgNever input[data-stgnv="common"]'); c.checked = true; c.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`); await sleep(200);
+  await setSel('#stgNever textarea[data-stgnvnames]', '^Tutorial Guide');
+  await ev(`(() => { const c = document.querySelector('#stgNever input[data-stgnv="sell"]'); c.checked = true; c.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`); await sleep(200);
+  await click('[data-stgbar="save"]');
+  for (let i = 0; i < 40; i++) { if ((file().neverStore || {}).common) break; await sleep(250); }
+  ok('never store saved: common, names, sell', (() => { const N = file().neverStore || {}; return N.common === true && N.sell === true && (N.names || []).join() === '^Tutorial Guide'; })(), JSON.stringify(file().neverStore));
+  ok('the save confirmation names the never-store change', dialogs.some(d => /Never store: Common items/.test(JSON.stringify(d))));
+  await setSel('#stgNever textarea[data-stgnvnames]', '([');
+  ok('never store: a broken pattern blocks saving', await waitFor(`/not valid/.test(document.getElementById('stgBar').textContent)`, 3000));
+  await setSel('#stgNever textarea[data-stgnvnames]', '^Tutorial Guide');
+  const hasWh = await ev(`!!(window.StoragePage._state.info && window.StoragePage._state.info.clanWh)`);
+  if (hasWh) {
+    ok('clan warehouse: the list with tick boxes', await waitFor(`document.querySelectorAll('#stgCwh input[data-cwh]').length > 0`, 5000));
+    const n0 = await ev(`document.querySelectorAll('#stgCwh input[data-cwh]').length`);
+    await ev(`(() => { const i = document.querySelector('#stgCwh input[data-cwhq]'); i.value = 'zzzz-none'; i.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`); await sleep(200);
+    ok('clan warehouse: the search filters the list', await ev(`document.querySelectorAll('#stgCwh input[data-cwh]').length === 0 && /Nothing matches/.test(document.getElementById('stgCwh').textContent)`));
+    await ev(`(() => { const i = document.querySelector('#stgCwh input[data-cwhq]'); i.value = ''; i.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`); await sleep(200);
+    ok('clan warehouse: "Take out and sell" is off until something is ticked', await ev(`document.querySelector('#stgCwh [data-cwhact="sell"]').disabled`));
+    await ev(`(() => { const c = document.querySelector('#stgCwh input[data-cwh]'); c.checked = true; c.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`); await sleep(200);
+    ok('clan warehouse: ticking one enables the buttons and counts it', await ev(`!document.querySelector('#stgCwh [data-cwhact="sell"]').disabled && /1 kind ticked/.test(document.getElementById('stgCwh').textContent)`), `${n0} rows`);
+    await click('#stgCwh [data-cwhact="none"]'); await sleep(200);
+    ok('clan warehouse: "Untick all"', await ev(`document.querySelector('#stgCwh [data-cwhact="sell"]').disabled`));
+    // SELLALL (owner 2026-10-14): "Sell all Crafting parts" / "Sell all Recipes" (answered Cancel: nothing is sent, the ticks come back)
+    const sa = await ev(`[...document.querySelectorAll('#stgCwh [data-cwhsellall]')].map(b => b.dataset.cwhsellall + '|' + b.textContent).join(';')`);
+    ok('clan warehouse: "Sell all" buttons for crafting parts / recipes (when the warehouse has them)', /part|Sell all Crafting parts|recipe|Sell all Recipes/.test(sa) || !sa, sa);
+    if (sa) { await UID.set(ev, false); const before = dialogs.length; await click('#stgCwh [data-cwhsellall]'); await sleep(400); await UID.set(ev, true);
+      const d = dialogs.slice(before).find(x => /Take out and sell [0-9]+ kinds?/.test(x.title || ''));
+      ok('"Sell all" asks first with the whole group', !!d, d ? d.title : JSON.stringify(dialogs.slice(before)).slice(0, 300));
+      ok('"Sell all" cancelled = nothing ticked', await ev(`document.querySelector('#stgCwh [data-cwhact="sell"]').disabled`)); }
+    await ev(`document.getElementById('stgCwh').scrollIntoView()`); await sleep(300); await shot('04_iphone_clanwh');
+    ok('clan warehouse: no sideways scroll on the phone', await noScroll());
+  } else ok('clan warehouse: "not known yet" text without a list', await ev(`/not known yet/.test(document.getElementById('stgCwh').textContent)`));
 
   // ===================== desktop =====================
   await desktop();

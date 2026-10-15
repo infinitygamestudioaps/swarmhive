@@ -298,6 +298,7 @@ function mockHost(server) {
     SkillsList: { GetItemByID: (id) => ({ Id: id }) }, skillPlan: { attacks: [{ id: 1178, name: 'Twister' }, { id: 1266, name: 'Shadow Spark' }] },
     Send: { RequestMagicSkillUse: (id) => server.request(id) },
     File: {}, Options: {}, state: {}, log() { }, note() { }, logError() { }, appendShared() { },
+    hiveSkillsOn: () => true, hivePotionsOn: () => true,   // HIVESW-2026-10-15: the default (Hive picks the skills, drinks potions)
   };
   return env;
 }

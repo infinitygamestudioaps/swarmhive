@@ -148,23 +148,24 @@ const M = new Function(blk('// MULTISPOT-PURE-BEGIN', '// MULTISPOT-PURE-END') +
   check(M.multiDecide(base({ live: 4 })).action === 'stay', 'decide: monsters here -> stay');
   check(M.multiDecide(base({ fighting: true })).action === 'stay', 'decide: fighting -> stay (never leave in a fight)');
   check(M.multiDecide(base({ st: { 'area:a': { emptySince: 1e6 - 20000, visitedAt: 1 } } })).action === 'wait', 'decide: empty 20 s -> wait (not yet)');
-  const d1 = M.multiDecide(base({ st: { 'area:a': { emptySince: 1e6 - 36000, visitedAt: 1 } } }));
-  check(d1.action === 'move' && d1.to === 'area:b', `decide: empty 36 s -> move to the nearest with monsters (${d1.to}: ${d1.why})`);
-  const d2 = M.multiDecide(base({ order: 'rotate', cur: 'area:b', st: { 'area:b': { emptySince: 1e6 - 40000, visitedAt: 1 } } }));
+  const EM = M.MULTI.emptyMs;                                       // SPOTKEEP-2026-10-14: 150 s (was 35 s)
+  const d1 = M.multiDecide(base({ st: { 'area:a': { emptySince: 1e6 - EM - 1000, visitedAt: 1 } } }));
+  check(d1.action === 'move' && d1.to === 'area:b', `decide: empty emptyMs + 1 s -> move to the nearest with monsters (${d1.to}: ${d1.why})`);
+  const d2 = M.multiDecide(base({ order: 'rotate', cur: 'area:b', st: { 'area:b': { emptySince: 1e6 - EM - 5000, visitedAt: 1 } } }));
   check(d2.action === 'move' && d2.to === 'area:c', `decide: rotate -> the next in my order (${d2.to})`);
   const occT = base({}).targets.map(t => t.key === 'area:b' ? Object.assign({}, t, { blocked: 'occupied by Foo' }) : t);
-  const d3 = M.multiDecide(base({ targets: occT, st: { 'area:a': { emptySince: 1e6 - 40000, visitedAt: 1 } } }));
+  const d3 = M.multiDecide(base({ targets: occT, st: { 'area:a': { emptySince: 1e6 - EM - 5000, visitedAt: 1 } } }));
   check(d3.action === 'move' && d3.to === 'area:c', 'decide: the occupied one is skipped');
   const d4 = M.multiDecide(base({ cur: 'area:b', targets: occT, live: 6 }));
   check(d4.action === 'move' && d4.to !== 'area:b', `decide: the CURRENT one is occupied / claimed -> leave even with monsters (${d4.to}: ${d4.why})`);
   // every one empty: stay where the most respawns come
   const t = 1e6, kills = (n2, at) => Array.from({ length: n2 }, (_, i) => at + i * 100);
-  const st5 = { 'area:a': { emptySince: t - 50000, visitedAt: 1, kills: kills(10, t - 50000) },                        // 10 due within 60 s
+  const st5 = { 'area:a': { emptySince: t - EM - 15000, visitedAt: 1, kills: kills(10, t - 50000) },                        // 10 due within 60 s
     'area:b': { visitedAt: 1, leftAt: t - 2000, leftLive: 0, kills: kills(15, t - 1500) },                                 // back only after we would arrive
     'area:c': { visitedAt: 1, leftAt: t - 10000, leftLive: 0, kills: [] } };                                               // left empty, nothing comes back
   const d5 = M.multiDecide(base({ st: st5 }));
   check(d5.action === 'stay' && /staying here/.test(d5.why), `decide: all empty, the most respawns come here -> stay (${d5.why})`);
-  const st6 = { 'area:a': { emptySince: t - 50000, visitedAt: 1, kills: [] }, 'area:b': { visitedAt: 1, leftAt: t - 200000, leftLive: 0, kills: kills(12, t - 180000) }, 'area:c': { visitedAt: 1, leftAt: t - 5000, leftLive: 0, kills: [] } };
+  const st6 = { 'area:a': { emptySince: t - EM - 5000, visitedAt: 1, kills: [] }, 'area:b': { visitedAt: 1, leftAt: t - 200000, leftLive: 0, kills: kills(12, t - 180000) }, 'area:c': { visitedAt: 1, leftAt: t - 5000, leftLive: 0, kills: [] } };
   const d6 = M.multiDecide(base({ st: st6 }));
   check(d6.action === 'move' && d6.to === 'area:b', `decide: nothing comes back here, area b has respawned -> move there (${d6.to}: ${d6.why})`);
   check(M.multiExpectAt({ spawns: 20, respawnSec: 60 }, null, t) === 20, 'expect: never visited = all its spawns');
@@ -215,7 +216,7 @@ const M = new Function(blk('// MULTISPOT-PURE-BEGIN', '// MULTISPOT-PURE-END') +
   // rotation: an unreachable target is never moved to / picked
   const UT = [{ key: 'area:a', x: 0, y: 0, spawns: 20 }, { key: 'area:b', x: 2000, y: 0, spawns: 30, unreachable: '29.5k walk from Oren -> Sea of Spores' }, { key: 'area:c', x: 6000, y: 0, spawns: 30 }];
   check(M.multiPick(UT, { pos: { x: 2000, y: 0 }, order: 'nearest' }).key !== 'area:b', 'multiPick: an unreachable area is never the next target (even the nearest)');
-  const du = M.multiDecide({ now: 1e6, cur: 'area:a', targets: UT, st: { 'area:a': { emptySince: 1e6 - 40000, visitedAt: 1 } }, live: 0, fighting: false, order: 'rotate' });
+  const du = M.multiDecide({ now: 1e6, cur: 'area:a', targets: UT, st: { 'area:a': { emptySince: 1e6 - M.MULTI.emptyMs - 5000, visitedAt: 1 } }, live: 0, fighting: false, order: 'rotate' });
   check(du.action === 'move' && du.to === 'area:c', `multiDecide: rotate skips the unreachable area b (${du.action} ${du.to || ''})`);
   const du2 = M.multiDecide({ now: 1e6, cur: 'area:b', targets: UT, st: {}, live: 5, fighting: false, order: 'nearest' });
   check(du2.action === 'move' && du2.to !== 'area:b', `multiDecide: standing in an area marked unreachable -> move to a reachable one (${du2.to})`);
@@ -290,7 +291,7 @@ const M = new Function(blk('// MULTISPOT-PURE-BEGIN', '// MULTISPOT-PURE-END') +
   check(moves >= 3, `simulation: the leader moved on ${moves} times in 15 min (${W.log.slice(0, 6).join(', ')})`);
   check(W.log.every(l => !/->area:b/.test(l) || +l.split('s')[0] < 300), 'simulation: never back into area b after another party claimed it (300 s)');
   const firstMove = W.log[0] ? +W.log[0].split('s')[0] : 0;
-  check(firstMove >= 42 + 35 && firstMove <= 42 + 45, `simulation: the first move came ~35 s after the area was cleared (last kill at 42 s, moved at ${firstMove} s)`);
+  check(firstMove >= 42 + M.MULTI.emptyMs / 1000 && firstMove <= 42 + M.MULTI.emptyMs / 1000 + 10, `simulation: the first move came ~emptyMs after the area was cleared (last kill at 42 s, moved at ${firstMove} s)`);
 }
 
 // ---- 5) the real host code in a sandbox -------------------------------------------------------------------------------------------
@@ -321,6 +322,7 @@ function grab(name) {
     const now = () => env.now, num = (v) => { const x = Number(v); return isFinite(x) ? x : 0; };
     const Me = env.me; const CONFIG = env.CONFIG; const livePos = {}; const control = { gen: 0 };
     const autoLvl = env.autoLvl; const spotOcc = env.spotOcc; const SOLO = { levelsBelow: 3 };
+    const landingRefused = (L) => !!(env.refusedLanding && L && env.refusedLanding(L));   // PICKDANGER 2026-10-14 (a stub: the real one reads the danger grid)
     const soloChar = () => false, assistSpot = () => null, manualSpot = () => null, teamKind = () => 'melee', ssSpotOk = () => true, teamRoute = () => null;
     const customZones = () => Z, huntingSpots = () => HS, dungeonRooms = () => D, fieldAreas = () => FA, spotReachable = (s) => !env.unreach || !env.unreach.test(String((s.gk && s.gk.desc) || ''));
     const pickLog = (m) => env.picks.push(m), logError = (w, e) => env.picks.push('ERROR ' + w + ' ' + (e && e.stack)), note = () => {}, dungeonLog = () => {};
@@ -330,7 +332,7 @@ function grab(name) {
     ${code}
     return { pickSpot, zoneSpot, zoneAreaSpot, multiSpotFor, multiTargets, spotBlock, claimOverlaps, multiSt, spotKeyOf };`);
   const mk = (o) => {
-    Object.assign(env, { me: { Name: o.leader, X: o.x || 83000, Y: o.y || 148000, Z: -3400, Level: o.level }, level: o.level, teamMax: o.teamMax || o.level + 2, team: o.leader, claims: o.claims || {}, picks: [], unreach: o.unreach || null,
+    Object.assign(env, { me: { Name: o.leader, X: o.x || 83000, Y: o.y || 148000, Z: -3400, Level: o.level }, level: o.level, teamMax: o.teamMax || o.level + 2, team: o.leader, claims: o.claims || {}, picks: [], unreach: o.unreach || null, refusedLanding: o.refusedLanding || null,
       CONFIG: { leader: o.leader, lead: { on: true, zoneScale: 3, avoidLanding: /Ruins of Despair/i, claimRadius: 1500, claimTtlMs: 180000 }, danger: { margin: 6 }, teams: {}, travel: { maxWalk: 25000, maxUsefulLanding: 30000 } },
       autoLvl: { bad: o.bad || {}, spot: o.spot || null, forceSpot: null }, spotOcc: o.occ || {} });
     return H(env, D, Z, HS, o.fa ? Object.assign({ zones: {} }, o.fa, { byId: (() => { const b = {}; o.fa.regions.forEach(R => R.areas.forEach(a => { b[a.id] = { R, a }; })); return b; })() }) : FA);
@@ -361,6 +363,10 @@ function grab(name) {
   X = mk({ leader: 'Tank1', level: 55, x: 147000, y: 26000 });
   const s5 = X.pickSpot(55, false);
   check(s5 && s5.area && /Fields of Massacre/.test(s5.name), `pickSpot Tank1 lvl 55 -> ${s5 ? s5.name : 'null'}`);
+  // PICKDANGER 2026-10-14 (Dagger1: Blazing Swamp picked again and again, then REFUSED at the landing 155310,-16339): a refused landing is never picked
+  { const bz = (L) => Math.hypot(Number(L.x) - 155310, Number(L.y) + 16339) < 1500;
+    for (const lv of [48, 50, 52]) { X = mk({ leader: 'Nobody', level: lv, refusedLanding: bz }); const s = X.pickSpot(lv, false);
+      check(!s || !/Blazing Swamp/.test(String(s.name || '')), `lvl ${lv}: a landing the danger check refuses is not picked (${s ? s.name : 'null'})`); } }
   // a party with NO route zone for its level (Dagger1-like, lvl 12): the automatic field-area step before the datapack squares
   X = mk({ leader: 'Nobody', level: 12 });
   const s6 = X.pickSpot(12, false);

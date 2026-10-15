@@ -157,6 +157,12 @@ function checkLocked(o) {
     }
     prev = e;
   }
+  // 2026-10-15 (Ketra Commander Atis: point 5 at z -3672 on the Ivory Tower bridge = the ground UNDER the deck for the walkers; the team left the
+  // bridge for the cliff below and stuck): a point whose height puts it on another floor than the one walk-connected to the previous point
+  // (route_floor_fix.js fixFloors: a bridge deck vs the ground below, an overhang) is a bad leg too; `node docs/plan/tools/route_floor_fix.js --write` fixes it
+  try { const FF = require('./route_floor_fix'); FF.fixFloors(cur.points || []).changes.filter(c => /walk/.test(c.why)).forEach(c => {
+    const nr = (cur.points || []).slice(0, c.i + 1).filter(e => e && !(e.do === 'floor' || e.do === 'dungeon') && isFinite(e.x)).length, p = cur.points[c.i];
+    bad.push({ after: nr - 1, to: [p.x, p.y, p.z], why: `point ${nr} is on the wrong floor: z ${c.from} = floor ${c.walker} for the walkers, ${c.why} (run route_floor_fix.js --write)`, floor: c.to }); }); } catch (e) { }
   try { geo().dropRegions(); } catch (e) { }
   const ok = fc.ok && !bad.length;
   const check = { ok, at: new Date().toISOString(), by: 'docs/plan/tools/raid_routes.js', points: n, floor: fc.ok ? 'ok' : fc.why, badLegs: bad.slice(0, 10), why: ok ? '' : (!fc.ok ? fc.why : `${bad.length} leg(s) not walkable on the geodata (no way around within 3x): first after point ${bad[0].after}`) };

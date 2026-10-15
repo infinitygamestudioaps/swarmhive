@@ -347,7 +347,7 @@ const COND = {
     ['clan create', 'async function clanCreateAt(', /dlgPage\(/],
     ['village master', 'async function villageMasterClick(', /dlgPage\(/],
     ['clan level up', 'async function clanLevelUp(', /dlgPage\(/],
-    ['clan quests', 'async function cqTalk(', /dlgPage\(/],
+    ['clan quests', 'async function cqTalk(', /dlgPage\(|DLG\.click\(/],   // BAGFULL 2026-10-14: DLG.click (the refusal reason)
     ['siege', 'async function siegeRegister(', /dlgPage\(/],
     ['class master', 'async function classMasterChange(', /dlgPage\(/],
     ['soul crystal', 'async function soulTalk(', /dlgPage\(/],

@@ -114,7 +114,8 @@ const liveAdd = (name, src, links, extra) => { if (!name) return; const L = LIVE
   const fl = rd(path.join(LOGS, 'floor_links_live.json'), {});
   Object.entries(fl).forEach(([k, v]) => { if (!v || !v.npcs) return; Object.entries(v.npcs).forEach(([n, r]) => liveAdd(n, `Logs/floor_links_live.json ${k}: ${r.last}`, r.text ? [r.text] : [], { floorLink: Object.assign({ key: k }, r) })); });
   const shops = rd(path.join(DATA, 'shopscan_giran.json'), { shops: [] });
-  (shops.shops || []).forEach(s => liveAdd(s.npc || s.name, 'shopscan_giran.json', (s.links || []).concat(s.lists ? Object.keys(s.lists) : []), { shop: true }));
+  // GIRANSHOPS 2026-10-15: seeded shops (giran_shop_seed.js, datapack lists) were never seen live
+  (shops.shops || []).filter(s => !s.seeded).forEach(s => liveAdd(s.npc || s.name, 'shopscan_giran.json', (s.links || []).concat(s.lists ? Object.keys(s.lists) : []), { shop: true }));
 }
 // ---------------------------------------------------------------------------------------------------------------- build
 const BL = MENUS.buylists();

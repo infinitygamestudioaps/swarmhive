@@ -14,7 +14,7 @@ const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const rd = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8').replace(/^﻿/, ''));
 const blk = (s, b, e) => { const i = s.indexOf(b), j = s.indexOf(e, i); if (i < 0 || j < i) { console.error(b + ' block not found'); process.exit(1); } return s.slice(i, j); };
 const PURE = blk(src, '// STASH-PURE-BEGIN', '// STASH-PURE-END');
-const M = new Function(PURE + '\nreturn { stashSettings, stashKindFor, stashTriggerDue, stashLettersCfg, stashLetterReceiver, stashLetterKeep, stashLettersDecide, STASH_LETTER_IDS, stashClassify, stashPlan, stashOrder, stashSlotsNeeded, stashBatches, stashLe, stashHex, stashWithdrawHex, stashSysVerdict, stashPickLink, stashDue, stashLeft, stashRecordAdd, stashLine, stashPlanLine, STASH_MSG };')();
+const M = new Function(PURE + '\nreturn { stashNever, stashSettings, stashKindFor, stashTriggerDue, stashLettersCfg, stashLetterReceiver, stashLetterKeep, stashLettersDecide, STASH_LETTER_IDS, stashClassify, stashPlan, stashOrder, stashSlotsNeeded, stashBatches, stashLe, stashHex, stashWithdrawHex, stashSysVerdict, stashPickLink, stashDue, stashLeft, stashRecordAdd, stashLine, stashPlanLine, STASH_MSG };')();
 let fails = 0; const warns = [];
 const check = (ok, what) => { console.log((ok ? 'ok   ' : 'FAIL ') + what); if (!ok) fails++; };
 
@@ -291,6 +291,14 @@ async function flow(name, setup) {
   check(/id: 'stash',/.test(cmds) && /id: 'stashplan',/.test(cmds), 'Dashboard/commands.js has stash + stashplan');
   check(/stash/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'charpage.js'), 'utf8')), 'character page shows the warehouse line');
 
+  // WHSELL 2026-10-14: neverStore (Common items / own names) beats every deposit rule, also a character's '.*'
+  { const ctx = { name: 'Dagger1', mode: 'all', keepIds: [], data: {}, rules: { neverStore: { common: true, names: ['^Tutorial'], sell: false }, chars: { Dagger1: { depositNames: ['.*'] } } } };
+    const c1 = M.stashClassify({ id: 9999, name: 'Common Item - Aspis', count: 1 }, ctx), c2 = M.stashClassify({ id: 9998, name: 'Tutorial Guide', count: 1 }, ctx), c3 = M.stashClassify({ id: 9997, name: 'Aspis', count: 1 }, ctx);
+    check(c1.act === 'keep' && c1.cat === 'never' && c2.act === 'keep' && c3.act === 'deposit', 'neverStore: Common items + names stay in the bag (beat ".*"), other items still go');
+    ctx.rules.neverStore.sell = true; const c4 = M.stashClassify({ id: 9999, name: 'Common Item - Aspis', count: 1 }, ctx), c5 = M.stashClassify({ id: 9999, name: 'Common Item - Aspis', count: 1, equipped: true }, ctx);
+    check(c4.act === 'sell' && c5.act === 'keep' && c5.cat === 'equipped', 'neverStore sell: sold instead; a worn Common item is never touched');
+    check(M.stashClassify({ id: 9999, name: 'Common Item - Aspis', count: 1 }, { name: 'X', keepIds: [], data: {}, rules: {} }).cat !== 'never', 'no neverStore in the file = old behaviour');
+  }
   warns.forEach(w => console.log('warn ' + w));
   console.log(fails ? `\n${fails} FAILED` : '\nall stash checks passed');
   process.exit(fails ? 1 : 0);

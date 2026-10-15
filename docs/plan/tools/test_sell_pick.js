@@ -128,7 +128,9 @@ const ids = (r) => r.list.map(x => x.id).sort((a, b) => a - b);
 // ---- 8. host wiring (source checks)
 {
   const cut = (a, n) => { const i = src.indexOf(a); return i < 0 ? '' : src.slice(i, i + (n || 4000)); };
-  const sa = cut('async function sellAt(npc, why, grades) {', 6000);
+  const sa = cut('async function sellAt(npc, why, grades, only) {', 9000);
+  ok(/sold.length >= 2 && sold.length >= refused.length/.test(sa), 'SELLSTUCK: a sale where the shop took only one item bans nothing (sure = the shop took most of the sale)');
+  ok(/sellOnlyRows\(only\)/.test(sa) && /function sellOnlyRows/.test(src), 'WHSELL: sellAt can sell exactly the chosen bag entries');
   ok(/sellCandidatesEx\(grades\)/.test(sa) && /pick\.why/.test(sa), 'sellAt uses the pick and returns WHY when nothing goes');
   ok(/unsellRecord\(refused/.test(sa) && !/u\[it\.id\] = it\.name/.test(sa), 'sellAt records strikes (no more life bans after one failed sale)');
   ok(/objOk\(id, i\.objId\)/.test(sa), 'sellAt sells only the bag entries the pick chose');

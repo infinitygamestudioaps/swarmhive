@@ -214,7 +214,7 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(lg > 0 && s1 > lg && s1 - lg < 200, 'travelToSpot: a newer choice is checked right after the Giran regroup / supply run');
   const ft = tts.indexOf('if (fromTown) await teamTeleport(fromTown'), s2 = tts.indexOf('if (stale(`after ${fromTown', ft), dt = tts.indexOf("if (dest && !(await teamTeleport(dest, 'autolevel')))", ft);
   check(ft > 0 && s2 > ft && dt > s2, 'travelToSpot: checked between the town step and the field teleport (the 19:24:06 Sel Mahum port)');
-  const rp = src.slice(src.indexOf('async function teamRegroupBeforePortInner'), src.indexOf('async function teamRegroupBeforePortInner') + 6000);
+  const rp = src.slice(src.indexOf('async function teamRegroupBeforePortInner'), src.indexOf('async function teamRegroupBeforePortInner') + 14000);
   check((rp.match(/levelTripCancelled\(\)/g) || []).length >= 2, 'every hold before a teleport refuses for a cancelled autolevel trip (start + loop)');
   check(/if \(isLeader\(\) && levelTripCancelled\(\)\) \{ gkFail = 'the hunting spot was changed on the dashboard'/.test(src), 'gkTeleport refuses for a cancelled autolevel trip');
   const er = src.slice(src.indexOf('async function enterRoom'), src.indexOf('// --- JOINT RAID'));

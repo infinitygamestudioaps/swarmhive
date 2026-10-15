@@ -17,7 +17,7 @@ const check = (ok, what) => { n++; console.log((ok ? 'ok   ' : 'FAIL ') + what);
 const a = src.indexOf('// RAIDAREA-PURE-BEGIN'), b = src.indexOf('// RAIDAREA-PURE-END');
 if (a < 0 || b < a) { console.error('RAIDAREA-PURE block not found'); process.exit(1); }
 const PURE = src.slice(a, b);
-const M = new Function(PURE + '\nreturn { RAIDAREA, raInPoly, raDistPoly, raidAreaAnchor, raidAreaNorm, raidAreaInClear, raidClearWanted, raidStagePoint, raidAreaHold, raidAreaHoldStep, raidAreaHoldBusy, raidAreaClamp };')();
+const M = new Function(PURE + '\nreturn { RAIDAREA, raInPoly, raDistPoly, raidAreaAnchor, raidAreaNorm, raidAreaInClear, raidClearWanted, raidStagePoint, raidAreaHold, raidAreaHoldStep, raidAreaHoldBusy, raidAreaClamp, raidLeashOk, raidLeashBack, raidLeashFocus };')();
 check(!/new Map\(/.test(PURE), 'pure block: no new Map() (the L2Swarm world-map host type)');
 
 const BOSS = { x: 10000, y: 20000, z: -3000 };
@@ -191,6 +191,21 @@ const CAMP = [
   const off = { ...p2.body.item, poly: p2.body.item.poly.map(p => [p[0] + 3000, p[1]]) };
   let p5 = PE.handle('POST', q('kind=raidarea&id=25001'), { rev: p2.body.rev, item: off });
   check(p5.code === 200 && p5.body.warnings.some(w => /boss spawn is .* outside the fight area/.test(w)), 'API: a fight area away from the spawn saves with a warning');
+  // STAY INSIDE + FIT TO SAFE GROUND (2026-10-14)
+  { const st = { ...p5.body.item, stay: true };
+    const ps = PE.handle('POST', q('kind=raidarea&id=25001'), { rev: p5.body.rev, item: st });
+    const jj = JSON.parse(fs.readFileSync(file, 'utf8'));
+    check(ps.code === 200 && jj.areas['25001'].stay === true && ps.body.item.stay === true && (ps.body.changed || []).includes('stay') && M.raidAreaNorm(jj.areas['25001']).stay === true, 'API: "Stay inside" is saved and read by swarm.js');
+    p5.body.rev = ps.body.rev; p5.body.item = ps.body.item;
+    const fr = PE.handle('POST', q('action=fit&kind=raidarea&id=25001'), { r: 900 });
+    const n1 = JSON.parse(fs.readFileSync(file, 'utf8'));
+    check(fr.code === 200 && fr.body.ok && fr.body.poly.length >= 3 && fr.body.poly.length <= 40 && fr.body.cuts && JSON.stringify(n1) === JSON.stringify(jj), 'API: "Fit to safe ground" returns an outline (<= 40 points, cuts per reason) and saves nothing', JSON.stringify(fr.body.cuts || fr.body.error));
+    const bz2 = p5.body.item.boss, far = fr.body.ok ? Math.max(...fr.body.poly.map(p => Math.hypot(p[0] - bz2.x, p[1] - bz2.y))) : 0;
+    check(far <= 905, 'fit: no point beyond the radius', String(Math.round(far)));
+    const RF = require(path.join(ROOT, 'Dashboard', 'raidfit.js'));
+    const cl = RF.fitSafeGround(ROOT, { x: 124240, y: 75376, z: -2800, r: 900 });   // Retreat Spider Cletu (owner's screenshot): a hill
+    check(cl.ok && cl.cuts.cliff > 0, 'fit: Retreat Spider Cletu (a hill) is cut back at cliff edges', JSON.stringify(cl.cuts));
+  }
   const L1 = PE.handle('GET', q('list=raidarea'));
   check(L1.code === 200 && L1.body.raidarea.length === 1 && L1.body.raidarea[0].id === '25001' && L1.body.raidarea[0].clear === true, 'API: list=raidarea (dashboard badge "area set")');
   const before = fs.readFileSync(file, 'utf8');
@@ -208,6 +223,20 @@ const CAMP = [
   check(/clearRadius: 1200,/.test(src), 'swarm.js: CONFIG.mission.clearRadius 1200 (was 2000)');
   check(!/\x08/.test(src), 'swarm.js: no raw backspace characters');
   check(!/new Map\(/.test(src.slice(src.indexOf('// RAID FIGHT AREA loader'), src.indexOf('// RAID START (user 2026-10-05'))), 'swarm.js: loader without new Map()');
+  // STAY INSIDE (owner 2026-10-14): a leash - nobody leaves, nobody chases
+  { const sq = [[0, 0], [1000, 0], [1000, 1000], [0, 1000]];
+    const A = M.raidAreaNorm({ fight: sq, stay: true }), A0 = M.raidAreaNorm({ fight: sq });
+    check(A.stay === true && A0.stay === false, 'stay: switched on per area (default off)');
+    check(M.raidLeashOk(A, 500, 500, 'melee') && M.raidLeashOk(A, 1060, 500, 'melee') && !M.raidLeashOk(A, 1200, 500, 'melee'), 'stay: melee only on targets inside / within 80 of the edge');
+    check(M.raidLeashOk(A, 1450, 500, 'caster', 600) && !M.raidLeashOk(A, 1600, 500, 'caster', 600), 'stay: casters hit what their reach covers from inside (600 - 80)');
+    check(M.raidLeashOk(A, 1500, 500, 'tank') && !M.raidLeashOk(A, 1700, 500, 'tank'), 'stay: the tank takes a loose one only within Aggression reach of the edge');
+    check(M.raidLeashOk(A0, 5000, 5000, 'melee') && M.raidLeashBack(A0, 5000, 5000) === null, 'no stay = old behaviour (anything, anywhere)');
+    const bk = M.raidLeashBack(A, 1300, 500);
+    check(bk && M.raInPoly(bk.x, bk.y, sq) && M.raidLeashBack(A, 1030, 500) === null && M.raidLeashBack(A, 500, 500) === null, 'stay: outside -> a point just inside; on the edge (40) / inside -> stay');
+    const f = M.raidLeashFocus(A, [{ x: 1400, y: 500, n: 'edge' }, { x: 3000, y: 500, n: 'far' }, { x: 500, y: 500, n: 'in' }]);
+    check(f.map(m => m.n).join() === 'in,edge', 'stay: the focus never picks a minion outside; the ones inside first', f.map(m => m.n).join());
+    check(src.includes('if (RA && RA.stay) { const pos = minsAll') && src.includes('raidLeashOk(RA, num(tgt.X)') && src.includes('raidLeashBack(A, num(Me.X), num(Me.Y))') && src.includes('not chasing'), 'swarm.js: leader focus, dealer target, the 600 ms leash and the tank use it');
+  }
   console.log(`\n${n - fails}/${n} checks ok${fails ? ` — ${fails} FAILED` : ''}`);
   try { fs.rmSync(SB, { recursive: true, force: true }); } catch (e) { }
   process.exit(fails ? 1 : 0);

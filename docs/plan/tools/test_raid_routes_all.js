@@ -56,6 +56,19 @@ if (!QUICK && HAS_GEO) {
     const W = require('./water_zones');
     ok(!blk.ok || !blk.points.some(p => W.zoneAt(p.x, p.y, p.z)), `wet 'block': no point inside a water zone (${blk.ok ? 'found a dry way' : blk.reason})`);
     ok(wet.ok && wet.points.some(p => W.zoneAt(p.x, p.y, p.z)), `without the block the way goes along the sea floor inside the water zone (a dive) (${wet.reason || wet.lengthUnits})`); }
+  // 2026-10-15 Ketra Commander Atis (owner: "off the Ivory Tower bridge and then down a cliff face. They just get stuck"): a hand-drawn point with a
+  // flat z (-3672) on the bridge = the GROUND under the deck (-3744) for the walkers; route_floor_fix.fixFloors puts it on the walk-connected deck
+  { const FF = require('./route_floor_fix');
+    const pts = [{ x: 85331, y: 10838, z: -3592 }, { x: 85401, y: 9251, z: -3672 }, { x: 87131, y: 6828, z: -3672 }];
+    ok(FF.walkerFloor([-3512, -3744], -3672) === -3744, 'Atis bridge: the walkers take the ground under the deck for z -3672 (the bug)');
+    const fx = FF.fixFloors(pts), c5 = fx.changes.find(c => c.i === 1), c8 = fx.changes.find(c => c.i === 2);
+    ok(c5 && c5.to === -3512 && Math.abs(fx.points[1].z - -3512) <= 8, `Atis bridge: the point is moved onto the deck it is walked to from the previous point (${JSON.stringify(c5)})`);
+    ok(c8 && c8.to === -3120, `a single-floor point 552 off its ground gets the ground's height (${JSON.stringify(c8)})`);
+    const before = G.findPath(pts[0], pts[1], { swim: false, maxNodes: 400000, pad: 2000 }), after = G.findPath(pts[0], fx.points[1], { swim: false, maxNodes: 400000, pad: 2000 });
+    ok(before.ok && after.ok && after.lengthUnits < 1.2 * 1589 && before.lengthUnits > 2 * 1589, `Atis bridge leg: ${before.lengthUnits} (off the bridge, round to the ground) -> ${after.lengthUnits} along the deck`);
+    ok(FF.fixFloors([pts[0], { x: 85401, y: 9251, z: -3744 }]).changes.length === 0, 'a height ON a floor (recorded) is trusted, never moved');
+    const live = J(path.join(DATA, 'routes', 'raid', '25026.json'), null);
+    if (live && Array.isArray(live.points)) ok(FF.fixFloors(live.points).changes.filter(c => /walk/.test(c.why)).length === 0, 'routes/raid/25026.json: no point on the wrong floor any more'); }
   G.dropRegions();
 } else if (QUICK) console.log('  (skipped: --quick)');
 
@@ -100,7 +113,7 @@ if (!pol.length) console.log('  skipped: no route planned under the raid policy 
   const pw = pol.flatMap(r => (r.steps || []).filter(s => s.do === 'walk' && s.pol));
   const swimModes = pw.filter(s => s.swimLen > 0);
   ok(swimModes.every(s => s.pol.mode === 'swim-only' || s.pol.mode === 'swim-shorter'), `every policy walk that swims has a reason: no dry way / dry way absurdly longer (${swimModes.length})`);
-  ok(pol.filter(r => (r.steps || []).some(s => s.do === 'walk' && s.pol && s.pol.overBreath)).every(r => (r.steps || []).some(s => s.do === 'walk' && s.maxSwim > 2800) && (r.flags || []).includes('over-breath')), 'overBreath only on routes with a swim longer than one breath (flag over-breath)');
+  ok(pol.filter(r => (r.steps || []).some(s => s.do === 'walk' && s.pol && s.pol.overBreath)).every(r => (r.steps || []).some(s => s.do === 'walk' && (s.maxSwim > 2800 || s.pol.overBreath > 2800)) && (r.flags || []).includes('over-breath')), 'overBreath only on routes with a swim longer than one breath (flag over-breath)');
   const mil = RA['raid:25032'];
   if (mil && (mil.flags || []).includes('raid-policy')) {
     ok(mil.steps.some(s => s.do === 'door' && s.need && s.need.wait) && mil.steps.some(s => s.do === 'door' && s.need && s.need.unlock), "Millenu (Garden of Eva): timed doors + an Unlock door are steps");

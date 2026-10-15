@@ -124,6 +124,9 @@
     <button id="peRaCircle" title="replace the shape being edited with a circle around the boss">◯ Circle</button><input id="peRaN" type="number" value="900" min="200" max="5000" step="100" inputmode="numeric" title="radius of the circle" aria-label="circle radius">
     <span class="sep"></span>
     <button id="peRaStage" title="staging point: where the team waits while it clears and counts down (drag the blue flag)">⚑ Stage</button>
+    <span class="sep"></span>
+    <button id="peRaFitG" title="a circle of the radius above around the boss, cut back where the ground drops off (cliff), turns to water or a wall stands">⛰ Fit to safe ground</button>
+    <button id="peRaStay" title="in the fight nobody leaves the fight area: no chasing minions out of it, anyone outside walks straight back in">🛡 Stay inside: off</button>
   </div>
 </div>
 <div class="panel" id="pePanel" hidden></div>`;
@@ -143,6 +146,8 @@
     $p('peRaAuto').onclick = raAutoClear;
     $p('peRaCircle').onclick = () => raCircle(+$p('peRaN').value || 900);
     $p('peRaStage').onclick = raStageBtn;
+    $p('peRaFitG').onclick = raFitGround;
+    $p('peRaStay').onclick = raStayBtn;
     $p('peTools').addEventListener('click', (e) => {
       const m = e.target.closest('[data-mode]'); if (m) { S.mode = m.dataset.mode; tools(); hint(); return; }
       const sh = e.target.closest('[data-show]'); if (sh) { S.show[sh.dataset.show] = !S.show[sh.dataset.show]; tools(); renderCtx(); renderMobs(); }
@@ -472,6 +477,9 @@
     $p('peRaAuto').hidden = !(it.layer === 'clear' || (it.clearPoly && it.clearPoly.length >= 3));
     $p('peRaStage').textContent = it.stage ? '⚑ Stage: set' : '⚑ Stage: auto';
     $p('peRaStage').classList.toggle('on', !!it.stage);
+    $p('peRaStay').textContent = it.stay ? '🛡 Stay inside: ON' : '🛡 Stay inside: off';
+    $p('peRaStay').classList.toggle('on', !!it.stay);
+    $p('peRaFitG').hidden = (it.layer || 'fight') !== 'fight';
     hint();
   }
   function raLayer(l, quiet) {
@@ -502,6 +510,27 @@
     pushUndo(); it.poly = circlePoly(b.x, b.y, N, 12); if (it.layer === 'clear') delete it._autoClear; S.sel = -1; S.mode = 'edit';
     changed(); hint(); fit(); render();
     toast(`${it.layer === 'clear' ? 'Clear' : 'Fight'} area = a circle of ${N} around ${b.name}: drag the points to fit the ground.`);
+  }
+  // STAY INSIDE + FIT TO SAFE GROUND (owner 2026-10-14: "the raid team should not run around ... a small circle where the raid team will not move
+  // out ... or even better barriers where the cliffs are or water is")
+  async function raStayBtn() {
+    const it = S.item; if (!it) return;
+    if (!it.stay && !await uiConfirm({ title: 'Stay inside the fight area?', body: [uiP('In the fight ', uiEm('nobody leaves this area'), ':'), uiList(['anyone outside walks straight back in', 'minions outside it are not chased — melee only hit what is inside (or right at the edge), casters what they reach from inside', 'the leader focuses only minions they can reach from inside, the ones inside first', 'the tank takes a loose minion only from the edge (Aggression reach)']), uiNote('Draw the area where the ground is safe: use ⛰ Fit to safe ground, then check it on the map. Save afterwards.')], confirmText: 'Switch on' })) return;
+    pushUndo(); it.stay = !it.stay; changed(); raTools();
+    toast(it.stay ? 'Stay inside: ON — press Save.' : 'Stay inside: off — press Save.');
+  }
+  async function raFitGround() {
+    const it = S.item; if (!it || S.busy) return;
+    const N = Math.max(200, Math.min(5000, r0(+$p('peRaN').value || 900))), b = raBoss();
+    S.busy = true; toast('Reading the ground (geodata)…');
+    const r = await call(`/api/polyedit?action=fit&kind=raidarea&id=${encodeURIComponent(S.id)}`, { method: 'POST', body: JSON.stringify({ r: N, x: b.x, y: b.y, z: b.z }) });
+    S.busy = false;
+    if (r.status !== 200 || !r.body.ok) { toast('Could not fit: ' + ((r.body && r.body.error) || ('error ' + r.status)), true); return; }
+    pushUndo(); if ((it.layer || 'fight') !== 'fight') raLayer('fight', true);
+    it.poly = r.body.poly; S.sel = -1; S.mode = 'edit';
+    changed(); hint(); fit(); render();
+    const c = r.body.cuts || {}, parts = [c.cliff ? c.cliff + ' at a cliff edge' : '', c.water ? c.water + ' at water' : '', c.wall ? c.wall + ' at a wall / steep ground' : ''].filter(Boolean);
+    toast(`Fight area = safe ground within ${N} of ${b.name}${parts.length ? ' — cut back: ' + parts.join(', ') + ' (of 72 directions)' : ' — nothing to cut back'}. Check it on the map, drag points if needed, then Save.`);
   }
   async function raStageBtn() {
     const it = S.item; if (!it) return;

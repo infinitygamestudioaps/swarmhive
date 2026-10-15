@@ -21,5 +21,5 @@ ok(M.multiLive(spot) === 1, 'one it would attack: 1 counts (stay and hunt it)');
 T += 20000;
 ok(M.multiLive(spot) === 2, 'stale picker info (> 15 s): ignored, every live monster counts again');
 const ht = piece('function huntTarget(', '\n}\n');
-ok(/huntSkip\.ids = skip; huntSkip\.ok = okIds; huntSkip\.at = now\(\);/.test(ht) && /okIds\[num\(mb\.objId\)\] = 1;\s*if \(d < bd\)/.test(ht) && ht.includes('sWhy = `${mb.Name}: ${pk.why}`; return no(mb); }') && /lvl > L \+ 3 \|\| lvl < L - 8\)\) return no\(mb\)/.test(ht), 'huntTarget records solo-pull and level refusals');
+ok(/huntSkip\.ids = skip; huntSkip\.ok = okIds; huntSkip\.at = now\(\);/.test(ht) && /okIds\[num\(mb\.objId\)\] = 1;\s*if \(d < bd\)/.test(ht) && /sWhy = `\$\{mb\.Name\}: \$\{pk\.why\}`;[^\n]*return no\(mb\); \}/.test(ht) && /lvl > L \+ (?:3 \|\| lvl < L - 8\)|lvlAbove)\) return no\(mb\)/.test(ht), 'huntTarget records solo-pull and level refusals');
 console.log(fails ? `${fails} FAILED` : 'all huntable checks passed'); process.exit(fails ? 1 : 0);

@@ -219,6 +219,18 @@ table.l2 tbody tr:hover td { background: url('/icons/L2UI_CT1/ListCtrl_DF_Highli
 header { position: sticky; top: 0; z-index: 20; padding: 6px 8px 0; padding-top: max(6px, env(safe-area-inset-top)); background: linear-gradient(#0b0f10 70%, rgba(11, 15, 16, 0)); }
 header .win { padding: 6px 10px 8px; }
 .hrow { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+/* HEADER-PC 2026-10-14 (owner: "change the top, it looks shitty on pc"): on a wide screen the left block is ONE row - title, Find character,
+   reporting line, Start all / Stop all, Simple|Advanced - and the search / order bar takes the rest of the row */
+@media (min-width: 900px) {
+  header .hrow { flex-wrap: nowrap; align-items: center; }
+  header .hrow > div:first-child { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; flex: 0 1 auto; min-width: 0; }
+  header .hrow > div:first-child h1 { margin: 0; line-height: 1; }
+  header .hrow > div:first-child .cf-btn { min-height: 32px; margin: 0; padding: 2px 10px; font-size: 13px; }
+  header .hrow > div:first-child #sum { font-size: 12px; white-space: nowrap; }
+  header .hrow > div:first-child .runall { margin-top: 0; min-height: 0; flex-wrap: nowrap; white-space: nowrap; }
+  header .hrow > div:first-child .uk-mode { margin-top: 0; }
+  header .hrow .cctrig { flex: 1 1 280px; }
+}
 .say { display: flex; gap: 6px; flex: 1 1 420px; min-width: 0; }
 .say input { flex: 1 1 0; width: 0; }
 .say select { flex: 0 1 auto; }
@@ -378,6 +390,9 @@ details.tact > summary b { color: var(--gold); }
 .mem2 .cslot .castbar { height: 12px; } .mem2 .cslot .escline { white-space: nowrap; text-overflow: ellipsis; display: block; line-height: 17px; color: #ff9a8a; }
 .pbanners { height: 58px; overflow-y: auto; overflow-x: hidden; min-width: 0; margin: 2px 0 4px; scrollbar-width: thin; }
 .pbanners:not(:has(*)) { visibility: hidden; }
+/* PBANNERS-PHONE 2026-10-14 (owner screenshot: the 'Running' line cut in half, 'Hunting …' cut after one line): on a phone the box grows with its
+   lines (no inner scroll box, the bigger phone text never fits 58 px); the PC keeps the fixed height (no jumping cards in the grid) */
+@media (max-width: 700px) { .pbanners { height: auto; min-height: 58px; overflow: visible; } }
 .castrow { display: flex; align-items: center; gap: 5px; min-width: 0; font-size: var(--fs-cap); }
 .castrow img.ic { width: 18px; height: 18px; flex: none; }
 .castbar { position: relative; flex: 1; min-width: 60px; height: 12px; background: #1b1610; border: 1px solid #5a4a2a; overflow: hidden; }
@@ -629,6 +644,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
 .brakebar .bk-t { font-weight: 700; color: var(--gold); } .brakebar .bk-n { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; }
 .brakebar .bk-w { margin-top: 2px; } .brakebar .bk-b { margin-top: 2px; color: var(--muted); } .brakebar .bk-b b { color: var(--ink); }
 .brakebar .bk-h { margin-top: 4px; color: var(--muted); font-size: 13px; } .brakebar .bk-h summary { cursor: pointer; }
+.fullbar a { color: var(--gold); text-decoration: underline; } .fullbar .bk-w, .fullbar .bk-b { overflow-wrap: anywhere; }
 /* PHONES (user 2026-10-12: "make sure it works on mobile, buttons go out of bounds"): a button / select / input is never wider than its box; long labels wrap */
 @media (max-width: 700px) { main button, main select, main input, main .btn { max-width: 100%; } main button, main .btn { white-space: normal; overflow-wrap: anywhere; } }
 </style>
@@ -645,6 +661,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       </form>
     </div>
     <div id="brakeBar" class="brakebar" hidden></div>
+    <div id="fullBar" class="brakebar fullbar" hidden></div>
     <div id="msg"></div>
     <div id="liveBanner"></div>
     <nav id="tabs">
@@ -667,6 +684,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
       <button data-tab="storage"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Storage</button>
+      <button data-tab="market"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Market</button>
       <button data-tab="sevensigns"><img class="gi" src="/icons/icon/accessory_lbracelet_of_dawn.png" alt=""> 7 Signs</button>
       <button data-tab="quests"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Quests</button>
       <button data-tab="skillenchant"><img class="gi" src="/icons/icon/etc_codex_of_giant_i00.png" alt=""> Enchant</button>
@@ -1184,6 +1202,7 @@ function route() {
   if (window.BuffPage && BuffPage.route(kind, arg)) return;     // BUFF PLANS 2026-10-10: #/buffs[/<leader>] (Dashboard/buffpage.js); closes itself on other pages
   if (window.TradePage && TradePage.route(kind, arg)) return;   // HANDOVER 2026-10-10: #/trade[/party:<leader>|char:<name>] (Dashboard/tradepage.js); closes itself on other pages
   if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
+  if (window.MarketPage && MarketPage.route(kind, arg)) return;   // MARKET 2026-10-14: #/market player shops (Dashboard/marketpage.js)
   if (window.StoragePage && StoragePage.route(kind, arg)) return;   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
@@ -4204,6 +4223,23 @@ function renderBrake(B, stale, cursed) {
     (hist ? `<details class="bk-h"><summary>What the brake did</summary><div>${hist}</div></details>` : '');
   el.hidden = false;
 }
+// FULLWARN 2026-10-14 (owner: "I want a warning when the warehouse or inventory is full from now on"): server.js fullStatus -> one bar on every page
+function renderFull(F) {
+  const el = $('fullBar'); if (!el) return;
+  F = F || {}; const bags = F.bags || [], full = bags.filter(b => b.level === 'full'), near = bags.filter(b => b.level !== 'full'), priv = F.private || [];
+  const ore = F.ore || [];
+  if (!F.clan && !priv.length && !bags.length && !ore.length) { el.hidden = true; el.innerHTML = ''; return; }
+  const hm = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }); };
+  const who = (L) => L.map(b => `<a href="#/char/${encodeURIComponent(b.name)}" title="${esc(b.why)}">${esc(b.name)}</a>`).join(', ');
+  const lines = [];
+  if (F.clan) lines.push(`<div class="bk-t">⚠ The CLAN warehouse is full <span class="bk-n">(since ${esc(hm(F.clan.at))}, ${esc(F.clan.by || '')})</span></div><div class="bk-w">Nothing more goes in until something comes out. <a href="#/storage">Storage → Clan warehouse</a>: tick junk → Take out and sell.</div>`);
+  if (priv.length) lines.push(`<div class="bk-t">⚠ Own warehouse full: <span class="bk-n">${who(priv)}</span></div>`);
+  if (full.length) lines.push(`<div class="bk-t">⚠ Bag FULL: <span class="bk-n">${who(full)}</span></div><div class="bk-w">The server refuses quests and trades for them. Sell (mark items on the Gear page) or store (Storage page).</div>`);
+  if (near.length) lines.push(`<div class="bk-b">Bag nearly full: ${who(near)}</div>`);
+  if (ore.length) lines.push(`<div class="bk-t">⚠ Out of Spirit Ore: <span class="bk-n">${who(ore.map(o => ({ name: o.name, why: o.skill + ' skipped' })))}</span></div><div class="bk-w">They keep healing with their other heals (no trip for it); the next supply run buys more.</div>`);   // ORE 2026-10-14
+  el.className = 'brakebar fullbar ' + (F.clan || full.length || priv.length ? 'bad' : '');
+  el.innerHTML = lines.join(''); el.hidden = false;
+}
 async function refresh() {
   if (document.hidden) return;
   try {
@@ -4212,6 +4248,7 @@ async function refresh() {
     $('sum').textContent = `${alive}/${STATE.chars.length} characters reporting · updated ${clock(STATE.now)}`;
     // CURSED 2026-10-13: a cursed weapon holder (renamed Zariche / Akamanah by the server) gets its own red line instead of 'not reporting'
     try { const cu = STATE.cursed || [], skip = new Set(cu.map(x => x.holder).concat(cu.map(x => x.weapon), ['Zariche', 'Akamanah'])); renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30 && !skip.has(c.name)).map(c => c.name), cu); } catch (e) { }
+    try { renderFull(STATE.full); } catch (e) { }   // FULLWARN 2026-10-14
     fillTargets();
     try { if (window.RunSwitch) RunSwitch.paintHeader(); } catch (e) { }   // RUNSTATE: Start all / Stop all
     renderTab();
@@ -4361,10 +4398,14 @@ function clanHtml(d) {
     ${cl ? '' : `<button data-clorder="char:${esc(name)}|!clancreate|Found the clan ${esc(qc.wantName || '')} now">Found the clan now</button>`}
     <div class="muted" style="margin-top:6px">Created once, when the clan leader is level 10+ and in no clan; never a second clan.</div></div>`;
   const wh = st.warehouse || null, items = (wh && wh.items) || [];
-  const whBox = `<div class="box"><h3>${GI(UI.inv)} Clan warehouse</h3>${wh && wh.seenAt ? `<div class="muted" style="margin-bottom:4px">last seen ${ago(wh.seenAt)} by ${esc(wh.seenBy || '?')} · ${items.length} items</div>` +
-    (items.length ? items.map(i => `<div class="rrrow"><span><img class="ic sm" loading="lazy" src="${itemIcon(i.id)}" onerror="this.src=iconUrl(null)"> ${esc(i.name || ('#' + i.id))}${i.enchant ? ' <b>+' + i.enchant + '</b>' : ''}</span><span>${Number(i.count || 1).toLocaleString()}</span></div>`).join('') : '<span class="muted">empty</span>')
-    : '<span class="muted">never seen yet: it updates every time the clan leader opens the clan warehouse</span>'}
-    <div style="margin-top:6px"><button data-clorder="char:${esc(name)}|!clanwh|Open the clan warehouse and report what is in it">Look now</button> <span class="muted">(automatic after new deposits: see "Runs by itself")</span></div></div>`;
+  // CLANWH-LINK 2026-10-14 (owner: "Clan leader, level & warehouse is sooo bad on computer ... where was the clan warehouse tab I used on the
+  // mobile?"): no 374-row list here any more - a short summary + the button to the clan warehouse page (Storage -> Clan warehouse: search, tick,
+  // take out and sell). #/storage/clanwh opens it scrolled to that box.
+  const whFull = STATE && STATE.full && STATE.full.clan;
+  const whKinds = new Set(items.map(i => i.id + '+' + (i.enchant || 0))).size;
+  const whBox = `<div class="box"><h3>${GI(UI.inv)} Clan warehouse</h3>${wh && wh.seenAt ? `<div><b>${whKinds}</b> kinds <span class="muted">· last seen ${ago(wh.seenAt)} by ${esc(wh.seenBy || '?')}</span>${whFull ? ' <span class="chip bad">FULL</span>' : ''}</div>` : '<div class="muted">never seen yet: it updates every time the clan leader opens the clan warehouse</div>'}
+    <div class="muted" style="margin:4px 0 8px">See everything, search it, tick what should come out and press <b>Take out and sell</b> on the clan warehouse page.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px"><a class="btnlink" href="#/storage/clanwh"><button type="button">Open the clan warehouse →</button></a><button data-clorder="char:${esc(name)}|!clanwh|Open the clan warehouse and report what is in it">Look now</button></div></div>`;
   const help = `<div class="box"><h3>${GI(UI.party)} Help the clan leader</h3><div class="muted" style="margin-bottom:6px">The party travels to the clan leader and hunts around him until stopped (for clan quests that need clan members with him).</div>
     ${helpers.length ? helpers.map(t => `<div class="rrrow"><span>Party <b>${esc(t.leader)}</b> <span class="muted">${(t.members || []).length} chars</span></span><span class="act"><button data-clorder="party:${esc(t.leader)}|!assist ${esc(name)}|Travel to ${esc(name)} and hunt around him">Send party ${esc(t.leader)} to help</button><button data-clorder="party:${esc(t.leader)}|!assist off|Stop helping the clan leader">Stop helping</button></span></div>`).join('') : '<span class="muted">no other parties</span>'}</div>`;
   // 1) roster
@@ -4848,7 +4889,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/commands.js"></script>
 <script src="/cmdcenter.js"></script>
 <script src="/orders.js"></script>
-<link rel="stylesheet" href="/runswitch.css"><script src="/runswitch.js"></script><!-- RUN SWITCH 2026-10-13: manual Start / Stop per party / character (Dashboard/runswitch.js, /api/runstate) --><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
+<link rel="stylesheet" href="/charfind.css"><script src="/charfind.js"></script><!-- CHARACTER FINDER 2026-10-14 --><link rel="stylesheet" href="/runswitch.css"><script src="/runswitch.js"></script><!-- RUN SWITCH 2026-10-13: manual Start / Stop per party / character (Dashboard/runswitch.js, /api/runstate) --><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
 
 <!-- RAIDLIVE HUD 2026-10-09: live raid / Kamaloka view for every device (served by server.js once restarted; without it the old view stays) -->
 <link rel="stylesheet" href="/raidlive.css">
@@ -4976,6 +5017,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/fundpage.js"></script>
 <!-- STORAGE 2026-10-13: #/storage per character / party / default warehouse settings + the event letters hand-over.
      Data: /api/storage (Dashboard/storagepage_api.js -> Scripts/data/stash_rules.json, read live by swarm.js). -->
+<link rel="stylesheet" href="/marketpage.css"><script src="/marketpage.js"></script><!-- MARKET 2026-10-14 -->
 <link rel="stylesheet" href="/storagepage.css">
 <script src="/storagepage.js"></script>
 <!-- PARTY SETTINGS 2026-10-13 (owner: "a popup with settings per party, you set up the different things yourself"): "⚙ Settings" on every party card +
@@ -4994,6 +5036,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/healschemes.css">
 <script src="/heallogic.js"></script>
 <script src="/healschemes.js"></script>
+<script src="/hiveswitch.js"></script><!-- HIVESW 2026-10-15: character page box "Combat" (Hive or my L2Swarm profile picks skills / heals / potions + fight toggles), served by partyauto_api.js -->
 <script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>
 <!-- 7 SIGNS 2026-10-12: #/sevensigns (who signs up with the Lords of Dawn by itself: parties / characters, seal-stone switch; period / cycle /
      winner, registration per character, seal stones, "Sign up now" = !dawn [name]). Data: /api/sevensigns (Dashboard/sevensigns_api.js ->

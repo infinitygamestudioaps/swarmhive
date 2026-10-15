@@ -130,7 +130,7 @@ function sim(opts) {
       Send: { StopMove: () => { W.goal = null; }, MoveBackwardToLocation: (x, y, z) => moveTo(x, y, z) },
       Options: { ActiveFollow: false, FollowName: '' }, followOk: () => false,
       isLeader: () => isL, teamNames: () => isL ? Object.keys(S.wins).filter(n => n !== name && !(opts.absent || []).includes(n)) : [],
-      livePos: {}, posAcct: { [opts.leader]: 'acc-' + opts.leader }, benched: () => false, runHeld: () => false, IsCharacterReady: () => true, IsInCombat: false,
+      livePos: {}, posAcct: { [opts.leader]: 'acc-' + opts.leader }, benched: () => false, mateMsg: () => true, runHeld: () => false, IsCharacterReady: () => true, IsInCombat: false,
       rest: { sitting: false }, geoCache: { key: '' }, rsLegMs: (d) => Math.max(30000, d * 10), castRunSpeed: () => 200,
       nearestRouteIdx: (pts) => { let bi = 0, bd = 1e12; pts.forEach((p, i) => { const d = Math.hypot(p.x - W.me.X, p.y - W.me.Y); if (d < bd) { bd = d; bi = i; } }); return bi; },
       routeRulesNow: () => Object.assign({ moveTogether: true }, opts.rules || {}),

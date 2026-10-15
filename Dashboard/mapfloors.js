@@ -210,7 +210,7 @@
   function fetchModel() {
     if (typeof fetch !== 'function' || B.model || B.pending) return;
     B.pending = true;
-    fetch('/api/mapfloors').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(m => {
+    fetch('/api/mapfloors?t=' + Date.now(), { cache: 'no-store' }).then(r => { /* never the browser's copy: a new dungeon must show up (2026-10-14) */ if (!r.ok) throw new Error(r.status); return r.json(); }).then(m => {
       B.pending = false;
       if (!m || !Array.isArray(m.dungeons)) throw new Error('bad model');
       B.model = m;
@@ -218,6 +218,8 @@
     }).catch(() => { B.pending = false; B.tries++; setTimeout(fetchModel, Math.min(30000, 2000 * B.tries)); });
   }
   if (typeof window !== 'undefined' && typeof document !== 'undefined') fetchModel();
+  // CAVES 2026-10-14: the dungeon list and the floor-map index are fetched again every 10 min (a new dungeon / map without a page reload)
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') setInterval(() => { try { if (typeof fetch !== 'function') return; fetch('/api/mapfloors?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(m => { if (m && Array.isArray(m.dungeons)) { B.model = m; try { window.dispatchEvent(new Event('mapfloors:ready')); } catch (e) { } } }).catch(() => { }); if (typeof FM !== 'undefined' && !FM.pending) { FM.tries = 0; fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) FM.idx = j; }).catch(() => { }); } } catch (e) { } }, 600000);   // the old model stays until the new one is here (no flicker)
   const get = () => B.model;
   // one stable level per map viewer id ('pmap:<leader>', 'cp:<name>', 'lp:<name>', 'esc:<name>', 'mini:<name>')
   const VIEW = {};
@@ -227,6 +229,16 @@
     const W = typeof window !== 'undefined' ? window : {};
     if (!B.model) return P(p) && +p.z < -4500 && W.MAP_LAYERS && W.MAP_LAYERS[rx + '_' + ry] ? '_L1' : '';   // model not loaded yet: old rule
     return tileSuffix(lvl, rx, ry, p, W.MAP_ZMAP, W.MAP_LAYERS);
+  }
+  // FLOOR MAPS 2026-10-14 (docs/plan/tools/floor_maps.js -> Dashboard/floormaps): { dungeon name: { floor index: { f, x, y, w, h } } }, fetched once
+  const FM = { idx: null, pending: false, tries: 0 };
+  function floorPic(lvl) {
+    if (!FM.idx) {
+      if (!FM.pending && typeof fetch === 'function' && FM.tries < 5) { FM.pending = true; fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(j => { FM.idx = j || {}; FM.pending = false; try { window.dispatchEvent(new Event('mapfloors:ready')); } catch (e) { } }).catch(() => { FM.pending = false; FM.tries++; }); }
+      return '';
+    }
+    const e = (FM.idx[lvl.dn] || {})[lvl.fi]; if (!e) return '';
+    return `<image href="/icons/floormaps/${e.f}${e.v ? '?v=' + e.v : ''}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" preserveAspectRatio="none" pointer-events="none" style="image-rendering:pixelated"/>`;
   }
   // room outlines of a floor without map art (/api/dungeonmap through index.html's api(), cached per dungeon; maps re-render on mapfloors:ready)
   const DM = {};
@@ -243,7 +255,7 @@
     }
     if (!c.m) { if (Date.now() - c.at > 60000) delete DM[lvl.dn]; return ''; }
     const F = (c.m.floors || [])[lvl.fi]; if (!F) return '';
-    let s = '';
+    let s = floorPic(lvl);   // FLOOR MAPS 2026-10-14: the floor drawn from the geodata under the room outlines
     (F.rooms || []).forEach(r => {
       if (!Array.isArray(r.poly) || r.poly.length < 3) return;
       s += `<polygon points="${r.poly.map(q => q[0] + ',' + q[1]).join(' ')}" fill="rgba(120,150,160,.16)" stroke="#7d9aa5" stroke-width="${1.2 * u}" pointer-events="none"/>`;

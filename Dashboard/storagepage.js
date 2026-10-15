@@ -60,6 +60,9 @@
         <span class="muted cpl-intro">What each character puts into a warehouse, which warehouse, and when. Settings are read live by every bot.</span></div>
       <div class="cpl-msg" id="stgMsg" role="status" hidden></div>
       <div class="box"><h3>Defaults (every character)</h3><div class="fnd-hint">A party's own setting beats these; a character's own setting beats its party's. Blank = the next level decides.</div><div id="stgDef"></div></div>
+      <div class="box"><h3>Collector</h3><div id="stgColl"></div></div>
+      <div class="box"><h3>Never store</h3><div id="stgNever"></div></div>
+      <div class="box" id="stgCwhBox"><h3>Clan warehouse</h3><div id="stgCwh"></div></div>
       <div class="box"><h3>Event letters</h3><div id="stgLet"></div></div>
       <div class="box"><h3>Loot from hunting</h3><div id="stgLoot"></div></div>
       <div class="box"><h3>Per party and character</h3><div class="fnd-parties" id="stgParties"></div></div>
@@ -75,10 +78,16 @@
     (document.querySelector('main') || document.body).appendChild(s);
     s.addEventListener('click', onClick);
     s.addEventListener('change', onChange);
+    s.addEventListener('input', (e) => { const t = e.target; if (t && t.dataset && t.dataset.cwhq !== undefined) { SP.cwhQ = t.value; renderCwhList(); } });
     s.addEventListener('toggle', (e) => { const d = e.target; if (!d || !d.dataset) return; const set = d.dataset.stgparty ? SP.openParties : d.dataset.stgchar ? SP.openChars : null; if (!set) return; const k = d.dataset.stgparty || d.dataset.stgchar; if (d.open) set.add(k); else set.delete(k); }, true);
     return s;
   }
-  function route(kind) { if (kind === 'storage') { open(); return true; } close(); return false; }
+  function route(kind, arg) {
+    if (kind !== 'storage') { close(); return false; }
+    open();
+    if (arg === 'clanwh') { const go = (n) => { const e = $id('stgCwh'); if (e && e.querySelector('[data-cwhlist]')) { e.closest('.box').scrollIntoView({ block: 'start' }); return; } if (n > 0) setTimeout(() => go(n - 1), 300); }; go(20); }   // CLANWH-LINK: #/storage/clanwh
+    return true;
+  }
   function open() {
     const s = section();
     try { stopChar(); } catch (e) { }
@@ -137,7 +146,99 @@
   function render() {
     if (!SP.open) return;
     if (!SP.cur) { ['stgDef', 'stgLet', 'stgParties'].forEach(i => { const e = $id(i); if (e) e.innerHTML = '<div class="muted">Loading…</div>'; }); renderBar(); return; }
-    renderDef(); renderLetters(); renderLoot(); renderParties(); renderBar();
+    renderDef(); renderColl(); renderNever(); renderCwh(); renderLetters(); renderLoot(); renderParties(); renderBar();
+  }
+  // ---- COLLECTOR 2026-10-14 (owner: "tell him to stand in Giran, teams deliver all their loot to him, he puts it into the clan warehouse and sells")
+  function renderColl() {
+    const el = $id('stgColl'); if (!el) return;
+    const C = obj(SP.cur.collector), on = C.on === true, CL = (SP.info && SP.info.clanLeader) || '', who = C.name || CL;
+    const all = []; ((SP.info && SP.info.parties) || []).forEach(p => p.members.forEach(m => all.push(m.name)));
+    const towns = (SP.info && SP.info.towns) || ['Giran'];
+    el.innerHTML = `<label class="fnd-sw"><input type="checkbox" data-stgcoll="on" ${on ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${on ? 'on' : 'off'}">${on ? `On — ${h(who || '?')} stays in ${h(C.town || 'Giran')} as the collector` : 'Off — nothing happens until you switch it on'}</span></label>
+      <div class="fnd-grid sm">
+        <label class="fnd-f"><span class="fl">Who</span><select data-stgcoll="name" aria-label="collector"><option value="" ${!C.name ? 'selected' : ''}>The clan leader${CL ? ' (' + h(CL) + ')' : ''}</option>${all.map(n => `<option value="${h(n)}" ${C.name === n ? 'selected' : ''}>${h(n)}</option>`).join('')}</select></label>
+        <label class="fnd-f"><span class="fl">Stays in</span><select data-stgcoll="town" aria-label="collector town">${towns.map(t => `<option value="${h(t)}" ${(C.town || 'Giran') === t ? 'selected' : ''}>${h(t)}</option>`).join('')}</select></label>
+      </div>
+      <div class="fnd-hint">While on, ${h(who || 'the collector')} never hunts or travels (no leveling, plans, raids, quests), goes back to ${h(C.town || 'Giran')} after every order and waits at the start. By itself it still: <b>receives</b> the teams' loot (⚙ Settings → Loot: to the clan leader), <b>stores</b> it (its storage settings below: automatic + trigger), <b>sells</b> marked and "never store — sold instead" items, looks at the clan warehouse and hands adena to the teams in town. Your orders (Take out and sell, Store now …) always work. Press Save.</div>`;
+  }
+  // ---- WHSELL 2026-10-14 (owner: "select clan warehouse and select what should be taken out and sold, like common items should never be stored")
+  /** Never store: Common items / own names; sell them instead (stash_rules.json neverStore, = swarm.js stashNever) */
+  function renderNever() {
+    const el = $id('stgNever'); if (!el) return;
+    const N = obj(SP.cur.neverStore), names = (Array.isArray(N.names) ? N.names : []).join('\n');
+    el.innerHTML = `<div class="fnd-hint">These items never go into any warehouse — not by the automatic storing, not by "Store now", not by the supply run. This beats every other storage rule. Worn items are never touched.</div>
+      <label class="fnd-sw"><input type="checkbox" data-stgnv="common" ${N.common ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${N.common ? 'on' : 'off'}">${N.common ? 'Common items are never stored' : 'Common items may be stored (switch on to keep them out)'}</span></label>
+      <div class="fnd-hint">Common items = everything named “Common Item - …” (same stats as the real item, about 1/20 of the price, no set bonus, cannot be enchanted).</div>
+      <label class="fnd-f"><span class="fl">Also never store (names, one per line)</span><textarea rows="3" data-stgnvnames="1" aria-label="never store names" placeholder="e.g. Tutorial Guide">${h(names)}</textarea><span class="fh">part of the item name; ^ = starts with</span></label>
+      <label class="fnd-sw"><input type="checkbox" data-stgnv="sell" ${N.sell ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${N.sell ? 'on' : 'off'}">${N.sell ? 'Sold instead — at the next town sale / supply run / !sell' : 'Kept in the bag (switch on to sell them instead)'}</span></label>
+      <div class="fnd-hint">Selling still needs the party's “Sell junk on town visits” (⚙ Settings → Supplies) for the automatic town sale; your !sell order always works. Press Save at the bottom.</div>`;
+  }
+  const cwhKey = (r) => r.id + '+' + (r.enchant || 0);
+  // CWHGROUPS 2026-10-14: groups + grade filter; the list is grouped (a heading per group) in this order
+  const CWH_CATS = [['weapon', 'Weapons'], ['armor', 'Armor'], ['accessory', 'Accessories'], ['material', 'Materials'], ['part', 'Crafting parts'], ['recipe', 'Recipes'], ['scroll', 'Scrolls'], ['letter', 'Event letters'], ['use', 'Potions & consumables'], ['stone', 'Life stones & seal stones'], ['other', 'Other']];
+  const CWH_SELLALL = ['part', 'recipe'];   // owner 2026-10-14: one button sells a whole group
+  const CWH_GRADES = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
+  function cwhRows() {
+    const W = SP.info && SP.info.clanWh, q = String(SP.cwhQ || '').trim().toLowerCase();
+    const rows = W ? W.items : [];
+    return rows.filter(r => (!SP.cwhCommon || r.common) && (!q || r.name.toLowerCase().includes(q)) && (!SP.cwhCat || r.cat === SP.cwhCat) && (!SP.cwhGrade || r.grade === SP.cwhGrade));
+  }
+  function renderCwh() {
+    const el = $id('stgCwh'); if (!el) return;
+    const W = SP.info && SP.info.clanWh, CL = (SP.info && SP.info.clanLeader) || 'the clan leader';
+    SP.cwhSel = SP.cwhSel || new Set();
+    if (!W) { el.innerHTML = `<div class="muted">The clan warehouse list is not known yet. It appears once ${h(CL)} opens the clan warehouse (he looks after every deposit).</div>`; return; }
+    if (el.querySelector('[data-cwhlist]')) { renderCwhList(); return; }   // keep the filter box (and the phone keyboard) as it is
+    el.innerHTML = `<div class="fnd-hint">As ${h(W.seenBy || CL)} last saw it: ${h(String(W.seenAt || '').slice(0, 16).replace('T', ' '))} UTC · ${W.items.length} kinds. Only the clan leader (${h(CL)}) can take items out (L2Toggle).</div>
+      <div class="stg-cwhtools"><input type="search" data-cwhq="" value="${h(SP.cwhQ || '')}" placeholder="Search a name…" aria-label="search the clan warehouse">
+        <button type="button" class="trd-chip fnd-chip ${SP.cwhCommon ? 'on' : ''}" data-cwhact="common" aria-pressed="${!!SP.cwhCommon}">Only Common items</button>
+        <button type="button" data-cwhact="all">Tick all shown</button><button type="button" data-cwhact="none">Untick all</button>
+        <select data-cwhgrade="1" aria-label="grade"><option value="">Every grade</option>${CWH_GRADES.map(g => `<option value="${g}" ${SP.cwhGrade === g ? 'selected' : ''}>${g === 'NONE' ? 'No grade' : g + '-grade'}</option>`).join('')}</select></div>
+      <div class="stg-cwhcats" data-cwhcats="1"></div>
+      <div class="stg-cwhlist" data-cwhlist="1"></div>
+      <div class="stg-btns stg-cwhbtns"></div>`;
+    renderCwhList();
+  }
+  function renderCwhList() {
+    const el = $id('stgCwh'); if (!el) return;
+    const L = el.querySelector('[data-cwhlist]'), B = el.querySelector('.stg-cwhbtns'); if (!L) return;
+    const rows = cwhRows(), sel = SP.cwhSel || new Set(), all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [];
+    [...sel].forEach(k => { if (!all.some(r => cwhKey(r) === k)) sel.delete(k); });   // gone from the warehouse meanwhile
+    const cc = el.querySelector('[data-cwhcats]');
+    if (cc) { const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], cnt = {}; all.forEach(r => { cnt[r.cat] = (cnt[r.cat] || 0) + 1; });
+      cc.innerHTML = `<button type="button" class="trd-chip fnd-chip ${!SP.cwhCat ? 'on' : ''}" data-cwhcat="">All <small>${all.length}</small></button>` + CWH_CATS.filter(([k]) => cnt[k]).map(([k, t]) => `<button type="button" class="trd-chip fnd-chip ${SP.cwhCat === k ? 'on' : ''}" data-cwhcat="${k}">${t} <small>${cnt[k]}</small></button>`).join(''); }
+    const order = {}; CWH_CATS.forEach(([k], i) => { order[k] = i; });
+    // SORT (owner 2026-10-14): by NAME in every group (numbers in order: Level 46 before Level 52); recipes by grade first;
+    // life stones by level, then Life Stone < Mid < High < Top
+    const nmKey = (r) => r.name.replace(/^\+\d+ /, ''), byName = (a, b) => nmKey(a).localeCompare(nmKey(b), undefined, { numeric: true, sensitivity: 'base' });
+    const lsLvl = (r) => { const m = /Life Stone.*?Level\s*(\d+)/i.exec(r.name); return m ? Number(m[1]) : 999; }, lsQ = (r) => /^Top/i.test(r.name) ? 3 : /^High/i.test(r.name) ? 2 : /^Mid/i.test(r.name) ? 1 : 0;
+    rows.sort((a, b) => (order[a.cat] ?? 99) - (order[b.cat] ?? 99)
+      || (a.cat === 'recipe' ? Math.max(0, CWH_GRADES.indexOf(a.grade)) - Math.max(0, CWH_GRADES.indexOf(b.grade)) : 0)
+      || (a.cat === 'stone' ? lsLvl(a) - lsLvl(b) || lsQ(a) - lsQ(b) : 0)
+      || byName(a, b) || (a.enchant || 0) - (b.enchant || 0));
+    let lastCat = null; const head = (r) => { if (r.cat === lastCat) return ''; lastCat = r.cat; const t = (CWH_CATS.find(([k]) => k === r.cat) || [0, 'Other'])[1]; return `<div class="stg-cwhgrp">${t}</div>`; };
+    L.innerHTML = rows.length ? rows.map(r => head(r) + `<label class="stg-cwhrow ${sel.has(cwhKey(r)) ? 'on' : ''}"><input type="checkbox" data-cwh="${h(cwhKey(r))}" ${sel.has(cwhKey(r)) ? 'checked' : ''}>${r.icon ? `<img class="gi" src="${ico(r.icon)}" alt="">` : ''}<span class="nm">${h(r.name)}${r.grade && r.grade !== 'NONE' ? ` <span class="tag cwhgr">${r.grade}</span>` : ''}</span><span class="ct">${r.count > 1 ? '×' + r.count.toLocaleString() : ''}</span>${r.common ? '<span class="tag">Common</span>' : ''}${r.never ? '<span class="tag warn">never store</span>' : ''}</label>`).join('')
+      : '<div class="muted">Nothing matches.</div>';
+    const n = sel.size;
+    if (B) B.innerHTML = `<span class="muted">${n ? n + ' kind' + (n === 1 ? '' : 's') + ' ticked' : 'Tick what should come out.'}</span>
+      <button type="button" class="go" data-cwhact="sell" ${n ? '' : 'disabled'}>Take out and sell</button>
+      <button type="button" data-cwhact="take" ${n ? '' : 'disabled'}>Take out (${h((SP.info && SP.info.clanLeader) || 'clan leader')} keeps them)</button>
+      ${CWH_SELLALL.map(k => { const c = all.filter(r => r.cat === k).length, t = (CWH_CATS.find(([x]) => x === k) || [0, k])[1]; return c ? `<button type="button" class="go" data-cwhsellall="${k}">Sell all ${h(t)} (${c} kinds)</button>` : ''; }).join('')}
+      ${SP.info && SP.info.clanWh && SP.info.clanWh.pending ? `<button type="button" data-cwhact="pending">Sell what is still in his bag (${SP.info.clanWh.pending} kinds)</button>` : ''}`;
+  }
+  async function cwhRun(sell) {
+    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || '';
+    const chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length || !CL) return;
+    const byId = {}; chosen.forEach(r => { byId[r.id] = (byId[r.id] || 0) + r.count; });
+    const mixed = Object.keys(byId).filter(id => all.some(r => String(r.id) === id && !sel.has(cwhKey(r)))).map(id => all.find(r => String(r.id) === id).name.replace(/^\+\d+ /, ''));
+    const list = chosen.slice(0, 40).map(r => `${r.name}${r.count > 1 ? ' ×' + r.count : ''}`).concat(chosen.length > 40 ? [`… and ${chosen.length - 40} more`] : []);
+    const body = [uiP(uiEm(CL), sell ? ' walks to the warehouse keeper in Giran, takes these out of the clan warehouse, walks to the grocer and sells exactly these pieces (nothing else from his bag), then walks back:' : ' walks to the warehouse keeper in Giran and takes these out of the clan warehouse into his bag:'), uiList(list)];
+    if (mixed.length) body.push(uiWarn(`Some of these exist with other enchant levels in the warehouse (${mixed.slice(0, 5).join(', ')}${mixed.length > 5 ? ' …' : ''}): the highest enchant comes out first.`));
+    body.push(uiNote(sell ? 'He takes out as much as he can carry, sells it, and goes back for more until the list is done. He stops what he is doing for this (a raid, Kamaloka or mission must end first) and goes back to it at the very end. Report in party chat and Logs/whsell.log.' : 'He stops what he is doing for this (a raid, Kamaloka or mission must end first). Report in party chat.'));
+    if (!(await uiConfirm({ title: sell ? `Take out and sell ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?` : `Take out ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?`, body, confirmText: sell ? 'Take out and sell' : 'Take out', cancelText: 'Cancel', danger: sell }))) return;
+    let d = null; try { d = await api('/api/storage/whsell', { method: 'POST', body: JSON.stringify({ items: Object.keys(byId).map(id => ({ id: Number(id), count: byId[id] })), sell }) }); } catch (e) { d = { error: e.message }; }
+    if (!d || !d.ok) { await uiError((d && d.error) || 'no answer (the dashboard server may need a restart)', 'Not sent'); return; }
+    if (await send('!whsell order', CL)) { flash(`${CL}: ${sell ? 'take out and sell' : 'take out'} ${d.n} kind${d.n === 1 ? '' : 's'} — sent. See "What they do".`); SP.cwhSel = new Set(); renderCwhList(); }
   }
   /** LOOT RULES 2026-10-13: one line per party + "⚙ Loot settings" (the party settings popup, Loot section; Dashboard/partysettings.js) */
   function renderLoot() {
@@ -246,6 +347,13 @@
     if (t.dataset.stgids) { const raw = t.value.split(/[\s,;]+/).filter(Boolean), v = raw.map(Number);
       if (v.some(n => !Number.isInteger(n) || n <= 0)) { SP.err[t.dataset.stgids] = 'item ids are whole numbers'; t.classList.add('fnd-amt', 'bad'); renderBar(); return; }
       delete SP.err[t.dataset.stgids]; t.classList.remove('bad'); setPath(t.dataset.stgids, [...new Set(v)]); renderBar(); return; }
+    if (t.dataset.stgcoll) { const C = SP.cur.collector = obj(SP.cur.collector); const k = t.dataset.stgcoll; if (k === 'on') C.on = !!t.checked; else C[k] = t.value; if (!C.town) C.town = 'Giran'; if (C.name === undefined) C.name = ''; renderColl(); renderBar(); return; }   // COLLECTOR
+    if (t.dataset.cwhgrade) { SP.cwhGrade = t.value || ''; renderCwhList(); return; }   // CWHGROUPS
+    if (t.dataset.cwh) { SP.cwhSel = SP.cwhSel || new Set(); if (t.checked) SP.cwhSel.add(t.dataset.cwh); else SP.cwhSel.delete(t.dataset.cwh); renderCwhList(); return; }   // WHSELL
+    if (t.dataset.stgnv) { const N = SP.cur.neverStore = obj(SP.cur.neverStore); N[t.dataset.stgnv] = !!t.checked; if (!Array.isArray(N.names)) N.names = []; renderNever(); renderBar(); return; }
+    if (t.dataset.stgnvnames) { const v = t.value.split(/\r?\n/).map(x => x.trim()).filter(Boolean); const bad = v.filter(x => { try { new RegExp(x, 'i'); return false; } catch (er) { return true; } });
+      if (bad.length) { SP.err.neverNames = 'not a valid pattern: ' + bad.join(', '); t.classList.add('bad'); renderBar(); return; }
+      delete SP.err.neverNames; t.classList.remove('bad'); const N = SP.cur.neverStore = obj(SP.cur.neverStore); N.names = v; N.common = N.common === true; N.sell = N.sell === true; renderBar(); return; }
     if (t.dataset.stglet) {
       const k = t.dataset.stglet; SP.cur.letters = obj(SP.cur.letters);
       if (k === 'on') SP.cur.letters.on = !!t.checked;
@@ -257,6 +365,20 @@
   }
   function softRender() { setTimeout(() => { if (!SP.open) return; const y = window.scrollY; render(); window.scrollTo(0, y); }, 0); }
   async function onClick(e) {
+    const sa = e.target.closest('button[data-cwhsellall]');   // SELLALL: tick the whole group, then the normal take out and sell (with its confirmation)
+    if (sa) { const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], prev = SP.cwhSel || new Set(), tmp = new Set(all.filter(r => r.cat === sa.dataset.cwhsellall).map(cwhKey));
+      SP.cwhSel = tmp; cwhRun(true).then(() => { if (SP.cwhSel === tmp) { SP.cwhSel = prev; renderCwhList(); } }); return; }
+    const cg = e.target.closest('button[data-cwhcat]'); if (cg) { SP.cwhCat = cg.dataset.cwhcat || ''; renderCwhList(); return; }   // CWHGROUPS
+    const ca = e.target.closest('button[data-cwhact]');   // WHSELL
+    if (ca) {
+      const a = ca.dataset.cwhact; SP.cwhSel = SP.cwhSel || new Set();
+      if (a === 'common') { SP.cwhCommon = !SP.cwhCommon; ca.classList.toggle('on', SP.cwhCommon); ca.setAttribute('aria-pressed', String(SP.cwhCommon)); renderCwhList(); return; }
+      if (a === 'all') { cwhRows().forEach(r => SP.cwhSel.add(cwhKey(r))); renderCwhList(); return; }
+      if (a === 'none') { SP.cwhSel.clear(); renderCwhList(); return; }
+      if (a === 'sell' || a === 'take') return cwhRun(a === 'sell');
+      if (a === 'pending') { const CL = (SP.info && SP.info.clanLeader) || ''; if (!CL) return; if (!(await uiConfirm({ title: 'Sell what is still in his bag?', body: [uiP(uiEm(CL), ' goes to Giran and sells the pieces an earlier take-out left in his bag (nothing else). Then he goes back to what he was doing.')], confirmText: 'Sell them', cancelText: 'Cancel' }))) return; if (await send('!whsell pending', CL)) flash(`${CL}: selling what is still in his bag — sent.`); return; }   // WHSELL-FIX
+      return;
+    }
     const it = e.target.closest('[data-stgitem]');
     if (it) { const L = SP.cur.letters = obj(SP.cur.letters), all = ((SP.info && SP.info.letterItems) || []).map(i => i.id); let ids = Array.isArray(L.ids) && L.ids.length ? L.ids.map(Number) : all.slice(); const id = Number(it.dataset.stgitem);
       ids = ids.includes(id) ? ids.filter(x => x !== id) : ids.concat(id); if (!ids.length) { flash('At least one item must stay ticked (switch the hand-over off instead).', true); return; } L.ids = ids; renderLetters(); renderBar(); return; }
@@ -331,6 +453,8 @@
     const out = [], f = (v) => JSON.stringify(v === undefined ? null : v);
     const a = SP.orig, b = SP.cur;
     if (f(a.defaults) !== f(b.defaults)) out.push(`Defaults: ${f(b.defaults)}`);
+    if (f(a.collector) !== f(b.collector)) { const C = obj(b.collector), CL = (SP.info && SP.info.clanLeader) || 'the clan leader'; out.push(C.on ? `Collector ON: ${C.name || CL} stays in ${C.town || 'Giran'} (no hunting; stores, sells, receives by itself)` : 'Collector off'); }   // COLLECTOR
+    if (f(a.neverStore) !== f(b.neverStore)) { const N = obj(b.neverStore); out.push(`Never store: ${N.common ? 'Common items' : 'Common items may be stored'}${(N.names || []).length ? ', names: ' + N.names.join(', ') : ''} — ${N.sell ? 'sold instead' : 'kept in the bag'}`); }   // WHSELL
     if (f(a.letters) !== f(b.letters)) { const L = obj(b.letters); out.push(`Letters: ${L.on ? 'ON' : 'off'}, receiver ${L.to || 'clanleader'}${L.keep ? ', receiver keeps them' : ''}${(L.except || []).length ? ', never: ' + L.except.join(', ') : ''}`); }
     ['parties', 'chars'].forEach(sec => new Set(Object.keys(obj(a[sec])).concat(Object.keys(obj(b[sec])))).forEach(k => { if (f(obj(a[sec])[k]) !== f(obj(b[sec])[k])) out.push(`${sec === 'chars' ? k : 'Party ' + k}: ${obj(b[sec])[k] ? f(obj(b[sec])[k]).slice(0, 200) : 'party / default settings'}`); }));
     return out;

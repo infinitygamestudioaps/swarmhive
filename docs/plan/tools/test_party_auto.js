@@ -11,6 +11,8 @@
 //    parties.<leader>.givers and refuses a bad one.
 // 5) Dashboard/partyauto_api.js on a scratch file: one party's slice, null removes, rev conflict (409), bad values (400), lock + history,
 //    GET info; the owner's live party_auto.json keeps today's behaviour (every party of swarm.config.json ON); release_build seeds it OFF.
+// 6) SUPPLYAMT 2026-10-14: supply amounts per level band (party > all parties > built-in), the bot = the API, supplyWants uses them,
+//    the API keeps / validates / removes the tables.
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os');
 const ROOT = path.join(__dirname, '..', '..', '..');
@@ -24,7 +26,7 @@ const caseSrc = (label) => { const i = src.indexOf(`    case '${label}'`); const
 
 // ---- 1) pure + the API's copy ---------------------------------------------------------------------------------------------------
 const PURE = blk('// PARTYAUTO-PURE-BEGIN', '// PARTYAUTO-PURE-END');
-const P = new Function(PURE + '\nreturn { PAUTO_KINDS, pautoNorm, pautoEffective };')();
+const P = new Function(PURE + '\nreturn { PAUTO_KINDS, pautoNorm, pautoEffective, pautoAmounts, PAUTO_BANDS, PAUTO_AMT_KEYS };')();
 const API = require(path.join(ROOT, 'Dashboard', 'partyauto_api.js'));
 const E = P.pautoEffective;
 check(E({}, 'supplyWatch', 'Tank1', 'Tank1').on === false && E({}, 'sell', 'Bishop1', 'Tank1').on === false && E(null, 'dyes', 'X', 'X').on === false, 'no file / empty / broken: everything OFF');
@@ -157,7 +159,7 @@ function ltaEnv(cfg, me) {
   check(!/pauto/.test(caseSrc('!supply')) && !/pauto/.test(fnSrc('async function orderSupply(')), 'order !supply: no party-settings gate');
   check(!/pauto/.test(caseSrc('!sell')), 'order !sell: no party-settings gate');
   check(!/pauto/.test(caseSrc('!dyes')) && !/pauto/.test(fnSrc('async function dyeMine(why, dry) {')), 'order !dyes (dyeMine): no party-settings gate');
-  check(!/pauto/.test(fnSrc('async function sellAt(npc, why, grades) {')), 'sellAt (used by every order): no gate inside');
+  check(!/pauto/.test(fnSrc('async function sellAt(npc, why, grades, only) {')), 'sellAt (used by every order): no gate inside');
   check(/CONFIG\.sell\.enabled && pautoOn\('sell'\) && sellCandidates\(\)\.length/.test(src) && /toSell = CONFIG\.sell\.enabled && pautoOn\('sell'\)/.test(src), 'the old town-restock / Giran shopping sale paths ask the sell switch too');
 
   // ---- 4) FUNDGIVERS
@@ -189,7 +191,8 @@ function ltaEnv(cfg, me) {
   const ctx = { DIR: path.join(ROOT, 'Dashboard'), DATA, LOGS, ROOT, readJson: (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return d; } }, readStates: () => [],
     teamMap: () => ({ Tank1: 'Tank1', Bishop1: 'Tank1', Destroyer3: 'Destroyer3' }), reloadCfg: () => ({ accounts: [] }), mainLeader: 'Tank1', allowed: () => true };
   const i0 = API.info(ctx);
-  check(!i0.exists && i0.parties.length === 2 && i0.parties.every(p => Object.values(p.eff).every(e => e.on === false)), 'API GET with no file: every party + switch OFF');
+  check(!i0.exists && i0.parties.length === 2 && i0.parties.every(p => ['supplyWatch', 'sell', 'dyes'].every(k => p.eff[k].on === false)), 'API GET with no file: every party + automation switch OFF');
+  check(i0.parties.every(p => ['skills', 'heals', 'potions'].every(k => p.eff[k].on === true)), 'API GET with no file: the HIVESW combat switches (skills / heals / potions) ON = the autopilot as before');   // HIVESW-2026-10-15
   const r1 = API.post(ctx, { party: 'Tank1', values: { supplyWatch: true, sell: true }, chars: { Bishop1: { sell: false } } });
   const f1 = JSON.parse(fs.readFileSync(F, 'utf8'));
   check(r1.ok && f1.parties.Tank1.supplyWatch === true && f1.parties.Tank1.sell === true && f1.chars.Bishop1.sell === false && f1.default.sell === false && !f1.parties.Destroyer3, 'API POST: this party + its member written, defaults OFF in a new file');
@@ -206,6 +209,59 @@ function ltaEnv(cfg, me) {
   check(/partyauto\tsave/.test(fs.readFileSync(path.join(LOGS, 'dashboard_commands.log'), 'utf8')), 'API: one line per save in dashboard_commands.log');
   delete process.env.SWARM_PARTYAUTO_FILE;
   try { fs.rmSync(TMP, { recursive: true, force: true }); } catch (e) { }
+
+  // ---- 6) SUPPLYAMT 2026-10-14 ----------------------------------------------------------------------------------------------
+  { const A = P.pautoAmounts, B = API.BUILTIN;
+    const J = { default: { amounts: { 20: { soulshots: 4000 } } }, parties: { Tank1: { amounts: { 1: { soulshots: 800, mana: 0 }, 20: { mana: 300, soe: '' } } } } };
+    const a1 = A(J, 'Tank1', 12, B), a2 = A(J, 'Tank1', 25, B), a3 = A(J, 'Destroyer3', 25, B), a4 = A({}, 'Tank1', 80, B);
+    check(a1.band === 1 && a1.soulshots === 800 && a1.mana === 0 && a1.src.mana === 'party' && a1.spiritshots === B.spiritshots && a1.src.spiritshots === 'builtin', 'amounts: the party row of my level; 0 = buy none; empty = built-in');
+    check(a2.band === 20 && a2.mana === 300 && a2.soulshots === 4000 && a2.src.soulshots === 'default' && a2.soe === B.soe, 'amounts: party > all parties > built-in, "" = not set');
+    check(a3.soulshots === 4000 && a3.mana === B.mana && a4.band === 76 && a4.soulshots === 10000 && a4.mana === 2000, 'amounts: a party without its own uses all parties / built-in; no file = today\'s amounts');
+    check(P.PAUTO_BANDS.join() === API.BANDS.join() && P.PAUTO_AMT_KEYS.join() === API.AMT_KEYS.join(), 'amounts: swarm.js and the API know the same bands and items');
+    let same = true; [{}, J, { parties: { Tank1: { amounts: 'x' } } }, { default: { amounts: { 40: { sor: -1, soe: 'a' } } } }].forEach(f => ['Tank1', 'Destroyer3'].forEach(L => [1, 19, 20, 39, 40, 52, 61, 75, 76, 85].forEach(lv => { if (JSON.stringify(A(f, L, lv, B)) !== JSON.stringify(API.pautoAmounts(f, L, lv, B))) same = false; })));
+    check(same, 'amounts: the bot and the dashboard give the same answer (matrix)');
+    const cfgB = src.match(/supply: \{[\s\S]*?shotsFighter: (\d+), shotsMage: (\d+)[\s\S]*?soe: (\d+), sor: (\d+)|soe: (\d+), sor: (\d+),[\s\S]*?shotsFighter: (\d+), shotsMage: (\d+)[\s\S]*?manaPotions: (\d+)/);
+    check(cfgB && Number(cfgB[5]) === B.soe && Number(cfgB[6]) === B.sor && Number(cfgB[7]) === B.soulshots && Number(cfgB[8]) === B.spiritshots && Number(cfgB[9]) === B.mana, 'amounts: the dashboard\'s "standard" numbers = swarm.js CONFIG.lead.supply');
+    const sw = fnSrc('function supplyWants()');
+    check(/A = supplyAmounts\(\)/.test(sw) && /want: A\.soe/.test(sw) && /want: A\.sor/.test(sw) && /A\.spiritshots : A\.soulshots/.test(sw) && /want: A\.mana/.test(sw) && /A\.healing/.test(sw) && !/S\.shotsFighter|S\.manaPotions \|\|/.test(sw), 'supplyWants takes every amount from the party settings');
+    const L586 = src.slice(src.indexOf('keep my own scrolls') - 400, src.indexOf('keep my own scrolls') + 400);
+    check(/supplyAmounts\(\)\.soe/.test(L586) && !/CONFIG\.lead\.supply\.soe/.test(L586), 'the leader keeps his own amounts when he gives from stock');
+    // supplyWants on stubs: a level-12 fighter with a party table
+    const W = world({ me: 'Bishop1', leader: 'Tank1' }); W.put({ parties: { Tank1: { amounts: { 1: { soulshots: 800, mana: 50, healing: 20, soe: 2, sor: 0 } } } } }); W.t += 6000;
+    Object.assign(W.env, { num: Number, Me: { Name: 'Bishop1', Level: 12 }, CONFIG: { leader: 'Tank1', lead: { supply: { soe: 5, sor: 3, shotsFighter: 10000, shotsMage: 5000, shotsBelow: 2000, manaPotions: 2000, manaPotionsBelow: 500 } } },
+      shotId: () => 1835, shotKind: () => 'fighter', weaponGrade: () => 'NG', myAmmo: () => null, OWNTYPE: { helvetia: [] }, teamNames: () => ['Tank1'],
+      deathPenaltyLevel: () => 0, recoveryScroll: () => ({ id: 8594, name: 'Scroll: Recovery (No Grade)' }), state: { role: 'bishop' }, itemCount: (id) => ({ 1835: 100, 728: 0 })[id] || 0 });
+    const H2 = new Function('env', 'with (env) {\n' + HOST + '\n' + sw + '\n' + fnSrc('function supplyNeeds()') + '\nreturn { supplyWants, supplyNeeds }; }')(W.env);
+    const ws = H2.supplyNeeds(), g = (id) => ws.find(w => w.id === id) || {};
+    check(g(1835).want === 800 && g(1835).need === 700 && g(728).want === 50 && g(728).need === 50 && g(1061).want === 20 && g(736).want === 2 && g(737).need === 0, 'supplyWants (stubs): a level-12 member asks for the party\'s low-level amounts (800 shots, 50 mana pots, no res scrolls)',
+      JSON.stringify(ws.map(w => [w.id, w.want, w.need])));
+    // ORE 2026-10-14: a character whose skills eat Spirit Ore buys it (built-in 300 or the table); one without such a skill does not
+    check(!g(3031).id, 'Spirit Ore: a character without a skill that eats it buys none');
+    W.env.SkillsList = { forEach: (f) => [{ Id: 1401, Name: 'Major Heal', ItemConsumeId: 3031, ItemConsumeCount: 1, IsActive: true }].forEach(f) };
+    const ws2 = H2.supplyNeeds(), o2 = ws2.find(w => w.id === 3031) || {};
+    check(o2.want === 300 && o2.need === 300, 'Spirit Ore: a bishop with Major Heal asks for the built-in 300', JSON.stringify(o2));
+    W.put({ parties: { Tank1: { amounts: { 1: { ore: 40 } } } } }); W.t += 6000;
+    const o3 = (H2.supplyNeeds().find(w => w.id === 3031) || {});
+    check(o3.want === 40, 'Spirit Ore: the party table wins (40)', JSON.stringify(o3));
+    { const hk = src.slice(src.indexOf('function hsKnownNow()'), src.indexOf('function hsKnownNow()') + 1500);
+      check(hk.includes('hasItem = !item || itemCount(item) >= itemN') && hk.includes('ready: !!sk.IsReady && num(Me.MP) >= mp && hasItem'), 'heals: a heal without its Spirit Ore is not ready -> the next best heal is picked'); }
+    // API
+    const TMP2 = fs.mkdtempSync(path.join(os.tmpdir(), 'pamt_')), F2 = path.join(TMP2, 'party_auto.json'); process.env.SWARM_PARTYAUTO_FILE = F2;
+    const ctx2 = { DATA: TMP2, LOGS: TMP2, ROOT, readJson: () => null, readStates: () => ({}), teamMap: () => ({}), mainLeader: 'Tank1' };
+    fs.writeFileSync(F2, JSON.stringify({ v: 1, default: { sell: false }, parties: { Tank1: { sell: true } } }));
+    const p1 = API.post(ctx2, { party: 'Tank1', values: {}, amounts: { 1: { soulshots: 800, mana: 0, healing: '' }, 20: { soe: null } } });
+    const g1 = JSON.parse(fs.readFileSync(F2, 'utf8'));
+    check(p1.ok && g1.parties.Tank1.sell === true && JSON.stringify(g1.parties.Tank1.amounts) === '{"1":{"soulshots":800,"mana":0}}', 'API: the party table is saved (empty cells dropped), its switches kept');
+    check(API.post(ctx2, { party: 'Tank1', amounts: { 1: { soulshots: -5 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 7: { soe: 1 } } }).code === 400
+      && API.post(ctx2, { party: 'Tank1', amounts: { 1: { arrows: 1 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soe: 2.5 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soulshots: 1e9 } } }).code === 400, 'API: negative / unknown band / unknown item / not whole / too big = 400');
+    const p2 = API.post(ctx2, { party: 'Tank1', defaultAmounts: { 40: { mana: 1000 } } }), g2 = JSON.parse(fs.readFileSync(F2, 'utf8'));
+    check(p2.ok && g2.default.amounts['40'].mana === 1000 && g2.default.sell === false && g2.parties.Tank1.amounts, 'API: "also for every party" writes default.amounts, keeps the rest');
+    const p3 = API.post(ctx2, { party: 'Tank1', amounts: null }), g3 = JSON.parse(fs.readFileSync(F2, 'utf8'));
+    check(p3.ok && !g3.parties.Tank1.amounts && g3.parties.Tank1.sell === true, 'API: null removes the party table (back to all parties / standard)');
+    const inf = API.info(ctx2);
+    check(inf.amounts && inf.amounts.bands.length === 6 && inf.amounts.keys.length === 7 && inf.amounts.builtin.soulshots === 10000 && inf.amounts.builtin.ore === 300 && inf.amounts.suggest[1].soulshots < inf.amounts.suggest[76].soulshots, 'API GET: bands, items, standard + suggested amounts for the page');
+    delete process.env.SWARM_PARTYAUTO_FILE; try { fs.rmSync(TMP2, { recursive: true, force: true }); } catch (e) { }
+  }
 
   // owner's live file + release seed
   const LIVEF = path.join(ROOT, 'Scripts', 'data', 'party_auto.json');

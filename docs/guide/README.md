@@ -25,6 +25,7 @@ The same guide as one page with pictures: open [index.html](index.html) in a bro
 - [Party plan (📋 Plan: leveling places, quests, class changes, towns, raid bosses — the steps a party follows when it is started)](pages/party-plan.md)
 - [Healing (heal and MP schemes: which heal skill at which HP %, Recharge, who first)](pages/heal-schemes.md)
 - [Resurrection (raising dead teammates: automatic, the Resurrect button, Res all dead, raid rules)](pages/resurrect.md)
+- [Combat: Hive or your own L2Swarm profile (who picks skills, heals, potions; toggles in fights)](pages/hive-switches.md)
 - [Loot (who gets what the party finds: a collector, keep it, keep valuable gear, never / always lists)](pages/loot.md)
 - [Character page](pages/character.md)
 - [Override menu (Act / Override…: one order, once, to one character)](pages/override.md)

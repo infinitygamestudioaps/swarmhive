@@ -234,7 +234,9 @@ function swarmChecks() {
     const field = { name: 'Dagger1', x: 80552, y: -3928, z: -3000, town: '', dead: false, busy: '' };   // Outlaw Forest, ~152k away (the incident)
     const inGiran = { name: 'Dagger1', x: 81500, y: 148500, z: -3400, town: 'giran', dead: false, busy: '' };
     const d1 = H.lootSupplyDecide(field, me, {});
-    check(d1.act === 'after', `receiver in the field (152k): the handover waits until the hold is released — '${d1.act}' (${d1.why})`);
+    check(d1.act === 'skip', `receiver out hunting in the field (152k): an automatic handover never walks into his hunting ground (2026-10-14, Spoiler5 died in the Necropolis) — '${d1.act}' (${d1.why})`);
+    const inOren = Object.assign({}, field, { x: 82698, y: 53190, town: 'oren' }); const d1b = H.lootSupplyDecide(inOren, me, {});
+    check(d1b.act === 'after', `receiver in another town: the handover waits until the hold is released — '${d1b.act}' (${d1b.why})`);
     check(H.lootSupplyDecide(field, me, { inline: true }).act === 'skip', "... not inside a trip's inline supply stop (the trip goes on)");
     check(H.lootSupplyDecide(inGiran, me, {}).act === 'now', 'receiver in Giran: handed over inside the run (walk, no teleport)');
     check(H.lootSupplyDecide(null, me, {}).act === 'skip' && H.lootSupplyDecide(Object.assign({}, field, { dead: true }), me, {}).act === 'skip', 'receiver offline / dead: not now');
@@ -247,7 +249,7 @@ function swarmChecks() {
   const holdRefuses = (hold) => hold;                                       // supplyHoldsTeam() for the leader while the hold is set
   const replay = (flowNew) => { let refused = 0, delivered = false; let hold = true;
     const travel = () => { for (let t = 0; t < 6; t++) { if (holdRefuses(hold)) refused++; else { delivered = true; return; } } };
-    const act = flowNew && H ? H.lootSupplyDecide({ name: 'Dagger1', x: 80552, y: -3928, z: -3000, town: '' }, { x: 83000, y: 148000, z: -3400, town: 'giran' }, {}).act : 'now';
+    const act = flowNew && H ? H.lootSupplyDecide({ name: 'Dagger1', x: 82698, y: 53190, z: -1496, town: 'oren' }, { x: 83000, y: 148000, z: -3400, town: 'giran' }, {}).act : 'now';
     if (act === 'now') travel();
     hold = false;                                                            // finally: state.supplyHold = null
     if (act === 'after') travel();

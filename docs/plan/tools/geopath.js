@@ -366,7 +366,7 @@ function fleeSpot(a, dangers, opts = {}) {
   return { ok: true, flee: true, kind, name, spot, clearance: Math.round(Math.min(clearOf(spot.x, spot.y), 99999)), points: pts.length ? pts : [spot],
     lengthUnits: Math.round((gScore.get(pick) || 0) * 16), expanded, ms: Date.now() - t0 };
 }
-module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, layers, layerAt, toGeoX, toGeoY, toWorldX, toWorldY, region };
+module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, layers, layerAt, step, toGeoX, toGeoY, toWorldX, toWorldY, region };
 
 if (require.main === module) {
   const ji = process.argv.indexOf('--json');

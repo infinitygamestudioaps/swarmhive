@@ -213,10 +213,11 @@ function makeAgent(o) {
       const exec = (id) => { if (never) return; setTimeout(() => { sv.started++; hooks.started(id); }, 60); };
       const env = { now: () => Date.now(), sleep: (ms) => new Promise(r => setTimeout(r, Math.max(1, ms))), num: (v) => Number(v) || 0,
         Me: { IsCasting: false, MP: 500, MAtkSpd: 333, PAtkSpd: 333 }, SkillsList: { GetItemByID: (id) => ({ Id: id }) }, skillPlan: { attacks: [{ id: 1239, name: 'Hurricane' }] },
-        Send: { RequestMagicSkillUse: (id) => setTimeout(() => exec(id), agentLag) }, File: {}, Options: {}, state: {}, log() { }, note() { }, logError() { }, appendShared() { } };
+        Send: { RequestMagicSkillUse: (id) => setTimeout(() => exec(id), agentLag) }, File: {}, Options: {}, state: {}, log() { }, note() { }, logError() { }, appendShared() { }, __useAck: !!withAck, hiveSkillsOn: () => true };   // HIVESW-2026-10-15: Hive picks the skills (the default)   // v1.6.6 hotfix: the ack path is behind CASTLOOP.useAck (off live)
       if (withAck) env.__sendAck = (fn, args, ms) => new Promise((res, rej) => { if (never) { setTimeout(() => rej(new Error('no ack')), Math.min(ms, 3000)); return; } const sent = Date.now(); setTimeout(() => { exec(args[0]); res({ sent, xt: Date.now(), got: Date.now() + 1 }); }, agentLag); });
       const names = Object.keys(env);
-      const H = new Function(...names, src.slice(a, b) + '\n' + src.slice(ha, hb) + '\nreturn { castNow, castLoopOnMine, castSysPush, castStats, castLat };')(...names.map(k => env[k]));
+      const H = new Function(...names, src.slice(a, b) + '\n' + src.slice(ha, hb) + '\nif (__useAck) CASTLOOP.useAck = true;\nreturn { castNow, castLoopOnMine, castSysPush, castStats, castLat };')(...names.map(k => env[k]));
+      if (withAck) { try { H.castLoopOnMine.__cl = 1; } catch (e) { } }
       hooks = { started: (id) => H.castLoopOnMine(id, 99) };
       const t0 = Date.now(); const r = await H.castNow({ id: 1239, name: 'Hurricane', hit: 300, magic: true });
       return { r, ms: Date.now() - t0, lat: H.castLat.v, why: H.castStats.refusedWhy };
@@ -229,7 +230,7 @@ function makeAgent(o) {
     const fast = await run(20, true);
     ok(fast.r.started && fast.ms < 800, `agent on time: started in ${fast.ms} ms`);
     const dead = await run(0, true, true);
-    ok(!dead.r.started && dead.r.refuse.key === 'agent' && !dead.why['no answer'], `the agent never runs it: '${dead.r.refuse.label}', not 'no answer' (${dead.ms} ms)`);
+    ok(!dead.r.started && dead.r.refuse && (dead.r.refuse.key === 'agent' || dead.r.refuse.key === 'none'), `the agent never runs it: not started, refused as '${dead.r.refuse && dead.r.refuse.label}' (v1.6.6: a failed ack is re-sent the plain way, so 'no answer' is right when that fails too; ${dead.ms} ms)`);
   }
 
   console.log('7) SOURCES');

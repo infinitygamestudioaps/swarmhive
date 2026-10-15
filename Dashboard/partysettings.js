@@ -17,6 +17,8 @@
 //   Run       /api/runstate   (read; Start / Stop = RunSwitch's own button, it acts at once)
 //   Healing   /api/healschemes (read; "Edit" opens Dashboard/healschemes.js, its own sheet + Save — 2026-10-13 HEAL SCHEMES)
 //   Supplies  /api/partyauto  (party_auto.json: parties.<leader>.supplyWatch / sell / dyes, chars.<member>.sell / dyes)  POST { party, values, chars, rev }
+//   Combat    /api/partyauto  (HIVESW-2026-10-15: parties.<leader>.skills / heals / potions, chars.<member>.same; missing = ON) — "Hive picks my skills",
+//             "Hive heals", "Hive uses potions"; OFF = the player's own L2Swarm profile fights / heals (its Combat Skills / Auto Skills tabs)
 //   Money also writes parties.<leader>.givers (who may give to THIS party; missing = the shared givers) — 2026-10-13 PARTYAUTO / FUNDGIVERS
 // One Save (sticky bar, Undo). Conflict check like the Storage page: before writing, every changed section is read again and compared with
 // what the popup loaded; a difference asks "Overwrite?". Only the changed sections are written, and inside them only this party's entries
@@ -43,14 +45,20 @@
   const SRC = { fund: '/api/fundrules', gear: '/api/gearauto', storage: '/api/storage', tactics: '/api/tactics', routes: '/api/routerules',
     daily: '/api/daily', ss: '/api/sevensigns', clan: '/api/clanauto', run: '/api/runstate', pauto: '/api/partyauto', res: '/api/resrules', loot: '/api/lootrules' };   // RESURRECTION 2026-10-13: + res; LOOT RULES 2026-10-13: + loot
   /** which source each editable section needs */
-  const SEC_SRC = { res: 'res', money: 'fund', supplies: 'pauto', gear: 'gear', storage: 'storage', loot: 'loot', tactics: 'tactics', routes: 'routes', daily: 'daily', ss: 'ss', clan: 'clan' };
-  const SEC_NAME = { res: 'Resurrection', money: 'Money', supplies: 'Supplies', gear: 'Gear', storage: 'Storage', loot: 'Loot', tactics: 'Fighting', routes: 'Routes', daily: 'Daily (Kamaloka)', ss: 'Daily (Seven Signs)', clan: 'Clan' };
+  const SEC_SRC = { res: 'res', money: 'fund', supplies: 'pauto', combat: 'pauto', gear: 'gear', storage: 'storage', loot: 'loot', tactics: 'tactics', routes: 'routes', daily: 'daily', ss: 'ss', clan: 'clan' };
+  const SEC_NAME = { res: 'Resurrection', money: 'Money', supplies: 'Supplies', combat: 'Combat', gear: 'Gear', storage: 'Storage', loot: 'Loot', tactics: 'Fighting', routes: 'Routes', daily: 'Daily (Kamaloka)', ss: 'Daily (Seven Signs)', clan: 'Clan' };
   // PARTYAUTO 2026-10-13: the switches of the Supplies section (the same list as Dashboard/partyauto_api.js KINDS; the API's own list wins)
   const PA_KINDS = [
     { key: 'supplyWatch', char: false, label: 'Supply runs when someone runs low', help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out.' },
     { key: 'sell', char: true, label: 'Sell junk on town visits', help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
     { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs', help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' }];
   const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols' };
+  // HIVESW-2026-10-15: the Combat section's switches (= partyauto_api.js KINDS group 'combat'; default ON when nothing is set)
+  const CB_KINDS = [
+    { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills', help: 'On: Hive chooses and casts attacks, area attacks, debuffs, buffs, songs / dances, toggles and the raid role skills. Off: Hive casts nothing by itself — your L2Swarm profile (Combat Skills tab) fights; Hive still walks, follows, resupplies and shows everything here.' },
+    { key: 'heals', char: true, def: true, group: 'combat', label: 'Hive heals', help: 'On: Hive heals the party (heal choice, group heals, cures, Recharge, Chant of Life, self heals). Off: Hive heals nobody — your L2Swarm profile (Auto Skills tab) heals, and Hive gives back any of your Auto Skills it had switched off.' },
+    { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions', help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." }];
+  const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions' };
   const GMODES = ['auto', 'list', 'none'];
   const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary' };
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
@@ -87,6 +95,7 @@
   const SLICE = {
     money: (d, L, M) => { const r = obj(d.rules); return { on: r.on, givers: r.givers || null, party: obj(r.parties)[L] || null, chars: M.map(n => obj(r.chars)[n] || null), mk: r.memberKeep || null }; },
     supplies: (d, L, M) => { const D = obj(d.data); return { party: obj(D.parties)[L] || null, chars: M.map(n => obj(D.chars)[n] || null) }; },
+    combat: (d, L, M) => { const D = obj(d.data), pick = (o) => { const x = obj(o), r = {}; ['skills', 'heals', 'potions'].forEach(k => { if (typeof x[k] === 'boolean') r[k] = x[k]; }); return r; }; return { party: pick(obj(D.parties)[L]), chars: M.map(n => pick(obj(D.chars)[n])), def: pick(D.default) }; },   // HIVESW
     res: (d, L) => obj(obj(d.data).parties)[L] || null,   // RESURRECTION 2026-10-13
     loot: (d, L) => obj(obj(d.data).parties)[L] || null,  // LOOT RULES 2026-10-13
     gear: (d, L, M) => { const p = (d.parties || []).find(x => x.leader === L) || {}; const mm = {}; (p.members || []).forEach(m => { if (M.includes(m.name)) mm[m.name] = [m.auto, m.lock]; }); return { party: p.auto === undefined ? null : p.auto, mm }; },
@@ -118,9 +127,17 @@
     }
     if (ok(D.pauto)) {   // PARTYAUTO 2026-10-13: null = no own setting (the setting for all parties / like the party)
       const d = obj(D.pauto.data), P = obj(obj(d.parties)[L]), bool = (v) => (typeof v === 'boolean' ? v : null), party = {}, chars = {};
-      paKinds().forEach(k => { party[k.key] = bool(P[k.key]); });
-      M.forEach(n => { const C = obj(obj(d.chars)[n]); chars[n] = {}; paKinds().filter(k => k.char).forEach(k => { chars[n][k.key] = bool(C[k.key]); }); });
-      W.supplies = { party, chars };
+      supKinds().forEach(k => { party[k.key] = bool(P[k.key]); });
+      M.forEach(n => { const C = obj(obj(d.chars)[n]); chars[n] = {}; supKinds().filter(k => k.char).forEach(k => { chars[n][k.key] = bool(C[k.key]); }); });
+      // SUPPLYAMT 2026-10-14: how much each character carries per level band (strings while typing; '' = the all-parties / built-in amount)
+      const PA = obj(obj(obj(d.parties)[L]).amounts), amt = {};
+      amtBands().forEach(b => { const r = obj(PA[String(b.start)]); amt[b.start] = {}; amtKeys().forEach(k => { amt[b.start][k.key] = isSet(r[k.key]) ? String(r[k.key]) : ''; }); });
+      W.supplies = { party, chars, amt, allToo: false };
+      // HIVESW-2026-10-15: Combat (null = no own setting: the all-parties setting / like the party)
+      const cp = {}, cc = {};
+      cbKinds().forEach(k => { cp[k.key] = bool(P[k.key]); });
+      M.forEach(n => { const C = obj(obj(d.chars)[n]); cc[n] = {}; cbKinds().forEach(k => { cc[n][k.key] = bool(C[k.key]); }); });
+      W.combat = { party: cp, chars: cc };
     }
     if (ok(D.res)) {   // RESURRECTION 2026-10-13: this party's own entry (null = not set: the all-parties / built-in default)
       const P = obj(obj(obj(D.res.data).parties)[L]), b = (v) => (typeof v === 'boolean' ? v : null);
@@ -171,9 +188,23 @@
   const runOn = () => !!(runInfo() && runInfo().on);
   function fundDefaults() { const r = ok(PS.D.fund) ? obj(PS.D.fund.rules) : {}, d = obj(r.defaults); return { lt: isSet(d.leaderTarget) ? Number(d.leaderTarget) : 8000000, mt: isSet(d.memberTarget) ? Number(d.memberTarget) : 3000000, keep: 30000000 }; }
   function gearDef() { return ok(PS.D.gear) ? !!PS.D.gear.default : false; }
-  const paKinds = () => (ok(PS.D.pauto) && Array.isArray(PS.D.pauto.kinds) && PS.D.pauto.kinds.length ? PS.D.pauto.kinds : PA_KINDS);
-  const paDef = (k) => (ok(PS.D.pauto) ? obj(obj(PS.D.pauto.data).default)[k] === true : false);
+  const paKinds = () => (ok(PS.D.pauto) && Array.isArray(PS.D.pauto.kinds) && PS.D.pauto.kinds.length ? PS.D.pauto.kinds : PA_KINDS.concat(CB_KINDS));
+  const supKinds = () => paKinds().filter(k => k.group !== 'combat');   // HIVESW: the Supplies section's switches
+  const cbKinds = () => { const l = paKinds().filter(k => k.group === 'combat'); return l.length ? l : CB_KINDS; };   // HIVESW: an older server sends none -> the built-in list
+  /** the setting for all parties (default) of a switch; missing = the kind's own default (combat ON, the rest OFF) */
+  const paDef = (k) => { const d = ok(PS.D.pauto) ? obj(obj(PS.D.pauto.data).default)[k] : undefined; if (typeof d === 'boolean') return d; const K = paKinds().find(x => x.key === k) || CB_KINDS.find(x => x.key === k); return !!(K && K.def); };
+  // SUPPLYAMT 2026-10-14: the amounts table (the API sends bands / items / built-in / suggested values)
+  const AMT_FALLBACK = { bands: [[1, 'Level 1–19 (no grade)'], [20, 'Level 20–39 (D grade)'], [40, 'Level 40–51 (C grade)'], [52, 'Level 52–60 (B grade)'], [61, 'Level 61–75 (A grade)'], [76, 'Level 76+ (S grade)']].map(([start, label]) => ({ start, label })),
+    keys: [['soulshots', 'Soulshots', 100000], ['spiritshots', 'Spiritshots', 100000], ['mana', 'Mana pots', 20000], ['healing', 'Heal pots', 5000], ['soe', 'Escape', 200], ['sor', 'Res scrolls', 200], ['ore', 'Spirit Ore', 20000]].map(([key, short, max]) => ({ key, short, label: short, max })),
+    builtin: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300 }, suggest: {} };
+  const amtInfo = () => (ok(PS.D.pauto) && PS.D.pauto.amounts ? PS.D.pauto.amounts : AMT_FALLBACK);
+  const amtBands = () => amtInfo().bands, amtKeys = () => amtInfo().keys;
+  /** what an empty cell means: the all-parties amount, else the built-in one */
+  function amtInherit(band, k) { const d = ok(PS.D.pauto) ? obj(obj(obj(obj(PS.D.pauto.data).default).amounts)[String(band)]) : {}; return isSet(d[k]) ? { v: Number(d[k]), src: 'all parties' } : { v: Number(amtInfo().builtin[k]) || 0, src: 'standard' }; }
+  /** the typed table -> { "<band>": { key: number } } | null (nothing typed) */
+  function amtTable(A) { const out = {}; Object.keys(A || {}).forEach(b => { const r = {}; Object.keys(A[b] || {}).forEach(k => { const v = String(A[b][k] == null ? '' : A[b][k]).trim().replace(/[\s,]/g, ''); if (v !== '') r[k] = Number(v); }); if (Object.keys(r).length) out[b] = r; }); return Object.keys(out).length ? out : null; }
   const paParty = (k) => (PS.W.supplies.party[k] === null ? paDef(k) : PS.W.supplies.party[k]);
+  const cbParty = (k) => (PS.W.combat.party[k] === null || PS.W.combat.party[k] === undefined ? paDef(k) : PS.W.combat.party[k]);   // HIVESW
   /** who may give to this party, in words */
   function giversText(mode, list, none) { return mode === 'none' ? 'nobody gives' : mode === 'list' ? (list.length ? `only ${list.join(', ')}` : none || 'nobody chosen yet — nobody gives') : 'any rich party leader'; }
   const gearPartyEff = () => (PS.W.gear.party === null ? gearDef() : PS.W.gear.party);
@@ -309,13 +340,37 @@
       ${adv(note('File: Scripts/data/fund_rules.json — parties.' + E(PS.leader) + '.purse (on, leaderKeep, memberCap, budget = Leader pays), memberKeep (pocket money by level, shared), parties.' + E(PS.leader) + ' (receive, targets, givers = who may give to this party; missing = the shared givers), chars.<member>.target, givers (shared), on (shared). Amounts accept 8m / 300k / 8,000,000. Order: !purse give <name|all>.'))}`;
     return section('money', '💰', 'Money', sum, body, { dirty: dirtySecs().includes('money') });
   }
+  // HIVESW-2026-10-15 (player Vykaax: "let my own L2Swarm profile pick skills and heals, Hive does the pathing, resupply and dashboard")
+  function secCombat() {
+    if (!PS.W.combat) return section('combat', '⚔', 'Combat', 'not available', unavailable('pauto'));
+    const c = PS.W.combat, K = cbKinds();
+    const items = K.map(k => {
+      const own = c.party[k.key] !== null && c.party[k.key] !== undefined, eff = cbParty(k.key), d = paDef(k.key);
+      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions' }[k.key] || 'Off';
+      const onTxt = 'On — Hive does it' + (own ? '' : ' (the setting for all parties)');
+      const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="combat.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
+      return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset);
+    }).join('');
+    const rows = PS.M.map(n => { const ch = c.chars[n] || {};
+      return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${K.some(k => ch[k.key] !== null && ch[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${K.map(k => {
+        const v = ch[k.key], pe = cbParty(k.key);
+        return sel(`combat.chars.${n}.${k.key}`, v === null || v === undefined ? '' : v ? 'on' : 'off', [['', `Like the party (${pe ? 'Hive' : 'profile'})`], ['on', 'Hive'], ['off', 'My L2Swarm profile']], { skills: 'Skills', heals: 'Heals', potions: 'Potions' }[k.key] || k.label, { kind: 'tri' }); }).join('')}</div>`; }).join('');
+    const offK = K.filter(k => !cbParty(k.key)).map(k => CB_SHORT[k.key] || k.key), ownCh = PS.M.filter(n => K.some(k => { const v = (c.chars[n] || {})[k.key]; return v !== null && v !== undefined; }));
+    const sum = (offK.length ? `Your profile: ${offK.join(', ')}` : 'Hive does skills, heals and potions') + (ownCh.length ? ` · own: ${ownCh.join(', ')}` : '');
+    const body = `
+      ${items}
+      <details class="ps-more"${ownCh.length ? ' open' : ''}><summary>Per character</summary>${rows}<div class="ps-what">A character's own choice wins over the party's switch. The toggles a character keeps on in fights are chosen on its character page (box "Combat").</div></details>
+      ${note('Hive keeps walking, following, resupplying, resurrecting and showing everything here whatever you choose. When you switch something off, set it up in your L2Swarm profile first (account options: Combat Skills / Auto Skills), else nobody casts or heals.', 'info')}
+      ${adv(note('File: Scripts/data/party_auto.json — parties.' + E(PS.leader) + '.skills / heals / potions, chars.<member>.skills / heals / potions / toggles; missing = default (' + K.map(k => k.key + ' ' + (paDef(k.key) ? 'on' : 'off')).join(', ') + '). swarm.js: hiveSkillsOn / hiveHealsOn / hivePotionsOn (HIVESW-2026-10-15); skills off also gives L2Swarm\'s Combat Skills back (l2sSkillGuard), heals off its Auto Skills (Self Heal).'))}`;
+    return section('combat', '⚔', 'Combat', sum, body, { dirty: dirtySecs().includes('combat') });
+  }
   function shortAmt(n) { n = Number(n) || 0; return n >= 1e9 ? (n / 1e9).toFixed(1) + 'B' : n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'k' : String(n); }
 
   // PARTYAUTO 2026-10-13: own switches (were: "follow Start / Stop, no separate switch yet")
   function secSupplies() {
     const acts = `<div class="ps-acts">${quick('!supply', 'Supplies (leader buys in Giran and hands them out)', 'Supply run now')}${quick('!sell', 'Sell (every member sells its marked items + junk at the nearest shop)', 'Sell now')}</div>`;
     if (!PS.W.supplies) return section('supplies', '🧪', 'Supplies', 'not available', unavailable('pauto') + acts);
-    const s = PS.W.supplies, run = runOn(), K = paKinds();
+    const s = PS.W.supplies, run = runOn(), K = supKinds();
     const items = K.map(k => {
       const own = s.party[k.key] !== null, eff = paParty(k.key), d = paDef(k.key);
       const onTxt = (own ? 'On' : 'On — the setting for all parties') + (run ? '' : ' (works once you press Start)');
@@ -330,12 +385,28 @@
         return sel(`supplies.chars.${n}.${k.key}`, v === null || v === undefined ? '' : v ? 'on' : 'off', [['', `Like the party (${pe ? 'on' : 'off'})`], ['on', 'On'], ['off', 'Off']], k.key === 'sell' ? 'Selling' : 'Symbols', { kind: 'tri' }); }).join('')}</div>`; }).join('');
     const onK = K.filter(k => paParty(k.key)).map(k => PA_SHORT[k.key] || k.key);
     const sum = !onK.length ? 'Off — nothing by itself' : `${onK.join(' · ')}${run ? '' : ' (waits for Start)'}`;
+    // SUPPLYAMT 2026-10-14: how much each character carries (every member uses the row of its own level)
+    const lvOf = (n) => Number(memberInfo(n).level) || 0, bandOf = (lv) => amtBands().map(b => b.start).filter(b => b <= Math.max(1, lv)).pop() || 1;
+    const amtOwn = !!amtTable(s.amt), allSet = ok(PS.D.pauto) && !!obj(obj(PS.D.pauto.data).default).amounts;
+    const amtRows = amtBands().map(b => {
+      const who = PS.M.filter(n => lvOf(n) && bandOf(lvOf(n)) === b.start);
+      return `<div class="ps-amtband${who.length ? ' now' : ''}"><div class="ps-amth">${E(b.label)}${who.length ? ` <small>· ${E(who.join(', '))}</small>` : ''}</div><div class="ps-amtrow">${amtKeys().map(k => {
+        const ih = amtInherit(b.start, k.key);
+        return inp(`supplies.amt.${b.start}.${k.key}`, (s.amt[b.start] || {})[k.key] || '', k.short, { ph: fmtN(ih.v), small: true });
+      }).join('')}</div></div>`; }).join('');
+    const amtBlock = `<details class="ps-more"${amtOwn || s.allToo ? ' open' : ''}><summary>How much each character carries${amtOwn ? ' — own amounts' : ' — standard amounts'}</summary>
+      <div class="ps-what">In every supply run the leader buys what is missing up to these amounts and hands it out. Each character uses the row of <b>its own level</b> (shots of its weapon grade). An empty box uses the grey number (${allSet ? 'the amount for all parties, else the standard amount' : 'the standard amount'}). 0 = buy none. Fighters get soulshots, casters spiritshots. Spirit Ore only goes to characters whose skills eat it (Major Heal, Major Group Heal, cubics, summons); a healer out of ore uses its other heals.</div>
+      ${amtRows}
+      <div class="ps-acts"><button type="button" class="uk-btn secondary" data-psact="amtSuggest">Fill in suggested amounts</button><button type="button" class="uk-btn ghost" data-psact="amtClear"${amtOwn ? '' : ' disabled'}>Clear — use the standard amounts</button></div>
+      <label class="ps-chk"><input type="checkbox" data-pschk="supplies.allToo"${s.allToo ? ' checked' : ''}> Also use these amounts for every party that has none of its own</label>
+    </details>`;
     const body = `
       ${items}
+      ${amtBlock}
       <details class="ps-more"><summary>Per character</summary>${rows}<div class="ps-what">A character's own choice wins over the party's switch for selling and symbols.</div></details>
       ${note('Your orders always work, also while these are off: <b>Supply run now</b> (!supply), <b>Sell now</b> (!sell), and !dyes on a character in Giran. A supply run sells and draws symbols only for the characters whose switch is on.', 'info')}
       ${acts}
-      ${adv(note('File: Scripts/data/party_auto.json — parties.' + E(PS.leader) + '.supplyWatch / sell / dyes, chars.<member>.sell / dyes; missing = default (' + K.map(k => k.key + ' ' + (paDef(k.key) ? 'on' : 'off')).join(', ') + '). Amounts: swarm.js CONFIG.lead.supply; symbol plans: Scripts/data/dye_plan.json. Gates: runAuto + pautoGate in swarm.js.'))}`;
+      ${adv(note('File: Scripts/data/party_auto.json — parties.' + E(PS.leader) + '.supplyWatch / sell / dyes, chars.<member>.sell / dyes; missing = default (' + K.map(k => k.key + ' ' + (paDef(k.key) ? 'on' : 'off')).join(', ') + '). Amounts: parties.' + E(PS.leader) + '.amounts / default.amounts (per level band 1, 20, 40, 52, 61, 76), missing = swarm.js CONFIG.lead.supply; symbol plans: Scripts/data/dye_plan.json. Gates: runAuto + pautoGate in swarm.js.'))}`;
     return section('supplies', '🧪', 'Supplies', sum, body, { dirty: dirtySecs().includes('supplies') });
   }
 
@@ -634,7 +705,7 @@
     }
     const names = PS.M.map(n => { const m = memberInfo(n); return `${E(n)}${m.level ? ` <small>${E(m.level)}</small>` : ''}`; }).join(', ');
     document.getElementById('psIntro').innerHTML = `<div class="ps-who">${names}</div><div class="ps-what">Everything this party may do by itself, in one place. Switch on only what you want — the rest stays off. Changes are saved with <b>Save</b> below.</div>`;
-    document.getElementById('psBody').innerHTML = [secRun(), secPlan(), secFight(), secHeal(), secRes(), secMoney(), secSupplies(), secGear(), secStorage(), secLoot(), secClan(), secDaily(), secRoutes()].join('');
+    document.getElementById('psBody').innerHTML = [secRun(), secPlan(), secFight(), secHeal(), secRes(), secMoney(), secSupplies(), secCombat(), secGear(), secStorage(), secLoot(), secClan(), secDaily(), secRoutes()].join('');
     renderBar();
     if (keepScroll && sc) sc.scrollTop = top;
   }
@@ -654,6 +725,7 @@
     if (path === 'loot.adena') { const n = amt(raw); if (Number.isNaN(n)) PS.bad[path] = 'a number, e.g. 5m, 300k or 0'; return; }   // LOOT RULES 2026-10-13
     if (/^storage\.party\.(above|weightPct|gapMin)$/.test(path)) { if (raw === '') return; const n = Number(raw), lim = { above: [1, 500], weightPct: [1, 100], gapMin: [0, 1440] }[path.split('.').pop()]; if (!Number.isFinite(n) || n < lim[0] || n > lim[1]) PS.bad[path] = `${lim[0]} to ${lim[1]}`; return; }
     if (/^routes\./.test(path)) { const r = routeRule(path.slice(7)); if (!r || r.type !== 'number' || raw === '') return; const n = Number(raw); if (!Number.isFinite(n) || n < r.min || n > r.max || Math.round(n) !== n) PS.bad[path] = `a whole number from ${r.min} to ${r.max}`; return; }   // MOVETOGETHER step 2
+    if (/^supplies\.amt\./.test(path)) { if (raw === '') return; const k = path.split('.').pop(), K = amtKeys().find(x => x.key === k), max = K ? K.max : 100000, n = Number(raw.replace(/[\s,]/g, '')); if (!Number.isFinite(n) || n < 0 || Math.round(n) !== n || n > max) PS.bad[path] = `0 to ${fmtN(max)}`; return; }   // SUPPLYAMT
     if (/^tactics\.(minDealers|levelMargin|fallbackHp)$/.test(path)) { const n = Number(raw), lim = { minDealers: [1, 9], levelMargin: [-5, 10], fallbackHp: [5, 90] }[path.split('.').pop()]; if (raw === '' || !Number.isFinite(n) || n < lim[0] || n > lim[1]) PS.bad[path] = `${lim[0]} to ${lim[1]}`; }
   }
   function onInput(e) {
@@ -710,6 +782,8 @@
     if (act === 'close') { close(); return; }
     if (act === 'undo') { if (await uiConfirm({ title: 'Undo your changes?', body: 'Throw away every change in this window since it was opened or last saved.', confirmText: 'Undo changes', cancelText: 'Keep editing' })) { PS.W = clone(PS.W0); PS.bad = {}; render(true); } return; }
     if (act === 'save') { save(); return; }
+    if (act === 'amtSuggest' && PS.W.supplies) { const S = amtInfo().suggest || {}; amtBands().forEach(b => { amtKeys().forEach(k => { const v = obj(S[b.start])[k.key]; if (v !== undefined) setP(`supplies.amt.${b.start}.${k.key}`, String(v)); }); }); Object.keys(PS.bad).filter(p => /^supplies\.amt\./.test(p)).forEach(p => delete PS.bad[p]); PS.openSecs.add('supplies'); render(true); return; }   // SUPPLYAMT
+    if (act === 'amtClear' && PS.W.supplies) { amtBands().forEach(b => { amtKeys().forEach(k => setP(`supplies.amt.${b.start}.${k.key}`, '')); }); Object.keys(PS.bad).filter(p => /^supplies\.amt\./.test(p)).forEach(p => delete PS.bad[p]); render(true); return; }
     if (act === 'spot') { const L = PS.leader; if (await close() && typeof openSpotPicker === 'function') openSpotPicker(L); return; }
   }
 
@@ -762,8 +836,10 @@
       PS.M.forEach(n => { if (a.chars[n] !== b.chars[n]) out.push(`${n}: own top-up ${b.chars[n] === '' ? 'removed (party amount)' : b.chars[n]}`); });
     }
     if (W.supplies && J(W.supplies) !== J(W0.supplies)) {
-      paKinds().forEach(k => { const a = W0.supplies.party[k.key], b = W.supplies.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : onoff(b)}`); });
-      PS.M.forEach(n => paKinds().filter(k => k.char).forEach(k => { const a = (W0.supplies.chars[n] || {})[k.key], b = (W.supplies.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key === 'sell' ? 'selling' : 'symbols'} ${b === null || b === undefined ? 'like the party' : onoff(b)}`); }));
+      supKinds().forEach(k => { const a = W0.supplies.party[k.key], b = W.supplies.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : onoff(b)}`); });
+      if (J(amtTable(W.supplies.amt)) !== J(amtTable(W0.supplies.amt))) out.push(`Supply amounts (party ${PS.leader}): ${amtTable(W.supplies.amt) ? 'own amounts' : 'the standard amounts'}`);   // SUPPLYAMT
+      if (W.supplies.allToo) out.push(`Supply amounts for every party without its own: ${amtTable(W.supplies.amt) ? 'these amounts' : 'the standard amounts'}`);
+      PS.M.forEach(n => supKinds().filter(k => k.char).forEach(k => { const a = (W0.supplies.chars[n] || {})[k.key], b = (W.supplies.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key === 'sell' ? 'selling' : 'symbols'} ${b === null || b === undefined ? 'like the party' : onoff(b)}`); }));
     }
     if (W.res && J(W.res) !== J(W0.res)) {   // RESURRECTION 2026-10-13
       const L = { auto: 'Raise dead teammates by themselves', scrolls: 'Use Scrolls of Resurrection', raidHealerScrolls: 'In raids: scroll a dead healer', raidAllScrolls: 'In raids: scroll anyone', blessedFirst: 'Blessed scrolls first' };
@@ -778,6 +854,11 @@
       if (b.on && a.adena !== b.adena) out.push(`Adena: ${amt(b.adena) > 0 ? 'everything above ' + b.adena + ' is handed' : 'kept'}`);
       if (J(a.never) !== J(b.never)) out.push(`Never give: ${b.never.join(', ') || 'empty'}`);
       if (J(a.always) !== J(b.always)) out.push(`Always give: ${b.always.join(', ') || 'empty'}`);
+    }
+    if (W.combat && J(W.combat) !== J(W0.combat)) {   // HIVESW-2026-10-15
+      const who = (v) => (v ? 'Hive' : 'your L2Swarm profile');
+      cbKinds().forEach(k => { const a = W0.combat.party[k.key], b = W.combat.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null || b === undefined ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : b ? 'on — Hive does it' : 'off — ' + who(false) + ' does it'}`); });
+      PS.M.forEach(n => cbKinds().forEach(k => { const a = (W0.combat.chars[n] || {})[k.key], b = (W.combat.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key} by ${b === null || b === undefined ? 'like the party' : who(b)}`); }));
     }
     if (W.gear && J(W.gear) !== J(W0.gear)) {
       if (W.gear.party !== W0.gear.party) out.push(`Gear upgrades for party ${PS.leader}: ${W.gear.party === null ? 'the all-parties setting' : onoff(W.gear.party)}`);
@@ -842,9 +923,20 @@
     },
     async supplies(fresh) {   // PARTYAUTO 2026-10-13: only this party's entry + its members' own switches (null = removed)
       const a = PS.W0.supplies, b = PS.W.supplies, values = {}, chars = {};
-      paKinds().forEach(k => { if (a.party[k.key] !== b.party[k.key]) values[k.key] = b.party[k.key]; });
-      PS.M.forEach(n => paKinds().filter(k => k.char).forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
-      const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify({ party: PS.leader, values, chars, rev: fresh.rev, by: 'party settings' }) });
+      supKinds().forEach(k => { if (a.party[k.key] !== b.party[k.key]) values[k.key] = b.party[k.key]; });
+      PS.M.forEach(n => supKinds().filter(k => k.char).forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
+      const body = { party: PS.leader, values, chars, rev: fresh.rev, by: 'party settings' };
+      const t = amtTable(b.amt); if (J(t) !== J(amtTable(a.amt))) body.amounts = t;   // SUPPLYAMT 2026-10-14
+      if (b.allToo) body.defaultAmounts = t;
+      const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify(body) });
+      return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
+    },
+    async combat(fresh) {   // HIVESW-2026-10-15: this party's skills / heals / potions + its members' own (null = removed); the rev is read again (Supplies may have just written the same file)
+      const a = PS.W0.combat, b = PS.W.combat, values = {}, chars = {};
+      cbKinds().forEach(k => { if (a.party[k.key] !== b.party[k.key]) values[k.key] = b.party[k.key] === undefined ? null : b.party[k.key]; });
+      PS.M.forEach(n => cbKinds().forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
+      let rev = fresh.rev; try { const f2 = await fetchSrc('pauto'); if (ok(f2)) rev = f2.rev; } catch (e) { }
+      const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify({ party: PS.leader, values, chars, rev, by: 'party settings' }) });
       return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
     },
     async gear() {

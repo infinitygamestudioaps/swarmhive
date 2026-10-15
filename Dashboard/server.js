@@ -176,6 +176,17 @@ function brakeStatus() {
   return { phase, why: b.why || '', chars, nextTry: b.nextTry || null, offlineSince: b.offlineSince || null, stoppedAt: b.stoppedAt || null,
     round: b.round || 0, lastProbe: b.lastProbe || null, doneAt: b.doneAt || null, history: hist };
 }
+/** FULLWARN 2026-10-14 (owner: "I want a warning when the warehouse or inventory is full from now on"): bags (swarm_state `full` of every
+ *  character reporting < 10 min ago) + warehouses (Logs/wh_full.json, written by swarm.js whFullSet) -> { bags: [{ name, level, why }], clan, private: [{ name, ... }] } */
+function fullStatus(chars) {
+  const bags = (chars || []).filter(c => c && c.full && c.full.level && c.ageSec != null && c.ageSec < 600).map(c => ({ name: c.name, level: c.full.level, why: c.full.why || '' }))
+    .sort((a, b) => (a.level === 'full' ? 0 : 1) - (b.level === 'full' ? 0 : 1) || a.name.localeCompare(b.name));
+  const w = readJson(path.join(LOGS, 'wh_full.json'), {}) || {};
+  const clan = w.clan && w.clan.full ? w.clan : null;
+  const priv = Object.keys(w.private || {}).filter(n => w.private[n] && w.private[n].full).map(n => Object.assign({ name: n }, w.private[n]));
+  const ore = (chars || []).filter(c => c && c.oreOut && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, skill: c.oreOut.skill || '' }));   // ORE 2026-10-14
+  return { bags, clan, private: priv, ore };
+}
 /** Teams (character -> party leader): swarm.config.json accounts[].party (the source of truth, as in swarm.js SWARM_CFG), plus the
  *  hardcoded swarm.js CONFIG.teams for names the config does not have; everyone else follows the main leader. */
 // DASHPERF 2026-10-13: swarm.js (2.8 MB) was read + searched on EVERY teamMap() call (several per request, ~70 % of the server's CPU in the
@@ -325,6 +336,14 @@ function peacefulNpcNames() {
   NPC_PEACEFUL = new Set([...calm].filter(n => !atk.has(n)));
   return NPC_PEACEFUL;
 }
+// TGTLVL 2026-10-14 (owner: "see the target's level under the character, HP, lvl, name"): monster name -> its levels in the datapack
+let MON_LVL = null;
+function monsterLevels() {
+  if (MON_LVL) return MON_LVL;
+  const all = readJson(path.join(DATA, 'npcs_h5.json'), []), list = Array.isArray(all) ? all : (all.npcs || Object.values(all)); MON_LVL = new Map();
+  list.forEach(n => { if (!n || !n.n || !(+n.l > 0)) return; const k = String(n.n), v = MON_LVL.get(k) || []; if (!v.includes(+n.l)) v.push(+n.l); MON_LVL.set(k, v); });
+  return MON_LVL;
+}
 // OWN CHARACTERS as a target (user 2026-10-13: "Bishop6: fighting Nuker18" = a healer that has its teammate selected): never a fight
 let OWN_CHARS = { at: 0, set: new Set() };
 function ownCharNames() {
@@ -334,6 +353,7 @@ function ownCharNames() {
 function splitNpcTarget(s) {
   const d = s && s.doing, t = d && d.target;
   if (t && t.name && ownCharNames().has(String(t.name))) { d.mate = { name: String(t.name), dist: t.dist != null ? t.dist : null }; d.target = null; return; }   // a teammate selected (heal / buff / assist)
+  if (t && t.name && t.lvl == null) { const L = monsterLevels().get(String(t.name)); if (L) t.lvl = L.length === 1 ? L[0] : L.reduce((b, x) => Math.abs(x - (+s.level || 0)) < Math.abs(b - (+s.level || 0)) ? x : b, L[0]); }   // TGTLVL 2026-10-14: the target's level (datapack by name; several = nearest to mine)
   if (!t || !t.name || !peacefulNpcNames().has(String(t.name))) return;
   d.npc = { name: String(t.name), dist: t.dist != null ? t.dist : null };
   d.target = null;
@@ -550,7 +570,7 @@ const gearFull = () => GEARFULL || (GEARFULL = readJson(path.join(DATA, 'gear_it
 /** Giran shop offers per item id from the shop scan: [{ npc, list, price, common }] */
 function giranOffers() {
   const sc = readJson(path.join(DATA, 'shopscan_giran.json'), { shops: [] }), idx = {};
-  (sc.shops || []).forEach(s => (s.lists || []).forEach(l => (l.items || []).forEach(i => {
+  (sc.shops || []).filter(s => !s.unreachable && s.route).forEach(s => (s.lists || []).forEach(l => (l.items || []).forEach(i => {   // GIRANSHOPS 2026-10-15: no recorded Giran route = not buyable
     (idx[i.id] = idx[i.id] || []).push({ npc: s.npc, list: (l.path || []).slice(-1)[0] || '', price: Number(i.price) || 0, common: /^Common Item/.test(i.name) });
   })));
   return idx;
@@ -2119,6 +2139,10 @@ http.createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable' });   // icons never change
       return res.end(fs.readFileSync(p));
     }
+    // FLOOR MAPS 2026-10-14 (docs/plan/tools/floor_maps.js): dungeon floors drawn from the geodata, for floors without map art (public, no secrets)
+    { const fm = url.pathname.match(/^\/floormap\/([a-z0-9_]+\.png|index\.json)$/);
+      if (fm) { const p = path.join(__dirname, 'floormaps', fm[1]); if (!fs.existsSync(p)) return send(res, 404, 'text/plain', 'no floor map');
+        res.writeHead(200, { 'Content-Type': /json$/.test(fm[1]) ? 'application/json' : 'image/png', 'Cache-Control': 'public, max-age=3600' }); return res.end(fs.readFileSync(p)); } }
     // World map tiles (docs/plan/tools/make_maptiles.ps1): /maptiles/<X>_<Y>.jpg, region X = floor(x/32768)+20, Y = floor(y/32768)+18
     const mt = url.pathname.match(/^\/maptiles\/(\d+_\d+)\.jpg$/);
     if (mt) {
@@ -2204,7 +2228,8 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/liveparty.js' || url.pathname === '/liveparty.css' ||
         url.pathname === '/activity.js' || url.pathname === '/partystatus.js' || url.pathname === '/partystatus.css' ||   // PARTY STATUS 2026-10-09: shared activity line + Parties tab banner
         url.pathname === '/levelEta.js' ||
-        url.pathname === '/mapfloors.js' ||   // MAP FLOORS 2026-10-13: shared same-floor rule of every map (public, no secrets)
+        url.pathname === '/mapfloors.js' ||
+        url.pathname === '/charfind.js' || url.pathname === '/charfind.css' ||   // CHARACTER FINDER 2026-10-14: header search for a character (public, no secrets)   // MAP FLOORS 2026-10-13: shared same-floor rule of every map (public, no secrets)
         url.pathname === '/uidialog.js' || url.pathname === '/uidialog.css' ||   // UIDIALOG 2026-10-10: the one shared dialog (confirm / alert / prompt), public, BEFORE the key check (phones over the LAN)
         false) {   // LEVEL ETA 2026-10-09: shared "next level in ~1h 25m" helper (Dashboard/levelEta.js, public, no secrets)
       res.writeHead(200, { 'Content-Type': url.pathname.endsWith('.js') ? 'text/javascript; charset=utf-8' : 'text/css; charset=utf-8', 'Cache-Control': 'no-cache' });
@@ -2264,6 +2289,10 @@ http.createServer(async (req, res) => {
     if (await require('./uikit_api').handle(req, res, url, { DIR: __dirname })) return;
     // STORAGE 2026-10-13 (Dashboard/storagepage_api.js): /storagepage.js|css (public) + GET/POST /api/storage, GET /api/storage/plan (key checked inside):
     // per character / party / default warehouse settings + the event letters hand-over (Scripts/data/stash_rules.json, read live by swarm.js)
+    // MARKET 2026-10-14 (Dashboard/marketpage_api.js): /marketpage.js|css (public) + GET /api/market (key checked inside)
+    if (await require('./marketpage_api').handle(req, res, url, { DIR: __dirname, LOGS, readJson, allowed, json, send })) return;
+    // FRENZY KIT 2026-10-14 (Dashboard/frenzykit_api.js): GET /api/frenzykit?name= — what a destroyer has / lacks for the HP-swap Frenzy (key checked inside)
+    if (await require('./frenzykit_api').handle(req, res, url, { DATA, LOGS, readJson, readStates, teamMap, allowed, json, send })) return;
     if (await require('./storagepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // 7 SIGNS 2026-10-12 (Dashboard/sevensigns_api.js): /sevensigns.js|css (public) + GET/POST /api/sevensigns (key checked inside): who signs up with the
     // Lords of Dawn by itself (Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s), period / registration / seal stones per character
@@ -2563,7 +2592,8 @@ http.createServer(async (req, res) => {
         tactics: readJson(path.join(DATA, 'party_tactics.json'), {}),   // hunting pairs per party (Parties tab)
         mainLeader: MAIN_LEADER, clanLeader: SC.clanLeader || '',        // from swarm.config.json (2026-10-09: no hard-coded names in the page)
         brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
-        cursed: cursedStatus(),                                            // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
+        full: fullStatus(chars),                                           // FULLWARN 2026-10-14: bags / warehouses full (banner)
+        cursed: cursedStatus(),                                          // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
         run: require('./runstate_api').summary({ DATA, LOGS, ROOT, readJson, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER }, chars),   // RUNSTATE 2026-10-13: the manual Start / Stop per party (Parties tab)
         plans: (() => { try { return require('./partyplan_api').summary({ DIR: __dirname, DATA, LOGS, ROOT, readJson }, chars); } catch (e) { return {}; } })(),   // PARTY PLAN 2026-10-13: 'step 3/9: ...' on the party card
       });

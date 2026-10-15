@@ -105,7 +105,7 @@ check(!P.pairKeepTargetOnTravel({ targetId: 0, hitsMe: true }), 'no target: noth
 // ---- 5) wiring in the host code -------------------------------------------------------------------------------------------------
 const has = (re, what) => check(re.test(src), `wiring: ${what}`);
 has(/function pairsDecide[\s\S]{0,1600}pairsTravelGate\(/, 'pairsDecide asks the travel gate');
-has(/teamRegroupBeforePort\(what, destTown\) \{[\s\S]{0,300}pairsTravel\(`before \$\{what\}`/, 'every teleport hold is a travel (pairs OFF at its start)');
+has(/teamRegroupBeforePortOne\(what, destTown\) \{[\s\S]{0,300}pairsTravel\(`before \$\{what\}`/, 'every teleport hold is a travel (pairs OFF at its start)');
 has(/pairsTravel\(`regroup in \$\{CONFIG\.lead\.hub\}`/, 'the Giran regroup (!town / !level / left behind) is a travel');
 has(/async function travelToSpot\(spot\) \{[\s\S]{0,200}pairsTravel\(/, 'a leveling trip is a travel');
 has(/async function gatherTeam\(why\) \{[\s\S]{0,200}pairsTravel\(/, 'a gather is a travel');

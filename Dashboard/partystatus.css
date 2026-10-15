@@ -47,3 +47,13 @@
 /* RAIDROUTES-2026-10-13: the leader's route state line (fixed height: no layout jumps) */
 .psb-route { display: block; height: 20px; line-height: 20px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; color: inherit; text-decoration: none; opacity: .92; }
 .psb-route.bad { color: #ff7b7b; } .psb-route.ok { color: #7be08a; }
+
+/* TGTLVL 2026-10-14: the target under a character: name, level, HP bar (fits a phone row) */
+.tgt { display: inline-flex; align-items: center; gap: 5px; flex-wrap: wrap; min-width: 0; vertical-align: middle; }
+.tgt b { color: #f1e7cb; }
+.tgt-lv { font-size: 11px; font-weight: 700; padding: 0 4px; border-radius: 3px; background: #3a372d; color: #e9dfc4; }
+.tgt-lv.hi { background: #8a2f25; color: #fff; } .tgt-lv.lo { background: #2f5a35; color: #d8f5dc; }
+.tgt-hp { display: inline-block; width: 56px; height: 6px; background: #3a1a17; border: 1px solid #5c2a24; border-radius: 2px; overflow: hidden; }
+.tgt-hp i { display: block; height: 100%; background: linear-gradient(90deg, #c0392b, #e8604c); }
+.tgt-pc { font-size: 11px; color: #e9a89e; font-variant-numeric: tabular-nums; }
+.tgt-d { font-size: 11px; color: var(--muted, #9a927c); }

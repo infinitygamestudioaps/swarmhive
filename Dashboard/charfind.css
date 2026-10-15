@@ -1,0 +1,25 @@
+/* CHARACTER FINDER (2026-10-14): header button + search sheet (Dashboard/charfind.js) */
+.cf-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; margin: 4px 0; padding: 4px 14px; font-size: 15px; cursor: pointer; }
+.cf-lock, .cf-lock body { overflow: hidden; }
+.cf-ov { position: fixed; inset: 0; z-index: 9600; background: rgba(0, 0, 0, .62); display: flex; align-items: flex-start; justify-content: center; padding: max(8px, env(safe-area-inset-top)) 8px 8px; }
+.cf-sheet { width: min(560px, 100%); max-height: calc(100dvh - 16px); display: flex; flex-direction: column; background: #12171a; border: 1px solid var(--gold, #e3c27a); border-radius: 6px; box-shadow: 0 8px 30px rgba(0, 0, 0, .6); overflow: hidden; }
+.cf-head { display: flex; gap: 6px; padding: 8px; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.cf-head input { flex: 1 1 auto; min-width: 0; min-height: 44px; font-size: 16px; box-sizing: border-box; padding: 6px 10px; }
+.cf-x { min-width: 44px; min-height: 44px; font-size: 18px; cursor: pointer; }
+.cf-list { overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0 0 max(8px, env(safe-area-inset-bottom)); }
+.cf-grp { position: sticky; top: 0; z-index: 1; padding: 6px 12px; font-size: 13px; font-weight: 700; color: var(--gold, #e3c27a); background: #161c1f; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.cf-grp small { color: var(--muted, #9aa); font-weight: 400; }
+.cf-row { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 6px 12px; border: 0; border-bottom: 1px dashed rgba(255, 255, 255, .06); background: none; color: inherit; text-align: left; cursor: pointer; font: inherit; }
+.cf-row:hover, .cf-row:focus-visible { background: rgba(227, 194, 122, .10); }
+.cf-row img, .cf-row .gi { width: 28px; height: 28px; flex: none; }
+.cf-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; flex: none; }
+.cf-dot.on { background: var(--ok, #86cf6e); }
+.cf-nm { display: grid; flex: 1 1 auto; min-width: 0; }
+.cf-nm b { font-size: 15px; overflow-wrap: anywhere; }
+.cf-nm small { color: var(--muted, #9aa); font-size: 12px; overflow-wrap: anywhere; }
+.cf-tag { font-size: 11px; padding: 1px 6px; border-radius: 3px; background: rgba(255, 255, 255, .08); white-space: nowrap; flex: none; }
+.cf-tag.bad { background: rgba(236, 106, 85, .3); }
+.cf-tag.warn { background: rgba(233, 185, 73, .25); }
+.cf-hp { width: 48px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; flex: none; }
+.cf-hp i { display: block; height: 100%; background: #c0392b; }
+.cf-none { padding: 20px 12px; color: var(--muted, #9aa); }

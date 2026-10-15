@@ -218,6 +218,32 @@ async function startServer(env) {
     && fileA('SWARM_PARTYAUTO_FILE').parties[L].sell === !paEff('sell') && fileA('SWARM_PARTYAUTO_FILE').parties[L].dyes === paM.parties[L].dyes, dialogs.map(d => d.type + ':' + d.title + ':' + (d.msg || '').slice(0, 80)).join(' | '));
   void pauto1;
 
+  // ---- A2b (SUPPLYAMT 2026-10-14): how much each character carries — suggested amounts, a bad number, save, clear
+  { const SUG = require(path.join(ROOT, 'Dashboard', 'partyauto_api.js')).SUGGEST;
+    await openSec('supplies'); await sleep(100);
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    ok('A2b: the amounts table has 6 level rows x 7 items (+ Spirit Ore), the standard amounts in grey', await ev(`document.querySelectorAll('#psBody .ps-amtband').length === 6 && document.querySelectorAll('#psBody [data-psin^="supplies.amt."]').length === 42 && document.querySelector('#psBody [data-psin="supplies.amt.76.soulshots"]').placeholder !== ''`));
+    await click('#psBody [data-psact="amtSuggest"]'); await sleep(100);
+    ok('A2b: "Fill in suggested amounts" fills the table', await ev(`document.querySelector('#psBody [data-psin="supplies.amt.1.soulshots"]').value === '${SUG[1].soulshots}' && document.querySelector('#psBody [data-psin="supplies.amt.40.mana"]').value === '${SUG[40].mana}'`));
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    await setVal('#psBody [data-psin="supplies.amt.1.mana"]', '-3');
+    ok('A2b: a negative amount is refused (Save off)', await ev(`/not valid/.test(document.getElementById('psBar').textContent) && document.querySelector('#psBar [data-psact="save"]').disabled`), await barText());
+    await setVal('#psBody [data-psin="supplies.amt.1.mana"]', '40');
+    await ev(`(() => { const e = document.querySelector('#psBody .ps-amtband'); if (e) e.scrollIntoView({ block: 'start' }); return true; })()`); await sleep(150);
+    await shot('07b_iphone_supply_amounts');
+    dialogs.length = 0;
+    await click('#psBar [data-psact="save"]');
+    ok('A2b: saved', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000), await barText());
+    const am = (fileA('SWARM_PARTYAUTO_FILE').parties[L] || {}).amounts || {};
+    ok(`A2b: party_auto.json parties.${L}.amounts = the suggested table (mana at level 1-19 = 40)`, am['1'] && am['1'].mana === 40 && am['1'].soulshots === SUG[1].soulshots && am['76'] && am['76'].soulshots === SUG[76].soulshots && !(fileA('SWARM_PARTYAUTO_FILE').default || {}).amounts, JSON.stringify(am).slice(0, 300));
+    ok('A2b: the confirmation names the supply amounts', dialogs.some(d => d.type === 'confirm' && /Supply amounts [(]party/.test(d.msg)), dialogs.map(d => d.msg).join(' | ').slice(0, 300));
+    await openSec('supplies'); await sleep(100);
+    await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
+    await click('#psBody [data-psact="amtClear"]'); await sleep(100);
+    await click('#psBar [data-psact="save"]');
+    ok('A2b: "Clear" + Save removes the party amounts (back to the standard ones)', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000) && !(fileA('SWARM_PARTYAUTO_FILE').parties[L] || {}).amounts, JSON.stringify(fileA('SWARM_PARTYAUTO_FILE').parties[L]));
+  }
+
   // ---- A3 (RESURRECTION 2026-10-13): the Resurrection section — the file's values (missing = automatic ON), one save writes only parties.<L>
   const rs0 = fileA('SWARM_RESRULES_FILE') || {}, rsP = ((rs0.parties || {})[L]) || {}, rsDef = Object.assign({ auto: true, scrolls: true, raidHealerScrolls: true, raidAllScrolls: false }, rs0.default || {});
   const rsEff = (k) => (typeof rsP[k] === 'boolean' ? rsP[k] : rsDef[k]);
@@ -313,6 +339,28 @@ async function startServer(env) {
   ok('B: Resurrection on a fresh install: automatic ON, scrolls ON, healer scrolls in raids ON, anyone in raids OFF', (await swState('res.auto')) === 'true' && (await swState('res.scrolls')) === 'true' && (await swState('res.raidHealerScrolls')) === 'true' && (await swState('res.raidAllScrolls')) === 'false');
   await click('#psOv [data-psact="close"]'); await waitFor(`document.getElementById('psOv').hidden`, 3000);
   ok('B: opening wrote nothing (no file created or changed)', Object.keys(B).every(k => rd(B[k]) === B0[k]));
+  // HIVESW-2026-10-15: Combat section — fresh install = Hive does skills / heals / potions (ON); switching the party's skills OFF + one member's
+  // heals to "My L2Swarm profile" together with a Supplies change writes exactly those keys (two sections, one file: the 2nd re-reads the rev)
+  {
+    await ev(`window.PartySettings.open(${JSON.stringify(L)})`); await waitFor(`!!window.PartySettings._state.W && !!window.PartySettings._state.W.combat`, 15000); await sleep(200);
+    await openSec('combat'); await sleep(150);
+    ok('B: Combat on a fresh install: Hive picks skills, heals, uses potions (all ON)', (await swState('combat.party.skills')) === 'true' && (await swState('combat.party.heals')) === 'true' && (await swState('combat.party.potions')) === 'true');
+    ok('B: Combat is its own section (the three are not in Supplies)', await ev(`!document.querySelector('#psBody [data-pssec="supplies"] [data-psw^="supplies.party.skills"]') && !!document.querySelector('#psBody [data-pssec="combat"]')`));
+    await click('#psBody [data-psw="combat.party.skills"]');
+    const mC = M.find(n => n !== L) || L;
+    await ev(`(() => { const d = document.querySelector('#psBody [data-pssec="combat"] details.ps-more'); if (d) d.open = true; return true; })()`);
+    await setVal(`#psBody select[data-pssel="combat.chars.${mC}.heals"]`, 'off');
+    await ev(`document.querySelector('#psBody [data-pssec="combat"]').scrollIntoView()`); await sleep(150); await shot('10_iphone_combat');
+    await openSec('supplies'); await click('#psBody [data-psw="supplies.party.dyes"]');
+    dialogs.length = 0;
+    await click('#psBar [data-psact="save"]');
+    ok('B: Combat + Supplies saved', await waitFor(`/All saved/.test(document.getElementById('psBar').textContent)`, 60000), await barText());
+    ok('B: the confirmation names the Combat change in plain words', dialogs.some(d => d.type === 'confirm' && /Hive picks my skills \(party/.test(d.msg) && /your L2Swarm profile/.test(d.msg)), dialogs.map(d => d.msg).join(' | ').slice(0, 400));
+    let pc = null; try { pc = JSON.parse(rd(B.SWARM_PARTYAUTO_FILE)); } catch (e) { }
+    ok('B: party_auto.json: parties.' + L + '.skills false + dyes true, chars.' + mC + '.heals false, nothing else', !!pc && pc.parties[L].skills === false && pc.parties[L].dyes === true && Object.keys(pc.parties[L]).sort().join() === 'dyes,skills'
+      && pc.chars[mC] && pc.chars[mC].heals === false && Object.keys(pc.chars).join() === mC, JSON.stringify(pc && { p: pc.parties, c: pc.chars }));
+    await click('#psOv [data-psact="close"]'); await waitFor(`document.getElementById('psOv').hidden`, 3000);
+  }
   S.srv.kill();
   const writesB = S.mcp.filter(l => /^MCP (run_account_command|send_game_action|close_account|open_account|manage_)/.test(l));
   ok('B: no game command reached even the mock MCP', !writesB.length);

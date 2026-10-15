@@ -141,7 +141,8 @@ function harness(code, opt) {
     rkKindOfClass: (t, id) => ([15, 16, 97, 42, 43, 112, 29, 30, 105].includes(id) ? 'healer' : 'nuker'), classTree: () => null, rkBuffAb: () => ({ ab: '' }), BuffsList: { forEach() { } },
     DLV: { on: false }, CharList: { forEach() { } }, appendShared: () => { }, lastSysMsg: null, rkPetToHeal: () => null, Target: null, mobById: () => null,
     skillPlan: { key: '', attacks: [], selfBuffs: [], toggles: [], lock: null },   // the support-heal gate (CASTPRIO) reads the caster's plan; a healer has no magic attacks
-    logError: (w, e) => { console.error('  host error', w, e); }, setInterval: (f) => { intervals.push(f); return 0; } };
+    logError: (w, e) => { console.error('  host error', w, e); }, setInterval: (f) => { intervals.push(f); return 0; },
+    hiveHealsOn: () => opt.heals !== false, hiveSkillsOn: () => true };   // HIVESW-2026-10-15: Hive heals (the default; opt.heals false = the player's profile heals)
   const names = Object.keys(env);
   const exportsList = opt.old ? 'healTick, castOnMate' : 'healTick, castOnMate, hsReport, HSH';
   const fn = new Function(...names, code + `\nreturn { ${exportsList}, setHealer: (v) => { healerMode = v; }, getHealer: () => healerMode };`);

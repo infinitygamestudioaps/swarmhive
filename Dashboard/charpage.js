@@ -49,11 +49,13 @@
             <div class="cp-info" id="cpInfo"></div></div>
           <div class="cp-legend">${legend()}</div></div>
         ${BOX('gear', 'Equipment', UI.shield)}
+        ${BOX('frenzy', 'Frenzy kit (HP swap)', UI.sword)}
         <div class="box cp-box cp-inv" data-cpsec="inv"><h3>${GI(UI.inv, 'sm')}<span>Inventory</span><span class="cp-cnt" id="cpInvN"></span></h3>
           <div class="cp-invbar"><div class="cp-seg" role="tablist">${[['all', 'All'], ['use', 'Use'], ['gear', 'Gear'], ['mats', 'Materials'], ['quest', 'Quest']].map(([k, t]) => `<button data-cpinvf="${k}" class="${k === 'all' ? 'on' : ''}">${t}</button>`).join('')}</div>
             <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"></div>
           <div id="cp_inv"></div></div>
         ${BOX('skills', 'Skills', UI.skill, '<span class="cp-cnt muted">tap = use now</span>')}
+        ${BOX('hive', 'Combat — Hive or my L2Swarm profile', UI.sword)}
         ${BOX('buffs', 'Buffs', UI.buff)}
         ${BOX('timeline', 'Recent steps', UI.target)}
         ${BOX('stats', 'Progress, supplies, stats', UI.char)}
@@ -66,9 +68,9 @@
   }
   // which box in which column, per layout (phone / tablet / desktop)
   const LAYOUT = {
-    1: [['live', 'map', 'buffs', 'skills', 'gear', 'inv', 'timeline', 'stats', 'orders', 'prio']],
-    2: [['live', 'map', 'buffs', 'timeline', 'orders'], ['gear', 'skills', 'inv', 'stats', 'prio']],
-    3: [['live', 'map', 'timeline'], ['gear', 'inv', 'stats', 'prio'], ['skills', 'buffs', 'orders']],
+    1: [['live', 'map', 'buffs', 'skills', 'hive', 'gear', 'frenzy', 'inv', 'timeline', 'stats', 'orders', 'prio']],
+    2: [['live', 'map', 'buffs', 'timeline', 'orders'], ['gear', 'frenzy', 'skills', 'hive', 'inv', 'stats', 'prio']],
+    3: [['live', 'map', 'timeline'], ['gear', 'frenzy', 'inv', 'stats', 'prio'], ['skills', 'hive', 'buffs', 'orders']],
   };
   function layout() {
     const w = window.innerWidth, n = w >= 1280 ? 3 : w >= 760 ? 2 : 1;
@@ -112,7 +114,7 @@
     s.hidden = false;
     if (CP.name !== name) {
       Object.assign(CP, { name, party: null, live: null, liveAt: 0, char: null, charAt: 0, intents: [], qp: null, view: null, follow: true, tilesKey: '', info: '', actKey: '', err: '', buffMax: {}, readyFlash: {} });
-      ['cpHead', 'cp_live', 'cp_gear', 'cp_inv', 'cp_skills', 'cp_buffs', 'cp_timeline', 'cp_stats', 'cp_orders', 'cp_prio', 'cpTiles', 'cpOver'].forEach(i => { const e = $id(i); if (e) { e.innerHTML = ''; e._last = null; } });
+      ['cpHead', 'cp_live', 'cp_gear', 'cp_inv', 'cp_skills', 'cp_hive', 'cp_buffs', 'cp_timeline', 'cp_stats', 'cp_orders', 'cp_prio', 'cpTiles', 'cpOver'].forEach(i => { const e = $id(i); if (e) { e.innerHTML = ''; e._last = null; } });
       $id('cpHead').innerHTML = `<div class="muted">Loading ${esc(name)}…</div>`;
       closePop();
     }
@@ -187,7 +189,7 @@
   const matesHere = () => mates().filter(m => onMyLevel(m));
 
   // =========================================================================================== render
-  function renderAll() { renderHead(); renderLive(true); renderGear(); renderInv(); renderSkills(); renderBuffs(); renderStats(); renderOrders(); renderPrio(); }
+  function renderAll() { renderHead(); renderLive(true); renderGear(); renderFrenzy(); renderInv(); renderSkills(); renderBuffs(); renderStats(); renderOrders(); renderPrio(); }
   function renderLive(fromAll) {
     if (!CP.open) return;
     if (!fromAll) renderHead();
@@ -354,6 +356,43 @@
         ${shots.length ? `<div class="cp-shots">${shots.slice(0, 3).map(s => `<span class="chip" title="${esc(s.name)}"><img src="${itemIcon(s.id)}" alt="">${short(s.count)}</span>`).join('')}${sc.shots != null && sc.shots <= 100 ? '<span class="chip bad">low shots</span>' : ''}</div>` : ''}</div></div>`);
   }
 
+  // ---------------------------------------------------------------- FRENZY KIT (owner 2026-10-14: "a full overview for a destroyer, showing what it
+  // is missing in order to do the frenzy with item changing"): /api/frenzykit (Dashboard/frenzykit_api.js) + the live skill list. Destroyers only.
+  const FK_RE = /Destroyer|Titan|Orc Raider/i;
+  function renderFrenzy() {
+    const box = document.querySelector(`#${SEC} [data-cpsec="frenzy"]`); if (!box) return;
+    const sc = me() || {}, cls = String(sc.cls || (CP.char && CP.char.class_name) || '');
+    if (!FK_RE.test(cls)) { box.hidden = true; return; }
+    box.hidden = false;
+    const name = CP.name;
+    if (!CP.fk || CP.fk.name !== name || Date.now() - CP.fkAt > 30000) {
+      if (!CP.fkBusy) { CP.fkBusy = true; api('/api/frenzykit?name=' + encodeURIComponent(name)).then(d => { CP.fkBusy = false; if (CP.name !== name) return; CP.fk = d; CP.fkAt = Date.now(); renderFrenzy(); }).catch(() => { CP.fkBusy = false; }); }
+      if (!CP.fk || CP.fk.name !== name) { patch($id('cp_frenzy'), '<div class="muted">loading…</div>'); return; }
+    }
+    const K = CP.fk; if (!K || K.error) { patch($id('cp_frenzy'), `<div class="muted">${esc((K && K.error) || 'no answer (the dashboard server may need a restart)')}</div>`); return; }
+    const sk = (CP.char && CP.char.skills) || [], skHave = (n) => sk.find(k => k.name === n);
+    if (!sk.length) { /* the live skill list is not loaded (offline / no game data) */ }
+    const skills = !sk.length ? '<span class="muted">skill list not loaded (character offline?)</span>' : (K.skills || []).map(n => { const k = skHave(n); return `<span class="fk-chip ${k ? 'ok' : 'no'}" title="${k ? esc(n + ' Lv ' + k.level) : esc(n) + ' not learned yet'}">${k ? `<img class="fk-sic" src="${skillIcon(k.skill_id)}" alt="">` : ''}${k ? '✓' : '✗'} ${esc(n)}</span>`; }).join('');
+    const WH = { worn: ['ok', 'worn'], bag: ['ok', 'in the bag'], clan: ['warn', 'in the clan warehouse'] };
+    const price = (p) => p >= 1e6 ? (Math.round(p / 1e5) / 10) + 'M' : p >= 1e3 ? Math.round(p / 1e3) + 'k' : String(p || '?');
+    const row = (x) => { const st = x.have ? WH[x.have.where] : ['no', 'missing'];
+      const iid = x.have ? x.have.id : x.cheapest ? x.cheapest.id : 0;   // FRENZY KIT icons (owner 2026-10-14): what it has, else the cheapest option (dimmed)
+      return `<div class="fk-row"><span class="fk-st ${st[0]}">${x.have ? (x.have.where === 'clan' ? '▣' : '✓') : '✗'}</span>${iid ? `<img class="fk-ic ${x.have ? '' : 'miss'}" src="${itemIcon(iid)}" alt="">` : ''}<span class="fk-what"><b>${esc(x.label)}</b><small>${x.have ? esc(st[1] + ': ' + x.have.name) : esc(x.why)}${!x.have && x.cheapest ? ` — cheapest: ${esc(x.cheapest.name)} (${esc(x.cheapest.grade)}, ~${price(x.cheapest.price)} adena, ${x.options} options)` : ''}</small></span></div>`; };
+    const set = (k) => (K.slots || []).filter(x => x.set === k);
+    const miss = (k) => set(k).filter(x => !x.have || x.have.where === 'clan').length;
+    const lowM = miss('low'), highM = miss('high'), skM = sk.length ? (K.skills || []).filter(n => !skHave(n)).length : 0;
+    const sum = !K.ready.swap ? `<b class="bad">The gear swap does nothing yet</b>: no high-HP piece in the bag, so it drains by ${K.partners.length ? 'hitting ' + esc(K.partners.join(' / ')) : 'nothing (no other destroyer in the party!)'} only.`
+      : lowM || highM ? `<b class="warn">Gear swap partly possible</b>: ${lowM} low-HP and ${highM} high-HP piece(s) missing.` : '<b class="ok">Everything for the gear swap is there.</b>';
+    const roleW = K.roleOk === false ? `<div class="fk-sum"><b class="bad">This character's role is "${esc(K.role || '?')}", not destroyer: the bots never drain or cast Frenzy with it.</b></div>` : '';
+    patch($id('cp_frenzy'), `${roleW}<div class="fk-sum">${sum}</div>
+      <div class="fk-sub">Skills ${skM ? '<small>(' + skM + ' not learned yet)</small>' : ''}</div><div class="fk-chips">${skills}</div>
+      <div class="fk-sub">Drain partner (they lower each other's HP)</div><div class="fk-row"><span class="fk-st ${K.partners.length ? 'ok' : 'no'}">${K.partners.length ? '✓' : '✗'}</span><span class="fk-what"><b>${K.partners.length ? esc(K.partners.join(', ')) : 'No other destroyer in the party'}</b><small>${K.partners.length ? 'they hit each other carefully until both are low enough' : 'without one (and without the gear swap) it cannot get its HP low for Frenzy'}${(K.otherDestroyers || []).length > 1 ? ' · pairs in name order: ' + esc(K.otherDestroyers.length + 1) + ' destroyers in the party' : ''}</small></span></div>
+      <div class="fk-sub">1 · Low-HP set (put on first) ${lowM ? '<small>' + lowM + ' missing</small>' : ''}</div>${set('low').map(row).join('')}
+      <div class="fk-sub">2 · High-HP set (put on next: Max HP up, the % drops) ${highM ? '<small>' + highM + ' missing</small>' : ''}</div>${set('high').map(row).join('')}
+      <div class="fk-sub">Optional</div>${set('btb').map(row).join('')}
+      <div class="fk-note">In a raid the bot swaps to whatever it has of set 1, then set 2, casts Zealot → Frenzy → Guts → Rage → Battle Roar, then puts its own gear back. Items in the clan warehouse (▣) must be taken out first (Storage page → Clan warehouse → Take out). Not done by the bots: the Blessed Body trick and the weight-penalty trick. Prices are the game's reference prices, not shop prices.</div>`);
+  }
+
   // ---------------------------------------------------------------- inventory grid
   const USE_RE = /potion|scroll|elixir|herb|tonic|juice|soulshot|spiritshot|arrow|bolt|box|pack|coupon|ticket|gift|spirit ore|crystal/i;
   function cat(i) { if (i.quest) return 'quest'; if (i.type === 'Weapon' || i.type === 'Armor') return 'gear'; if (i.type === 'Mats') return 'mats'; if (i.type === 'Shot' || USE_RE.test(i.name)) return 'use'; return 'mats'; }
@@ -403,6 +442,7 @@
       ${tog.length ? `<div class="cp-sub2">Toggles</div><div class="cp-skgrid">${tog.map(k => cell(k, 'tog')).join('')}</div>` : ''}
       ${pas.length ? `<details class="cp-pas"><summary>Passive skills (${pas.length})</summary><div class="cp-pgrid">${pas.map(k => `<span title="${esc(k.name + ' Lv ' + k.level + ' — ' + (k.description || ''))}"><img src="${skillIcon(k.skill_id)}" alt=""></span>`).join('')}</div></details>` : ''}`);
     anim();
+    try { if (window.HiveSwitch) HiveSwitch.render($id('cp_hive'), CP.name, (CP.char && CP.char.skills) || []); } catch (e) { }   // HIVESW-2026-10-15: Combat box (Dashboard/hiveswitch.js)
   }
 
   // ---------------------------------------------------------------- buffs / debuffs with time bars

@@ -515,7 +515,7 @@ function finish(t, steps, meta) {
   // RAID ROUTE POLICY (2026-10-13)
   if (steps.some(s => s.do === 'walk' && s.drops && s.drops.length)) flags.push('drop');
   if (steps.some(s => s.do === 'walk' && (s.drops || []).some(d => d.fall > 333))) flags.push('fall-damage');
-  if (steps.some(s => s.do === 'walk' && (s.maxSwim || 0) > RPOL.breath)) flags.push('over-breath');
+  if (steps.some(s => s.do === 'walk' && ((s.maxSwim || 0) > RPOL.breath || (s.pol && s.pol.overBreath)))) flags.push('over-breath');   // a door can cut one long swim into two short walk steps (Kenishee 2026-10-15): the policy's own overBreath counts too
   if (steps.some(s => s.do === 'walk' && s.pol && s.pol.mode === 'swim-only')) flags.push('swim-only');
   if (steps.some(s => s.do === 'walk' && s.pol && s.pol.mode === 'swim-shorter')) flags.push('swim-shorter');
   if (steps.some(s => s.do === 'walk' && s.pol)) flags.push('raid-policy');
@@ -603,7 +603,11 @@ const dungeonOf = (x, y, z, loose) => {
 function routeToPoint(T2, label) {
   const dg = dungeonOf(T2.x, T2.y, T2.z, true);
   if (dg) {
-    const inn = dungeonIn(dg.d, dg.fi); if (!inn.ok) return { ok: false, why: inn.why, steps: inn.steps, conds: inn.conds };
+    const inn = dungeonIn(dg.d, dg.fi);
+    // CAVEFALLBACK 2026-10-14: a dungeon with NO known way in (Devil's Isle caves, built from the geodata at 11:55 without an entrance) must not make
+    // its bosses unreachable: the outdoor route (landing + walk / swim, as before the cave was mapped) is used, the reason kept as a note
+    if (!inn.ok && inn.why.some(w => /^no way in known/.test(w))) { const o = fieldRoute(T2, label); if (o.length) return { ok: true, steps: o[0].steps, conds: [], why: inn.why.map(w => w + ' — using the outdoor route'), alt: o[1] ? summarize(o[1].steps) : null, at: T2 }; }
+    if (!inn.ok) return { ok: false, why: inn.why, steps: inn.steps, conds: inn.conds };
     let s = inn.steps; const st = inn.at || floorStart(dg.d.floors[dg.fi]);
     if (st) s = s.concat(walkAB(st, T2, label, { graph: `dungeon_graph/${dg.d.key}.json` }).steps);
     return { ok: true, steps: s, conds: inn.conds, why: inn.why.concat(dg.beyond ? [`${label} lies beyond the mapped floors of ${dg.d.name} (nearest: ${dg.d.floors[dg.fi].name})`] : []), dungeon: dg.d, at: T2 };
@@ -833,7 +837,12 @@ function planTarget0(t) {
       why.push(`saved route routes/raid/${b.id}.json has no usable start (${JSON.stringify(st || null)})`);
     }
     const dg = dungeonOf(b.x, b.y, b.z);
-    if (dg) return [dungeonTarget(t, dg.d, dg.fi, conds, why, extra)];
+    if (dg) {
+      // CAVEFALLBACK 2026-10-14: a dungeon with no known way in (Devil's Isle caves) -> the outdoor route as before the cave was mapped
+      const inn0 = dungeonIn(dg.d, dg.fi);
+      if (inn0.ok || !inn0.why.some(w => /^no way in known/.test(w))) return [dungeonTarget(t, dg.d, dg.fi, conds, why, extra)];
+      why.push(...inn0.why.map(w => w + ' — using the outdoor route'));
+    }
     return [fieldFinish(t, fieldRoute(t, b.name), Object.assign({ conds, why }, extra))];
   }
   // ---- npc ----

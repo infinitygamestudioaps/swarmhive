@@ -137,6 +137,50 @@ const M = new Function(PURE + '\nreturn { stashSettings, stashKindFor, STASH_LET
     const sv = fs.readFileSync(path.join(ROOT, 'Dashboard', 'server.js'), 'utf8'), ix = fs.readFileSync(path.join(ROOT, 'Dashboard', 'index.html'), 'utf8');
     assert.ok(/require\('\.\/storagepage_api'\)\.handle/.test(sv)); assert.ok(/data-tab="storage"/.test(ix) && /StoragePage\.route/.test(ix) && /src="\/storagepage\.js"/.test(ix) && /href="\/storagepage\.css"/.test(ix));
   });
+  // WHSELL 2026-10-14
+  await t('never store: sanitized (common / sell booleans, patterns must compile)', async () => {
+    const a = API.storageSanitize({ neverStore: { common: 1, names: ['^Tutorial', ' '], sell: true } }); assert.ok(a.ok); assert.deepStrictEqual(a.rules.neverStore, { common: false, sell: true, names: ['^Tutorial'] });
+    assert.ok(!API.storageSanitize({ neverStore: { names: ['('] } }).ok);
+  });
+  await t('GET: the clan warehouse list (one row per item + enchant, Common / never-store flags)', async () => {
+    fs.writeFileSync(path.join(LOGS, 'clan_state.json'), JSON.stringify({ warehouse: { seenAt: '2026-10-14T14:00:00Z', seenBy: 'Dagger1', items: [{ id: 846, name: 'Coral Earring', count: 1, enchant: 0, objId: 1 }, { id: 846, name: 'Coral Earring', count: 1, enchant: 0, objId: 2 }, { id: 9001, name: 'Common Item - Aspis', count: 1, enchant: 0, objId: 3 }, { id: 626, name: '+2 Bronze Shield', count: 1, enchant: 2, objId: 4 }] } }));
+    const w = API.clanWh(ctx, { neverStore: { common: true } });
+    assert.strictEqual(w.items.length, 3); const ce = w.items.find(i => i.id === 846); assert.strictEqual(ce.count, 2); assert.strictEqual(ce.pieces, 2);
+    const cm = w.items.find(i => i.id === 9001); assert.ok(cm.common && cm.never); assert.ok(!ce.common && !ce.never);
+  });
+  await t('POST /api/storage/whsell: writes the order file (merged ids, sell flag); bad input -> 400', async () => {
+    const r = await call('POST', '/api/storage/whsell', { items: [{ id: 846, count: 2 }, { id: 846, count: 1 }, { id: 9001, count: 'all' }], sell: true });
+    assert.strictEqual(r.code, 200); assert.strictEqual(r.body.cmd, '!whsell order');
+    const o = JSON.parse(fs.readFileSync(path.join(LOGS, 'whsell_order.json'), 'utf8')); assert.ok(o.sell === true && o.items.length === 2 && o.items[0].count === 3 && o.items[1].count === 'all');
+    assert.strictEqual((await call('POST', '/api/storage/whsell', { items: [] })).code, 400);
+    assert.strictEqual((await call('POST', '/api/storage/whsell', { items: [{ id: 'x', count: 1 }] })).code, 400);
+    assert.strictEqual((await call('POST', '/api/storage/whsell', { items: [{ id: 5, count: 0 }] })).code, 400);
+    assert.strictEqual((await call('GET', '/api/storage/whsell')).code, 405);
+  });
+  await t('swarm.js: !whsell (order file, clan leader only, sells only the taken pieces), neverStore in STASH-PURE + selling', async () => {
+    assert.ok(/case '!whsell'/.test(src) && /async function whSell\(/.test(src) && /whsell_order\.json/.test(src) && /Me\.Name !== clanLeaderName\(\)\) return;/.test(src));
+    assert.ok(/sellAt\(npc, why, \[\], only\)/.test(src) && /function stashNever\(/.test(src) && /x\.why === 'never-store'/.test(src));
+    // WHSELL-FIX: one control slot for the whole job, rounds (take what fits -> sell -> again), leveling only at the very end, pending list
+    const L = src.slice(src.indexOf('async function whSellLoop('), src.indexOf('async function whSellLoop(') + 10000);
+    assert.ok(/takeControl\(ctlName, PRIO\.ORDER\)/.test(L) && /whTake\('clan', list, `!whsell round \$\{rounds\}`, \{ holdCtl: true, stayAtKeeper: true \}\)/.test(L) && /while \(Object\.keys\(todo\)\.length && rounds < 40/.test(L));
+    assert.ok(L.indexOf("leadLevel('after !whsell')") > L.indexOf('releaseControl(ctlName)') && /whsPendWrite\(\{ at:/.test(L) && /\^pending\$/.test(src));
+    // WHSELL-HOLD + RESUME (17:47 restart lost the sale, 17:58 a supply-run stash put 96 kinds back)
+    assert.ok(/ctx\.sellHold\.some\(x => Number\(x\) === id\)\) return K\('taken out of the clan warehouse to be sold/.test(src) && /sellHold: whsHoldIds\(\)/.test(src), 'the stash never deposits items a sale holds');
+    assert.ok(/setTimeout\(function whsResumeCheck\(\)/.test(src) && /whsRunWrite\(\{ active: true, at: new Date\(\)\.toISOString\(\), todo, rounds \}\)/.test(L) && /if \(finished \|\| why\) whsRunWrite\(\{ active: false/.test(L), 'an unfinished sale resumes after a script restart');
+    const W = src.slice(src.indexOf('async function whTake(kind, want, why, opts)'), src.indexOf('async function whTake(kind, want, why, opts)') + 5000);
+    assert.ok(/if \(!opts\.holdCtl\) \{ if \(!takeControl/.test(W) && /!opts\.holdCtl && isLeader\(\) && autoLvl\.active/.test(W) && /walked && !opts\.stayAtKeeper/.test(W), 'whTake under the caller: no own control, no leveling restart, no walk back');
+    const cat = require(path.join(ROOT, 'Dashboard', 'commands.js')); const list = cat.COMMANDS || cat.commands || (cat.SWARM_COMMANDS) || [];
+    assert.ok(JSON.stringify(cat).includes('!whsell') || /!whsell/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'commands.js'), 'utf8')));
+  });
+  await t('COLLECTOR: sanitized (on, name, town); bad name / town refused', async () => {
+    const r = API.storageSanitize({ collector: { on: 1, name: '', town: 'Giran' } }); assert.ok(r.ok); assert.deepStrictEqual(r.rules.collector, { on: false, name: '', town: 'Giran' });
+    assert.ok(API.storageSanitize({ collector: { on: true, name: 'Dagger1', town: 'Giran' } }).rules.collector.on === true);
+    assert.ok(!API.storageSanitize({ collector: { on: true, name: 'a b', town: 'Giran' } }).ok); assert.ok(!API.storageSanitize({ collector: { on: true, town: 'Atlantis' } }).ok);
+  });
+  await t('COLLECTOR: swarm.js - no hunting (runOn false), chores still run, stays in its town', async () => {
+    assert.ok(/function runOn\(\) \{ return !collectorOn\(\) && !!runMine\(\)\.on; \}/.test(src) && /const COLLECTOR_KINDS = \/\^\(warehouse stash\|town sell\)\$\//.test(src));
+    assert.ok(/if \(collectorOn\(\)\) \{ if \(RUN_ALWAYS\.test/.test(src) && (src.match(/runOnOrCollector\(\)/g) || []).length >= 4 && /collector: going back to/.test(src) && /giranGo\('start'\)/.test(src));
+  });
   await t('the live stash_rules.json is unchanged', async () => { const now = liveBytes(); assert.ok(!LIVE0 || (now && Buffer.compare(now, LIVE0) === 0)); });
   try { fs.rmSync(TMP, { recursive: true, force: true }); } catch (e) { }
   console.log(`\n${pass} passed, ${fail} failed`);

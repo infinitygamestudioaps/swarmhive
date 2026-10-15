@@ -2,6 +2,51 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.0 (2026-10-15)
+
+- LOOT TO THE COLLECTOR: every member of a party now hands over its own loot (before only the leader's loot arrived - the members never answered in time)
+- Collector mode (new, Storage page): one character stays in town, receives the teams' loot, stores it in the clan warehouse, takes out what is marked for sale and sells it - all by itself
+- Clan warehouse on the Storage page: tick items and press Take out and sell (or Take out) - the clan leader takes what he can carry, sells, comes back for more until the list is done, resumes after a restart and never stores those items again
+- Clan warehouse sorted into groups with counts: weapons, armor, accessories, materials, crafting parts, recipes, scrolls, event letters, potions, life and seal stones - grade filter, grade tag on every item, sorted by name (recipes by grade, life stones by level)
+- Sell all Crafting parts / Sell all Recipes buttons on the clan warehouse list
+- Never store list (Storage page): Common items and your own names never go into a warehouse - optionally sold instead
+- Market tab (new): a bot walks to every player shop in town and reads what they sell, buy and craft - search and sort by price
+- Player shops are recognised again by the new engine (the shop flag was missing from the player list)
+- Full warnings: a bar on every page when the clan warehouse, a private warehouse or a bag is full or nearly full
+- Find character button in the header (or press /): search by name, class or party
+- PC header in one tidy row
+- Phone: the party banner (Running / Hunting at ...) is no longer cut off
+- Character rows show the target: name, level (red = 3+ above, green = below) and an HP bar instead of only 'fighting ...'
+- Supply amounts per level band on the dashboard (party Settings -> Supplies -> How much each character carries) - saved between updates
+- Spirit Ore is bought for every character with a skill that uses it (heals, cubics) - running out never starts a supply run: a warning and the next best heal instead
+- A quest NPC that refuses because the bag is too full: marked items are sold, the rest stored, then it talks again
+- Marked items are sold reliably: a partial sale no longer bans the rest of the list for 24 hours
+- Two commands never fight over a team: one teleport hold at a time, members port only after the leader's own .town worked, a raid hunt is never interrupted by the split watchdog
+- Leaders only listen to their own team's messages (leaders waited for another party's members)
+- Raids: the focus picks only minions that are in the fight - loose ones far away are the tank's job
+- Raids: the party's Surrender caster puts Surrender on the boss from the pull and recasts a resisted one at once
+- Raid fight area editor: Fit to safe ground (stops at cliffs, water and walls) and Stay inside (nobody leaves the area, nobody chases minions out of it)
+- 183 raid bosses got a safe fight area made from the geodata - Stay inside is on for the 29 next to a cliff or water
+- Raid walks that find no way through skip that boss, a boss that was not found is not looked at again within 2 hours
+- The raid status file can no longer be damaged by two writers (repaired automatically, locked writes)
+- Destroyer opening order: Zealot, Frenzy, Guts, Rage, Battle Roar
+- Frenzy kit overview on every destroyer's character page (with item icons): which HP-swap pieces it has, in the bag, in the clan warehouse or missing - the swap now finds the pieces by item id
+- Weapons: Kamael characters buy the two-handed sword their class turns into its weapon, Warlords / Gladiators / Tyrants buy the weapon type of their class recommendation (a Warlord bought a hammer)
+- A character alone that gets a .town order first fights off or runs from monsters, waits out of combat, then ports
+- Routes into the water at the Heine bridge fixed - 7 hand-drawn raid routes got the right heights
+- Devil's Isle caves are a dungeon on the maps - the bosses inside (Tillion, Krantz, Kenishee, Atraiban, Demon Kuri) use the outdoor route until a way in is known
+- Hunting spots are kept longer: judged over 10 minutes with the whole party's kills, an empty room or area only after 150 s
+- Many fixes from a full bug sweep: no wandering on stacked floors, the spot picker skips landings the danger check refuses, a refused gatekeeper link is blocked at once, more town name aliases, a target whose HP does not drop for 40 s is set aside, occupied spots and refused board rebuffs back off step by step, a leader alone in a fight runs back to a teammate
+- A loot hand-over never walks into the receiver's hunting ground
+- A member wedged near the team: after 5 minutes the whole team meets in the hub town
+- Clan tab: a short warehouse summary that opens the full list (the page was very long on PC)
+- Raid routes on bridges and stacked ground: every point is put on the floor you can really walk to (the Ketra Commander Atis route walked off the Ivory Tower bridge) - 47 raid routes corrected
+- C-grade jewelry is bought again: the Giran jeweler Sandra (C jewels and their Common versions) is now in the shop list, so fighters buy Common C jewels
+- Raid bosses that live somewhere else than the game data says: a character that sees one records the real spot and every party uses it, and you can set a boss's spot yourself
+- Raid routes with one long underwater swim cut by a door are now marked as longer than one breath
+- NEW per party and per character (party Settings -> Combat, character page): Hive picks my skills / Hive heals / Hive uses potions - switch one off and your own L2Swarm profile (Combat Skills, Auto Skills) does it instead, while Hive keeps doing pathing, supplies and the dashboard. On by default
+- Toggles: in a fight Hive now only switches on toggles that are worth it (Soul Cry, Vicious Stance, Accuracy, Focus Attack, Polearm Accuracy, Fury Fists, tank stances) plus the ones you tick on the character page - no more Strike Back draining all the MP
+
 ## v1.6.8 (2026-10-14)
 
 - raids: damage dealers no longer wait for the tank's full aggro - they attack 2.5 s after the tank's first pull (or at once when the boss is already hurt)

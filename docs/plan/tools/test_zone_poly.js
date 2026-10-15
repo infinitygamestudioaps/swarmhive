@@ -97,7 +97,7 @@ const loop = piece('const t = huntTarget(center.x, center.y, radius);', '// Vide
 const iHold = loop.indexOf('else if (zonePolyOf(autoLvl.spot))'), iRand = loop.indexOf('Math.random() * Math.PI * 2'), iCentre = loop.indexOf('else if (Math.hypot(center.x - Me.X, center.y - Me.Y) > 800) await walkTo');
 ok(iHold > 0 && iHold < iRand && iHold < iCentre, 'autolevel: a drawn zone with nothing to attack HOLDS (zoneHoldStep) before the random 2500 walk / centre walk can run');
 ok(/if \(t\) \{ zoneHoldEnd\(\); lastTarget = t\.objId; await engage\(t\); \}/.test(loop), 'a target found ends the hold (members stand up and assist)');
-ok(/!\(await unstick\(\)\) && !zonePolyOf\(autoLvl\.spot\)\) \{ center = \{ x: Me\.X \+ 1500/.test(src), 'the unstick fallback never moves a drawn zone\'s centre 1500 away');
+ok(/!\(await unstick\(\)\) && !zonePolyOf\(autoLvl\.spot\)(?: && !zState\.layered)?\) \{ center = \{ x: Me\.X \+ 1500/.test(src), 'the unstick fallback never moves a drawn zone\'s centre 1500 away');
 
 // ---- zoneSetup: the zone carries the polygon (dashboard + members) ----
 const setup = piece('// ZONEPOLY (2026-10-13, public tester): a DRAWN custom zone -> the zone carries its polygon', '}   // zoneSetup');

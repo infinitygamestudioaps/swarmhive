@@ -185,7 +185,7 @@ check(results[3].before === 12 && results[3].after === 1, 'a fitting automatic s
   has(/const rp = (?:resumedSpot \? 'reshape' : )?spotRepickDecide\(prevSpot, spot, \{ atPrev, localFb: !!localFb \}\)/, 'spotRepickDecide decides new / same / reshape');
   has(/if \(rp === 'new'\) \{[\s\S]{0,200}autoLvl\.spot = spot;[\s\S]{0,600}await writeClaim\(spot/, 'only a NEW spot claims + waits + travels');
   has(/zoneSetup: \{\s*\n\s*if \(rp === 'same'\) \{[\s\S]{0,900}break zoneSetup;/, "a 'same' re-pick skips the zone setup (no SetCombatPolygon, no notes)");
-  has(/\}\s*\/\/ zoneSetup\s*\n\s*autoLvl\.expMark = \{ at: now\(\), exp: expNow\(\) \};/, 'the measuring window is still reset at each re-pick (old behaviour)');
+  has(/\}\s*\/\/ zoneSetup[\s\S]{0,600}if \(!autoLvl\.expMark \|\| autoLvl\.measureKey !== mk\) \{ autoLvl\.expMark = \{ at: now\(\), exp: expNow\(\) \}/, 'SPOTKEEP: the measuring window restarts only on a NEW spot (never on a same-spot re-pick)');
   has(/const pickLvl = leadMode\(\) && !solo \? teamMinLevel\(\) : num\(Me\.Level\);[\s\S]{0,400}(?:const|let) spot = pickSpot\(pickLvl, solo\);/, 'pickSpot gets the same level as the re-pick test');
   // the resets the other features use are untouched
   has(/multiTick\(autoLvl\.spot, solo\) === 'move'\) \{ stopCombatG\(\); writeClaim\(null\); autoLvl\.spot = null; lastPick = 0; continue; \}/, 'rotation (multiTick move) still resets the pick');

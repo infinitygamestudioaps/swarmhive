@@ -191,7 +191,9 @@
     if (D.npc && D.npc.name) return { ic: UI.menuAction || UI.idle, h: `${(D.npc.dist != null && D.npc.dist > 300 ? 'going to' : 'at')} <b>${esc(D.npc.name)}</b>${D.npc.dist != null && D.npc.dist > 300 ? ' (' + kmS(D.npc.dist) + ' away)' : ''}` };
     if (D.target) {
       const tg = D.target;
-      return { ic: UI.attack, h: `fighting <b>${esc(tg.name)}</b> (${tg.hp}% HP${tg.dist != null ? ', ' + kmS(tg.dist) + ' away' : ''})` + (ls && lsAge < 3000 && !HEALRE.test(sn) ? ' · ' + esc(sn) : '') };
+      // TGTLVL 2026-10-14: name, level (green = below me, red = 3+ above), a small HP bar + %, distance only when far
+      const hp = Math.max(0, Math.min(100, Math.round(+tg.hp || 0))), my = +c.level || 0, lv = +tg.lvl || 0, lc = !lv || !my ? '' : lv >= my + 3 ? ' hi' : lv <= my - 3 ? ' lo' : '';
+      return { ic: UI.attack, h: `<span class="tgt"><b>${esc(tg.name)}</b>${lv ? `<span class="tgt-lv${lc}">L${lv}</span>` : ''}<span class="tgt-hp" title="${hp}% HP"><i style="width:${hp}%"></i></span><span class="tgt-pc">${hp}%</span>${tg.dist != null && tg.dist > 400 ? `<span class="tgt-d">${kmS(tg.dist)}</span>` : ''}</span>` + (ls && lsAge < 3000 && !HEALRE.test(sn) ? ' · ' + esc(sn) : '') };
     }
     if (ls && lsAge < 4000) return { ic: UI.skill, h: `used <b>${esc(sn)}</b>${ls.tgt ? ' on ' + esc(ls.tgt) : ''}` };
     if (c.combat) return { ic: UI.attack, h: '<b>in combat</b>' };

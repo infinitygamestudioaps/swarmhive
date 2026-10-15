@@ -513,7 +513,7 @@ module.exports = function polyEdit(opts) {
     return { kind: 'raidarea', id: String(id), name: b.name, shape: 'poly', poly: fight, center: [r0(b.x), r0(b.y), r0(b.z)], radius: r0(Math.max(...fight.map(p => Math.hypot(p[0] - c[0], p[1] - c[1])))),
       levelMin: +b.level, levelMax: +b.level, enabled: raw ? raw.enabled !== false : true, notes: (raw && raw.notes) || '', layer: 'fight',
       clearPoly: raw && toArr(raw.clear).length >= 3 ? toArr(raw.clear) : null, clearMargin: raw && isFinite(num(raw.clearMargin)) ? +raw.clearMargin : RA.MARGIN,
-      clearPassive: !!(raw && raw.clearPassive), stage: raw && Array.isArray(raw.stage) && raw.stage.length >= 2 ? raw.stage.slice(0, 3).map(v => r0(+v)) : null,
+      clearPassive: !!(raw && raw.clearPassive), stay: !!(raw && raw.stay), stage: raw && Array.isArray(raw.stage) && raw.stage.length >= 2 ? raw.stage.slice(0, 3).map(v => r0(+v)) : null,
       isNew: !raw, manual: !!raw, edited: raw && raw.edited ? { by: raw.edited.by, at: raw.edited.at, hasOrig: false } : null,
       boss: { name: b.name, level: +b.level, x: r0(b.x), y: r0(b.y), z: r0(b.z) } };
   }
@@ -597,9 +597,9 @@ module.exports = function polyEdit(opts) {
           const v = raValidate(nv, b); warnings = v.warnings;
           if (v.errors.length) { result = { code: 400, body: { error: v.errors.join('; '), errors: v.errors, warnings } }; return; }
           const now = new Date().toISOString();
-          const out = { id: +id, boss: b.name, fight: nv.fight, clear: nv.clear, clearMargin: nv.clearMargin, clearPassive: !!it.clearPassive, stage: nv.stage,
+          const out = { id: +id, boss: b.name, fight: nv.fight, clear: nv.clear, clearMargin: nv.clearMargin, clearPassive: !!it.clearPassive, stay: it.stay === true, stage: nv.stage,
             enabled: it.enabled !== false, notes: String(it.notes || '').slice(0, 2000), manual: true, edited: { by: 'dashboard', at: now }, created: (raw && raw.created) || now, updated: now };
-          ['fight', 'clear', 'clearMargin', 'clearPassive', 'stage', 'enabled', 'notes'].forEach(k => { if (JSON.stringify(out[k]) !== JSON.stringify(raw ? raw[k] : undefined)) changed.push(k); });
+          ['fight', 'clear', 'clearMargin', 'clearPassive', 'stay', 'stage', 'enabled', 'notes'].forEach(k => { if (JSON.stringify(out[k]) !== JSON.stringify(raw ? raw[k] : undefined)) changed.push(k); });
           data.areas[String(id)] = out;
           if (!data.about) data.about = RA.ABOUT;
         }
@@ -620,6 +620,8 @@ module.exports = function polyEdit(opts) {
   }
   function raHandle(method, id, body, action) {
     const b = raBoss(id); if (!b) return { code: 404, body: { error: 'unknown raid boss id: ' + id } };
+    // FIT TO SAFE GROUND (2026-10-14): a circle trimmed at cliff edges / water / walls from the geodata (Dashboard/raidfit.js); nothing is saved
+    if (action === 'fit') { const B = body || {}; const r = require('./raidfit').fitSafeGround(ROOT, { x: isFinite(+B.x) ? +B.x : b.x, y: isFinite(+B.y) ? +B.y : b.y, z: isFinite(+B.z) ? +B.z : b.z, r: +B.r || RA.DEF_R }); return { code: r.ok ? 200 : 400, body: r }; }
     if (method === 'POST') return raSave(id, b, body || {}, action === 'reset');
     const L = raLoad(), raw = L.data.areas[String(id)] || null, it = raItem(id, raw, b);
     return { code: 200, body: { kind: 'raidarea', id: String(id), file: 'Scripts/data/' + RA.FILE, rev: sha(raw), item: it, orig: !!raw, context: raContext(id, b, it), live: LIVE.raidarea } };

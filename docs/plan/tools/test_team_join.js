@@ -178,7 +178,7 @@ check(/j\.phase === 'trip'/.test(src) && /raidActiveWrite\(boss\.name, false, 'f
     dangerAt: (x) => (x > 5000 ? 70 : 20), dungeonAt: () => null, STUCKW: M.STUCKW, teamMaxLevel: () => 32, CONFIG: { danger: { margin: 6 } },
     inst: { on: false }, state: {}, stuckStep: M.stuckStep, now: () => clock, note: (m) => notes.push(m), intent: () => { }, pstHold: (w, m) => holds.push(m),
     App: { emit: (e, d) => emits.push(e + ' ' + (d.names || []).join(',') + (d.town ? ' ' + d.town : '') + (d.replan ? ' replan' : '')) },
-    walkToInner: async (x, y) => { walks.push(`${x},${y}`); }, TOWN_CMD: { Giran: 'giran' }, waitWalk: async (p) => p, sleep: async () => { },
+    walkToInner: async (x, y) => { walks.push(`${x},${y}`); }, TOWN_CMD: { Giran: 'giran' }, queueJoinTown: (names, town) => emits.push('swarm.jointown ' + names.join(',') + ' ' + town), waitWalk: async (p) => p, sleep: async () => { },   // TOWNFIRST: queued until the leader's own .town worked (the stubs were inside this comment)
   };
   const H = new Function(...Object.keys(env), code + '\nreturn { stuckWatch, stuckTick };')(...Object.values(env));
   const sw = H.stuckWatch('.giran', 'Giran');
@@ -220,7 +220,7 @@ check(/j\.phase === 'trip'/.test(src) && /raidActiveWrite\(boss\.name, false, 'f
     const regroup = portAt + 3 + 5;                              // announce 3 s + the .giran
     console.log(`     expected Giran regroup: port at ${portAt} s, everyone in Giran ~${regroup} s (target < 120 s; old 912 s)`);
     check(portAt === 75 && regroup < 120, `the whole Giran regroup now takes ~${regroup} s`); }
-  check(/if \(dTown\) \{\s*const fightingNow/.test(src) && /townHoldPlan\(\{ t: now\(\) - t0, fightMs: th\.fightMs/.test(src) && /App\.emit\('swarm\.jointown', \{ leader: Me\.Name, names: go, town: dTown/.test(src), 'wired: the hold checks the budget first every tick, then ports; jointown to the ones not here');
+  check(/if \(dTown\) \{\s*const fightingNow/.test(src) && /townHoldPlan\(\{ t: now\(\) - t0, fightMs: th\.fightMs/.test(src) && /queueJoinTown\(go, dTown, what\)/.test(src) && /flushJoinTown\(c\.k, true\)/.test(src), 'wired: the hold checks the budget first every tick, then ports; jointown to the ones not here (TOWNFIRST: only after my own .town worked)');
   check(/\(dTown && hp\.act === 'walk'\)/.test(src), 'town port: the hold never walks over to a straggler');
   check((src.match(/await waitWalk\(walkToInner\(/g) || []).length >= 4 && /async function waitWalk\(p, ms\)/.test(src), 'every leader walk inside a wait has a hard time limit (the 10:49 walk that never returned)');
 

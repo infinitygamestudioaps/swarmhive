@@ -453,9 +453,20 @@ function creatures() {
     if ((sup || supT) && r.crtType !== 1) {             // ENGINELAT CRTYPED: the values the brain always got (see creatures() above), no host reads
       if (sup) { r.IsStunned = false; r.IsSleeping = false; r.IsParalyzed = false; r.IsOutOfControl = false; } if (supT) r.TargetObjId = 0;
     }
+    if (r.crtType === 0 && !('StoreType' in c)) { const st = storeTypes()[id]; if (st) r.StoreType = st; }   // STORETYPE: player shops (the snapshot lacks it)
     out[id] = r;
   }
   return out;
+}
+// STORETYPE 2026-10-14 (owner: "Dagger1 says there is 0 shops in giran"): the CharList snapshot has no StoreType, so the brain saw every
+// player as a plain player (live: 50 SELL, 3 BUY, 3 MANUFACTURE of 72 around Dagger1). One CharList pass every 15 s reads it live
+// (~70 reads in a busy town, nothing in the field); only shops are kept ('SELL', 'BUY', 'MANUFACTURE', 'PACKAGE_SELL', ...).
+const STORE = { at: 0, map: {} };
+function storeTypes() {
+  if (now() - STORE.at < 15000) return STORE.map;
+  STORE.at = now(); const m = {};
+  try { CharList.forEach(o => { let v = ''; try { const t = o.StoreType; v = String(t && t.ToString ? t.ToString() : (t === undefined || t === null ? '' : t)); } catch (e) { } AG.hr++; if (v && v !== 'NONE' && v !== '0') m[num(o.objId)] = v; }); } catch (e) { }
+  STORE.map = m; return m;
 }
 function section(name, build, msg, force) {
   let v; try { v = build(); } catch (e) { return; }

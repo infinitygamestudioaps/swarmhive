@@ -216,6 +216,15 @@ L2Procs | Where-Object { [int]$_.ParentProcessId -ne $p.Id } | ForEach-Object {
 }
 # forget clients that are gone (swarm.js closeClientBoard reads this file: a stale pid could be a reused pid of another program)
 foreach ($k in @($st.Keys)) { $v = $st[$k]; if ($v.pid -and -not (Alive $v.pid)) { $st[$k] = @{ tried = $v.tried; gone = $v.pid }; SaveState } }
+# ANY CRASHED CLIENT (2026-10-14: Tank1's l2.exe showed "LineageII Crash Report" for ~2 h, but its pid was no longer in the state file, so the
+# tracked-pid check below never saw it; every re-hook gave "no new l2.exe within 60 s" and Tank1 stood frozen while his party gathered around a
+# ghost): every l2.exe showing the crash report is dead - close it, whoever it belonged to; the next hook starts a fresh client
+foreach ($cp in @(Get-Process l2 -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -match 'Crash' })) {
+    $owner = ($st.Keys | Where-Object { $st[$_].pid -eq $cp.Id } | Select-Object -First 1)
+    Log "crashed client: l2.exe pid $($cp.Id) shows '$($cp.MainWindowTitle)'$(if ($owner) { " ($owner)" } else { ' (not tracked)' }) - closing it"
+    Stop-Process -Id $cp.Id -Force -ErrorAction SilentlyContinue
+    if ($owner) { $st[$owner] = @{ tried = $null }; SaveState }
+}
 
 # no hooking while a login run is busy or L2Swarm just started (all accounts are still logging in OOG)
 $lockFile = "$root\Logs\l2swarm_starting.lock"

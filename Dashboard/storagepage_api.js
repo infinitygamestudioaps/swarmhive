@@ -128,6 +128,20 @@ function storageSanitize(input, prev) {
     if (set(L.gapMin)) { const n = Number(L.gapMin); if (!Number.isFinite(n) || n < 0 || n > 1440) errors.push('letters every (min): 0 to 1440'); else nl.gapMin = Math.round(n); }
     out.letters = nl;
   } else delete out.letters;
+  // COLLECTOR 2026-10-14: { on, name ('' = the clan leader), town } (= swarm.js collectorMine)
+  if (set(out.collector)) {
+    const C = obj(out.collector), nc = { on: C.on === true, name: String(C.name || '').trim(), town: String(C.town || 'Giran') };
+    if (nc.name && !NAME_RE.test(nc.name)) errors.push('collector: not a character name');
+    if (!TOWN_KEYS.includes(nc.town)) errors.push('collector town: one of ' + TOWN_KEYS.join(', '));
+    out.collector = nc;
+  } else delete out.collector;
+  // WHSELL 2026-10-14: never store (= swarm.js STASH-PURE stashNever): common = every "Common Item - ...", names = patterns, sell = sell them instead
+  if (set(out.neverStore)) {
+    const N = obj(out.neverStore), nn = {};
+    nn.common = N.common === true; nn.sell = N.sell === true;
+    const nm = res(N.names, 'never store'); nn.names = nm || [];
+    out.neverStore = nn;
+  } else delete out.neverStore;
   out._updated = isoNow();
   return errors.length ? { ok: false, errors: [...new Set(errors)] } : { ok: true, rules: out };
 }
@@ -171,7 +185,49 @@ function info(ctx) {
   };
   const P = parties(ctx).map(({ leader, names }) => ({ leader, members: names.map(n => member(n, leader)) }));
   return { file: path.basename(rulesFile(ctx)), exists: !!R.exists, rev: R.rev, broken: R.broken || null, rules, towns: TOWN_KEYS, clanLeader: clanLeader(ctx, cfg),
-    letterItems: letterItems(ctx), parties: P, base: BASE };
+    letterItems: letterItems(ctx), parties: P, base: BASE, clanWh: clanWh(ctx, rules) };
+}
+const COMMON_RE = /^Common Item - /i;   // = swarm.js STASH_COMMON_RE
+// CWHGROUPS 2026-10-14 (owner: "sort the clan warehouse: materials, crafting parts, weapons, armors, accessories, what grade, scrolls, event letters")
+const GRADE_OF = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
+const PART_RE = /(Part|Pattern|Fragment|Edge|Blade|Head|Design|Texture|Lining|Material|Gemstone|Chain|Wire|Shaft|Temper|Fabric|Stock|Piece|Guard|Hilt|Ornament|Lining|Cloth|Molding|Frame)s?$/i;
+const ACC_SLOTS = ['neck', 'earring', 'ring', 'hair', 'hair2', 'hairall', 'bracelet', 'talisman', 'belt'];
+let STASHI = null, GEARI = null;
+function itemCat(ctx, id, name, it) {
+  if (!STASHI) { try { STASHI = JSON.parse(fs.readFileSync(path.join(ctx.ROOT || path.join(__dirname, '..'), 'Scripts', 'data', 'stash_items.json'), 'utf8')); } catch (e) { STASHI = { materials: {} }; } }
+  if (!GEARI) { try { const g = JSON.parse(fs.readFileSync(path.join(ctx.ROOT || path.join(__dirname, '..'), 'Scripts', 'data', 'gear_items.json'), 'utf8')); GEARI = g.items || g; } catch (e) { GEARI = {}; } }
+  const n = String(name || ''), type = it && it[2], gi = GEARI[id];
+  if ((id >= 3875 && id <= 3888) || /^L2Day - /i.test(n)) return 'letter';
+  if (/^Recipe/i.test(n)) return 'recipe';
+  if (type === 'Weapon') return (gi && gi.s === 'shield') || /Shield$|Buckler$|Sigil$/i.test(n) ? 'armor' : 'weapon';   // shields are 'Weapon' in the client data
+  if (type === 'Armor') return (gi && ACC_SLOTS.includes(gi.s)) || /Necklace|Earring|Ring$|Bracelet|Talisman|Belt$/i.test(n) ? 'accessory' : 'armor';
+  if (/Scroll|Blessed Scroll/i.test(n)) return 'scroll';
+  if (/Potion|Soulshot|Spiritshot|Elixir|Herb|Arrow$|Bolt$|Tonic|Juice|Spirit Ore|Antidote|Bandage|Dressing|Remedy|Cure/i.test(n)) return 'use';
+  if (/Life Stone|Seal Stone|Ancient Adena|Unrefined Jewel|Unrefinhed Ore/i.test(n)) return 'stone';
+  if (STASHI.materials && STASHI.materials[id] !== undefined) return PART_RE.test(n) ? 'part' : 'material';
+  if (PART_RE.test(n)) return 'part';
+  return 'other';
+}
+/** WHSELL 2026-10-14: the clan warehouse as the clan leader last saw it (Logs/clan_state.json warehouse), one row per item id + enchant:
+ *  { seenAt, seenBy, items: [{ id, name, icon, count, enchant, pieces, common, never }] } | null */
+function clanWh(ctx, rules) {
+  const st = ctx.readJson(path.join(ctx.LOGS, 'clan_state.json'), null), w = st && st.warehouse;
+  if (!w || !Array.isArray(w.items)) return null;
+  if (!itemNames) { itemNames = ctx.readJson(path.join(ctx.DIR || __dirname, 'data', 'items.json'), {}) || {}; }
+  const N = obj(obj(rules).neverStore), pats = (Array.isArray(N.names) ? N.names : []).map(s => { try { return new RegExp(s, 'i'); } catch (e) { return null; } }).filter(Boolean);
+  const by = {};
+  w.items.forEach(i => {
+    const id = Number(i.id), en = Number(i.enchant) || 0, k = id + '+' + en; if (!id) return;
+    const nm = String(i.name || (itemNames[id] && itemNames[id][0]) || 'item ' + id);
+    let gc = itemNames[id] && itemNames[id][3];
+    if (/^Recipe/i.test(nm)) { const rc = STASHI && STASHI.recipes && STASHI.recipes[id]; const pg = rc && itemNames[rc[2]] && itemNames[rc[2]][3]; if (pg !== undefined && pg !== '') gc = pg; }   // SORT: a recipe has the grade of what it makes
+    const r = by[k] = by[k] || { id, name: nm, icon: (itemNames[id] && itemNames[id][1]) || '', count: 0, enchant: en, pieces: 0, cat: itemCat(ctx, id, nm, itemNames[id]), grade: gc !== undefined && gc !== '' && GRADE_OF[Number(gc)] ? GRADE_OF[Number(gc)] : '' };
+    r.count += Math.max(1, Number(i.count) || 1); r.pieces++;
+  });
+  const items = Object.keys(by).map(k => by[k]).map(r => Object.assign(r, { common: COMMON_RE.test(r.name), never: (N.common === true && COMMON_RE.test(r.name)) || pats.some(p => p.test(r.name)) }))
+    .sort((a, b) => a.name.localeCompare(b.name) || a.enchant - b.enchant);
+  const pend = ctx.readJson(path.join(ctx.LOGS, 'whsell_pending.json'), null);   // WHSELL-FIX: taken out but not sold yet ("!whsell pending")
+  return { seenAt: w.seenAt || null, seenBy: w.seenBy || '', items, pending: pend && pend.ids ? Object.keys(pend.ids).length : 0, pendingAt: (pend && pend.at) || null };
 }
 function plan(ctx, name) {
   if (!NAME_RE.test(String(name || ''))) return { code: 400, error: 'name?' };
@@ -213,6 +269,27 @@ function post(ctx, b) {
   return result;
 }
 
+/** WHSELL 2026-10-14: the Storage page's clan warehouse selection -> Logs/whsell_order.json (the clan leader runs it on "!whsell order";
+ *  an order line holds only ~30 items). b = { items: [{ id, count: n | 'all' }], sell: true|false, by } */
+function whsellOrder(ctx, b) {
+  const L = Array.isArray(b && b.items) ? b.items : null;
+  if (!L || !L.length) return bad(400, 'no items chosen');
+  if (L.length > 500) return bad(400, 'at most 500 kinds at once');
+  const items = [], errs = [];
+  L.forEach(i => {
+    const id = Number(i && i.id), c = i && i.count;
+    if (!Number.isInteger(id) || id <= 0 || id >= 1e7) { errs.push(`"${String(i && i.id).slice(0, 20)}" is not an item id`); return; }
+    if (c !== 'all' && !(Number.isInteger(Number(c)) && Number(c) > 0)) { errs.push(`item ${id}: count must be a whole number or "all"`); return; }
+    const e = items.find(x => x.id === id);
+    if (e) { e.count = e.count === 'all' || c === 'all' ? 'all' : e.count + Number(c); } else items.push({ id, count: c === 'all' ? 'all' : Number(c) });
+  });
+  if (errs.length) return bad(400, errs.slice(0, 5).join('; '), { errors: errs });
+  const o = { at: isoNow(), by: String(b.by || 'dashboard').slice(0, 40), sell: b.sell !== false, items };
+  const F = process.env.SWARM_WHSELL_FILE || path.join(ctx.LOGS, 'whsell_order.json');   // tests: a scratch file
+  try { guard(ctx).atomicWrite(F, JSON.stringify(o, null, 1)); } catch (e) { try { fs.writeFileSync(F, JSON.stringify(o, null, 1)); } catch (e2) { return bad(500, e2.message); } }
+  try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\tstorage\twhsell\t${o.by}: ${o.sell ? 'take out + sell' : 'take out'} ${items.length} kinds: ${items.map(i => i.id + ':' + i.count).join(',').slice(0, 800)}\r\n`); } catch (e) { }
+  return { code: 200, ok: true, n: items.length, sell: o.sell, cmd: '!whsell order' };
+}
 async function handle(req, res, url, ctx) {
   const p = url.pathname;
   if (STATIC[p]) {
@@ -220,8 +297,13 @@ async function handle(req, res, url, ctx) {
     res.end(fs.readFileSync(path.join(ctx.DIR || __dirname, path.basename(p))));
     return true;
   }
-  if (p !== '/api/storage' && p !== '/api/storage/plan') return false;
+  if (p !== '/api/storage' && p !== '/api/storage/plan' && p !== '/api/storage/whsell') return false;
   if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
+  if (p === '/api/storage/whsell') {
+    if (req.method !== 'POST') { ctx.json(res, 405, { error: 'POST' }); return true; }
+    let b = {}; try { let t = ''; for await (const c of req) t += c; b = JSON.parse(t || '{}'); } catch (e) { ctx.json(res, 400, { error: 'bad JSON' }); return true; }
+    const r = whsellOrder(ctx, b); const code = r.code; delete r.code; ctx.json(res, code, r); return true;
+  }
   if (p === '/api/storage/plan') { const r = plan(ctx, url.searchParams.get('name')); const code = r.code; delete r.code; ctx.json(res, code, r); return true; }
   if (req.method === 'GET') { try { ctx.json(res, 200, info(ctx)); } catch (e) { ctx.json(res, 500, { error: e.message }); } return true; }
   if (req.method !== 'POST') { ctx.json(res, 405, { error: 'GET or POST' }); return true; }
@@ -229,4 +311,4 @@ async function handle(req, res, url, ctx) {
   try { const r = post(ctx, b) || bad(500, 'no result'); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, post, plan, readRules, rulesFile, storageSanitize, effective, kindFor, TOWN_KEYS, LETTER_IDS, DESTS, MODES, TRIGGERS };
+module.exports = { handle, info, post, plan, whsellOrder, clanWh, readRules, rulesFile, storageSanitize, effective, kindFor, TOWN_KEYS, LETTER_IDS, DESTS, MODES, TRIGGERS };
