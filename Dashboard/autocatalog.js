@@ -60,6 +60,9 @@
     { key: 'potions', group: 'fight', title: 'Hive drinks potions', gate: 'switch', def: 'on', eval: 'pauto', pauto: ['potions'],
       what: 'Drinks Healing and Mana Potions when HP or MP run low.',
       switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
+    { key: 'swarmFight', group: 'fight', title: 'Fight with L2Swarm', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['swarmFight'],   // SWARMFIGHT-2026-10-16
+      what: 'At the hunting spot your L2Swarm profiles do the fighting (combat zone, Follow and Follow Attack) while Hive only travels, restocks and gears up.',
+      switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
     { key: 'healplan', group: 'fight', title: 'Heal choices', gate: 'always', def: 'always', eval: 'heal',
       what: 'Which heal at which HP, who is healed first and when to use Recharge — automatic until you change it per character.',
       switch: 'party Settings → Healing', where: { label: 'Healing settings', settings: 'heal' } },

@@ -57,8 +57,9 @@
   const CB_KINDS = [
     { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills', help: 'On: Hive chooses and casts attacks, area attacks, debuffs, buffs, songs / dances, toggles and the raid role skills. Off: Hive casts nothing by itself — your L2Swarm profile (Combat Skills tab) fights; Hive still walks, follows, resupplies and shows everything here.' },
     { key: 'heals', char: true, def: true, group: 'combat', label: 'Hive heals', help: 'On: Hive heals the party (heal choice, group heals, cures, Recharge, Chant of Life, self heals). Off: Hive heals nobody — your L2Swarm profile (Auto Skills tab) heals, and Hive gives back any of your Auto Skills it had switched off.' },
-    { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions', help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." }];
-  const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions' };
+    { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions', help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." },
+    { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)', help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs, does not walk anyone back and casts no skills there: your L2Swarm profiles (Combat Skills, Auto Skills) fight and heal. Raids, Kamaloka and other instances stay with Hive." }];
+  const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions', swarmFight: 'L2Swarm fights' };
   const GMODES = ['auto', 'list', 'none'];
   const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false };
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
@@ -347,16 +348,17 @@
     const c = PS.W.combat, K = cbKinds();
     const items = K.map(k => {
       const own = c.party[k.key] !== null && c.party[k.key] !== undefined, eff = cbParty(k.key), d = paDef(k.key);
-      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions' }[k.key] || 'Off';
-      const onTxt = 'On — Hive does it' + (own ? '' : ' (the setting for all parties)');
+      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions', swarmFight: 'Off — Hive runs the fights' }[k.key] || 'Off';
+      const onTxt = (k.key === 'swarmFight' ? 'On — your L2Swarm profiles fight at the hunting spot' : 'On — Hive does it') + (own ? '' : ' (the setting for all parties)');   // SWARMFIGHT: on = the profile
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="combat.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
       return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset);
     }).join('');
     const rows = PS.M.map(n => { const ch = c.chars[n] || {};
-      return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${K.some(k => ch[k.key] !== null && ch[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${K.map(k => {
+      return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${K.some(k => k.char !== false && ch[k.key] !== null && ch[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${K.filter(k => k.char !== false).map(k => {
         const v = ch[k.key], pe = cbParty(k.key);
         return sel(`combat.chars.${n}.${k.key}`, v === null || v === undefined ? '' : v ? 'on' : 'off', [['', `Like the party (${pe ? 'Hive' : 'profile'})`], ['on', 'Hive'], ['off', 'My L2Swarm profile']], { skills: 'Skills', heals: 'Heals', potions: 'Potions' }[k.key] || k.label, { kind: 'tri' }); }).join('')}</div>`; }).join('');
-    const offK = K.filter(k => !cbParty(k.key)).map(k => CB_SHORT[k.key] || k.key), ownCh = PS.M.filter(n => K.some(k => { const v = (c.chars[n] || {})[k.key]; return v !== null && v !== undefined; }));
+    const KC = K.filter(k => k.char !== false);   // SWARMFIGHT: a party-only switch has no per-character choice
+    const offK = KC.filter(k => !cbParty(k.key)).map(k => CB_SHORT[k.key] || k.key).concat(K.some(k => k.key === 'swarmFight') && cbParty('swarmFight') ? [CB_SHORT.swarmFight] : []), ownCh = PS.M.filter(n => KC.some(k => { const v = (c.chars[n] || {})[k.key]; return v !== null && v !== undefined; }));
     const sum = (offK.length ? `Your profile: ${offK.join(', ')}` : 'Hive does skills, heals and potions') + (ownCh.length ? ` · own: ${ownCh.join(', ')}` : '');
     const body = `
       ${items}

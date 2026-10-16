@@ -34,6 +34,8 @@ const KINDS = [
     help: 'On: Hive heals the party (heal choice, group heals, cures, Recharge, Chant of Life, self heals). Off: Hive heals nobody — your L2Swarm profile (Auto Skills tab) heals, and Hive gives back any of your Auto Skills it had switched off.' },
   { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions',
     help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." },
+  { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)',
+    help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs, does not walk anyone back and casts no skills there: your L2Swarm profiles (Combat Skills, Auto Skills) fight and heal. Raids, Kamaloka and other instances stay with Hive." },   // SWARMFIGHT-2026-10-16 (player Vykaax), default OFF
 ];
 const KEYS = KINDS.map(k => k.key), CHAR_KEYS = KINDS.filter(k => k.char).map(k => k.key);
 // = swarm.js TOGGLE-PURE FIGHT_TOGGLES: the toggles Hive switches ON in fights for anyone (the dashboard shows them as 'always on in fights')

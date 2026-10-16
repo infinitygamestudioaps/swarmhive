@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.9 (2026-10-16)
+
+- New party switch Fight with L2Swarm (Hive only travels), party Settings - Combat, off by default. On: Hive still travels to the spot, picks it, restocks, gears up and shows the dashboard
+- at the hunting spot the leader only sets the combat zone and starts L2Swarm combat, the others follow him with L2Swarm Follow and Follow Attack, and your L2Swarm profiles cast and heal
+- Hive then picks no targets, makes no pairs, walks nobody back to the middle, starts no help or self-defence fights of its own, leads nobody along room routes and runs nobody out of the fight
+- raids, Kamaloka and instances stay with Hive
+- Guide: Hive switches page, section Fight with L2Swarm
+
 ## v1.7.8 (2026-10-16)
 
 - Gear plan for every class and grade (NG to S84): weapons with the special ability to put on, the armor set per class (tanks and dwarves heavy + shield, dancers and singers heavy, Gladiator / Duelist / fists / daggers / archers / Kamael light, every caster healer and buffer a robe), jewelry and epic boss jewels. It lives in Scripts/data/gear_doctrine.json and the Gear page recommendations follow it

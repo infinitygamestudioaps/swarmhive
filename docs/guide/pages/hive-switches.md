@@ -75,9 +75,29 @@ similar toggles. Now Hive only switches on:
 A toggle you switched on by hand is still switched **off** after the fight (they drain MP). With **Hive picks my skills** off, Hive does
 not touch toggles at all: your profile owns them.
 
+## Fight with L2Swarm (Hive only travels)
+
+A party switch in the same **Combat** section, **off** by default. Turn it on when you want your L2Swarm profiles to do all the
+fighting and Hive to do everything around it.
+
+With it on, Hive still:
+- travels to the hunting spot, picks the spot, restocks, gears up, sells and shows everything on the dashboard;
+- regroups the team when someone is far away or dead, moves on to another spot, and takes over again for raids, Kamaloka and other
+  instances.
+
+At the hunting spot Hive then only:
+- sets L2Swarm's **combat zone** (the square, the drawn area or the room) and starts **L2Swarm combat** on the leader;
+- switches **Follow** (on the leader) and, once, **Follow Attack** on for the others. Healers and buffers that never melee keep Follow
+  Attack off. You can switch Follow Attack off again in a character's profile; Hive does not switch it back on during that fight.
+
+Hive does **not** pick targets, make hunting pairs, walk anyone back to the middle, start fights of its own (help or self-defence),
+lead the others along room routes, or run anyone out of a fight with an escape. **Hive picks my skills** counts as off while this switch
+is on, so your profiles cast. Set up Combat Skills, Auto Skills (heals) and the profile's Follow / Follow Attack before you switch it on.
+
 ## For the technical reader
 
-- File: `Scripts/data/party_auto.json`: `parties.<leader>.skills / heals / potions`, `chars.<name>.skills / heals / potions / toggles`.
+- File: `Scripts/data/party_auto.json`: `parties.<leader>.skills / heals / potions / swarmFight` (swarmFight: party only, missing = off), `chars.<name>.skills / heals / potions / toggles`.
   A missing value = **on**. The bots read it every 5 seconds, so no restart is needed after a change.
 - swarm.js: `hiveSkillsOn()`, `hiveHealsOn()`, `hivePotionsOn()` and `toggleWanted()` (block TOGGLE-PURE). Tests:
-  `docs/plan/tools/test_hive_switches.js` and `test_hiveswitch_ui.js`.
+  `docs/plan/tools/test_hive_switches.js` and `test_hiveswitch_ui.js`. Fight with L2Swarm: `swarmFightOn()`, `swarmFightNow()`,
+  `sfLeaderTick()` (marker SWARMFIGHT-2026-10-16), test `docs/plan/tools/test_swarm_fight.js`.

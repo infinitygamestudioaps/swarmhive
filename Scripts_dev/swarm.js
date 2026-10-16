@@ -7693,7 +7693,7 @@ const aloneFight = { since: 0, lastAt: 0 };
 setInterval(() => {
   try {
     if (!leadMode() || !state.role || !IsCharacterReady() || Me.IsDead || ESC.on || state.escaping || state.gkBusy || tradeState || state.portPrep || inRaid() || inst.on ||
-        inKamaInstance() || currentTownKey() || benched() || soloChar() || now() < (state.fleeUntil || 0)) { aloneFight.since = 0; return; }
+        inKamaInstance() || currentTownKey() || benched() || soloChar() || now() < (state.fleeUntil || 0) || swarmFightNow()) { aloneFight.since = 0; return; }   // SWARMFIGHT: no Hive escape out of the fight
     if (lastAttackerOnMe.for || now() - lastAttackerOnMe.at > 4000) { aloneFight.since = 0; return; }
     const me = meSnap(), healer = isHealerRole();
     const mate = teamNames().some(n => { const q = partyMember(n), lp = livePos[n] || {}; if (!q || q.IsDead || lp.IsDead) return false;
@@ -24397,6 +24397,7 @@ const rgFollow = { at: 0, key: '', pts: [], i: 0, moveAt: 0, lastPos: null, stil
 function rgFollowTick() {
   if (isLeader() || runHeld() || Me.IsDead || !IsCharacterReady() || memberRG.busy || state.rgInWalk || (typeof memberRoute !== 'undefined' && memberRoute.id) ||   // MOVETOGETHER: a route walker walks its waypoints, no follow
     moveBusy(MOVE, now()) || state.escaping || ESC.on || state.gkBusy || tradeState || inst.on) return false;
+  try { if (swarmFightNow()) return false; } catch (e) { }   // SWARMFIGHT: L2Swarm's own Follow at the hunting spot
   if (rest.sitting || Me.IsSitting || Me.IsAttacking || Me.IsCasting || resBusy || (stuckFollow && stuckFollow.busy)) return false;
   try { if (Target && Target.objId && !!mobById(Target.objId) && !Target.IsDead && (IsInCombat || Me.IsInCombat)) return false; } catch (e) { }
   const p = partyMember(CONFIG.leader); if (!p || p.IsDead) return false;
@@ -26989,7 +26990,10 @@ async function autoLevelLoop(solo) {
       try { if (!pairsGate.travelDepth && !state.portPrep && !state.goingHub && !regroupRun && !leadRunBusy && !partyTripBusy && !state.gkBusy) pairsGate.huntAt = now(); } catch (e) { }
       if (!IsEnabled) EnableBot();
       if (!IsInCombat) startCombatG();
-      const cur = lastTarget && mobById(lastTarget);
+      // SWARMFIGHT-2026-10-16: the switch on = L2Swarm's combat hunts in the zone set above; Hive only counts kills and keeps the spot checks below
+      const sfMode = (() => { try { return swarmFightOn() && !sfExcluded() && !solo; } catch (e) { return false; } })();
+      if (sfMode) { const sk = sfLeaderTick(); if (sk) { kills += sk; for (let i = 0; i < sk; i++) autoLvl.killTimes.push(now()); multiKill(autoLvl.spot); } lastTarget = 0; }
+      const cur = !sfMode && lastTarget && mobById(lastTarget);
       if (cur && !cur.IsDead && huntCheckReach(cur)) {
         lastTarget = 0;
         if (huntProgress.misses >= 3) { huntProgress.misses = 0; if (!(await unstick()) && !zonePolyOf(autoLvl.spot) && !zState.layered) { center = { x: Me.X + 1500, y: Me.Y, z: Me.Z }; } }   // ZONEPOLY: a drawn zone keeps its centre
@@ -26997,7 +27001,7 @@ async function autoLevelLoop(solo) {
       const killed = autoLvlKilled(lastTarget, cur, engageState.ids);   // ENGINE DATA #16
       if (lastTarget && !killed && !(cur && cur.IsDead) && (!cur || (cur.HpPercent !== undefined && num(cur.HpPercent) <= 0))) lastTarget = 0;   // gone / 0 % HP and never engaged: pick again, no kill
       if (killed && cur && !cur.IsDead) lastTarget = 0;
-      if (!cur || cur.IsDead || !lastTarget || killed) {
+      if (!sfMode && (!cur || cur.IsDead || !lastTarget || killed)) {
         if (killed) { kills++; autoLvl.killTimes.push(now()); multiKill(autoLvl.spot); const ml = cur ? npcLevel(cur.NpcId !== undefined ? cur.NpcId : cur.Id) : 0; if (ml) autoLvl.mobLevels.push(ml); lastTarget = 0; }
         // PULL ROUTES (user zone editor 2026-10-07): the leader runs the drawn route, tags the monsters and brings them to the team
         if (autoLvl.spot && autoLvl.spot.pulls && autoLvl.spot.pulls.length && leadMode() && !solo && isLeader() && now() - (pull.lastAt || 0) > 4000) {
@@ -27222,6 +27226,7 @@ function partyTactics(leader) {
   }
   const c = Object.assign({}, TACT_DEFAULT, tactFile.all._defaults || {}, tactFile.all[leader || CONFIG.leader] || {});
   c.mode = /^(auto|on)$/.test(String(c.mode)) ? String(c.mode) : 'off';
+  try { if ((!leader || leader === CONFIG.leader) && swarmFightOn()) c.mode = 'off'; } catch (e) { }   // SWARMFIGHT: L2Swarm's Follow Attack, never Hive pairs
   c.pairSize = Math.max(1, Math.min(3, Math.round(num(c.pairSize) || 2)));
   c.maxPairs = Math.max(1, Math.min(6, Math.round(num(c.maxPairs) || 3)));
   c.leash = Math.max(300, Math.min(1400, num(c.leash) || 900));
@@ -30075,6 +30080,7 @@ setInterval(() => {
   if (state.escaping || tradeState || now() - lastDefend < 3000 || now() < (state.disengageUntil || 0)) return;      // midt i SoE-cast / handel / pulling back
   const mob = mobById(lastAttackerOnMe.id);
   if (!mob || mob.IsDead) return;
+  if (swarmFightNow()) return;                    // SWARMFIGHT: the L2Swarm profile fights, never a Hive self-defence fight on the side
   if (isHealerRole() || noMelee()) return;        // healers + the Doomcryer do not hit back: they keep distance, the team kills it
   // RAIDROLE 2026-10-09: in a raid the routines own the target (the tank logged 'self-defence ... fighting it with skills' every 3 s and was
   // re-targeted onto minions between Aggression / Sting); the dealers' focus + the tank's re-aggro handle monsters on us
@@ -31853,9 +31859,25 @@ setInterval(() => {
 // with the geodata path (same as the map click / MCP pathfind_move, which got them moving at once).
 /** Small team (3 or fewer, fx party 2): stay much closer together (user 2026-10-04 23:20). */
 function smallTeam() { try { return teamNames().length <= 2; } catch (e) { return false; } }
+// SWARMFIGHT-2026-10-16 host side (the switch block itself sits with the Hive switches): the members hear the leader's fight phase
+App.on('swarm.sf', (event) => {
+  try { const d = event.data || {}; if (isLeader() || !d.leader || d.leader !== CONFIG.leader) return; SF.leader = d.leader; SF.until = d.on ? now() + 12000 : 0; } catch (e) { }
+});
+// member: the fight phase = L2Swarm's own Follow (+ Follow Attack once, never for healers / no-melee roles; the player may switch it off again)
+setInterval(() => {
+  try {
+    if (isLeader() || !IsCharacterReady() || Me.IsDead) return;
+    if (!swarmFightNow()) { SF.atkSet = false; return; }
+    if (!IsEnabled) EnableBot();
+    if (state.followHoldUntil > now()) return;                          // a trade / teleport / route holds the follow
+    if (String(Options.FollowName || '') !== String(CONFIG.leader)) Options.FollowName = CONFIG.leader;
+    if (!Options.ActiveFollow) Options.ActiveFollow = true;
+    if (!SF.atkSet) { SF.atkSet = true; if (!isHealerRole() && !noMelee() && !Options.FollowAtk) Options.FollowAtk = true; intent('fight', 'Fight with L2Swarm: following ' + CONFIG.leader + ' with L2Swarm Follow + Follow Attack'); }
+  } catch (e) { }
+}, 2000);
 const stuckFollow = { x: 0, y: 0, since: 0, busy: false };
 setInterval(() => {
-  if (!leadMode() || !state.role || !IsCharacterReady() || Me.IsDead || isLeader() || stuckFollow.busy || benched()) return;
+  if (!leadMode() || !state.role || !IsCharacterReady() || Me.IsDead || isLeader() || stuckFollow.busy || benched() || swarmFightNow()) return;   // SWARMFIGHT: L2Swarm's Follow
   if (state.gkBusy || state.escaping || tradeState || state.buffTurn || inRaid() || rest.sitting || IsInCombat || Me.IsInCombat || noNativeNav()) { stuckFollow.since = 0; return; }   // guard: the script follow (nnFollow) walks back
   // never during a route walk (2026-10-07 02:59: Saint1 + Chanter1 waiting at the end of the Timak route, 2387 from Tank1: this fired,
   // walkTo/freeFromTerrain refuse during a route walk (they returned at once = "stuck 6 min") and .town sent both to Giran)
@@ -31900,7 +31922,9 @@ setInterval(() => {
 const HEALER_ROLES = ROLE_RE.healer;   // unchanged: /healer|bishop|shilliensaint/
 App.on('swarm.attacked', (event) => {
   const d = event.data;
-  if (!state.role || d.name === Me.Name || Me.IsDead || teamOf(d.name) !== teamOf(Me.Name)) return;   // RECORDING HOLD: helping a hit teammate is allowed (script attacks, see memberScriptFight)
+  if (!state.role || d.name === Me.Name || Me.IsDead || teamOf(d.name) !== teamOf(Me.Name)) return;
+  if (swarmFightNow()) return;   // SWARMFIGHT: L2Swarm's Follow Attack decides
+  // RECORDING HOLD: helping a hit teammate is allowed (script attacks, see memberScriptFight)
   if (HEALER_ROLES.test(state.role) || noMelee() || state.gkBusy || state.escaping || tradeState || state.buffTurn || inRaid() || now() < (state.disengageUntil || 0)) return;
   // inside an instance only the tank takes monsters off teammates (his Aggression loop); the rest keep their places (user 2026-10-05 22:08:
   // the casters ran back and forth — this help rule sent them at every monster that hit someone)
@@ -35815,7 +35839,8 @@ async function leadTeamAction(action, data) {
 // chars.<Name>.toggles = [skill names] the player wants ON in fights on top of the built-in fight-toggle whitelist (TOGGLE-PURE toggleWanted).
 const PAUTO_KINDS = { supplyWatch: { char: false, what: 'supply runs when someone is low' }, sell: { char: true, what: 'selling on town visits / in supply runs' }, dyes: { char: true, what: 'symbols (dyes) in supply runs' },
   unload: { char: false, what: 'the leader giving his spare loot to a teammate when his bag is full' },   // UNLOADGATE-2026-10-16: default OFF
-  skills: { char: true, def: true, what: 'Hive picks my skills' }, heals: { char: true, def: true, what: 'Hive heals' }, potions: { char: true, def: true, what: 'Hive uses potions' } };
+  skills: { char: true, def: true, what: 'Hive picks my skills' }, heals: { char: true, def: true, what: 'Hive heals' }, potions: { char: true, def: true, what: 'Hive uses potions' },
+  swarmFight: { char: false, what: 'Fight with L2Swarm (Hive only travels)' } };   // SWARMFIGHT-2026-10-16: default OFF
 function pautoNorm(j) {
   const obj = (x) => x && typeof x === 'object' && !Array.isArray(x) ? x : {};
   const o = obj(j);
@@ -35900,7 +35925,50 @@ function hiveSw() {
   HIVESW.v = v;
   return v;
 }
-function hiveSkillsOn() { return hiveSw().skills !== false; }
+function hiveSkillsOn() { return hiveSw().skills !== false && !(swarmFightOn() && !sfExcluded()); }   // SWARMFIGHT: the L2Swarm profiles cast
+// SWARMFIGHT-2026-10-16 (player Vykaax: "Hive should get to the location, set the combat area polygon or square specified by the zone, and
+// then StartCombat. It doesn't make sense to replicate a feature the bot already excels at"; owner: "Yes build the switch"). Party switch
+// "Fight with L2Swarm" (party_auto.json parties.<leader>.swarmFight, default OFF; dashboard party Settings -> Combat). ON: Hive still travels,
+// picks the spot, restocks, gears, sells and shows the dashboard; AT THE HUNTING SPOT the leader only sets the combat zone (square / drawn
+// polygon / room) and keeps L2Swarm's combat running (no Hive targets, focus, pull routes, walks back to the centre, wandering, pairs);
+// members follow him with L2Swarm's Follow + Follow Attack (switched on once when the fight phase starts) and Hive keeps its hands off: no
+// help-a-teammate attacks, self-defence, back-to-the-middle walks, room follow along the centrelines or alone-in-a-fight escapes. Hive skills
+// are OFF the whole time (the L2Swarm profiles cast). Raids, instances, Kamaloka and missions stay Hive's. The phase: the leader's hunting step
+// stamps SF.until and tells the members (swarm.sf every 4 s); a member is hands-off while that signal is < 12 s old.
+var SF = { at: 0, on: false, said: null, until: 0, leader: '', emitAt: 0, lastT: 0, atkSet: false };
+function swarmFightOn() {
+  if (!SF) return false;                                              // read before the top level created it
+  if (now() - SF.at < 2000) return SF.on;
+  SF.at = now();
+  let v = false; try { v = !!pautoEffective(pautoData(), 'swarmFight', String(Me.Name), CONFIG.leader).on; } catch (e) { v = false; }
+  if (SF.said !== v) {
+    if (SF.said !== null || v) { try { note('party settings: ' + (v ? 'Fight with L2Swarm ON - at the hunting spot my L2Swarm profile fights (combat zone, Follow, Follow Attack); Hive only travels, restocks and keeps the dashboard' : 'Fight with L2Swarm OFF - Hive runs the fights again'), true); } catch (e) { } }
+    SF.said = v;
+  }
+  SF.on = v; return v;
+}
+function sfExcluded() { try { return inRaid() || inst.on || inKamaInstance() || state.mode === 'raidclear' || state.mode === 'mission'; } catch (e) { return true; } }
+/** the hands-off phase: switch on + the team hunts at its spot (leader: his hunting step; member: his signal < 12 s old) */
+function swarmFightNow() {
+  if (!swarmFightOn() || sfExcluded()) return false;
+  if (isLeader()) return now() < SF.until;
+  try { if (state.gkBusy || state.escaping || (typeof memberRoute !== 'undefined' && memberRoute.id)) return false; } catch (e) { }
+  return now() < SF.until && SF.leader === CONFIG.leader;
+}
+/** leader, every hunting step with the switch on: L2Swarm combat on, the phase stamped, kills counted from the target L2Swarm picked; returns new kills */
+function sfLeaderTick() {
+  SF.until = now() + 12000; SF.leader = String(Me.Name);
+  try { if (!IsEnabled) EnableBot(); if (!IsInCombat) startCombatG(); } catch (e) { }
+  let k = 0;
+  try {
+    const t = Target && Target.objId ? num(Target.objId) : 0;
+    if (SF.lastT && SF.lastT !== t) { const m = mobById(SF.lastT); if (!m || m.IsDead) k++; SF.lastT = 0; }
+    if (t && mobById(t)) SF.lastT = t;
+  } catch (e) { }
+  if (now() - SF.emitAt > 4000) { SF.emitAt = now(); try { App.emit('swarm.sf', { leader: String(Me.Name), on: true }); } catch (e) { } }
+  return k;
+}
+
 function hiveHealsOn() { return hiveSw().heals !== false; }
 function hivePotionsOn() { return hiveSw().potions !== false; }
 function hiveToggles() { hiveSw(); return HIVESW.toggles; }
