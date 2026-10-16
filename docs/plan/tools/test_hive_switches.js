@@ -198,8 +198,8 @@ has(/soloScriptFight\(\) && !hiveOwnCombat\(\)/, 'solo character with skills OFF
 has(/if \(hiveOwnCombat\(\)\) \{ try \{ if \(!IsInCombat\) startCombatG\(\); \} catch \(e\) \{ \} \}\s+\/\/ HIVESW-2026-10-15: skills OFF = L2Swarm combat casts the player's Combat Skills on the focus/, 'raid dealer: L2Swarm combat on the focus with skills OFF');
 { // memberScriptFight decision on stubs
   const body = fnBody('function hiveOwnCombat()') + fnBody('function memberScriptFight(mob)');
-  const run = (skills, fixed, scriptFlag, leader) => { const calls = []; const f = new Function('hiveSkillsOn', 'recHold', 'deadlockFixed', 'UISAFE', 'isLeader', 'casterOwnsAttacks', 'srvAttack', 'selfDef', 'now', 'Target', 'Send', 'num', body + '\nreturn memberScriptFight;')(
-    () => skills, () => false, () => fixed, { memberScriptFight: scriptFlag }, () => leader, () => false, (id) => calls.push(id), {}, () => 1, null, { Action() { } }, Number);
+  const run = (skills, fixed, scriptFlag, leader) => { const calls = []; const f = new Function('hiveSkillsOn', 'recHold', 'deadlockFixed', 'UISAFE', 'isLeader', 'casterOwnsAttacks', 'srvAttack', 'selfDef', 'now', 'Target', 'Send', 'num', 'sfMember', body + '\nreturn memberScriptFight;')(
+    () => skills, () => false, () => fixed, { memberScriptFight: scriptFlag }, () => leader, () => false, (id) => calls.push(id), {}, () => 1, null, { Action() { } }, Number, () => false);
     return { r: f({ objId: 7 }), calls }; };
   const a = run(false, true, true, false), b = run(false, false, true, false), c = run(true, true, true, false);
   check(a.r === false && !a.calls.length, 'stubs: skills OFF + 3.8.11+ -> L2Swarm combat (no script hit)');

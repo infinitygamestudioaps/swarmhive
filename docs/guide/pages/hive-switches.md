@@ -94,10 +94,14 @@ Hive does **not** pick targets, make hunting pairs, walk anyone back to the midd
 lead the others along room routes, or run anyone out of a fight with an escape. **Hive picks my skills** counts as off while this switch
 is on, so your profiles cast. Set up Combat Skills, Auto Skills (heals) and the profile's Follow / Follow Attack before you switch it on.
 
+Only the **leader** runs L2Swarm combat (the combat zone). The others **never** start L2Swarm combat while this switch is on: they
+only follow the leader and attack his target with Follow Attack, so nobody makes a combat box of their own and wanders off in it.
+If a member's L2Swarm combat is running anyway (started by hand or by its profile), Hive stops it within 2 seconds.
+
 ## For the technical reader
 
 - File: `Scripts/data/party_auto.json`: `parties.<leader>.skills / heals / potions / swarmFight` (swarmFight: party only, missing = off), `chars.<name>.skills / heals / potions / toggles`.
   A missing value = **on**. The bots read it every 5 seconds, so no restart is needed after a change.
 - swarm.js: `hiveSkillsOn()`, `hiveHealsOn()`, `hivePotionsOn()` and `toggleWanted()` (block TOGGLE-PURE). Tests:
   `docs/plan/tools/test_hive_switches.js` and `test_hiveswitch_ui.js`. Fight with L2Swarm: `swarmFightOn()`, `swarmFightNow()`,
-  `sfLeaderTick()` (marker SWARMFIGHT-2026-10-16), test `docs/plan/tools/test_swarm_fight.js`.
+  `sfLeaderTick()` (marker SWARMFIGHT-2026-10-16), `sfMember()` (SFMEMBER-2026-10-16: `startCombatG()` refuses for members), test `docs/plan/tools/test_swarm_fight.js`.

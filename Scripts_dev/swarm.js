@@ -29891,6 +29891,9 @@ setTimeout(function uisafeCheck() {
 function hostCallMark(what) { try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\hostcall_${Me.Name}.txt`, `${new Date().toISOString()} ${what}\r\n`); } catch (e) { } }
 function startCombatG() {
   if (recHold()) return;                                          // RECORDING HOLD
+  // SFMEMBER-2026-10-16 (player Vykaax: "only the leader should StartCombat() ... Swarm followers only need follow leader and follow attack ... so they
+  // all created their own combat box and fight in it without the others"): with Fight with L2Swarm on, a member NEVER starts L2Swarm combat
+  if (sfMember()) { try { if (IsInCombat) StopCombat(); } catch (e) { } return; }
   // SOLO SCRIPT FIGHT (SOLOSAFE 2026-10-09): a solo character leveling picks its targets itself (nnFight + soloPullOk); L2Swarm's own combat
   // takes any monster in the area, so 3 aggressive ones together were pulled anyway (Dagger1, Sea of Spores)
   if (NNAV && (noNativeNav() || (soloScriptFight() && !hiveOwnCombat()))) {   // HIVESW-2026-10-15: a solo character with Hive skills OFF fights with L2Swarm combat (its own Combat Skills)
@@ -29905,7 +29908,7 @@ function startCombatG() {
 // HIVESW-2026-10-15: a member whose "Hive picks my skills" is OFF fights with L2Swarm's OWN combat (its Combat Skills = the player's profile;
 // script attacks would only auto-attack) whenever that is safe: the StartCombat UI deadlock is fixed in 3.8.11+ (deadlockFixed) and the live
 // L2Swarm runs headless (/NoUi, no UI thread to deadlock with). On an older L2Swarm it keeps the safe script attacks (plain hits, no skills).
-function hiveOwnCombat() { try { return !hiveSkillsOn() && !recHold() && deadlockFixed(); } catch (e) { return false; } }
+function hiveOwnCombat() { try { return !hiveSkillsOn() && !recHold() && deadlockFixed() && !sfMember(); } catch (e) { return false; } }   // SFMEMBER: a Fight-with-L2Swarm member defends with script attacks, never its own combat box
 function memberScriptFight(mob) {
   if (hiveOwnCombat()) return false;                                   // HIVESW: L2Swarm combat with the player's Combat Skills (the callers start it)
   if (!recHold() && (!UISAFE.memberScriptFight || isLeader())) return false;   // RECORDING HOLD: the leader fights back with script attacks too (L2Swarm combat = hunting the whole square)
@@ -31867,6 +31870,7 @@ App.on('swarm.sf', (event) => {
 setInterval(() => {
   try {
     if (isLeader() || !IsCharacterReady() || Me.IsDead) return;
+    if (sfMember()) { try { if (IsInCombat) { StopCombat(); if (!SF.stopSaid) { SF.stopSaid = true; note('Fight with L2Swarm: a member never runs its own combat box - L2Swarm combat stopped, Follow + Follow Attack do the fighting', true); } } } catch (e) { } }   // SFMEMBER-2026-10-16
     if (!swarmFightNow()) { SF.atkSet = false; return; }
     if (!IsEnabled) EnableBot();
     if (state.followHoldUntil > now()) return;                          // a trade / teleport / route holds the follow
@@ -35947,6 +35951,8 @@ function swarmFightOn() {
   }
   SF.on = v; return v;
 }
+/** SFMEMBER-2026-10-16: a member of a party with Fight with L2Swarm on (outside raids / instances / missions): Follow + Follow Attack only, never StartCombat */
+function sfMember() { try { return !isLeader() && swarmFightOn() && !sfExcluded(); } catch (e) { return false; } }
 function sfExcluded() { try { return inRaid() || inst.on || inKamaInstance() || state.mode === 'raidclear' || state.mode === 'mission'; } catch (e) { return true; } }
 /** the hands-off phase: switch on + the team hunts at its spot (leader: his hunting step; member: his signal < 12 s old) */
 function swarmFightNow() {

@@ -2,6 +2,11 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.1 (2026-10-16)
+
+- Fight with L2Swarm: only the leader starts L2Swarm combat (the combat zone)
+- followers never start combat, they follow the leader with Follow Attack, and a running follower combat is stopped within 2 s (reported by Vykaax).
+
 ## v1.8.0 (2026-10-16)
 
 - Crystallize from every Dwarf: every Dwarf with the Crystallize skill (Scavenger, Bounty Hunter, Fortune Seeker too) now gets a card on the Storage page with Turn items into crystals, not only Artisans, Warsmiths and Maestros
