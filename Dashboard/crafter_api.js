@@ -306,6 +306,29 @@ async function cwhOrder(ctx, b) {
   logCmd(ctx, `cwh\t${CL} takes ${items.length} kinds out of the clan warehouse for ${crafter}`);
   return { code: 200, ok: true, clanLeader: CL, self: CL === crafter, cmd, sent };
 }
+// CRYQUEUE-2026-10-15 (owner: "under Storage select items I want crystallized" - "not hard coded for my characters"): the Storage page's clan warehouse
+// list -> "Take out and crystallize": the clan leader (whoever it is) takes the ticked kinds out and trades them to the chosen crafter (any Dwarf with
+// Crystallize: the crafter candidates), and the crafter crystallizes exactly those kinds when they are in its bag (swarm.js CRYQUEUE reads
+// Scripts/data/crystallize_queue.json; progress Logs/cryqueue_<crafter>.json). An owner order: nothing is crystallized without this button.
+function cryQueueFile(ctx) { return process.env.SWARM_CRYQUEUE_FILE || path.join(ctx.DATA, 'crystallize_queue.json'); }
+async function cwhCryOrder(ctx, b) {
+  if (b.confirm !== true) return { code: 409, error: 'confirm first (the page asks)', needConfirm: true };
+  const crafter = String(b.crafter || ''); if (!NAME_RE.test(crafter)) return { code: 400, error: 'which crafter?' };
+  const I = info(ctx); if (!I.crafters.some(c => c.name === crafter)) return { code: 400, error: crafter + ' is no crafter (a Dwarf Artisan / Warsmith / Maestro)' };
+  const items = (Array.isArray(b.items) ? b.items : []).map(i => ({ id: Number(i && i.id), count: Math.max(1, Math.round(Number(i && i.count) || 1)), name: String((i && i.name) || '').slice(0, 80) })).filter(i => Number.isInteger(i.id) && i.id > 0);
+  if (!items.length) return { code: 400, error: 'tick at least one item' };
+  if (items.length > 40) return { code: 400, error: 'at most 40 kinds per order' };
+  const F = cryQueueFile(ctx); let Q = { v: 1, orders: [] }; try { Q = JSON.parse(fs.readFileSync(F, 'utf8').replace(/^﻿/, '')); } catch (e) { }
+  if (!Array.isArray(Q.orders)) Q.orders = [];
+  const id = 'cq' + Date.now().toString(36);
+  Q.orders = Q.orders.filter(o => o && Date.now() - Date.parse(o.at || 0) < 7 * 86400000).concat([{ id, crafter, items, enchanted: b.enchanted === true, at: new Date().toISOString(), by: 'dashboard' }]);
+  Q._about = 'Crystallize queue (dashboard Storage page -> clan warehouse -> Take out and crystallize). The crafter crystallizes exactly these kinds (item id, count) when they are in its bag and it is idle. Orders older than 2 days end by themselves.';
+  fs.mkdirSync(path.dirname(F), { recursive: true }); fs.writeFileSync(F, JSON.stringify(Q, null, 1));
+  const w = await cwhOrder(ctx, { crafter, items: items.map(i => ({ id: i.id, count: i.count })), confirm: true });
+  if (w.error) return w;
+  logCmd(ctx, `cwhcry	${crafter} will crystallize ${items.length} kinds (order ${id})`);
+  return Object.assign(w, { queued: id });
+}
 async function handleItems(req, res, url, ctx) {
   const p = url.pathname;
   if (p === '/api/crafter/bag') {
@@ -324,6 +347,7 @@ async function handleItems(req, res, url, ctx) {
   else if (p === '/api/crafter/handin') r = b.dryRun === true ? await handinPlan(ctx, b).then(x => x.error ? { code: 400, error: x.error } : Object.assign({ code: 200, ok: true }, x)) : await handinOrder(ctx, b);
   else if (p === '/api/crafter/handin/go') r = await handinGo(ctx, b);
   else if (p === '/api/crafter/cwh') r = await cwhOrder(ctx, b);
+  else if (p === '/api/crafter/cwhcry') r = await cwhCryOrder(ctx, b);   // CRYQUEUE-2026-10-15
   else r = { code: 404, error: 'unknown crafter endpoint' };
   const code = r.code || 200; delete r.code; ctx.json(res, code, r); return true;
 }
@@ -365,4 +389,4 @@ async function handle(req, res, url, ctx) {
   try { const r = post(ctx, b) || bad(500, 'no result'); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { cryBlock, crinKind, craftItems, cryCheck, handinPlan, handinOrder, handinGo, cwhOrder, bagReportOf, handins, handle, info, post, readFile, fileOf, applyChange, norm, craftCfgOf, craftCrafterFor, craftName, CRAFT_RECIPES, CRAFT_TOWNS, CRAFT_GRADES, CRAFT_MATS, CRAFT_DEF, ABOUT };
+module.exports = { cwhCryOrder, cryQueueFile, cryBlock, crinKind, craftItems, cryCheck, handinPlan, handinOrder, handinGo, cwhOrder, bagReportOf, handins, handle, info, post, readFile, fileOf, applyChange, norm, craftCfgOf, craftCrafterFor, craftName, CRAFT_RECIPES, CRAFT_TOWNS, CRAFT_GRADES, CRAFT_MATS, CRAFT_DEF, ABOUT };

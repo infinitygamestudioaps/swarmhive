@@ -2,6 +2,17 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.5 (2026-10-16)
+
+- Hunting: moving between areas of a hunting ground no longer uses the slow trip walk that stopped the whole team at every monster - the leader walks, the team follows and fights what comes (1.7.4 parties barely hunted, the leader walked alone)
+- Combat with your own L2Swarm profile: with Hive picks my skills OFF, the dungeon / stacked-floor guard no longer switches off your Follow Attack (assist) or L2Swarm combat
+- following stays with the hive (routes, floors)
+- Tower of Insolence: the Aden gatekeeper lands somewhere else than the datapack says - the team no longer loops Aden -> ToI -> Aden
+- it remembers the real landing (Scripts/data/gk_landing_live.json) and walks on from there
+- Storage page, clan warehouse list: tick items and press Take out and crystallize - the clan leader takes them out and trades them to the crafter you pick, who crystallizes exactly those pieces (any Dwarf crafter with Crystallize, nothing hard coded)
+- Storage page, clan warehouse list: Take out and give to a crafter - the clan leader takes the ticked items out and trades them to the crafter you pick (crafting materials, gear), nothing is destroyed
+- Hunting timers: two new options - start the clock only when the party really arrives at the spot, and repeat (after the end action, for example a supply run, the next arrival starts a new run). Good for long catacomb runs
+
 ## v1.7.4 (2026-10-15)
 
 - Team routes: the leader no longer waits at the end (up to 15 min) for members already standing next to him - a member that walked the route again after a reload never sent its done

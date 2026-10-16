@@ -9212,7 +9212,12 @@ async function leadTeamWalk(x, y, z, dist, timeoutMs, abort) {
   intent('lead team', `to ${P(x, y, z)} with ${teamNames().join(', ')}`, { x, y, z });
   await waitForTeamHere('start', abort);
   // MOVETOGETHER-2026-10-13: the wall-aware route as ONE waypoint list that every member walks; the team waits at every waypoint (leadRouteWalk)
-  if (mtOn() && teamNames().length && distTo(x, y) > Math.max(MT.minWalk, dist + 300) && !inKamaInstance() && !inst.on && !(abort && abort())) {
+  // HUNTWALK-2026-10-15 (tester video 1.7.4 "they barely fight at all, the leader runs around alone, not even the healer follows"; our Tank1 the same in
+  // Fields of Massacre): moving between AREAS of the hunting ground (an area occupied / empty -> the next one, 3 km) ran the long-trip move-together
+  // walk: it holds the team at waypoints and stops for EVERY monster ('fighting on the way'), so the party crawled and hardly hunted. While leveling
+  // in the field (not travelling, not in a town, < 8000) the plain team walk is used: the leader walks, the team follows and fights what comes.
+  const huntWalk = (() => { try { return !!(autoLvl.active && !autoLvl.stop && !state.inTravel && !currentTownKey() && !inRaid() && distTo(x, y) < 8000); } catch (e) { return false; } })();
+  if (mtOn() && !huntWalk && teamNames().length && distTo(x, y) > Math.max(MT.minWalk, dist + 300) && !inKamaInstance() && !inst.on && !(abort && abort())) {
     let r = null; try { r = await geoRoute(x, y, z, 20000); } catch (e) { r = null; }
     const pts = r && r.ok && r.points && r.points.length ? mtCut(r.points.map(q => Object.assign({ x: Math.round(q.x), y: Math.round(q.y), z: Math.round(isFinite(q.z) ? q.z : (z || Me.Z)) }, (q.swim || q.water) ? { swim: true } : {})), { x, y, dist: Math.max(0, dist - 50) }) : null;
     if (pts && pts.length) {
@@ -21169,6 +21174,36 @@ function cryCommand(parts) {
   if (p.err) { note(`[crystallize] ${p.err} — use "!crystallize <name> <objId,objId,...> [enchanted] [special]" (the Storage page sends it)`, true); return; }
   cryRun(p).then(r => note(`[crystallize] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!crystallize', e));
 }
+// CRYQUEUE-2026-10-15 (owner: "under Storage select items I want crystallized", "not hard coded for my characters"): the Storage page's clan warehouse
+// list -> "Take out and crystallize" writes Scripts/data/crystallize_queue.json { orders: [{ id, crafter, items: [{ id, count, name }], enchanted, at }] }
+// and the clan leader takes those kinds out for the crafter. THE CRAFTER (whoever the order names) crystallizes exactly those kinds - up to the counts -
+// once they are in its bag and it is idle (cryRun = the same owner-order path as "!crystallize"). Progress per order + kind in Logs/cryqueue_<name>.json;
+// a piece that does not crystallize (grade above the skill, refused) is given up after 3 tries; orders end after 48 h.
+const CRYQ = { busy: false, file: SWARM_ROOT + '\\Scripts\\data\\crystallize_queue.json' };
+function cryQueueMine() {
+  try { const Q = JSON.parse(String(File.ReadAllText(CRYQ.file)).replace(/^\uFEFF/, '')); return (Q.orders || []).filter(o => o && String(o.crafter || '').toLowerCase() === String(Me.Name).toLowerCase() && Date.now() - Date.parse(o.at || 0) < 48 * 3600000); } catch (e) { return []; }
+}
+function cryQueueState() { try { return JSON.parse(String(File.ReadAllText(SWARM_ROOT + '\\Logs\\cryqueue_' + Me.Name + '.json'))) || {}; } catch (e) { return {}; } }
+setInterval(() => {
+  try {
+    if (CRYQ.busy || CRY.busy || !IsCharacterReady() || now() - scriptStartAt < 60000) return;
+    const orders = cryQueueMine(); if (!orders.length) return;
+    if (stashSkillLvl(248) <= 0 || cryBusyWhy()) return;
+    const S = cryQueueState(); S.done = S.done || {}; S.fails = S.fails || {};
+    const take = {}, ids = [], used = new Set();
+    orders.forEach(o => (o.items || []).forEach(it => { const k = o.id + ':' + it.id; const left = num(it.count) - num(S.done[k]); if (left > 0 && num(S.fails[k]) < 3) take[k] = { id: num(it.id), left, ench: !!o.enchanted, name: it.name || String(it.id), picked: [] }; }));
+    Object.keys(take).forEach(k => { const t = take[k]; try { Inventory.forEach(it => { if (t.picked.length >= t.left) return; const oid = num(it.objId); if (num(it.Id) !== t.id || it.IsEquiped || used.has(oid)) return; if (!t.ench && num(it.EnchantLvl) > 0) return; used.add(oid); t.picked.push(oid); ids.push(oid); }); } catch (e) { } });
+    if (!ids.length) return;
+    CRYQ.busy = true;
+    cryRun({ name: Me.Name, ids, enchanted: Object.values(take).some(t => t.ench), special: false }).then(r => {
+      const bag = new Set(); try { Inventory.forEach(it => bag.add(num(it.objId))); } catch (e) { }
+      Object.keys(take).forEach(k => { const t = take[k]; if (!t.picked.length) return; const gone = t.picked.filter(o => !bag.has(o)).length; S.done[k] = num(S.done[k]) + gone; if (gone < t.picked.length) S.fails[k] = num(S.fails[k]) + 1; });
+      S.at = new Date().toISOString(); S.last = String((r && r.msg) || '').slice(0, 300);
+      try { File.WriteAllText(SWARM_ROOT + '\\Logs\\cryqueue_' + Me.Name + '.json', JSON.stringify(S, null, 1)); } catch (e) { }
+      note('[crystallize] queued order: ' + S.last, true);
+    }).catch(e => logError('crystallize queue', e)).finally(() => { CRYQ.busy = false; });
+  } catch (e) { CRYQ.busy = false; logError('crystallize queue', e); }
+}, 20000);
 /** !craft learn <recipeItemId> [name]: use that recipe scroll once */
 async function rcpLearn(scroll) {
   const D = cryData(), ent = D.recipes[scroll], name = (() => { let n = ''; try { Inventory.forEach(it => { if (!n && num(it.Id) === scroll) n = String(it.Name || ''); }); } catch (e) { } return n || 'recipe ' + scroll; })();
@@ -24916,6 +24951,11 @@ App.on('swarm.routesm', (event) => {
   const d = event.data || {}; state.routeSMLeader = Object.assign({}, d, { recv: now(), chain: undefined });
   if (d.state === 'SWIM_LEG' && !d.final && typeof swimPlan === 'function') swimPlan(180000);
 });
+/** GKLANDING-2026-10-15: real gatekeeper landings seen live (the server's teleports differ from the datapack): { '<desc>': { x, y, z, n, at } } */
+const GKLAND = { get file() { return `${typeof SWARM_ROOT === 'string' ? SWARM_ROOT : '.'}\\Scripts\\data\\gk_landing_live.json`; }, at: 0, d: {} };   // lazy: tests that lift this block have no SWARM_ROOT
+function gkLandingAll() { if (now() - GKLAND.at < 60000) return GKLAND.d; GKLAND.at = now(); try { GKLAND.d = JSON.parse(String(File.ReadAllText(GKLAND.file)).replace(/^﻿/, '')) || {}; } catch (e) { GKLAND.d = GKLAND.d || {}; } return GKLAND.d; }
+function gkLandingLearned(s) { const k = String((s && s.desc) || ''); return k ? gkLandingAll()[k] || null : null; }
+function gkLandingLearn(s) { try { const k = String(s.desc || ''); if (!k) return; const d = Object.assign({}, gkLandingAll()); const o = d[k] || {}; d[k] = { x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), n: (o.n || 0) + 1, at: new Date().toISOString(), planned: s.landing, by: Me.Name }; GKLAND.d = d; GKLAND.at = now(); File.WriteAllText(GKLAND.file, JSON.stringify(d, null, 1)); } catch (e) { logError('gk landing learn', e); } }
 /** one step of an atlas route -> { ok, why, blocked, arrived } (the old loop body; the state machine around it is navAtlasRun) */
 async function navAtlasExec(r, s, steps, i, o, abort) {
   if (s.do === 'town') {
@@ -24925,8 +24965,16 @@ async function navAtlasExec(r, s, steps, i, o, abort) {
   }
   if (s.do === 'gk') {
     if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) < 1500) return { ok: true };
+    { const ll = gkLandingLearned(s); if (ll && Math.hypot(ll.x - Me.X, ll.y - Me.Y) < 1500) return { ok: true }; }   // GKLANDING-2026-10-15: already at its real landing
     if (!(await teamTeleport(s.link, `nav ${r.name}`))) return { ok: false, why: `gatekeeper link "${s.link}" (${s.desc || ''}) failed${gkFail ? ': ' + gkFail : ''}`, blocked: /^REFUSED: /.test(String(gkFail || '')) || (/\(known live menu\)/.test(String(gkFail || '')) && !/broke at/.test(String(gkFail || ''))) };   // a certain failure: no 9x retry
-    if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) > 3000) return { ok: false, why: `${s.desc}: landed ${Math.round(Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y))} away from the planned landing` };
+    if (s.landing && Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y) > 3000) {
+      // GKLANDING-2026-10-15 (tester video, Tower of Insolence: "Aden -> ToI failed: landed 7162 away from the planned landing" -> .aden -> ToI -> ... in a
+      // loop): the datapack landing (114649,11115 = the clan hall spot) is not where L2Toggle's Aden gatekeeper puts you. A REAL teleport (far from the
+      // gatekeeper now) to another spot is no failure: remember the real landing (Scripts/data/gk_landing_live.json) and walk on from here.
+      const away = s.npc ? Math.hypot(s.npc.x - Me.X, s.npc.y - Me.Y) : 1e9;
+      if (away > 6000) { gkLandingLearn(s); note(`nav ${r.name}: ${s.desc} landed at ${Math.round(Me.X)},${Math.round(Me.Y)} (${Math.round(Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y))} from the planned spot) - remembered, walking on from here`, true); try { appearBurst('nav atlas landing'); } catch (e) { } await sleep(1500); return { ok: true, landedElsewhere: true }; }
+      return { ok: false, why: `${s.desc}: landed ${Math.round(Math.hypot(s.landing[0] - Me.X, s.landing[1] - Me.Y))} away from the planned landing` };
+    }
     try { appearBurst('nav atlas landing'); } catch (e) { } await sleep(1500); return { ok: true };
   }
   if (s.do === 'buy') return await navAtlasBuy(s, abort, o);
@@ -29841,14 +29889,18 @@ setInterval(() => {
   try {
     if (!IsCharacterReady()) return;
     const g = noNativeNav();
+    // NNAVOWN-2026-10-15 (tester: "I turn off Hive Skills, but it still handles the target selection. I turn on Follow Attack in Swarm and it auto-unchecks
+    // them right away"): with "Hive picks my skills" OFF the player's L2Swarm profile owns assist (FollowAtk) and L2Swarm combat - the dungeon / stacked-floor
+    // guard no longer switches them off (owner: never overrule the player). Following stays the hive's (routes, floors, centrelines).
+    const ownFight = (() => { try { return !hiveSkillsOn(); } catch (e) { return false; } })();
     if (g && !NNAV.on) {
       NNAV.on = true; NNAV.since = now();
-      try { if (IsInCombat) { NNAV.wantCombat = true; StopCombat(); } } catch (e) { }
+      try { if (IsInCombat && !ownFight) { NNAV.wantCombat = true; StopCombat(); } } catch (e) { }
       // members ALWAYS follow under the guard in lead mode (TEAMJOIN 2026-10-09: after a script reload ActiveFollow starts off, so the
       // guard never set wantFollow and the script follow never ran — Chanter4 stood 1215 from the leader for 7 min)
       try { if (!isLeader() && (Options.ActiveFollow || (leadMode() && !benched()))) { NNAV.wantFollow = true; Options.ActiveFollow = false; } } catch (e) { }
       try { NNAV.pickSaved = !!Options.PickUp; if (Options.PickUp) Options.PickUp = false; } catch (e) { }
-      try { NNAV.atkSaved = !!(NNAV.atkSaved || Options.FollowAtk); if (Options.FollowAtk) Options.FollowAtk = false; } catch (e) { }
+      if (!ownFight) { try { NNAV.atkSaved = !!(NNAV.atkSaved || Options.FollowAtk); if (Options.FollowAtk) Options.FollowAtk = false; } catch (e) { } }
       note(`native navigation OFF here (${inst.on ? 'instance' : inRaid() ? 'raid' : state.mode === 'raidclear' ? 'raid clear' : state.mode === 'mission' ? 'mission' : zState.layered ? 'stacked floors' : 'dungeon'}) — script moves/follow/fight`);
     } else if (!g && NNAV.on) {
       NNAV.on = false;
@@ -29876,9 +29928,9 @@ setInterval(() => {
       return;
     }
     // hold everything off (other code may switch it back on between ticks)
-    try { if (IsInCombat) { NNAV.wantCombat = true; StopCombat(); } } catch (e) { }
+    try { if (IsInCombat && !ownFight) { NNAV.wantCombat = true; StopCombat(); } } catch (e) { }   // NNAVOWN: skills OFF = L2Swarm combat stays
     try { if (!isLeader() && Options.ActiveFollow) { NNAV.wantFollow = true; Options.ActiveFollow = false; } } catch (e) { }
-    try { if (Options.FollowAtk) { NNAV.atkSaved = true; Options.FollowAtk = false; } } catch (e) { }   // someone switched assist on: remember it for the restore
+    try { if (Options.FollowAtk && !ownFight) { NNAV.atkSaved = true; Options.FollowAtk = false; } } catch (e) { }   // NNAVOWN: skills OFF = the player's assist stays   // someone switched assist on: remember it for the restore
     try { if (Options.PickUp) { NNAV.pickSaved = true; Options.PickUp = false; } } catch (e) { }
     nnFight(false);
     nnFollow();
@@ -34097,7 +34149,9 @@ function htEntry(j, key) {
   const hours = Number(e.hours), at = Date.parse(e.at || '');
   if (!e.id || !isFinite(hours) || hours <= 0 || hours > 48 || !isFinite(at)) return null;
   const en = e.endNow ? Date.parse(e.endNow) : NaN;
-  return { id: String(e.id), hours, endAction: HT_ACTIONS.includes(e.endAction) ? e.endAction : 'town', from: e.from === 'now' ? 'now' : 'arrival', at, endNow: isFinite(en) ? en : null, spot: String(e.spot || '').slice(0, 120) };
+  // HTREPEAT-2026-10-15 (owner: "hunt for a longer period in catacombs ... 8-10 hour runs with supplies"): arrivalOnly = the clock starts ONLY on arrival at
+  // e.spot (no 45-min fallback: a party still leveling elsewhere for days); repeat = after the end action (town / supply run / back) the next arrival starts a new run
+  return { id: String(e.id), hours, endAction: HT_ACTIONS.includes(e.endAction) ? e.endAction : 'town', from: e.from === 'now' ? 'now' : 'arrival', at, endNow: isFinite(en) ? en : null, spot: String(e.spot || '').slice(0, 120), arrivalOnly: e.arrivalOnly === true, repeat: e.repeat === true };
 }
 /** the clock. e = htEntry, st = the leader's status file, nowMs -> { id, active, ended, done, started, startAt, endAt, leftMs, waitingArrival, ... } */
 function htClock(e, st, nowMs) {
@@ -34106,7 +34160,7 @@ function htClock(e, st, nowMs) {
   let startAt = null, startWhy = '';
   if (S && S.startedAt && isFinite(Date.parse(S.startedAt))) { startAt = Date.parse(S.startedAt); startWhy = S.startWhy || 'arrived'; }
   else if (e.from === 'now') { startAt = e.at; startWhy = 'counted from the choice'; }
-  else if (nowMs - e.at >= HT_ARRIVE_WAIT_MS) { startAt = e.at + HT_ARRIVE_WAIT_MS; startWhy = 'not there after 45 min — counting anyway'; }
+  else if (nowMs - e.at >= HT_ARRIVE_WAIT_MS && !e.arrivalOnly) { startAt = e.at + HT_ARRIVE_WAIT_MS; startWhy = 'not there after 45 min — counting anyway'; }
   let endAt = startAt !== null ? startAt + e.hours * 3600000 : null;
   if (e.endNow !== null) endAt = endAt === null ? e.endNow : Math.min(endAt, e.endNow);
   const done = !!(S && S.endedFor === e.id);
@@ -34256,9 +34310,16 @@ setInterval(() => {
     const key = htKey(), e = htEntry(htData(), key); if (!e) return;
     let st = htStRead(key);
     if (!st || st.id !== e.id) { htStWrite(key, { id: e.id, spot: e.spot, savedAt: new Date(e.at).toISOString(), startedAt: e.from === 'now' ? new Date(e.at).toISOString() : null, startWhy: e.from === 'now' ? 'counted from the choice' : '' }); return; }
+    // HTREPEAT-2026-10-15: arrival at THE spot of the timer (arrivalOnly), and a repeating run starts again on the next arrival after its end action
+    const atSpot = () => { try { return manualSw.mode === 'manual' && manualSw.status === 'arrived' && manualSw.sig === partySpotSig(partySpotEntry()) && (!e.arrivalOnly || !e.spot || String(manualSw.spotName || manualSw.label || '').toLowerCase().includes(String(e.spot).toLowerCase())); } catch (er) { return false; } };
+    if (e.repeat && st.endedFor === e.id && st.result && st.result !== 'running' && atSpot()) {
+      st = { id: e.id, spot: e.spot, savedAt: new Date(e.at).toISOString(), startedAt: new Date().toISOString(), startWhy: `arrived again at ${manualSw.spotName || e.spot} (repeating run)`, runs: (num(st.runs) || 1) + 1 };
+      htStWrite(key, st); const m = `[hunt timer] back at ${e.spot || 'the chosen spot'} — hunting another ${e.hours} h (run ${st.runs})`; note(m, true); try { SayToParty(m.slice(0, 250)); } catch (er) { }
+      return;
+    }
     if (!st.startedAt && st.endedFor !== e.id) {
-      let arrived = false; try { arrived = manualSw.mode === 'manual' && manualSw.status === 'arrived' && manualSw.sig === partySpotSig(partySpotEntry()); } catch (er) { }
-      if (arrived || now() - e.at >= HT_ARRIVE_WAIT_MS) {
+      let arrived = false; try { arrived = atSpot(); } catch (er) { }
+      if (arrived || (now() - e.at >= HT_ARRIVE_WAIT_MS && !e.arrivalOnly)) {
         st.startedAt = new Date(arrived ? now() : e.at + HT_ARRIVE_WAIT_MS).toISOString(); st.startWhy = arrived ? `arrived at ${manualSw.spotName || e.spot}` : 'not there after 45 min — counting anyway';
         htStWrite(key, st);
         const m = `[hunt timer] ${arrived ? 'arrived' : 'still travelling'} — hunting ${e.hours} h at ${e.spot || 'the chosen spot'} (until ${new Date(Date.parse(st.startedAt) + e.hours * 3600000).toTimeString().slice(0, 5)})`;

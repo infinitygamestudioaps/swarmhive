@@ -1,0 +1,22 @@
+// CRYQUEUE-2026-10-15: Storage page -> clan warehouse -> "Take out and crystallize": not hard coded (any crafter / clan leader), owner order only
+const fs = require('fs'), path = require('path');
+const ROOT = path.resolve(__dirname, '..', '..', '..');
+const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8'), api = fs.readFileSync(path.join(ROOT, 'Dashboard', 'crafter_api.js'), 'utf8'), ui = fs.readFileSync(path.join(ROOT, 'Dashboard', 'storagepage.js'), 'utf8');
+let pass = 0, fail = 0; const ok = (c, m) => { if (c) pass++; else { fail++; console.log('  FAIL ' + m); } };
+const NAMES = /Crafter1|Dagger1|Tank1|Spoiler1/;
+ok(api.includes("else if (p === '/api/crafter/cwhcry') r = await cwhCryOrder(ctx, b);"), 'API route /api/crafter/cwhcry');
+const fn = api.slice(api.indexOf('async function cwhCryOrder'), api.indexOf('async function handleItems'));
+ok(/b\.confirm !== true/.test(fn) && /I\.crafters\.some\(c => c\.name === crafter\)/.test(fn), 'needs a confirm and a REAL crafter (any detected Dwarf crafter)');
+ok(/cwhOrder\(ctx, \{ crafter,/.test(fn), 'the clan leader take-out is the existing cwhOrder (whoever leads the clan)');
+ok(!NAMES.test(fn), 'no character names in the API code');
+const q = src.slice(src.indexOf('const CRYQ = {'), src.indexOf('/** !craft learn'));
+ok(/String\(o\.crafter \|\| ''\)\.toLowerCase\(\) === String\(Me\.Name\)\.toLowerCase\(\)/.test(q), 'the crafter named in the order acts (Me.Name), nobody else');
+ok(/48 \* 3600000/.test(q) && /num\(S\.fails\[k\]\) < 3/.test(q), 'orders end after 48 h; a piece that will not crystallize is given up after 3 tries');
+ok(/it\.IsEquiped/.test(q) && /num\(it\.EnchantLvl\) > 0/.test(q), 'never a worn piece; enchanted ones only when the order says so');
+ok(!NAMES.test(q), 'no character names in the swarm.js queue code');
+const u = ui.slice(ui.indexOf('async function cwhCry()'), ui.indexOf('async function cwhRun('));
+ok(/api\('\/api\/crafter'\)/.test(u) && /uiChoice\(/.test(u) && /danger: true/.test(u), 'the page asks which crafter (from the crafter list) and confirms in red');
+ok(!NAMES.test(u) && !/\balert\(|\bconfirm\(|\bprompt\(/.test(u), 'no names, no browser alerts');
+ok(ui.includes('data-cwhact="cry"') && ui.includes("if (a === 'cry') return cwhCry();"), 'the button + its handler');
+console.log(`cryqueue: ${pass} passed, ${fail} failed`);
+process.exit(fail ? 1 : 0);

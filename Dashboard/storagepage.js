@@ -224,8 +224,58 @@
     if (B) B.innerHTML = `<span class="muted">${n ? n + ' kind' + (n === 1 ? '' : 's') + ' ticked' : 'Tick what should come out.'}</span>
       <button type="button" class="go" data-cwhact="sell" ${n ? '' : 'disabled'}>Take out and sell</button>
       <button type="button" data-cwhact="take" ${n ? '' : 'disabled'}>Take out (${h((SP.info && SP.info.clanLeader) || 'clan leader')} keeps them)</button>
+      <button type="button" data-cwhact="give" ${n ? "" : "disabled"}>Take out and give to a crafter…</button>
+      <button type="button" class="danger" data-cwhact="cry" ${n ? '' : 'disabled'}>Take out and crystallize…</button>
       ${CWH_SELLALL.map(k => { const c = all.filter(r => r.cat === k).length, t = (CWH_CATS.find(([x]) => x === k) || [0, k])[1]; return c ? `<button type="button" class="go" data-cwhsellall="${k}">Sell all ${h(t)} (${c} kinds)</button>` : ''; }).join('')}
       ${SP.info && SP.info.clanWh && SP.info.clanWh.pending ? `<button type="button" data-cwhact="pending">Sell what is still in his bag (${SP.info.clanWh.pending} kinds)</button>` : ''}`;
+  }
+  // CRYQUEUE-2026-10-15 (owner: "under Storage select items I want crystallized"; never hard coded: the crafter is any Dwarf crafter the crafter page knows,
+  // the clan leader is whoever leads the clan): the clan leader takes the ticked kinds out and trades them to the crafter, the crafter crystallizes them
+  async function cwhPickCrafter(title, note) {   // CWHGIVE-2026-10-16: any crafter the crafter page knows (never hard coded)
+    let ci = null; try { ci = await api("/api/crafter"); } catch (e) { ci = null; }
+    const crafters = ((ci && ci.crafters) || []).filter(c => c && c.name);
+    if (!crafters.length) { await uiError("No crafter found: this needs a Dwarf (Artisan / Warsmith / Maestro) in one of your parties.", "No crafter"); return null; }
+    if (crafters.length === 1) return crafters[0].name;
+    return await uiChoice({ title, body: note ? [uiP(note)] : [], buttons: crafters.map((c, i) => ({ label: c.name + (c.cand ? " (" + c.cand.cls + " " + c.cand.level + ")" : ""), value: c.name, primary: i === 0 })) });
+  }
+  // CWHGIVE-2026-10-16 (owner: "click a button from the clan warehouse and send items to the crafters"): the clan leader takes the ticked kinds
+  // out and trades them to the chosen crafter (materials for crafting, gear to keep) - nothing is destroyed
+  async function cwhGive() {
+    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || "";
+    const chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length) return;
+    if (!CL) { await uiError("No clan leader is known - only the clan leader can take items out of the clan warehouse.", "Not possible"); return; }
+    const crafter = await cwhPickCrafter("Which crafter gets them?", "The clan leader takes them out and hands them over in town."); if (!crafter) return;
+    const byId = {}; chosen.forEach(r => { byId[r.id] = (byId[r.id] || 0) + r.count; });
+    const list = chosen.slice(0, 40).map(r => r.name + (r.count > 1 ? " x" + r.count : "")).concat(chosen.length > 40 ? ["... and " + (chosen.length - 40) + " more"] : []);
+    const body = [uiP(uiEm(CL), " takes these out of the clan warehouse and trades them to ", uiEm(crafter), ":"), uiList(list), uiNote(CL === crafter ? "He is the crafter himself: the items simply stay in his bag." : "Both must be in the same town; he stops what he is doing for this (a raid, Kamaloka or mission must end first). Nothing is crystallized or sold.")];
+    if (!(await uiConfirm({ title: "Give " + chosen.length + " kind" + (chosen.length === 1 ? "" : "s") + " to " + crafter + "?", body, confirmText: "Give them", cancelText: "Cancel" }))) return;
+    let d = null; try { d = await api("/api/crafter/cwh", { method: "POST", body: JSON.stringify({ crafter, items: Object.keys(byId).map(id => ({ id: Number(id), count: byId[id] })), confirm: true }) }); } catch (e) { d = { error: e.message }; }
+    if (!d || !d.ok) { await uiError((d && d.error) || "no answer (the dashboard server may need a restart)", "Not sent"); return; }
+    flash(CL + " takes " + chosen.length + " kind" + (chosen.length === 1 ? "" : "s") + " out for " + crafter + " - see \"What they do\"."); SP.cwhSel = new Set(); renderCwhList();
+  }
+  async function cwhCry() {
+    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || '';
+    const chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length) return;
+    if (!CL) { await uiError('No clan leader is known - only the clan leader can take items out of the clan warehouse.', 'Not possible'); return; }
+    let ci = null; try { ci = await api('/api/crafter'); } catch (e) { ci = null; }
+    const crafters = ((ci && ci.crafters) || []).filter(c => c && c.name);
+    if (!crafters.length) { await uiError('No crafter found: crystallizing needs a Dwarf (Artisan / Warsmith / Maestro) with the Crystallize skill in one of your parties.', 'No crafter'); return; }
+    let crafter = crafters[0].name;
+    if (crafters.length > 1) {
+      crafter = await uiChoice({ title: 'Which crafter crystallizes them?', body: [uiP('The crafter needs the Crystallize skill for the grade (see the crafter card on this page).')],
+        buttons: crafters.map((c, i) => ({ label: c.name + (c.cand ? ' (' + c.cand.cls + ' ' + c.cand.level + ')' : ''), value: c.name, primary: i === 0 })) });
+      if (!crafter) return;
+    }
+    const byId = {}, names = {}; chosen.forEach(r => { byId[r.id] = (byId[r.id] || 0) + r.count; names[r.id] = String(r.name || '').replace(/^\+\d+ /, ''); });
+    const ench = chosen.filter(r => Number(r.enchant) > 0);
+    const list = chosen.slice(0, 40).map(r => r.name + (r.count > 1 ? ' x' + r.count : '')).concat(chosen.length > 40 ? ['... and ' + (chosen.length - 40) + ' more'] : []);
+    const body = [uiP(uiEm(CL), ' takes these out of the clan warehouse and trades them to ', uiEm(crafter), ', who then CRYSTALLIZES them (the items are destroyed, crystals come out):'), uiList(list)];
+    if (ench.length) body.push(uiWarn(ench.length + ' of them are enchanted - they are crystallized too.'));
+    body.push(uiNote(crafter + ' crystallizes them once they are in its bag and it is not fighting / trading. Items above its Crystallize grade stay in its bag. The order ends after 2 days.'));
+    if (!(await uiConfirm({ title: 'Take out and crystallize ' + chosen.length + ' kind' + (chosen.length === 1 ? '' : 's') + '?', body, danger: true, typeToConfirm: ench.length ? 'YES' : '', confirmText: 'Crystallize them', cancelText: 'Cancel' }))) return;
+    let d = null; try { d = await api('/api/crafter/cwhcry', { method: 'POST', body: JSON.stringify({ crafter, items: Object.keys(byId).map(id => ({ id: Number(id), count: byId[id], name: names[id] })), enchanted: ench.length > 0, confirm: true }) }); } catch (e) { d = { error: e.message }; }
+    if (!d || !d.ok) { await uiError((d && d.error) || 'no answer (the dashboard server may need a restart)', 'Not sent'); return; }
+    flash(CL + ' takes ' + chosen.length + ' kind' + (chosen.length === 1 ? '' : 's') + ' out for ' + crafter + ', who crystallizes them - see "What they do".'); SP.cwhSel = new Set(); renderCwhList();
   }
   async function cwhRun(sell) {
     const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || '';
@@ -377,6 +427,8 @@
       if (a === 'all') { cwhRows().forEach(r => SP.cwhSel.add(cwhKey(r))); renderCwhList(); return; }
       if (a === 'none') { SP.cwhSel.clear(); renderCwhList(); return; }
       if (a === 'sell' || a === 'take') return cwhRun(a === 'sell');
+      if (a === 'give') return cwhGive();   // CWHGIVE-2026-10-16
+      if (a === 'cry') return cwhCry();   // CRYQUEUE-2026-10-15
       if (a === 'pending') { const CL = (SP.info && SP.info.clanLeader) || ''; if (!CL) return; if (!(await uiConfirm({ title: 'Sell what is still in his bag?', body: [uiP(uiEm(CL), ' goes to Giran and sells the pieces an earlier take-out left in his bag (nothing else). Then he goes back to what he was doing.')], confirmText: 'Sell them', cancelText: 'Cancel' }))) return; if (await send('!whsell pending', CL)) flash(`${CL}: selling what is still in his bag — sent.`); return; }   // WHSELL-FIX
       return;
     }

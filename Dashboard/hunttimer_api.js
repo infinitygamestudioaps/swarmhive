@@ -49,6 +49,8 @@ function applyChange(data, b, nowMs, idFn) {
     if (!isFinite(h) || h < 0.25 || h > 48) return { ok: false, error: 'hours: 0.25 to 48 (no timer = act clear)' };
     const endAction = ACTIONS.includes(b.endAction) ? b.endAction : 'town';
     J.parties[party] = { id: id(), hours: Math.round(h * 100) / 100, endAction, from: b.from === 'now' ? 'now' : 'arrival', at: iso, endNow: null, spot: String(b.spot || '').slice(0, 120), by: String(b.by || 'dashboard').slice(0, 40) };
+    if (b.arrivalOnly === true) J.parties[party].arrivalOnly = true;   // HTREPEAT-2026-10-15: the clock starts only on arrival at this spot (no 45-min fallback)
+    if (b.repeat === true) J.parties[party].repeat = true;             // HTREPEAT-2026-10-15: after the end action, the next arrival starts a new run
     return { ok: true, data: J, entry: J.parties[party] };
   }
   if (!cur || typeof cur !== 'object') return { ok: false, error: 'this party has no hunting timer' };

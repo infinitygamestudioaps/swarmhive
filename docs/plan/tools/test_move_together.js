@@ -435,7 +435,7 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
   // ------------------------------------------------------------------------------------------------ 3) source checks
   console.log('3) source checks');
   ok(/if \(mtOn\(\) && teamNames\(\)\.length && pts && pts\.length\) return await mtLeadRouteWalk/.test(SRC), 'leadRouteWalk = the move-together walk when the party rule is on');
-  ok(/MOVETOGETHER-2026-10-13: the wall-aware route as ONE waypoint list[\s\S]{0,900}await leadRouteWalk\(pts/.test(SRC), 'leadTeamWalk (landing -> spot, raid stage walks) walks the planned route as one waypoint list');
+  ok(/MOVETOGETHER-2026-10-13: the wall-aware route as ONE waypoint list[\s\S]{0,2200}await leadRouteWalk\(pts/.test(SRC), 'leadTeamWalk (landing -> spot, raid stage walks) walks the planned route as one waypoint list');
   ok(/async function navAtlasWalk[\s\S]{0,200}return await leadRouteWalk\(/.test(SRC) && /async function rsWalkPoints[\s\S]{0,400}return await leadRouteWalk\(/.test(SRC) && /return await leadRouteWalk\(r\.points, boss\.name/.test(SRC), 'atlas routes (ROUTESM), custom trips and own raid routes all go through leadRouteWalk');
   ok(/moveTogether: true[,}]/.test(SRC.slice(SRC.indexOf('const RSM_RULES'), SRC.indexOf('const RSM_RULES') + 400)), 'swarm.js RSM_RULES: moveTogether default ON');
   // STEP 2: the number rules (swarm.js rsmRules / mtCfg, the dashboard API, route_rules.json)

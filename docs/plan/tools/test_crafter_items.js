@@ -174,12 +174,14 @@ const row = (o) => Object.assign({ objId: 1, id: 2499, name: 'Elven Long Sword',
 // ---- 10. source checks: nothing by itself
 { const host = cut('const CRY = { busy: false', '/** !whtake <id>[:count],<id>[:count] [private|clan] [name] */');
   const calls = (re) => [...src.matchAll(re)].length;
-  check(calls(/\bcryRun\(/g) === 2 && /function cryCommand[\s\S]*?cryRun\(p\)/.test(host), 'cryRun is called from exactly one place: the "!crystallize" order (cryCommand)');
+  // CRYQUEUE-2026-10-15: the second caller is the owner's Storage-page order (crystallize_queue.json, written only by /api/crafter/cwhcry after a red confirm)
+  check(calls(/\bcryRun\(/g) === 3 && /function cryCommand[\s\S]*?cryRun\(p\)/.test(host) && /function cryQueueMine\(\)[\s\S]*?cryRun\(\{ name: Me\.Name, ids,/.test(host), 'cryRun is called only by the owner\'s orders: "!crystallize" (cryCommand) and the Storage page queue (CRYQUEUE)');
   check(calls(/\bcryCommand\(/g) === 2 && /case '!crystallize': \{[^}]*cryCommand\(parts\)/.test(src), 'cryCommand is called only by the "!crystallize" case of the command switch');
   check(calls(/cryHex\(/g) === 2 && calls(/Send\.ReqCrystallizeItem\(objId\);/g) === 1, 'the crystallize packet is built in one place (inside cryRun); the host helper once as its fallback');
   check(calls(/\brcpLearn\(/g) === 2 && /a === 'learn'\) \{[^\n]*rcpLearn\(sc\)/.test(src), 'rcpLearn (uses a recipe) only from "!craft learn"');
   const iv = [...host.matchAll(/setInterval\(\(\) => \{([\s\S]*?)\n\}, (\d+)\);/g)];
-  check(iv.length === 2 && iv.every(m => !/cryRun|rcpLearn|UseItem|SendHex/.test(m[1])), 'the two timers of the block only write the bag report / pick up parked hand-ins — no crystallize, no learn');
+  const ivq = iv.filter(m => !/cryQueueMine\(\)/.test(m[1]));
+  check(iv.length === 3 && ivq.length === 2 && ivq.every(m => !/cryRun|rcpLearn|UseItem|SendHex/.test(m[1])), 'the timers of the block only write the bag report / pick up parked hand-ins; the one queue timer crystallizes only what the owner queued');
   check(/crinGiver\(o, true\)/.test(host) && /if \(o\.sameTown\) \{ crinGiver\(o, false\)/.test(src), 'a parked hand-in is only ever an order the owner sent ("!handover <id>" with sameTown)');
   check(/function craftBusyWhy\(\) \{\n  if \(CRY\.busy\) return 'crystallizing';/.test(src), 'never crafting while crystallizing');
   check(/crinPendStop\(id\)/.test(cut('function hovCommand(parts) {', '// --- CLAN LEVEL ITEM TO THE CLAN LEADER')), '"!handover stop" also ends a parked hand-in');
