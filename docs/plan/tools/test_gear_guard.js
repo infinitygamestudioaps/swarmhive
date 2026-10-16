@@ -67,7 +67,7 @@ if (M.ammoFor) {
   check(/arrows: \d+, arrowsBelow: \d+/.test(src), 'CONFIG.lead.supply.arrows / arrowsBelow');
   const ho = src.slice(src.indexOf('// 3. hand out: one trade per member'), src.indexOf('// 3b. ENCHANTING'));
   check(/myAmmo\(\)/.test(ho) && /arrowsBelow/.test(ho), 'hand-out: the leader keeps his own arrows');
-  const ul = src.slice(src.indexOf('function unloadItems('), src.indexOf('async function leadUnload('));
+  const ul = src.slice(src.indexOf('// UNLOADGATE-PURE-BEGIN'), src.indexOf('async function leadUnload('));   // UNLOADGATE-2026-10-16: the keep list moved into the pure block above unloadItems
   check(/Arrow\|Bolt/.test(ul), 'unload: arrows / bolts are never given away as spare loot');
 }
 // ---- SHOPLIST (2026-10-13: "Common Item - Brigandine Helmet: not in Radia's list any more" x172 since the brain engine went live) ----

@@ -98,6 +98,15 @@ foreach ($a in 'Start','Stop','Restart','MemWatch') {
   }
   "task 'L2Swarm $a' registered for $user"
 }
+# Dashboard keep-alive (2026-10-16): after a reboot MemWatch restarted L2Swarm but nothing restarted Dashboardserver.js (+ the brain host
+# that runs swarm.js for the brain-hosted characters). "L2Swarm Dashboard" runs dashboard_keepalive.ps1 as the user, NOT elevated,
+# at logon and every 3 min; it only starts node server.js when the dashboard port does not answer.
+$prnLow = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited
+$actD   = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument "`"$PSScriptRootun_hidden_ps.vbs`" dashboard_keepalive.ps1"
+$trgD1  = New-ScheduledTaskTrigger -AtLogOn -User $user; $trgD1.Delay = 'PT1M'
+$trgD2  = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes 3)
+Register-ScheduledTask -TaskName 'L2Swarm Dashboard' -Action $actD -Trigger @($trgD1, $trgD2) -Principal $prnLow -Settings $cfg -Force | Out-Null
+"task 'L2Swarm Dashboard' registered for $user (dashboard keep-alive, not elevated)"
 
 # ---------- verify ----------
 "--- verify"

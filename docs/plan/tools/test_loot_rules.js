@@ -89,7 +89,7 @@ check(S.lootOrderScope('loot_spoiler6_abc') === 'loot' && S.lootOrderScope('lett
 
 // ---- 3) swarm.js host part, stubbed (the Spoiler6 replay)
 const HOST = blk(src, 'var LOOTR = { j: null', "App.on('swarm.hovcall'");
-const UNLOAD = blk(src, 'function unloadItems() {', '/** Give the spare loot');
+const UNLOAD = blk(src, '// UNLOADGATE-PURE-BEGIN', '/** Give the spare loot');   // UNLOADGATE-2026-10-16: + the keep list (unloadKeepWhy) above unloadItems
 function host(o) {
   const logs = [], notes = [];
   const bag = o.bag.map(b => ({ Id: b.id, objId: b.objId, Name: b.name, Count: b.count || 1, IsEquiped: !!b.eq, IsQuestItem: false, EnchantLvl: b.enchant || 0, IsStackable: !!b.stack, Type: b.type || '' }));

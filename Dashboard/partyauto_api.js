@@ -23,6 +23,9 @@ const KINDS = [
     help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
   { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs',
     help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' },
+  // UNLOADGATE-2026-10-16 (player Vykaax: the leader traded his bag to a follower by itself): default OFF
+  { key: 'unload', char: false, label: 'Leader gives spare loot to a teammate when his bag is full',
+    help: 'In a supply run, when the leader carries more than 150 kinds of items, he trades what he does not use (materials, spare gear, life stones ...) to the teammate with the most free bag slots. Never potions, shots, scrolls, arrows, event letters or items marked for selling.' },
   // HIVESW-2026-10-15 (player Vykaax: let my own L2Swarm profile fight + heal, Hive keeps pathing / resupply / dashboard): group 'combat' = the party
   // settings popup's Combat section (not Supplies); def: true = ON when nothing is set (today's autopilot for everyone who never touches them)
   { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills',

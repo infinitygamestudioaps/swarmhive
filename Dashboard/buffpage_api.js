@@ -119,7 +119,7 @@ function info(ctx) {
         [].concat(ps.party, ps.target).forEach(s => { offers.push({ by: m.name, ab: s.ab, abLvl: s.abLvl, mlvl: s.mlvl, who: s.who }); abName[m.name + '|' + s.ab] = s.name; });
       }
       return Object.assign({}, m, { buffer, skills, known, entry, approved: !!(entry && entry.approved), status: buffer ? eff.status : '', why: eff.why, warnings: eff.warnings || [],
-        plan: eff.plan, runs: buffer ? runs : '', suggestion: BL.bpSuggest(skills, GR), remove: BL.bpRemoveList(entry), noBuffs: !!(entry && entry.noBuffs), noSongs: !!(entry && entry.noSongs),
+        plan: eff.plan, runs: buffer ? runs : '', suggestion: BL.bpSuggest(skills, GR), remove: BL.bpRemoveList(entry), noBuffs: !!(entry && entry.noBuffs), noSongs: !!(entry && entry.noSongs), attackSkills: entry && typeof entry.attackSkills === 'boolean' ? entry.attackSkills : null, attackDefault: !/^(doomcryer|warcryer|buffer)$/.test(String(m.role || '')),   // SKILLSANE-2026-10-16 (swarm.js SKSANE.casterBuffer)
         slots: m.report && m.report.slots ? m.report.slots : null, skipped: (m.report && m.report.skipped) || [] });
     });
     // the interleaved song / dance cycle of this party (kind = the majority of the character's rotation skills)
@@ -206,9 +206,10 @@ function post(ctx, b) {
       const C = chars(data);
       const old = C[name] || {};
       C[name] = Object.assign(entry, { approved: approve, savedAt: isoNow() });
-      ['remove', 'noSongs', 'noBuffs', 'summon'].forEach(k => { if (old[k] !== undefined) C[name][k] = old[k]; });   // the switches + never-keep list stay
+      ['remove', 'noSongs', 'noBuffs', 'summon', 'attackSkills'].forEach(k => { if (old[k] !== undefined) C[name][k] = old[k]; });   // the switches + never-keep list stay
       if (typeof b.noSongs === 'boolean') { if (b.noSongs) C[name].noSongs = true; else delete C[name].noSongs; }
       if (typeof b.noBuffs === 'boolean') { if (b.noBuffs) C[name].noBuffs = true; else delete C[name].noBuffs; }
+      if (typeof b.attackSkills === 'boolean') C[name].attackSkills = b.attackSkills;   // SKILLSANE-2026-10-16
       if (approve) Object.assign(C[name], { approvedBy: by, approvedAt: isoNow() });
       return { name, entry: C[name], warnings: v.warnings, log: `${leader}/${name} ${entry.buffs.length} buffs, ${entry.rotation.length} songs/dances ${approve ? 'APPROVED by ' + by : 'not approved'}` };
     });
@@ -232,7 +233,7 @@ function post(ctx, b) {
   if (a === 'clear') {
     if (!names.length) return bad(400, 'names missing');
     return write(ctx, b, 'clear', (data) => {
-      const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { const keep = {}; ['remove', 'noSongs', 'noBuffs'].forEach(k => { if (C[n][k] !== undefined) keep[k] = C[n][k]; }); if (Object.keys(keep).length) C[n] = keep; else delete C[n]; });   // the never-keep list + switches are not the plan
+      const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { const keep = {}; ['remove', 'noSongs', 'noBuffs', 'attackSkills'].forEach(k => { if (C[n][k] !== undefined) keep[k] = C[n][k]; }); if (Object.keys(keep).length) C[n] = keep; else delete C[n]; });   // the never-keep list + switches are not the plan
       if (!Object.keys(C).length && typeof data.parties[leader].boardBuffs !== 'boolean') delete data.parties[leader];
       return { names: done, log: `${leader}: removed ${done.join(',')}` };
     });
@@ -260,12 +261,16 @@ function post(ctx, b) {
   if (a === 'switches') {   // MR.P 2026-10-10: { name, noBuffs, noSongs } per character, or { noSongs } for the whole party (no name)
     const m = memberCtx(ctx, leader, names[0]); if (m.err) return m.err;
     const sw = {}; ['noBuffs', 'noSongs'].forEach(k => { if (typeof b[k] === 'boolean') sw[k] = b[k]; });
-    if (!Object.keys(sw).length) return bad(400, 'noBuffs / noSongs must be true or false');
-    if (!names[0] && sw.noBuffs !== undefined) return bad(400, 'buffing off is per character (give a name)');
+    // SKILLSANE-2026-10-16: attackSkills true (attacks with its own skills) | false (never) | null (the role default: caster buffers no, the rest yes)
+    const atk = Object.prototype.hasOwnProperty.call(b, 'attackSkills') ? b.attackSkills : undefined;
+    if (atk !== undefined && atk !== null && typeof atk !== 'boolean') return bad(400, 'attackSkills must be true, false or null');
+    if (!Object.keys(sw).length && atk === undefined) return bad(400, 'noBuffs / noSongs must be true or false');
+    if (!names[0] && (sw.noBuffs !== undefined || atk !== undefined)) return bad(400, 'buffing off / attack skills are per character (give a name)');
     return write(ctx, b, 'switches', (data) => {
       data.parties[leader] = data.parties[leader] || { chars: {} };
       const node = names[0] ? (chars(data)[names[0]] = chars(data)[names[0]] || {}) : data.parties[leader];
       Object.keys(sw).forEach(k => { if (sw[k]) node[k] = true; else delete node[k]; });
+      if (atk !== undefined) { if (atk === null) delete node.attackSkills; else node.attackSkills = atk; sw.attackSkills = atk; }
       return { name: names[0] || null, switches: sw, log: `${leader}${names[0] ? '/' + names[0] : ' (party)'} ${JSON.stringify(sw)}` };
     });
   }

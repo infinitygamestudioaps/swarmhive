@@ -99,7 +99,7 @@ What SETUP does:
   item/skill/class tables from this L2Swarm's `Data\icons.db`, `Data\base.db` and `Maps\` when `Dashboard\icons` is missing
   (`SETUP.cmd -Images` regenerates them; the package ships no game art)
 - no L2Swarm patch is needed (use L2Swarm 3.8.14 or newer)
-- registers the scheduled tasks **L2Swarm Start / Stop / Restart / MemWatch** for this folder (they let the dashboard and any
+- registers the scheduled tasks **L2Swarm Start / Stop / Restart / MemWatch / Dashboard** for this folder (Dashboard = `dashboard_keepalive.ps1`, not elevated: starts `Dashboardserver.js` + the brain host at logon and whenever the dashboard port stops answering, e.g. after a reboot) (they let the dashboard and any
   shell start/stop the admin-only L2Swarm without a UAC prompt; MemWatch restarts L2Swarm when it uses too much memory)
 
 ## 5. Start

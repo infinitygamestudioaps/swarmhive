@@ -2,6 +2,23 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.7 (2026-10-16)
+
+- Kamael soldiers no longer auto-equip a bow: a Kamael never gets a plain bow, a crossbow only on the Warder line, and a melee role puts a melee weapon back on before any bow (all races)
+- the weapon you wore last always comes first
+- Raid bosses behind a wall (e.g. Archon Suscepter): the team no longer stops on the wrong side when the boss is close in a straight line but far on foot - it walks the real route to the fight area before the countdown
+- Dashboard keep-alive: SETUP registers the task L2Swarm Dashboard (not elevated), which starts the dashboard and the brain host again after a reboot or crash
+
+## v1.7.6 (2026-10-16)
+
+- Hive picks my skills OFF now really hands following to your own L2Swarm profile: the dungeon / stacked-floor guard and the 1.7.4 assist no longer untick Follow After, the hive no longer fights alongside your profile, and a follower up to 8000 away gets follow back by itself (was 3000). Routes, teleports, trades and raids still borrow follow briefly and give it back
+- Supply run: the leader no longer trades his spare loot to a follower by himself. Unloading when his bag is full is now a party switch (party Settings - Supplies), OFF unless you tick it, and it never gives away potions, shots, scrolls, arrows, adena, letters or anything marked for selling
+- Skills: the hive never casts Stealth, Soul Stealth, Hide, Silent Move or Fake Death
+- buffers (Prophet, Warcryer, Doomcryer...) no longer attack with Wind Strike, Mana Burn or Steal Essence unless you tick Attacks with its own skills in their buff plan
+- self buffs on a never keep list or with Buffing OFF are not cast
+- Servers without free .town: set townCommands false in swarm.config.json and the hive uses gatekeepers only
+- it also falls back to gatekeepers by itself when the server answers .town as an unknown command
+
 ## v1.7.5 (2026-10-16)
 
 - Hunting: moving between areas of a hunting ground no longer uses the slow trip walk that stopped the whole team at every monster - the leader walks, the team follows and fights what comes (1.7.4 parties barely hunted, the leader walked alone)

@@ -221,7 +221,7 @@
     const rot = [];
     L().bpRotEntries(src.rotation).forEach(r => rot.push({ name: r.name, on: true, keepAlways: r.keepAlways, known: songs.some(s => L().bpNorm(s.name) === L().bpNorm(r.name)) }));
     songs.forEach(s => { if (!rot.some(r => L().bpNorm(r.name) === L().bpNorm(s.name))) rot.push({ name: s.name, on: false, keepAlways: false, known: true }); });
-    BP.ed = { name, leader: p.leader, rows, rot, members: p.members.map(x => x.name), fromSugg: !!useSugg || !hasPlan(m.entry), approved: m.approved, m, noSongs: !!m.noSongs, noBuffs: !!m.noBuffs };
+    BP.ed = { name, leader: p.leader, rows, rot, members: p.members.map(x => x.name), fromSugg: !!useSugg || !hasPlan(m.entry), approved: m.approved, m, noSongs: !!m.noSongs, noBuffs: !!m.noBuffs, attackSkills: typeof m.attackSkills === 'boolean' ? m.attackSkills : m.attackDefault !== false };
     renderEditor();
     $id('bpSheet').hidden = false; document.documentElement.classList.add('cpl-modal');
   }
@@ -239,7 +239,8 @@
       ${E.fromSugg ? '<div class="muted cpl-suggline">Pre-filled from the suggestion (the buffer\'s own skills). Nothing is saved until you tap Save.</div>' : ''}
       ${!m.known ? '<div class="cpl-msg bad">No skill report from this character yet (log in once with the kit): type the skill names below.</div>' : ''}
       <div class="bpl-sw"><label><input type="checkbox" data-bpsw="noBuffs" ${E.noBuffs ? 'checked' : ''}> <b>Buffing OFF</b> <span class="muted">— ${h(E.name)} casts nothing (no plan, no suggestion)</span></label>
-        <label><input type="checkbox" data-bpsw="noSongs" ${E.noSongs ? 'checked' : ''}> <b>No songs / dances</b> <span class="muted">— the rest of the plan runs</span></label></div>
+        <label><input type="checkbox" data-bpsw="noSongs" ${E.noSongs ? 'checked' : ''}> <b>No songs / dances</b> <span class="muted">— the rest of the plan runs</span></label>
+        <label><input type="checkbox" data-bpsw="attackSkills" ${E.attackSkills ? 'checked' : ''}> <b>Attacks with its own skills</b> <span class="muted">— ${m.attackDefault === false ? 'off by default for buffers (no Wind Strike / Mana Burn / Steal Essence)' : 'its attack skills (off = it only buffs / hits with its weapon)'}</span></label></div>
       <h4>Buffs (top = first)</h4>
       <div class="bpl-list">${E.rows.map((r, i) => `<div class="bpl-row ${r.keep ? 'on' : 'off'}">
           <label class="bpl-k"><input type="checkbox" data-bpkeep="${i}" ${r.keep ? 'checked' : ''}> <b>${h(r.skill)}</b></label>
@@ -298,7 +299,7 @@
   function editorEntry() {
     const E = BP.ed;
     return { buffs: E.rows.filter(r => r.keep).map((r, i) => Object.assign({ skill: r.skill, targets: r.kind === 'party' ? ['party'] : (r.targets && r.targets.length ? r.targets.slice() : ['party']), priority: i + 1, keep: true }, r.id ? { id: r.id } : {})),
-      rotation: E.rot.filter(r => r.on).map(r => r.keepAlways ? { skill: r.name, keepAlways: true } : r.name), noSongs: !!E.noSongs, noBuffs: !!E.noBuffs };
+      rotation: E.rot.filter(r => r.on).map(r => r.keepAlways ? { skill: r.name, keepAlways: true } : r.name), noSongs: !!E.noSongs, noBuffs: !!E.noBuffs, attackSkills: !!E.attackSkills };
   }
   function approveDialog(name, leader, entry, board) {
     const items = (entry.buffs || []).map(b => [uiEm(b.skill), ' → ', (b.targets || ['party']).map(t => TARGET_TXT[t] || t).join(', ')]);

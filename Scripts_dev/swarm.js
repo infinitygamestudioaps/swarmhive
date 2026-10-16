@@ -807,6 +807,7 @@ const SWARM_CFG = (() => { try { return JSON.parse(File.ReadAllText(SWARM_ROOT +
 if (SWARM_CFG) {
   try {
     if (SWARM_CFG.mainLeader) CONFIG.leader = String(SWARM_CFG.mainLeader);
+    if (SWARM_CFG.townCommands === false) CONFIG.town.enabled = false;   // TOWNCFG-2026-10-16 (Roketta: "no free .town on my server"): gatekeepers only
     (SWARM_CFG.accounts || []).forEach(a => {
       if (!a || !a.character || a.enabled === false || !a.role) return;
       CONFIG.roster[a.character] = String(a.role);
@@ -1568,6 +1569,47 @@ function dfSelfBuffSkip(info, ctx) {
   if (o.town) return 'in a town / peace zone';
   return '';
 }
+// SKILLSANE-PURE-BEGIN (2026-10-16, Mr.P: "my dagger buffs Stealth all the time, the Prophet uses Wind Strike / Mana Burn on lvl 80 mobs, the WC
+// does Steal Essence - those are not in the Buffs / skills section"; pure: docs/plan/tools/test_skill_sanity.js runs this block in node).
+// ROOT CAUSE: buildSkillPlan took EVERY learned self buff with a duration (Stealth 411 = SilentMove effect: monsters ignore you, pointless in a
+// hunt, recast every 2 min) and EVERY enemy skill with "Power" in its text for EVERY role - caster buffers (Prophet, Warcryer, Doomcryer ...)
+// nuked with their starter Wind Strike, Mana Burn (MP burn, no rotation skill) and Steal Essence. The player's own lists were not asked.
+// Rules (data, no names of characters):
+//  - stealth-type self buffs (abnormal STEALTH / HIDE / SILENT_MOVE / FAKE_DEATH, or those names) are never auto-cast;
+//  - a self buff on the character's "never keep" list (Buffs page) or with buffing switched OFF there is not cast;
+//  - caster BUFFERS do not attack with skills unless the Buffs page switch "Attacks with its own skills" (buff_plans.json chars.<Name>.attackSkills)
+//    is ticked; any other role may switch it off the same way (attackSkills: false);
+//  - utility "attacks" (Mana Burn: burns MP, no damage rotation) never by themselves; the switch allows them.
+const SKSANE = {
+  stealthAb: /^(STEALTH|HIDE|SILENT_MOVE|FAKE_DEATH)$/,
+  stealthName: /^(Stealth|Soul Stealth|Hide|Silent Move|Fake Death)$/i,
+  utilityAttack: /^(Mana Burn)$/i,
+  casterBuffer: /^(doomcryer|warcryer|buffer)$/,   // meleebuffer (Swordsinger / Bladedancer) fights with its weapon skills
+};
+/** a self buff of the plan the hive must NOT cast: reason, '' = fine. entry = my buff_plans.json entry (or null) */
+function skSelfBuffSkip(info, entry) {
+  const ab = String((info && (info.abType || info.ab)) || '').toUpperCase(), nm = String((info && info.name) || '').trim();
+  if (SKSANE.stealthAb.test(ab) || SKSANE.stealthName.test(nm)) return 'stealth / hide: breaks on the first hit, never by itself';
+  const e = entry || {};
+  if (e.noBuffs) return 'buffing switched OFF for this character (Buffs page)';
+  const rm = (Array.isArray(e.remove) ? e.remove : []).map(x => String(x || '').trim().toLowerCase()).filter(Boolean);
+  if (rm.includes(nm.toLowerCase()) || (ab && rm.includes(ab.toLowerCase()))) return 'on its never-keep list (Buffs page)';
+  return '';
+}
+/** may my role attack with skills at all? role = state.role token, entry = my buff_plans.json entry. true / false */
+function skAttacksAllowed(role, entry) {
+  const e = entry || {};
+  if (e.attackSkills === true) return true;
+  if (e.attackSkills === false) return false;
+  return !SKSANE.casterBuffer.test(String(role || ''));
+}
+/** the attack list the hive may use (attacks = buildSkillPlan entries { name }) */
+function skFilterAttacks(attacks, role, entry) {
+  if (!skAttacksAllowed(role, entry)) return [];
+  const ok = !!(entry && entry.attackSkills === true);
+  return (attacks || []).filter(a => ok || !SKSANE.utilityAttack.test(String((a && a.name) || '').trim()));
+}
+// SKILLSANE-PURE-END
 // is the song / dance of a cycle step still up long enough on most of the gathered party? (then the step is skipped, D6)
 //  members: [{ me, dist, dead, known, buffs: { TYPE: { remain } } }], timeSec = the skill's duration
 function dfStepStillUp(ab, members, timeSec, cfg) {
@@ -3521,7 +3563,7 @@ function myWeaponId() { try { const w = (myGear().eq.weapon || [])[0]; return w 
 function buildSkillPlan() {
   const a = CONFIG.autoSkills;
   const plan = { key: '', attacks: [], selfBuffs: [], toggles: [], lock: null };
-  const keys = ['w' + myWeaponId()];
+  const keys = ['w' + myWeaponId(), skPlanKeyTok()];   // SKILLSANE: the Buffs page attack switch rebuilds the plan
   const cpRows = casterRows(num(Me.ClassId)), cpIx = cpRows ? cpIndex(cpRows) : null;   // CASTPRIO: my class line's attack skills (caster_primary.json)
   SkillsList.forEach(s => {
     keys.push(`${s.Id}.${s.Level}`);
@@ -3536,7 +3578,7 @@ function buildSkillPlan() {
 
     if (s.IsToggle) { if (a.toggles.includes(name)) plan.toggles.push(info); return; }
     if (target === 'SELF') {
-      if (time > 0 && abnormal && !s.IsDebuff) plan.selfBuffs.push(info);
+      if (time > 0 && abnormal && !s.IsDebuff && !skSelfBuffSkip(info, null)) plan.selfBuffs.push(info);   // SKILLSANE: never Stealth / Hide
       return;
     }
     const enemy = target === 'ENEMY' || target === 'ENEMY_ONLY' || target === '';
@@ -3559,7 +3601,7 @@ function buildSkillPlan() {
   // strongest first: physical before magic for the kamaels, then by the power in the skill text (MP cost as tiebreak / when no text)
   // CASTER PRIMARY (user 2026-10-09 10:10 / 10:15, CASTPRIO block): a caster class line's newest primary nuke first (Dark Wizard: Twister,
   // Spellhowler: Hurricane), then its older primaries, its AoE, its fallbacks — from caster_primary.json; other classes: power, then MP.
-  plan.attacks = casterOrder(plan.attacks, cpRows, MELEE_ONLY.test(state.role || '') || state.role === 'inspector');
+  plan.attacks = casterOrder(skFilterAttacks(plan.attacks, state.role || '', myBuffEntry()), cpRows, MELEE_ONLY.test(state.role || '') || state.role === 'inspector');   // SKILLSANE: caster buffers no nukes unless ticked
   plan.key = keys.sort().join(',');
   return plan;
 }
@@ -3793,11 +3835,14 @@ async function teamSurrenderStep(T, worth) {
   await sleep(Math.max(num(k.HitTime), 500) + 250);
   return true;
 }
+/** SKILLSANE: my buff_plans.json entry (Buffs page) or null */
+function myBuffEntry() { try { return bpEntry(buffPlansFile(), teamOf(Me.Name), Me.Name); } catch (e) { return null; } }
+function skPlanKeyTok() { const e = myBuffEntry(); return 'atk' + (e && e.attackSkills === true ? '1' : e && e.attackSkills === false ? '0' : '') + (state.role || ''); }
 function currentSkillPlan() {
   let cnt = -1; try { cnt = num(SkillsList.Count); } catch (e) { }
   if (skillPlan.key && cnt === planKeyChk.cnt && now() - planKeyChk.at < 3000) return skillPlan;
   planKeyChk.at = now(); planKeyChk.cnt = cnt;
-  const keys = ['w' + myWeaponId()];
+  const keys = ['w' + myWeaponId(), skPlanKeyTok()];   // SKILLSANE: the Buffs page attack switch rebuilds the plan
   (hostSnap.skills() || SkillsList).forEach(s => keys.push(`${s.Id}.${s.Level}`));
   const key = keys.sort().join(',');
   if (key !== skillPlan.key) {
@@ -4801,9 +4846,9 @@ async function autoSkillTick() {
   const hasServerBuffs = !rkSelfBuffsAllowed(boardOn(), needsBuff());   // BOARD BUFFS OPTIONAL: without board buffs self buffs are always allowed
   // toggles: ONLY the keeper switches them (on in fights, off in towns / after the fight — user 2026-10-08 21:25); casting one here could
   // switch a running toggle off or on again outside a fight
-  const sbCtx = dfZoneNow(), sbUpkeep = !!BUFFUP.mode;                  // D6/D7 (2026-10-12): see DISCORDFIX-PURE
+  const sbCtx = dfZoneNow(), sbUpkeep = !!BUFFUP.mode, sbEntry = myBuffEntry();                  // D6/D7 (2026-10-12): see DISCORDFIX-PURE
   for (const b of hasServerBuffs ? [] : plan.selfBuffs) {
-    if (dfSelfBuffSkip(b, { town: sbCtx.town, upkeep: sbUpkeep })) continue;   // songs / dances = the cycle, party buffs = the upkeep, nothing in towns
+    if (dfSelfBuffSkip(b, { town: sbCtx.town, upkeep: sbUpkeep }) || skSelfBuffSkip(b, sbEntry)) continue;   // SKILLSANE: never-keep list / buffing OFF   // songs / dances = the cycle, party buffs = the upkeep, nothing in towns
     // Kun hvis buffen mangler, og ikke igen inden for selfBuffMinGapSec: hvis buffen
     // ikke dukker op under sit eget ID, ville vi ellers caste den i en uendelig løkke.
     if (now() - (selfBuffLastCast[b.id] || 0) < a.selfBuffMinGapSec * 1000) continue;
@@ -7840,7 +7885,7 @@ async function townCommand(why, wantTown) {
       Send.Say2(0, cmd, '', true);
       const until = now() + CONFIG.town.waitMs;
       while (now() < until && !Me.IsDead && Math.hypot(Me.X - start.x, Me.Y - start.y) < 3000) {
-        if (lastSysMsg && lastSysMsg.at >= asked && /Usage: \.townname|Command not found/i.test(lastSysMsg.text)) { townCmdBad.add(TOWN_CMD[c.k]); break; }
+        if (lastSysMsg && lastSysMsg.at >= asked && /Usage: \.townname|Command not found|Unknown command|Incorrect command|Wrong command|no such command|command .*not (exist|available|allowed)/i.test(lastSysMsg.text)) { townCmdBad.add(TOWN_CMD[c.k]); break; }
         await sleep(500);
       }
       const ok = Math.hypot(Me.X - start.x, Me.Y - start.y) >= 3000;
@@ -10253,6 +10298,17 @@ function hiveBoughtNames() {
     t.split('\n').forEach(l => { if (l.indexOf(tag) < 0) return; const re = /(?:^|[:;|]\s*)([^:;|]+?) \d+: bought/g; let m; while ((m = re.exec(l))) set.add(m[1].trim()); }); } catch (e) { }
   HIVEBOUGHT.set = set; return set;
 }
+/** KAMAELBOW-2026-10-16: did the weapon watch put the weapon `name` on THIS character ("no weapon equipped — put <name> back on")? Cached 5 min. */
+const WWPUT = { at: 0, set: new Set() };
+function wwPutOnByHive(name) {
+  if (now() - WWPUT.at > 300000) {
+    WWPUT.at = now(); const set = new Set();
+    try { const root = typeof SWARM_ROOT !== 'undefined' ? SWARM_ROOT : '.'; const t = File.ReadAllText(root + '\\Logs\\gear_upgrades.log'); const tag = '[' + Me.Name + '] no weapon equipped';
+      t.split('\n').forEach(l => { if (l.indexOf(tag) < 0) return; const m = / put (.+?) back on \(/.exec(l); if (m) set.add(m[1].trim()); }); } catch (e) { }
+    WWPUT.set = set;
+  }
+  return WWPUT.set.has(String(name || ''));
+}
 /** OWNTYPE (tester 2026-10-13): the worn REAL pieces of a type my role plan does not use = the player's choice: { weapon?, chest?, legs?,
  *  _wr } (item infos). Fighter roles only for the weapon (not Kamael: Change Weapon decides there); the _weapon rule of gear_prefs.json
  *  (WR, the user's plan) wins over a worn weapon type (_wr = true: that rule's type is bought). Body armor only with keepArmorType. */
@@ -10281,7 +10337,23 @@ function wwPick(bag, o) {
   const last = L.find(e => Number(e.objId) === Number(O.lastObjId) && Number(O.lastObjId) > 0);
   if (last) return last;
   if (O.lockOnly) return null;
-  return best(L.filter(e => O.roleOk && O.roleOk(e.info))) || best(L.filter(e => !!e.info.mw === (st === 'ma'))) || best(L);
+  // KAMAELBOW-2026-10-16 (Shadowdkj: "Kamael soldier at lvls 15-20 prefers to auto equip bow, rather than 1h swords"): what the HIVE picks
+  // (not the weapon the player wore last, above) passes typeOk (a Kamael never a plain bow, a crossbow only on the Warder line), and a melee
+  // role's fallback is a melee weapon first (a bow's P.Atk beat every sword in the pa sort); a ranged one only when nothing else is in the bag
+  const T = O.typeOk ? L.filter(e => O.typeOk(e.info)) : L;
+  const roleBest = best(T.filter(e => O.roleOk && O.roleOk(e.info))); if (roleBest) return roleBest;
+  const M = O.preferMelee ? T.filter(e => !wwRanged(e.info)) : T;
+  return best(M.filter(e => !!e.info.mw === (st === 'ma'))) || best(M) || best(T.filter(e => !!e.info.mw === (st === 'ma'))) || best(T);
+}
+function wwRanged(info) { return /^(BOW|CROSSBOW)$/.test(String((info && info.t) || '')); }
+/** KAMAELBOW-2026-10-16: may a character of class `classId` wear this weapon TYPE at all (hive picks only)? Kamael (123-136) never a plain
+ *  bow (the race has no bow skills); a crossbow only on the Warder line (Warder 126, Arbalester 130, Trickster 134). Every other race: yes. */
+function kamaelTypeOk(t, classId) {
+  const c = Number(classId) || 0; if (c < 123 || c > 136) return true;
+  const ty = String(t || '');
+  if (ty === 'BOW') return false;
+  if (ty === 'CROSSBOW') return c === 126 || c === 130 || c === 134;
+  return true;
 }
 // ==== WEAPONWATCH-PURE end
 var WW = { last: 0, miss: 0, at: 0 };
@@ -10291,12 +10363,22 @@ function weaponWatch(why, force) {
     if (!state.role || !IsCharacterReady() || Me.IsDead) return '';
     if (DLV.on || tradeState || (GUP.busy && !force) || equipBusy) return '';          // delevel strips on purpose; a trade / buy run is under way
     const g = myGear(), w = (g.eq.weapon || [])[0];
+    // KAMAELBOW-2026-10-16: a bow / wrong crossbow that THIS watch put on a Kamael (gear_upgrades.log "put X back on") is swapped for a melee
+    // weapon from the bag; a bow the player put on himself stays (never overrule the player)
+    if (w && !kamaelTypeOk(w.info.t, num(Me.ClassId)) && now() - WW.at > 60000 && wwPutOnByHive(w.info.n)) {
+      const R0 = ROLE_RULES[gearRole()] || {};
+      const alt = wwPick(g.bag, { stat: R0.stat || 'pa', roleOk: (i) => { try { return canUse(i); } catch (e) { return false; } },
+        usable: (i) => gradeOk(i.g) && (!i.r || i.r.split(',').includes(myRace())), typeOk: (i) => kamaelTypeOk(i.t, num(Me.ClassId)), preferMelee: true });
+      if (alt) { WW.at = now(); Send.UseItem(num(alt.objId)); const t = `${w.info.n} is no Kamael weapon (the hive had put it on) - took ${alt.info.n} instead (${why})`; note(`[gear] ${t}`, true); appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] ${t}\r\n`); return t; }
+    }
     if (w) { WW.last = num(w.objId); WW.miss = 0; return ''; }
     if (!force && ++WW.miss < 2) return '';                                           // Kamael Change Weapon / a swap in flight: look again in 10 s
     if (now() - WW.at < 8000) return '';
     const R = ROLE_RULES[gearRole()] || {}, lock = (() => { try { return !!gearPolicy().lock; } catch (e) { return false; } })();
     const pick = wwPick(g.bag, { lastObjId: WW.last, stat: R.stat || 'pa', roleOk: (i) => { try { return canUse(i); } catch (e) { return false; } },
-      usable: (i) => gradeOk(i.g) && (!i.r || i.r.split(',').includes(myRace())), lockOnly: lock });
+      usable: (i) => gradeOk(i.g) && (!i.r || i.r.split(',').includes(myRace())), lockOnly: lock,
+      typeOk: (i) => kamaelTypeOk(i.t, num(Me.ClassId)),   // KAMAELBOW-2026-10-16
+      preferMelee: !(R.weapon && (() => { try { return R.weapon({ t: 'BOW', s: 'weapon' }); } catch (e) { return false; } })()) });
     if (!pick) return '';
     WW.at = now(); WW.miss = 0;
     Send.UseItem(num(pick.objId));
@@ -10490,7 +10572,8 @@ function planUpgrades(budget) {
   // must be the role's FIRST armor type (tank / fighter2h = HEAVY). A recommendation that breaks it = the automatic role pick instead.
   const roleRecFit = (slot, info) => {
     if (!R || !info) return '';
-    if (slot === 'weapon') { if (R.shield && ggTwoHanded(info)) return `${info.n} is two-handed - the ${role} carries a shield`; if (R.weapon && !R.weapon(info)) return `${info.n} is no ${role} weapon`; }
+    if (slot === 'weapon') { if (R.shield && ggTwoHanded(info)) return `${info.n} is two-handed - the ${role} carries a shield`; if (R.weapon && !R.weapon(info)) return `${info.n} is no ${role} weapon`;
+      if (!kamaelTypeOk(info.t, num(Me.ClassId))) return `${info.n} is no weapon for my Kamael class`; }   // KAMAELBOW-2026-10-16 (a male soldier's class recommendation listed crossbows)
     if (slot === 'shield' && !R.shield) return `the ${role} uses no shield`;
     if ((slot === 'chest' || slot === 'legs') && Array.isArray(R.armor) && R.armor.length && info.t && info.t !== R.armor[0]) return `${info.n} is ${String(info.t).toLowerCase()} armor - the ${role} wears ${String(R.armor[0]).toLowerCase()}`;
     return '';
@@ -14605,6 +14688,25 @@ function raidStagePoint(A, b, me, stageDist) {
   const d = Math.hypot(me.x - b.x, me.y - b.y) || 1, k = Math.min(1, stageDist / d);
   return { x: Math.round(b.x + (me.x - b.x) * k), y: Math.round(b.y + (me.y - b.y) * k), z: b.z, set: false };
 }
+/** RAIDREACH-2026-10-16 (owner: "Archon Suscepter: the team is below the boss?" - it was the SAME floor, 534 straight from the boss but behind a wall,
+ *  13,106 to walk; the stage was picked by straight distance, the team stood 10 min, timeout). pts = the geo route me -> boss.
+ *  -> { act: 'ok' | 'walk', walk, straight, pts (the route cut where the fight area starts or `keep` of WALKING is left) } */
+function raidReachPlan(me, b, pts, fight, keep) {
+  const P = (pts || []).filter(p => p && isFinite(p.x) && isFinite(p.y));
+  const straight = Math.hypot(b.x - me.x, b.y - me.y);
+  if (P.length < 2) return { act: 'ok', walk: straight, straight, pts: [] };
+  const seg = [0]; let L = Math.hypot(P[0].x - me.x, P[0].y - me.y);
+  for (let i = 1; i < P.length; i++) { L += Math.hypot(P[i].x - P[i - 1].x, P[i].y - P[i - 1].y); seg.push(L - Math.hypot(P[0].x - me.x, P[0].y - me.y)); }
+  const first = Math.hypot(P[0].x - me.x, P[0].y - me.y), walk = L;
+  if (walk <= Math.max(1500, 3 * straight)) return { act: 'ok', walk, straight, pts: [] };
+  const K = Math.max(300, keep || 900);
+  let cut = P.length - 1;
+  for (let i = 0; i < P.length; i++) {
+    const left = walk - first - seg[i];
+    if ((fight && fight.length > 2 && raInPoly(P[i].x, P[i].y, fight)) || left <= K) { cut = i; break; }
+  }
+  return { act: 'walk', walk: Math.round(walk), straight: Math.round(straight), pts: P.slice(0, cut + 1), cut };
+}
 /** The tank and the fight area once he has the aggro: { act: 'none' | 'hold' | 'reposition', to {x,y}, out } — the boss outside the area
  *  (beyond holdTol) -> the tank walks to a point pullIn inside the outline from where the boss is (the boss follows the one it hits). */
 function raidAreaHold(ctx) {
@@ -15131,6 +15233,22 @@ App.on('swarm.clear', (e) => {
 // the boss (or a minion) attacks us while we clear (2026-10-05 08:24, Gharmash hit Chanter1 mid-clear, Necro1 died): stop clearing, raid now
 const clearWatch = { boss: '', minions: [], hitAt: 0 };
 App.on('swarm.attacked', (e) => { try { if (!clearWatch.boss) return; const m = mobById(e.data.attacker); const n = m ? String(m.Name) : ''; if (n && (n === clearWatch.boss || clearWatch.minions.includes(n) || n.indexOf(clearWatch.boss.split(' ').pop()) >= 0)) clearWatch.hitAt = now(); } catch (er) { } });
+/** RAIDREACH-2026-10-16: the boss is near in a straight line but the real walk is long (behind a wall / around a room): walk the team the geo
+ *  route to its fight area (or `keep` of walking left) before the clear / countdown, or when a fight does not start. -> 'ok' | 'walked' | 'unknown' | 'failed' */
+const raidReach = { at: 0 };
+async function raidReachFix(b, A, runId, why) {
+  if (!isLeader()) return 'ok';
+  let bp = { x: b.x, y: b.y, z: b.z }; try { const t = findMobByName(b.name, 4000); if (t) bp = { x: t.X, y: t.Y, z: t.Z }; } catch (e) { }
+  let r = null; try { r = await geoRoute(bp.x, bp.y, bp.z, 20000); } catch (e) { r = null; }
+  if (!r || !r.ok || !r.points) return 'unknown';
+  const pl = raidReachPlan({ x: Me.X, y: Me.Y }, bp, r.points.map(q => ({ x: Math.round(q.x), y: Math.round(q.y), z: Math.round(isFinite(q.z) ? q.z : bp.z) })), A && A.fight, 900);
+  raidReach.at = now();
+  if (pl.act !== 'walk' || !pl.pts.length) return 'ok';
+  const msg = `${b.name} is ${pl.straight} away but ${pl.walk} to walk (a wall between us) - the team walks around to its fight area (${why})`;
+  note(`raid ${msg}`, true); raidEvent(`REACH: ${msg}`); SayToParty(`[raid] ${msg}`.slice(0, 250));
+  let ok = false; try { ok = await leadRouteWalk(pl.pts, `${b.name} (around the wall)`, () => !regroupAlive(runId), '', null, null); } catch (e) { logError('raid reach walk', e); }
+  return ok ? 'walked' : 'failed';
+}
 async function raidClearArea(b, runId) {
   const M = CONFIG.mission, R = M.clearRadius || RAIDAREA.defaultClearR, t0 = now();
   if (raidCursed(b)) return 'cursed';                              // someone levelled past the curse limit on the way: no clearing for nothing
@@ -15149,6 +15267,8 @@ async function raidClearArea(b, runId) {
     note(`raid ${b.name}: walking the team to ${M.stageDist} from the boss`, true);
     await leadTeamWalk(b.x, b.y, b.z, M.stageDist, 300000);
   }
+  if (!regroupAlive(runId)) return false;
+  try { if (typeof raidReachFix === 'function') await raidReachFix(b, A, runId, 'before the clear'); } catch (e) { try { logError('raid reach', e); } catch (e2) { } }   // RAIDREACH-2026-10-16
   if (!regroupAlive(runId)) return false;
   const st0 = A && A.stage ? { x: stage.x, y: stage.y } : { x: Math.round(Me.X), y: Math.round(Me.Y) };   // the stage -> boss path (passive monsters on it are cleared)
   // the client sees monsters up to ~3400 away: from the stage point a boss at its spawn is always in the list. Not there -> look at the
@@ -15287,6 +15407,10 @@ async function waitBossDead(b, runId, ms, opt) {
     if (t && !t.IsDead) { seenAlive = true; lastSeen = now(); lastHp = num(t.HpPercent) || lastHp; setTask(`raid: ${b.name} ${Math.round(lastHp)}%`); }
     if (lastHp < bestHp - 0.5) { bestHp = lastHp; progressAt = now(); }
     if (seenAlive && t && t.IsDead) return 'dead';
+    // RAIDREACH-2026-10-16: alive, no HP lost for 60 s and not next to us -> maybe a wall between us: walk around (max every 2 min)
+    if (t && !t.IsDead && !O.noReach && now() - progressAt > 60000 && now() - raidReach.at > 120000 && Math.hypot(t.X - Me.X, t.Y - Me.Y) > 400 && !Me.IsDead) {
+      try { const rf = await raidReachFix(b, raidAreaOf(b), runId, 'the fight did not start'); if (rf === 'walked') progressAt = now(); } catch (e) { logError('raid reach fight', e); }
+    }
     const alive = (Me.IsDead ? 0 : 1) + teamNames().filter(n => { const lp = livePos[n]; return lp && now() - lp.at < 10000 && !lp.IsDead; }).length;
     if (alive === 0) { raidEvent(`WIPE: everyone is dead, boss at ${Math.round(lastHp)}%`); return 'wiped'; }
     if (!seenAlive && now() - t0 > 60000) return 'not-found';
@@ -28099,7 +28223,7 @@ async function leaderRaidResume(s) {
     raidActiveWrite(boss.name, false, 'fight');
     try { raidReport.start(boss, 'resumed after a restart'); if (s.startedAt) raidReport.cur.start = new Date(Number(s.startedAt)).toISOString(); } catch (e) { }
     EnableBot();
-    const opt = s.epic ? (() => { try { return { range: epicDef().searchRange, lostMs: epicDef().lostMs }; } catch (e) { return undefined; } })() : undefined;
+    const opt = s.epic ? (() => { try { return { range: epicDef().searchRange, lostMs: epicDef().lostMs, noReach: true }; } catch (e) { return undefined; } })() : undefined;
     const outcome = await waitBossDead(boss, runId, CONFIG.mission.raidTimeoutMs, opt);
     // a raidhunt / raid circuit goes on after the boss (raidMissionFinish only says '!stop' when no raidhunt runs; after a restart none runs yet)
     const a = getActivity(), hunting = !!(a && /^(raidhunt|raidcircuit)$/.test(String(a.type || '')));
@@ -29893,12 +30017,13 @@ setInterval(() => {
     // them right away"): with "Hive picks my skills" OFF the player's L2Swarm profile owns assist (FollowAtk) and L2Swarm combat - the dungeon / stacked-floor
     // guard no longer switches them off (owner: never overrule the player). Following stays the hive's (routes, floors, centrelines).
     const ownFight = (() => { try { return !hiveSkillsOn(); } catch (e) { return false; } })();
+    const ownFol = ownFollowNow();                                     // OWNPROFILE-2026-10-16: a member's own profile follows (L2Swarm follow stays on, no script follow / fight)
     if (g && !NNAV.on) {
       NNAV.on = true; NNAV.since = now();
       try { if (IsInCombat && !ownFight) { NNAV.wantCombat = true; StopCombat(); } } catch (e) { }
       // members ALWAYS follow under the guard in lead mode (TEAMJOIN 2026-10-09: after a script reload ActiveFollow starts off, so the
       // guard never set wantFollow and the script follow never ran — Chanter4 stood 1215 from the leader for 7 min)
-      try { if (!isLeader() && (Options.ActiveFollow || (leadMode() && !benched()))) { NNAV.wantFollow = true; Options.ActiveFollow = false; } } catch (e) { }
+      try { if (!isLeader() && !ownFol && (Options.ActiveFollow || (leadMode() && !benched()))) { NNAV.wantFollow = true; Options.ActiveFollow = false; } } catch (e) { }
       try { NNAV.pickSaved = !!Options.PickUp; if (Options.PickUp) Options.PickUp = false; } catch (e) { }
       if (!ownFight) { try { NNAV.atkSaved = !!(NNAV.atkSaved || Options.FollowAtk); if (Options.FollowAtk) Options.FollowAtk = false; } catch (e) { } }
       note(`native navigation OFF here (${inst.on ? 'instance' : inRaid() ? 'raid' : state.mode === 'raidclear' ? 'raid clear' : state.mode === 'mission' ? 'mission' : zState.layered ? 'stacked floors' : 'dungeon'}) — script moves/follow/fight`);
@@ -29929,9 +30054,10 @@ setInterval(() => {
     }
     // hold everything off (other code may switch it back on between ticks)
     try { if (IsInCombat && !ownFight) { NNAV.wantCombat = true; StopCombat(); } } catch (e) { }   // NNAVOWN: skills OFF = L2Swarm combat stays
-    try { if (!isLeader() && Options.ActiveFollow) { NNAV.wantFollow = true; Options.ActiveFollow = false; } } catch (e) { }
+    try { if (!isLeader() && !ownFol && Options.ActiveFollow) { NNAV.wantFollow = true; Options.ActiveFollow = false; } } catch (e) { }   // OWNPROFILE: own profile = L2Swarm follow stays
     try { if (Options.FollowAtk && !ownFight) { NNAV.atkSaved = true; Options.FollowAtk = false; } } catch (e) { }   // NNAVOWN: skills OFF = the player's assist stays   // someone switched assist on: remember it for the restore
     try { if (Options.PickUp) { NNAV.pickSaved = true; Options.PickUp = false; } } catch (e) { }
+    if (ownFol) return;                                                // OWNPROFILE: L2Swarm follow + Follow Attack + combat of the player's profile do it (two never fight)
     nnFight(false);
     nnFollow();
   } catch (e) { logError('native-nav guard', e); }
@@ -31911,6 +32037,10 @@ function assistLeaderTick() {
 /** Member: act on the leader's target (force = right after his event) */
 function assistMemberTick(force) {
   if (!state.role || isLeader() || !leadMode() || !IsCharacterReady() || Me.IsDead) return;
+  if (ownFollowNow()) {                                                // OWNPROFILE-2026-10-16: Hive skills OFF = the player's Follow Attack assists; no script attacks, no follow hold
+    if (assistSt.holdUntil && state.followHoldUntil === assistSt.holdUntil) state.followHoldUntil = 0;
+    assistSt.holdUntil = 0; assistSt.issued = { id: 0, at: 0 }; return;
+  }
   const ltFresh = assistSt.lt && now() - assistSt.lt.at < ASSIST.freshMs;
   const iss = assistSt.issued;
   if (!ltFresh && !iss.id) return;                                     // nothing announced, nothing of mine running: no work (cheap)
@@ -32359,7 +32489,7 @@ function resSelfLow() {
   const a = CONFIG.autoSkills; let ctx = { town: false }; try { ctx = dfZoneNow(); } catch (e) { }
   (plan.selfBuffs || []).forEach(b => {
     try {
-      if (dfSelfBuffSkip(b, { town: ctx.town, upkeep: !!BUFFUP.mode })) return;
+      if (dfSelfBuffSkip(b, { town: ctx.town, upkeep: !!BUFFUP.mode }) || skSelfBuffSkip(b, myBuffEntry())) return;
       if (now() - (selfBuffLastCast[b.id] || 0) < a.selfBuffMinGapSec * 1000) return;
       if (BuffLow(b.id, a.selfBuffRefreshSec) && ready(b)) out.push(b);
     } catch (e) { }
@@ -33183,11 +33313,22 @@ try { if (!isLeader()) Options.ActiveFollow = false; } catch (e) { }
 // FOLLOW HOLD (2026-10-07: the crystal fetch switched follow off, the 3 s follow check switched it on again 3 s later and pulled Bishop1 back
 // to the leader while she walked to Gideon): while state.followHoldUntil lies ahead nothing switches follow on
 function followHold(ms) { state.followHoldUntil = Math.max(state.followHoldUntil || 0, now() + ms); try { Options.ActiveFollow = false; } catch (e) { } }
+// OWNPROFILE-2026-10-16 (Vykaax, Fields of Massacre, 1.7.4: "Hive Skills off ... it keeps modifying Follow After to turn it off, so they just stand
+// forever"): with "Hive picks my skills" OFF a member's own L2Swarm profile owns follow + assist + combat while hunting. The native-nav guard, the
+// hive's own assist (ASSIST: script attacks + a follow hold every 150 ms) and the 3 s follow check no longer keep L2Swarm follow off. Raids,
+// instances, the raid clear and missions keep their routines; routes, NPC walks, trades and teleports still hold follow off and switch it back on.
+function ownFollowNow() {
+  try {
+    if (isLeader() || hiveSkillsOn()) return false;
+    if (inst.on || inKamaInstance() || inRaid() || state.mode === 'raidclear' || state.mode === 'mission') return false;
+    return true;
+  } catch (e) { return false; }
+}
 function followOk(want) {
   if (!want) return false;
   if (runHeld()) return false;                                        // RUNSTATE: held by its own character switch
   if (now() < (state.followHoldUntil || 0)) return false;
-  if (NNAV && !isLeader() && noNativeNav()) { NNAV.wantFollow = true; return false; }   // no L2Swarm follow under the native-nav guard: the script follow does it
+  if (NNAV && !isLeader() && noNativeNav() && !ownFollowNow()) { NNAV.wantFollow = true; return false; }   // OWNPROFILE: own profile = L2Swarm follow stays   // no L2Swarm follow under the native-nav guard: the script follow does it
   try {
     if (isLeader()) return false;
     const lp = livePos[CONFIG.leader];
@@ -33216,7 +33357,7 @@ setInterval(() => {
       Options.ActiveFollow = false;
       if (!followPaused) note(`follow paused: ${CONFIG.leader} is ${Math.round(d)} away`);
       followPaused = true;
-    } else if (followResumeOk({ noNativeNav: !!(NNAV && noNativeNav()), inRaid: inRaid(), paused: followPaused, active: !!Options.ActiveFollow, followName: !!Options.FollowName, dist: d,
+    } else if (followResumeOk({ noNativeNav: !!(NNAV && noNativeNav() && !ownFollowNow()), own: ownFollowNow(), inRaid: inRaid(), paused: followPaused, active: !!Options.ActiveFollow, followName: !!Options.FollowName, dist: d,
                busy: !!(questRun.active || autoLvl.active || career.active || state.gkBusy || state.escaping || memberRoute.id) })) {   // never during a route walk (2026-10-06: it flipped follow on every 3 s); never under the native-nav guard / in a raid (2026-10-09: 'follow resumed' every 3 s, 700-1700x a day per member)
       const on = followOk(!memberRoute.id); Options.ActiveFollow = on; followPaused = false;          // også efter en genstart (followPaused glemt)
       if (!IsEnabled) EnableBot();
@@ -34583,14 +34724,28 @@ function lastSupplyAtSet(t) {
 }
 /** What the leader gives away when his bag is full: everything he does not use himself. Never: equipped, quest items, adena, shots,
  *  potions, scrolls (escape/res/teleport), Spirit Ore (cubics), upgrades for himself. */
+// UNLOADGATE-PURE-BEGIN (2026-10-16; no host calls: docs/plan/tools/test_unload_gate.js runs it in node)
+// What the unload never hands over: consumables (shots, potions, elixirs, antidotes, herbs, EVERY scroll, arrows / bolts, drugs, Spirit Ore),
+// adena, event letters (L2Day 3875-3888: the letters rule of the Storage page decides who gets them) and items marked for selling (the
+// sale comes first; a sale that did not happen keeps them with the leader for the next one). Worn / quest items are checked by the caller.
+const UNLOAD_KEEP_IDS = [57, 5575, 736, 737, 3031, 728, 1060, 1061, 1539, 1835, 2509, 3947, 3948, 3949, 3950, 3951, 3952, 1463, 1464, 1465, 1466, 1467];
+const UNLOAD_KEEP_NAME = /Soulshot|Spiritshot|Potion|Elixir|Antidote|Herb|Scroll|Teleport|Adena|Mana Drug|Healing Drug|Arrow|Bolt|Spirit Ore|Bandage|Remedy/i;
+/** -> '' (may give) | the reason it stays with me */
+function unloadKeepWhy(id, name, sellIds) {
+  id = Number(id) || 0; name = String(name || '');
+  if (UNLOAD_KEEP_IDS.indexOf(id) >= 0 || UNLOAD_KEEP_NAME.test(name)) return 'consumable';
+  if ((id >= 3875 && id <= 3888) || /^L2Day - /i.test(name)) return 'event letter';
+  if (sellIds && Object.prototype.hasOwnProperty.call(sellIds, id)) return 'marked for selling';
+  return '';
+}
+// UNLOADGATE-PURE-END
 function unloadItems() {
-  const keepIds = new Set([57, 5575, 736, 737, 3031, 728, 1060, 1061, 1539, 1835, 2509, 3947, 3948, 3949, 3950, 3951, 3952, 1463, 1464, 1465, 1466, 1467]);
-  const keepName = /Soulshot|Spiritshot|Potion|Elixir|Antidote|Herb|Scroll of Escape|Scroll of Resurrection|Teleport|Adena|Mana Drug|Healing Drug|Arrow|Bolt/i;   // OWNTYPE: + arrows / bolts
+  let sellIds = {}; try { sellIds = spMarks(sellMarks(), Me.Name).ids || {}; } catch (e) { sellIds = {}; }   // UNLOADGATE: marked for selling = never given away
   const g = myGear(), out = [];
   const lr = lootRuleRaw(Me.Name), bi = lr ? lootBagInfo() : null, kept = [];   // LOOTRULE-2026-10-13: the party's loot rule (never-list + gear rules) keeps those with me
   try { Inventory.forEach(it => {
     const id = num(it.Id), name = String(it.Name || '');
-    if (it.IsEquiped || it.IsQuestItem || qeProtected(id) || keepIds.has(id) || keepName.test(name)) return;   // QENGINE-2026-10-12
+    if (it.IsEquiped || it.IsQuestItem || qeProtected(id) || unloadKeepWhy(id, name, sellIds)) return;   // QENGINE-2026-10-12; UNLOADGATE-2026-10-16
     const info = gearDb().items[id];
     if (info && info.g && upgradeGain(id, info, g) > 0) return;          // an upgrade for me: keep it
     if (lr) { const why = lootKeepWhy(lr, Object.assign({ id, name }, lootItemInfo({ id, objId: num(it.objId), name }, bi)), 'other'); if (why) { kept.push({ objId: num(it.objId), id, name, count: num(it.Count), why }); return; } }   // LOOTRULE
@@ -34834,7 +34989,9 @@ async function leadSupply(why, opts) {
     } catch (e) { logError('supply loot', e); } }
     // 4. UNLOAD (user 2026-10-06): the tank carries all the loot (Forward Drop) and was near a full inventory -> give everything he does
     // not use himself to the teammate with the most free slots (materials, recipes, crystals, enchant scrolls, spare gear)
-    try { if (num(Inventory.Count) > CONFIG.lead.unload.above) { pstStep('supply', 'unload loot'); res.push('unload: ' + await leadUnload(runId, members)); T.mark('unload', now()); } } catch (e) { logError('unload', e); }
+    // UNLOADGATE-2026-10-16 (player Vykaax: "party leader is trading whole inventory to a follower a few items at a time - I did not change any
+    // setting"): the unload ran for EVERY party with no switch. Now only when the party switched it on (party_auto.json parties.<leader>.unload).
+    try { if (num(Inventory.Count) > CONFIG.lead.unload.above && pautoGate('unload')) { pstStep('supply', 'unload loot'); res.push('unload: ' + await leadUnload(runId, members)); T.mark('unload', now()); } } catch (e) { logError('unload', e); }
     // 5c. DYES / SYMBOLS (user 2026-10-07, UNTESTED): everyone whose role has a plan in dye_plan.json buys 10 dyes at Helvetia and draws
     //     its next planned symbol at the Symbol Maker (dyeMine) — only at the plan's level and with the adena for it. 2026-10-08 21:25: a
     //     plan step first; a dye Helvetia/Pepper did not sell is not tried again for 24 h (Logs/dye_unavail.json)
@@ -35654,6 +35811,7 @@ async function leadTeamAction(action, data) {
 // potions = the survival Healing / Mana Potion use by the script. OFF = Hive does nothing of that kind and gives L2Swarm's own lists back.
 // chars.<Name>.toggles = [skill names] the player wants ON in fights on top of the built-in fight-toggle whitelist (TOGGLE-PURE toggleWanted).
 const PAUTO_KINDS = { supplyWatch: { char: false, what: 'supply runs when someone is low' }, sell: { char: true, what: 'selling on town visits / in supply runs' }, dyes: { char: true, what: 'symbols (dyes) in supply runs' },
+  unload: { char: false, what: 'the leader giving his spare loot to a teammate when his bag is full' },   // UNLOADGATE-2026-10-16: default OFF
   skills: { char: true, def: true, what: 'Hive picks my skills' }, heals: { char: true, def: true, what: 'Hive heals' }, potions: { char: true, def: true, what: 'Hive uses potions' } };
 function pautoNorm(j) {
   const obj = (x) => x && typeof x === 'object' && !Array.isArray(x) ? x : {};
@@ -37524,7 +37682,7 @@ function doomcryerChantDue(c) {
 function followResumeOk(o) {
   if (o.noNativeNav || o.inRaid) return false;                       // the guard / the raid routines own follow there (no 3 s 'resumed' loop)
   if (!(o.paused || (!o.active && o.followName))) return false;
-  return o.dist < 3000 && !o.busy;
+  return o.dist < (o.own ? 8000 : 3000) && !o.busy;                  // OWNPROFILE-2026-10-16: own profile = back on up to the 8000 follow cap (a spread team stood forever at 3000-8000)
 }
 /** Script follow threshold (members under the native-nav guard): 0 = do not follow now. */
 function nnFollowThreshold(o) {

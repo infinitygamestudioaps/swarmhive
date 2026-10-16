@@ -244,7 +244,7 @@ check(!/\b(alert|confirm|prompt)\(/.test(fs.readFileSync(path.join(ROOT, 'Dashbo
       UseItem: (id) => { W.inv[id]--; W.log.push('use ' + id); (o.onRes || (() => { }))(party); },
       followOk: (w) => w, memberRoute: { id: null }, healTargets: () => [{ me: true, hp: 100 }].concat(W.hurt > 0 ? [{ name: 'Mate', hp: 50 }] : []),
       setInterval: (f) => { W.timers.push(f); return 0; }, setTimeout: (f, ms) => { if (ms < 4000) setTimeout(f, 0); return 0; },
-      currentSkillPlan: () => ({ selfBuffs: o.selfBuffs || [] }), dfZoneNow: () => ({ town: false }), dfSelfBuffSkip: () => false, BUFFUP: { mode: '', last: { '1@Bishop4': 1, '2@party': 1 }, fails: {}, skipped: {} },
+      currentSkillPlan: () => ({ selfBuffs: o.selfBuffs || [] }), dfZoneNow: () => ({ town: false }), dfSelfBuffSkip: () => false, skSelfBuffSkip: () => '', myBuffEntry: () => null, BUFFUP: { mode: '', last: { '1@Bishop4': 1, '2@party': 1 }, fails: {}, skipped: {} },
       selfBuffLastCast: {}, BuffLow: (id) => !W.cast.includes(id), ready: () => true, castInfo: async (b) => { W.cast.push(b.id); W.log.push('selfbuff ' + b.id); W.t += 1500; },
       boardOn: () => o.board !== false, needsBuff: () => W.buffs < 10 && o.board !== false, rkSelfBuffsAllowed: (board, need) => !board || !!need,
       buffSelf: async (why) => { W.log.push('board ' + why); W.t += 3000; if (o.boardOk !== false) { W.buffs = 20; return true; } return false; },
