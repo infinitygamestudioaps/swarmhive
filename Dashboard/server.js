@@ -1916,6 +1916,8 @@ const OQM = require('./orderqueue');
 const ORDERQ_LIVE = { on: false };
 const ORDERQ = OQM.create({ dir: () => process.env.SWARM_ORDERS_DIR || (process.env.SWARM_CMD_DIR ? path.join(CMD_DIR, 'orders') : (ORDERQ_LIVE.on ? path.join(LOGS, 'orders') : null)) });
 setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
+// WHAUTO-2026-10-16: the clan warehouse defaults (sell / crystallize) - one order per round while the collector is idle in Giran (switch in Scripts/data/wh_auto.json, default off)
+setInterval(() => { try { require('./whauto_api').tick({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, commandRun }).catch(() => { }); } catch (e) { } }, 60000);
 /** one line per send: how many of its characters picked the order up, and who still waits (and why) */
 function orderSummary(rs) {
   const by = {}; rs.forEach(r => { by[r.state] = (by[r.state] || 0) + 1; });
@@ -2300,6 +2302,8 @@ http.createServer(async (req, res) => {
     // OUR CRAFTER 2026-10-15 (Dashboard/crafter_api.js): /crafterpanel.js|css (public) + GET/POST /api/crafter (key checked inside): the Dwarf crafter that
     // keeps shots in stock and supplies parties first in their supply runs (Scripts/data/crafter_rules.json, read live by swarm.js CRAFT-PURE)
     if (await require('./crafter_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;   // CRAFTITEMS-2026-10-15: + body / mcpCallChar / commandRun (hand-ins, crystallize)
+    // WHAUTO-2026-10-16 (Dashboard/whauto_api.js): GET/POST /api/whauto = default sell / crystallize per clan warehouse item; the tick below runs it
+    if (await require('./whauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, allowed, json, send, commandRun })) return;
     if (await require('./storagepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // 7 SIGNS 2026-10-12 (Dashboard/sevensigns_api.js): /sevensigns.js|css (public) + GET/POST /api/sevensigns (key checked inside): who signs up with the
     // Lords of Dawn by itself (Scripts/data/seven_signs.json, read by swarm.js SSOPTIN every 30 s), period / registration / seal stones per character

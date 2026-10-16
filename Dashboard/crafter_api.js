@@ -81,6 +81,11 @@ function info(ctx) {
   let states = []; try { states = (ctx.readStates && ctx.readStates()) || []; } catch (e) { }
   const cand = states.filter(s => s && s.name && (s.roleKind === 'crafter' || s.role === 'crafter' || CRAFT_CLASS.test(String(s.cls || ''))))
     .map(s => ({ name: s.name, cls: s.cls || '', level: s.level || 0, party: s.party || '', online: (s.ageSec || 0) < 300 }));
+  // CRYALL-2026-10-16 (owner: "How do I disenchant items in crafters inventory? I have no options"): every Dwarf with the Crystallize skill can
+  // crystallize (Scavenger / Bounty Hunter / Fortune Seeker too): a fresh bag report (Logs/crafter_bag_<name>.json, skill > 0) makes it a candidate;
+  // cryOnly = no Create Item (no shot crafting) -> the panel shows only the crystallize + give parts
+  try { fs.readdirSync(ctx.LOGS).filter(f => /^crafter_bag_[A-Za-z0-9_.-]+.json$/.test(f)).forEach(f => { const n = f.slice(12, -5); if (cand.some(c => c.name === n)) return; const r = bagReportOf(ctx, n); if (!r || !(Number(r.skill) > 0) || (r.ageSec || 0) > 86400) return; const st = states.find(x => x && x.name === n) || {}; cand.push({ name: n, cls: st.cls || '', level: st.level || 0, party: st.party || '', online: (st.ageSec || r.ageSec || 0) < 300, cryOnly: !(Number(r.createLvl) > 0) }); }); } catch (e) { }
+  cand.forEach(c => { if (c.cryOnly === undefined) { const r = bagReportOf(ctx, c.name); c.cryOnly = !!(r && !(Number(r.createLvl) > 0) && !CRAFT_CLASS.test(String(c.cls || ''))); } });
   const names = [...new Set(Object.keys(D.crafters).concat(cand.map(c => c.name)))].filter(n => NAME_RE.test(n)).sort();
   const crafters = names.map(n => ({ name: n, cfg: craftCfgOf(D, n), status: statusOf(ctx, n), cand: cand.find(c => c.name === n) || null, bag: bagReportOf(ctx, n), handins: handins(ctx, n, 6) }));   // CRAFTITEMS-2026-10-15: bag + hand-ins
   const P = parties(ctx).map(({ leader, names }) => ({ leader, members: names, crafter: craftCrafterFor(D, leader) }));
@@ -314,7 +319,7 @@ function cryQueueFile(ctx) { return process.env.SWARM_CRYQUEUE_FILE || path.join
 async function cwhCryOrder(ctx, b) {
   if (b.confirm !== true) return { code: 409, error: 'confirm first (the page asks)', needConfirm: true };
   const crafter = String(b.crafter || ''); if (!NAME_RE.test(crafter)) return { code: 400, error: 'which crafter?' };
-  const I = info(ctx); if (!I.crafters.some(c => c.name === crafter)) return { code: 400, error: crafter + ' is no crafter (a Dwarf Artisan / Warsmith / Maestro)' };
+  const I = info(ctx); if (!I.crafters.some(c => c.name === crafter)) return { code: 400, error: crafter + ' cannot crystallize (it needs a Dwarf with the Crystallize skill)' };
   const items = (Array.isArray(b.items) ? b.items : []).map(i => ({ id: Number(i && i.id), count: Math.max(1, Math.round(Number(i && i.count) || 1)), name: String((i && i.name) || '').slice(0, 80) })).filter(i => Number.isInteger(i.id) && i.id > 0);
   if (!items.length) return { code: 400, error: 'tick at least one item' };
   if (items.length > 40) return { code: 400, error: 'at most 40 kinds per order' };

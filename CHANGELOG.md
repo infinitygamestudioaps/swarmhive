@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.0 (2026-10-16)
+
+- Crystallize from every Dwarf: every Dwarf with the Crystallize skill (Scavenger, Bounty Hunter, Fortune Seeker too) now gets a card on the Storage page with Turn items into crystals, not only Artisans, Warsmiths and Maestros
+- Clan warehouse defaults: tick items in the clan warehouse list and press Always sell or Always crystallize, every row shows its default
+- with the new switch on, the collector (your clan leader) takes them out by itself while idle in Giran, sells the sell ones and hands the crystallize ones to your crafter, who crystallizes them
+- one order at a time, every 30 minutes by default, enchanted pieces are never touched
+- Guide: Our crafter page, sections Which characters have a card and Clan warehouse defaults
+
 ## v1.7.9 (2026-10-16)
 
 - New party switch Fight with L2Swarm (Hive only travels), party Settings - Combat, off by default. On: Hive still travels to the spot, picks it, restocks, gears up and shows the dashboard

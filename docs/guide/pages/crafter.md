@@ -62,6 +62,32 @@ while it is fighting, trading, crafting or on a hand-over.
 
 To crystallize gear another character holds, give it to the crafter first (see below).
 
+### Which characters have a card
+
+Every **Dwarf with the Crystallize skill** gets a card, not only Artisans, Warsmiths and Maestros: a Scavenger, Bounty Hunter or
+Fortune Seeker can crystallize too (it learns Crystallize at level 20). A card appears once the character has reported its bag
+(it does that every minute while it is online).
+
+### Clan warehouse defaults: always sell, always crystallize
+
+On the **Storage** page, in the clan warehouse list, you can give an item kind a **default**:
+
+1. Tick the kinds in the list.
+2. Press **Always sell** or **Always crystallize** (or **No default** to remove it). Every row then shows its default.
+   Only D-grade or better weapons, armor and jewelry can be crystallized. Enchanted pieces never get a default.
+3. Switch on **the collector does it by itself** in the box above the list. Choose the crafter (or leave "the first one known")
+   and how often (every 30 minutes by default).
+
+With the switch on, whenever the collector (your clan leader) stands idle in Giran, the dashboard sends one order at a time:
+
+- the kinds marked **sell**: he takes them out of the clan warehouse and sells them at the grocer (the same as **Take out and sell**);
+- the kinds marked **crystallize**: he takes them out and trades them to the crafter, who crystallizes exactly those (the same as
+  **Take out and crystallize**).
+
+A kind is ordered once per warehouse look; when the clan leader looks again and it is still there, it is ordered again.
+**Run now** sends the next order at once. The box shows what it is waiting for and the last order. Log: `Logs/whauto.log`;
+settings: `Scripts/data/wh_auto.json`.
+
 ### Recipes in its bag
 
 Every recipe in the crafter's bag, with the level it needs and whether it can be learned now. **Learn** uses the recipe (it goes into

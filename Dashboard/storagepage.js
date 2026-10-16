@@ -46,6 +46,7 @@
     if (!d || d.error) { flash((d && d.error) || 'no answer', true); render(); return; }
     if (d.broken) flash(`stash_rules.json does not parse (${d.broken}) — saving is blocked until it is fixed or restored from Scripts/data/history/.`, true);
     SP.info = d;
+    api('/api/whauto').then(x => { SP.wa = x && !x.error ? x : null; renderCwhAuto(); renderCwhList(); }).catch(() => { SP.wa = null; renderCwhAuto(); });   // WHAUTO-2026-10-16
     api('/api/lootrules').then(x => { SP.loot = x && !x.error ? x : null; renderLoot(); }).catch(() => { SP.loot = null; renderLoot(); });   // LOOT RULES 2026-10-13: the per-party loot line
     if (!keepEdits || !dirty()) { SP.orig = clone(d.rules); SP.cur = clone(SP.orig); SP.rev = d.rev; SP.err = {}; }
     else if (d.rev !== SP.rev) flash('Someone else saved the storage settings meanwhile. Undo your changes to see theirs, or save to overwrite (you will be asked).', true);
@@ -79,6 +80,7 @@
     (document.querySelector('main') || document.body).appendChild(s);
     s.addEventListener('click', onClick);
     s.addEventListener('change', onChange);
+    s.addEventListener('change', (e) => { const w = e.target && e.target.closest && e.target.closest('[data-wa]'); if (w) waField(w); });   // WHAUTO-2026-10-16
     s.addEventListener('input', (e) => { const t = e.target; if (t && t.dataset && t.dataset.cwhq !== undefined) { SP.cwhQ = t.value; renderCwhList(); } });
     s.addEventListener('toggle', (e) => { const d = e.target; if (!d || !d.dataset) return; const set = d.dataset.stgparty ? SP.openParties : d.dataset.stgchar ? SP.openChars : null; if (!set) return; const k = d.dataset.stgparty || d.dataset.stgchar; if (d.open) set.add(k); else set.delete(k); }, true);
     return s;
@@ -175,6 +177,69 @@
       <div class="fnd-hint">Selling still needs the party's “Sell junk on town visits” (⚙ Settings → Supplies) for the automatic town sale; your !sell order always works. Press Save at the bottom.</div>`;
   }
   const cwhKey = (r) => r.id + '+' + (r.enchant || 0);
+
+  // ===== WHAUTO-2026-10-16 (owner: "select which should be crystallized and which should be sold by default ... then the collector will run around and
+  // sell and take out items for dwarfs to disenchant"): a default per clan warehouse kind (Dashboard/whauto_api.js, Scripts/data/wh_auto.json)
+  const WA_GEAR = ['weapon', 'armor', 'accessory'];
+  function waTag(r) {
+    const d = SP.wa && SP.wa.data, a = d && !(r.enchant > 0) && d.items && d.items[r.id];
+    return a ? `<span class="tag ${a.act === 'cry' ? 'warn' : 'good'}" title="default: ${a.act === 'cry' ? 'taken out and crystallized by the crafter' : 'taken out and sold'}">${a.act === 'cry' ? 'crystallize' : 'sell'}</span>` : '';
+  }
+  function renderCwhAuto() {
+    const el = document.querySelector('#stgCwh [data-cwhauto]'); if (!el) return;
+    const W = SP.wa;
+    if (!W) { el.innerHTML = '<div class="muted">Defaults (always sell / always crystallize) need a dashboard server restart.</div>'; return; }
+    const d = W.data || { items: {} }, L = Object.values(d.items || {}), ns = L.filter(x => x.act === 'sell').length, nc = L.length - ns, st = W.status || {};
+    const last = st.last ? `${st.last.ok ? 'Last order' : 'Last order FAILED'} (${String(st.last.at || '').slice(11, 16)} UTC): ${st.last.msg}` : 'No order sent yet.';
+    el.innerHTML = `<div class="stg-wa">
+      <div><b>Defaults</b>: ${ns} kind${ns === 1 ? '' : 's'} always sold, ${nc} always crystallized. Tick items below and press <i>Always sell</i> or <i>Always crystallize</i>.</div>
+      <label class="fnd-sw"><input type="checkbox" data-wa="on" ${d.on ? 'checked' : ''}><span class="tr" aria-hidden="true"></span><span class="lb ${d.on ? 'on' : 'off'}">${d.on ? 'On: the collector does it by itself while idle in Giran (one order at a time, enchanted pieces never)' : 'Off: nothing happens by itself'}</span></label>
+      <div class="stg-warow"><label>Crafter <select data-wa="crafter" aria-label="crafter"><option value="">the first one known</option>${(W.crafters || []).map(c => `<option value="${h(c)}" ${d.crafter === c ? 'selected' : ''}>${h(c)}</option>`).join('')}</select></label>
+        <label>every <input type="number" min="10" max="1440" step="5" data-wa="everyMin" value="${h(String(d.everyMin || 30))}" aria-label="minutes between orders"> min</label>
+        <button type="button" data-waact="run">Run now</button></div>
+      ${st.check ? `<div class="muted">Now: ${h(st.check.why)}</div>` : ''}<div class="muted">${h(last)}</div></div>`;
+  }
+  async function waPost(b) {
+    let r = null; try { r = await api('/api/whauto', { method: 'POST', body: JSON.stringify(b) }); } catch (e) { r = { error: e.message }; }
+    if (!r || r.error) { flash((r && r.error) || 'not saved (the dashboard server may need a restart)', true); return null; }
+    return r;
+  }
+  async function waRefresh() { try { const x = await api('/api/whauto'); SP.wa = x && !x.error ? x : SP.wa; } catch (e) { } renderCwhAuto(); renderCwhList(); }
+  async function waSetDefault(act) {
+    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set();
+    let chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length) return;
+    const ench = chosen.filter(r => r.enchant > 0); chosen = chosen.filter(r => !(r.enchant > 0));
+    if (act === 'cry') {
+      const bad = chosen.filter(r => !WA_GEAR.includes(r.cat) || !r.grade || r.grade === 'NONE');
+      if (bad.length) { await uiError('Only D-grade or better weapons, armor and jewelry can be crystallized. Not possible: ' + bad.slice(0, 8).map(r => r.name).join(', ') + (bad.length > 8 ? ' ...' : ''), 'Cannot crystallize'); return; }
+    }
+    if (!chosen.length) { await uiError('Enchanted pieces never get a default (they are never sold or crystallized by themselves).', 'Nothing set'); return; }
+    if (act === 'cry' && !(await uiConfirm({ title: 'Always crystallize ' + chosen.length + ' kind' + (chosen.length === 1 ? '' : 's') + '?', danger: true,
+      body: [uiP('With the switch on, the collector takes these out of the clan warehouse and the crafter turns them into crystals. Crystallized items are gone.'), uiList(chosen.slice(0, 30).map(r => r.name))],
+      confirmText: 'Always crystallize', cancelText: 'Cancel' }))) return;
+    const r = await waPost({ set: chosen.map(x => ({ id: x.id, act, name: x.name })) }); if (!r) return;
+    SP.wa = Object.assign({}, SP.wa, { data: r.data });
+    flash(chosen.length + ' kind' + (chosen.length === 1 ? '' : 's') + (act === 'sell' ? ': always sold' : act === 'cry' ? ': always crystallized' : ': no default') + (ench.length ? ' (' + ench.length + ' enchanted skipped)' : '') + '.');
+    SP.cwhSel = new Set(); renderCwhAuto(); renderCwhList();
+  }
+  async function waField(w) {
+    const k = w.dataset.wa, b = {};
+    if (k === 'on') {
+      b.on = !!w.checked;
+      if (b.on) {
+        const d = (SP.wa && SP.wa.data) || { items: {} };
+        if (!(await uiConfirm({ title: 'Let the collector do it by itself?', body: [uiP('While idle in Giran, the clan leader takes the kinds marked "sell" out of the clan warehouse and sells them, and the ones marked "crystallize" out for the crafter, who crystallizes them. One order at a time, every ' + (d.everyMin || 30) + ' minutes at most. Enchanted pieces are never touched.')], confirmText: 'Switch on', cancelText: 'Cancel' }))) { w.checked = false; return; }
+      }
+    } else if (k === 'crafter') b.crafter = w.value;
+    else b.everyMin = Number(w.value);
+    const r = await waPost(b); if (r) SP.wa = Object.assign({}, SP.wa, { data: r.data });
+    renderCwhAuto();
+  }
+  async function waRun() {
+    const r = await waPost({ runNow: true }); if (!r) return;
+    flash(r.msg || ('Nothing sent: ' + (r.why || r.error || '?')), !r.msg);
+    waRefresh();
+  }
   // CWHGROUPS 2026-10-14: groups + grade filter; the list is grouped (a heading per group) in this order
   const CWH_CATS = [['weapon', 'Weapons'], ['armor', 'Armor'], ['accessory', 'Accessories'], ['material', 'Materials'], ['part', 'Crafting parts'], ['recipe', 'Recipes'], ['scroll', 'Scrolls'], ['letter', 'Event letters'], ['use', 'Potions & consumables'], ['stone', 'Life stones & seal stones'], ['other', 'Other']];
   const CWH_SELLALL = ['part', 'recipe'];   // owner 2026-10-14: one button sells a whole group
@@ -195,6 +260,7 @@
         <button type="button" class="trd-chip fnd-chip ${SP.cwhCommon ? 'on' : ''}" data-cwhact="common" aria-pressed="${!!SP.cwhCommon}">Only Common items</button>
         <button type="button" data-cwhact="all">Tick all shown</button><button type="button" data-cwhact="none">Untick all</button>
         <select data-cwhgrade="1" aria-label="grade"><option value="">Every grade</option>${CWH_GRADES.map(g => `<option value="${g}" ${SP.cwhGrade === g ? 'selected' : ''}>${g === 'NONE' ? 'No grade' : g + '-grade'}</option>`).join('')}</select></div>
+      <div class="stg-cwhauto" data-cwhauto="1"></div>
       <div class="stg-cwhcats" data-cwhcats="1"></div>
       <div class="stg-cwhlist" data-cwhlist="1"></div>
       <div class="stg-btns stg-cwhbtns"></div>`;
@@ -203,6 +269,7 @@
   function renderCwhList() {
     const el = $id('stgCwh'); if (!el) return;
     const L = el.querySelector('[data-cwhlist]'), B = el.querySelector('.stg-cwhbtns'); if (!L) return;
+    { const wa = el.querySelector('[data-cwhauto]'); if (wa && !wa.innerHTML) renderCwhAuto(); }   // WHAUTO-2026-10-16: a rebuilt section gets its defaults box
     const rows = cwhRows(), sel = SP.cwhSel || new Set(), all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [];
     [...sel].forEach(k => { if (!all.some(r => cwhKey(r) === k)) sel.delete(k); });   // gone from the warehouse meanwhile
     const cc = el.querySelector('[data-cwhcats]');
@@ -218,7 +285,7 @@
       || (a.cat === 'stone' ? lsLvl(a) - lsLvl(b) || lsQ(a) - lsQ(b) : 0)
       || byName(a, b) || (a.enchant || 0) - (b.enchant || 0));
     let lastCat = null; const head = (r) => { if (r.cat === lastCat) return ''; lastCat = r.cat; const t = (CWH_CATS.find(([k]) => k === r.cat) || [0, 'Other'])[1]; return `<div class="stg-cwhgrp">${t}</div>`; };
-    L.innerHTML = rows.length ? rows.map(r => head(r) + `<label class="stg-cwhrow ${sel.has(cwhKey(r)) ? 'on' : ''}"><input type="checkbox" data-cwh="${h(cwhKey(r))}" ${sel.has(cwhKey(r)) ? 'checked' : ''}>${r.icon ? `<img class="gi" src="${ico(r.icon)}" alt="">` : ''}<span class="nm">${h(r.name)}${r.grade && r.grade !== 'NONE' ? ` <span class="tag cwhgr">${r.grade}</span>` : ''}</span><span class="ct">${r.count > 1 ? '×' + r.count.toLocaleString() : ''}</span>${r.common ? '<span class="tag">Common</span>' : ''}${r.never ? '<span class="tag warn">never store</span>' : ''}</label>`).join('')
+    L.innerHTML = rows.length ? rows.map(r => head(r) + `<label class="stg-cwhrow ${sel.has(cwhKey(r)) ? 'on' : ''}"><input type="checkbox" data-cwh="${h(cwhKey(r))}" ${sel.has(cwhKey(r)) ? 'checked' : ''}>${r.icon ? `<img class="gi" src="${ico(r.icon)}" alt="">` : ''}<span class="nm">${h(r.name)}${r.grade && r.grade !== 'NONE' ? ` <span class="tag cwhgr">${r.grade}</span>` : ''}</span><span class="ct">${r.count > 1 ? '×' + r.count.toLocaleString() : ''}</span>${r.common ? '<span class="tag">Common</span>' : ''}${r.never ? '<span class="tag warn">never store</span>' : ''}${waTag(r)}</label>`).join('')
       : '<div class="muted">Nothing matches.</div>';
     const n = sel.size;
     if (B) B.innerHTML = `<span class="muted">${n ? n + ' kind' + (n === 1 ? '' : 's') + ' ticked' : 'Tick what should come out.'}</span>
@@ -226,6 +293,7 @@
       <button type="button" data-cwhact="take" ${n ? '' : 'disabled'}>Take out (${h((SP.info && SP.info.clanLeader) || 'clan leader')} keeps them)</button>
       <button type="button" data-cwhact="give" ${n ? "" : "disabled"}>Take out and give to a crafter…</button>
       <button type="button" class="danger" data-cwhact="cry" ${n ? '' : 'disabled'}>Take out and crystallize…</button>
+      <span class="stg-cwhdef">Default for the ticked: <button type="button" data-cwhact="defsell" ${n ? '' : 'disabled'}>Always sell</button><button type="button" data-cwhact="defcry" ${n ? '' : 'disabled'}>Always crystallize</button><button type="button" data-cwhact="defnone" ${n ? '' : 'disabled'}>No default</button></span>
       ${CWH_SELLALL.map(k => { const c = all.filter(r => r.cat === k).length, t = (CWH_CATS.find(([x]) => x === k) || [0, k])[1]; return c ? `<button type="button" class="go" data-cwhsellall="${k}">Sell all ${h(t)} (${c} kinds)</button>` : ''; }).join('')}
       ${SP.info && SP.info.clanWh && SP.info.clanWh.pending ? `<button type="button" data-cwhact="pending">Sell what is still in his bag (${SP.info.clanWh.pending} kinds)</button>` : ''}`;
   }
@@ -419,6 +487,7 @@
     const sa = e.target.closest('button[data-cwhsellall]');   // SELLALL: tick the whole group, then the normal take out and sell (with its confirmation)
     if (sa) { const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], prev = SP.cwhSel || new Set(), tmp = new Set(all.filter(r => r.cat === sa.dataset.cwhsellall).map(cwhKey));
       SP.cwhSel = tmp; cwhRun(true).then(() => { if (SP.cwhSel === tmp) { SP.cwhSel = prev; renderCwhList(); } }); return; }
+    const wr = e.target.closest('button[data-waact]'); if (wr) { waRun(); return; }   // WHAUTO-2026-10-16
     const cg = e.target.closest('button[data-cwhcat]'); if (cg) { SP.cwhCat = cg.dataset.cwhcat || ''; renderCwhList(); return; }   // CWHGROUPS
     const ca = e.target.closest('button[data-cwhact]');   // WHSELL
     if (ca) {
@@ -429,6 +498,7 @@
       if (a === 'sell' || a === 'take') return cwhRun(a === 'sell');
       if (a === 'give') return cwhGive();   // CWHGIVE-2026-10-16
       if (a === 'cry') return cwhCry();   // CRYQUEUE-2026-10-15
+      if (a === 'defsell' || a === 'defcry' || a === 'defnone') return waSetDefault(a === 'defsell' ? 'sell' : a === 'defcry' ? 'cry' : null);   // WHAUTO-2026-10-16
       if (a === 'pending') { const CL = (SP.info && SP.info.clanLeader) || ''; if (!CL) return; if (!(await uiConfirm({ title: 'Sell what is still in his bag?', body: [uiP(uiEm(CL), ' goes to Giran and sells the pieces an earlier take-out left in his bag (nothing else). Then he goes back to what he was doing.')], confirmText: 'Sell them', cancelText: 'Cancel' }))) return; if (await send('!whsell pending', CL)) flash(`${CL}: selling what is still in his bag — sent.`); return; }   // WHSELL-FIX
       return;
     }
