@@ -1,0 +1,200 @@
+{
+  "_about": "THE gear plan per class and grade (owner 2026-10-16, document 'Lineage 2 Gracia Final - Gear by Class and Grade'). Dashboard/gear_recommend.js follows it for every class x grade and writes Scripts/data/gear_rec/<classId>.json for the bots; its own scoring is only the fallback for a slot this file does not name. Grades are the DOCUMENT's grades (S = Imperial / Draconic / Arcana, S80 = Dynasty / Moirai, S84 = Vesper / Vorpal / Elegia); items are matched by NAME (the item data labels Dynasty S). Weapons: w = [main, alternatives...], sa = recommended special ability first. Armor: chest names of the sets, main first. Edit here, then: node docs/plan/tools/gear_recommend.js --all ; node docs/plan/tools/test_gear_doctrine.js",
+  "v": 1,
+  "grades": ["NONE", "D", "C", "B", "A", "S", "S80", "S84"],
+  "classes": {
+    "_note": "classId -> [weapon line, armor column]. Armor columns: heavyShield (tanks, dwarves), heavy (2h, polearm, singers, dancers), light, robe.",
+    "0": ["baseFighter", "light"], "18": ["baseFighter", "light"], "31": ["baseFighter", "light"], "44": ["baseFighter", "light"],
+    "53": ["baseDwarf", "light"], "123": ["baseKamael", "light"], "124": ["baseKamael", "light"],
+    "10": ["caster", "robe"], "25": ["caster", "robe"], "38": ["caster", "robe"], "49": ["caster", "robe"],
+    "1": ["twoHanded", "heavy"], "45": ["twoHanded", "heavy"], "46": ["twoHanded", "heavy"], "113": ["twoHanded", "heavy"],
+    "2": ["dual", "light"], "88": ["dual", "light"], "21": ["dual", "heavy"], "100": ["dual", "heavy"], "34": ["dual", "heavy"], "107": ["dual", "heavy"],
+    "3": ["polearm", "heavy"], "89": ["polearm", "heavy"],
+    "4": ["tank", "heavyShield"], "5": ["tank", "heavyShield"], "6": ["tank", "heavyShield"], "90": ["tank", "heavyShield"], "91": ["tank", "heavyShield"],
+    "19": ["tank", "heavyShield"], "20": ["tank", "heavyShield"], "99": ["tank", "heavyShield"],
+    "32": ["tank", "heavyShield"], "33": ["tank", "heavyShield"], "106": ["tank", "heavyShield"],
+    "7": ["dagger", "light"], "8": ["dagger", "light"], "93": ["dagger", "light"], "22": ["dagger", "light"], "23": ["dagger", "light"], "101": ["dagger", "light"],
+    "35": ["dagger", "light"], "36": ["dagger", "light"], "108": ["dagger", "light"],
+    "9": ["archer", "light"], "92": ["archer", "light"], "24": ["archer", "light"], "102": ["archer", "light"], "37": ["archer", "light"], "109": ["archer", "light"],
+    "11": ["caster", "robe"], "12": ["caster", "robe"], "94": ["caster", "robe"], "13": ["caster", "robe"], "95": ["caster", "robe"], "14": ["caster", "robe"], "96": ["caster", "robe"],
+    "26": ["caster", "robe"], "27": ["caster", "robe"], "103": ["caster", "robe"], "28": ["caster", "robe"], "104": ["caster", "robe"],
+    "39": ["caster", "robe"], "40": ["caster", "robe"], "110": ["caster", "robe"], "41": ["caster", "robe"], "111": ["caster", "robe"],
+    "15": ["caster", "robe"], "16": ["caster", "robe"], "97": ["caster", "robe"], "29": ["caster", "robe"], "30": ["caster", "robe"], "105": ["caster", "robe"],
+    "42": ["caster", "robe"], "43": ["caster", "robe"], "112": ["caster", "robe"],
+    "17": ["caster", "robe"], "98": ["caster", "robe"], "50": ["caster", "robe"], "51": ["caster", "robe"], "115": ["caster", "robe"], "52": ["caster", "robe"], "116": ["caster", "robe"],
+    "47": ["fist", "light"], "48": ["fist", "light"], "114": ["fist", "light"],
+    "54": ["dwarf", "heavyShield"], "55": ["dwarf", "heavyShield"], "117": ["dwarf", "heavyShield"], "56": ["dwarf", "heavyShield"], "57": ["dwarf", "heavyShield"], "118": ["dwarf", "heavyShield"],
+    "125": ["kamaelAS", "light"], "127": ["kamaelAS", "light"], "131": ["kamaelAS", "light"],
+    "128": ["kamaelRapier", "light"], "129": ["kamaelRapier", "light"], "132": ["kamaelRapier", "light"], "133": ["kamaelRapier", "light"], "135": ["kamaelRapier", "light"], "136": ["kamaelRapier", "light"],
+    "126": ["kamaelBow", "light"], "130": ["kamaelBow", "light"], "134": ["kamaelBow", "light"]
+  },
+  "weapons": {
+    "_note": "line -> grade -> { w: [main, alternatives...], sa: [recommended first, others], sigil: [casters from S] }. like = use another line's row.",
+    "baseFighter": { "NONE": { "w": ["Falchion"] }, "D": { "like": "tank" }, "C": { "like": "tank" }, "B": { "like": "tank" }, "A": { "like": "tank" }, "S": { "like": "tank" }, "S80": { "like": "tank" }, "S84": { "like": "tank" } },
+    "baseKamael": { "NONE": { "w": ["Falchion"] }, "D": { "like": "kamaelRapier" }, "C": { "like": "kamaelRapier" }, "B": { "like": "kamaelRapier" }, "A": { "like": "kamaelRapier" }, "S": { "like": "kamaelRapier" }, "S80": { "like": "kamaelRapier" }, "S84": { "like": "kamaelRapier" } },
+    "baseDwarf": { "NONE": { "like": "dwarf" }, "D": { "like": "dwarf" }, "C": { "like": "dwarf" }, "B": { "like": "dwarf" }, "A": { "like": "dwarf" }, "S": { "like": "dwarf" }, "S80": { "like": "dwarf" }, "S84": { "like": "dwarf" } },
+    "tank": {
+      "NONE": { "w": ["Falchion"] },
+      "D": { "w": ["Elven Long Sword", "Sword of Revolution"] },
+      "C": { "w": ["Samurai Longsword", "Sword of Limit", "Caliburs"], "sa": ["Focus", "Critical Damage", "Haste"] },
+      "B": { "w": ["Sword of Damascus", "Keshanberk"], "sa": ["Focus", "Critical Damage", "Haste"] },
+      "A": { "w": ["Sirra's Blade", "Dark Legion's Edge", "Tallum Blade"], "sa": ["Health", "Critical Poison", "Haste"] },
+      "S": { "w": ["Forgotten Blade", "Basalt Battlehammer"], "sa": ["Health", "Focus", "Haste"] },
+      "S80": { "w": ["Dynasty Sword", "Dynasty Cudgel"], "sa": ["Health", "Focus"] },
+      "S84": { "w": ["Vesper Cutter", "Icarus Sawsword", "Periel Sword", "Eternal Core Sword"], "sa": ["Health", "Focus", "Haste"] }
+    },
+    "twoHanded": {
+      "NONE": { "w": ["Zweihander"] },
+      "D": { "w": ["Claymore", "Titan Hammer"] },
+      "C": { "w": ["Berserker Blade", "Dwarven Hammer", "Pa'agrian Sword"], "sa": ["Focus", "Critical Damage", "Haste"] },
+      "B": { "w": ["Star Buster", "Great Sword", "Guardian Sword"], "sa": ["Rsk. Focus", "Haste", "Health"] },
+      "A": { "w": ["Sword of Ipos", "Behemoth's Tuning Fork", "Dragon Slayer"], "sa": ["Focus", "Haste", "Health"] },
+      "S": { "w": ["Heaven's Divider", "Dragon Hunter Axe"] },
+      "S80": { "w": ["Dynasty Blade", "Dynasty Crusher"], "sa": ["Focus", "Health"] },
+      "S84": { "w": ["Vesper Slasher", "Vesper Retributer", "Icarus Heavy Arms", "Feather Eye Blade", "Devilish Maul", "Lava Saw", "Contristo Hammer"], "sa": ["Focus", "Haste", "Health"] }
+    },
+    "dual": {
+      "D": { "w": ["Knight's Sword*Elven Sword"] },
+      "C": { "w": ["Shamshir*Shamshir", "Katana*Katana", "Spirit Sword*Spirit Sword", "Raid Sword*Raid Sword"] },
+      "B": { "w": ["Samurai Long Sword*Samurai Long Sword"] },
+      "A": { "w": ["Damascus*Tallum Blade", "Damascus*Damascus", "Keshanberk*Damascus"] },
+      "S": { "w": ["Tallum Blade*Dark Legion's Edge"] },
+      "S80": { "w": ["Dynasty Dual Sword"] },
+      "S84": { "w": ["Vesper Dual Sword", "Icarus Dual Sword", "Periel Dual Sword", "Eternal Core Dual Sword"] }
+    },
+    "polearm": {
+      "NONE": { "w": ["Great Spear"] },
+      "D": { "w": ["Glaive", "Winged Spear"] },
+      "C": { "w": ["Orcish Poleaxe", "Scorpion", "Widow Maker"], "sa": ["Wide Blow", "Critical Stun", "Towering Blow"] },
+      "B": { "w": ["Lance", "Great Axe"], "sa": ["Anger", "Critical Stun", "Towering Blow"] },
+      "A": { "w": ["Tiphon's Spear", "Tallum Glaive", "Halberd"], "sa": ["Wild Blow", "Critical Stun", "Towering Blow"] },
+      "S": { "w": ["Saint Spear"], "sa": ["Haste", "Guidance", "Health"] },
+      "S80": { "w": ["Dynasty Halberd"], "sa": ["Anger", "Critical Stun"] },
+      "S84": { "w": ["Vesper Stormer", "Icarus Trident", "Doubletop Spear", "Demitelum"], "sa": ["Haste", "Guidance", "Health"] }
+    },
+    "fist": {
+      "NONE": { "w": ["Viper Fang"] },
+      "D": { "w": ["Scallop Jamadhr", "Bich'Hwa"] },
+      "C": { "w": ["Great Pata", "Fisted Blade"], "sa": ["Rsk. Haste", "Critical Drain", "Critical Poison"] },
+      "B": { "w": ["Bellion Cestus", "Arthro Nail"], "sa": ["Rsk. Haste", "Critical Drain", "Critical Poison"] },
+      "A": { "w": ["Sobekk's Hurricane", "Dragon Grinder"], "sa": ["Rsk. Haste", "Critical Drain", "Haste"] },
+      "S": { "w": ["Demon Splinter"], "sa": ["Focus", "Critical Stun", "Health"] },
+      "S80": { "w": ["Dynasty Bagh-Nakh"], "sa": ["Focus", "Haste", "Rsk. Evasion"] },
+      "S84": { "w": ["Vesper Fighter", "Icarus Hand", "Octo Claw", "Jade Claw"], "sa": ["Focus", "Critical Stun", "Health"] }
+    },
+    "dagger": {
+      "NONE": { "w": ["Sword Breaker"] },
+      "D": { "w": ["Mithril Dagger", "Maingauche"] },
+      "C": { "w": ["Crystal Dagger", "Grace Dagger", "Dark Screamer"], "sa": ["Critical Damage", "Critical Bleed", "Critical Poison", "Mortal Strike"] },
+      "B": { "w": ["Demon's Dagger", "Kris"], "sa": ["Critical Damage", "Critical Bleed", "Critical Poison", "Mortal Strike"] },
+      "A": { "w": ["Naga Storm", "Soul Separator"], "sa": ["Focus", "Back Blow", "Critical Damage"] },
+      "S": { "w": ["Angel Slayer"], "sa": ["Critical Damage", "HP Drain", "Haste"] },
+      "S80": { "w": ["Dynasty Knife", "Dynasty Dual Daggers"], "sa": ["Focus", "Critical Damage", "Evasion"] },
+      "S84": { "w": ["Vesper Shaper", "Vesper Dual Daggers", "Icarus Disperser", "Icarus Dual Daggers", "Skull Edge", "Mamba Edge"], "sa": ["Critical Damage", "HP Drain", "Haste"] }
+    },
+    "archer": {
+      "NONE": { "w": ["Composite Bow"] },
+      "D": { "w": ["Light Crossbow", "Reinforced Long Bow"] },
+      "C": { "w": ["Eminence Bow", "Akat Long Bow"], "sa": ["Cheap Shot", "Guidance", "Miser"] },
+      "B": { "w": ["Bow of Peril", "Dark Elven Long Bow"], "sa": ["Cheap Shot", "Guidance", "Quick Recovery"] },
+      "A": { "w": ["Shyeed's Bow", "Soul Bow"], "sa": ["Focus", "Cheap Shot", "Quick Recovery"] },
+      "S": { "w": ["Draconic Bow", "Shining Bow"], "sa": ["Focus", "Cheap Shot", "Critical Slow"] },
+      "S80": { "w": ["Dynasty Bow"], "sa": ["Focus", "Cheap Shot", "Guidance"] },
+      "S84": { "w": ["Vesper Thrower", "Icarus Spitter", "Skull Carnium Bow", "Recurve Thorne Bow"], "sa": ["Focus", "Cheap Shot", "Critical Slow"] }
+    },
+    "kamaelAS": {
+      "NONE": { "w": ["Falchion"] },
+      "D": { "w": ["General's Katzbalger", "Katzbalger"] },
+      "C": { "w": ["Saber Tooth", "Immortal Edge"], "sa": ["Focus", "Critical Damage", "Haste"] },
+      "B": { "w": ["Dismantler", "Innominate Victory"], "sa": ["Health", "Critical Bleed", "Critical Drain"] },
+      "A": { "w": ["Durendal", "Undertaker"], "sa": ["Focus", "Haste", "Health"] },
+      "S": { "w": ["Gram"], "sa": ["Focus", "Haste", "Health"] },
+      "S80": { "w": ["Dynasty Ancient Sword"], "sa": ["Focus", "Health"] },
+      "S84": { "w": ["Vesper Nagan", "Icarus Wingblade", "Finale Blade", "Pyseal Blade"], "sa": ["Focus", "Haste", "Health"] }
+    },
+    "kamaelRapier": {
+      "NONE": { "w": ["Falchion"] },
+      "D": { "w": ["Grand Epee", "Epee"] },
+      "C": { "w": ["Admiral's Estoc", "Blinzlasher"], "sa": ["Focus", "Critical Damage", "Haste"] },
+      "B": { "w": ["Colichemarde", "Military Fleuret"], "sa": ["Focus", "Critical Damage", "Haste"] },
+      "A": { "w": ["Eclair Bijou", "Lacerator"], "sa": ["Haste", "Critical Poison", "Health"] },
+      "S": { "w": ["Laevateinn"], "sa": ["Focus", "Haste", "Health"] },
+      "S80": { "w": ["Dynasty Rapier"], "sa": ["Focus", "Health"] },
+      "S84": { "w": ["Vesper Pincer", "Icarus Stinger", "Gemtail Rapier", "Heavenstare Rapier"], "sa": ["Focus", "Haste", "Health"] }
+    },
+    "kamaelBow": {
+      "NONE": { "w": ["Falchion"] },
+      "D": { "w": ["Cranequin", "Arm Breaker"] },
+      "C": { "w": ["Sharpshooter", "Tathlum"], "sa": ["Cheap Shot", "Guidance", "Miser"] },
+      "B": { "w": ["Hell Hound", "Peacemaker"], "sa": ["Cheap Shot", "Guidance", "Quick Recovery"] },
+      "A": { "w": ["Screaming Vengeance", "Reaper"], "sa": ["Focus", "Cheap Shot", "Quick Recovery"] },
+      "S": { "w": ["Sarunga"], "sa": ["Focus", "Cheap Shot", "Critical Slow"] },
+      "S80": { "w": ["Dynasty Crossbow"], "sa": ["Focus", "Cheap Shot", "Guidance"] },
+      "S84": { "w": ["Vesper Shooter", "Icarus Shooter", "Dominion Crossbow", "Thorne Crossbow"], "sa": ["Focus", "Cheap Shot", "Critical Slow"] }
+    },
+    "dwarf": {
+      "NONE": { "w": ["Iron Hammer", "Falchion"] },
+      "D": { "w": ["Bonebreaker", "Elven Long Sword"] },
+      "C": { "w": ["Yaksa Mace", "Samurai Longsword", "Dwarven War Hammer"], "sa": ["Rsk. Focus", "Anger", "Health"] },
+      "B": { "w": ["Deadman's Glory", "Art of Battle Axe", "Sword of Damascus"], "sa": ["Health", "Anger", "Haste"] },
+      "A": { "w": ["Barakiel's Axe", "Sirra's Blade", "Elysian"], "sa": ["Focus", "Haste", "Health"] },
+      "S": { "w": ["Basalt Battlehammer", "Forgotten Blade"], "sa": ["Health", "HP Drain", "HP Regeneration"] },
+      "S80": { "w": ["Dynasty Cudgel", "Dynasty Sword"], "sa": ["Rsk. Focus", "Anger", "Health"] },
+      "S84": { "w": ["Vesper Avenger", "Vesper Cutter", "Icarus Hammer", "Vigwik Axe", "Eversor Mace"], "sa": ["Health", "HP Drain", "HP Regeneration"] }
+    },
+    "caster": {
+      "_note": "2h staff from D to A (no sigil exists below S); from S a 1h weapon + sigil (Acumen).",
+      "NONE": { "w": ["Mage Staff"] },
+      "D": { "w": ["Atuba Hammer", "Ghost Staff", "Atuba Mace", "Sword of Magic Fog"] },
+      "C": { "w": ["Deadman's Staff", "Demon's Staff", "Ghoul's Staff", "Ecliptic Axe"], "sa": ["Magic Regeneration", "Magic Hold", "Mental Shield"] },
+      "B": { "w": ["Staff of Evil Spirits", "Divine Staff", "Staff of Nobility", "Kaim Vanul's Bones"], "sa": ["Magic Focus", "Blessed Body", "Magic Poison"] },
+      "A": { "w": ["Daimon Crystal", "Branch of the Mother Tree", "Themis' Tongue"], "sa": ["Acumen", "Mana Up", "Mental Shield"] },
+      "S": { "w": ["Arcana Mace", "Imperial Staff"], "sa": ["Acumen", "MP Regeneration", "Mana Up"], "sigil": ["Arcana Sigil"] },
+      "S80": { "w": ["Dynasty Mace", "Dynasty Phantom", "Dynasty Staff"], "sa": ["Acumen", "Conversion", "Mana Up"], "sigil": ["Dynasty Sigil", "Moirai Sigil"] },
+      "S84": { "w": ["Vesper Caster", "Vesper Buster", "Icarus Spirit", "Icarus Hall", "Rising Star", "Sacredium"], "sa": ["Acumen", "MP Regeneration", "Mana Up"], "sigil": ["Vesper Sigil", "Vorpal Sigil", "Elegia Sigil"] }
+    }
+  },
+  "armor": {
+    "_note": "column -> grade -> chest names of the sets, main first (a heavyShield set brings its own shield).",
+    "heavyShield": {
+      "NONE": [], "D": ["Brigandine Tunic", "Mithril Breastplate"], "C": ["Full Plate Armor", "Composite Armor", "Chain Mail Shirt"],
+      "B": ["Avadon Breastplate", "Doom Plate Armor"], "A": ["Dark Crystal Breastplate", "Armor of Nightmare", "Apella Plate Armor"],
+      "S": ["Imperial Crusader Breastplate"], "S80": ["Dynasty Breast Plate", "Moirai Breastplate"], "S84": ["Vesper Breastplate", "Vesper Noble Breastplate", "Vorpal Breastplate", "Elegia Breastplate"]
+    },
+    "heavy": {
+      "NONE": [], "D": ["Brigandine Tunic", "Mithril Breastplate"], "C": ["Full Plate Armor", "Composite Armor"],
+      "B": ["Blue Wolf Breastplate", "Zubei's Breastplate"], "A": ["Majestic Plate Armor", "Tallum Plate Armor", "Apella Plate Armor"],
+      "S": ["Imperial Crusader Breastplate"], "S80": ["Dynasty Breast Plate", "Moirai Breastplate"], "S84": ["Vesper Breastplate", "Vesper Noble Breastplate", "Vorpal Breastplate", "Elegia Breastplate"]
+    },
+    "light": {
+      "NONE": ["Wooden Breastplate"], "D": ["Manticore Skin Shirt", "Reinforced Leather Shirt"], "C": ["Plated Leather", "Drake Leather Armor", "Theca Leather Armor", "Mithril Shirt"],
+      "B": ["Leather Armor of Doom", "Blue Wolf Leather Armor", "Zubei's Leather Shirt", "Avadon Leather Armor"],
+      "A": ["Dark Crystal Leather Armor", "Tallum Leather Armor", "Leather Armor of Nightmare", "Majestic Leather Armor", "Apella Brigandine"],
+      "S": ["Draconic Leather Armor"], "S80": ["Dynasty Leather Armor", "Moirai Leather Breastplate"], "S84": ["Vesper Leather Breastplate", "Vesper Noble Leather Breastplate", "Vorpal Leather Breastplate", "Elegia Leather Breastplate"]
+    },
+    "robe": {
+      "NONE": ["Tunic of Devotion"], "D": ["Mithril Tunic", "Tunic of Knowledge"], "C": ["Karmian Tunic", "Demon's Tunic", "Divine Tunic"],
+      "B": ["Blue Wolf Tunic", "Tunic of Doom", "Avadon Robe", "Tunic of Zubei"], "A": ["Dark Crystal Robe", "Tallum Tunic", "Robe of Nightmare", "Majestic Robe", "Apella Doublet"],
+      "S": ["Major Arcana Robe"], "S80": ["Dynasty Tunic", "Moirai Tunic"], "S84": ["Vesper Tunic", "Vesper Noble Tunic", "Vorpal Tunic", "Elegia Tunic"]
+    }
+  },
+  "jewelry": {
+    "_note": "Same for every class: [main, alternatives...]. The epic of the slot comes first once someone has it (epics below).",
+    "NONE": { "neck": ["Blue Diamond Necklace"], "earring": ["Coral Earring", "Cat's Eye Earring"], "ring": ["Blue Coral Ring"] },
+    "D": { "neck": ["Elven Necklace"], "earring": ["Elven Earring", "Omen Beast's Eye Earring"], "ring": ["Mithril Ring", "Elven Ring"] },
+    "C": { "neck": ["Aquastone Necklace"], "earring": ["Nassen's Earring", "Moonstone Earring"], "ring": ["Aquastone Ring"] },
+    "B": { "neck": ["Sage's Necklace", "Paradia Necklace", "Otherworldly Necklace", "Elemental Necklace"], "earring": ["Sage's Earring", "Paradia Earring", "Otherworldly Earring", "Elemental Earring"], "ring": ["Sage's Ring", "Paradia Ring", "Otherworldly Ring", "Elemental Ring"] },
+    "A": { "neck": ["Majestic Necklace"], "earring": ["Majestic Earring"], "ring": ["Majestic Ring"] },
+    "S": { "neck": ["Tateossian Necklace"], "earring": ["Tateossian Earring"], "ring": ["Tateossian Ring"] },
+    "S80": { "neck": ["Dynasty Necklace", "Moirai Necklace"], "earring": ["Dynasty Earrings", "Moirai Earring"], "ring": ["Dynasty Ring", "Moirai Ring"] },
+    "S84": { "neck": ["Vesper Necklace"], "earring": ["Vesper Earring"], "ring": ["Vesper Ring"] }
+  },
+  "epics": {
+    "_note": "From that grade's expertise level the epic replaces the graded piece of its slot (first = best). Two epics in a slot fill both earrings / rings.",
+    "B": { "ring": ["Ring of Queen Ant"] },
+    "A": { "ring": ["Ring of Core", "Ring of Queen Ant"], "earring": ["Earring of Orfen"], "neck": ["Necklace of Frintezza"] },
+    "S": { "ring": ["Ring of Baium", "Ring of Beleth", "Ring of Queen Ant", "Ring of Core"], "earring": ["Earring of Antharas", "Earring of Zaken", "Earring of Orfen"], "neck": ["Necklace of Valakas", "Necklace of Frintezza"] },
+    "S80": { "ring": ["Ring of Baium", "Ring of Beleth", "Ring of Queen Ant", "Ring of Core"], "earring": ["Earring of Antharas", "Earring of Zaken", "Earring of Orfen"], "neck": ["Necklace of Valakas", "Necklace of Frintezza"] },
+    "S84": { "ring": ["Ring of Baium", "Ring of Beleth", "Ring of Queen Ant", "Ring of Core"], "earring": ["Earring of Antharas", "Blessed Earring of Zaken", "Earring of Zaken"], "neck": ["Blessed Necklace of Freya", "Necklace of Freya", "Necklace of Valakas"] }
+  }
+}

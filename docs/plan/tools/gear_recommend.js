@@ -11,7 +11,7 @@ const readJson = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8').
 const C = API.catalog(path.join(ROOT, 'Dashboard'));
 const G = API.giranOffers(DATA, readJson);
 const t0 = Date.now();
-const R = recommendAll(C, G, { fitOf: API.fitOf, giranGet: API.giranGet, srcText: API.srcText });
+const R = recommendAll(C, G, { fitOf: API.fitOf, giranGet: API.giranGet, srcText: API.srcText, doctrine: require(path.join(ROOT, 'Dashboard', 'gear_doctrine.js')).load(DATA) });   // GEAR DOCTRINE 2026-10-16
 console.log(`recommended: ${Object.keys(R.byKey).length} archetype/race kits x 8 grades in ${Date.now() - t0} ms`);
 API.writeRecFiles(DATA, C, R);
 console.log('written: Scripts/data/gear_rec/<classId>.json for', C.classes.length, 'classes');

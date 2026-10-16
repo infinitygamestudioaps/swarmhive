@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.7.8 (2026-10-16)
+
+- Gear plan for every class and grade (NG to S84): weapons with the special ability to put on, the armor set per class (tanks and dwarves heavy + shield, dancers and singers heavy, Gladiator / Duelist / fists / daggers / archers / Kamael light, every caster healer and buffer a robe), jewelry and epic boss jewels. It lives in Scripts/data/gear_doctrine.json and the Gear page recommendations follow it
+- your own Gear page choices still win
+- Fixes from it: base fighters get a no-grade 1h sword (was a crossbow), buffers a robe (was heavy), dwarves 1h + shield (was 2h), casters Arcana Mace + Arcana Sigil from S
+- Bots now accept the plan's light armor for Gladiator / Duelist / fists, the plan's weapon for duals / fists / polearms, and a sigil for casters
+- a tank that the hive once gave a 2h weapon now switches to the plan's 1h weapon + shield
+
 ## v1.7.7 (2026-10-16)
 
 - Kamael soldiers no longer auto-equip a bow: a Kamael never gets a plain bow, a crossbow only on the Warder line, and a melee role puts a melee weapon back on before any bow (all races)

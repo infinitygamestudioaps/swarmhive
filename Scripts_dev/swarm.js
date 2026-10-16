@@ -10572,10 +10572,13 @@ function planUpgrades(budget) {
   // must be the role's FIRST armor type (tank / fighter2h = HEAVY). A recommendation that breaks it = the automatic role pick instead.
   const roleRecFit = (slot, info) => {
     if (!R || !info) return '';
-    if (slot === 'weapon') { if (R.shield && ggTwoHanded(info)) return `${info.n} is two-handed - the ${role} carries a shield`; if (R.weapon && !R.weapon(info)) return `${info.n} is no ${role} weapon`;
+    // GEARDOC-2026-10-16 (owner's gear document, Scripts/data/gear_doctrine.json -> gear_rec): the class plan now names the right weapon per class, so the
+    // generic 'melee' role (duals, fists, polearms, singers / dancers) takes the plan's weapon; GEARGUARD still never swaps the worn weapon TYPE.
+    if (slot === 'weapon') { if (R.shield && ggTwoHanded(info)) return `${info.n} is two-handed - the ${role} carries a shield`; if (R.weapon && !R.weapon(info) && role !== 'melee') return `${info.n} is no ${role} weapon`;
       if (!kamaelTypeOk(info.t, num(Me.ClassId))) return `${info.n} is no weapon for my Kamael class`; }   // KAMAELBOW-2026-10-16 (a male soldier's class recommendation listed crossbows)
-    if (slot === 'shield' && !R.shield) return `the ${role} uses no shield`;
-    if ((slot === 'chest' || slot === 'legs') && Array.isArray(R.armor) && R.armor.length && info.t && info.t !== R.armor[0]) return `${info.n} is ${String(info.t).toLowerCase()} armor - the ${role} wears ${String(R.armor[0]).toLowerCase()}`;
+    if (slot === 'shield' && !R.shield && !(R.stat === 'ma' && String(info.t || '') === 'SIGIL')) return `the ${role} uses no shield`;   // GEARDOC: casters carry a sigil from S grade
+    // GEARDOC: any armor type the role allows (Gladiator / Duelist / fists light, singers / dancers heavy: the plan decides per class), never another one
+    if ((slot === 'chest' || slot === 'legs') && Array.isArray(R.armor) && R.armor.length && info.t && !R.armor.includes(info.t)) return `${info.n} is ${String(info.t).toLowerCase()} armor - the ${role} wears ${R.armor.map(x => String(x).toLowerCase()).join(' or ')}`;
     return '';
   };
   const roleBroken = (slot) => { const wi = (((g.eq[slot] || [])[0]) || {}).info; if (!wi || !R || !hiveBoughtNames().has(wi.n)) return false;   /* only what the hive bought itself */ if (slot === 'weapon') return !!R.shield && ggTwoHanded(wi) && /^(SWORD|BLUNT)$/.test(String(wi.t || '')); if (slot === 'chest' || slot === 'legs') return Array.isArray(R.armor) && R.armor.length > 1 && !!wi.t && wi.t !== R.armor[0] && R.armor.includes(wi.t); return false; };   // ROLEFIT: the worn piece breaks the role (2h on a tank, light on a heavy role)
@@ -10621,7 +10624,7 @@ function planUpgrades(budget) {
       if (fromRec && wearing < want) {
         const jinfo = kwant && info.t !== kwant && info.cw ? items[info.cw] : info, jid = jinfo === info ? num(ids[0]) : num(info.cw);
         // TESTERS2-2026-10-13: an EMPTY slot is never kept
-        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && upgradeGain(jid, jinfo, g, ownOk(slot, jinfo)) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
+        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && !roleBroken(slot) && upgradeGain(jid, jinfo, g, ownOk(slot, jinfo)) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
       }
       locked[slot] = 'preferred';
       if (slot === 'chest' && info.full) locked.legs = 'covered (full armor)';   // GEARPREF D3

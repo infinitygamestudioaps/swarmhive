@@ -156,9 +156,10 @@ if (M.sgIsStarter) {
   { const prefs = { destroyer: { D: { _weapon: { type: 'SWORD', two: true } } } };
     const { r } = plan({ classId: 45, role: 'destroyer', worn: BOWKIT, prefs }); const w = weaponBuy(r);
     check(!!w && w.info.t === 'SWORD' && !!w.info.two, `gear_prefs.json _weapon rule (2h sword) beats the worn bow type: ${w ? w.info.n : 'nothing (' + r.skipped.join('; ') + ')'}`); }
-  // unsold planned item -> the best SOLD item of that type: the No-Grade 2h sword (only the normal Zweihander 217,140; no Common one)
+  // GEARDOC-2026-10-16 (owner gear document): a base Orc Fighter takes the no-grade 1h sword (Falchion) until its class change at 20, whatever its
+  // planned role (was: the best sold No-Grade 2h sword, the Zweihander). Never the starter weapon, never a bow.
   { const { r } = plan({ classId: 44, level: 19, role: 'destroyer', worn: ['Training Gloves', "Squire's Shirt", "Squire's Pants"] }); const w = weaponBuy(r); dump('Orc Fighter 19', r);
-    check(!!w && w.info.n === 'Zweihander' && w.offer.price === 217140, `Orc Fighter lvl 19 (destroyer) with Training Gloves: buys the sold normal Zweihander (${w ? w.info.n + ' ' + w.offer.price : 'nothing (' + r.skipped.join('; ') + ')'})`); }
+    check(!!w && w.info.n === 'Falchion' && !w.info.two, `Orc Fighter lvl 19 (destroyer) with Training Gloves: buys the plan's no-grade 1h sword (${w ? w.info.n + ' ' + w.offer.price : 'nothing (' + r.skipped.join('; ') + ')'})`); }
   { const prefs = { _class: { 45: { D: { weapon: { id: idOf('Sword of Valakas (2-Handed)'), buy: 'auto' } } } } };
     const { r } = plan({ classId: 45, role: 'destroyer', worn: ['Training Gloves', "Squire's Shirt", "Squire's Pants"], prefs }); const w = weaponBuy(r);
     check(!!w && w.info.t === 'SWORD' && w.info.two && w.info.g === 'D' && r.skipped.some(s => /needs manual: Sword of Valakas/.test(s)), `class plan item never sold (Sword of Valakas): the best SOLD D 2h sword meanwhile (${w ? w.info.n : 'nothing'}) + "needs manual"`); }

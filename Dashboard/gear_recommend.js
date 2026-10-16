@@ -11,6 +11,7 @@
 // there); a better unsold piece becomes the first alternative ("better if you craft / drop it"). Fighters buy the Common twin (1/20 price)
 // unless the set bonus is worth it (C-grade and up, bonus score >= 8: then the real set); casters' armor is always the real set.
 'use strict';
+const DOC = require('./gear_doctrine');
 const GRADES = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
 // role profile per archetype
 const ROLE_OF = { tank: 'tank', dwarf: 'tank', warrior: 'melee', dual: 'melee', pole: 'melee', sws: 'melee', destroyer: 'melee', fist: 'melee', fighter: 'melee',
@@ -177,12 +178,95 @@ function recommendFor(C, G, h, c, grade) {
     const L = all.filter(([, it]) => it.s === 'bracelet' && GRADES.indexOf(it.g) <= gi && GRADES.indexOf(it.g) >= 2).sort((a, b) => GRADES.indexOf(b[1].g) - GRADES.indexOf(a[1].g) || (b[1].mp || 0) - (a[1].mp || 0));
     if (L.length) out.bracelet = mk(L[0][0], 'auto', `Best bracelet up to this grade (more talisman slots); ${where(L[0][0])} · get it by hand`, []);
   }
+  // ---------------- GEAR DOCTRINE (owner 2026-10-16: "Here is every single information you need about armor, weapon, jewelry, epics for all
+  // classes and grades. Make sure we follow this"): Scripts/data/gear_doctrine.json decides every slot it names - weapon (+ S.A.), the armor
+  // set of the class's armor column (heavy with shield / heavy / light / robe), the shield or the caster sigil, jewelry and the epics. The
+  // scoring above stays only for slots it does not name (and then only pieces of the column's armor type).
+  const DP = h.doctrine ? DOC.planFor(h.doctrine, C, c.id, grade) : null;
+  if (DP) {
+    const tag = 'Gear plan';
+    const COLT = { heavyShield: 'HEAVY', heavy: 'HEAVY', light: 'LIGHT', robe: 'MAGIC' }[DP.col] || '';
+    const fullAlt = (e, L) => { const A = (L || []).filter((x, i, a) => x && x !== e.id && a.indexOf(x) === i); e.alt = A; e.altNames = A.map(x => (C.items[x] || {}).n || ''); return e; };
+    const names = (L) => L.map(i => (C.items[i] || {}).n).filter(Boolean).join(', ');
+    // weapon
+    if (DP.weapon.ids.length) {
+      const W = DP.weapon.ids.filter(id => fits(C.items[id], 'weapon'));
+      const L = W.length ? W : DP.weapon.ids, main = L[0], it = C.items[main];
+      let saId = null; for (const p of DP.weapon.sa) { const f = all.find(([, x]) => x.base === main && x.sa === p); if (f) { saId = f[0]; break; } }
+      const stat = casterR ? `M.Atk ${it.ma}` : `P.Atk ${it.pa}${it.spd ? ' · speed ' + it.spd : ''}${it.cr ? ' · crit ' + it.cr : ''}`;
+      out.weapon = fullAlt(Object.assign(mk(main, 'auto', `${tag}: ${it.n} (${stat}); ${where(main)}` + (L.length > 1 ? `; alternatives: ${names(L.slice(1))}` : '') +
+        (DP.weapon.sa.length ? `; special ability: ${DP.weapon.sa[0]}${saId ? '' : ' (soul crystal)'}` : ''), []), { doctrine: true }), L.slice(1).concat(saId ? [saId] : []));
+    }
+    const twoH = out.weapon && C.items[out.weapon.id] && C.items[out.weapon.id].two;
+    // armor: the column's sets in the plan's order
+    ['chest', 'legs', 'head', 'gloves', 'feet', 'shield'].forEach(s => { delete out[s]; });
+    const evalSet = (S) => {
+      const pieces = {}; let real = 0, price = 0, allSold = true;
+      Object.entries(S.pieces).forEach(([slot, ids]) => {
+        if (slot === 'shield') return;
+        const id = ids.find(i => C.items[i] && fits(C.items[i], slot)) || ids.find(i => C.items[i]); if (!id) return;
+        pieces[slot] = id; const g = sold(id, 'auto'), gr = sold(id, 'real');
+        if (!g) allSold = false; else price += g.price;
+        if (gr) real += gr.price; else real = Infinity;
+      });
+      if (!pieces.chest) return null;
+      const B = bonusScore(S.bonus, role), realBuy = casterR || (gi >= 2 && B.s >= 8 && real < Infinity);
+      const shieldId = (S.pieces.shield || []).find(i => C.items[i] && fits(C.items[i], 'shield')) || (S.pieces.shield || [])[0] || 0;
+      return { S, pieces, B, realBuy, sold: allSold, price: realBuy ? real : price, shieldId };
+    };
+    const rows = DP.sets.map(nm => (C.sets || []).find(S => DOC.norm(S.name) === DOC.norm(nm))).filter(Boolean).map(evalSet).filter(Boolean);
+    if (rows.length) {
+      const set = rows[0], others = rows.slice(1);
+      const why = `${tag}: ${set.S.name} set${set.B.words ? ' (set bonus ' + set.B.words + ')' : ''}; ` +
+        (set.sold ? `sold in Giran ${short(set.price)} for the set${set.realBuy ? ' (real pieces, for the bonus)' : ' as Common'}` : `not sold in Giran (${String(h.srcText(C, set.pieces.chest)).split(' · ')[0]})`) +
+        (others.length ? `; alternatives: ${others.map(r => r.S.name).join(', ')}` : '');
+      Object.entries(set.pieces).forEach(([slot, id]) => { out[slot] = fullAlt(Object.assign(mk(id, set.realBuy ? 'real' : 'auto', why, []), { doctrine: true }), others.map(r => r.pieces[slot]).filter(Boolean)); });
+      if (DP.col === 'heavyShield' && !twoH) {
+        const sh = rows.filter(r => r.shieldId);
+        if (sh.length) out.shield = fullAlt(Object.assign(mk(sh[0].shieldId, sh[0].realBuy ? 'real' : 'auto', `${tag}: ${sh[0].S.name} shield${sh[0].S.shield ? ' (with the set ' + sh[0].S.shield + ')' : ''}; ${where(sh[0].shieldId)}`, []), { doctrine: true }), sh.slice(1).map(r => r.shieldId));
+      }
+    }
+    // slots no planned set covers: the best piece that is not part of another armor type's set
+    const setTypes = {}; (C.sets || []).forEach(S => Object.values(S.pieces).forEach(ids => ids.forEach(i => { if (S.t) (setTypes[i] = setTypes[i] || []).push(S.t); })));   // B+ helmets are shared by a family's heavy / light / robe sets
+    const typeOk = (id, it) => (!it.t || it.t === 'NONE' || it.t === COLT) && (!setTypes[id] || !COLT || setTypes[id].includes(COLT));
+    ['head', 'gloves', 'feet', 'chest', 'legs'].forEach(s => {
+      if (out[s]) return;
+      if (s === 'legs' && out.chest && C.items[out.chest.id] && C.items[out.chest.id].full) return;
+      const L = ofGrade(s).map(([id, it]) => { const f = fits(it, s); return f && !it.base && typeOk(id, it) ? { id, it, sc: (it.pd || 0) + (casterR ? (it.mp || 0) * 0.2 : 0) + (it.md || 0) * 0.3 } : null; })
+        .filter(x => x && x.sc > 0).sort((a, b) => b.sc - a.sc);
+      if (!L.length) return;
+      const bs = L.find(x => sold(x.id)), p = bs || L[0];
+      out[s] = mk(p.id, 'auto', `Best ${s} of ${COLT ? COLT.toLowerCase() : 'any'} type (the plan names no set for this slot) (${statWords(p.it)}); ${where(p.id)}`, bs && bs !== L[0] ? [L[0].id] : []);
+    });
+    if (DP.col === 'heavyShield' && !out.shield && !twoH) {
+      const L = ofGrade('shield').map(([id, it]) => { const f = fits(it, 'shield'); return f && !it.base && it.t !== 'SIGIL' ? { id, it, sc: (it.sd || 0) + (it.pd || 0) } : null; }).filter(x => x && x.sc > 0).sort((a, b) => b.sc - a.sc);
+      if (L.length) { const bs = L.find(x => sold(x.id)), p = bs || L[0]; out.shield = mk(p.id, 'auto', `Best shield (tanks and dwarves carry one) (${statWords(p.it)}); ${where(p.id)}`, []); }
+    }
+    if (DP.sigil.length && !twoH) out.shield = fullAlt(Object.assign(mk(DP.sigil[0], 'auto', `${tag}: ${C.items[DP.sigil[0]].n} with the 1h caster weapon; ${where(DP.sigil[0])}`, []), { doctrine: true }), DP.sigil.slice(1));
+    // jewelry + epics (the epic first in its slot; slot 2 = the second epic or the normal piece, botSkip: the bots buy slot 1's list twice)
+    ['neck', 'earring', 'earring2', 'ring', 'ring2'].forEach(s => { delete out[s]; });
+    ['neck', 'earring', 'ring'].forEach(s => {
+      const N = DP.jewel[s] || [], E = DP.epics[s] || [], two = s !== 'neck';
+      const normal = N.length ? fullAlt(Object.assign(mk(N[0], 'auto', `${tag}: ${C.items[N[0]].n} (${statWords(C.items[N[0]])}); ${where(N[0])}` + (N.length > 1 ? `; alternatives: ${names(N.slice(1))}` : ''), []), { doctrine: true }), N.slice(1)) : null;
+      if (!E.length) { if (normal) out[s] = normal; return; }
+      const tail = normal ? `; until someone has it: ${normal.name} (${where(normal.id)})` : '';
+      const ep = (id, more) => fullAlt(Object.assign(mk(id, 'auto', `${tag}: epic ${C.items[id].n} (${statWords(C.items[id])}): ${String(h.srcText(C, id)).split(' · ')[0]}${tail}`, []), { epic: true, doctrine: true }), more);
+      const normalIds = normal ? [normal.id].concat(normal.alt) : [];
+      out[s] = ep(E[0], E.slice(1).concat(normalIds));
+      if (!two) return;
+      if (E[1]) out[s + '2'] = Object.assign(ep(E[1], E.slice(2).concat(normalIds)), { botSkip: true });
+      else if (normal) out[s + '2'] = Object.assign({}, normal, { botSkip: true, why: normal.why + ' (next to the epic ' + C.items[E[0]].n + ')' });
+    });
+  }
   return out;
 }
 function recommendAll(C, G, h) {
+  // GEAR DOCTRINE: a caller that does not pass the plan (an older gearpage_api.js still loaded in a running server) still follows it
+  if (h && h.doctrine === undefined) h = Object.assign({}, h, { doctrine: DOC.load(require('path').join(__dirname, '..', 'Scripts', 'data')) });
   const byKey = {}, classKey = {};
   C.classes.forEach(c => {
-    const key = c.arch + '|' + c.race;
+    const dc = h.doctrine && h.doctrine.classes && h.doctrine.classes[String(c.id)];   // GEAR DOCTRINE: one archetype can differ per class (Gladiator light, Bladedancer heavy)
+    const key = c.arch + '|' + c.race + (Array.isArray(dc) ? '|' + dc.join('|') : '');
     classKey[c.id] = key;
     if (byKey[key]) return;
     byKey[key] = {};

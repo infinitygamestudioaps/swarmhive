@@ -415,9 +415,10 @@ function mutate(C, P, b, G, states) {
 let REC = null, RECK = '';
 function recs(ctx, C, G) {
   let sm = 0; try { sm = fs.statSync(path.join(ctx.DATA, 'shopscan_giran.json')).mtimeMs; } catch (e) { }
-  const k = CATM + ':' + sm;
+  let dm = 0; try { dm = fs.statSync(path.join(ctx.DATA, 'gear_doctrine.json')).mtimeMs; } catch (e) { }   // GEAR DOCTRINE 2026-10-16: an edit of the plan recomputes
+  const k = CATM + ':' + sm + ':' + dm;
   if (REC && RECK === k) return REC;
-  REC = require('./gear_recommend').recommendAll(C, G, { fitOf, giranGet, srcText }); RECK = k;
+  REC = require('./gear_recommend').recommendAll(C, G, { fitOf, giranGet, srcText, doctrine: require('./gear_doctrine').load(ctx.DATA) }); RECK = k;
   try { writeRecFiles(ctx.DATA, C, REC); } catch (e) { }
   return REC;
 }

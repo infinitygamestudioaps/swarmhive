@@ -107,7 +107,7 @@ if (C) {
   ok1(132, 'C', 'weapon', it => it.t === 'RAPIER', 'Soul Hound: a rapier');
   ok1(131, 'C', 'chest', it => it.t !== 'HEAVY', 'Kamael: never heavy armor');
   ok1(16, 'C', 'chest', (it, e) => /Karmian/.test(it.n) && e.buy === 'real', 'Bishop C: the real Karmian set (cast speed)');
-  ok1(13, 'C', 'chest', (it, e) => /Demon/.test(it.n) && e.buy === 'real', "Necromancer C: the real Demon's set (INT)");
+  ok1(13, 'C', 'chest', (it, e) => /Karmian/.test(it.n) && e.buy === 'real', "Necromancer C: the real Karmian set (owner gear document 2026-10-16: robe column C = Karmian, Demon's as alternative)");
   ok1(16, 'C', 'weapon', it => it.mw, 'Bishop: a magic weapon');
   ok1(46, 'D', 'chest', (it, e) => e.buy === 'auto' && /sold in Giran/.test(e.why), 'Destroyer D: a set sold in Giran, bought as Common (No-grade / D rule)');
   ok1(46, 'B', 'ring', (it, e) => /Queen Ant/.test(it.n), 'D11 2026-10-12 (Discord user): the epic boss jewel of the grade IS the recommendation (Ring of Queen Ant for B)');
