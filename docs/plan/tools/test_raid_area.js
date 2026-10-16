@@ -17,18 +17,19 @@ const check = (ok, what) => { n++; console.log((ok ? 'ok   ' : 'FAIL ') + what);
 const a = src.indexOf('// RAIDAREA-PURE-BEGIN'), b = src.indexOf('// RAIDAREA-PURE-END');
 if (a < 0 || b < a) { console.error('RAIDAREA-PURE block not found'); process.exit(1); }
 const PURE = src.slice(a, b);
-const M = new Function(PURE + '\nreturn { RAIDAREA, raInPoly, raDistPoly, raidAreaAnchor, raidAreaNorm, raidAreaInClear, raidClearWanted, raidStagePoint, raidAreaHold, raidAreaHoldStep, raidAreaHoldBusy, raidAreaClamp, raidLeashOk, raidLeashBack, raidLeashFocus };')();
+const M = new Function(PURE + '\nreturn { RAIDAREA, raInPoly, raDistPoly, raidAreaAnchor, raidAreaNorm, raidAreaInClear, raidClearWanted, raidClearEnough, raidStagePoint, raidAreaHold, raidAreaHoldStep, raidAreaHoldBusy, raidAreaClamp, raidLeashOk, raidLeashBack, raidLeashFocus };')();
 check(!/new Map\(/.test(PURE), 'pure block: no new Map() (the L2Swarm world-map host type)');
 
 const BOSS = { x: 10000, y: 20000, z: -3000 };
 const sq = (cx, cy, h) => [[cx - h, cy - h], [cx + h, cy - h], [cx + h, cy + h], [cx - h, cy + h]];
 // fight area: an 1200 x 1200 square around the boss; stage 1800 south (y +) of the boss
-const RAW = { id: 25001, boss: 'Test Boss', fight: sq(BOSS.x, BOSS.y, 600), clear: null, clearMargin: 400, stage: [BOSS.x, BOSS.y + 1800, -3000] };
+const RAW = { id: 25001, boss: 'Test Boss', fight: sq(BOSS.x, BOSS.y, 600), clear: null, clearMargin: 400, manual: true, stage: [BOSS.x, BOSS.y + 1800, -3000] };
 check(M.raidAreaNorm(null) === null && M.raidAreaNorm({ fight: [[0, 0], [1, 1]] }) === null, 'norm: missing / fewer than 3 points -> no area');
 check(M.raidAreaNorm({ ...RAW, enabled: false }) === null, 'norm: switched off on the dashboard -> no area (defaults)');
 const A = M.raidAreaNorm(RAW);
 check(A && A.fight.length === 4 && A.margin === 400 && A.stage[1] === BOSS.y + 1800 && !A.clear, 'norm: fight, margin, stage');
 check(M.raidAreaNorm({ ...RAW, fight: RAW.fight.map(p => ({ x: p[0], y: p[1] })), clearMargin: undefined }).margin === 600, 'norm: {x,y} points, default margin 600');
+check(M.raidAreaNorm({ ...RAW, manual: undefined }).margin === 0, 'RAIDCLEAR2: a generated (not hand-saved) area clears only its circle (margin 0)');
 
 const ctxA = { area: A, boss: BOSS, stage: { x: A.stage[0], y: A.stage[1] }, defaultR: 1200 };
 const ctx0 = { area: null, boss: BOSS, stage: { x: BOSS.x, y: BOSS.y + 1500 }, defaultR: 1200 };
@@ -37,23 +38,24 @@ const mob = (dx, dy, o = {}) => ({ x: BOSS.x + dx, y: BOSS.y + dy, dm: o.dm != n
 check(M.raidClearWanted(mob(300, 0, { aggro: true }), ctxA) === 'aggr', 'area: aggressive inside the fight area -> cleared');
 check(M.raidClearWanted(mob(900, 0, { aggro: true }), ctxA) === 'aggr', 'area: aggressive in the margin (fight + 400) -> cleared');
 check(M.raidClearWanted(mob(1300, 0, { aggro: true }), ctxA) === '', 'area: aggressive OUTSIDE the clear area -> left alone (the old rule cleared it: 1300 < 2000)');
-check(M.raidClearWanted(mob(300, 0), ctxA) === 'passive', 'area: passive inside the fight area -> cleared (it would get hit and join)');
+check(M.raidClearWanted(mob(300, 0), ctxA) === '', 'RAIDCLEAR2: passive inside the fight area -> left alone (only aggressive ones)');
 check(M.raidClearWanted(mob(900, -200), ctxA) === '', 'area: passive in the margin, off the way in -> left alone');
 check(M.raidClearWanted(mob(900, -200), { ...ctxA, area: { ...A, passive: true } }) === 'passive', 'area + "also passive": passive in the clear area -> cleared');
-check(M.raidClearWanted(mob(150, 900), ctxA) === 'passive', 'area: passive on the stage -> boss path -> cleared');
+check(M.raidClearWanted(mob(150, 900), ctxA) === '', 'RAIDCLEAR2: passive on the stage -> boss path -> left alone');
 check(M.raidClearWanted(mob(3000, 0, { hitsUs: true, dm: 300 }), ctxA) === 'attacker', 'area: a monster hitting us -> killed wherever it is (it is on us)');
 check(M.raidClearWanted(mob(3000, 0, { hitsUs: true, dm: 2500 }), ctxA) === '', 'area: hitting a teammate 2500 away from me -> not chased (never walk out of the area)');
-check(M.raidClearWanted(mob(400, 2000, { aggro: true, ar: 300, dm: 300 }), ctxA) === 'aggr', 'area: aggressive next to the stage (within its aggro range) -> cleared (it would come anyway)');
+check(M.raidClearWanted(mob(400, 2000, { aggro: true, ar: 300, dm: 300 }), ctxA) === '', 'RAIDCLEAR2: aggressive outside the circle next to the stage -> left alone (killed only when it hits us)');
 const own = M.raidAreaNorm({ ...RAW, clear: sq(BOSS.x + 600, BOSS.y, 1000) });
 check(M.raidClearWanted(mob(1500, 0, { aggro: true }), { ...ctxA, area: own }) === 'aggr' && M.raidClearWanted(mob(-900, 0, { aggro: true }), { ...ctxA, area: own }) === '', 'own clear outline wins over the margin');
 // without an area
 check(M.raidClearWanted(mob(1100, 0, { aggro: true }), ctx0) === 'aggr', 'no area: aggressive 1100 from the boss -> cleared');
 check(M.raidClearWanted(mob(1600, -600, { aggro: true }), ctx0) === '', 'no area: aggressive 1700 from the boss, off the path -> left alone (old rule: within 2000 = cleared)');
-check(M.raidClearWanted(mob(100, 1300, { aggro: true, dm: 300 }), ctx0) === 'aggr', 'no area: aggressive on the way in (path, 1300 from the boss) -> cleared');
+check(M.raidClearWanted(mob(100, 1300, { aggro: true, dm: 300 }), ctx0) === '', 'RAIDCLEAR2 no area: aggressive on the way in beyond clearRadius -> left alone');
 check(M.raidClearWanted(mob(1500, 2600, { aggro: true, dm: 1600 }), ctx0) === '', 'no area: aggressive behind the stage, off the path, not near me -> left alone');
-check(M.raidClearWanted(mob(300, 0), ctx0) === 'passive', 'no area: passive right at the boss -> cleared');
+check(M.raidClearWanted(mob(300, 0), ctx0) === '', 'RAIDCLEAR2 no area: passive right at the boss -> left alone');
 check(M.raidClearWanted(mob(900, -300), ctx0) === '', 'no area: passive 950 from the boss, off the path -> left alone');
-check(M.raidClearWanted(mob(100, 1000), ctx0) === 'passive', 'no area: passive on the path near the boss -> cleared');
+check(M.raidClearWanted(mob(100, 1000), ctx0) === '', 'RAIDCLEAR2 no area: passive on the path -> left alone');
+check(M.raidClearEnough(0, 3, 1000) === false && M.raidClearEnough(8, 3, 1000) === true && M.raidClearEnough(14, 10, 1000) === false && M.raidClearEnough(15, 10, 1000) === true && M.raidClearEnough(0, 40, 240000) === true, 'RAIDCLEAR2: the clear ends after 1.5x what was there (min 8) or 4 min (respawns)');
 // a synthetic boss camp: how much is cleared
 const camp = [];
 for (let r = 300; r <= 2600; r += 230) for (let k = 0; k < 8; k++) { const ang = k * Math.PI / 4 + r / 1000; camp.push({ dx: Math.round(r * Math.cos(ang)), dy: Math.round(r * Math.sin(ang)), aggro: (k + Math.round(r / 230)) % 3 === 0 }); }
@@ -118,7 +120,7 @@ function runClear(area, mobs, start) {
   const live = mobs.map((m, i) => ({ objId: 1000 + i, Name: m.name || ('Mob' + i), Title: m.title || '', X: BOSS.x + m.dx, Y: BOSS.y + m.dy, Z: -3000, IsDead: false, aggro: !!m.aggro }));
   live.forEach(m => { m.ref = m; });
   const g = {
-    CONFIG: { mission: { clearRadius: 1200, clearMaxMs: 480000, stageDist: 1500 } }, RAIDAREA: M.RAIDAREA, raidStagePoint: M.raidStagePoint, raidClearWanted: M.raidClearWanted,
+    CONFIG: { mission: { clearRadius: 1200, clearMaxMs: 480000, stageDist: 1500 } }, RAIDAREA: M.RAIDAREA, raidStagePoint: M.raidStagePoint, raidClearWanted: M.raidClearWanted, raidClearEnough: M.raidClearEnough,
     raidAreaOf: () => area, now: () => clock, sleep: async (ms) => { clock += ms; }, raidCursed: () => false, minionNames: () => ['Guard of Boss'], ownMinionName: () => false,
     findMobByName: (n) => n === 'Test Boss' ? { X: BOSS.x, Y: BOSS.y, Z: BOSS.z, IsDead: false } : null,
     leadTeamWalk: async (x, y, z, d) => { calls.walks.push([Math.round(x), Math.round(y), d]); const L = Math.hypot(x - Me.X, y - Me.Y), k = L > d ? (L - d) / L : 0; Me.X += (x - Me.X) * k; Me.Y += (y - Me.Y) * k; return true; },
@@ -144,12 +146,12 @@ const CAMP = [
 (async () => {
   const r1 = await runClear(null, CAMP, [BOSS.x, BOSS.y + 6000]);
   check(r1.r === true && r1.calls.walks.length === 1 && r1.calls.walks[0][1] === BOSS.y && r1.calls.walks[0][2] === 1500, `no area: the team walks to 1500 from the boss (walk ${JSON.stringify(r1.calls.walks[0])})`);
-  check(JSON.stringify(r1.calls.killed.sort()) === JSON.stringify(['Deer D', 'Orc A', 'Orc B']), `no area: killed ${r1.calls.killed.join(', ')} (aggressive within 1200 + the passive one at the boss; Orc C, Deer E/F and the minion left)`);
+  check(JSON.stringify(r1.calls.killed.sort()) === JSON.stringify(['Orc A', 'Orc B']), `no area: killed ${r1.calls.killed.join(', ')} (aggressive within 1200 + the passive one at the boss; Orc C, Deer E/F and the minion left)`);
   check(r1.calls.events.some(e => /CLEAR: aggressive monsters within 1200/.test(e)) && r1.calls.said.some(t => /aggressive monsters around/.test(t)), 'no area: party chat + raid event say "aggressive monsters within 1200"');
   check(r1.mode === 'idle' && r1.rcl.on === false, 'no area: raid mode back to idle, live clear flag off');
   const r2 = await runClear(A, CAMP, [BOSS.x, BOSS.y + 6000]);
   check(r2.calls.walks.length === 1 && r2.calls.walks[0][0] === A.stage[0] && r2.calls.walks[0][1] === A.stage[1] && r2.calls.walks[0][2] === 250, `area: the team walks to the area's stage point (walk ${JSON.stringify(r2.calls.walks[0])})`);
-  check(JSON.stringify(r2.calls.killed.sort()) === JSON.stringify(['Deer D', 'Orc A', 'Orc B']), `area: killed ${r2.calls.killed.join(', ')} (inside the clear area only; Orc C outside it left alone)`);
+  check(JSON.stringify(r2.calls.killed.sort()) === JSON.stringify(['Orc A', 'Orc B']), `area: killed ${r2.calls.killed.join(', ')} (inside the clear area only; Orc C outside it left alone)`);
   check(r2.calls.events.some(e => /CLEAR: the clear area of Test Boss's fight area \(fight area \+ 400\)/.test(e)), 'area: raid event names the clear area');
   const r3 = await runClear(M.raidAreaNorm({ ...RAW, clearPassive: true, clearMargin: 800 }), CAMP, [A.stage[0], A.stage[1]]);
   check(r3.calls.walks.length === 0 && r3.calls.killed.includes('Deer E') && !r3.calls.killed.includes('Orc C') && !r3.calls.killed.includes('Deer F'), `area + also passive + margin 800, already at the stage (no walk): killed ${r3.calls.killed.join(', ')}`);

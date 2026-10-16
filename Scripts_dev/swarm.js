@@ -8456,9 +8456,12 @@ async function routeHop(p, abort, onDetour) {
     const hopMs = (q) => { const sw = !!(q.swim || q.water || p.swim || p.water), ms = rsLegMs(Math.hypot(q.x - Me.X, q.y - Me.Y), castRunSpeed(), sw); if (sw) swimPlan(ms); return ms; };   // SWIM-2026-10-13: a planned swim (no drowning turn-back)
     // ROUTELEGS-2026-10-12: a long leg follows the path finder's wall-free points first (the user's points stay the checkpoints)
     const dLeg = Math.hypot(p.x - Me.X, p.y - Me.Y);
-    if (dLeg > 600 && !(abort && abort())) {
+    // TOISTAIRS-2026-10-16 (ToI: a 2-point leg from the 1F entry to the 2F point; every member walked UNDER it, 16 k of stairs = over the x3 cap):
+    // a point on another floor (> 600 height) always takes the path finder's way, however long it is
+    const otherFloor = isFinite(p.z) && Math.abs(p.z - Me.Z) > 600;
+    if ((dLeg > 600 || otherFloor) && !(abort && abort())) {
       let r = null; try { r = await geoRoute(p.x, p.y, isFinite(p.z) ? p.z : null, 15000); } catch (e) { r = null; }
-      if (r && r.ok && r.points && r.points.length > 1 && num(r.lengthUnits) < dLeg * 3 + 1500) {
+      if (r && r.ok && r.points && r.points.length > 1 && (otherFloor || num(r.lengthUnits) < dLeg * 3 + 1500)) {
         const way = r.points.slice(0, -1).map(q => ({ x: Math.round(q.x), y: Math.round(q.y), z: Math.round(q.z || p.z || Me.Z), ...((q.swim || q.water) ? { swim: true } : {}) })).filter(q => Math.hypot(q.x - p.x, q.y - p.y) > 200);
         for (const q of way) { if (abort && abort()) break; if (Math.hypot(q.x - Me.X, q.y - Me.Y) < 150) continue; if (!(await walkDirect(q.x, q.y, q.z, 150, hopMs(q), abort, 'route')) && Math.hypot(q.x - Me.X, q.y - Me.Y) > 300) break; }
       }
@@ -8473,9 +8476,10 @@ async function routeHop(p, abort, onDetour) {
     // AUTO-FIX (user 2026-10-06 23:35: "if the path is blocked then fix it"): ask our own path finder (geopath.js, a separate process — not
     // L2Swarm's FindPath, which blew up its memory) for a wall-free detour to the point, walk it point by point; the leader saves it into the route
     const d0 = Math.hypot(p.x - Me.X, p.y - Me.Y);
-    if (!ok && d0 > 150 && d0 < 15000 && !(abort && abort())) {   // ROUTELEGS: was < 2500
+    const offZ = isFinite(p.z) && Math.abs(p.z - Me.Z) > 600;          // TOISTAIRS: under / over the point on another floor = not there yet
+    if ((!ok || offZ) && (d0 > 150 || offZ) && d0 < 15000 && !(abort && abort())) {   // ROUTELEGS: was < 2500
       const r = await geoRoute(p.x, p.y, isFinite(p.z) ? p.z : null, 15000);
-      if (r && r.ok && r.points && r.points.length && num(r.lengthUnits) < d0 * 3 + 1500) {
+      if (r && r.ok && r.points && r.points.length && (offZ || num(r.lengthUnits) < d0 * 3 + 1500)) {
         const det = r.points.map(q => ({ x: Math.round(q.x), y: Math.round(q.y), z: Math.round(q.z || p.z || Me.Z), ...((q.swim || q.water) ? { swim: true } : {}) })).filter(q => Math.hypot(q.x - p.x, q.y - p.y) > 120);
         let good = true;
         for (const q of det) { if (!(await walkDirect(q.x, q.y, q.z, 120, hopMs(q), abort, 'route')) && Math.hypot(q.x - Me.X, q.y - Me.Y) > 200) { good = false; break; } }
@@ -9175,7 +9179,39 @@ async function routeAround(pts, next, abort) {
 /** ROUTE TEST (user 2026-10-06 21:55: "regroup in Hunters Village and run the waypoints again — until you get it right"): every member uses
  *  the start town's .townname BY ITSELF (no gathering at the leader: that pulled members straight across the cliffs), everyone meets at the
  *  start, every member walks the user's points from point 1, all wait at the end. No raid. A report per member goes to party chat + the log. */
+// ATLASTEST-2026-10-16 (owner: "use Dagger1 with silent walk ... run all the way to Baium"): !routetest <boss> atlas = THIS character walks the
+// computed nav-atlas route to the boss ALONE (the same executor a hunting / raid trip uses: towns, gatekeepers, dungeon floors, stairs), no fight,
+// the scout's run + speed skills + stealth toggle (Silent Move near aggressive monsters). Stops before a boss-zone entry it cannot pass (Baium: the
+// Angelic Vortex is talked to only with a Blooded Fabric in the bag, else it stops in front of it). HP < 45 % = stop + .town. Report in party chat
+// + Logs/navatlas.log + Logs/atlastest_<name>.json.
+async function atlasTest(name) {
+  const b = findBoss(name); if (!b) { note(`[atlastest] unknown raid boss '${name}'`, true); return; }
+  const r = navAtlasRoute({ type: 'raid', id: num(b.id), x: b.x, y: b.y, z: b.z, name: b.name });
+  if (!r || !Array.isArray(r.steps)) { note(`[atlastest] ${b.name}: no computed route`, true); return; }
+  const ei = r.steps.findIndex(x => x.do === 'enter' && x.how === 'bosszone');
+  let fabric = 0; try { fabric = num(ItemCount(4295)); } catch (e) { }
+  const upTo = ei >= 0 ? (fabric > 0 ? ei : ei - 1) : r.steps.length - 1;
+  const t0 = now(), from = P(Me.X, Me.Y, Me.Z), log = (o) => { try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\atlastest_${Me.Name}.json`, JSON.stringify(Object.assign({ boss: b.name, route: r.key, status: r.status, steps: r.steps.length, upTo, from, startedAt: new Date(t0).toISOString(), at: new Date().toISOString(), pos: [Math.round(Me.X), Math.round(Me.Y), Math.round(Me.Z)], hp: Math.round(num(Me.HpPercent)) }, o), null, 1)); } catch (e) { } };
+  if (regroupRun) abortRegroup('!routetest atlas');
+  autoLvl.stop = true; raidHunt.stop = true; setLeadPaused(true); stopCombatG();
+  note(`[atlastest] ${b.name}: walking the computed route alone (${r.steps.length} steps, ${r.status}, ${Math.round(num(r.length) / 1000)} k) up to step ${upTo + 1}${ei >= 0 ? (fabric ? ' (with Blooded Fabric: the vortex too)' : ' (stops before the vortex: no Blooded Fabric)') : ''} - silent, no fights`, true);
+  log({ phase: 'running' });
+  scoutCtl.on = true; scoutCtl.boss = b.name; scoutCtl.since = now(); scoutCtl.attackedAt = 0;
+  SCOUT_SPEED.ran = false; SCOUT_SPEED.calmSince = 0; const speedTimer = setInterval(scoutSpeedTick, 1200);   // ATLASTEST: run, speed skills, Silent Move near aggressive monsters (2026-10-16 19:00: never cast without this, a Hallate's Seer caught Dagger1 on 2F)
+  let low = false; const abort = () => { if (num(Me.HpPercent) < 45) low = true; return low || Me.IsDead; };
+  let q = null;
+  const held = takeControl('!routetest atlas', PRIO.ORDER);          // ATLASTEST: the collector / chores step aside for the whole trip (2026-10-16 18:35: the collector pulled Dagger1 back after 37 s)
+  try { q = await navAtlasRun(r, { why: 'route test ' + b.name, team: false, upTo, abort }); }
+  catch (e) { logError('atlastest', e); q = { ok: false, why: 'error: ' + e.message }; }
+  finally { try { clearInterval(speedTimer); } catch (e) { } scoutCtl.on = false; scoutCtl.boss = ''; if (held) releaseControl('!routetest atlas'); }
+  const sec = Math.round((now() - t0) / 1000), fb = (() => { try { const d = dungeonRooms().find(x => x.key === 'toi'); const F = d && d.bbox && Me.X >= d.bbox[0] && Me.X <= d.bbox[1] && Me.Y >= d.bbox[2] && Me.Y <= d.bbox[3] && d.floors.find(f => Me.Z >= f.z[0] - 100 && Me.Z <= f.z[1] + 100); return F ? F.name : ''; } catch (e) { return ''; } })();
+  const msg = `[atlastest] ${b.name}: ${q && q.ok ? 'ARRIVED' : 'STOPPED'} after ${Math.floor(sec / 60)} min ${sec % 60} s at ${P(Me.X, Me.Y, Me.Z)}${fb ? ' (' + fb + ')' : ''}${q && !q.ok ? ' - ' + String(q.why || '').slice(0, 160) : ''}${low ? ' - HP low, leaving' : ''}`;
+  note(msg, true); try { SayToParty(msg.slice(0, 250)); } catch (e) { }
+  log({ phase: q && q.ok ? 'arrived' : 'stopped', ok: !!(q && q.ok), why: q && q.why, i: q && q.i, state: q && q.state, sec, floor: fb, low });
+  if (low && !Me.IsDead) { try { await useEscape(); } catch (e) { } }
+}
 async function routeTest(name) {
+  if (/\s+atlas$/i.test(String(name || ''))) return atlasTest(String(name).replace(/\s+atlas$/i, ''));   // ATLASTEST-2026-10-16
   const boss = findBoss(name);
   if (!boss) { SayToParty(`[routetest] unknown raid boss '${name}'`); return; }
   const r = loadRaidRoute(boss);
@@ -14637,7 +14673,7 @@ async function missionTeamAction(action, data) {
 // aggressive monsters within CONFIG.mission.clearRadius (1200) of the boss or along the stage -> boss path, passive ones right at the boss
 // (nearBoss) or on that path near the boss; plus aggressive ones within their aggro range (+300) of me.
 var RAIDAREA = { defaultClearR: 1200, pathBand: 400, nearBoss: 400, holdTol: 150, pullIn: 450, edgeInset: 60, stageArrive: 250, attackerR: 1200,
-  repositionGapMs: 3500, giveUpMs: 45000, leashTol: 40, meleeEdge: 80, casterEdgeGap: 80, casterReachDefault: 600, tankAggroReach: 560 };
+  repositionGapMs: 3500, giveUpMs: 45000, clearCapMs: 240000, leashTol: 40, meleeEdge: 80, casterEdgeGap: 80, casterReachDefault: 600, tankAggroReach: 560 };
 function raInPoly(x, y, P) { let c = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const a = P[i], b = P[j]; if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; }
 function raDistSeg(x, y, ax, ay, bx, by) { const dx = bx - ax, dy = by - ay, L = dx * dx + dy * dy; let t = L ? ((x - ax) * dx + (y - ay) * dy) / L : 0; t = Math.max(0, Math.min(1, t)); return Math.hypot(x - ax - t * dx, y - ay - t * dy); }
 function raDistPoly(x, y, P) { let best = Infinity; for (let i = 0; i < P.length; i++) { const p = P[i], q = P[(i + 1) % P.length]; best = Math.min(best, raDistSeg(x, y, p[0], p[1], q[0], q[1])); } return best; }
@@ -14667,24 +14703,27 @@ function raidAreaNorm(a) {
   const F = pts(a.fight); if (F.length < 3) return null;
   const C = pts(a.clear), s = a.stage;
   const stage = Array.isArray(s) && s.length >= 2 && isFinite(Number(s[0])) && isFinite(Number(s[1])) ? [Number(s[0]), Number(s[1]), isFinite(Number(s[2])) && s[2] !== null ? Number(s[2]) : null] : null;
-  return { stay: a.stay === true, fight: F, clear: C.length >= 3 ? C : null, margin: isFinite(Number(a.clearMargin)) && a.clearMargin !== null ? Math.max(0, Number(a.clearMargin)) : 600, passive: !!a.clearPassive, stage, boss: String(a.boss || ''), id: a.id };
+  return { stay: a.stay === true, fight: F, clear: C.length >= 3 ? C : null, margin: a.manual !== true ? 0 : isFinite(Number(a.clearMargin)) && a.clearMargin !== null ? Math.max(0, Number(a.clearMargin)) : 600, /* RAIDCLEAR2-2026-10-16: generated areas = the circle only */ passive: !!a.clearPassive, stage, boss: String(a.boss || ''), id: a.id };
 }
 function raidAreaInClear(A, x, y) { if (A.clear) return raInPoly(x, y, A.clear); return raInPoly(x, y, A.fight) || raDistPoly(x, y, A.fight) <= A.margin; }
 /** The clear rule for one monster m { x, y, dm (distance to me), aggro (bool), ar (aggro range), hitsUs (bool) };
  *  ctx { area (raidAreaNorm or null), boss {x,y}, stage {x,y} | null, defaultR } -> '' (leave it) | 'attacker' | 'aggr' | 'passive' */
+// RAIDCLEAR2-2026-10-16 (owner, Taik High Prefect Arak: 360 kills of respawning Hamruts / Kranrots: "The clearing is too aggressive, it should only
+// clear aggressive monsters around the raidboss in the circle, not kill every single enemy"): AGGRESSIVE monsters inside the circle (the fight area;
+// an own clear outline / margin only on an area saved by hand) + whatever hits us. No passive ones (unless the area says "also passive"), no
+// "aggressive near me / on the way in" any more. Without an area: aggressive ones within clearRadius of the boss.
 function raidClearWanted(m, ctx) {
   const A = ctx.area, b = ctx.boss, R = ctx.defaultR || RAIDAREA.defaultClearR;
   if (m.hitsUs && m.dm <= RAIDAREA.attackerR) return 'attacker';
-  const onPath = ctx.stage ? raDistSeg(m.x, m.y, ctx.stage.x, ctx.stage.y, b.x, b.y) <= RAIDAREA.pathBand : false;
   if (A) {
-    if (!raidAreaInClear(A, m.x, m.y)) return m.aggro && m.dm <= (m.ar || 400) + 300 ? 'aggr' : '';   // an aggressive one next to the stage would come anyway
+    if (!raidAreaInClear(A, m.x, m.y)) return '';
     if (m.aggro) return 'aggr';
-    return A.passive || raInPoly(m.x, m.y, A.fight) || onPath ? 'passive' : '';
+    return A.passive ? 'passive' : '';
   }
-  const db = Math.hypot(m.x - b.x, m.y - b.y);
-  if (m.aggro) return db <= R || (onPath && db <= R + 1000) || m.dm <= (m.ar || 400) + 300 ? 'aggr' : '';
-  return db <= RAIDAREA.nearBoss || (onPath && db <= R) ? 'passive' : '';
+  return m.aggro && Math.hypot(m.x - b.x, m.y - b.y) <= R ? 'aggr' : '';
 }
+/** RAIDCLEAR2: respawns refill the circle -> the clear ends once it killed what was there at the start (x1.5, min 8) or after clearCapMs */
+function raidClearEnough(kills, first, ms) { return kills >= Math.max(8, Math.ceil(1.5 * (first || 0))) || ms >= RAIDAREA.clearCapMs; }
 /** Where the team waits during the clear + countdown: the area's stage, else stageDist from the boss toward me (the old way). */
 function raidStagePoint(A, b, me, stageDist) {
   if (A && A.stage) return { x: A.stage[0], y: A.stage[1], z: A.stage[2] !== null && isFinite(A.stage[2]) ? A.stage[2] : b.z, set: true };
@@ -15289,7 +15328,7 @@ async function raidClearArea(b, runId) {
   SayToParty(A ? `[raid] ${b.name}: clearing the chosen clear area first` : `[raid] ${b.name}: clearing the aggressive monsters around the boss first`);
   raidEvent(A ? `CLEAR: the clear area of ${b.name}'s fight area${A.clear ? ' (own outline)' : ` (fight area + ${A.margin})`}${A.passive ? ', passive monsters too' : ''}` : `CLEAR: aggressive monsters within ${R} of ${b.name} (no fight area set)`);
   Object.assign(raidClearLive, { on: true, boss: b.name, bossId: num(b.id), area: A, stage: [st0.x, st0.y], left: [], killed: 0, startedAt: now() });
-  let quietSince = 0, kills = 0; const skip = {};
+  let quietSince = 0, kills = 0, first = -1; const skip = {};   // RAIDCLEAR2: first = how many were there at the start
   Object.assign(clearWatch, { boss: b.name, minions, hitAt: 0 });
   try {
     while (regroupAlive(runId) && now() - t0 < M.clearMaxMs && !Me.IsDead) {
@@ -15311,6 +15350,8 @@ async function raidClearArea(b, runId) {
         if (w) { const r = m.ref; if (r) list.push({ m: r, d: dm, w }); }
       }); } catch (e) { }
       raidClearLive.left = list.slice(0, 40).map(o => ({ name: String(o.m.Name), x: Math.round(o.m.X), y: Math.round(o.m.Y), aggr: o.w !== 'passive' }));
+      if (first < 0) first = list.length;
+      if (list.length && raidClearEnough(kills, first, now() - t0) && !list.some(o => o.w === 'attacker')) { note(`raid ${b.name}: clear stops - ${kills} killed (${first} were there at the start), the rest are respawns`, true); raidEvent(`CLEAR: enough (${kills} killed, ${first} at the start) - respawns are left`); break; }   // RAIDCLEAR2
       if (!list.length) { if (!quietSince) quietSince = now(); if (now() - quietSince > 5000) break; await sleep(1000); continue; }   // was 12 s (speed, 2026-10-06)
       quietSince = 0;
       const t = list.sort((a, c) => (a.w === 'attacker' ? 0 : 1) - (c.w === 'attacker' ? 0 : 1) || a.d - c.d)[0].m;   // whatever hits us first, then the nearest
@@ -16471,7 +16512,7 @@ function scoutSpeedTick() {
     for (const k of skills) {
       if (k.IsToggle || !k.IsActive) continue;
       const tt = String(k.TargetType || '').toUpperCase();
-      if (!(SCOUT_SPEED.speedRe.test(nm(k)) || (SCOUT_SPEED.speedType.test(ab(k)) && (tt === 'SELF' || tt === '')))) continue;
+      if (!(SCOUT_SPEED.speedRe.test(nm(k)) || (SCOUT_SPEED.speedType.test(ab(k)) && !/ATTACK|ATK|CAST|BOW|MAGIC/i.test(ab(k)) && (tt === 'SELF' || tt === '')))) continue;   // ATLASTEST 2026-10-16: Rapid Shot (bow attack speed) is no run speed
       if (!castOk(k)) continue;
       let low = true; try { low = BuffLow(num(k.Id), 3); } catch (e) { }
       if (low) { cast(k, 'run faster'); break; }
@@ -19025,7 +19066,7 @@ setInterval(async () => {
   try {
     if (!state.role || !IsCharacterReady() || Me.IsDead || !collectorOn()) return;
     if (autoLvl.active && !autoLvl.stop) { autoLvl.stop = true; note('collector: leveling stopped — I stay in town', true); }
-    if (control.owner || STASH.busy || (typeof WH !== 'undefined' && WH.busy) || tradeState || state.gkBusy || state.portPrep || (typeof TSELL !== 'undefined' && TSELL.busy) || (typeof WHS_RUN !== 'undefined' && WHS_RUN.on) || state.escaping) { COLLT.farSince = 0; return; }
+    if (control.owner || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || STASH.busy ||   /* ATLASTEST: never during a scout / route test trip */ (typeof WH !== 'undefined' && WH.busy) || tradeState || state.gkBusy || state.portPrep || (typeof TSELL !== 'undefined' && TSELL.busy) || (typeof WHS_RUN !== 'undefined' && WHS_RUN.on) || state.escaping) { COLLT.farSince = 0; return; }
     const C = collectorMine(), here = currentTownKey();
     if (here !== C.town) {
       if (!takeControl('collector: back to town', PRIO.ORDER)) return;
@@ -24906,7 +24947,12 @@ async function navAtlasWalk(pts, label, abort, o) {
     if (rsmArrived3D({ x: Me.X, y: Me.Y, z: Me.Z }, p, 120, p.drop ? 200 : RSM.zBand)) continue;   // OWNER 19:10: x,y AND z
     if (p.swim) swimPlan(90000);                                     // SWIM-2026-10-13: a planned swim point
     if (p.drop) { const okD = typeof walkDirect === 'function' ? await walkDirect(p.x, p.y, p.z, 120, 15000, abort, true) : await walkTo(p.x, p.y, p.z, 120, 15000, abort); if (!okD && (Math.hypot(p.x - Me.X, p.y - Me.Y) > 400 || Math.abs(p.z - Me.Z) > 300)) return false; continue; }   // RAID ROUTES 2026-10-13: off the ledge (the server allows the fall)
-    const ok = await walkTo(p.x, p.y, p.z, 120, 90000, abort);
+    // SOLOWALK-2026-10-16 (Dagger1's ToI test: 8 min in a circle on the 9th floor): the atlas points ARE the computed path (wall-checked legs,
+    // stair paths): walk them point by point like a team member does (routeHop: straight + the path finder's detour + the other-floor climb),
+    // never walkTo, whose dungeon room graph re-plans every point (a stair start between two floor bands -> rooms in a circle)
+    // only inside a mapped dungeon (where the room graph re-plans); towns / fields keep walkTo as before
+    const inDun = (() => { try { const D = dungeonRooms(), a = dzFloor(D, Me.X, Me.Y, Me.Z), b = dzFloor(D, p.x, p.y, isFinite(p.z) ? p.z : Me.Z); return !!((a && a.d) || (b && b.d)); } catch (e) { return false; } })();
+    const ok = inDun && typeof routeHop === 'function' ? await routeHop(p, abort) : await walkTo(p.x, p.y, p.z, 120, 90000, abort);
     if (!ok && Math.hypot(p.x - Me.X, p.y - Me.Y) > 400) return false;
     if (!(await reach3D(p, abort))) return false;                     // OWNER 19:10: the height too (dive on; a wrong floor is not "there")
   }
@@ -24943,7 +24989,11 @@ async function navAtlasNpc(npc, link, landing, abort, o, st) {
   let page = String(html), l = null;
   for (let ci = 0; ci < chain.length; ci++) {
     const q = pick(page, chain[ci]); l = q.l;
-    if (!l) return { ok: false, why: `${npc.name}: no link ${chain[ci] ? '"' + chain[ci] + '"' : '(several, none known)'}${ci ? ' on page ' + (ci + 1) : ''} — ${q.L.map(x => x.text).join(' | ').slice(0, 160)}` };
+    // BOSSGATE-2026-10-16 (owner: "Baium has a teleport outside letting you know if you can enter or not"): no way in = the NPC's OWN words
+    // (Angelic Vortex: Baium awake / no Blooded Fabric / ...) go into the reason + party chat, never just "no link"
+    if (!l) { const said = String(page).replace(/<[^>]*>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/s+/g, ' ').trim().slice(0, 220);
+      if (st.how === 'bosszone') { try { if (isLeader()) SayToParty(`[route] ${npc.name}: ${said || 'no way in'}`); } catch (e) { } }
+      return { ok: false, blocked: st.how === 'bosszone', why: `${npc.name}: ${st.how === 'bosszone' ? 'cannot enter now - it says: ' + (said || '(empty page)') : 'no link ' + (chain[ci] ? '"' + chain[ci] + '"' : '(several, none known)') + (ci ? ' on page ' + (ci + 1) : '') + ' — ' + q.L.map(x => x.text).join(' | ').slice(0, 160)}` }; }
     if (ci < chain.length - 1) {                                      // NAVATLAS2: a page link (Chat n) opens the next dialog page
       let h2 = null;
       if (typeof DLG !== 'undefined' && typeof dlgPage === 'function') h2 = await dlgPage(l, 6000, npc.name, { expect: ['npc', 'quest', 'teleport'] });   // DIALOG-2026-10-13: a page or a teleport at once
@@ -25135,7 +25185,7 @@ async function navAtlasExec(r, s, steps, i, o, abort) {
   if (s.do === 'enter') {
     if (s.how === 'ziggurat') return (await enterDungeon(s.catacomb || s.dungeon)) ? { ok: true } : { ok: false, why: `could not enter ${s.dungeon}${gkFail ? ': ' + gkFail : ''}` };
     if (s.how === 'zone') { const q = await navAtlasZone(s, abort, o); return q.ok ? { ok: true } : { ok: false, why: q.why }; }
-    const q = await navAtlasNpc(s.npc, s.link || null, s.landing, abort, o, s); return q.ok ? { ok: true } : { ok: false, why: q.why };
+    const q = await navAtlasNpc(s.npc, s.link || null, s.landing, abort, o, s); return q.ok ? { ok: true } : { ok: false, why: q.why, blocked: !!q.blocked };   // BOSSGATE: a refused boss door = BLOCKED (no retry loop)
   }
   if (s.do === 'need') return s.manual ? { ok: false, why: `manual step (not automated): ${s.text}`, blocked: true } : { ok: true };   // NAVATLAS2: a step the bots cannot do themselves
   if (s.do === 'arrive') return { ok: true, arrived: true };
@@ -35929,7 +35979,7 @@ function hiveSw() {
   HIVESW.v = v;
   return v;
 }
-function hiveSkillsOn() { return hiveSw().skills !== false && !(swarmFightOn() && !sfExcluded()); }   // SWARMFIGHT: the L2Swarm profiles cast
+function hiveSkillsOn() { return hiveSw().skills !== false; }   // SFTARGET-2026-10-16 (owner: "option 1"): Fight with L2Swarm = L2Swarm picks the TARGETS only; skills follow the Hive picks my skills switch (was: forced OFF, the empty profiles of party Destroyer3 would have fought with plain hits)
 // SWARMFIGHT-2026-10-16 (player Vykaax: "Hive should get to the location, set the combat area polygon or square specified by the zone, and
 // then StartCombat. It doesn't make sense to replicate a feature the bot already excels at"; owner: "Yes build the switch"). Party switch
 // "Fight with L2Swarm" (party_auto.json parties.<leader>.swarmFight, default OFF; dashboard party Settings -> Combat). ON: Hive still travels,

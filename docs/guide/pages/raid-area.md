@@ -20,11 +20,10 @@ The button opens the full-screen shape editor (the same editor as rooms / zones 
 | What | On the map | What the bots do with it |
 |---|---|---|
 | **Fight area** | orange polygon | The tank pulls the boss **into** it after taking aggro and keeps it there (boss walks out: the tank walks back in, the boss follows him). Casters and healers stand inside it, at its edge facing the boss when their normal spacing spot is outside. |
-| **Clear area** | yellow; dashed outline = your own, soft yellow band = automatic (fight area + margin) | Before the pull the leader kills only monsters inside it: every **aggressive** one, **passive** ones only inside the fight area or on the way in from the stage (or all passive ones with "also kill passive"). Monsters that hit us are always killed. |
+| **Clear area** | yellow; dashed outline = your own, soft yellow band = automatic (fight area + margin) | Before the pull the leader kills only the **aggressive** monsters inside it (passive ones only with "also kill passive"). Monsters that hit us are always killed. An area made automatically clears **only its circle** (no margin); the margin counts once you save the area yourself. Respawns: the clear stops once it killed 1.5x what was there at the start (at least 8), or after 4 minutes, then the countdown starts. |
 | **Stage** | blue flag (faded = automatic) | The team walks there first and waits there during the clear and the countdown. Must be within ~3400 of the boss (the leader must see it). |
 
-**No area for a boss** = the defaults: only aggressive monsters within **1200** of the boss (was 2000 and every monster) or on the way in,
-passive ones only right at the boss; the team waits ~1500 away on the way in and fights where the boss stands.
+**No area for a boss** = the defaults: only aggressive monsters within **1200** of the boss (plus anything hitting us); the team waits ~1500 away on the way in and fights where the boss stands.
 
 ## How to use
 

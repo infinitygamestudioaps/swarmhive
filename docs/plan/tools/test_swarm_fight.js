@@ -82,7 +82,7 @@ H.combat = false; S.sfLeaderTick(); check(H.combat === true, 'combat stopped by 
 H.file = {}; H.t += 2500; check(S.swarmFightNow() === false && H.notes.some(m => /Fight with L2Swarm OFF/.test(m)), 'switch OFF: Hive runs the fights again at once, said once');
 
 // ---- 3) source wiring
-check(/function hiveSkillsOn\(\) \{ return hiveSw\(\)\.skills !== false && !\(swarmFightOn\(\) && !sfExcluded\(\)\); \}/.test(src), 'Hive skills OFF while the switch is on (raids / instances keep Hive skills)');
+check(src.includes("function hiveSkillsOn() { return hiveSw().skills !== false; }"), "SFTARGET: the switch only hands the targets to L2Swarm; skills follow the Hive picks my skills switch");
 check(/c\.mode = \/\^\(auto\|on\)\$\/[^\n]+\n  try \{ if \(\(!leader \|\| leader === CONFIG\.leader\) && swarmFightOn\(\)\) c\.mode = 'off'; \}/.test(src), 'hunting pairs OFF with the switch on');
 const loop = fnBody('async function autoLevelLoop(solo)');
 check(/const sfMode = [^\n]+swarmFightOn\(\) && !sfExcluded\(\) && !solo/.test(loop) && /if \(sfMode\) \{ const sk = sfLeaderTick\(\);/.test(loop), 'leader: the hunting step runs sfLeaderTick with the switch on');

@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.2 (2026-10-16)
+
+- Fight with L2Swarm only hands the TARGETS to L2Swarm: with Hive picks my skills / Hive heals on, Hive still casts and heals on L2Swarm's target (switch those off and your profiles cast). Raid clear: only AGGRESSIVE monsters inside the fight circle (+ anything hitting us)
+- passive ones only with also kill passive
+- an automatic area clears only its circle
+- the clear stops after 1.5x what was there at the start (min 8) or 4 min when monsters keep respawning. Tower of Insolence: routes climb floor by floor along the stairs (followers no longer stand under the 2nd floor), all 41 hunting rooms on floors 1-12 have full routes, floor 13 + the roof (Baium's door, Angelic Vortex) added
+- the Aden teleport's real landing is learned. Tested live: one character walked from Giran to Baium's door. A boss-zone NPC that refuses you (Angelic Vortex) now says why in party chat. Inside dungeons a character walking a route alone steps point by point (no more circling on a floor). New test order: !routetest <boss> atlas (one character walks the computed route alone, Silent Move near aggressive monsters, no fights).
+
 ## v1.8.1 (2026-10-16)
 
 - Fight with L2Swarm: only the leader starts L2Swarm combat (the combat zone)

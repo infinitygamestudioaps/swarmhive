@@ -91,8 +91,11 @@ At the hunting spot Hive then only:
   Attack off. You can switch Follow Attack off again in a character's profile; Hive does not switch it back on during that fight.
 
 Hive does **not** pick targets, make hunting pairs, walk anyone back to the middle, start fights of its own (help or self-defence),
-lead the others along room routes, or run anyone out of a fight with an escape. **Hive picks my skills** counts as off while this switch
-is on, so your profiles cast. Set up Combat Skills, Auto Skills (heals) and the profile's Follow / Follow Attack before you switch it on.
+lead the others along room routes, or run anyone out of a fight with an escape.
+
+**Skills and heals stay as you set them.** With **Hive picks my skills** and **Hive heals** on (the default), Hive still casts the
+attacks, buffs and heals, on the monster L2Swarm picked. Switch them off when your L2Swarm profiles should cast and heal
+(set up Combat Skills, Auto Skills and the profile's Follow / Follow Attack first). So the switch only decides **who picks the monsters**.
 
 Only the **leader** runs L2Swarm combat (the combat zone). The others **never** start L2Swarm combat while this switch is on: they
 only follow the leader and attack his target with Follow Attack, so nobody makes a combat box of their own and wanders off in it.

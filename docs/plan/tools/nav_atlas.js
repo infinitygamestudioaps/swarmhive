@@ -675,6 +675,17 @@ function dungeonIn(d, fi) {
       at = floorStart(F) || at;
     } else if (E.how === 'walk' || E.how === 'stairs') {
       const to = floorStart(F);
+      // TOISTAIRS-2026-10-16 (owner: "Tower of Insolence needs to be fixed ... run all the way to the top floor"): the floor below has a verified
+      // walk link up (dungeon_rooms floors[].links, room_graph: the stair path) -> walk to its start on the floor below, climb it, go on from its end.
+      // Before this the floor change was ONE geodata search entry -> next floor point (ToI 1F -> 2F: "gave up after 826071 cells" = a straight
+      // 2-point leg; every member walked under the 2F point and stood there "STUCK before point 2/2")
+      const UP = i > 0 ? ((d.floors[i - 1] || {}).links || []).find(l => l && l.to === i && l.kind === 'walk' && Array.isArray(l.path) && l.path.length >= 6) : null;
+      if (UP) {
+        const s0 = pt(UP.path.slice(0, 3)), e0 = pt(UP.path.slice(-3));
+        if (at && Math.hypot(at.x - s0.x, at.y - s0.y) > 150) steps = steps.concat(walkAB(at, s0, `${d.name} to the stairs up to ${F.name}`, { graph: `dungeon_graph/${d.key}.json` }).steps);
+        steps = steps.concat(walkSteps(UP.path.slice(), 'dungeon-rooms', { graph: `dungeon_graph/${d.key}.json`, stairs: `${(d.floors[i - 1] || {}).name || i} -> ${F.name}` }));
+        at = e0;
+      } else
       if (i > 0 && E.how === 'stairs' && Array.isArray(E.from)) { if (at) steps = steps.concat(walkAB(at, pt(E.from), `${d.name} to the stairs of ${F.name}`, { graph: `dungeon_graph/${d.key}.json` }).steps); at = pt(E.from); }
       if (to && at && Math.hypot(to.x - at.x, to.y - at.y) > 150 && i > 0) { steps = steps.concat(walkAB(at, to, `${d.name} ${F.name}`, { graph: `dungeon_graph/${d.key}.json` }).steps); }
       if (to && i > 0) at = to; else if (!at) at = to;
