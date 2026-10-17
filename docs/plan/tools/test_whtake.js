@@ -66,7 +66,14 @@ const J = JSON.stringify;
     { objId: 9004, id: 57, name: 'Adena', count: 120000, enchant: 0 },
   ];
   let p = M.whPlan(rows, [{ id: 356, count: 1 }]);
-  check(J(p.take.map(t => t.objId)) === J([9002]) && !p.missing.length, 'gear: the highest enchant first');
+  check(J(p.take.map(t => t.objId)) === J([9001]) && !p.missing.length, 'gear: the LOWEST enchant first (owner 2026-10-17: "take a sword" took the +16)');
+  { // owner 2026-10-17: "Anything over the safe limit is no go unless an explicit warning was given" + "Dont take +16 NEVER!"
+    const R2 = rows.concat([{ objId: 9005, id: 356, name: 'Full Plate Armor', count: 1, enchant: 7 }, { objId: 9006, id: 356, name: 'Full Plate Armor', count: 1, enchant: 16 }]);
+    const all = M.whPlan(R2, [{ id: 356, count: 'all' }]).take.map(t => t.objId);
+    check(J(all) === J([9001, 9002]), 'by item id: never a piece above the safe +4 (+7 / +16 stay)');
+    check(J(M.whPlan(R2, [{ id: 356, count: 1, ench: 7 }]).take.map(t => t.objId)) === J([9005]), 'the exact +7 only when that piece is asked for (after the warning)');
+    check(J(M.whPlan(R2, [{ id: 356, count: 1, ench: 16 }]).take.map(t => t.objId)) === J([9006]), '+16: only when the owner picks exactly that piece (never by chance)');
+  }
   p = M.whPlan(rows, [{ id: 356, count: 3 }]);
   check(p.take.length === 2 && p.missing.length === 1 && p.missing[0].count === 1 && /only 2/.test(p.missing[0].why), 'asked 3, only 2 pieces -> 2 taken, 1 missing');
   p = M.whPlan(rows, [{ id: 1463, count: 1000 }, { id: 57, count: 'all' }, { id: 4242, count: 1 }]);

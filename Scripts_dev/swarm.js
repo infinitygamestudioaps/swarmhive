@@ -11191,6 +11191,635 @@ App.on('swarm.kitbuy.trip', (e) => {
   } catch (er) { }
 });
 App.on('swarm.kitbuy.done', (e) => { try { if (mateMsg(e)) KB.doneFor[String((e.data && e.data.name) || e.source.characterName)] = now(); } catch (er) { } });
+// ===== ITEMJOB (ITEMS-2026-10-17; owner: "make a character buy a weapon or look in the clan warehouse ... enchant it ... add a SA ... give it
+// to this character, its party returns to town and it swaps its current weapon"). The dashboard Items page (#/items, Dashboard/itemspage_api.js)
+// writes Logs/itemjobs/<id>.json and sends "!itemjob <id>" to the doer (+ the receiver, + the clan leader when the clan warehouse is used).
+//   DOER: to Giran (a party member asks its leader: the kit-buy trip, the whole party goes) -> get the item (buy at the merchant / private
+//         warehouse / clan warehouse through the clan leader) -> fetch what the job needs (scrolls, soul crystal, gemstones) from bag ->
+//         warehouse -> clan warehouse -> enchant to +N (one scroll per level, stops at the first fail: "if it fails, it fails") -> Special
+//         Ability at the Giran blacksmith (the exchange list read from the server packet; nothing is exchanged when it cannot be read exactly)
+//         -> hand it to the receiver (hand-over machinery) -> done.  Status: Logs/itemjobs/<id>_status.json (the page shows it live).
+//   RECEIVER (another character): its party goes to Giran (kit-buy trip / its own .giran), writes <id>_rx.json "ready", waits for the item,
+//         puts it on in place of what it wears in that slot, then its party carries on.
+//   CLAN LEADER: nothing extra — the doer asks it like every clan-warehouse take (swarm.whtake.ask -> take out -> hand over).
+// Also: "!whlook <name>" (look into the private warehouse, write Logs/wh_private_<name>.json) and "!craftmake <recipe> <n> <name>" (CRAFTMAKE).
+const IJ = { busy: '', dir: () => `${SWARM_ROOT}\\Logs\\itemjobs`, rx: {} };
+function ijRead(id) { try { return JSON.parse(String(File.ReadAllText(`${IJ.dir()}\\${id}.json`)).replace(/^﻿/, '')); } catch (e) { return null; } }
+function ijStatus(id, patch, msg, file) {
+  const f = `${IJ.dir()}\\${id}${file || '_status'}.json`;
+  try {
+    let st = {}; try { if (File.Exists(f)) st = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { }
+    st = Object.assign({ id, steps: [] }, st, patch || {}, { at: new Date().toISOString(), by: Me.Name });
+    // DETAILED LOG (owner 2026-10-17: "I want a detailed log on what is going on"): every step with my adena + where I stand
+    let ad = 0, at = ''; try { ad = itemCount(57); at = `${Math.round(Me.X)},${Math.round(Me.Y)}`; } catch (e) { }
+    if (msg) { st.step = msg; st.steps = (st.steps || []).concat([{ t: new Date().toISOString(), who: Me.Name, msg: String(msg).slice(0, 300), adena: ad, at, town: currentTownKey() || '' }]).slice(-80); }
+    File.WriteAllText(f, JSON.stringify(st, null, 1));
+  } catch (e) { logError('itemjob status', e); }
+  if (msg) { note(`[item] ${msg}`.slice(0, 300), true); try { appendShared(`${SWARM_ROOT}\\Logs\\itemjobs.log`, `${new Date().toISOString()} [${Me.Name}] ${id}: ${msg} | adena ${itemCount(57)} | at ${Math.round(Me.X)},${Math.round(Me.Y)} ${currentTownKey() || ''}\r\n`); } catch (e) { } }
+}
+/** get me (and my party) to Giran the way !kitbuy does. -> { ok, why, member, ctl, wasLvl } */
+async function ijToGiran(seq, label) {
+  const stale = () => orderState.seq !== seq || !state.running;
+  const o = { ok: false, why: '', member: false, ctl: false, wasLvl: false };
+  const t0 = now(); let said = false;
+  while ((inRaid() || state.mode === 'mission') && !stale() && now() - t0 < 45 * 60000) { if (!said) { said = true; note(`${label}: waiting, the party is in a raid / mission`, true); } await sleep(5000); }
+  if (stale()) { o.why = 'a newer order replaced it'; return o; }
+  if (currentTownKey() === 'Giran') { o.ok = true; return o; }
+  let team = teamNames().length > 0; try { team = team && !soloChar(); } catch (e) { }
+  if (team && !isLeader()) {
+    o.member = true; let ask = 0; const tw = now();
+    while (currentTownKey() !== 'Giran' && !stale() && now() - tw < 15 * 60000) {
+      if (now() - ask > 120000) { ask = now(); App.emit('swarm.kitbuy.trip', { name: Me.Name }); note(`${label}: asked my leader ${CONFIG.leader} to take the party to Giran`); }
+      await sleep(3000);
+    }
+    o.ok = currentTownKey() === 'Giran'; if (!o.ok) o.why = stale() ? 'a newer order replaced it' : `my leader ${CONFIG.leader} did not take the party to Giran within 15 min`;
+    return o;
+  }
+  if (autoLvl.active) { o.wasLvl = true; autoLvl.stop = true; const tl = now(); while (autoLvl.active && now() - tl < 60000) await sleep(1000); }
+  if (!(await orderWaitControl(label, seq))) { o.why = 'another task held control'; return o; }
+  o.ctl = true; stopCombatG();
+  const tr = await orderTownTrip(label + ' ' + Me.Name, 'Giran', { regroup: team, solo: !team, control: label });
+  o.ok = !!tr.ok; if (!o.ok) o.why = tr.superseded ? 'a newer order replaced it' : `could not get ${team ? 'the party' : 'me'} to Giran (${tr.why || '?'})`;
+  return o;
+}
+/** bring `n` of item id into my bag: bag -> private warehouse -> clan warehouse (myself when I am the clan leader, else the clan leader brings it) */
+async function ijFetch(id, n, what, from, jid, ench) {
+  const W = (cnt) => [Object.assign({ id, count: cnt }, ench != null ? { ench: num(ench) } : {})];
+  const have = () => bagCount(id);
+  if (have() >= n) return { ok: true };
+  const f = from || {};
+  if (num(f.wh) > 0 && have() < n) { ijStatus(jid, null, `taking ${n - have()}× ${what} out of my warehouse`); const r = await whTake('private', W(n - have()), 'item job ' + jid, { holdCtl: true }); if (!r.ok) ijStatus(jid, null, `warehouse: ${r.msg}`); }
+  if (have() < n && num(f.clan) > 0) {   // ASK FIRST (owner 2026-10-17): the clan warehouse only when the owner picked it for this need
+    const want = n - have();
+    if (Me.Name === clanLeaderName()) { ijStatus(jid, null, `taking ${want}× ${what} out of the clan warehouse`); const r = await whTake('clan', W(want), 'item job ' + jid, { holdCtl: true }); if (!r.ok) ijStatus(jid, null, `clan warehouse: ${r.msg}`); }
+    else {
+      ijStatus(jid, null, `asking the clan leader ${clanLeaderName()} for ${want}× ${what} from the clan warehouse`);
+      App.emit('swarm.whtake.ask', { from: Me.Name, items: W(want) });
+      const t0 = now(); while (have() < n && now() - t0 < 20 * 60000) await sleep(3000);
+    }
+  }
+  if (jid) ijStatus(jid, null, `${what}: ${have()} of ${n} in my bag now`);
+  return have() >= n ? { ok: true } : { ok: false, why: `${what}: have ${have()} of ${n}` };
+}
+/** buy one piece of item id at its Giran merchant (I stand in Giran). -> { ok, objId, why } */
+async function ijBuy(id, jid) {
+  const offers = (giranShopIndex()[id] || []).slice().sort((a, b) => num(a.price) - num(b.price));
+  if (!offers.length) return { ok: false, why: 'no Giran merchant sells it' };
+  const offer = offers[0];
+  const before = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === id) before.add(num(i.objId)); }); } catch (e) { }
+  ijStatus(jid, null, `walking to ${offer.npc} (Giran ${offer.route})`);
+  if (!(await giranGo(offer.route))) return { ok: false, why: `could not walk the Giran route '${offer.route}'` };
+  let npc = null; const names = [offer.npc].concat(offer.alt || []); try { snapNpcs().forEach(n => { if (!npc && names.includes(n.Name)) npc = n.ref; }); } catch (e) { }
+  if (!npc) return { ok: false, why: `${names.join(' / ')} not found` };
+  let sh = await scanClick(npc, offer.path, true);
+  if (!sh.items) { try { Send.RequestBuySellUIClose(); } catch (e) { } await sleep(1500); sh = await scanClick(npc, offer.path, true); }
+  if (!sh.items) return { ok: false, why: `${offer.npc}'s shop did not open (${sh.error || 'a page instead of the list'})` };
+  const live = sh.items.find(i => num(i.id) === id), price = live && num(live.price) > 0 ? num(live.price) : num(offer.price), need = Math.ceil(price * 1.25), a0 = itemCount(57);
+  if (!live) { try { Send.RequestBuySellUIClose(); } catch (e) { } return { ok: false, why: `not in ${offer.npc}'s list any more` }; }
+  if (a0 < need) { try { Send.RequestBuySellUIClose(); } catch (e) { } return { ok: false, why: `not enough adena (${price} + tax, I have ${a0})` }; }
+  try { buyPacket(sh.shopId, [{ id, count: 1 }]); } catch (e) { try { Send.RequestBuySellUIClose(); } catch (er) { } return { ok: false, why: 'buy packet error ' + e.message }; }
+  await DLG.effect({ check: () => { let n = false; try { Inventory.forEach(i => { if (num(i.Id) === id && !before.has(num(i.objId))) n = true; }); } catch (e) { } return n; }, base: 1500, label: `${offer.npc}: buy item ${id}` });
+  try { Send.RequestBuySellUIClose(); } catch (e) { }
+  let objId = 0; try { Inventory.forEach(i => { if (num(i.Id) === id && !before.has(num(i.objId))) objId = num(i.objId); }); } catch (e) { }
+  return objId ? { ok: true, objId, paid: a0 - itemCount(57), npc: offer.npc } : { ok: false, why: 'the merchant did not hand it over' + (lastSysMsg ? ' (server: ' + String(lastSysMsg.text || '').slice(0, 80) + ')' : '') };
+}
+/** a piece of item id in my bag (not worn; the highest enchant first, or exactly `ench`) -> objId */
+function ijFind(id, ench, avoid) {
+  let best = null; try { Inventory.forEach(i => { if (num(i.Id) !== num(id) || i.IsEquiped || (avoid && avoid.has(num(i.objId)))) return; const e = num(i.EnchantLvl); if (ench != null && ench >= 0 && e !== ench) return; if (!best || e > best.e) best = { o: num(i.objId), e }; }); } catch (e) { }
+  return best ? best.o : 0;
+}
+// --- MULTISELL (Special Ability exchange): the server's MultiSellList 0xD0 (High Five layout) read from the packet; strict size check ---
+const MSL = { on: false, pages: [], hook: false };
+function msHook() {
+  if (MSL.hook) return; MSL.hook = true;
+  const prev = globalThis.OnIncomingPacket;
+  globalThis.OnIncomingPacket = (p) => { try { if (prev) prev(p); } catch (e) { } try { if (MSL.on && (Number(p[2]) & 255) === 0xD0) MSL.pages.push(p); } catch (e) { } };
+}
+function msReader(p) {
+  let o = 3; const n = num(p.length || p.Length), b = (i) => Number(p[i]) & 255;
+  const r = { C: () => b(o++), H: () => { const v = b(o) | (b(o + 1) << 8); o += 2; return v; }, D: () => { const v = (b(o) | (b(o + 1) << 8) | (b(o + 2) << 16) | (b(o + 3) << 24)) >>> 0; o += 4; return v; },
+    Q: () => { const lo = r.D(), hi = r.D(); return hi * 4294967296 + lo; }, left: () => n - o, pos: () => o };
+  return r;
+}
+/** MultiSellList (H5): d list, d page, d finished, d pageSize, d size, size x entry -> { list, finished, entries: [{ entry, products: [{ id, count, ench }], ings: [...] }] } | null */
+function msParse(p) {
+  try {
+    const r = msReader(p), list = r.D(), page = r.D(), finished = r.D(), psz = r.D(), size = r.D(), entries = [];
+    if (size > 200) return null;
+    for (let i = 0; i < size; i++) {
+      const entry = r.D(); r.C(); r.H(); r.D(); r.D(); r.H(); r.H(); for (let k = 0; k < 6; k++) r.H();
+      const np = r.H(), ni = r.H(); if (np > 20 || ni > 20) return null;
+      const products = [], ings = [];
+      for (let k = 0; k < np; k++) { const id = r.D(); r.D(); r.H(); const count = r.Q(), ench = r.H(); r.D(); r.D(); r.H(); r.H(); for (let q = 0; q < 6; q++) r.H(); products.push({ id, count, ench }); }
+      for (let k = 0; k < ni; k++) { const id = r.D(); r.H(); const count = r.Q(), ench = r.H(); r.D(); r.D(); r.H(); r.H(); for (let q = 0; q < 6; q++) r.H(); ings.push({ id, count, ench }); }
+      if (r.left() < 0) return null;
+      entries.push({ entry, products, ings });
+    }
+    if (r.left() !== 0) return null;                                       // every byte accounted for, else the layout is not what we think
+    return { list, page, finished, psz, entries };
+  } catch (e) { return null; }
+}
+function msDump(pages, why) {
+  try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\multisell_${Me.Name}.txt`, `${new Date().toISOString()} ${why}\r\n` + pages.map(p => { const a = []; const n = num(p.length || p.Length); for (let i = 0; i < n; i++) a.push(('0' + (Number(p[i]) & 255).toString(16)).slice(-2)); return a.join(''); }).join('\r\n')); } catch (e) { }
+}
+/** at the Giran blacksmith: weapon objId (+ crystal + gemstones + adena in the bag) -> the SA version. -> { ok, objId, why } */
+async function ijSA(sa, weaponObjId, jid) {
+  const wid = num(sa.weapon), ench = enchLevelOf(weaponObjId);
+  ijStatus(jid, null, `walking to the blacksmith Pushkin (Giran)`);
+  if (!(await giranGo('blacksmith'))) return { ok: false, why: 'could not walk the Giran route to the blacksmith' };
+  let npc = null; try { snapNpcs().forEach(n => { if (!npc && /^(Pushkin|Mendio)$/.test(String(n.Name))) npc = n.ref; }); } catch (e) { }
+  if (!npc) try { snapNpcs().forEach(n => { if (!npc && /blacksmith/i.test(String(n.Title || ''))) npc = n.ref; }); } catch (e) { }
+  if (!npc) return { ok: false, why: 'no blacksmith in sight' };
+  msHook(); try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  MSL.pages = []; MSL.on = true;
+  let got = null;
+  try {
+    let html = await openNpc(npc); savePage('sa_blacksmith', html || '');
+    for (let depth = 0; depth < 4 && html && !MSL.pages.length; depth++) {
+      const L = npcLinks(String(html || ''));
+      const link = L.find(l => /special abilit|bestow|weapon.*abilit|soul crystal/i.test(l.text)) || null;
+      if (!link) { savePage('sa_blacksmith' + depth, html || ''); return { ok: false, why: `no "special ability" link at ${npc.Name}: ${L.map(l => l.text).join(' | ').slice(0, 200)}` }; }
+      const nx = await dlgPage(link, 2500, npc.Name, { expect: ['npc', 'multisell', 'shop'] });
+      const t0 = now(); while (!MSL.pages.length && now() - t0 < 2500) await sleep(150);
+      html = nx;
+    }
+    const t1 = now(); while (now() - t1 < 1500) { const last = MSL.pages.length ? msParse(MSL.pages[MSL.pages.length - 1]) : null; if (last && last.finished) break; await sleep(150); }
+    if (!MSL.pages.length) return { ok: false, why: `${npc.Name} did not open the exchange list` };
+    const parsed = MSL.pages.map(msParse);
+    if (parsed.some(x => !x)) { msDump(MSL.pages, 'unreadable list'); return { ok: false, why: 'could not read the exchange list exactly — nothing exchanged (raw packet saved: Logs/multisell_' + Me.Name + '.txt)' }; }
+    const entries = [].concat(...parsed.map(x => x.entries)), listId = parsed[0].list;
+    const pick = entries.find(e => e.products.some(x => x.id === num(sa.saId)) && e.ings.some(x => x.id === wid && (x.ench === ench || x.ench === 0 && ench === 0)) && e.ings.some(x => x.id === num(sa.cid)))
+      || entries.find(e => e.products.some(x => x.id === num(sa.saId)) && e.ings.some(x => x.id === wid) && e.ings.some(x => x.id === num(sa.cid)));
+    if (!pick) { msDump(MSL.pages, `no entry for ${sa.wn} -> ${sa.sa}`); return { ok: false, why: `${npc.Name}'s list has no ${sa.sa} for this weapon (+${ench}) — nothing exchanged` }; }
+    for (const g of pick.ings) { if (g.id === 57) { if (itemCount(57) < g.count) return { ok: false, why: `needs ${g.count} adena` }; continue; } if (bagCount(g.id) < g.count) return { ok: false, why: `needs ${g.count}× item ${g.id}, I have ${bagCount(g.id)}` }; }
+    const before = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === num(sa.saId)) before.add(num(i.objId)); }); } catch (e) { }
+    ijStatus(jid, null, `exchanging at ${npc.Name}: ${sa.wn} +${ench} + ${sa.color} crystal stage ${sa.stage} -> ${sa.sa} (list ${listId}, entry ${pick.entry})`);
+    Send.MultiSellChoose(listId, pick.entry, 1);
+    await DLG.effect({ check: () => { let n = false; try { Inventory.forEach(i => { if (num(i.Id) === num(sa.saId) && !before.has(num(i.objId))) n = true; }); } catch (e) { } return n; }, base: 3000, label: `${npc.Name}: special ability` });
+    try { Inventory.forEach(i => { if (num(i.Id) === num(sa.saId) && !before.has(num(i.objId))) got = num(i.objId); }); } catch (e) { }
+    return got ? { ok: true, objId: got } : { ok: false, why: 'the exchange did not happen' + (lastSysMsg ? ' (server: ' + String(lastSysMsg.text || '').slice(0, 80) + ')' : '') };
+  } finally { MSL.on = false; try { hennaHookOff(); } catch (e) { } try { Send.RequestBuySellUIClose(); } catch (e) { } try { await giranGo('start'); } catch (e) { } }
+}
+/** enchant this one piece to +to (one scroll per level; stops at the first fail). -> { ok, lvl, gone, why } */
+async function ijEnchant(objId, to, scroll, jid, name, overSafeOk) {
+  if (to > num(CONFIG.gear.enchant.safe || 4) && !overSafeOk) return { ok: false, why: `+${to} is above the safe +${CONFIG.gear.enchant.safe || 4} and the job has no confirmed warning` };   // owner 2026-10-17
+  let lvl = enchLevelOf(objId);
+  if (lvl < 0) return { ok: false, gone: true, why: 'the item is not in my bag' };
+  const t = { objId, id: 0, name, lvl, safe: to, scroll };
+  while (lvl < to) {
+    if (bagCount(scroll) < 1) return { ok: false, lvl, why: `no ${ENCH_NAMES[scroll] || 'enchant scroll'} left` };
+    const n2 = await enchantOnce(t);
+    if (n2 === null) return { ok: false, lvl, why: 'the scroll could not be used' };
+    appendShared(SWARM_ROOT + '\\Logs\\enchant.log', `${new Date().toISOString()} [${Me.Name}] ${name} +${lvl} -> ${n2 < 0 ? 'GONE' : '+' + n2} (item job ${jid})\r\n`);
+    if (n2 !== lvl + 1) { try { Send.ReqExCancelEnchantItem(); } catch (e) { } ijStatus(jid, null, n2 < 0 ? `enchant +${lvl + 1} FAILED — ${name} is gone (crystallized)` : `enchant +${lvl + 1} failed — ${name} is now +${n2}`); return { ok: false, lvl: n2, gone: n2 < 0, why: n2 < 0 ? 'the enchant failed and the item was destroyed' : `the enchant failed (now +${n2})` }; }
+    lvl = n2; ijStatus(jid, null, `enchant ✓ ${name} is now +${lvl}`);
+  }
+  return { ok: true, lvl };
+}
+async function itemJobOrder(id) {
+  const J = ijRead(id); if (!J) return;
+  const me = Me.Name, isDoer = J.doer === me, isRx = J.give && J.give.to === me && !isDoer;
+  if (!isDoer && !isRx) return;                                             // the clan leader acts through swarm.whtake.ask
+  if (IJ.busy) { ijStatus(id, null, `${me} is busy with item job ${IJ.busy} — send it again afterwards`, isRx ? '_rx' : ''); return; }
+  IJ.busy = id;
+  const seq = orderState.seq; let trip = null;
+  try {
+    if (isRx) {
+      ijStatus(id, { state: 'running' }, `${me}: going to Giran to get the item`, '_rx');
+      trip = await ijToGiran(seq, '!itemjob');
+      if (!trip.ok) { ijStatus(id, { state: 'failed' }, `${me} could not get to Giran: ${trip.why}`, '_rx'); return; }
+      const have0 = new Set(); try { Inventory.forEach(i => have0.add(num(i.objId))); } catch (e) { }
+      ijStatus(id, { state: 'ready' }, `${me} is in Giran, waiting for the item`, '_rx');
+      const t0 = now(); let oid = 0;
+      while (!oid && now() - t0 < 40 * 60000 && orderState.seq === seq) {
+        try { Inventory.forEach(i => { if (!have0.has(num(i.objId)) && (num(i.Id) === num(J.finalId || 0) || num(i.Id) === num(J.item.id) || (J.sa && num(i.Id) === num(J.sa.saId)))) oid = num(i.objId); }); } catch (e) { }
+        const st = (() => { try { return JSON.parse(File.ReadAllText(`${IJ.dir()}\\${id}_status.json`)) || {}; } catch (e) { return {}; } })();
+        if (!oid && st.state === 'failed') { ijStatus(id, { state: 'failed' }, `${me}: the job stopped (${st.result || 'see above'}) — carrying on`, '_rx'); return; }
+        await sleep(2000);
+      }
+      if (!oid) { ijStatus(id, { state: 'failed' }, `${me}: the item did not arrive within 40 min`, '_rx'); return; }
+      let info = null; try { Inventory.forEach(i => { if (num(i.objId) === oid) info = gearDb().items[num(i.Id)]; }); } catch (e) { }
+      const on = await equipPiece(oid, info ? info.s : '', new Set());
+      ijStatus(id, { state: on ? 'done' : 'failed', result: on ? 'worn' : 'could not put it on' }, on ? `${me} put it on ✓` : `${me} got it but could not put it on (level / class?) — it is in the bag`, '_rx');
+      return;
+    }
+    // ---- DOER ----
+    ijStatus(id, { state: 'running', doer: me }, `${me} starts: ${J.item.name}`);
+    trip = await ijToGiran(seq, '!itemjob');
+    if (!trip.ok) { ijStatus(id, { state: 'failed', result: trip.why }, `could not get to Giran: ${trip.why}`); return; }
+    state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+    // materials FIRST (an exchange needs its ingredients in the bag; scrolls / crystals for later steps come along)
+    for (const n of (J.needs || [])) {
+      if (n.buy && n.buy.offer) {   // BUYCHAIN 2026-10-17: what the bag / warehouses do not hold is bought / exchanged in Giran (its ingredients were fetched before)
+        const have0 = bagCount(num(n.id)), fromStores = num((n.from || {}).bag) + num((n.from || {}).wh) + num((n.from || {}).clan);
+        if (fromStores > 0) { const f0 = await ijFetch(num(n.id), Math.min(num(n.need), have0 + fromStores), n.what, n.from, id); if (!f0.ok) ijStatus(id, null, `${n.what}: ${f0.why} — buying the rest`); }
+        if (bagCount(num(n.id)) < num(n.need)) { const b = await ijBuyAt(n.buy.offer, num(n.id), num(n.buy.count) || 1, id); if (!b.ok) { ijStatus(id, { state: 'failed', result: b.why }, `could not buy ${n.what}: ${b.why}`); return; } ijStatus(id, null, `got ${b.got}× ${n.what} at ${b.npc}`); }
+        continue;
+      }
+      const f = await ijFetch(num(n.id), num(n.need), n.what, n.from, id); if (!f.ok) { ijStatus(id, { state: 'failed', result: f.why }, `missing ${n.what}: ${f.why}`); return; }
+    }
+    let objId = 0;
+    if (J.item.src === 'shop') { const b = J.item.offer ? await ijBuyAt(J.item.offer, num(J.item.id), num(J.item.count) || 1, id) : await ijBuy(num(J.item.id), id); if (!b.ok) { ijStatus(id, { state: 'failed', result: b.why }, `buying failed: ${b.why}`); return; } objId = b.objId; ijStatus(id, null, `bought ${J.item.name} at ${b.npc} for ${b.paid} adena`); }
+    else if (J.item.src === 'bag') { objId = num(J.item.objId); if (enchLevelOf(objId) < 0) objId = ijFind(J.item.id, num(J.item.enchant)); }
+    else {
+      if (num(J.item.enchant) > WH_SAFE_ENCH && !J.overSafeOk) { ijStatus(id, { state: 'failed', result: `+${J.item.enchant} is above the safe +4 (no confirmed warning)` }, `not taking ${J.item.name} +${J.item.enchant}: above the safe +4 and the warning was not confirmed`); return; }
+      const before = new Set(); try { Inventory.forEach(i => before.add(num(i.objId))); } catch (e) { }
+      const f = await ijFetch(num(J.item.id), bagCount(num(J.item.id)) + 1, J.item.name, J.item.src === 'wh' ? { wh: 1 } : { clan: 1 }, id, num(J.item.enchant));
+      if (!f.ok) { ijStatus(id, { state: 'failed', result: f.why }, `could not get ${J.item.name}: ${f.why}`); return; }
+      try { Inventory.forEach(i => { if (num(i.Id) === num(J.item.id) && !before.has(num(i.objId))) objId = num(i.objId); }); } catch (e) { }
+    }
+    if (!objId) { ijStatus(id, { state: 'failed', result: 'the item is not in my bag' }, `${J.item.name} is not in my bag`); return; }
+    if (J.item.src === 'bag') { let worn = false; try { Inventory.forEach(i => { if (num(i.objId) === objId && i.IsEquiped) worn = true; }); } catch (e) { } if (worn && (J.enchant || J.sa || (J.give && J.give.to !== me))) { Send.UseItem(objId); await sleep(1200); } }   // a worn piece is taken off first
+    // enchant
+    if (J.enchant && J.enchant.to > enchLevelOf(objId)) {
+      ijStatus(id, null, `enchanting ${J.item.name} from +${enchLevelOf(objId)} to +${J.enchant.to}`);
+      const e = await ijEnchant(objId, num(J.enchant.to), num(J.enchant.scroll), id, J.item.name, !!J.overSafeOk);
+      if (!e.ok) { ijStatus(id, { state: 'failed', result: e.why }, `stopped: ${e.why}`); return; }
+    }
+    // special ability
+    if (J.sa) {
+      const s = await ijSA(J.sa, objId, id);
+      if (!s.ok) { ijStatus(id, { state: 'failed', result: s.why }, `Special Ability not added: ${s.why}`); return; }
+      objId = s.objId; ijStatus(id, null, `✓ ${J.sa.wn} - ${J.sa.sa} +${enchLevelOf(objId)}`);
+    }
+    // give / wear
+    if (J.give && J.give.to && J.give.to !== me) {
+      const rxF = `${IJ.dir()}\\${id}_rx.json`, t0 = now();
+      ijStatus(id, null, `waiting for ${J.give.to} to come to Giran`);
+      while (now() - t0 < 30 * 60000) { let st = {}; try { st = JSON.parse(File.ReadAllText(rxF)) || {}; } catch (e) { } if (st.state === 'ready') break; if (st.state === 'failed') { ijStatus(id, { state: 'failed', result: `${J.give.to}: ${st.step || 'could not come'}` }, `${J.give.to} could not come — the item stays with me`); return; } await sleep(3000); }
+      const row = hovBag().find(b => num(b.objId) === objId);
+      if (!row) { ijStatus(id, { state: 'failed', result: 'the item left my bag' }, 'the item is not in my bag any more'); return; }
+      const hid = 'ijh_' + String(J.give.to).toLowerCase() + '_' + Date.now().toString(36);
+      try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: J.give.to, batch: HOV_CFG.batch, givers: { [me]: { items: [{ objId, id: num(row.id), name: String(row.name), count: 1, stack: false }], adena: 0 } }, by: me, why: 'item job ' + id, created: new Date().toISOString() }, null, 1)); } catch (e) { logError('itemjob handover', e); }
+      ijStatus(id, null, `handing it to ${J.give.to}`);
+      try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+      hovCommand(['!handover', hid]);
+      const t1 = now(); while (now() - t1 < 15 * 60000 && hovBag().some(b => num(b.objId) === objId)) await sleep(3000);
+      const gone = !hovBag().some(b => num(b.objId) === objId);
+      ijStatus(id, { state: gone ? 'done' : 'failed', result: gone ? `given to ${J.give.to}` : `could not hand it to ${J.give.to}` }, gone ? `✓ given to ${J.give.to}` : `the hand-over to ${J.give.to} did not happen — the item stays with me`);
+      return;
+    }
+    if (J.give && J.give.to === me) { let info = gearDb().items[num(J.sa ? J.sa.saId : J.item.id)]; const on = await equipPiece(objId, info ? info.s : '', new Set()); ijStatus(id, { state: 'done', result: on ? 'worn' : 'in the bag (could not put it on)' }, on ? '✓ put on' : 'could not put it on (level / class?) — it is in the bag'); return; }
+    ijStatus(id, { state: 'done', result: 'in the bag' }, `✓ done — ${J.item.name} is in my bag`);
+  } catch (e) { logError('!itemjob', e); ijStatus(id, { state: 'failed', result: String(e && e.message || e) }, 'error: ' + (e && e.message || e), isRx ? '_rx' : ''); }
+  finally {
+    IJ.busy = ''; state.gkBusy = false;
+    try { if (currentTownKey() === 'Giran') await giranGo('start'); } catch (e) { }
+    try { App.emit('swarm.kitbuy.done', { name: Me.Name }); } catch (e) { }   // my leader brings the party back to what it did
+    if (trip && trip.ctl) orderRelease('!itemjob', seq);
+    if (trip && trip.member) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
+    if (trip && trip.wasLvl && isLeader() && orderState.seq === seq && !leadPaused() && !autoLvl.active) leadLevel('after !itemjob').catch(e => logError('itemjob level', e));
+  }
+}
+/** !whlook <name>: look into my private warehouse (Giran keeper), write the list, take nothing */
+async function whLookOrder() {
+  if (WH.busy) { note('whlook: already at the warehouse', true); return; }
+  const seq = orderState.seq; const trip = await ijToGiran(seq, '!whlook');
+  try {
+    if (!trip.ok) { note(`whlook: ${trip.why}`, true); return; }
+    WH.busy = true; state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+    try { await townWalkToNpc(atlasNpc('Taurin'), { solo: true, atlasFirst: true }); } catch (e) { }
+    const npc = stashKeeper() || whKeeper(); if (!npc) { note('whlook: no warehouse keeper in sight', true); return; }
+    const ol = await whOpenWithdraw(npc, 'private');
+    try { Send.RequestBuySellUIClose(); } catch (e) { }
+    if (!ol.ok) { note(`whlook: ${ol.msg}`, true); return; }
+    whWriteList('private', ol.rows);
+    note(`[whlook] my warehouse: ${ol.rows.length} kinds — the Items page shows them`, true);
+  } finally {
+    WH.busy = false; state.gkBusy = false;
+    try { if (currentTownKey() === 'Giran') await giranGo('start'); } catch (e) { }
+    try { App.emit('swarm.kitbuy.done', { name: Me.Name }); } catch (e) { }
+    if (trip.ctl) orderRelease('!whlook', seq);
+    if (trip.member) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
+    if (trip.wasLvl && isLeader() && orderState.seq === seq && !leadPaused() && !autoLvl.active) leadLevel('after !whlook').catch(e => logError('whlook level', e));
+  }
+}
+// --- CRAFTMAKE (ITEMS-2026-10-17): any recipe of Scripts/data/dp/recipes.xml, materials fetched from warehouse / clan warehouse first ---
+let CMR = null;
+function craftRecipeById(list) {
+  if (!CMR) { CMR = {}; try { const x = String(File.ReadAllText(`${__SCRIPTS__}\\data\\dp\\recipes.xml`)); x.replace(/<item id="(\d+)" recipeId="(\d+)" name="([^"]*)" craftLevel="(\d+)" type="(\w+)" successRate="(\d+)">([\s\S]*?)<\/item>/g, (m, l, rid, nm, lv, ty, rate, body) => { const ing = []; body.replace(/<ingredient id="(\d+)" count="(\d+)"/g, (q, i, c) => { ing.push({ id: num(i), count: num(c) }); return q; }); const pr = /<production id="(\d+)" count="(\d+)"/.exec(body), mp = /<statUse name="MP" value="(\d+)"/.exec(body); if (pr) CMR[num(l)] = { list: num(l), recipe: num(rid), name: nm, level: num(lv), dwarven: ty === 'dwarven', rate: num(rate), product: num(pr[1]), count: num(pr[2]), mp: mp ? num(mp[1]) : 0, ing }; return m; }); } catch (e) { logError('recipes.xml', e); } }
+  return CMR[num(list)] || null;
+}
+async function craftMakeOrder(list, n, use) {
+  use = use || {};   // ASK FIRST (owner 2026-10-17): warehouses only when the order names them (the Crafting page asks)
+  const R = craftRecipeById(list); if (!R) { note(`craftmake: no recipe ${list} in recipes.xml`, true); return; }
+  const pname = (() => { try { const g = gearDb().items[R.product]; return g ? g.n : 'item ' + R.product; } catch (e) { return 'item ' + R.product; } })();
+  const short = R.ing.map(g => ({ id: g.id, want: g.count * n - bagCount(g.id) })).filter(x => x.want > 0);
+  const seq = orderState.seq; let trip = null;
+  try {
+    intent('craftmake', `craft ${n}× ${pname} (your order)`);
+    if (short.length && !use.wh && !use.clan) { note(`[craftmake] not enough materials in my bag for ${n}× ${pname} — I make what the bag allows (you did not pick a warehouse)`, true); }
+    if (short.length && (use.wh || use.clan)) {
+      trip = await ijToGiran(seq, '!craftmake');
+      if (!trip.ok) { note(`craftmake: materials are missing and ${trip.why}`, true); intentDone('craftmake', false, trip.why); return; }
+      if (use.wh) { const r = await whTake('private', short.map(s => ({ id: s.id, count: s.want })), 'craftmake', { holdCtl: true }); if (r && r.msg) note(`[craftmake] warehouse: ${r.msg}`.slice(0, 300)); }
+      const still = R.ing.map(g => ({ id: g.id, count: g.count * n - bagCount(g.id) })).filter(x => x.count > 0);
+      if (still.length && use.clan) {
+        if (Me.Name === clanLeaderName()) { const r2 = await whTake('clan', still, 'craftmake', { holdCtl: true }); if (r2 && r2.msg) note(`[craftmake] clan warehouse: ${r2.msg}`.slice(0, 300)); }
+        else { App.emit('swarm.whtake.ask', { from: Me.Name, items: still }); note(`[craftmake] asked the clan leader ${clanLeaderName()} for ${still.length} kind(s) of materials`, true); const t0 = now(); while (now() - t0 < 20 * 60000 && R.ing.some(g => bagCount(g.id) < g.count * n)) await sleep(3000); }
+      }
+    }
+    let made = 0, failed = 0, tries = 0;
+    const canOne = () => R.ing.every(g => bagCount(g.id) >= g.count);
+    while (tries < n && canOne() && orderState.seq === seq) {
+      if (num(Me.MP) < R.mp) { note(`[craftmake] resting for MP (${R.mp} needed)`); try { if (!Me.IsSitting) { RunCommand('/sit'); rest.sitting = true; } } catch (e) { } const tw = now(); while (num(Me.MP) < Math.min(num(Me.MaxMP), R.mp * 3) && now() - tw < 10 * 60000) await sleep(2000); standUp(); }
+      const r = await craftOnce({ list: R.list, product: R.product }); tries++;
+      if (r.ok) made++; else { failed++; if (/not|cannot|learn|insufficient/i.test(String(r.why || ''))) { note(`[craftmake] stopped: ${r.why}`, true); break; } }
+      await sleep(400);
+    }
+    const msg = `${made}/${n} ${pname} made${failed ? `, ${failed} failed` : ''}${tries < n && !canOne() ? ' — out of materials' : ''}`;
+    note(`[craftmake] ${msg}`, true); intentDone('craftmake', made > 0, msg);
+    try { appendShared(`${SWARM_ROOT}\\Logs\\craftmake.log`, `${new Date().toISOString()} [${Me.Name}] recipe ${R.list} ${R.name}: ${msg}\r\n`); } catch (e) { }
+  } catch (e) { logError('!craftmake', e); }
+  finally {
+    if (trip) {
+      try { if (currentTownKey() === 'Giran') await giranGo('start'); } catch (e) { }
+      try { App.emit('swarm.kitbuy.done', { name: Me.Name }); } catch (e) { }
+      if (trip.ctl) orderRelease('!craftmake', seq);
+      if (trip.member) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
+      if (trip.wasLvl && isLeader() && orderState.seq === seq && !leadPaused() && !autoLvl.active) leadLevel('after !craftmake').catch(e => logError('craftmake level', e));
+    }
+  }
+}
+// ===== DISPATCH (DISPATCH-2026-10-17; owner: "I need to be able to dispatch a party or a person to a point in game ... Baium, the Valakas
+// teleport, Antharas, Core, Sailren, any raid start ... figure out the best route, find what is wrong with it and solve it while running, and
+// save it ... go to X, go to Y, go to Z, so we can verify that all the routes are working ... it needs to auto learn the path").
+// The dashboard Dispatch page (#/dispatch, Dashboard/dispatch_api.js) writes Logs/dispatch/<id>.json = { id, who: { party } | { char }, sneak,
+// enter, stops: [{ key, type, name, x, y, z }] } and sends "!dispatch <id>" to the party leader / the character.
+// Per stop: 1) the nav atlas route (computed path, or the target's own saved route when the route switch says so) as a state machine
+//   (navAtlasRun: re-plans around stuck spots, retries doors / teleports); epic boss doors are not entered unless the job says enter and the
+//   entry item is in the bag; 2) when it fails: the fallback — teleport closer (navAtlasNear) + walk there with the path finder (leadTeamWalk /
+//   walkTo, side-steps + re-plans), while the walk is RECORDED; 3) arrived through the fallback = the recorded walk is saved as the target's
+//   learned route (Scripts/data/routes/<folder>/<id>.json, use 'custom', learned { by: 'dispatch' }) — a route you locked is never overwritten.
+// Results: Logs/dispatch/<id>_status.json (live, per stop) + Logs/dispatch/results.json (per target key: last ok / failed, when, how, learned).
+// The party waits at the last stop (paused, "Start" carries on); a solo character stays there too.
+const DSP = { busy: '', dir: () => `${SWARM_ROOT}\\Logs\\dispatch` };
+function dspRead(id) { try { return JSON.parse(String(File.ReadAllText(`${DSP.dir()}\\${id}.json`)).replace(/^﻿/, '')); } catch (e) { return null; } }
+function dspStatus(id, patch, msg) {
+  const f = `${DSP.dir()}\\${id}_status.json`;
+  try {
+    let st = {}; try { if (File.Exists(f)) st = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { }
+    st = Object.assign({ id, steps: [], stops: [] }, st, patch || {}, { at: new Date().toISOString(), by: Me.Name });
+    if (msg) { st.step = msg; st.steps = (st.steps || []).concat([{ t: new Date().toISOString(), msg: String(msg).slice(0, 300) }]).slice(-120); }
+    File.WriteAllText(f, JSON.stringify(st, null, 1));
+  } catch (e) { logError('dispatch status', e); }
+  if (msg) { note(`[dispatch] ${msg}`.slice(0, 300), true); try { appendShared(`${SWARM_ROOT}\\Logs\\dispatch.log`, `${new Date().toISOString()} [${Me.Name}] ${id}: ${msg}\r\n`); } catch (e) { } }
+}
+function dspResult(key, res) {
+  withFileLock('dispatch_results', () => {
+    const f = `${DSP.dir()}\\results.json`; let j = {}; try { if (File.Exists(f)) j = JSON.parse(File.ReadAllText(f)) || {}; } catch (e) { }
+    const o = j[key] || { runs: 0, oks: 0 }; o.runs++; if (res.ok) o.oks++;
+    j[key] = Object.assign(o, { last: res.ok ? 'ok' : 'failed', at: new Date().toISOString(), by: Me.Name, how: String(res.how || '').slice(0, 200), why: String(res.why || '').slice(0, 200), sec: res.sec || 0, learned: res.learned || o.learned || '' });
+    File.WriteAllText(f, JSON.stringify(j));
+  });
+}
+/** record where I walk (after the last teleport); stop() -> points [{ x, y, z }] */
+function dspRecorder() {
+  let pts = [], port = state.portAt || 0;
+  const add = () => { try { if ((state.portAt || 0) !== port) { port = state.portAt || 0; pts = []; } const p = { x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z) }, l = pts[pts.length - 1]; if (!l || Math.hypot(p.x - l.x, p.y - l.y) >= 300 || Math.abs(p.z - l.z) > 200) pts.push(p); } catch (e) { } };
+  add(); const t = setInterval(add, 1000);
+  return { stop: () => { clearInterval(t); add(); return pts.slice(-250); } };
+}
+const DSP_FOLDER = { raid: 'raid', epic: 'raid', npc: 'npc', area: 'area', room: 'room', dungeon: 'dungeons' };
+/** the target key -> { type, id } of its route file (routestore.js names) */
+function dspRouteId(key) {
+  const m = /^(raid|epic|npc|area|room|dungeon):([^@]+)/.exec(String(key || '')); if (!m) return null;
+  const type = m[1], id = (type === 'raid' || type === 'epic' || type === 'npc') ? m[2].replace(/[^0-9]/g, '') : m[2].replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 120);
+  return id ? { type, id } : null;
+}
+/** save the recorded walk as the target's learned route (never over a locked one). -> text for the report */
+function dspLearn(stop, r, pts, why) {
+  const R = dspRouteId(stop.key); if (!R || !DSP_FOLDER[R.type]) return '';
+  if (!pts || pts.length < 2) return '';
+  const dir = `${__SCRIPTS__}\\data\\routes\\${DSP_FOLDER[R.type]}`, f = `${dir}\\${R.id}.json`;
+  let old = null; try { if (File.Exists(f)) old = JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, '')); } catch (e) { }
+  if (old && old.manual === true) return 'not saved: you locked your own route for it';
+  let start = null; try { const S = (r && r.steps) || []; for (let i = S.length - 1; i >= 0; i--) { const s = S[i]; if (s.do === 'gk') { start = { kind: 'gk', desc: s.desc || (s.from + ' -> ' + s.link), from: s.from || '' }; break; } if (s.do === 'town') { start = { kind: 'town', town: s.town }; break; } } } catch (e) { }
+  let len = 0; for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+  const doc = { type: R.type, id: R.id, name: stop.name || (r && r.name) || stop.key, target: { x: num(stop.x), y: num(stop.y), z: num(stop.z) }, start, landing: pts[0], points: pts, length: Math.round(len),
+    manual: false, use: 'custom', learned: { by: 'dispatch', who: Me.Name, at: new Date().toISOString(), why: String(why || '').slice(0, 200) }, savedAt: new Date().toISOString(), uses: 0, fails: 0 };
+  try {
+    if (old) { try { File.WriteAllText(`${dir}\\history\\${R.id}_${Date.now()}.json`, JSON.stringify(old)); } catch (e) { } }
+    File.WriteAllText(f, JSON.stringify(doc, null, 1));
+    return `learned route saved (${pts.length} points, ${Math.round(len / 100) / 10} k) — used from now on`;
+  } catch (e) { logError('dispatch learn', e); return ''; }
+}
+/** one stop -> { ok, how, why, learned, sec } */
+async function dspGoOne(J, stop, team, abort) {
+  const t0 = now(), tgt = { x: num(stop.x), y: num(stop.y), z: num(stop.z) };
+  const arrived = () => Math.hypot(Me.X - tgt.x, Me.Y - tgt.y) < (num(stop.arriveR) || 900) && (!isFinite(tgt.z) || !tgt.z || Math.abs(Me.Z - tgt.z) < 700);
+  if (arrived()) return { ok: true, how: 'already there', sec: 0 };
+  const r = navAtlasRoute(stop.key) || (stop.type === 'point' ? navAtlasRoute({ x: tgt.x, y: tgt.y, z: tgt.z || null, maxDist: 1500 }) : null); let how = '', u = navAtlasUsable(r);   // a map point: the nearest atlas route within 1500
+  if (r && u.ok) {
+    const ei = r.steps.findIndex(x => x.do === 'enter' && x.how === 'bosszone');
+    let fabric = 0; try { fabric = num(ItemCount(4295)); } catch (e) { }
+    const upTo = ei >= 0 && !(J.enter && fabric > 0) ? ei - 1 : r.steps.length - 1;
+    if (ei >= 0 && upTo < ei) tgt.door = true;
+    const q = await navAtlasRun(r, { why: 'dispatch ' + (stop.name || stop.key), team, upTo, abort });
+    if (q && q.ok) return { ok: true, how: `computed route${r.status !== 'ok' ? ' (' + r.status + ' → verified)' : ''}${tgt.door ? ' — stopped at the boss door' : ''}`, sec: Math.round((now() - t0) / 1000) };
+    if (arrived()) return { ok: true, how: 'computed route (arrived)', sec: Math.round((now() - t0) / 1000) };
+    how = `the computed route stopped at step ${q && isFinite(q.i) ? q.i + 1 : '?'}: ${(q && q.why) || '?'}`;
+    if (q && q.blocked) return { ok: false, how, why: how, sec: Math.round((now() - t0) / 1000) };   // a door that refused us (boss zone): no fallback around it
+  } else how = r ? u.why : 'no computed route for this place';
+  if (abort()) return { ok: false, why: Me.IsDead ? 'died on the way' : 'stopped', how, sec: Math.round((now() - t0) / 1000) };
+  // FALLBACK: teleport closer + walk with the path finder; the walk is recorded and saved when it arrives
+  dspStatus(J.id, null, `${stop.name}: ${how} — trying another way (teleport closer + walk), recording it`);
+  const rec = dspRecorder();
+  let ok = false;
+  try {
+    try { await navAtlasNear(tgt.x, tgt.y, 'dispatch ' + stop.name); } catch (e) { }
+    ok = team ? await leadTeamWalk(tgt.x, tgt.y, tgt.z, 700, 25 * 60000, abort) : await walkTo(tgt.x, tgt.y, tgt.z, 400, 25 * 60000, abort);
+  } catch (e) { logError('dispatch fallback', e); }
+  const pts = rec.stop();
+  if (ok || arrived()) { const learned = dspLearn(stop, r, pts, how); return { ok: true, how: `another way (${how})`, learned, sec: Math.round((now() - t0) / 1000) }; }
+  return { ok: false, how, why: `${how}; the other way did not get there either (stopped at ${P(Me.X, Me.Y, Me.Z)})`, sec: Math.round((now() - t0) / 1000) };
+}
+async function dispatchOrder(id) {
+  const J = dspRead(id); if (!J) return;
+  const solo = !!(J.who && J.who.char), mine = solo ? J.who.char === Me.Name : (J.who && J.who.party === Me.Name && isLeader());
+  if (!mine) return;
+  if (DSP.busy) { dspStatus(id, { state: 'failed', result: `${Me.Name} is busy with dispatch ${DSP.busy}` }, `busy with dispatch ${DSP.busy} — send it again afterwards`); return; }
+  DSP.busy = id;
+  const seq = orderState.seq, team = !solo && teamNames().length > 0;
+  let low = false; const abort = () => { if (solo && J.sneak && num(Me.HpPercent) < 40) low = true; return low || Me.IsDead || orderState.seq !== seq; };
+  let ctl = false, speedTimer = null;
+  try {
+    dspStatus(id, { state: 'running', who: solo ? Me.Name : 'party ' + Me.Name, total: J.stops.length, done: 0, stops: [] }, `${solo ? Me.Name : 'party ' + Me.Name}: ${J.stops.length} stop(s): ${J.stops.map(s => s.name).join(' → ')}`.slice(0, 280));
+    if (!(await orderWaitControl('!dispatch', seq))) { dspStatus(id, { state: 'failed', result: 'another task held control' }, 'another task held control — not started'); return; }
+    ctl = true;
+    if (regroupRun) abortRegroup('!dispatch');
+    autoLvl.stop = true; raidHunt.stop = true; if (isLeader()) setLeadPaused(true, orderPauseTag('dispatch', id)); stopCombatG();
+    if (solo) { try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } }
+    if (solo && J.sneak) { scoutCtl.on = true; scoutCtl.boss = 'dispatch'; scoutCtl.since = now(); scoutCtl.attackedAt = 0; SCOUT_SPEED.ran = false; SCOUT_SPEED.calmSince = 0; speedTimer = setInterval(scoutSpeedTick, 1200); }
+    const res = [];
+    for (let k = 0; k < J.stops.length; k++) {
+      const s = J.stops[k];
+      if (abort()) break;
+      dspStatus(id, { current: k }, `stop ${k + 1}/${J.stops.length}: on the way to ${s.name}`);
+      let r = null; try { r = await dspGoOne(J, s, team, abort); } catch (e) { logError('dispatch stop', e); r = { ok: false, why: 'error: ' + e.message }; }
+      res.push(Object.assign({ key: s.key, name: s.name }, r));
+      dspResult(s.key, r);
+      let st = {}; try { st = JSON.parse(File.ReadAllText(`${DSP.dir()}\\${id}_status.json`)) || {}; } catch (e) { }
+      dspStatus(id, { done: k + 1, stops: (st.stops || []).concat([Object.assign({ key: s.key, name: s.name, at: P(Me.X, Me.Y, Me.Z) }, r)]) },
+        `${r.ok ? '✓' : '✗'} ${s.name}: ${r.ok ? r.how : r.why}${r.learned ? ' — ' + r.learned : ''} (${Math.floor((r.sec || 0) / 60)} min ${(r.sec || 0) % 60} s)`);
+      if (!r.ok && !J.goOn) break;
+    }
+    const okN = res.filter(x => x.ok).length;
+    const sum = `${okN}/${J.stops.length} reached${low ? ' — stopped: HP low' : ''}${Me.IsDead ? ' — I died' : ''}`;
+    dspStatus(id, { state: okN === J.stops.length ? 'done' : 'failed', result: sum }, `${okN === J.stops.length ? 'done' : 'stopped'}: ${sum}. ${solo ? 'I wait here' : 'The party waits here'} — Start on the dashboard carries on.`);
+    try { SayToParty(`[dispatch] ${sum}`.slice(0, 250)); } catch (e) { }
+  } catch (e) { logError('!dispatch', e); dspStatus(id, { state: 'failed', result: String(e && e.message || e) }, 'error: ' + (e && e.message || e)); }
+  finally {
+    DSP.busy = '';
+    if (speedTimer) { try { clearInterval(speedTimer); } catch (e) { } scoutCtl.on = false; scoutCtl.boss = ''; }
+    if (ctl) orderRelease('!dispatch', seq);
+    if (low && !Me.IsDead) { try { await useEscape(); } catch (e) { } }
+  }
+}
+// ===== GIRANSCAN (2026-10-17; owner: "Figure out things that can be bought in Giran, the blacksmith had a lot of things you can purchase
+// because Mammon is added to one of them. I know for a fact you can buy SA crystals in Giran. Map it all"). "!giranscan <name> [npc name,...]":
+// that character walks to every NPC in Giran that may sell or exchange something (npc_atlas.json, town box, no trainers / guards / gatekeepers /
+// warehouses / clan halls), opens it and follows its menu links (max 3 deep, 30 clicks per NPC) and records every ordinary shop list (items +
+// prices) and every multisell exchange list (MultiSellList 0xD0: what you get, what it costs). Links that DO something are never clicked
+// (teleport, quests, learning, class change, enchant / augment, sell, deposit, rewards ...); opening a list buys nothing.
+// Result: Logs/giranscan.json (written after every NPC) -> node docs/plan/tools/giran_market.js -> Scripts/data/giran_market.json +
+// docs/plan/giran_market.md (the Items page shows the offers).
+const GSCAN = { busy: false, deny: /teleport|go to|move to|accept|learn|skill|class|subclass|transfer|register|sign|participate|join|leave|create|dismiss|disband|remove|cancel|destroy|crystalliz|enchant|augment|refine|level up|rebirth|reset|delete|deposit|withdraw|quest|tutorial|wedding|marry|olympiad|\bbet\b|lottery|\bbid|auction|exit|close|back|return|previous|main menu|\bsell\b|refund|receive|reward|claim|unseal|\bseal\b|change|convert|draw|dye|symbol|fish|manor|seed|crop|castle|fortress|clan|alliance|talk|ask|tell me|about|information|rules|what is|how/i };
+function gscanNpcs(only) {
+  const want = (only || []).map(s => s.toLowerCase());
+  const skipT = /Guard|Clan Hall|^Master$|Magister|^Priest$|Priestess|High Priest|Prefect|Seer|Brother|Veteran|Captain|Gatekeeper|Warehouse|Grand Master|Wharf/;
+  const list = ((npcAtlas() || {}).npcs || []).filter(n => n.x > 76000 && n.x < 90000 && n.y > 139000 && n.y < 157000 && !skipT.test(n.title || '') && !/Corpse|Altar|Worshipper|Broadcasting|Monument|Lottery|Auctioneer|Olympiad|Prophet|Survivor|Sir /.test(n.name))
+    .filter(n => !want.length || want.includes(String(n.name).toLowerCase()));
+  // nearest first, then always the nearest of the rest (one walk through the town)
+  const out = []; let px = Me.X, py = Me.Y; const rest = list.slice();
+  while (rest.length) { rest.sort((a, b) => Math.hypot(a.x - px, a.y - py) - Math.hypot(b.x - px, b.y - py)); const n = rest.shift(); out.push(n); px = n.x; py = n.y; }
+  return out;
+}
+/** open the NPC, click the path; capture what comes: { kind: 'shop', shopId, items } | { kind: 'multisell', listId, entries } | { kind: 'page', links } | { error } */
+async function gscanClick(npc, path, keepOpen) {   // keepOpen: leave the list open (GIRANSCAN-BUY buys / exchanges into it)
+  msHook(); try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  let html = await openNpc(npc);
+  if (!path.length) return html ? { kind: 'page', links: npcLinks(html).map(l => l.text), text: htmlText(String(html)).slice(0, 400) } : { error: 'did not answer' };
+  for (let i = 0; i < path.length; i++) {
+    const L = npcLinks(String(html || '')), l = L.find(x => x.text === path[i]); if (!l) return { error: `no link '${path[i]}'` };
+    const last = i === path.length - 1;
+    if (last) { MSL.pages = []; MSL.on = true; }
+    let ans = null;
+    try { ans = await DLG.click(l, { expect: ['shop', 'npc', 'quest', 'whwd', 'whdep'], base: last ? 2500 : 4000, from: npc.Name, reclick: false }); } catch (e) { }
+    if (last) {
+      const t0 = now(); while (now() - t0 < 1500) { const pg = MSL.pages.length ? msParse(MSL.pages[MSL.pages.length - 1]) : null; if (pg && pg.finished) break; await sleep(150); }
+      MSL.on = false;
+      if (MSL.pages.length) {
+        const parsed = MSL.pages.map(msParse);
+        if (!keepOpen) { try { Send.RequestBuySellUIClose(); } catch (e) { } }
+        if (parsed.some(x => !x)) { msDump(MSL.pages, `giranscan ${npc.Name} ${path.join(' > ')}`); return { kind: 'multisell', error: 'list could not be read (raw saved)', raw: MSL.pages.length }; }
+        return { kind: 'multisell', listId: parsed[0].list, entries: [].concat(...parsed.map(p => p.entries)) };
+      }
+      if (ans && ans.ok && ans.kind === 'shop') {
+        await sleep(900);
+        const items = []; try { BuyList.forEach(it => items.push({ id: num(it.Id), name: String(it.Name || ''), price: num(it.Price) })); } catch (e) { }
+        if (!items.length) { try { const S = ans.ev.data.items || []; for (let k = 0; k < S.length; k++) items.push({ id: num(S[k].Id), name: String(S[k].Name || ''), price: num(S[k].Price) }); } catch (e) { } }
+        if (!keepOpen) { try { Send.RequestBuySellUIClose(); } catch (e) { } }
+        return { kind: 'shop', shopId: ans.ev.data.shopId, items };
+      }
+      if (ans && ans.ok && ans.html !== undefined) return { kind: 'page', links: npcLinks(String(ans.html)).map(x => x.text), text: htmlText(String(ans.html)).slice(0, 400) };
+      return { error: (DLG.last && DLG.last.why) || 'no answer' };
+    }
+    html = ans && ans.ok ? ans.html : null;
+    if (!html) return { error: `'${path[i]}' did not open a page` };
+  }
+  return { error: 'no answer' };
+}
+/** GIRANSCAN-BUY (2026-10-17; owner: "Map everything in Giran so we can make any character go anywhere and buy whatever we want"): buy / exchange
+ *  at ANY Giran NPC the census found (Scripts/data/giran_market.json offer: { npc, x, y, path, kind: 'shop'|'exchange', shopId | listId, entry }).
+ *  Walks to that NPC (npc atlas + street graph), opens the same menu path, then a shop = buy packet, an exchange = the live list is read again
+ *  (the entry for this product, every ingredient checked in the bag) and MultiSellChoose(list, entry, count). -> { ok, objId, got, why } */
+async function ijBuyAt(o, id, count, jid) {
+  count = Math.max(1, num(count) || 1);
+  const atl = ((npcAtlas() || {}).npcs || []).filter(n => n.name === o.npc).sort((p, q) => Math.hypot(p.x - num(o.x), p.y - num(o.y)) - Math.hypot(q.x - num(o.x), q.y - num(o.y)))[0] || { name: o.npc, x: num(o.x), y: num(o.y), z: Me.Z };
+  ijStatus(jid, null, `walking to ${o.npc}`);
+  try { await townWalkToNpc(atl, { solo: true, atlasFirst: true }); } catch (e) { }
+  let npc = null, bd = 900; try { snapNpcs().forEach(n => { if (String(n.Name) === o.npc) { const d = Math.hypot(n.X - atl.x, n.Y - atl.y); if (d < bd) { bd = d; npc = n.ref; } } }); } catch (e) { }
+  if (!npc) return { ok: false, why: `${o.npc} not in sight` };
+  const objs = () => { const s = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === num(id)) s.add(num(i.objId)); }); } catch (e) { } return s; };
+  const before = objs(), c0 = bagCount(id), a0 = itemCount(57);
+  const r = await gscanClick(npc, o.path || [], true);
+  try {
+    if (o.kind === 'exchange') {
+      if (r.kind !== 'multisell' || !r.entries) return { ok: false, why: `${o.npc}: the exchange list did not open (${r.error || r.kind || '?'})` };
+      const e = r.entries.find(x => x.entry === num(o.entry) && x.products.some(p => p.id === num(id))) || r.entries.find(x => x.products.some(p => p.id === num(id)));
+      if (!e) return { ok: false, why: `${o.npc}'s list has no item ${id} any more` };
+      for (const g of e.ings) { const need = g.count * count; if (g.id === 57 ? itemCount(57) < need : bagCount(g.id) < need) return { ok: false, why: `needs ${need}× ${g.id === 57 ? 'adena' : 'item ' + g.id} for ${count}, I have ${g.id === 57 ? itemCount(57) : bagCount(g.id)}` }; }
+      ijStatus(jid, null, `exchanging at ${o.npc} (list ${r.listId}, entry ${e.entry}) ×${count}`);
+      Send.MultiSellChoose(r.listId, e.entry, count);
+    } else {
+      if (r.kind !== 'shop' || !r.items) return { ok: false, why: `${o.npc}: the shop did not open (${r.error || r.kind || '?'})` };
+      const live = r.items.find(i => i.id === num(id)); if (!live) return { ok: false, why: `not in ${o.npc}'s list any more` };
+      if (a0 < Math.ceil(num(live.price) * count * 1.25)) return { ok: false, why: `not enough adena (${num(live.price) * count} + tax, I have ${a0})` };
+      ijStatus(jid, null, `buying ${count}× at ${o.npc}`);
+      buyPacket(r.shopId, [{ id: num(id), count }]);
+    }
+    await DLG.effect({ check: () => bagCount(id) > c0, base: 2500, label: `${o.npc}: buy / exchange item ${id}` });
+  } finally { try { Send.RequestBuySellUIClose(); } catch (e) { } }
+  let objId = 0; objs().forEach(x => { if (!before.has(x)) objId = x; }); if (!objId && bagCount(id) > c0) objs().forEach(x => { objId = x; });
+  const got = bagCount(id) - c0;
+  ijStatus(jid, null, `${o.npc}: item ${id} ${c0} -> ${bagCount(id)} in my bag (got ${got}), adena ${a0} -> ${itemCount(57)}`);
+  return got > 0 ? { ok: true, objId, got, paid: a0 - itemCount(57), npc: o.npc } : { ok: false, why: `${o.npc} did not hand it over` + (lastSysMsg ? ' (server: ' + String(lastSysMsg.text || '').slice(0, 80) + ')' : '') };
+}
+async function giranScanOrder(parts) {
+  if (String(parts[1] || '').toLowerCase() !== String(Me.Name).toLowerCase()) return;
+  if (GSCAN.busy) { note('giranscan: already scanning', true); return; }
+  GSCAN.busy = true;
+  const only = parts.slice(2).join(' ').split(',').map(s => s.trim()).filter(Boolean);
+  const seq = orderState.seq, F = `${SWARM_ROOT}\\Logs\\giranscan.json`;
+  const out = { at: new Date().toISOString(), by: Me.Name, npcs: [] };
+  if (only.length) { try { const old = JSON.parse(File.ReadAllText(F)); if (old && Array.isArray(old.npcs)) out.npcs = old.npcs.filter(n => !only.map(s => s.toLowerCase()).includes(String(n.name).toLowerCase())); } catch (e) { } }   // re-scan a few: keep the others
+  const save = () => { try { File.WriteAllText(F, JSON.stringify(out, null, 1)); } catch (e) { } };
+  let trip = null;
+  try {
+    trip = await ijToGiran(seq, '!giranscan');
+    if (!trip.ok) { note(`giranscan: ${trip.why}`, true); return; }
+    state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+    const list = gscanNpcs(only);
+    note(`[giranscan] visiting ${list.length} NPCs in Giran (opens lists only, buys nothing)`, true);
+    for (const a of list) {
+      if (orderState.seq !== seq || Me.IsDead) break;
+      const E = { name: a.name, title: a.title || '', x: a.x, y: a.y, pages: [], lists: [] };
+      setTask(`giranscan: ${a.name} (${out.npcs.length + 1}/${list.length})`);
+      let ok = false; try { ok = await townWalkToNpc(a, { solo: true, atlasFirst: true }); } catch (e) { }
+      let npc = null, bd = 900; try { snapNpcs().forEach(n => { if (String(n.Name) === a.name) { const d = Math.hypot(n.X - a.x, n.Y - a.y); if (d < bd) { bd = d; npc = n.ref; } } }); } catch (e) { }
+      if (!npc) { E.error = ok ? 'not in sight' : 'could not walk there'; out.npcs.push(E); save(); continue; }
+      const root = await gscanClick(npc, []);
+      if (root.error) { E.error = root.error; out.npcs.push(E); save(); continue; }
+      E.pages.push({ path: [], links: root.links, text: root.text });
+      const queue = root.links.filter(t => !GSCAN.deny.test(t) || /\bbuy\b|exchange|purchase|special abilit|bestow|trade/i.test(t)).map(t => [t]);
+      const seen = new Set(); let clicks = 0;
+      while (queue.length && clicks < 30 && orderState.seq === seq) {
+        const path = queue.shift(), key = path.join(' > '); if (seen.has(key)) continue; seen.add(key);
+        if (GSCAN.deny.test(path[path.length - 1]) && !/\bbuy\b|exchange|purchase|special abilit|bestow|trade/i.test(path[path.length - 1])) continue;
+        clicks++;
+        const r = await gscanClick(npc, path);
+        if (r.kind === 'shop') E.lists.push({ path, kind: 'shop', shopId: r.shopId, items: r.items });
+        else if (r.kind === 'multisell') E.lists.push({ path, kind: 'multisell', listId: r.listId, entries: r.entries || [], error: r.error });
+        else if (r.kind === 'page') { E.pages.push({ path, links: r.links, text: r.text }); if (path.length < 3) r.links.forEach(t => { if (!GSCAN.deny.test(t) || /\bbuy\b|exchange|purchase|special abilit|bestow|trade/i.test(t)) queue.push(path.concat([t])); }); }
+        else E.pages.push({ path, error: r.error });
+        await sleep(300);
+      }
+      out.npcs.push(E); save();
+      note(`[giranscan] ${a.name}: ${E.lists.filter(l => l.kind === 'shop').length} shop list(s), ${E.lists.filter(l => l.kind === 'multisell').length} exchange list(s), ${E.lists.reduce((s, l) => s + (l.items ? l.items.length : (l.entries || []).length), 0)} offers`);
+    }
+    const n = out.npcs.reduce((s, x) => s + x.lists.reduce((a, l) => a + (l.items ? l.items.length : (l.entries || []).length), 0), 0);
+    note(`[giranscan] done: ${out.npcs.length} NPCs, ${n} offers — Logs/giranscan.json`, true);
+  } catch (e) { logError('!giranscan', e); }
+  finally {
+    save(); GSCAN.busy = false; MSL.on = false; state.gkBusy = false; try { hennaHookOff(); } catch (e) { }
+    try { if (currentTownKey() === 'Giran') await giranGo('start'); } catch (e) { }
+    try { App.emit('swarm.kitbuy.done', { name: Me.Name }); } catch (e) { }
+    if (trip && trip.ctl) orderRelease('!giranscan', seq);
+    if (trip && trip.member) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
+  }
+}
+
 
 // --- DYES / SYMBOLS (tattoos, user 2026-10-07) — UNTESTED ----------------------------------------------------------------------
 // Plan per role in Scripts/data/dye_plan.json (read live; destroyers first, every other role empty until the user fills it).
@@ -20144,13 +20773,16 @@ function whPickWithdrawLink(links, kind) {
 }
 /** What to withdraw: rows = the server's list ({ objId, id, name, count, enchant }), want = [{ id, count }] -> { take: [{ objId, id, name, count, enchant }], missing: [{ id, name, count, why }] }.
  *  Highest enchant first, then the biggest stack; a stack is split (partial count), single pieces count 1 each. */
+// PROTECTED PIECES (owner 2026-10-17: "Dont take +16 NEVER!"): a piece at +10 or higher is never taken out of a warehouse by anything (orders, jobs,
+// sells, hand-overs); without an exact enchant the LOWEST enchanted piece goes first (it used to be the highest: "take a Homunkulus's Sword" took the +16)
+const WH_PROTECT_ENCH = 10, WH_SAFE_ENCH = 4;   // owner 2026-10-17: "Anything over the safe limit is no go unless an explicit warning was given"
 function whPlan(rows, want) {
   const take = [], missing = [];
   (want || []).forEach(w => {
     const id = Number(w.id), all = w.count === 'all';
     let need = all ? Infinity : Math.max(1, Number(w.count) || 1);
-    const cand = (rows || []).filter(r => Number(r.id) === id && Number(r.objId) && Number(r.count) > 0)
-      .sort((a, b) => (Number(b.enchant) || 0) - (Number(a.enchant) || 0) || (Number(b.count) || 0) - (Number(a.count) || 0));
+    const cand = (rows || []).filter(r => Number(r.id) === id && Number(r.objId) && Number(r.count) > 0 && (w.ench != null ? Number(r.enchant || 0) === Number(w.ench) : (Number(r.enchant) || 0) <= WH_SAFE_ENCH))   // ITEMS 2026-10-17: above the safe +4 ONLY that exact piece the owner picked after the warning; never by chance (+10 and higher included: "should not be locked but should NEVER ever be picked by chance or automatically")
+      .sort((a, b) => (Number(a.enchant) || 0) - (Number(b.enchant) || 0) || (Number(b.count) || 0) - (Number(a.count) || 0));   // the lowest enchant first
     if (!cand.length) { missing.push({ id, name: 'item ' + id, count: all ? 0 : need, why: 'not in the warehouse' }); return; }
     let got = 0;
     for (const c of cand) {
@@ -37448,6 +38080,26 @@ function handleSay(charName, text, messageType) {
     }
     case '!routetest': {                         // !routetest <boss>: everyone .townname by himself, then walks the boss's saved route (no raid)
       if (isLeader()) routeTest(parts.slice(1).join(' ')).catch(e => logError('!routetest', e));
+      break;
+    }
+    case '!giranscan': {                         // !giranscan <name> [npc,npc]: map every Giran NPC's shop + exchange lists (GIRANSCAN block)
+      giranScanOrder(parts).catch(e => logError('!giranscan', e));
+      break;
+    }
+    case '!dispatch': {                          // !dispatch <id>: a Dispatch page tour (DISPATCH block): the party leader (whole party) or the named character
+      const did = String(parts[1] || ''); if (/^dsp_[a-z0-9_-]+$/i.test(did)) dispatchOrder(did).catch(e => logError('!dispatch', e));
+      break;
+    }
+    case '!itemjob': {                           // !itemjob <id>: an Items page job (ITEMJOB block): the doer, the receiver and the clan leader read the job file
+      const jid = String(parts[1] || ''); if (/^ij_[a-z0-9_-]+$/i.test(jid)) itemJobOrder(jid).catch(e => logError('!itemjob', e));
+      break;
+    }
+    case '!whlook': {                            // !whlook <name>: look into my private warehouse (Giran), write the list (ITEMJOB block)
+      if (String(parts[1] || '').toLowerCase() === String(Me.Name).toLowerCase()) whLookOrder().catch(e => logError('!whlook', e));
+      break;
+    }
+    case '!craftmake': {                         // !craftmake <recipe list id> <count> <name>: craft any recipe (CRAFTMAKE, ITEMJOB block)
+      if (String(parts[3] || '').toLowerCase() === String(Me.Name).toLowerCase()) craftMakeOrder(num(parts[1]), Math.max(1, Math.min(500, num(parts[2]) || 1)), { wh: parts.slice(4).some(x => /^wh$/i.test(x)), clan: parts.slice(4).some(x => /^clan$/i.test(x)) }).catch(e => logError('!craftmake', e));
       break;
     }
     case '!whtake': {                           // !whtake <id>[:count],<id>[:count] [private|clan] [name]: take items out of a warehouse (WHTAKE block, D8 2026-10-12)

@@ -2,6 +2,18 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.4 (2026-10-17)
+
+- Combat profile page: set up each character's L2Swarm combat profile in the Hive (attack skills with conditions, heals and buffs, items, follow, range, pick-up, monsters), saved safely into L2Swarm
+- Items page: any character's bag, warehouse, clan warehouse and Giran shops in one place with big game icons: buy, enchant to +N (chance per level and gain shown), add a Special Ability, give an item to a character who puts it on
+- you pick where every material comes from, nothing is taken or bought on its own, anything above the safe +4 needs an explicit warning, and every step is logged
+- Crafting page: every recipe a crafter can make with the materials from bag, warehouse and clan warehouse (phone friendly)
+- Dispatch page: send a party or one character to any raid boss, epic entrance, NPC, hunting area, room or map point, one stop or a tour, the route is fixed on the way and a working new way is saved as the learned route
+- Giran census: map every Giran NPC's shop and exchange lists (soul crystals at Alexandria, gemstones at Helvetia and Kiki) and buy from any of them
+- Warehouse safety: taking an item out by type takes the lowest enchanted piece first and never a piece above +4 unless you chose exactly that piece
+- Storage: Sell now + always sell these (never stored again, sold by itself)
+- in-game icons instead of emoji on the new pages
+
 ## v1.8.3 (2026-10-17)
 
 - Party plan: choose rooms on the dungeon map for a level step (catacombs too), the step names its room, a changed plan step moves a running party

@@ -81,7 +81,7 @@ console.log('5) never automatic (source checks)');
   const kbOrd = calls('kitBuyOrder').filter(l => !/function kitBuyOrder\(/.test(l));
   ok("kitBuyOrder is called only by handleSay's '!kitbuy' line", kbOrd.length === 1 && /if \(cmd === '!kitbuy'\) \{ kitBuyOrder\(parts\)/.test(kbOrd[0]), kbOrd.join(' | '));
   const kbLead = calls('kitBuyLeadTrip').filter(l => !/function kitBuyLeadTrip\(/.test(l));
-  ok("the leader's team trip runs only on a member's order event (swarm.kitbuy.trip)", kbLead.length === 1 && /kitBuyLeadTrip\(who\)/.test(kbLead[0]) && /App\.on\('swarm\.kitbuy\.trip'/.test(SRC) && (SRC.match(/App\.emit\('swarm\.kitbuy\.trip'/g) || []).length === 1);
+  ok("the leader's team trip runs only on a member's order event (swarm.kitbuy.trip)", kbLead.length === 1 && /kitBuyLeadTrip\(who\)/.test(kbLead[0]) && /App\.on\('swarm\.kitbuy\.trip'/.test(SRC) && (SRC.match(/App\.emit\('swarm\.kitbuy\.trip'/g) || []).length === 1 + (SRC.match(/App\.emit\('swarm\.kitbuy\.trip', \{ name: Me\.Name \}\); note\(`\$\{label\}/g) || []).length);   // ITEMS 2026-10-17: the item jobs (ijToGiran) reuse the same party trip
   ok("the trip event is sent only inside kitBuyOrder", (() => { const b = blk('async function kitBuyOrder(', 'async function kitBuyLeadTrip('); return /App\.emit\('swarm\.kitbuy\.trip'/.test(b); })());
   ok('defined once each', defs('kitBuyRun').length === 1 && defs('kitBuyOrder').length === 1);
   const fnBody = (name) => { const i = SRC.search(new RegExp('\\n(async )?function ' + name + '\\(')); if (i < 0) return ''; const j = SRC.indexOf('\n}\n', i); return SRC.slice(i, j); };

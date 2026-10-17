@@ -2273,6 +2273,9 @@ http.createServer(async (req, res) => {
     if (await require('./partyplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun })) return;
     // HEAL SCHEMES 2026-10-13 (Dashboard/healschemes_api.js): /healschemes.js|css, /heallogic.js (public) + GET/POST /api/healschemes (key checked inside):
     // per character / class which heal skill at which HP %, who first, Recharge, mana potion line (Scripts/data/heal_schemes.json, read by swarm.js; missing = automatic)
+    if (await require('./dispatch_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;   // DISPATCH-2026-10-17
+    if (await require('./itemspage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, mcpCallChar, commandRun })) return;   // ITEMS-2026-10-17: Items + Crafting pages
+    if (await require('./combatprofile_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, allowed, json, send, mcpCall })) return;   // COMBATPROFILE-2026-10-17: L2Swarm combat profile per character
     if (await require('./raidheal_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;   // RAIDHEAL-2026-10-17: raid healing per boss
     if (await require('./healschemes_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send })) return;
     if (await require('./tradepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;

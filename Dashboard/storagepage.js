@@ -345,6 +345,23 @@
     if (!d || !d.ok) { await uiError((d && d.error) || 'no answer (the dashboard server may need a restart)', 'Not sent'); return; }
     flash(CL + ' takes ' + chosen.length + ' kind' + (chosen.length === 1 ? '' : 's') + ' out for ' + crafter + ', who crystallizes them - see "What they do".'); SP.cwhSel = new Set(); renderCwhList();
   }
+  /** ALWAYS SELL (owner 2026-10-17: "Why can't I select items from the storage that should always be sold? It's annoying to keep clicking the same button
+   *  every hour"): these exact names go on the never-store list (sold instead, swarm.js stashNever) + wh_auto marks them "sell" (automatic take-out-and-sell) */
+  async function alwaysSell(chosen) {
+    const kinds = {}; chosen.forEach(r => { kinds[r.id] = String(r.name || '').replace(/^\+\d+ /, ''); });
+    const esc = (t) => '^' + t.replace(/[.*+?^${}()|[\]\\]/g, (m) => '\\' + m) + '$';
+    try {
+      const cur = await api('/api/storage'); const rules = JSON.parse(JSON.stringify((cur && cur.rules) || SP.orig || {}));
+      const N = rules.neverStore = obj(rules.neverStore), names = Array.isArray(N.names) ? N.names : [];
+      Object.values(kinds).forEach(n => { const p = esc(n); if (!names.includes(p)) names.push(p); });
+      N.names = names; N.sell = true; N.common = N.common === true;
+      const d = await api('/api/storage', { method: 'POST', body: JSON.stringify({ rules, rev: cur && cur.rev }) });
+      if (!d || !d.ok) flash('Could not add them to the never-store list: ' + ((d && (d.error || (d.conflict && 'changed meanwhile'))) || 'no answer'), true);
+    } catch (e) { flash('Never-store list: ' + e.message, true); }
+    await waPost({ set: Object.keys(kinds).map(id => ({ id: Number(id), act: 'sell', name: kinds[id] })) });
+    flash(Object.keys(kinds).length + ' kinds: always sold from now on');
+    try { await load(true); } catch (e) { } waRefresh();
+  }
   async function cwhRun(sell) {
     const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || '';
     const chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length || !CL) return;
@@ -354,9 +371,15 @@
     const body = [uiP(uiEm(CL), sell ? ' walks to the warehouse keeper in Giran, takes these out of the clan warehouse, walks to the grocer and sells exactly these pieces (nothing else from his bag), then walks back:' : ' walks to the warehouse keeper in Giran and takes these out of the clan warehouse into his bag:'), uiList(list)];
     if (mixed.length) body.push(uiWarn(`Some of these exist with other enchant levels in the warehouse (${mixed.slice(0, 5).join(', ')}${mixed.length > 5 ? ' …' : ''}): the highest enchant comes out first.`));
     body.push(uiNote(sell ? 'He takes out as much as he can carry, sells it, and goes back for more until the list is done. He stops what he is doing for this (a raid, Kamaloka or mission must end first) and goes back to it at the very end. Report in party chat and Logs/whsell.log.' : 'He stops what he is doing for this (a raid, Kamaloka or mission must end first). Report in party chat.'));
-    if (!(await uiConfirm({ title: sell ? `Take out and sell ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?` : `Take out ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?`, body, confirmText: sell ? 'Take out and sell' : 'Take out', cancelText: 'Cancel', danger: sell }))) return;
+    let always = null;   // ALWAYS SELL: one choice in this dialog instead of the same order every hour
+    if (sell) {
+      body.push(uiNote('"Sell now + always sell these": these kinds are never stored again, and whatever lands in the clan warehouse is taken out and sold by itself (never an enchanted piece).'));
+      const v = await uiChoice({ title: `Take out and sell ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?`, body, buttons: [{ label: 'Sell now + always sell these', value: 'always', primary: true }, { label: 'Sell only this time', value: 'once' }] });
+      if (!v) return; always = { checked: v === 'always' };
+    } else if (!(await uiConfirm({ title: sell ? `Take out and sell ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?` : `Take out ${chosen.length} kind${chosen.length === 1 ? '' : 's'}?`, body, confirmText: sell ? 'Take out and sell' : 'Take out', cancelText: 'Cancel', danger: sell }))) return;
     let d = null; try { d = await api('/api/storage/whsell', { method: 'POST', body: JSON.stringify({ items: Object.keys(byId).map(id => ({ id: Number(id), count: byId[id] })), sell }) }); } catch (e) { d = { error: e.message }; }
     if (!d || !d.ok) { await uiError((d && d.error) || 'no answer (the dashboard server may need a restart)', 'Not sent'); return; }
+    if (always && always.checked) await alwaysSell(chosen);
     if (await send('!whsell order', CL)) { flash(`${CL}: ${sell ? 'take out and sell' : 'take out'} ${d.n} kind${d.n === 1 ? '' : 's'} — sent. See "What they do".`); SP.cwhSel = new Set(); renderCwhList(); }
   }
   /** LOOT RULES 2026-10-13: one line per party + "⚙ Loot settings" (the party settings popup, Loot section; Dashboard/partysettings.js) */

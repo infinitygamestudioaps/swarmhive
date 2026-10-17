@@ -1,0 +1,61 @@
+/* COMBAT PROFILE page #/combat/<Name> (Dashboard/combatprofile.js, COMBATPROFILE-2026-10-17) — phone first */
+.cpf { padding-bottom: 90px; min-width: 0; min-height: 100vh; box-sizing: border-box; }   /* always tall enough to scroll to the top on a phone */
+.cpf-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; justify-content: space-between; }
+.cpf-head h2 { margin: 0; font-size: 1.15em; }
+.cpf-back { font-size: .95em; }
+.cpf-msg { margin: 8px 0; padding: 8px 10px; border-radius: 6px; background: #1f3a24; }
+.cpf-msg.bad { background: #4a1f1f; }
+.cpf-tabs { display: flex; gap: 6px; overflow-x: auto; margin: 10px 0; padding-bottom: 2px; }
+.cpf-tabs button { flex: 0 0 auto; padding: 9px 12px; min-height: 40px; border-radius: 6px; }
+.cpf-tabs button.on { outline: 2px solid #e3c27a; }
+.cpf-tabs b { opacity: .7; font-weight: 600; margin-left: 2px; }
+.cpf-help { color: var(--muted, #aaa); margin: 4px 0 10px; line-height: 1.45; }
+.cpf-card { border: 1px solid var(--line, #3b382f); border-radius: 8px; padding: 10px; margin: 8px 0; background: rgba(0, 0, 0, .18); }
+.cpf-card.off { opacity: .62; }
+.cpf-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.cpf-row + .cpf-row { margin-top: 6px; }
+.cpf-name { flex: 1 1 140px; display: flex; flex-direction: column; min-width: 0; }
+.cpf-name select { margin-top: 4px; max-width: 220px; }
+.cpf-ic { width: 32px; height: 32px; border-radius: 4px; flex: 0 0 32px; }
+.cpf-noic { display: inline-block; background: #2a2720; }
+.cpf-tog { min-width: 52px; min-height: 36px; border-radius: 18px; padding: 4px 10px; }
+.cpf .cpf-tog.on { background: #2f6b33 !important; background-image: none !important; color: #fff; border-color: #4f9a54; }
+.cpf-mv { display: flex; gap: 4px; }
+.cpf-mv button { min-width: 36px; min-height: 36px; }
+.cpf-opts label { display: inline-flex; align-items: center; gap: 6px; }
+.cpf-num { padding: 6px; }
+.cpf-lab { margin: 8px 0 4px; font-weight: 600; color: #e3c27a; }
+.cpf-conds { display: flex; flex-direction: column; gap: 4px; }
+.cpf-grp { border-left: 3px solid #4b6b8f; padding-left: 8px; display: flex; flex-direction: column; gap: 4px; }
+.cpf-cond { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cpf-cond select { max-width: 260px; }
+.cpf-and, .cpf-or { font-size: .85em; color: var(--muted, #aaa); text-transform: uppercase; letter-spacing: .05em; }
+.cpf-or { color: #9fd0ff; margin: 2px 0; }
+.cpf-x { min-width: 32px; min-height: 32px; }
+.cpf-add { width: 100%; min-height: 44px; margin: 8px 0; border-style: dashed; }
+.cpf-row .cpf-add { width: auto; flex: 1 1 200px; }
+.cpf-add2 { min-height: 34px; align-self: flex-start; }
+.cpf-link { background: none; border: none; color: #9fd0ff; text-decoration: underline; padding: 4px; min-height: 32px; }
+.cpf-names { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.cpf-nm { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; }
+.cpf-sc { justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, .06); padding: 4px 0; }
+.cpf-sc > span { flex: 1 1 160px; }
+.cpf-mob { justify-content: space-between; }
+.cpf-pick { position: fixed; left: 50%; top: 8vh; transform: translateX(-50%); width: min(560px, calc(100vw - 24px)); max-height: 80vh; overflow: auto; z-index: 9200;
+  background: #1c1a15; border: 1px solid #5a523f; border-radius: 10px; padding: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, .6); }
+.cpf-pick input[type=search] { width: 100%; margin: 8px 0; padding: 8px; }
+.cpf-picklist { display: flex; flex-direction: column; gap: 4px; }
+.cpf-opt { display: flex; align-items: center; gap: 8px; text-align: left; min-height: 44px; padding: 6px 8px; }
+.cpf-opt b { flex: 1; }
+.cpf-job.ok { border-color: #4f9a54; }
+.cpf-job.bad { border-color: #b04a4a; }
+.cpf-steps { margin: 6px 0 0 18px; padding: 0; font-size: .92em; }
+.cpf-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; gap: 8px; align-items: center; justify-content: flex-end; padding: 10px 16px;
+  background: #15130f; border-top: 1px solid #5a523f; }
+.cpf-bar span { margin-right: auto; }
+.cpf-bar button { min-height: 44px; padding: 0 14px; white-space: nowrap; flex: 0 0 auto; }
+.cpf-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cpf-bar .primary { background: #8a6d2f; color: #fff; }
+.cpf-mini { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+@media (max-width: 640px) { .cpf-mv button { min-width: 40px; } .cpf-cond select { max-width: 100%; } }
+.cpf-head h2 .gi, .cpf-cbox h3 .gi { width: 24px; height: 24px; vertical-align: middle; }

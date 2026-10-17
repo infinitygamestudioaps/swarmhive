@@ -25,8 +25,8 @@ Every switch is **on** until you change it, so nothing changes for anyone who ne
 
 A character's own choice wins over the party's switch.
 
-**Before you switch something off:** set it up in that character's L2Swarm profile first (account options → *Combat Skills* /
-*Auto Skills*). With Hive off and an empty profile, nobody casts or heals.
+**Before you switch something off:** set it up in that character's L2Swarm profile first: on the dashboard (character page →
+**⚔ Combat profile**, see [Combat profile](combat-profile.md)) or in L2Swarm (account options → *Combat Skills* / *Auto Skills*). With Hive off and an empty profile, nobody casts or heals.
 
 ## What Hive gives back to your profile
 

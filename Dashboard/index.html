@@ -684,6 +684,9 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="gear"><img class="gi" src="/icons/icon/armor_t53_u_i00.png" alt=""> Gear</button>
       <button data-tab="classes"><img class="gi" src="/icons/class/class_106.png" alt=""> Classes</button>
       <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
+      <button data-tab="dispatch" title="Send a party or a character anywhere: epics, raid bosses, NPCs, areas — one stop or a whole tour"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Dispatch</button>
+      <button data-tab="items" title="Any character: bag, warehouse, clan warehouse, Giran shops — buy, enchant, Special Ability, give to someone"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Items</button>
+      <button data-tab="crafting" title="Crafters: what they can make with the materials in bag, warehouse and clan warehouse"><img class="gi" src="/icons/icon/etc_recipe_blue_i00.png" alt=""> Crafting</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
       <button data-tab="storage"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Storage</button>
@@ -1209,6 +1212,10 @@ function route() {
   if (window.StoragePage && StoragePage.route(kind, arg)) return;   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
   if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
+  if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
+  if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
+  if (window.CraftPage && CraftPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/crafting[/<name>] crafters: recipes + materials from bag / warehouse / clan (Dashboard/craftpage.js)
+  if (window.CombatProfilePage && CombatProfilePage.route(kind, arg)) return;   // COMBATPROFILE 2026-10-17: #/combat/<name> the character's L2Swarm combat profile (Dashboard/combatprofile.js)
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
   if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
   if (kind === 'char' && arg) { showCharPage(decodeURIComponent(arg)); return; }
@@ -5153,8 +5160,16 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <!-- HEAL SCHEMES 2026-10-13 (public tester: "let me set my own heal / MP schemes"): "✚ Healing" on the character page + section "Healing" in the party
      settings popup = one sheet per character / class (Dashboard/healschemes.js, /api/healschemes, Scripts/data/heal_schemes.json; automatic until changed). -->
 <link rel="stylesheet" href="/healschemes.css">
+<link rel="stylesheet" href="/combatprofile.css">
+<link rel="stylesheet" href="/itemspage.css">
 <script src="/heallogic.js"></script>
 <script src="/raidheallogic.js"></script>
+<script src="/combatxml.js"></script>
+<script src="/combatprofile.js"></script>
+<script src="/itemslogic.js"></script>
+<script src="/itemspage.js"></script>
+<script src="/craftpage.js"></script>
+<script src="/dispatchpage.js"></script>
 <script src="/healschemes.js"></script>
 <script src="/hiveswitch.js"></script><!-- HIVESW 2026-10-15: character page box "Combat" (Hive or my L2Swarm profile picks skills / heals / potions + fight toggles), served by partyauto_api.js -->
 <script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>
