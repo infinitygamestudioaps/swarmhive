@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.7 (2026-10-17)
+
+- 3D view: buildings load instantly (every area is baked once into one model + one texture atlas, one draw call, cached by the browser)
+- weapons and shields in the characters' hands
+- epic boss scenes with their scripted guards (Antharas' Behemoth / Tarask dragons and bombers, Baium's archangels, Frintezza's Scarlet and portraits) and the right facing
+- models drawn solid (no more holes in Orfen / Antharas)
+- boss guards stand on their real floor
+- helper walls hidden where real buildings are
+- much lighter page in busy towns (shared textures, animations built only when played, server caches texture look-ups).
+
 ## v1.8.6 (2026-10-17)
 
 - 3D view: a live 3D view of every character (character page -> 3D view): real ground from the geodata, the game map art, dungeon walls, live party and monsters about once a second, cast / hit / death / fall effects, an event feed, a 10-minute replay, tap the ground to walk a character or the whole party there

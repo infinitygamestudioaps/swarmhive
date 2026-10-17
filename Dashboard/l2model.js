@@ -76,24 +76,8 @@ export function build(psk, psa, textures) {
   mesh.bind(new THREE.Skeleton(B));
   mesh.frustumCulled = false;
   // animations: one clip per sequence (bones matched by name)
-  const clips = {};
-  if (psa) {
-    const map = psa.names.map(n => bones.findIndex(b => b.name.toLowerCase() === n.toLowerCase()));
-    psa.seqs.forEach(s => {
-      if (!s.frames || !s.rate) return;
-      const tracks = [], times = new Float32Array(s.frames); for (let f = 0; f < s.frames; f++) times[f] = f / s.rate;
-      for (let bi = 0; bi < psa.names.length; bi++) {
-        const k = map[bi]; if (k < 0) continue;
-        const pv = new Float32Array(s.frames * 3), qv = new Float32Array(s.frames * 4);
-        for (let f = 0; f < s.frames; f++) {
-          const K = psa.key((s.first + f) * psa.names.length + bi), p = pos(K[0], K[1], K[2]), q = rot(K[3], K[4], K[5], K[6], k === 0);
-          pv.set([p.x, p.y, p.z], f * 3); qv.set([q.x, q.y, q.z, q.w], f * 4);
-        }
-        tracks.push(new THREE.VectorKeyframeTrack(`b${k}.position`, times, pv), new THREE.QuaternionKeyframeTrack(`b${k}.quaternion`, times, qv));
-      }
-      clips[s.name] = new THREE.AnimationClip(s.name, s.frames / s.rate, tracks);
-    });
-  }
+  let clips = {};
+  if (psa) { const map = psa.names.map(n => bones.findIndex(b => b.name.toLowerCase() === n.toLowerCase())); clips = lazyClips(psa, map, keyFor(psa) + ':' + keyFor(psk)); }
   const mixer = new THREE.AnimationMixer(root);
   return { object: root, mesh, mixer, clips };
 }
@@ -104,6 +88,29 @@ export function clipFor(clips, state) {
   const n = names.find(x => RE[state] && RE[state].test(x)) || (state !== 'idle' ? null : names[0]);
   return n ? clips[n] : null;
 }
+// LAZY CLIPS (owner 2026-10-17: "buildings load extremely slow": a character set has ~134 animations, all of them were built for every
+// character; only 5-6 are ever played): a clip is built the first time it is asked for, shared by every model with the same skeleton + set
+const CLIPS = new Map();
+function lazyClips(psa, map, key) {
+  const out = {};
+  psa.seqs.forEach(s => {
+    if (!s.frames || !s.rate) return;
+    Object.defineProperty(out, s.name, { enumerable: true, configurable: true, get() {
+      const k = key + '|' + s.name; if (CLIPS.has(k)) return CLIPS.get(k);
+      const tracks = [], times = new Float32Array(s.frames); for (let f = 0; f < s.frames; f++) times[f] = f / s.rate;
+      for (let bi = 0; bi < psa.names.length; bi++) {
+        const k2 = map[bi]; if (k2 < 0) continue;
+        const pv = new Float32Array(s.frames * 3), qv = new Float32Array(s.frames * 4);
+        for (let f = 0; f < s.frames; f++) { const K = psa.key((s.first + f) * psa.names.length + bi), p = pos(K[0], K[1], K[2]), q = rot(K[3], K[4], K[5], K[6], k2 === 0); pv.set([p.x, p.y, p.z], f * 3); qv.set([q.x, q.y, q.z, q.w], f * 4); }
+        tracks.push(new THREE.VectorKeyframeTrack(`b${k2}.position`, times, pv), new THREE.QuaternionKeyframeTrack(`b${k2}.quaternion`, times, qv));
+      }
+      const c = new THREE.AnimationClip(s.name, s.frames / s.rate, tracks); CLIPS.set(k, c); return c;
+    } });
+  });
+  return out;
+}
+let clipKeySeq = 0; const clipKeyOf = new WeakMap();
+const keyFor = (o) => { if (!clipKeyOf.has(o)) clipKeyOf.set(o, 'k' + (++clipKeySeq)); return clipKeyOf.get(o); };
 const cache = new Map();
 /** fetch + parse + build one model (urls from /api/l2model/npc); the parsed files are cached, every call gets its own copy */
 export async function loadModel(info) {
@@ -143,21 +150,8 @@ export function buildChar(parts, psa) {
     root.add(m); m.bind(skeleton, new THREE.Matrix4());
     if (!first) first = m;
   });
-  const clips = {};
-  if (psa) {
-    const map = psa.names.map(n => { const k = byName[n.toLowerCase()]; return k == null ? -1 : k; });
-    psa.seqs.forEach(s => {
-      if (!s.frames || !s.rate) return;
-      const tracks = [], times = new Float32Array(s.frames); for (let f = 0; f < s.frames; f++) times[f] = f / s.rate;
-      for (let bi = 0; bi < psa.names.length; bi++) {
-        const k = map[bi]; if (k < 0) continue;
-        const pv = new Float32Array(s.frames * 3), qv = new Float32Array(s.frames * 4);
-        for (let f = 0; f < s.frames; f++) { const K = psa.key((s.first + f) * psa.names.length + bi), p = pos(K[0], K[1], K[2]), q = rot(K[3], K[4], K[5], K[6], k === 0); pv.set([p.x, p.y, p.z], f * 3); qv.set([q.x, q.y, q.z, q.w], f * 4); }
-        tracks.push(new THREE.VectorKeyframeTrack(`b${k}.position`, times, pv), new THREE.QuaternionKeyframeTrack(`b${k}.quaternion`, times, qv));
-      }
-      clips[s.name] = new THREE.AnimationClip(s.name, s.frames / s.rate, tracks);
-    });
-  }
+  let clips = {};
+  if (psa) { const map = psa.names.map(n => { const k = byName[n.toLowerCase()]; return k == null ? -1 : k; }); clips = lazyClips(psa, map, keyFor(psa) + ':' + keyFor(base)); }
   const boneByName = {}; bones.forEach((b, i) => { boneByName[b.name.toLowerCase()] = B[i]; });
   return { object: root, mesh: first, mixer: new THREE.AnimationMixer(root), clips, boneByName };
 }
@@ -199,13 +193,20 @@ export function buildStatic(psk, textures) {
   return { geometry: g, materials };
 }
 const staticCache = new Map();
+const TEX = new Map();
+/** a texture by url, loaded once and shared (owner 2026-10-17: "buildings load extremely slow" - every building loaded its own copy) */
+export function texture(u, repeat) {
+  if (!u) return Promise.resolve(null);
+  if (!TEX.has(u)) TEX.set(u, new Promise(res => new THREE.TextureLoader().load(u, t => { t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; res(t); }, undefined, () => res(null))));
+  return TEX.get(u);
+}
 /** /api/l2model/static answer -> { geometry, materials } (cached per mesh url) */
 export function loadStatic(info) {
   if (staticCache.has(info.mesh)) return staticCache.get(info.mesh);
   const loader = new THREE.TextureLoader();
   const p = (async () => {
     const psk = parsePsk(await fetch(info.mesh).then(r => r.arrayBuffer()));
-    const tex = await Promise.all((info.mats || []).map(u => u ? new Promise(res => loader.load(u, t => { t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; res(t); }, undefined, () => res(null))) : null));
+    const tex = await Promise.all((info.mats || []).map(u => texture(u)));
     return buildStatic(psk, tex);
   })();
   staticCache.set(info.mesh, p);
@@ -222,4 +223,37 @@ export function placementMatrix(a, ox, oy) {
   const m = new THREE.Matrix4().makeBasis(sw(X), sw(Z), sw(Yv));
   m.setPosition(a[1] - ox, a[3], a[2] - oy);
   return m;
+}
+
+// ---- BAKED TILES (owner 2026-10-17: "cache it all and make it load instant ... 1-2 draw calls"): one 8192-unit tile = ONE mesh + ONE atlas ----
+// docs/plan/tools/l2bake.js writes it: positions (scene axes, relative to the tile origin), uv (the texture's own, repeating), rect (atlas cell
+// x, y, w, h | 0x8000 = cut-out foliage), indices. The shader repeats the uv inside its cell: every building of the tile is one draw call.
+export async function loadBakedTile(t) {
+  const [buf, tex] = await Promise.all([fetch(t.bin).then(r => r.arrayBuffer()), texture(t.png)]);
+  const dv = new DataView(buf);
+  if (String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2), dv.getUint8(3)) !== 'L2BK') throw new Error('not a baked tile');
+  const vc = dv.getUint32(8, true), ic = dv.getUint32(12, true), ox = dv.getFloat32(16, true), oy = dv.getFloat32(20, true), aw = dv.getUint32(24, true), ah = dv.getUint32(28, true);
+  let o = 32;
+  const pos = new Float32Array(buf, o, vc * 3); o += vc * 12;
+  const uv = new Float32Array(buf, o, vc * 2); o += vc * 8;
+  const rect = new Uint16Array(buf, o, vc * 4); o += vc * 8;
+  const idx = new Uint32Array(buf, o, ic);
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  g.setAttribute('rect', new THREE.Uint16BufferAttribute(rect, 4)); g.setIndex(new THREE.BufferAttribute(idx, 1)); g.computeVertexNormals();
+  if (tex) { tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter; tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping; tex.needsUpdate = true; }
+  const mat = new THREE.MeshLambertMaterial({ map: tex, side: THREE.DoubleSide });
+  mat.onBeforeCompile = (sh) => {
+    sh.uniforms.atlasSize = { value: new THREE.Vector2(aw, ah) };
+    sh.vertexShader = 'attribute vec4 rect;\nvarying vec4 vRect;\n' + sh.vertexShader.replace('#include <uv_vertex>', '#include <uv_vertex>\n  vRect = rect;');
+    sh.fragmentShader = 'uniform vec2 atlasSize;\nvarying vec4 vRect;\n' + sh.fragmentShader.replace('#include <map_fragment>',
+      'float cutF = vRect.w >= 32768.0 ? 1.0 : 0.0; float hh = vRect.w - cutF * 32768.0;\n' +
+      'vec2 auv = (vRect.xy + fract(vMapUv) * vec2(vRect.z, hh)) / atlasSize;\n' +
+      'vec4 sampledDiffuseColor = texture2D(map, auv);\n' +
+      'if (cutF > 0.5 && sampledDiffuseColor.a < 0.5) discard;\n' +
+      'diffuseColor *= vec4(sampledDiffuseColor.rgb, 1.0);');
+  };
+  const mesh = new THREE.Mesh(g, mat);
+  mesh.userData.tile = { ox, oy };
+  return mesh;
 }

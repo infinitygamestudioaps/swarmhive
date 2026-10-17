@@ -48,6 +48,7 @@ function files(C, m) {
   };
 }
 function umodel(C, args) {
+  TEXF.clear();
   return new Promise((res) => {
     const p = cp.spawn(C.umodel, [...args, '-path=' + C.client, '-out=' + C.cache], { windowsHide: true, stdio: ['ignore', 'ignore', 'ignore'] });
     const t = setTimeout(() => { try { p.kill(); } catch (e) { } res(false); }, 90000);
@@ -102,7 +103,14 @@ async function pump() {
   } finally { ST.running = false; }
 }
 /** a texture name can be a material (FinalBlend / Shader) that points at the real picture: <name>_ori (base colour), else <name>_d / _diff / any <name>_* */
+// SPEED (2026-10-17: the live page stalled - every character request scanned the texture folders on disk): results remembered
+// (found: 10 min, not found: 30 s; an export clears them)
+const TEXF = new Map();
 function texFile(t) {
+  const c = TEXF.get(t.file); if (c && Date.now() - c.at < (c.v ? 600000 : 30000)) return c.v;
+  const v = texFileRaw(t); TEXF.set(t.file, { v, at: Date.now() }); return v;
+}
+function texFileRaw(t) {
   if (fs.existsSync(t.file)) return t.file;
   const dir = path.dirname(t.file);
   // the material file UE Viewer writes next to it (Shader / FinalBlend / Combiner / ...: <name>.mat with "Diffuse=<texture>") names the picture
@@ -141,7 +149,7 @@ async function handle(req, res, u, ctx) {
     const C = cfg(ctx), rel = decodeURIComponent(u.pathname.slice('/l2cache/'.length)), f = path.resolve(C.cache, rel);
     if (!f.startsWith(path.resolve(C.cache) + path.sep) || !fs.existsSync(f)) { ctx.send(res, 404, 'text/plain', 'not found'); return true; }
     const type = /\.png$/i.test(f) ? 'image/png' : 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'public, max-age=604800' }); res.end(fs.readFileSync(f)); return true;
+    res.writeHead(200, { 'Content-Type': type, 'Cache-Control': /[\/]baked[\/]/.test(f) ? 'public, max-age=31536000, immutable' : 'public, max-age=604800' }); res.end(fs.readFileSync(f)); return true;
   }
   if (!u.pathname.startsWith('/api/l2model/')) return false;
   if (!ctx.allowed(req, u)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
@@ -153,6 +161,11 @@ async function handle(req, res, u, ctx) {
       [...new Set(rows.slice().sort((p, q) => Math.hypot(p[1] - x, p[2] - y) - Math.hypot(q[1] - x, q[2] - y)).map(r2 => r2[0]))].forEach(m => { try { forStatic(ctx, m); } catch (e) { } });
       ctx.json(res, 200, { rows });
     } catch (e) { ctx.json(res, 200, { rows: [], why: e.message }); }
+    return true;
+  }
+  if (u.pathname === '/api/l2model/tiles') {
+    const x = +u.searchParams.get('x'), y = +u.searchParams.get('y'), r = Math.min(9000, +u.searchParams.get('r') || 4000);
+    try { ctx.json(res, 200, { tiles: isFinite(x) && isFinite(y) ? tilesNear(ctx, x, y, r) : [] }); } catch (e) { ctx.json(res, 200, { tiles: [], why: e.message }); }
     return true;
   }
   if (u.pathname === '/api/l2model/statics') {   // batch: ?meshes=a,b,c (max 80) -> { mesh: answer }
@@ -327,4 +340,40 @@ function forStatic(ctx, mesh) {
   if (!ST.jobs[key]) { ST.jobs[key] = 1; ST.queue.push({ key, C, staticMesh: { pkg: sp[0], obj: sp[1], file } }); pump(); }
   return { pending: true };
 }
-module.exports = { handle, forNpc, forChar, forStatic, buildingsNear, files, idsByName };
+// ---- BAKED TILES (owner 2026-10-17: "cache it all and make it load instant without using too much memory ... 1-2 draw calls") ----
+// /api/l2model/tiles?x=&y=&r= -> the 8192-unit tiles around: { tiles: [{ key, ready, bin, png, pieces }] }. A tile is baked once (all its
+// building pieces in ONE model + ONE texture atlas, docs/plan/tools/l2bake.js) when every model in it is exported; files in l2cache/baked.
+function tileRows(ctx, gx, gy) {
+  const rx = Math.floor(gx / 4) + 20, ry = Math.floor(gy / 4) + 18;
+  return regionPlacements(ctx, rx, ry).filter(a => Math.floor(a[1] / 8192) === gx && Math.floor(a[2] / 8192) === gy);
+}
+function bakeOne(ctx, gx, gy) {
+  const C = cfg(ctx), dir = path.join(C.cache, 'baked'), key = gx + '_' + gy, B = require(path.join(ctx.ROOT, 'docs', 'plan', 'tools', 'l2bake.js'));
+  const rows = tileRows(ctx, gx, gy);
+  const meshFile = (m) => { const sp = split(m); if (!sp) return null; const f = path.join(C.cache, sp[0], 'StaticMesh', sp[1] + '.pskx'); return fs.existsSync(f) ? f : null; };
+  const idx = texIndex(ctx, true);
+  const t0 = Date.now(), r = B.bakeTile(rows, meshFile, (n) => idx[n] || null, gx * 8192, gy * 8192);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, key + '.bin'), r.bin); fs.writeFileSync(path.join(dir, key + '.png'), r.png);
+  fs.writeFileSync(path.join(dir, key + '.json'), JSON.stringify(Object.assign({ at: Date.now(), ms: Date.now() - t0 }, r.stats)));
+}
+ST.bake = ST.bake || { queue: [], busy: false, want: {} };
+function bakePump(ctx) {
+  const Q = ST.bake; if (Q.busy || !Q.queue.length) return; Q.busy = true;
+  setTimeout(() => { try { const [gx, gy] = Q.queue.shift(); delete Q.want[gx + '_' + gy]; bakeOne(ctx, gx, gy); } catch (e) { } finally { Q.busy = false; bakePump(ctx); } }, 50);
+}
+function tilesNear(ctx, x, y, r) {
+  const C = cfg(ctx), out = [];
+  for (let gx = Math.floor((x - r) / 8192); gx <= Math.floor((x + r) / 8192); gx++) for (let gy = Math.floor((y - r) / 8192); gy <= Math.floor((y + r) / 8192); gy++) {
+    const key = gx + '_' + gy, rows = tileRows(ctx, gx, gy); if (!rows.length) continue;
+    const meshes = [...new Set(rows.map(a => a[0]))];
+    const st = meshes.map(m => forStatic(ctx, m));                // queues every missing model for export
+    const exported = st.every(v => !v.pending), jf = path.join(C.cache, 'baked', key + '.json');
+    let info = null; try { info = JSON.parse(fs.readFileSync(jf, 'utf8')); } catch (e) { }
+    // bake when everything is exported and the bake is missing / older than the exports (a partial bake is redone once the rest arrived)
+    if (exported && (!info || info.pieces !== rows.length || info.partial) && !ST.bake.want[key]) { ST.bake.want[key] = 1; ST.bake.queue.push([gx, gy]); bakePump(ctx); }
+    out.push({ key, ready: !!info, pieces: rows.length, exported, bin: info ? '/l2cache/baked/' + key + '.bin?v=' + info.at : null, png: info ? '/l2cache/baked/' + key + '.png?v=' + info.at : null });
+  }
+  return out;
+}
+module.exports = { handle, forNpc, forChar, forStatic, buildingsNear, tilesNear, files, idsByName };

@@ -49,6 +49,7 @@ const dirList = (d) => { try { return fs.readdirSync(d).sort().join('|'); } catc
     await cdp('Page.navigate', { url: BASE + '#/parties' });
     if (!L2MODELS_AVAILABLE) { console.log('  no game client / UE Viewer here — model test skipped'); results.push({ name: 'skipped', ok: true }); throw { skip: true }; }
     ok('0: page loads', await waitFor(`!!window.api`, 30000));
+    if (process.env.L2M_STATIC) { console.log(await ev(`(async () => { const L = await import('/l2model.js'); const d = await api('/api/l2model/buildings?x=83473&y=148554&r=5200'); const ms = [...new Set(d.rows.map(r => r[0]))].slice(0, 30); const out = []; for (const m of ms) { const t0 = performance.now(); const info = await api('/api/l2model/static?mesh=' + encodeURIComponent(m)); const t1 = performance.now(); let st = ''; try { await Promise.race([L.loadStatic(info), new Promise((_, no) => setTimeout(() => no(new Error('timeout 15s')), 15000))]); st = 'ok'; } catch (e) { st = e.message; } out.push(m.split('.').pop() + ' api ' + Math.round(t1 - t0) + 'ms load ' + Math.round(performance.now() - t1) + 'ms ' + st + ' mats ' + (info.mats || []).length); } return out.join(' || '); })()`)); throw { skip: true }; }
     const NAMES = (process.env.L2M_NAMES || 'Gremlin|Queen Ant|Tomb Archon|Lilim Knight-Errant').split('|');
     for (const state of ['idle', 'run', 'attack', 'death']) {
       const r = await ev(`(async () => {

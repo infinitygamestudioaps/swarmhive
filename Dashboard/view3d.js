@@ -6,7 +6,7 @@
 // three.js r160 is served from Dashboard/vendor (works without internet). Loaded as a module; index.html calls window.View3D.route().
 import * as THREE from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { loadModel, clipFor, loadStatic, placementMatrix, loadCharacter } from './l2model.js';
+import { loadModel, clipFor, loadStatic, placementMatrix, loadCharacter, loadBakedTile } from './l2model.js';
 
 const SEC = 'view3dSec';
 const $id = (i) => document.getElementById(i);
@@ -64,7 +64,7 @@ function close(keep) {
     window.removeEventListener('resize', R.onResize);
     R = null;
   }
-  BLD.gen++; BLD.group = null;
+  BLD.gen++; BLD.group = null; TILES.gen++; TILES.map.clear();
   S.ents = new Map();
   if (!keep) { S.open = false; const s = $id(SEC); if (s) s.hidden = true; }
 }
@@ -513,7 +513,7 @@ function onClick(e) {
   else if (a === 'untap') { S.tap = null; if (R) R.marker.visible = false; renderInfo(); }
   else if (a === 'look') { const n = b.dataset.n; if (n && n !== S.name) location.hash = '#/view3d/' + encodeURIComponent(n); else { S.follow = true; paintBar(); } }
 }
-window.View3D = { route, open, close, _state: S, _test: { upsert: (k, o) => upsert(k, o) } };   // _test: the UI test places a monster (no live data in the sandbox)
+window.View3D = { route, open, close, _state: S, _bld: () => ({ gen: BLD.gen, children: BLD.group ? BLD.group.children.length : 0, stat: BLD.stat }), _test: { upsert: (k, o) => upsert(k, o) } };   // _test: the UI test places a monster (no live data in the sandbox)
 // the router may have run before this module loaded (a direct link to #/view3d/<name>)
 try { const [k, a] = location.hash.replace(/^#\/?/, '').split('/'); if (k === 'view3d' && a) route(k, a); } catch (e) { }
 
@@ -615,8 +615,36 @@ async function setupModels() {
 // ---- buildings (owner 2026-10-17: "I miss all the buildings in all towns"): the map's StaticMeshActors around, one shared model per kind,
 // drawn as instances; exported from the player's own client on first use (Dashboard/l2models_api.js), closest first, 4 at a time ----
 const BLD = { group: null, gen: 0 };
+// BAKED TILES (owner 2026-10-17: "cache it all ... load instant ... 1-2 draw calls"): above ground every 8192 tile is ONE mesh + ONE atlas,
+// baked once on the server (docs/plan/tools/l2bake.js) and cached by the browser for good; tiles stay loaded while you move (max 9)
+const TILES = { map: new Map(), busy: false, gen: 0 };
+async function loadTiles(me, r) {
+  const gen = ++TILES.gen;
+  if (BLD.group) { R.scene.remove(BLD.group); BLD.group = null; }
+  for (let round = 0; round < 200 && gen === TILES.gen && R; round++) {
+    let d; try { d = await api(`/api/l2model/tiles?x=${Math.round(me.x)}&y=${Math.round(me.y)}&r=${Math.round(r + 1500)}`); } catch (e) { return; }
+    if (gen !== TILES.gen || !R || !d) return;
+    const want = new Set((d.tiles || []).map(t => t.key));
+    TILES.map.forEach((m, k) => { if (!want.has(k) && TILES.map.size > 9) { R.scene.remove(m); m.geometry.dispose(); m.material.dispose(); TILES.map.delete(k); } });
+    const todo = (d.tiles || []).filter(t => t.ready && !TILES.map.has(t.key + '@' + t.bin));
+    await Promise.all(todo.map(async t => {
+      try {
+        const m = await loadBakedTile(t); if (gen !== TILES.gen || !R) { m.geometry.dispose(); m.material.dispose(); return; }
+        TILES.map.forEach((old, k) => { if (k.split('@')[0] === t.key) { R.scene.remove(old); old.geometry.dispose(); old.material.dispose(); TILES.map.delete(k); } });   // a newer bake replaces the old one
+        m.position.set(m.userData.tile.ox - S.ox, 0, m.userData.tile.oy - S.oy); m.frustumCulled = false; R.scene.add(m); TILES.map.set(t.key + '@' + t.bin, m);
+        if (R.walls) R.walls.visible = false;
+      } catch (e) { }
+    }));
+    const waiting = (d.tiles || []).filter(t => !t.ready).length;
+    setMsg(waiting ? `Preparing buildings: ${waiting} area(s) — first visit, converting from your game client` : '');
+    if (!waiting) return;
+    await new Promise(res => setTimeout(res, 3000));
+  }
+}
 async function loadBuildings(me, r) {
   if (!R || MODEL.off) return;
+  if (!(me.z < -4500)) { BLD.gen++; return loadTiles(me, r); }   // above ground: baked tiles; underground: the per-model loader (filtered by floor height)
+  TILES.gen++; TILES.map.forEach(m => { R.scene.remove(m); m.geometry.dispose(); m.material.dispose(); }); TILES.map.clear();
   const gen = ++BLD.gen;
   if (BLD.group) { R.scene.remove(BLD.group); BLD.group.traverse(o => { if (o.isInstancedMesh) o.dispose(); }); }
   BLD.group = new THREE.Group(); R.scene.add(BLD.group);
@@ -632,13 +660,18 @@ async function loadBuildings(me, r) {
   say();
   // batches of 60 names every 1.5 s (was one request per model); ready ones are drawn 6 at a time
   const byName = Object.fromEntries(list); let waiting = list.map(x => x[0]);
+  BLD.stat = { started: 0, ok: 0, err: 0, last: '' };
   const draw = async (mesh, info) => {
+    BLD.stat.started++;
     try {
       const st = await loadStatic(info); if (gen !== BLD.gen || !R) return;
       const L = byName[mesh], im = new THREE.InstancedMesh(st.geometry, st.materials, L.length);
       L.forEach((a, k) => im.setMatrixAt(k, placementMatrix(a, S.ox, S.oy)));
       im.instanceMatrix.needsUpdate = true; im.frustumCulled = false; BLD.group.add(im);
-    } catch (e) { }
+      // the real buildings are here: the helper walls from the walk data only cluttered them (owner 2026-10-17, Giran screenshot)
+      if (BLD.group.children.length >= 15 && R.walls) R.walls.visible = false;
+      BLD.stat.ok++;
+    } catch (e) { BLD.stat.err++; BLD.stat.last = String(e && e.message || e).slice(0, 120); }
   };
   for (let round = 0; round < 400 && waiting.length && gen === BLD.gen && R; round++) {
     const ready = [], still = [];
@@ -647,7 +680,9 @@ async function loadBuildings(me, r) {
       try { ans = await api('/api/l2model/statics?meshes=' + part.map(encodeURIComponent).join(',')); } catch (e) { }
       part.forEach(m => { const x = ans[m]; if (x && x.ok) ready.push([m, x]); else if (!x || x.pending) still.push(m); else done++; });
     }
-    for (let k = 0; k < ready.length; k += 6) { await Promise.all(ready.slice(k, k + 6).map(([m, x]) => draw(m, x))); done += Math.min(6, ready.length - k); say(); }
+    // a steady pool of 10 loads (was: groups of 6, each group waiting for its slowest)
+    let next = 0; const worker = async () => { while (next < ready.length && gen === BLD.gen) { const [m, x] = ready[next++]; await draw(m, x); done++; if (done % 5 === 0) say(); } };
+    await Promise.all(Array.from({ length: 10 }, worker));
     waiting = still; say();
     if (waiting.length) await new Promise(res => setTimeout(res, 1500));
   }
