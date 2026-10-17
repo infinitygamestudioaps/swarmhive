@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.3 (2026-10-17)
+
+- Party plan: choose rooms on the dungeon map for a level step (catacombs too), the step names its room, a changed plan step moves a running party
+- picking a room on the party card asks to change the plan step too
+- Raid healing per boss: Normal / Heavy / Extreme or own numbers on each boss page (heal earlier, tank first, faster healer loop)
+- A hunting spot chosen on the dashboard is no longer marked 'not reachable' because an interrupted walk to the previous place failed
+- Plan editor no longer lists the same place twice
+
 ## v1.8.2 (2026-10-16)
 
 - Fight with L2Swarm only hands the TARGETS to L2Swarm: with Hive picks my skills / Hive heals on, Hive still casts and heals on L2Swarm's target (switch those off and your profiles cast). Raid clear: only AGGRESSIVE monsters inside the fight circle (+ anything hitting us)

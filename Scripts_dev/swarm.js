@@ -3166,6 +3166,82 @@ const HEAL = {
   recharge: ['Mass Recharge', 'Recharge'], rechargeBelow: 40,
   potionBelowRaid: 70, potionBelow: 45, potionBelowFight: 90,
 };
+// ===== RAID HEALING PER BOSS: TEXT COPY of Dashboard/raidheallogic.js (RAIDHEAL-PURE; test_raid_heal.js checks they match) =====
+// RAIDHEAL-PURE-BEGIN
+const RH_LEVELS = ['normal', 'heavy', 'extreme'];
+// spamBelow: everyone below it gets the fastest heal, again and again · tankBelow: the tank below it is healed before anyone else
+// (unless someone else is dying) · groupCount: this many below spamBelow = group heal · potionBelow: mana potion line (0 = the healer's own)
+// stagger: ms a second healer waits before deciding (so it sees the first one's claim) · idleMs: pause when nobody needs a heal
+// keepTarget: no re-select (180 ms) when the target is already selected
+const RH_PRESETS = {
+  normal: { spamBelow: 80, tankBelow: 60, groupCount: 3, potionBelow: 0, stagger: 350, idleMs: 250, keepTarget: false },
+  heavy: { spamBelow: 90, tankBelow: 80, groupCount: 2, potionBelow: 90, stagger: 150, idleMs: 120, keepTarget: true },
+  extreme: { spamBelow: 97, tankBelow: 95, groupCount: 2, potionBelow: 95, stagger: 0, idleMs: 60, keepTarget: true },
+};
+const RH_CUSTOM = { spamBelow: [50, 99], tankBelow: [30, 99], groupCount: [1, 9], potionBelow: [0, 99] };
+function rhInt(v) { const n = Math.round(Number(v)); return Number.isFinite(n) ? n : NaN; }
+/** a clean entry (or null = normal / nothing to keep) */
+function rhClean(e) {
+  if (!e || typeof e !== 'object') return null;
+  const level = RH_LEVELS.indexOf(e.level) >= 0 ? e.level : 'normal', custom = {};
+  const c = e.custom && typeof e.custom === 'object' ? e.custom : {};
+  Object.keys(RH_CUSTOM).forEach(k => { const n = rhInt(c[k]); if (Number.isFinite(n)) custom[k] = Math.min(RH_CUSTOM[k][1], Math.max(RH_CUSTOM[k][0], n)); });
+  if (level === 'normal' && !Object.keys(custom).length) return null;
+  const out = { level }; if (Object.keys(custom).length) out.custom = custom;
+  if (e.name) out.name = String(e.name).slice(0, 60);
+  return out;
+}
+/** the entry of a boss: by npc id, else by name (case-insensitive) */
+function rhPick(j, id, name) {
+  const B = j && j.bosses && typeof j.bosses === 'object' ? j.bosses : {};
+  if (id && B[String(id)]) return B[String(id)];
+  const n = String(name || '').toLowerCase(); if (!n) return null;
+  const k = Object.keys(B).find(x => String((B[x] || {}).name || '').toLowerCase() === n);
+  return k ? B[k] : null;
+}
+/** the numbers that run: preset of the level + the player's own numbers */
+function rhResolve(e) {
+  const c = rhClean(e), level = c ? c.level : 'normal';
+  return Object.assign({ level, custom: !!(c && c.custom) }, RH_PRESETS[level], (c && c.custom) || {});
+}
+/** tank-first rule: the tank below tankBelow gets the heal, unless another member is dying (< 50 %) and lower than the tank */
+function rhTankFirst(R, tankHp, othersHp) {
+  if (!(tankHp < 100)) return false;
+  if (tankHp < Math.min(60, R.tankBelow)) return true;
+  if (!(tankHp < R.tankBelow)) return false;
+  return !(othersHp || []).some(h => h < 50 && h < tankHp);
+}
+/** one plain sentence for the dashboard / party chat */
+function rhSentence(R) {
+  return `${R.level === 'extreme' ? 'Extreme' : R.level === 'heavy' ? 'Heavy' : 'Normal'} healing: everyone below ${R.spamBelow} % gets the fastest heal again and again, the tank first below ${R.tankBelow} %, group heal when ${R.groupCount}+ are low` +
+    `${R.potionBelow ? `, mana potion below ${R.potionBelow} % MP` : ''}${R.stagger === 0 ? ', healers do not wait for each other' : ''}${R.custom ? ' (your own numbers)' : ''}.`;
+}
+// RAIDHEAL-PURE-END
+
+// RAIDHEAL HOST (2026-10-17): the raid healing of the boss we fight now (Scripts/data/raid_heal.json, dashboard Raids -> boss -> Healing; re-read when
+// the file changes, checked at most every 3 s). Outside raids / instances: null. Boss = the leader's focus boss (swarm.focus, objId -> npc id) or the mission boss name.
+const RHH = { j: null, stamp: '', chk: 0, said: '' };
+function raidHealFile() {
+  if (RHH.j && now() - RHH.chk < 3000) return RHH.j;
+  RHH.chk = now();
+  const F = `${SWARM_ROOT}\\Scripts\\data\\raid_heal.json`, st = fileStamp(F);
+  if (!st) { RHH.j = {}; RHH.stamp = ''; return RHH.j; }
+  if (!RHH.j || st !== RHH.stamp) { try { RHH.j = JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, '')); RHH.stamp = st; } catch (e) { if (!RHH.j) RHH.j = {}; } }
+  return RHH.j;
+}
+function raidHealNow() {
+  try {
+    if (!(inRaid() || (typeof inst !== 'undefined' && inst.on))) return null;
+    let id = 0, name = '';
+    const b = raidCtl.bossId ? mobById(raidCtl.bossId) : null;
+    if (b) { id = num(b.NpcId !== undefined ? b.NpcId : b.Id); name = String(b.Name || ''); }
+    if (!name && missionBoss.until > now()) name = missionBoss.name;
+    const R = rhResolve(rhPick(raidHealFile(), id, name));
+    const key = `${name}|${R.level}|${R.spamBelow}|${R.tankBelow}`;
+    if (name && R.level !== 'normal' && RHH.said !== key) { RHH.said = key; note(`raid healing for ${name}: ${rhSentence(R)}`); }
+    return R;
+  } catch (e) { return null; }
+}
 // TIMING (2026-10-12, engine audit #28): rebuilt when the skill COUNT changes AND at least every 5 s: a level-up raises skill levels without changing
 // the count, and a host that hands out new skill objects then must not leave readySkill / tankReady / the Frenzy check on a frozen old copy
 const skillNamed = (() => { let key = '', map = {}, at = 0; return (name) => {
@@ -3328,7 +3404,10 @@ async function castOnMate(t, k) {
   if (!hiveHealsOn()) return false;                                     // HIVESW-2026-10-15: Hive heals OFF
   if (!t.me && !num(t.objId)) { t.objId = mateObjId(t.name); if (!num(t.objId)) return false; }   // HEALID: never a heal on "no target"
   try { App.emit('swarm.healclaim', { by: Me.Name, target: t.name, until: now() + Math.max(num(k.HitTime), 400) + 900 }); } catch (e) { }
-  if (!t.me || !/^(self heal|group|major group|greater group|balance life|mass recharge)/i.test(k.Name)) { Send.Action(t.objId); await sleep(180); }
+  if (!t.me || !/^(self heal|group|major group|greater group|balance life|mass recharge)/i.test(k.Name)) {
+    const RH = raidHealNow(); let sel = false; try { sel = !!(RH && RH.keepTarget && Target && num(Target.objId) === num(t.objId)); } catch (e) { }   // RAIDHEAL: already selected = no re-select
+    if (!sel) { Send.Action(t.objId); await sleep(180); }
+  }
   const castAt = now();
   Send.RequestMagicSkillUse(num(k.Id));
   try { HSH.last = { skill: String(k.Name), id: num(k.Id), target: t.name, hp: Math.round(num(t.hp)), at: castAt }; } catch (e) { }   // HEALSCHEME: the dashboard shows the last heal
@@ -3351,10 +3430,10 @@ async function healTick() {
   const fightNow = inRaid() || inst.on;
   // HEALSCHEME 2026-10-13: the player's scheme (dashboard Healing; missing = automatic) — mana potion line outside raids, the HP % per
   // situation, who first, the skill per situation (automatic = the strongest / fastest heal I KNOW, by real power: never Self Heal at 80)
-  const SC = hsMine(), potLine = hsPotionBelow(SC, fightNow);
+  const SC = hsMine(), RH = raidHealNow(), potLine = Math.max(hsPotionBelow(SC, fightNow), RH ? RH.potionBelow : 0);   // RAIDHEAL: the boss's mana potion line
   if (Me.MpPercent < (raid ? potLine : HEAL.potionBelow) && now() - lastHealPot > (fightNow ? 1000 : 3000) && itemCount(728) > 0) { lastHealPot = now(); UseItem(728); }
   // healers decide one after another (alphabetical rank x 350 ms), so the second one already sees the first one's claim
-  { const hs = Object.keys(livePos).filter(n => livePos[n].healer && now() - livePos[n].at < 8000 && teamOf(n) === teamOf(Me.Name)).concat(Me.Name); const rank = [...new Set(hs)].sort().indexOf(Me.Name); if (rank > 0) await sleep(rank * 350); }
+  { const hs = Object.keys(livePos).filter(n => livePos[n].healer && now() - livePos[n].at < 8000 && teamOf(n) === teamOf(Me.Name)).concat(Me.Name); const rank = [...new Set(hs)].sort().indexOf(Me.Name); const stg = RH ? RH.stagger : 350; if (rank > 0 && stg > 0) await sleep(rank * stg); }   // RAIDHEAL: extreme = no wait
   const team = healTargets();
   // 1) someone is dying: the fastest heal on them, again and again
   // user 2026-10-04: while a Destroyer DRAINS its HP towards Frenzy (swarm.drain on/off) no heals at all, except when it is almost
@@ -3368,17 +3447,18 @@ async function healTick() {
     // TANK FIRST (user 2026-10-06, Shadar wipe: the healers spent their casts on Cure Poison while the tank fell 55 % -> 0): below 60 % the
     // tank gets every heal (both healers, no claims), before anyone else and before any cure; with no single heal ready, a group heal
     const tank = team.find(t => t.name === (raidCtl.tank || CONFIG.leader) && !t.me) || team.find(t => t.me && isLeader());
-    if (tank && tank.hp < 60) {
+    if (tank && (RH ? rhTankFirst(RH, tank.hp, team.filter(t => t !== tank).map(t => t.hp)) : tank.hp < 60)) {   // RAIDHEAL: the boss's tank line (60 = normal)
       const k = hsOr('emergency', tank, HEAL.emergency.concat(HEAL.normalFast));
       if (k) { await castOnMate(tank, k); return; }
       const g = !team.some(t => lowWanted(t) && t.hp >= HEAL.drainEmergencyBelow) || tank.hp < 35 ? hsOr('group', null, HEAL.group, hsTeamOpts(team)) : null; if (g) { await castOnMate(team[0], g); return; }   // not over a drain unless the tank is near death
       await sleep(120); return;                                         // wait for a heal to come off cooldown — no cures now
     }
-    const low = team.filter(t => t.hp < HEAL.spamBelow && !(lowWanted(t) && t.hp >= HEAL.drainEmergencyBelow)).sort((a, b) => a.hp - b.hp);
+    const spamLine = RH ? RH.spamBelow : HEAL.spamBelow, groupNeed = RH ? RH.groupCount : HEAL.groupCount;   // RAIDHEAL
+    const low = team.filter(t => t.hp < spamLine && !(lowWanted(t) && t.hp >= HEAL.drainEmergencyBelow)).sort((a, b) => a.hp - b.hp);
     // a group heal also lands on a Destroyer draining for Frenzy (user 2026-10-11: "they try to reduce life but the healers keep healing them"):
     // no group heal while one drains (above its emergency floor) — the single heals below cover the others
     const drainHold = team.some(t => lowWanted(t) && t.hp >= HEAL.drainEmergencyBelow);
-    if (low.length >= HEAL.groupCount && !drainHold) { const k = hsOr('group', null, HEAL.group, hsTeamOpts(team)); if (k) { await castOnMate(team[0], k); return; } }
+    if (low.length >= groupNeed && !drainHold) { const k = hsOr('group', null, HEAL.group, hsTeamOpts(team)); if (k) { await castOnMate(team[0], k); return; } }
     const t = low.find(x => x.hp < 50 || !claimedByOther(x.name, 100)) || low[0];
     if (t) { const k = hsOr('emergency', t, HEAL.emergency.concat(HEAL.normalFast)); if (k) { await castOnMate(t, k); return; } }
   }
@@ -3411,7 +3491,7 @@ async function healTick() {
   // so `dry` was the whole list (an array, always truthy) and castOnMate(array) found no target -> Recharge was never cast since then.
   const rc = hsRechargeTarget(team, SC);
   if (rc) { const k = hsOr('recharge', rc.t, HEAL.recharge, { count: rc.count }); if (k) { HSH.lastRc = { skill: String(k.Name), target: rc.t.name, mp: Math.round(rc.t.mp), at: now() }; await castOnMate(rc.t, k); return; } }
-  await sleep(250);
+  await sleep(RH ? RH.idleMs : 250);   // RAIDHEAL: extreme = look again after 60 ms
 }
 
 setInterval(() => {
@@ -3427,9 +3507,12 @@ setInterval(() => {
   if (!healerMode || healing || Me.IsDead || state.buffTurn || resAfterHold()) return;   // RESURRECTION 2026-10-13: a revived healer rebuffs first
   if (!hiveHealsOn()) return;                                          // HIVESW-2026-10-15: Hive heals OFF = the healer brain is idle
 
+  // RAIDHEAL 2026-10-17: checked every 100 ms; normal healing keeps its old pace (>= 200 ms after the last tick), heavy / extreme bosses go on at once
+  { const R = raidHealNow(); if (!(R && R.level !== 'normal') && now() - healTickEnd < 200) return; }
   healing = true;
-  healTick().catch(e => console.error(e.stack)).finally(() => { healing = false; });
-}, 300);
+  healTick().catch(e => console.error(e.stack)).finally(() => { healing = false; healTickEnd = now(); });
+}, 100);
+let healTickEnd = 0;
 
 // ---------------------------------------------------------------------------
 // STØTTE-HEAL  —  alle med heal-skills (også før klasseskift) healer partyet ved lav HP,
@@ -24049,11 +24132,28 @@ function manualSpotOnPick(spot) {
     } else if (manualSw.nullWhy) manualSwSet(manualSw.nullWhy.kind, manualSw.nullWhy.detail, { retryAt: manualSw.nullWhy.retryAt || 0, etaAt: 0 });
   } catch (er) { logError('manual spot status', er); }
 }
+/** MANUALFAIL-2026-10-17: is this trip's spot the place chosen on the dashboard now (rooms: same dungeon + one of the chosen rooms or 'any'; field: same region / area; else same name)? */
+function manualTripIsChoice(spot, e) {
+  if (!spot || !e || e.mode !== 'manual') return false;
+  const rs = spot.room || null, ar = spot.area || null;
+  if (e.kind === 'rooms') {
+    if (!rs) return false;
+    if (e.dungeon && rs.dungeon && String(rs.dungeon) !== String(e.dungeon)) return false;
+    const ids = Array.isArray(e.roomIds) && e.roomIds.length ? e.roomIds : [e.roomId];
+    return ids.indexOf('any') >= 0 || !e.roomId || ids.indexOf(rs.id) >= 0;
+  }
+  if (e.kind === 'field') return !!ar && (Array.isArray(e.areaIds) ? e.areaIds.indexOf(ar.id) >= 0 : true);
+  return String(spot.name || '').toLowerCase().indexOf(String(e.spot || '').toLowerCase()) >= 0;
+}
 function manualSpotOnTravel(spot, ok) {
   try {
     if (!spot || !spot.manual) return;
     if (ok) manualSwSet('arrived', spot.room ? `in the room ✓ (${spot.room.name})` : `at ${spot.name} ✓`, { etaAt: 0 });
     else if (!manualSw.pending) {
+      // MANUALFAIL-2026-10-17 (owner: "Char1 keeps saying Cruma is not reachable"): the owner chose Cruma while the leader was walking to a room of
+      // the Catacomb of the Heretic; the choice stopped that walk, and the STOPPED walk to the OLD place was counted as "could not get to Cruma".
+      // Only a real failure of a trip to the place chosen NOW counts.
+      if (!manualTripIsChoice(spot, partySpotEntry()) || /\bstopped\)?\s*$/.test(String(gkFail || ""))) { note(`hunting spot chosen on the dashboard: the stopped / other trip (${spot.name}) does not count against your choice`); return; }
       // not reached: the automatic spot meanwhile (manualSpot keeps returning null until failUntil), then one new try — never hunting at the landing
       const ss = /^Seven Signs:/.test(String(gkFail || ''));
       // refused for LEVEL (landing danger) without the user's override: "needs your OK", no retries until the choice changes (2026-10-08 21:58)
@@ -30661,11 +30761,12 @@ function planStartNow() { try { const pl = planMine(); return pl ? planStartInfo
 /** the hunting place of the running level step (partySpotEntry asks this first); 'party' mode = the party's own choice (null here) */
 function planSpotEntry() {
   try {
-    const st = PLAN.levelStep; if (!st || !isLeader()) return null;
+    let st = PLAN.levelStep; if (!st || !isLeader()) return null;
+    try { const pl = planMine(), f = pl && pl.steps.find(x => x.id === st.id); if (f) st = f; } catch (e) { }   // PLANLIVE-2026-10-17: a plan saved while this step runs takes effect (Spoiler2 kept the old room)
     const sp = st.spot || {}; if (sp.mode !== 'auto' && sp.mode !== 'manual') return null;
     const j = partySpots(), base = j[CONFIG.leader] || {};
     if (sp.mode === 'auto') return { mode: 'auto', nonstop: !!base.nonstop, plan: st.id };
-    return Object.assign({}, sp, { mode: 'manual', stay: false, moveOn: false, at: 'plan:' + st.id, by: 'plan', nonstop: !!base.nonstop, plan: st.id });
+    return Object.assign({}, sp, { mode: 'manual', stay: false, moveOn: false, at: 'plan:' + st.id + ':' + (PLAN.stamp || ''), by: 'plan', nonstop: !!base.nonstop, plan: st.id });
   } catch (e) { return null; }
 }
 /** send an order the way the dashboard does (cmdInboxExec): party chat when in a party (everyone incl. me hears it), else my own handleSay */

@@ -116,7 +116,7 @@
     const s = obj(sp);
     if (s.mode === 'auto') return 'where the leader picks for the level';
     if (s.mode !== 'manual') return "at the party's own hunting place";
-    if (s.kind === 'rooms') return `in ${s.dungeon || s.spot}${s.roomIds && s.roomIds.length > 1 ? ` (${s.roomIds.length} rooms)` : s.roomId && s.roomId !== 'any' ? ' (one room)' : ''}`;
+    if (s.kind === 'rooms') return `in ${s.dungeon || s.spot}${s.roomIds && s.roomIds.length > 1 ? ` (${s.roomIds.length} rooms)` : s.roomId && s.roomId !== 'any' ? ` (room ${s.roomId.replace(/^[a-z]+-/, '')})` : ''}`;
     if (s.kind === 'field') return `in ${s.spot}${s.areaIds && s.areaIds.length > 1 ? ` (${s.areaIds.length} areas)` : ''}`;
     return `in ${String(s.spot || '?').replace(/\s*\((?:route|team|trio)[^)]*\)\s*$/i, '').replace(/^(?:Trio|Team \d+|Party \d+[^:]*):\s*/i, '')}`;
   }

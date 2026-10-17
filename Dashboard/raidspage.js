@@ -778,6 +778,7 @@
         <div class="box"><h3>${GI(UI.inv, 'sm')}<span>Drops</span><span class="muted" style="margin-left:auto">chance · ×1.5 (L2Toggle)</span></h3><div class="rpb-drops">${groups || '<div class="muted">no drop list in the datapack</div>'}</div></div>
         <div class="box"><h3>${GI(UI.star, 'sm')}<span>What we got from it</span></h3><div id="rpbLoot" class="muted">…</div></div>
         <div class="box"><h3>${GI(UI.quest, 'sm')}<span>Fight reports</span></h3><div id="rpbReports" class="muted">…</div></div>
+        <div class="box rpb-wide" id="rpbHealBox"><h3>${GI(UI.yes, 'sm')}<span>Healing for this boss</span></h3><div id="rpbHeal" class="muted">…</div></div>
         <div class="box"><h3>${GI(UI.map, 'sm')}<span>Fight area</span><button type="button" id="rpArea" style="margin-left:auto" title="where the team fights this boss, what it clears first and where it waits (shape editor)">✎ Edit</button></h3><div id="rpAreaInfo" class="muted">…</div></div>
         <div class="box rpb-wide" id="rpbRouteBox"><h3>${GI(UI.map, 'sm')}<span>Route to this boss</span><a class="muted" style="margin-left:8px" href="#/navatlas/raid%3A${encodeURIComponent(b.id)}" title="the precomputed route in the navigation atlas: steps, doors, needs, map">atlas route ›</a><span class="muted" style="margin-left:auto">${esc(tp.desc || '?')}${tp.walkDist ? ' + ' + km(tp.walkDist) + ' walk' : ''}</span></h3><div id="routeEd" class="muted">…</div></div>
         <div class="box rpb-wide" id="rpbRvBox"><h3>${GI(UI.map, 'sm')}<span>Which path the bots use · obstacles · items</span></h3><div id="rpbRv" class="muted">…</div></div>
@@ -786,10 +787,51 @@
     api('/api/raidloot?boss=' + encodeURIComponent(b.name)).then(r => { const el = $id('rpbLoot'); if (el) el.innerHTML = lootHtml(r.kills, false); }).catch(() => { });
     try { routeEditor(b).then(() => { if (RP.scrollTo === 'route') { RP.scrollTo = ''; const el = $id('rpbRouteBox'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }).catch(e => { const el = $id('routeEd'); if (el) el.textContent = e.message; }); } catch (e) { }
     try { raidAreaInfo(b); } catch (e) { }
+    try { renderBossHeal(b); } catch (e) { }   // RAIDHEAL-2026-10-17
     // ROUTE VIEW 2026-10-12 (Dashboard/routeview.js): the 'use' switch (computed path | saved route), every door / teleporter / need on the way, where to get the items (the editor map above draws both paths)
     try { if (window.RouteView) RouteView.mount($id('rpbRv'), 'raid:' + b.id, { map: 'dungeon', party: selParty(), title: b.name, onUse: () => { try { routeEditor(b); } catch (e) { } } }); else { const el = $id('rpbRv'); if (el) el.textContent = 'needs Dashboard/routeview.js (dashboard server restart)'; } } catch (e) { }
     renderBossReports();
   }
+
+  // RAIDHEAL-2026-10-17 (owner: "Iron Giant Totem hits like a truck ... we need to be able to set a healing for a raidboss"): Normal / Heavy / Extreme
+  // per boss (+ own numbers) -> /api/raidheal -> Scripts/data/raid_heal.json, read live by every healer (swarm.js RAIDHEAL). Rules: /raidheallogic.js.
+  const RH = { d: null, boss: null, open: false };
+  async function renderBossHeal(b) {
+    RH.boss = b; const el = $id('rpbHeal'); if (!el) return;
+    let d; try { d = await api('/api/raidheal'); } catch (e) { d = { error: e.message }; }
+    if (!d || d.error) { el.innerHTML = '<span class="muted">Raid healing needs the dashboard server restarted (' + esc((d && d.error) || 'no answer') + ').</span>'; return; }
+    RH.d = d; const L = window.RaidHealLogic; if (!L) { el.textContent = 'reload the page'; return; }
+    const e = d.bosses[String(b.id)] || null, R = L.rhResolve(e), lv = R.level;
+    const btn = (k, t, sub) => `<button type="button" class="${lv === k ? 'on' : ''}" data-rhlevel="${k}" style="flex:1;min-width:96px;padding:10px 6px${lv === k ? ';outline:2px solid #e3c27a' : ''}"><b>${t}</b><br><span class="muted" style="font-size:12px">${sub}</span></button>`;
+    const num = (k, lab) => { const lim = d.custom[k]; return `<label style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:4px 0"><span>${lab}</span><input type="number" inputmode="numeric" min="${lim[0]}" max="${lim[1]}" data-rhnum="${k}" value="${R[k]}" style="width:80px"></label>`; };
+    el.innerHTML = `<div style="display:flex;gap:6px;flex-wrap:wrap">${btn('normal', 'Normal', 'like every boss')}${btn('heavy', 'Heavy', 'hard hitter')}${btn('extreme', 'Extreme', 'hits like a truck')}</div>
+      <div style="margin:8px 0">${esc(L.rhSentence(R))}</div>
+      <details${RH.open ? ' open' : ''} data-rhdet><summary>Own numbers</summary>
+        ${num('spamBelow', 'Heal everyone below (%)')}${num('tankBelow', 'Tank first below (%)')}${num('groupCount', 'Group heal when this many are low')}${num('potionBelow', 'Mana potion below (% MP, 0 = normal)')}
+        <div style="display:flex;gap:6px;margin-top:6px"><button type="button" data-rhsave>Save my numbers</button>${R.custom ? '<button type="button" data-rhreset>Back to the plain ' + esc(lv) + ' numbers</button>' : ''}</div></details>
+      <div class="muted" style="margin-top:6px">Every healer of the party uses this while it fights ${esc(b.name)}; the bots read it within a few seconds — no restart.${e && e.at ? ' Set ' + esc(when(e.at)) + (e.by ? ' by ' + esc(e.by) : '') + '.' : ''}</div>`;
+  }
+  async function saveBossHeal(level, custom, label) {
+    const b = RH.boss; if (!b || !RH.d) return;
+    try {
+      const body = level === 'normal' && !custom ? { action: 'clear', id: b.id, rev: RH.d.rev } : { action: 'set', id: b.id, name: b.name, level, custom: custom || undefined, rev: RH.d.rev };
+      const r = await api('/api/raidheal', { method: 'POST', body: JSON.stringify(body) });
+      if (!r || r.error) throw new Error((r && r.error) || 'not saved');
+      if (window.UIKit) UIKit.toast(`${b.name}: ${label}`, { kind: 'ok' });
+    } catch (e) { uiError(e.message, 'Could not save the healing'); }
+    renderBossHeal(b);
+  }
+  document.addEventListener('click', (ev) => {
+    const box = ev.target.closest && ev.target.closest('#rpbHeal'); if (!box) return;
+    const lb = ev.target.closest('[data-rhlevel]'); if (lb) { const k = lb.dataset.rhlevel; saveBossHeal(k, null, k === 'normal' ? 'normal healing' : k + ' healing'); return; }
+    if (ev.target.closest('[data-rhsave]')) {
+      const L = window.RaidHealLogic, cur = L.rhResolve((RH.d.bosses || {})[String(RH.boss.id)] || null), custom = {};
+      box.querySelectorAll('[data-rhnum]').forEach(i => { const v = Number(i.value); if (Number.isFinite(v) && v !== L.RH_PRESETS[cur.level][i.dataset.rhnum]) custom[i.dataset.rhnum] = v; });
+      saveBossHeal(cur.level, Object.keys(custom).length ? custom : null, 'own healing numbers saved'); return;
+    }
+    if (ev.target.closest('[data-rhreset]')) { const cur = window.RaidHealLogic.rhResolve((RH.d.bosses || {})[String(RH.boss.id)] || null); saveBossHeal(cur.level, null, cur.level + ' numbers again'); }
+  });
+  document.addEventListener('toggle', (ev) => { if (ev.target && ev.target.matches && ev.target.matches('[data-rhdet]')) RH.open = ev.target.open; }, true);
   /** EPIC GUIDE box: the tactic in plain language + the requirement check for the selected party (epicCheck = the bots' own check) */
   function guideParty(p) {
     const t = RP.teams[p] || (RP.detail && RP.detail.team) || null;

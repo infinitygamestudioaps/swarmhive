@@ -274,7 +274,7 @@
     room: (viewer, roomId) => roomOnLevel(B.model, viewer, roomId),
     zone: (viewer, zone) => zoneOnLevel(B.model, viewer, zone),
     // map art per floor (2026-10-13 10:25)
-    trackLevel, tileSuffix, lvlOf, view, tile, plainLayer,
+    trackLevel, tileSuffix, lvlOf, view, tile, plainLayer, floorPic,   // FLOORPICK-2026-10-16: the room picker uses the geodata floor picture too
     version: '2026-10-13',
   };
 });

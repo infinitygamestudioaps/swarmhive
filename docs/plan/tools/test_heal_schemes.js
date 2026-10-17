@@ -281,7 +281,7 @@ const flush = () => new Promise(r => setTimeout(r, 0));
   }
   // the raid rules are still in healTick
   { const T = blk(src, 'async function healTick()', '\nsetInterval(');
-    check(/tank && tank\.hp < 60/.test(T) && /HEAL\.spamBelow/.test(T) && /drainEmergencyBelow/.test(T) && /drainHold/.test(T), 'raid rules still in healTick: tank first < 60 %, spam < 80 %, no heals / group heals over a draining Destroyer'); }
+    check(/tank\.hp < 60/.test(T) && /rhTankFirst/.test(T) &&/HEAL\.spamBelow/.test(T) && /drainEmergencyBelow/.test(T) && /drainHold/.test(T), 'raid rules still in healTick: tank first < 60 %, spam < 80 %, no heals / group heals over a draining Destroyer'); }
   console.log(`\n${n - fails}/${n} checks passed`);
   process.exit(fails ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });

@@ -1502,6 +1502,7 @@ function loadPartyMobs(leader) {
   api('/api/partymobs?name=' + encodeURIComponent(leader)).then(d => { PMOBS[leader] = { at: Date.now(), mobs: d.mobs || [], target: d.target || null }; }).catch(() => { });
 }
 window.addEventListener('mapfloors:ready', () => { try { if (TAB === 'parties' && STATE) renderParties(); } catch (e) { } });
+window.addEventListener('mapfloors:ready', () => { try { if (typeof SPK !== 'undefined' && SPK.dungeon && typeof renderSpotPicker === 'function') renderSpotPicker(); } catch (e) { } });   // FLOORPICK-2026-10-16: the floor pictures arrived -> redraw the open dungeon picker
 function partyMap(leader, list) {
   const L = list.find(c => c.name === leader) || list[0];
   if (!L || !isFinite(L.x)) return '';
@@ -2033,16 +2034,19 @@ function heldBy(name, key) {
   (d.occupied || []).forEach(o => { if ((key && o.key === key) || o.name === name) out.push(`<span class="chip bad">occupied by ${esc(o.by)} (${o.min} min)</span>`); });
   return [...new Set(out)].join(' ');
 }
-function openSpotPicker(party) {
+function openSpotPicker(party, opt) {
   const lv = partyLevels(party);
-  const cur0 = ((PSPOT.data || {}).spots || {})[party] || {};
-  SPK = { party, lvl: lv, filter: '', all: false, stay: !!cur0.stay, moveOn: !!cur0.moveOn, dungeon: null, floor: 0, room: null, region: null, focus: null, sel: [], order: cur0.order === 'rotate' ? 'rotate' : 'nearest' };
+  const cur0 = (opt && opt.cur) || ((PSPOT.data || {}).spots || {})[party] || {};
+  SPK = { forPlan: (opt && opt.forPlan) || null, cur: (opt && opt.cur) || null, party, lvl: lv, filter: '', all: false, stay: !!cur0.stay, moveOn: !!cur0.moveOn, dungeon: null, floor: 0, room: null, region: null, focus: null, sel: [], order: cur0.order === 'rotate' ? 'rotate' : 'nearest' };
   loadPartySpots(true); loadSevenSigns(true); renderSpotPicker();
 }
+// PLANPICK-2026-10-17 (owner: "I should be able to change the plan" / "I dont see the room under plan"): the plan step editor opens this same picker; the choice goes back to the step, nothing is saved here
+window.openSpotPickerFor = (party, cur, cb, dungeon) => { openSpotPicker(party, { forPlan: cb, cur: cur || {} }); if (dungeon) openDungeonPick(dungeon); };
 function closeSpotPicker() { SPK = null; const o = $('spotov'); if (o) o.remove(); }
 function renderSpotPicker() {
   if (!SPK) return;
   let ov = $('spotov'); if (!ov) { ov = document.createElement('div'); ov.id = 'spotov'; ov.className = 'charov'; document.body.appendChild(ov); }
+  ov.style.zIndex = SPK.forPlan ? '9500' : '';   // PLANPICK: above the plan window
   const d = PSPOT.data;
   if (!d) { ov.innerHTML = `<div class="spotbox"><div class="shead"><h2>Hunting spot · party ${esc(SPK.party)}</h2><button data-spkclose>Close</button></div><div class="muted">Loading… (the dashboard server needs a restart for this)</div></div>`; return; }
   if (SPK.region) { const dm0 = ov.querySelector('.dmap'), sc = dm0 ? [dm0.scrollLeft, dm0.scrollTop] : null; ov.innerHTML = fieldPickHtml(); const dm1 = ov.querySelector('.dmap'); if (sc && dm1) { dm1.scrollLeft = sc[0]; dm1.scrollTop = sc[1]; } return; }   // FIELD AREAS (2026-10-08 22:45)
@@ -2060,7 +2064,7 @@ function renderSpotPicker() {
     .map(x => row(`data-spkreg="${esc(x.id)}"`, x.levelRange.join('–'), x.name, `<span class="muted">${x.areas} areas${x.reachable < x.areas ? ' (' + (x.areas - x.reachable) + ' not reachable)' : ''} · ${esc(x.landing || 'no landing')} · tap for the map</span> ${regionHeld(x.id)}`)).join('');
   const dp = (d.options.datapack || []).filter(s => match(s.name) && fits(s.levelMin, s.levelMax)).slice(0, 150)
     .map(s => row(`data-spkdp="${esc(s.name)}"`, s.levelMin + '–' + s.levelMax, s.name, `<span class="muted">${esc(s.via)} · ${s.mobs} monsters</span> ${heldBy(s.name)}`)).join('');
-  ov.innerHTML = `<div class="spotbox"><div class="shead"><h2>Hunting spot · party ${esc(SPK.party)} <span class="muted">(lvl ${min}–${max})</span></h2>
+  ov.innerHTML = `<div class="spotbox"><div class="shead"><h2>${SPK.forPlan ? "Plan step place" : "Hunting spot"} · party ${esc(SPK.party)} <span class="muted">(lvl ${min}–${max})</span></h2>
       <button data-spkauto>Auto (the leader picks)</button><button data-spkclose>Close</button></div>
     <div class="shead"><input type="search" id="spkq" placeholder="search…" value="${esc(SPK.filter)}"><label class="chk"><input type="checkbox" id="spkall"${SPK.all ? ' checked' : ''}> all levels</label>
       <label class="chk" title="Stay even when other players hunt there"><input type="checkbox" id="spkstay"${SPK.stay ? ' checked' : ''}> stay even if occupied</label> <label class="chk" title="When the party's lowest level is more than 3 above the monsters here, go back to auto and find a better place (user 2026-10-09)"><input type="checkbox" id="spkmoveon"${SPK.moveOn ? ' checked' : ''}> move on when outgrown</label>
@@ -2070,8 +2074,29 @@ function renderSpotPicker() {
     <div class="muted tnote">Your choice wins over the automatic pick. Not your level: the party goes anyway (a warning in party chat). Other players there: the party
       says so and hunts somewhere else for now (it tries your spot again within 5 min) — unless "stay" is ticked. No deploy needed: the leader reads it within ~15 s.</div></div>`;
 }
+// PLANPICK-2026-10-17 (Spoiler2 / Spoiler4 kept hunting the PLAN's rooms after the owner picked another room here): when the party's plan is in use and its
+// current level step chooses its own place, that place wins over this card -> ask to change the plan step too
+async function planStepFollow(party, body, label) {
+  try {
+    const I = await api('/api/partyplans'); const P = I && (I.parties || []).find(p => p.leader === party);
+    if (!P || !P.plan || !P.plan.on || !P.plan.steps) return;
+    const st = P.plan.steps[P.idx]; if (!st || st.kind !== 'level' || !st.spot || st.spot.mode === 'party') return;
+    const v = await askChoice('This party runs a plan', `Party ${party} runs its plan "${P.plan.name}". Step ${P.idx + 1} (${(P.steps || [])[P.idx] || 'level'}) chooses its own place, and that place wins over the party card.
+
+Use "${label}" in the plan step too?`,
+      [{ label: 'Yes, change the plan step', value: 'step', cls: 'on' }, { label: 'Use the party card place for this step', value: 'party' }, { label: 'No, keep the plan', value: null }]);
+    if (!v) return;
+    const plan = JSON.parse(JSON.stringify(P.plan));
+    const o = Object.assign({}, body); ['party', 'stay', 'moveOn', 'override', 'overrideBy', 'overrideNote', '_hunt'].forEach(k => delete o[k]);
+    plan.steps[P.idx].spot = v === 'party' ? { mode: 'party' } : (o.mode === 'auto' ? { mode: 'auto' } : Object.assign({ mode: 'manual' }, o, { spot: o.spot || o.dungeon }));
+    const r = await api('/api/partyplans', { method: 'POST', body: JSON.stringify({ action: 'set', party, plan, rev: I.rev, by: 'dashboard (party card place)' }) });
+    if (!r || r.error) throw new Error((r && r.error) || 'not saved');
+    if (window.UIKit) UIKit.toast(`Party ${party}: plan step ${P.idx + 1} now uses ${v === 'party' ? 'the party card place' : label}`, { kind: 'ok' });
+  } catch (e) { uiError(e.message, 'Could not change the plan'); }
+}
 async function saveSpot(body, label) {
   const party = SPK ? SPK.party : body.party;
+  if (SPK && SPK.forPlan) { const cb = SPK.forPlan; closeSpotPicker(); try { cb(body, label); } catch (e) { } return; }   // PLANPICK: back to the plan step
   // Seven Signs (closed / sign-up first) + level above the safe limit ("Yes, override") — user 2026-10-08 21:55 / 21:58
   if (body && body.mode === 'manual' && SPK && body.moveOn === undefined) body.moveOn = !!SPK.moveOn;   // 'move on when outgrown' (user 2026-10-09)
   body = await spotChoiceChecks(party, body, label); if (!body) return;
@@ -2080,7 +2105,8 @@ async function saveSpot(body, label) {
     const r = await api('/api/partyspot', { method: 'POST', body: JSON.stringify(Object.assign({ party }, body)) });
     if (!r || r.error) throw new Error((r && r.error) || 'save failed');
     if (PSPOT.data) PSPOT.data.spots = r.spots;
-    if (window.HuntTimer) await HuntTimer.afterSave(party, hunt, label, body.mode);   // HUNTTIMER-2026-10-15: the timer (or none) + "Supply run first"
+    if (window.HuntTimer) await HuntTimer.afterSave(party, hunt, label, body.mode);
+    await planStepFollow(party, body, label);   // PLANPICK-2026-10-17   // HUNTTIMER-2026-10-15: the timer (or none) + "Supply run first"
     closeSpotPicker(); renderParties();
   } catch (er) { uiError(er.message, 'Could not save'); }
 }
@@ -2088,7 +2114,7 @@ async function openDungeonPick(name) {
   try { const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (!m || m.error) throw new Error((m && m.error) || 'not found');
     const L = SPK.lvl.min; let fi = 0, bd = 1e9;
     m.floors.forEach((F, i) => (F.rooms || []).forEach(r => { const s = r.suits || r.levelRange || [0, 99]; const off = L < s[0] ? s[0] - L : L > s[1] ? L - s[1] : 0; if (off < bd) { bd = off; fi = i; } }));
-    const cur = ((PSPOT.data || {}).spots || {})[SPK.party] || {};
+    const cur = SPK.cur || ((PSPOT.data || {}).spots || {})[SPK.party] || {};
     const has = (id) => m.floors.some(F => (F.rooms || []).some(r => r.id === id));
     SPK.sel = cur.mode === 'manual' && cur.kind === 'rooms' && cur.dungeon === m.name ? (Array.isArray(cur.roomIds) && cur.roomIds.length ? cur.roomIds : cur.roomId && cur.roomId !== 'any' ? [cur.roomId] : []).filter(has) : [];
     if (SPK.sel.length) m.floors.forEach((F, i) => { if ((F.rooms || []).some(r => r.id === SPK.sel[0])) fi = i; });
@@ -2097,14 +2123,23 @@ async function openDungeonPick(name) {
 }
 function dungeonPickHtml() {
   const m = SPK.dungeon, F = m.floors[SPK.floor] || m.floors[0], rooms = (F.rooms || []).filter(r => r.center), L = SPK.lvl.min;
-  const pts = rooms.flatMap(r => r.poly && r.poly.length ? r.poly : [[r.center[0], r.center[1]]]);
+  let pts = rooms.flatMap(r => r.poly && r.poly.length ? r.poly : [[r.center[0], r.center[1]]]);
+  if (!pts.length && Array.isArray(m.bbox) && m.bbox.length >= 4) pts = [[m.bbox[0], m.bbox[2]], [m.bbox[1], m.bbox[3]]];   // FLOORPICK: a floor without rooms (ToI 13th floor / roof) = the whole dungeon box
   const x0 = Math.min(...pts.map(p => p[0])) - 600, x1 = Math.max(...pts.map(p => p[0])) + 600, y0 = Math.min(...pts.map(p => p[1])) - 600, y1 = Math.max(...pts.map(p => p[1])) + 600;
   const W = x1 - x0, H = y1 - y0, u = Math.max(W, H) / 700, zm = Math.round((F.z[0] + F.z[1]) / 2), PH = innerWidth < 760;   // PH: phone (mobile fix 2026-10-08)
   let imgs = '';
+  // FLOORPICK-2026-10-16 (owner: "When I select floors in Tower of Insolence the map is not the right map - most show the upper layer of the tower"):
+  // the game has map art only for some floors (Tower of Insolence: the roof view + one layer); a floor without its own art (no stacked-floor
+  // entry, above the underground line) = the floor drawn from the geodata (docs/plan/tools/floor_maps.js), never the surface art
+  const hasArt = (RX, RY, x, y) => { const Z = (window.MAP_ZMAP || {})[RX + '_' + RY]; if (Z && Z.some(t => zm >= t[0] && zm <= t[1] && (t.length < 7 || (x >= t[3] && y >= t[4] && x <= t[5] && y <= t[6])))) return true; return zm < -4500 && !!(window.MAP_LAYERS || {})[RX + '_' + RY]; };
+  const pic = (window.MapFloors && window.MapFloors.floorPic) ? window.MapFloors.floorPic({ k: 'floor', dn: m.name, fi: SPK.floor }) : '';
+  let artMissing = false;
   for (let gx = Math.floor(x0 / MT); gx * MT < x1; gx++) for (let gy = Math.floor(y0 / MT); gy * MT < y1; gy++) {
     const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, col = gx - Math.floor(gx / 4) * 4, row = gy - Math.floor(gy / 4) * 4;
+    if (pic && !hasArt(RX, RY, (gx + 0.5) * MT, (gy + 0.5) * MT)) { artMissing = true; continue; }
     imgs += `<image href="/minitile/${RX}_${RY}${ugLayer(RX, RY, zm, (gx + 0.5) * MT, (gy + 0.5) * MT)}_${col}_${row}.jpg" x="${gx * MT}" y="${gy * MT}" width="${MT}" height="${MT}" preserveAspectRatio="none"/>`;
   }
+  if (artMissing) imgs = `<rect x="${x0}" y="${y0}" width="${W}" height="${H}" fill="#15171a"/>` + pic + imgs;
   const d = PSPOT.data || {}, claims = d.claims || [], occ = d.occupied || [];
   const label = (x, y, t, size, fill) => `<text x="${x}" y="${y}" font-size="${(size || 10) * u}" fill="${fill || '#fff'}" paint-order="stroke" stroke="#000" stroke-width="${3 * u}" stroke-linejoin="round">${esc(t)}</text>`;
   let over = '';
@@ -5119,6 +5154,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
      settings popup = one sheet per character / class (Dashboard/healschemes.js, /api/healschemes, Scripts/data/heal_schemes.json; automatic until changed). -->
 <link rel="stylesheet" href="/healschemes.css">
 <script src="/heallogic.js"></script>
+<script src="/raidheallogic.js"></script>
 <script src="/healschemes.js"></script>
 <script src="/hiveswitch.js"></script><!-- HIVESW 2026-10-15: character page box "Combat" (Hive or my L2Swarm profile picks skills / heals / potions + fight toggles), served by partyauto_api.js -->
 <script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>

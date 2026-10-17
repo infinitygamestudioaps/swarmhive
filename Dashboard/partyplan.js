@@ -139,11 +139,12 @@
     const rows = [];
     (o.zones || []).filter(z => z.enabled && ((z.teams || ['all']).includes('all') || (z.teams || []).includes(PP.leader))).forEach(z => rows.push({ kind: 'zone', label: 'Route place', name: z.name, lmin: z.levelMin, lmax: z.levelMax, via: z.via, own: (z.teams || []).includes(PP.leader), spot: { mode: 'manual', kind: 'zone', spot: z.name, levelMin: z.levelMin, levelMax: z.levelMax } }));
     (o.regions || []).forEach(R => rows.push({ kind: 'field', label: 'Hunting ground', name: R.name, lmin: R.levelRange && R.levelRange[0], lmax: R.levelRange && R.levelRange[1], via: R.landing, spot: { mode: 'manual', kind: 'field', spot: R.name, region: R.id, areaIds: R.areaIds, order: 'nearest', levelMin: R.levelRange && R.levelRange[0], levelMax: R.levelRange && R.levelRange[1] } }));
-    (o.dungeons || []).filter(d => !d.catacomb).forEach(d => rows.push({ kind: 'rooms', label: 'Dungeon (any free room)', name: d.name, lmin: d.levelRange && d.levelRange[0], lmax: d.levelRange && d.levelRange[1], spot: { mode: 'manual', kind: 'rooms', spot: d.name, dungeon: d.name, roomId: 'any', levelMin: d.levelRange && d.levelRange[0], levelMax: d.levelRange && d.levelRange[1] } }));
+    (o.dungeons || []).forEach(d => rows.push({ kind: 'rooms', label: window.openSpotPickerFor ? 'Dungeon · tap to choose rooms on the map' : 'Dungeon (any free room)', dungeon: d.name, name: d.name, lmin: d.levelRange && d.levelRange[0], lmax: d.levelRange && d.levelRange[1], spot: { mode: 'manual', kind: 'rooms', spot: d.name, dungeon: d.name, roomId: 'any', levelMin: d.levelRange && d.levelRange[0], levelMax: d.levelRange && d.levelRange[1] } }));
     (o.datapack || []).filter(d => !/^Area @/.test(d.name)).forEach(d => rows.push({ kind: 'datapack', label: 'Place', name: d.name, lmin: d.levelMin, lmax: d.levelMax, via: d.via, spot: { mode: 'manual', kind: 'datapack', spot: d.name, levelMin: d.levelMin, levelMax: d.levelMax } }));
     const fits = (r) => r.lmin == null || (r.lmin <= at && (r.lmax == null || r.lmax >= at - 6));
     const list = rows.filter(r => q ? (r.name + ' ' + (r.via || '')).toLowerCase().includes(q) : fits(r))
       .sort((a, b) => (b.own ? 1 : 0) - (a.own ? 1 : 0) || Math.abs(((a.lmin || 0) + (a.lmax || 0)) / 2 - at) - Math.abs(((b.lmin || 0) + (b.lmax || 0)) / 2 - at)).slice(0, 40);
+    { const seen = {}; for (let i = list.length - 1; i >= 0; i--) { const k = list[i].kind + '|' + list[i].name + '|' + list[i].lmin + '|' + list[i].lmax; if (seen[k]) list.splice(i, 1); else seen[k] = 1; } }   // PLANPICK: no duplicate rows
     PP.spotRows = list;
     const cur = s.spot || {};
     return `<div class="pp-list" role="listbox" aria-label="Hunting places">${list.map((r, i) => {
@@ -189,6 +190,7 @@
         <div class="pp-chips">${[10, 20, 30, 40, 52, 61, 76].map(l => `<button type="button" class="pp-chip" data-ppto="${l}">${l}</button>`).join('')}</div>
         <div class="pp-lab">Where to hunt</div>${seg('spot.mode', sp.mode, [['party', "Party's own place"], ['auto', 'Leader picks'], ['manual', 'Choose a place']])}
         <div class="pp-hint">${sp.mode === 'party' ? 'The hunting place you set on the party card (Parties tab) — or the leader’s pick when none is set.' : sp.mode === 'auto' ? 'The leader picks a place that fits the party’s level, and moves on as it levels.' : 'Tap a place below. Type to search every place.'}</div>
+        ${sp.mode === 'manual' && window.openSpotPickerFor ? `<button type="button" class="pp-chip" data-ppmap="1" style="width:100%;margin:6px 0">🗺 Pick rooms or areas on the map${sp.kind ? ' — now: ' + E(PL().stepText({ kind: 'level', to: s.to, spot: sp }, ctxS())) : ''}</button>` : ''}
         ${sp.mode === 'manual' ? `<input class="pp-search" type="search" data-ppq="spot" placeholder="Search a place…" value="${E(PP.spotQ)}">${spotList(s)}` : ''}`;
     } else if (s.kind === 'quest') {
       const row = (CACHE.qmap || {})[s.quest];
@@ -327,6 +329,11 @@
       render(true); return;
     }
     if ((b = g('[data-ppto]'))) { e.preventDefault(); PP.edit.step.to = +b.dataset.ppto; render(true); return; }
+    if ((b = g('[data-ppspot]')) && window.openSpotPickerFor) { const r0 = (PP.spotRows || [])[+b.dataset.ppspot]; if (r0 && r0.kind === 'rooms') b = { dataset: { ppmap: '1', dun: r0.dungeon } }; else b = null; if (b) { e.preventDefault(); } }
+    if (b && b.dataset && b.dataset.ppmap || (b = g('[data-ppmap]'))) { e.preventDefault(); const ed = PP.edit, dun = (b.dataset && b.dataset.dun) || '';   // PLANPICK-2026-10-17: the Parties tab room / area map, the choice comes back to this step
+      window.openSpotPickerFor(PP.leader, ed.step.spot || {}, (body) => { if (PP.edit !== ed) return; const o = Object.assign({}, body); delete o.party; delete o.stay; delete o.moveOn; delete o._hunt;
+        ed.step.spot = o.mode === 'auto' ? { mode: 'auto' } : PL().normSpot(Object.assign({ mode: 'manual' }, o, { spot: o.spot || o.dungeon })); render(true); }, dun);
+      return; }
     if ((b = g('[data-ppspot]'))) { e.preventDefault(); const r = (PP.spotRows || [])[+b.dataset.ppspot]; if (r) PP.edit.step.spot = clone(r.spot); render(true); return; }
     if ((b = g('[data-ppquest]'))) { e.preventDefault(); const r = (CACHE.qmap || {})[+b.dataset.ppquest]; if (r) { Object.assign(PP.edit.step, { quest: r.id, name: r.name }); if (!PP.edit.step.mode) PP.edit.step.mode = 'party'; } render(true); return; }
     if ((b = g('[data-ppraid]'))) { e.preventDefault(); const r = (CACHE.raids || {})[+b.dataset.ppraid]; if (r) Object.assign(PP.edit.step, { boss: r.id, name: r.name, level: r.level }); render(true); return; }
