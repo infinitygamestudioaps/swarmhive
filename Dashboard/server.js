@@ -1916,6 +1916,8 @@ const OQM = require('./orderqueue');
 const ORDERQ_LIVE = { on: false };
 const ORDERQ = OQM.create({ dir: () => process.env.SWARM_ORDERS_DIR || (process.env.SWARM_CMD_DIR ? path.join(CMD_DIR, 'orders') : (ORDERQ_LIVE.on ? path.join(LOGS, 'orders') : null)) });
 setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
+// VIEW3D 2026-10-17: the 3D view's 10-minute replay recorder (Dashboard/view3d_api.js)
+try { require('./view3d_api').startRecorder(readStates); } catch (e) { }
 // MOB IGNORE 2026-10-17 (owner: Treasure Chests are never attacked): L2Swarm mob rules on every open account (Dashboard/mobignore_api.js)
 { const mi = () => { try { require('./mobignore_api').tick({ DATA, LOGS, mcpCall }).catch(() => { }); } catch (e) { } }; setTimeout(mi, 30000); setInterval(mi, 120000); }
 // WHAUTO-2026-10-16: the clan warehouse defaults (sell / crystallize) - one order per round while the collector is idle in Giran (switch in Scripts/data/wh_auto.json, default off)
@@ -2278,6 +2280,8 @@ http.createServer(async (req, res) => {
     if (await require('./dispatch_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;   // DISPATCH-2026-10-17
     if (await require('./itemspage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, mcpCallChar, commandRun })) return;   // ITEMS-2026-10-17: Items + Crafting pages
     if (await require('./combatprofile_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, allowed, json, send, mcpCall })) return;   // COMBATPROFILE-2026-10-17: L2Swarm combat profile per character
+    if (await require('./l2models_api').handle(req, res, url, { DIR: __dirname, ROOT, allowed, json, send, mcpCallChar })) return;   // L2MODELS-2026-10-17: game models for the 3D view (own client, cached in Dashboard/l2cache)
+    if (await require('./view3d_api').handle(req, res, url, { DIR: __dirname, ROOT, allowed, json, send, mcpCallChar })) return;   // VIEW3D-2026-10-17: 3D view ground + page files
     if (await require('./raidheal_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;   // RAIDHEAL-2026-10-17: raid healing per boss
     if (await require('./healschemes_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send })) return;
     if (await require('./tradepage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;

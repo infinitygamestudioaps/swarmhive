@@ -987,6 +987,7 @@ function setOptions(sel, html) {
   if (keep && [...sel.options].some(o => o.value === keep)) sel.value = keep;
 }
 const api = (u, o = {}) => fetch(u, { ...o, headers: { ...(o.headers || {}), 'x-key': KEY, 'Content-Type': 'application/json' } }).then(r => r.json());
+window.api = api;   // VIEW3D: the 3D view is an ES module (no access to top-level consts)
 const fmt = (s) => { s = Math.max(0, s | 0); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`; };
 const fmtSec = (s) => { s = Math.max(0, Math.round(s || 0)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? h + 'h' + String(m).padStart(2, '0') : m + 'm' + String(s % 60).padStart(2, '0'); };
 const fmtDur = (ms) => { const s = Math.round(ms / 1000); return s < 60 ? s + 's' : s < 3600 ? Math.floor(s / 60) + 'm' + (s % 60 ? String(s % 60).padStart(2, '0') : '') : Math.floor(s / 3600) + 'h' + String(Math.floor(s % 3600 / 60)).padStart(2, '0'); };
@@ -1212,6 +1213,7 @@ function route() {
   if (window.StoragePage && StoragePage.route(kind, arg)) return;   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
   if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
+  if (window.View3D && View3D.route(kind, arg)) return;   // VIEW3D 2026-10-17: #/view3d/<name> live 3D view from the geodata + map art (Dashboard/view3d.js)
   if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
   if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
   if (window.CraftPage && CraftPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/crafting[/<name>] crafters: recipes + materials from bag / warehouse / clan (Dashboard/craftpage.js)
@@ -5170,6 +5172,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/itemspage.js"></script>
 <script src="/craftpage.js"></script>
 <script src="/dispatchpage.js"></script>
+<link rel="stylesheet" href="/view3d.css">
+<script type="module" src="/view3d.js"></script>
 <script src="/healschemes.js"></script>
 <script src="/hiveswitch.js"></script><!-- HIVESW 2026-10-15: character page box "Combat" (Hive or my L2Swarm profile picks skills / heals / potions + fight toggles), served by partyauto_api.js -->
 <script>if (window.FundPage && /^#\/adena(\/|$)/.test(location.hash)) route();</script>

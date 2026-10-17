@@ -2,6 +2,13 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.6 (2026-10-17)
+
+- 3D view: a live 3D view of every character (character page -> 3D view): real ground from the geodata, the game map art, dungeon walls, live party and monsters about once a second, cast / hit / death / fall effects, an event feed, a 10-minute replay, tap the ground to walk a character or the whole party there
+- game models from YOUR OWN installed Lineage 2 (monsters, NPCs, your characters in their real armour with weapons, town buildings and trees) converted on your PC with UE Viewer (one-time Set up game models button) and kept in Dashboard/l2cache (never shared)
+- raid boss 3D scenes (Raids -> boss -> 3D view): the boss in its room with its minions (Core's guards, Queen Ant's nest, Antharas' dragons, Baium's archangels, Frintezza's portraits), aggro and attack range rings, skills
+- Giran: NPCs are reached along the recorded town routes (no more running out of town).
+
 ## v1.8.5 (2026-10-17)
 
 - Multi-server: servers without .townname use gatekeepers (the party fights off and gathers first

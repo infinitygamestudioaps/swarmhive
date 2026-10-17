@@ -5630,9 +5630,21 @@ async function openNpc(npc) {
   state.npcBusy = true;
   try { return await openNpcInner(npc); } finally { if (!had) state.npcBusy = false; }
 }
+/** the recorded Giran place ('start' or a route name) whose end is nearest (x, y) */
+function giranPlaceNear(x, y) {
+  try {
+    const G = giranRoutes(), R = G.routes || {}; let best = null;
+    if (G.start) best = { pl: 'start', d: Math.hypot(G.start[0] - x, G.start[1] - y) };
+    Object.keys(R).forEach(rn => { const P = R[rn].points || []; const e = P[P.length - 1]; if (!e) return; const d = Math.hypot(e[0] - x, e[1] - y); if (!best || d < best.d) best = { pl: rn, d }; });
+    return best;
+  } catch (e) { return null; }
+}
 async function openNpcInner(npc) {
   intent('npc', `talking to ${npc.Name}${npc.Title ? ' (' + npc.Title + ')' : ''}`, { x: npc.X, y: npc.Y, z: npc.Z });
   const g = CONFIG.gatekeeper;
+  // GIRAN NPC WALK (owner 2026-10-17: "Spoiler2 keeps running out of town" - after selling at Helvetia the direct walk to Clarissa went out
+  // through the south-west of Giran): in Giran an NPC is reached along the recorded routes first (the user's rule), then the last steps
+  if (currentTownKey() === 'Giran' && Distance(npc) > 600) { const pl = giranPlaceNear(npc.X, npc.Y); if (pl && pl.d < 1500) { note(`npc: ${npc.Name} via the Giran route '${pl.pl}'`); await giranGo(pl.pl); } }
   if (Distance(npc) > g.reachDist) await walkTo(npc.X, npc.Y, npc.Z, g.reachDist - 20, g.walkTimeoutMs * 2);
   // Helt hen til NPC'en med L2Swarms pathfinding (GoToPoint går gennem døre, ind i bygninger) — et klik udefra går ikke altid ind
   // Gå hen FORAN NPC'en (ikke oven i den — den står tit bag en disk) med L2Swarms pathfinding, og klik først derefter
