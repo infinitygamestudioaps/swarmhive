@@ -2,6 +2,15 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.5 (2026-10-17)
+
+- Multi-server: servers without .townname use gatekeepers (the party fights off and gathers first
+- Scroll of Escape out of dungeons), servers without Community Board buffs are detected and the party buffs itself, buff timers follow the real buff length (not only 12 h)
+- Treasure Chests are never attacked (L2Swarm mob rules on every account)
+- a room in the dungeon you stand in is reached without a Giran trip (ToI)
+- fight toggles only with enough MP and shown correctly
+- Items page sorted by type and grade with grade filters, north Giran A/B shops priced, buy warnings, Buy in Giran link on the Gear page.
+
 ## v1.8.4 (2026-10-17)
 
 - Combat profile page: set up each character's L2Swarm combat profile in the Hive (attack skills with conditions, heals and buffs, items, follow, range, pick-up, monsters), saved safely into L2Swarm

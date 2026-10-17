@@ -65,7 +65,7 @@ const dirList = (d) => { try { return fs.readdirSync(d).sort().join('|'); } catc
     ok('3: Giran shop tiles load', await waitFor(`document.querySelectorAll('.itp-tile').length > 50`, 15000));
     await ev(`(() => { const q = document.getElementById('itpQ'); q.value = 'Homunkulus'; q.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`);
     await sleep(300);
-    const tileIdx = await ev(`(() => { const rows = ItemsPage._state.shops ? [].concat(...ItemsPage._state.shops.shops.map(s => s.rows)) : []; return rows.findIndex(r => r.id === 84); })()`);
+    const tileIdx = await ev(`(() => { const t = [...document.querySelectorAll('.itp-tile[data-itsel]')].find(x => /^Homunkulus's Sword$/.test(x.title)); return t ? Number(t.dataset.itsel) : -1; })()`);
     ok("3: Homunkulus's Sword is for sale", tileIdx >= 0);
     await click(`[data-itsel="${tileIdx}"]`);
     ok('4: the item sheet opens', await waitFor(`!!document.querySelector('.itp-sheet')`, 5000));

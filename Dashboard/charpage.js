@@ -486,7 +486,10 @@
     const now = Date.now();
     const cell = (k, kind) => {
       const cd = k.readyAt > now + 150;
-      return `<button class="cp-sk ${cd ? 'cd' : 'rdy'} ${kind === 'tog' && k.is_running ? 'run' : ''}" data-skill="${k.skill_id}" data-ready="${k.readyAt}" data-cdmax="${k.cdMax}" title="${esc(k.name + ' Lv ' + k.level + (k.mp_cost ? ' · ' + k.mp_cost + ' MP' : '') + (k.range > 0 ? ' · range ' + k.range : '') + (k.reuse_delay ? ' · reuse ' + (k.reuse_delay / 1000).toFixed(k.reuse_delay < 10000 ? 1 : 0) + ' s' : ''))}">
+      // TOGGLE STATE 2026-10-17 (owner: "the skills you need to toggle on and off keep being on"): L2Swarm's is_running stays true after a toggle
+      // is switched OFF (Dagger1 showed Silent Move / Accuracy / Vicious Stance green with none of them active) -> on = its effect is on the buff bar
+      const tOn = kind === 'tog' && (((d.char && d.char.buffs) || []).length ? ((d.char && d.char.buffs) || []).some(b => Number(b.id) === Number(k.skill_id)) : !!k.is_running);
+      return `<button class="cp-sk ${cd ? 'cd' : 'rdy'} ${tOn ? 'run' : ''}" data-skill="${k.skill_id}" data-ready="${k.readyAt}" data-cdmax="${k.cdMax}" title="${esc(k.name + ' Lv ' + k.level + (k.mp_cost ? ' · ' + k.mp_cost + ' MP' : '') + (k.range > 0 ? ' · range ' + k.range : '') + (k.reuse_delay ? ' · reuse ' + (k.reuse_delay / 1000).toFixed(k.reuse_delay < 10000 ? 1 : 0) + ' s' : ''))}">
         <span class="ic"><img src="${skillIcon(k.skill_id)}" alt=""><i class="sw"></i><b class="t"></b></span><span class="nm">${esc(k.name)}</span></button>`;
     };
     patch($id('cp_skills'), `<div class="cp-skgrid">${act.map(k => cell(k, 'act')).join('') || '<span class="muted">no active skills</span>'}</div>

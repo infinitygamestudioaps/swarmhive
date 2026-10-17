@@ -96,7 +96,7 @@ function info(ctx) {
   const out = { file: path.basename(plansFile(ctx)), exists: !!P.exists, rev: P.rev, broken: P.broken || null, settings, defaults: BL.BUFFPLAN.settings,
     targetWords: BL.BUFFPLAN.targetWords, parties: [], counts: { warn: 0, buffers: 0, ok: 0, total: 0 } };
   parties(ctx).forEach(({ leader, names }) => {
-    const board = BL.rkBoardBuffs(cfg, leader, plans);
+    const board = BL.rkBoardBuffs(cfg, leader, plans, ctx.readJson(path.join(ctx.ROOT, 'Logs', 'board_buffs.json'), null));   // BOARDLEARN: a server without board buffs (learned by the bots)
     const sw = plans.parties && plans.parties[leader] ? plans.parties[leader].boardBuffs : undefined;
     const boardFrom = typeof sw === 'boolean' ? 'switch' : ((cfg.accounts || []).some(a => a && a.character === leader && typeof a.boardBuffs === 'boolean') ? 'leader' : typeof cfg.boardBuffs === 'boolean' ? 'config' : 'default');
     const ms = partyMembers(ctx, T, cfg, states, names);

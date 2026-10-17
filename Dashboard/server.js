@@ -1916,6 +1916,8 @@ const OQM = require('./orderqueue');
 const ORDERQ_LIVE = { on: false };
 const ORDERQ = OQM.create({ dir: () => process.env.SWARM_ORDERS_DIR || (process.env.SWARM_CMD_DIR ? path.join(CMD_DIR, 'orders') : (ORDERQ_LIVE.on ? path.join(LOGS, 'orders') : null)) });
 setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
+// MOB IGNORE 2026-10-17 (owner: Treasure Chests are never attacked): L2Swarm mob rules on every open account (Dashboard/mobignore_api.js)
+{ const mi = () => { try { require('./mobignore_api').tick({ DATA, LOGS, mcpCall }).catch(() => { }); } catch (e) { } }; setTimeout(mi, 30000); setInterval(mi, 120000); }
 // WHAUTO-2026-10-16: the clan warehouse defaults (sell / crystallize) - one order per round while the collector is idle in Giran (switch in Scripts/data/wh_auto.json, default off)
 setInterval(() => { try { require('./whauto_api').tick({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, commandRun }).catch(() => { }); } catch (e) { } }, 60000);
 /** one line per send: how many of its characters picked the order up, and who still waits (and why) */

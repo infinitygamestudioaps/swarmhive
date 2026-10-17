@@ -32,7 +32,7 @@ t(IL.craftCan({ ing: [{ id: 1, count: 2 }, { id: 2, count: 1 }] }, { bag: [{ id:
   const who = C.chars.find(c => c.clanLeader) || C.chars[0];
   const P = await A.plan(ctx, { name: who.name, item: { src: 'shop', id: 84 }, enchantTo: 6, saId: 6313, giveTo: C.chars[1].name, sources: { 951: 'clan', 4636: 'buy', 2131: 'buy', 1458: 'clan', 1459: 'clan' }, overSafeOk: true });
   const P0 = await A.plan(ctx, { name: who.name, item: { src: 'shop', id: 84 }, enchantTo: 6, saId: 6313 });
-  t(!P0.ok && P0.needs.every(n => !n.from.wh && !n.from.clan && !n.from.buy) && P0.overSafe.length === 1, 'ASK FIRST: without picks nothing is taken / bought, and +6 needs the ticked warning');
+  t(!P0.ok && P0.needs.every(n => !n.from.wh && !n.from.clan && !n.from.buy) && P0.overSafe.some(w => /above the safe/.test(w)), 'ASK FIRST: without picks nothing is taken / bought, and +6 needs the ticked warning');
   t(!P.error && [...new Set(P.steps.map(s => s.k))].join() === 'buy,enchant,sa,give', 'plan order: buy -> enchant -> Special Ability -> give', P.error || P.steps);
   t(P.needs.some(n => n.id === 951 && n.need === 6) && P.needs.some(n => n.id === 4636 && n.need === 1) && P.needs.some(n => n.id === 2131 && n.need === 306), 'plan needs: 6 C weapon scrolls, the red crystal, 306 Gemstone C');
   if (fs.existsSync(path.join(ROOT, 'Scripts', 'data', 'giran_market.json'))) t(P.needs.some(n => n.id === 4636 && n.buy && n.buy.offer.kind === 'exchange') && P.needs.some(n => n.id === 2131 && n.buy && n.buy.offer.kind === 'shop') && P.needs.some(n => n.id === 1458 && n.need === 500), 'buy chain: the soul crystal is exchanged (its D / C crystals become needs), gemstones are bought');

@@ -77,7 +77,9 @@ function shops(ctx) {
       const k = o.npc + '|' + (o.path || []).join(' > ');
       const npcRow = (M.npcs || []).find(n => n.name === o.npc) || {};
       const offer = { npc: o.npc, x: npcRow.x, y: npcRow.y, path: o.path || [], kind: o.kind, shopId: o.shopId, listId: o.listId, entry: o.entry };
-      (groups[k] = groups[k] || { npc: o.npc, title: o.title || '', list: (o.path || []).join(' > '), rows: [] }).rows.push(Object.assign(facts(ctx, o.id), { src: 'shop', npc: o.npc, kind2: o.kind, price: Number(o.price) || 0, cost: o.cost ? o.cost.map(c => Object.assign({}, c, { icon: facts(ctx, c.id).icon })) : null, per: Number(o.count) || 1, offer }));
+      // an exchange that costs ONLY adena (Galladucci / Alexandria: the A / B grade weapons + armor of north Giran) is shown with its price like a shop item
+      const onlyAdena = Array.isArray(o.cost) && o.cost.length === 1 && Number(o.cost[0].id) === 57;
+      (groups[k] = groups[k] || { npc: o.npc, title: o.title || '', list: (o.path || []).join(' > '), rows: [] }).rows.push(Object.assign(facts(ctx, o.id), { src: 'shop', npc: o.npc, kind2: o.kind, price: onlyAdena ? Number(o.cost[0].count) : (Number(o.price) || 0), cost: o.cost && !onlyAdena ? o.cost.map(c => Object.assign({}, c, { icon: facts(ctx, c.id).icon })) : null, per: Number(o.count) || 1, offer }));
     });
     Object.values(groups).forEach(g => { const old = out.find(x => x.npc === g.npc && x.list === g.list); if (old) old.rows = g.rows; else out.push(g); });
   }
@@ -178,6 +180,9 @@ async function plan(ctx, b) {
   // or enchanting above +4 -> the page shows a red warning that must be ticked (b.overSafeOk); without it the plan is not doable
   const SAFE = R.safe || 4, overSafe = [];
   if ((src === 'wh' || src === 'clan') && cur > SAFE) overSafe.push(`${F.name} +${cur} is above the safe +${SAFE}${cur >= PROTECT_ENCH ? ' — a +' + cur + ' is extremely rare and game changing' : ''}: it leaves the ${src === 'clan' ? 'clan ' : ''}warehouse only because you pick it here.`);
+  // BUY WARNINGS (owner 2026-10-17: "not automatically but should warn and give options to purchase items if the user wants, with a warning")
+  if (src === 'shop' && adena >= 3000000) overSafe.push(`This costs about ${IL.kmb(adena)} adena of ${name}'s ${IL.kmb(C.adena)}.`);
+  if (src === 'shop' && F.kind && !IL.levelOk(F.grade, C.level)) overSafe.push(`${name} is level ${C.level || '?'}: ${F.grade}-grade needs level ${IL.GRADE_LEVEL[F.grade]} — worn earlier it gives a heavy penalty.`);
   if (to > SAFE) overSafe.push(`Enchanting to +${to} goes above the safe +${SAFE}: every try above +${SAFE} can ${b.blessed ? 'drop it to +0' : 'DESTROY the item'}.`);
   const overSafeOk = !!b.overSafeOk && overSafe.length > 0;
   if (missing.some(n => n.ask && !n.choice)) warn.unshift('Choose where each missing thing comes from (below): nothing is taken out of a warehouse or bought unless you pick it.');

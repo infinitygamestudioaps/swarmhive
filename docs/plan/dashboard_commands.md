@@ -13,16 +13,17 @@ How a command travels (server.js `commandPlan`):
 - **@login / @logout**: MCP open_account (the character's config) / close_account.
 - Passwords are never read or set (any / command naming a password is refused); `/config save` never takes a file name (it would re-point the account).
 
-Counts: 186 catalog entries — 144 swarm (98 distinct !words = every !command swarm.js handles except the internal !ready),
+Counts: 187 catalog entries — 145 swarm (99 distinct !words = every !command swarm.js handles except the internal !ready),
 34 L2Swarm chat-box (32 distinct /words), 8 dashboard actions.
 Hidden (not offered in the command center, still typed by hand): return, clancreate, b_runmacro, farm, camp, go, raidold, career, escort, queststop_old, gear, shop, kamaold.
-Safety: 26 safe, 139 confirm, 18 destructive.
+Safety: 26 safe, 140 confirm, 18 destructive.
 
 ## Move / Travel
 
 | Command | Args | Who acts | Target scope | Safety | Where in the UI | What it does |
 |---|---|---|---|---|---|---|
 | `!town {town}` | <town>: town | party leader acts, party follows | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Town teleport (.town): The leader stops hunting, fights off / steps away, regroups and uses .<town> (the server takes the party along). Giran = the safe regroup trip. A member alone ports itself only when the leader is gone. |
+| `!towngk {town}` | <town>: town | party leader acts, party follows | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Town trip WITHOUT .town (test): Like the town teleport, but this party acts as if the server had no .townname for 10 min: gatekeepers, and a Scroll of Escape out of a dungeon. For servers without .town commands. |
 | `!gk {dest}` | <dest>: gk | party leader acts, party follows | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Gatekeeper teleport: Walk to the nearest gatekeeper and click the link containing this text. Party: the leader regroups and clicks, the server brings the party; after his teleport + roll call anyone still left behind teleports itself. One member (character target): that character teleports ALONE (its leader may regroup it later). |
 | `!goto {place}` | <place>: text | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Walk to…: Walk to an NPC, a saved place (!mark) or "x y". Party target = every member walks. A party leader stops leveling for it and waits at the place for the next order. |
 | `!goto npc {npc}` | <npc>: text | party leader acts, party follows | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Go to an NPC (anywhere)…: NPC atlas (Scripts/data/npc_atlas.json): the leader takes the party to the best matching NPC — .town to its town, the dungeon way in + room by room (floor teleporters on the way), or teleport near + walk — and opens its dialog. By id (#30487), name (Penelope), role (grocer, gatekeeper, warehouse, priest of dawn, class master, blacksmith … + optional town: "grocer dion") or what it offers ("teleport:Cruma Tower 2nd floor"). Add a character name at the end for that character alone (any case); a character target that is not the leader = that character alone. |

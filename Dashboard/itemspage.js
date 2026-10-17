@@ -50,6 +50,7 @@
     document.querySelectorAll('main > section').forEach(x => { if (x.id !== SEC) x.hidden = true; });
     s.hidden = false; S.open = true;
     if (name !== S.name) { S.name = name; S.d = null; S.sel = null; S.plan = null; }
+    if (/^#\/items\/[^/]+\/shop/.test(location.hash)) { S.place = 'shop'; S.usable = true; loadShops(); }   // the Gear page link: Giran shops, only what this character can wear
     render(); if (!S.chars) loadChars(); if (name) loadChar(false);
     setTimeout(() => { try { if (s.getBoundingClientRect().top > 40) s.scrollIntoView({ block: 'start' }); } catch (e) { } }, 300);
   }
@@ -65,10 +66,17 @@
   }
   function placeRows() {
     const d = S.d; if (!d) return [];
-    if (S.place === 'shop') return S.shops ? [].concat(...S.shops.shops.map(s => s.rows)) : [];
-    const ord = { weapon: 0, armor: 1, jewel: 2 };
-    return (d[S.place] || []).slice().sort((a, b) => (b.eq ? 1 : 0) - (a.eq ? 1 : 0) || (ord[a.kind] != null ? ord[a.kind] : 9) - (ord[b.kind] != null ? ord[b.kind] : 9) || String(a.name).localeCompare(String(b.name)));
+    // SORT (owner 2026-10-17: "under /items/ items should be sorted by grade and type"): worn first (bag), then the type (weapons, armor,
+    // jewels, scrolls, materials, other), then the grade (highest first), then the name — every place, the Giran shops too
+    const src = S.place === 'shop' ? (S.shops ? [].concat(...S.shops.shops.map(s => s.rows)) : []) : (d[S.place] || []);
+    return src.slice().sort((a, b) => (b.eq ? 1 : 0) - (a.eq ? 1 : 0) || TYPE_ORD.indexOf(cat(a)) - TYPE_ORD.indexOf(cat(b)) || gradeNum(b.grade) - gradeNum(a.grade) || String(a.name).localeCompare(String(b.name)) || (a.enchant || 0) - (b.enchant || 0));
   }
+  const TYPE_ORD = ['weapon', 'armor', 'jewel', 'scroll', 'mat', 'other'];
+  const TYPE_NAME = { weapon: 'Weapons', armor: 'Armor', jewel: 'Jewels', scroll: 'Scrolls', mat: 'Materials', other: 'Other' };
+  const GRADE_ORD = ['NONE', 'D', 'C', 'B', 'A', 'S'];
+  const gradeKey = (g) => /^S\d*$/.test(String(g || '')) ? 'S' : String(g || 'NONE');
+  const gradeNum = (g) => GRADE_ORD.indexOf(gradeKey(g));
+  const LVL = { NONE: 1, D: 20, C: 40, B: 52, A: 61, S: 76 };
   function render() {
     if (!S.open) return; section();
     // characters
@@ -80,7 +88,11 @@
     const d = S.d;
     if (!d) { $id('itpBody').innerHTML = '<div class="muted">Loading…</div>'; return; }
     const counts = { bag: d.bag.length, wh: d.wh.length, clan: d.clan.length, shop: S.shops ? S.shops.shops.reduce((n, s) => n + s.rows.length, 0) : '…' };
-    const rows = placeRows().map((r, i) => Object.assign({ _i: i }, r)).filter(r => (S.filter === 'all' || cat(r) === S.filter) && (!S.q || r.name.toLowerCase().includes(S.q.toLowerCase())));
+    const lvl = Number(d.level) || 0;
+    const rows = placeRows().map((r, i) => Object.assign({ _i: i }, r)).filter(r => (S.filter === 'all' || cat(r) === S.filter) && (!S.grade || S.grade === 'all' || gradeKey(r.grade) === S.grade)
+      && (!S.usable || !r.kind || (LVL[gradeKey(r.grade)] || 1) <= lvl) && (!S.q || r.name.toLowerCase().includes(S.q.toLowerCase())));
+    // type headings inside the grid (Weapons · Armor · ...) so a long list reads in blocks
+    let lastT = ''; const tilesHtml = rows.slice(0, 400).map(r => { const t = r.eq ? 'worn' : cat(r); const head = t !== lastT ? `<div class="itp-grp">${t === 'worn' ? 'Worn now' : TYPE_NAME[t] || t}</div>` : ''; lastT = t; return head + tile(r, r._i); }).join('');
     let note = '';
     if (S.place === 'wh') note = d.whSeen ? `Seen ${h(new Date(d.whSeen).toLocaleString())}.` : `Nobody has looked into ${h(S.name)}'s warehouse yet.`;
     if (S.place === 'wh') note += ` <button type="button" class="itp-btn2" data-itlook="1">${gim('icon/etc_equip_item_box_i01')} Look now (${h(S.name)} walks to the warehouse)</button>`;
@@ -91,8 +103,11 @@
       <div class="itp-places">${PLACES.map(([k, e, t]) => `<button type="button" class="itp-place${S.place === k ? ' on' : ''}" data-itplace="${k}"><span class="itp-e">${gim(e, 'big')}</span><b>${t}</b><span>${counts[k]}</span></button>`).join('')}</div>
       <div class="itp-note">${note}</div>
       <div class="itp-step"><span class="itp-num">3</span> Tap an item</div>
-      <div class="itp-filters">${FILTERS.map(([k, t]) => `<button type="button" class="itp-chip${S.filter === k ? ' on' : ''}" data-itfilter="${k}">${t}</button>`).join('')}<input type="search" class="itp-search" id="itpQ" placeholder="Search…" value="${h(S.q)}"></div>
-      <div class="itp-grid">${rows.slice(0, 300).map(r => tile(r, r._i)).join('') || '<div class="muted">Nothing here.</div>'}</div>
+      <div class="itp-filters">${FILTERS.map(([k, t]) => `<button type="button" class="itp-chip${S.filter === k ? ' on' : ''}" data-itfilter="${k}">${t}</button>`).join('')}</div>
+      <div class="itp-filters">${['all', 'NONE', 'D', 'C', 'B', 'A', 'S'].map(g => `<button type="button" class="itp-chip${(S.grade || 'all') === g ? ' on' : ''}" data-itgrade="${g}">${g === 'all' ? 'Every grade' : g === 'NONE' ? 'No grade' : g + '-grade'}</button>`).join('')}
+        <label class="itp-check" style="margin:0"><input type="checkbox" data-itusable="1"${S.usable ? ' checked' : ''}> only what ${h(S.name)} can wear (lvl ${h(lvl || '?')})</label></div>
+      <input type="search" class="itp-search" id="itpQ" placeholder="Search…" value="${h(S.q)}">
+      <div class="itp-grid">${tilesHtml || '<div class="muted">Nothing here.</div>'}</div>${rows.length > 400 ? `<div class="muted">${rows.length - 400} more — narrow it with the buttons or the search.</div>` : ''}
       ${(d.jobs || []).length ? `<div class="itp-step">Recent jobs</div>${d.jobs.map(j => jobLine(j)).join('')}` : ''}
       <div class="itp-step">${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Quest')} What happened <label class="itp-check" style="margin:0 0 0 auto;font-weight:400"><input type="checkbox" data-itlogall="1"${S.logAll ? ' checked' : ''}> every character</label></div><div id="itpLog" class="itp-log">${logHtml()}</div>`;
     renderSheet();
@@ -127,7 +142,7 @@
       ${sas ? `<div class="itp-sec"><div class="itp-sec-t">${gim('icon/etc_soul_stone_i00')} Special Ability</div><div class="itp-sas"><button type="button" class="itp-saopt${!W.saId ? ' on' : ''}" data-itsa="0"><b>none</b></button>${sas.map(o => `<button type="button" class="itp-saopt${W.saId === o.saId ? ' on' : ''}" data-itsa="${o.saId}"><span class="itp-dot" style="background:${o.color === 'red' ? '#d9534f' : o.color === 'green' ? '#4caf50' : '#4a90e2'}"></span><b>${h(o.sa)}</b><span>${h(o.color)} crystal stage ${o.stage} · ${o.gem ? o.gem.count + ' ' + h(o.gem.name) : ''} · ${kmb(o.adena)} adena</span></button>`).join('')}</div></div>` : ''}
       <div class="itp-sec"><div class="itp-sec-t">${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Clan')} Give to (and wear it)</div><select data-itgive="1" class="itp-sel"><option value="">— keep it with ${h(S.name)} —</option>${C.map(c => `<option value="${h(c.name)}"${W.giveTo === c.name ? ' selected' : ''}>${h(c.name)}${c.level ? ' (lvl ' + c.level + ')' : ''}${c.name === S.name ? ' — wear it myself' : ''}</option>`).join('')}</select></div>
       ${P && P.alsoHave && P.alsoHave.length ? `<div class="itp-sec"><div class="itp-sec-t">${gim('icon/etc_equip_item_box_i01')} You already have it</div><div class="itp-sas">${P.alsoHave.map((x, i) => `<button type="button" class="itp-saopt" data-itusehave="${i}"><b>+${x.enchant} ${h(r.name)}</b>${x.overSafe ? ` <span class="itp-lock">${x.rare ? 'rare: only by your pick' : 'above +4: asks first'}</span>` : ''}<span>${{ bag: 'in ' + h(S.name) + "'s bag" + (x.eq ? ' (worn)' : ''), wh: 'in ' + h(S.name) + "'s warehouse", clan: 'in the clan warehouse' }[x.src]} — use this one</span></button>`).join('')}</div></div>` : ''}
-      ${P && P.overSafe && P.overSafe.length ? `<div class="itp-sec itp-danger"><div class="itp-sec-t">Above the safe limit</div>${P.overSafe.map(t => `<div>${h(t)}</div>`).join('')}<label class="itp-check"><input type="checkbox" data-itoversafe="1"${S.want.overSafeOk ? ' checked' : ''}> I understand the risk and want this anyway</label></div>` : ''}
+      ${P && P.overSafe && P.overSafe.length ? `<div class="itp-sec itp-danger"><div class="itp-sec-t">Please read first</div>${P.overSafe.map(t => `<div>${h(t)}</div>`).join('')}<label class="itp-check"><input type="checkbox" data-itoversafe="1"${S.want.overSafeOk ? ' checked' : ''}> I understand the risk and want this anyway</label></div>` : ''}
       <div class="itp-sec" id="itpPlan">${planHtml()}</div>
       <div class="itp-actions">${P && !P.error && !P.ok ? `<div class="itp-why">Can't start yet: ${(P.missing || []).length ? 'missing ' + P.missing.map(m => `${m.missing}× ${h(m.what)}`).join(', ') : P.adena > P.haveAdena ? `needs about ${kmb(P.adena)} adena (${h(S.name)} has ${kmb(P.haveAdena)})` : 'choose what to do'}.</div>` : ''}<button type="button" class="itp-go" data-itgo="1" ${P && P.ok && !S.job ? '' : 'disabled'}>${S.job ? 'Running…' : 'Do it'}</button></div>
       <div id="itpJob">${S.job ? jobHtml() : ''}</div></div>`;
@@ -174,6 +189,7 @@
     if ((b = g('[data-itchar]'))) { S.pickChar = false; location.hash = '#/items/' + encodeURIComponent(b.dataset.itchar); return; }
     if (g('[data-itchange]')) { S.pickChar = true; render(); return; }
     if ((b = g('[data-itplace]'))) { S.place = b.dataset.itplace; if (S.place === 'shop') loadShops(); render(); return; }
+    if ((b = g('[data-itgrade]'))) { S.grade = b.dataset.itgrade; render(); return; }
     if ((b = g('[data-itfilter]'))) { S.filter = b.dataset.itfilter; render(); return; }
     if (g('[data-itfresh]')) { loadChar(true); return; }
     if (g('[data-itlook]')) { api('/api/items/look', { method: 'POST', body: JSON.stringify({ name: S.name }) }).then(r => flash(r && r.error ? r.error : `${S.name} walks to the warehouse and looks — the list shows here in a few minutes.`, !!(r && r.error))).catch(er => flash(er.message, true)); return; }
@@ -189,6 +205,7 @@
     const t = e.target;
     if (t.id === 'itpCq') { S.cq = t.value; const pos = t.selectionStart; render(); const x = $id('itpCq'); if (x) { x.focus(); try { x.setSelectionRange(pos, pos); } catch (er) { } } return; }
     if (t.id === 'itpQ') { S.q = t.value; const pos = t.selectionStart; render(); const x = $id('itpQ'); if (x) { x.focus(); try { x.setSelectionRange(pos, pos); } catch (er) { } } return; }
+    if (t.dataset.itusable) { S.usable = t.checked; render(); return; }
     if (t.dataset.itlogall) { S.logAll = t.checked; loadLog(); return; }
     if (t.dataset.itblessed) { S.want.blessed = t.checked; replan(); return; }
     if (t.dataset.itoversafe) { S.want.overSafeOk = t.checked; replan(); return; }

@@ -1,0 +1,38 @@
+// TOWNMODE (2026-10-17): servers without .townname use the gatekeepers. Runs the TOWNMODE-PURE block of Scripts_dev/swarm.js in node.
+const fs = require('fs'), path = require('path');
+const src = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Scripts_dev', 'swarm.js'), 'utf8');
+const blk = src.split('// TOWNMODE-PURE-BEGIN')[1].split('// TOWNMODE-PURE-END')[0].replace(/^[^\n]*/, '');
+const P = new Function(blk + '; return { tcModePure, tcLearnPure, tcGkText };')();
+let pass = 0, fail = 0; const t = (ok, m) => { if (ok) pass++; else { fail++; console.log('  FAIL ' + m); } };
+t(P.tcModePure(undefined, null) === 'command', 'auto + nothing learned = command');
+t(P.tcModePure('auto', { works: false }) === 'gatekeeper', 'auto + learned off = gatekeeper');
+t(P.tcModePure('off', { works: true }) === 'gatekeeper', 'off forces the gatekeeper');
+t(P.tcModePure('on', { works: false }) === 'command', 'on forces the command');
+t(P.tcModePure(false, null) === 'gatekeeper', 'false = gatekeeper');
+let L = null; const H = 3600000;
+L = P.tcLearnPure(L, { ok: false, refused: false, by: 'A', at: 1 * H });
+L = P.tcLearnPure(L, { ok: false, refused: false, by: 'A', at: 1.1 * H });
+L = P.tcLearnPure(L, { ok: false, refused: false, by: 'A', at: 1.2 * H });
+L = P.tcLearnPure(L, { ok: false, refused: false, by: 'A', at: 1.3 * H });
+t(L.works === null, 'one character alone never decides (4 misses by A)');
+L = P.tcLearnPure(L, { ok: false, refused: false, by: 'B', at: 1.4 * H });
+t(L.works === false, '4+ misses by 2 characters = no .townname');
+let M = P.tcLearnPure(null, { ok: false, refused: true, by: 'A', at: 1 });
+t(!M.misses.length, 'a refusal (combat / system message) is not a miss');
+M = P.tcLearnPure({ works: true, misses: [] }, { ok: false, refused: false, by: 'A', at: 1 });
+t(M.works === true, 'once it worked it is never learned off');
+let O = null; ['A', 'B', 'A', 'B'].forEach((b, i) => { O = P.tcLearnPure(O, { ok: false, refused: false, by: b, at: i * 7 * H }); });
+t(O.works === null, 'misses spread over > 6 h do not add up');
+O = P.tcLearnPure({ works: null, misses: [{ by: 'A', at: 1 }] }, { ok: true, by: 'B', at: 2 });
+t(O.works === true && !O.misses.length, 'a success = works');
+t(P.tcGkText('Giran') === 'Town of Giran' && P.tcGkText('Hunters') === 'Hunters Village' && P.tcGkText('Rune') === 'Rune Township', 'gatekeeper link texts');
+// host wiring
+t(/tcMode\(\) === 'gatekeeper'\) && !supplyHoldsTeam\(\)\) return await townByGatekeeper/.test(src), 'townCommand routes to the gatekeeper');
+t(/!wanted\.noTownCmd && tcMode\(\) !== 'gatekeeper'/.test(src), 'gkTeleport skips .townname in gatekeeper mode');
+t(/if \(!cands\.length\) return await townByGatekeeper/.test(src), 'all commands refused -> the gatekeeper');
+t(src.includes("tk0 && tcMode() !== 'gatekeeper' && dfTownRule"), 'gkTeleportInner lets a gatekeeper take us to a town in gatekeeper mode');
+t(src.includes("if (tcMode() === 'gatekeeper') await scrollToTown("), 'the field scroll step reads the scroll directly (no useEscape loop)');
+t(src.includes("const dun = !cur ? tcInDungeon() : '';") && src.split("const dun = !cur ? tcInDungeon()")[1].slice(0, 300).includes("scrollToTown"), 'inside a dungeon: Scroll of Escape first');
+t(!src.split("async function scrollToTown")[1].split("async function townByGatekeeper")[0].includes("townCommand("), 'scrollToTown never calls townCommand');
+t(src.split("async function townByGatekeeper")[1].slice(0, 900).includes("teamRegroupBeforePort("), 'the leader fights off + gathers before the gatekeeper / scroll');
+console.log(`${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);

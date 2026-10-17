@@ -1239,14 +1239,16 @@ function rkArcherStep(o) {
 // BOARD BUFFS OPTIONAL (public kit user 2026-10-10: "old school playstyle, all needed chars in party, NOT relying on community buffs"):
 // swarm.config.json "boardBuffs": true | false (default true = L2Toggle Community Board buffs, today's behaviour) and per party on the party
 // LEADER's account entry ("boardBuffs": false on the leader = the whole party). Party = the leader's character name.
-function rkBoardBuffs(cfg, party, plans) {
+// learned (BOARDLEARN 2026-10-17, owner: "some servers do not have the community buffer either, so the party itself should buff up"):
+// Logs/board_buffs.json { works: false } = this server has no Community Board buffs -> the party's own buffers (boardBuffs "auto" / unset only)
+function rkBoardBuffs(cfg, party, plans, learned) {
   const c = cfg || {}, p = String(party || '');
   // 2026-10-10: the dashboard Buffs page switch (Scripts/data/buff_plans.json parties[<leader>].boardBuffs, read live) wins over swarm.config.json
   const sw = plans && plans.parties && plans.parties[p] ? plans.parties[p].boardBuffs : undefined;
   if (typeof sw === 'boolean') return sw;
   const acc = (c.accounts || []).find(a => a && String(a.character || '') === p && typeof a.boardBuffs === 'boolean');
   if (acc) return acc.boardBuffs;
-  return typeof c.boardBuffs === 'boolean' ? c.boardBuffs : true;
+  return typeof c.boardBuffs === 'boolean' ? c.boardBuffs : !(learned && learned.works === false);
 }
 /** who keeps party buffs up: 'fill' = a generic buffer next to the board (only what the board lacks) | 'primary' = no board buffs: the party's own
  *  buffers are the buff source (priority over damage, mana potions, before pulls) | 'healer-idle' = no board: a healer buffs when nobody is hurt | '' */
@@ -1686,7 +1688,7 @@ function rkRosterLearn(name, role) {
   } catch (e) { }
 }
 function boardOn() {
-  if (now() - RKH.boardAt > 10000) { RKH.boardAt = now(); try { RKH.board = rkBoardBuffs(SWARM_CFG, teamOf(Me.Name), buffPlansFile()); } catch (e) { RKH.board = true; } }   // dashboard switch: live within ~10-20 s
+  if (now() - RKH.boardAt > 10000) { RKH.boardAt = now(); try { RKH.board = rkBoardBuffs(SWARM_CFG, teamOf(Me.Name), buffPlansFile(), bbLearned()); } catch (e) { RKH.board = true; } }   // dashboard switch: live within ~10-20 s
   return RKH.board;
 }
 /** my learned skills as a plain list (snapshot), cached on the skill count (re-read every 20 s anyway) */
@@ -2480,12 +2482,26 @@ async function bbsClick(html, label, action) {
   return await bbsRequest(code, label, action);
 }
 
+// BUFF LENGTH (owner 2026-10-17: "buffs on other servers might not be 12 hours either, please account for that"): "about to lose my buffs" =
+// less than warnBelowSec (5 min) left, but at most a quarter of the longest buff time this character has seen (min 30 s): a server whose board
+// buffs last 2 or 20 min no longer rebuffs nonstop / far too late. The longest time seen is kept per window (buffs of the last 24 h).
+const BUFFLEN = { max: 0, at: 0 };
+function buffWarnSec() {
+  try {
+    if (now() - BUFFLEN.at > 30000) {
+      BUFFLEN.at = now(); let m = 0;
+      (hostSnap.buffs() || BuffsList).forEach(b => { if (!b.IsDebuff) m = Math.max(m, num(b.RemainTime)); });
+      if (m > BUFFLEN.max || now() - (BUFFLEN.seenAt || 0) > 86400000) { BUFFLEN.max = Math.max(m, BUFFLEN.max * (now() - (BUFFLEN.seenAt || 0) > 86400000 ? 0 : 1)); BUFFLEN.seenAt = now(); }
+    }
+    return BUFFLEN.max > 0 ? Math.max(30, Math.min(CONFIG.buffs.warnBelowSec, Math.round(BUFFLEN.max / 4))) : CONFIG.buffs.warnBelowSec;
+  } catch (e) { return CONFIG.buffs.warnBelowSec; }
+}
 /** Antal gode buffs der har mere end warnBelowSec tilbage. */
 function longBuffCount() {
   let n = 0;
   try {
     (hostSnap.buffs() || BuffsList).forEach(b => {
-      if (!b.IsDebuff && b.RemainTime > CONFIG.buffs.warnBelowSec) n++;
+      if (!b.IsDebuff && b.RemainTime > buffWarnSec()) n++;
     });
   } catch (e) { /* tom under login */ }
   return n;
@@ -2556,11 +2572,27 @@ function closeClientBoard() {
     }, 800);
   } catch (e) { /* not in in-game mode */ }
 }
+// BOARDLEARN (2026-10-17): learn whether this server has Community Board buffs at all (same rule as TOWNMODE tcLearnPure: 4 misses by 2+
+// characters within 6 h, out of combat, never after one success) -> Logs/board_buffs.json works:false -> boardOn() false -> own buffers
+const BBH = { at: 0, L: null };
+function bbFile() { return SWARM_ROOT + String.fromCharCode(92) + 'Logs' + String.fromCharCode(92) + 'board_buffs.json'; }
+function bbLearned() { if (now() - BBH.at > 15000) { BBH.at = now(); try { BBH.L = JSON.parse(File.ReadAllText(bbFile())); } catch (e) { } } return BBH.L; }
+function bbRecord(ok, why) {
+  try {
+    BBH.at = 0; const before = bbLearned();
+    const L = tcLearnPure(before, { ok, refused: !ok && (Me.IsDead || Me.IsInCombat || now() - lastAttackerOnMe.at < 8000), by: Me.Name, at: now() });
+    if (JSON.stringify(L) === JSON.stringify(before)) return;
+    File.WriteAllText(bbFile(), JSON.stringify(L)); BBH.L = L; BBH.at = now(); RKH.boardAt = 0;
+    if (L.works === false) note(`buffs: this server has no Community Board buffs (${why}, ${L.misses.length} tries) — the party's own buffers buff from now on (swarm.config.json "boardBuffs": true forces the board)`, true);
+  } catch (e) { }
+}
 async function bbsApplySchemeInner(scheme, button) {
   const home = await bbsRequest('_bbshome');
-  if (!home) throw new Error('Community Board not responding');
+  if (!home) { bbRecord(false, 'the board does not open'); throw new Error('Community Board not responding'); }
+  if (!/Buffs/i.test(String(home))) bbRecord(false, "the board has no 'Buffs' page");
   const buffsPage = await bbsClick(home, 'Buffs');
   if (!buffsPage) throw new Error("page 'Buffs' did not arrive");
+  bbRecord(true);
   const schemePage = await bbsClick(buffsPage, scheme);
   if (!schemePage) throw new Error(`scheme '${scheme}' did not arrive`);
   await bbsClick(schemePage, button, true);     // svaret (ny side) er ligegyldigt (an action: never clicked twice)
@@ -4615,6 +4647,7 @@ async function castInfo(info) {
 // Runs everywhere, raids included. TOGGLES ONLY IN FIGHTS (user 2026-10-08 21:25, TOGGLE-PURE block): a wanted toggle is switched on in a
 // fight outside towns, every running toggle is switched OFF in towns and ~12 s after the fight (re-cast = off), max once per 15 s each. A cubic is summoned again every 13 min and right after a death (cubics vanish), outside towns, while Spirit Ore lasts.
 const KEEP_TOGGLES = ['Soul Cry', 'Vicious Stance', 'Accuracy'];
+const TOGGLE_MP = { on: 50, off: 35 };   // MP GUARD 2026-10-17: fight toggles only with enough MP (on >= 50 %, off below 35 %)
 const KEEP_FIGHT_BUFFS = ['Rage', 'Furious Soul'];       // PA_UP_SPECIAL: stacks with the board's Might / Greater Might (Increase Power = PA_UP: NOT, it would replace Might)
 const CUBIC_RE = /^Summon \w+ Cubic$/;
 const keeper = { last: {}, cubicAt: {}, lastFightAt: 0 };
@@ -4686,7 +4719,12 @@ setInterval(() => {
       if (k.IsToggle) {
         // ON only in a fight outside towns (the wanted ones), OFF in towns / ~12 s after the fight (every running toggle)
         const act = toggleDecide({ name, running: toggleActive(id, name, () => { try { const o = SkillsList.GetItemByID(id); return !!(o && o.IsRunning); } catch (e) { return false; } }), wanted: KEEP_TOGGLES.includes(name) || toggleWanted({ name, role: state.role || '' }, { tankRe: ROLEKIND.tankStances, picked: picked, notInFight: TOGGLE_NOT_IN_FIGHT })   /* HIVESW-2026-10-15: the fight whitelist + the player's ticks (was: ALL toggles, user 2026-10-09 — burnt the MP of Berserkers / Destroyers) */, lastCastAt: keeper.last[id] || 0 }, tc);
+        // MP GUARD (owner 2026-10-17: "they drain MP constantly ... only use them while needed"; Destroyer3's party ran Vicious Stance through a whole
+        // catacomb session at 29-36 % MP): a fight toggle goes ON only with MP >= 50 % and OFF below 35 % even mid-fight (back on once MP recovered)
+        const mpPct = num(Me.MpPercent);
         if (act === 'off' && k.IsReady) todo = { id, name, off: true };
+        else if (act === 'on' && mpPct < TOGGLE_MP.on) return;
+        else if (act !== 'off' && mpPct < TOGGLE_MP.off && k.IsReady && !TOGGLE_RULE.neverOff.test(name) && toggleActive(id, name, false)) todo = { id, name, off: true, lowMp: true };
         else if (act === 'on' && !busy && k.IsReady && mp >= num(k.MP)) todo = { id, name };
         return;
       }
@@ -4698,7 +4736,7 @@ setInterval(() => {
     keeper.last[todo.id] = now();
     if (todo.cubic) keeper.cubicAt[todo.id] = now();
     Send.RequestMagicSkillUse(todo.id);
-    note(`keeper: ${todo.cubic ? 'summoning' : todo.off ? 'switching OFF' : 'switching on'} ${todo.name}${todo.off ? (tc.town ? ' (in a town)' : ' (the fight is over)') : todo.cubic ? '' : ' (fight)'}`);
+    note(`keeper: ${todo.cubic ? 'summoning' : todo.off ? 'switching OFF' : 'switching on'} ${todo.name}${todo.off ? (todo.lowMp ? ` (MP ${Math.round(num(Me.MpPercent))} % — saving MP)` : tc.town ? ' (in a town)' : ' (the fight is over)') : todo.cubic ? '' : ' (fight)'}`);
   } catch (e) { logError('toggle/cubic keeper', e); }
 }, 5000);
 
@@ -5700,7 +5738,7 @@ async function gkTeleport(wanted, why) {
   // RULE (user 2026-10-03): a TOWN with a command is ALWAYS reached with .townname — never a gatekeeper route to it
   {
     const tk = wanted.text && !wanted.cmd ? townKeyFor(wanted.text) : null;
-    if (tk && TOWN_CMD[tk] && !wanted.noTownCmd) {
+    if (tk && TOWN_CMD[tk] && !wanted.noTownCmd && tcMode() !== 'gatekeeper') {   // TOWNMODE-2026-10-17: no .townname on this server = the gatekeeper below
       // D14 (2026-10-12, ".goddard / .heine instead of a teleport"): that town or nothing (opts.only), a 2nd try only to confirm ONE "Usage"
       // answer, and NO gatekeeper fallback while the command works on this server (a refused .town = combat / flag / karma: the gatekeeper
       // chain left the team behind before). The gatekeeper only when the server lacks the command (2 "Usage" answers) or .town is off.
@@ -5827,7 +5865,7 @@ async function gkTeleport(wanted, why) {
 async function gkTeleportInner(wanted, why) {
   // D14 (2026-10-12): every gatekeeper click goes through here - a town with a working .townname is never reached by gatekeeper
   { const tk0 = wanted && wanted.text && !wanted.cmd ? townKeyFor(wanted.text) : null;
-    if (tk0 && dfTownRule({ hasCmd: !!TOWN_CMD[tk0], bad: !!TOWN_CMD[tk0] && townCmdBad.has(TOWN_CMD[tk0]), enabled: !!CONFIG.town.enabled }) === 'town') {
+    if (tk0 && tcMode() !== 'gatekeeper' && dfTownRule({ hasCmd: !!TOWN_CMD[tk0], bad: !!TOWN_CMD[tk0] && townCmdBad.has(TOWN_CMD[tk0]), enabled: !!CONFIG.town.enabled }) === 'town') {   // TOWNMODE: no .townname = the gatekeeper may take us to a town
       gkFail = `'${wanted.text}' is a town: only .${TOWN_CMD[tk0]} goes there, never a gatekeeper`; note(`gatekeeper: ${gkFail} (${why})`); return false; } }
   if (!(await waitFree(60000))) { gkFail = `still busy after 60 s: ${state.gkBusy ? 'another gatekeeper trip' : tradeState ? 'a trade' : 'Community Board buffing'}`; return false; }
   if (!IsCharacterReady() || Me.IsDead) { gkFail = Me.IsDead ? 'dead' : 'not in game'; return false; }
@@ -5866,7 +5904,7 @@ async function gkTeleportInner(wanted, why) {
       note(`gatekeeper: no gatekeeper nearby — using Scroll of Escape first (${why})`);
       const start = { x: Me.X, y: Me.Y };
       state.gkBusy = false;
-      await useEscape(736, `to town for gatekeeper (${why})`);
+      if (tcMode() === 'gatekeeper') await scrollToTown(`to town for gatekeeper (${why})`); else await useEscape(736, `to town for gatekeeper (${why})`);
       const until = now() + 45000;
       while (now() < until && Math.hypot(Me.X - start.x, Me.Y - start.y) < 3000) await sleep(500);
       await sleep(3000);
@@ -7938,13 +7976,113 @@ const TOWN_LAND = { Gludin: [-80786, 150251], Gludio: [-12712, 122776], Dion: [1
   Aden: [147448, 25816], Hunters: [116589, 76268], Heine: [111381, 218981], Goddard: [147732, -56554], Rune: [43759, -48122], Schuttgart: [87355, -142095] };
 const townCmdBad = dfTownBadSet(() => now());   // D14 (2026-10-12): timed, 2 "Usage" answers (was a Set: one answer = gatekeeper forever)
 //                     // names the server answered with "Usage: .townname" (unknown town)
+// TOWNMODE-PURE-BEGIN (pure: docs/plan/tools/test_town_mode.js runs this block in node)
+// GATEKEEPERS WHEN THE SERVER HAS NO .townname (owner 2026-10-17: "make gatekeepers work, if the server does not have .townname"):
+// swarm.config.json "townCommands": "auto" (default) | "on" | "off". auto = use .townname until the server shows it does not know it:
+// 4 tries by 2+ characters within 6 h that did not move anyone, with no system message and out of combat (a server without dot commands
+// just shows ".giran" as chat) -> Logs/town_commands.json works:false and every town trip goes by gatekeeper. One .town that moved anyone
+// = works:true for good (never learned off again). "on" / "off" force it.
+function tcModePure(setting, learned) {
+  const v = String(setting == null || setting === '' ? 'auto' : setting).toLowerCase();
+  if (v === 'off' || v === 'false' || v === 'gatekeeper' || v === 'gatekeepers') return 'gatekeeper';
+  if (v === 'on' || v === 'true' || v === 'command' || v === 'commands') return 'command';
+  return learned && learned.works === false ? 'gatekeeper' : 'command';
+}
+/** L = the learned state { works: true|false|null, misses: [{ by, at }] }, ev = { ok, refused, by, at } -> the new state */
+function tcLearnPure(L, ev) {
+  const x = Object.assign({ works: null, misses: [] }, L || {});
+  if (ev.ok) return { works: true, misses: [], at: ev.at, by: ev.by };
+  if (x.works === true || x.works === false || ev.refused) return x;
+  const m = (x.misses || []).filter(q => ev.at - q.at < 6 * 3600000).concat([{ by: ev.by, at: ev.at }]).slice(-10);
+  const who = {}; m.forEach(q => { who[q.by] = 1; });
+  if (m.length >= 4 && Object.keys(who).length >= 2) return { works: false, misses: m, at: ev.at, by: ev.by };
+  return { works: null, misses: m };
+}
+/** the gatekeeper link text of a town (the live menus: "The Town of Giran", "Hunters Village", "Rune Township", "Heine" ...; gkNorm drops "the" / "town of") */
+function tcGkText(k) { return ({ Gludin: 'Gludin Village', Hunters: 'Hunters Village', Rune: 'Rune Township', Heine: 'Heine' })[k] || ('Town of ' + k); }
+// TOWNMODE-PURE-END
+const TCH = { at: 0, L: null };
+function tcFile() { return SWARM_ROOT + String.fromCharCode(92) + 'Logs' + String.fromCharCode(92) + 'town_commands.json'; }
+function tcLearned() { if (now() - TCH.at > 15000) { TCH.at = now(); try { TCH.L = JSON.parse(File.ReadAllText(tcFile())); } catch (e) { } } return TCH.L; }
+function tcMode() { if (TCH.forceUntil && TCH.forceUntil > now()) return 'gatekeeper'; try { return tcModePure(SWARM_CFG && SWARM_CFG.townCommands, tcLearned()); } catch (e) { return 'command'; } }
+function tcRecord(ev) {
+  try {
+    TCH.at = 0; const before = tcLearned();
+    const L = tcLearnPure(before, Object.assign({ by: Me.Name, at: now() }, ev));
+    if (JSON.stringify(L) === JSON.stringify(before)) return;
+    File.WriteAllText(tcFile(), JSON.stringify(L)); TCH.L = L; TCH.at = now();
+    if (L.works === false) note(`town: this server does not seem to know .townname (${L.misses.length} tries did nothing) — every town trip uses the gatekeepers now (swarm.config.json "townCommands": "on" forces the command)`, true);
+  } catch (e) { }
+}
+/** a town trip by gatekeeper (no .townname on this server): wantTown, else the nearest town; out in the field gkTeleport walks to a gatekeeper or reads a Scroll of Escape first */
+/** where I am underground: a dungeon floor we know (Cruma, ToI ...), inside a catacomb / necropolis, or deep (z < -4500) outside a town; '' = not */
+function tcInDungeon() {
+  try {
+    const w = dzFloor(dungeonRooms(), Me.X, Me.Y, Me.Z); if (w && w.d && w.fi >= 0) return w.d.name;
+    const cd = dungeonAt({ x: Me.X, y: Me.Y, z: Me.Z }); if (cd && insideDungeon(cd, Me.X, Me.Y, Me.Z)) return cd.name;
+    if (Me.Z < -4500 && !currentTownKey()) return 'underground';
+  } catch (e) { }
+  return '';
+}
+/** reads a Scroll of Escape (any kind, pickEscapeItem) and waits until it lands (45 s); true = moved > 3000 */
+async function scrollToTown(why) {
+  const item = pickEscapeItem(736);
+  if (!item) { gkFail = 'no Scroll of Escape in the bag (this server has no .townname: the scroll is the way back to town)'; note(`town: ${gkFail} — ${why}`, true); try { SayToParty(`[${Me.Name}] I have no Scroll of Escape — I cannot get back to town`); } catch (e) { } return false; }
+  intent('escape', `${item.name} to town (no .townname on this server) — ${why}`);
+  const start = { x: Me.X, y: Me.Y }, wasOn = IsEnabled;
+  stopCombatG(); if (IsEnabled) DisableBot(); try { Send.StopMove(); } catch (e) { }
+  await sleep(400);
+  try {
+    UseItem(item.id);
+    const until = now() + CONFIG.soe.castTimeoutMs;
+    while (now() < until && !Me.IsDead && Math.hypot(Me.X - start.x, Me.Y - start.y) < 3000) await sleep(500);
+  } finally { if (wasOn && !IsEnabled) EnableBot(); }
+  const ok = Math.hypot(Me.X - start.x, Me.Y - start.y) >= 3000;
+  if (ok) { state.portAt = now(); setTimeout(() => { try { sendAppearing('after the Scroll of Escape'); } catch (e) { } }, 800); }
+  intentDone('escape', ok, ok ? `landed ${here()}${currentTownKey() ? ' (' + currentTownKey() + ')' : ''}` : 'the scroll was interrupted (hit / moved?)');
+  return ok;
+}
+async function townByGatekeeper(why, wantTown, opts) {
+  let cur = currentTownKey();
+  if (!wantTown && cur) return true;                                  // "any town" and I am in one
+  // FIGHT OFF + GATHER FIRST (live test 2026-10-17: Destroyer3 read his scroll while Destroyer7 / Destroyer8 were still being hit): the same hold as
+  // before a .townname (teamRegroupBeforePort: fight off every monster on a teammate, step away, everyone close, all out of combat)
+  { const o = opts || {}, dest = wantTown || cur || '';
+    if (isLeader() && !String(why || '').startsWith('!town') && !o.noHold && !/alone inside/.test(String(why || '')) && !ESC.on && (await teamRegroupBeforePort(`to ${dest || 'town'} (no .townname)`, dest)) === 'interrupted') return false; }
+  // OUT OF A DUNGEON (owner 2026-10-17: "returning from a dungeon on a server without .townname has to be with Scroll of Escape"): no walking
+  // out through the floors to a gatekeeper — the scroll first, then (another town wanted) the gatekeeper of the town it lands in
+  const dun = !cur ? tcInDungeon() : '';
+  if (dun) {
+    note(`town: inside ${dun} — Scroll of Escape first (no .townname on this server) — ${why}`);
+    if (!(await scrollToTown(`out of ${dun}: ${why}`))) return false;
+    await sleep(2500); cur = currentTownKey();
+    if (!wantTown || cur === wantTown) {
+      if (leadMode() && isLeader() && teamNames().length && !state.inTownWait && cur) {
+        state.inTownWait = true;
+        try { App.emit('swarm.lead.hub', { leader: Me.Name, town: cur }); await waitForTeamHere(`after the Scroll of Escape to ${cur}`); } finally { state.inTownWait = false; }
+      }
+      return true;
+    }
+  }
+  const k = wantTown && TOWN_LAND[wantTown] ? wantTown : Object.keys(TOWN_LAND).sort((a, b) => Math.hypot(TOWN_LAND[a][0] - Me.X, TOWN_LAND[a][1] - Me.Y) - Math.hypot(TOWN_LAND[b][0] - Me.X, TOWN_LAND[b][1] - Me.Y))[0];
+  if (cur === k) return true;
+  note(`town: ${k} by gatekeeper (no .townname on this server) — ${why}`);
+  const ok = await gkTeleport({ text: tcGkText(k), noTownCmd: true }, `${why} (gatekeeper: no .townname on this server)`);
+  if (ok && leadMode() && isLeader() && teamNames().length && !state.inTownWait) {
+    state.inTownWait = true;
+    try { App.emit('swarm.lead.hub', { leader: Me.Name, town: k }); await waitForTeamHere(`after the gatekeeper to ${k}`); } finally { state.inTownWait = false; }
+  }
+  return ok;
+}
 let lastTownCmd = 0;
 async function townCommand(why, wantTown) {
   if (isLeader()) pairsTravelStop(`.town: ${String(why || '').slice(0, 50)}`);   // PAIRSGATE (2026-10-09 17:55)
   const opts = arguments[2] || {};                   // { noHold } (ORDERSTICK orderTownTrip); kept out of the signature (source checks of other tests)
   standUp();
   await settleAfterPort();
-  if (!CONFIG.town.enabled || Me.IsDead || now() - lastTownCmd < CONFIG.town.minGapMs) return false;
+  if (Me.IsDead) return false;
+  if ((!CONFIG.town.enabled || tcMode() === 'gatekeeper') && !supplyHoldsTeam()) return await townByGatekeeper(why, wantTown, opts);   // TOWNMODE-2026-10-17
+  if (now() - lastTownCmd < CONFIG.town.minGapMs) return false;
   if (supplyHoldsTeam()) { note(`town: NOT using .town (${why}) — the supply run holds the team in ${CONFIG.lead.hub} until it ends`); gkFail = 'the supply run holds the team in Giran'; return false; }
   lastTownCmd = now();
   const start = { x: Me.X, y: Me.Y };
@@ -7952,7 +8090,7 @@ async function townCommand(why, wantTown) {
   const cands = Object.keys(TOWN_CMD).filter(k => !townCmdBad.has(TOWN_CMD[k]) && (!opts.only || k === wantTown))   // D14: opts.only = that town or nothing (never another town reported as success)
     .map(k => ({ k, d: Math.hypot(TOWN_LAND[k][0] - Me.X, TOWN_LAND[k][1] - Me.Y) }))
     .sort((a, b) => (b.k === wantTown) - (a.k === wantTown) || a.d - b.d).slice(0, 3);
-  if (!cands.length) return false;
+  if (!cands.length) return await townByGatekeeper(why, wantTown, opts);   // TOWNMODE: every command answered "Usage" -> the gatekeeper
   // opts.noHold: the caller (ORDERSTICK orderTownTrip) just ran its own hold for this port
   if (isLeader() && !why.startsWith('!town') && !opts.noHold && !/alone inside/.test(why) && !ESC.on && (await teamRegroupBeforePort(`.${TOWN_CMD[cands[0].k]}`, cands[0].k)) === 'interrupted') return false;   // the party comes along: regroup first
   stopCombatG(); try { Send.StopMove(); } catch (e) { }
@@ -7973,6 +8111,7 @@ async function townCommand(why, wantTown) {
       }
       const ok = Math.hypot(Me.X - start.x, Me.Y - start.y) >= 3000;
       const said = lastSysMsg && lastSysMsg.at >= asked ? lastSysMsg.text : '';
+      tcRecord({ ok, refused: !!said || Me.IsDead || Me.IsInCombat || now() - lastAttackerOnMe.at < 8000 || townCmdBad.has(TOWN_CMD[c.k]) });   // TOWNMODE: learn whether the server knows .townname
       // a .town that did not move us while we see NPCs: the server froze our position (2026-10-06 05:53 Tank1 in Giran after a supply
       // hand-out: every walk and .dion ignored, 45 NPCs visible) -> Appearing, the documented unfreeze (6d)
       if (!ok && !townCmdBad.has(TOWN_CMD[c.k]) && !Me.IsDead) sendAppearing('.town did not move me');
@@ -7994,6 +8133,7 @@ async function townCommand(why, wantTown) {
       }
       if (!townCmdBad.has(TOWN_CMD[c.k])) break;  // a real refusal (combat, karma…): the next town won't work either
     }
+    if (tcMode() === 'gatekeeper') { if (isLeader()) flushJoinTown('', false); return await townByGatekeeper(why, wantTown, opts); }   // TOWNMODE: just learned the server has no .townname
     if (isLeader()) flushJoinTown('', false);                          // TOWNFIRST: my port failed - nobody leaves
     trapCheck(`.${TOWN_CMD[cands[0].k]} refused (${why})`);            // TRAPPED: same spot + .town refused for minutes -> the escape procedure
     return false;
@@ -27202,6 +27342,10 @@ async function travelToSpot(spot) {
   // Leader design (2026-10-04): every trip to a hunting spot starts with a regroup in Giran; from there the leader teleports the team
   // a room on the dungeon floor we stand on: walk there (2026-10-08 19:55: Crafter1 went .giran from Cruma floor 1 to reach another floor-1 room)
   const sameFloorRoom = (() => { try { return roomSameFloor(dungeonRooms(), spot, { x: Me.X, y: Me.Y, z: Me.Z }); } catch (e) { return false; } })();
+  // INSIDE THE DUNGEON ALREADY (Discord 2026-10-17, a public user: "standing IN the room on ToI 5 I pick a 5th floor room and it sends them back to town";
+  // the Giran check came before the floor-teleporter walk, and ToI floors lie > 6000 apart on the map): a room of the dungeon I stand in = no Giran,
+  // the floor walk / teleporters from here (multiRoomMove, as the dashboard room lists already did) — every way a room is picked (Level, plan, list)
+  if (spot.room && !sameFloorRoom && !spot.multiMove) { try { const w = dzFloor(dungeonRooms(), Me.X, Me.Y, Me.Z); if (w && w.d && w.fi >= 0 && w.d.name === spot.room.dungeon) { spot.noHub = true; spot.multiMove = true; note(`travel: already inside ${w.d.name} — walking to ${spot.name} from here (no Giran)`, !autoLvl.solo); } } catch (e) { } }
   // A NEWER DASHBOARD CHOICE STOPS THIS TRIP (user 2026-10-08 21:25): checked after every long wait (Giran regroup + supply run, gather)
   // and before every teleport; the autolevel loop then picks the chosen spot at once (manualSw.pending)
   // QUESTWALK-2026-10-12: a quest took the character during the trip -> stop at the next step (it went on to .oren + the Clarissa click before)
@@ -37522,7 +37666,9 @@ globalThis.OnSay = (charName, text, messageType) => {
 
 function handleSay(charName, text, messageType) {
   const parts = text.trim().split(/\s+/);
-  const cmd = parts[0].toLowerCase();
+  // TOWNMODE TEST (owner 2026-10-17: "can you test out of dungeon or hunting area"): !towngk <town> = !town, with this window acting as if the
+  // server had no .townname for 10 min (gatekeepers, a Scroll of Escape out of a dungeon); other parties are not affected
+  const cmd = (() => { const c0 = parts[0].toLowerCase(); if (c0 !== '!towngk') return c0; TCH.forceUntil = now() + 600000; note(`!towngk: testing the town trip WITHOUT .townname for 10 min (gatekeepers / Scroll of Escape)`, true); return '!town'; })();
 
   // !ready må komme fra destroyers — resten kun fra lederen
   if (cmd === '!ready') {
