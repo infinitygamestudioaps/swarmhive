@@ -111,7 +111,7 @@ async function loadTerrain(me) {
     const under = me.z < -4500;
     const r = under ? 2400 : 4000, step = under ? 16 : 32;
     // never wait forever (owner 2026-10-17: "stuck at Loading the ground"): 20 s, then the next state tick asks again
-    const T = await Promise.race([new Promise((_, no) => setTimeout(() => no(new Error('no answer in 20 s — trying again')), 20000)), api(`/api/view3d/terrain?x=${Math.round(me.x)}&y=${Math.round(me.y)}&z=${Math.round(me.z)}&r=${r}&step=${step}`)]);
+    const T = await Promise.race([new Promise((_, no) => setTimeout(() => no(new Error('no answer in 20 s — trying again')), 20000)), api(`/api/view3d/terrain?x=${Math.round(me.x)}&y=${Math.round(me.y)}&z=${Math.round(me.z)}&r=${r}&step=${step}${under ? '' : '&flat=' + (await hasBuildings(me, r) ? 1 : 0)}`)]);
     if (!T || T.error || !R) { setMsg('Could not read the ground: ' + ((T && T.error) || 'no answer')); return; }
     const raw = (b64, Ctor) => { const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new Ctor(u8.buffer); };
     T.H = raw(T.h, Int16Array); T.W = raw(T.w, Uint8Array);
@@ -615,6 +615,8 @@ async function setupModels() {
 // ---- buildings (owner 2026-10-17: "I miss all the buildings in all towns"): the map's StaticMeshActors around, one shared model per kind,
 // drawn as instances; exported from the player's own client on first use (Dashboard/l2models_api.js), closest first, 4 at a time ----
 const BLD = { group: null, gen: 0 };
+/** are there real building models around (baked tiles with pieces)? then the ground is flattened under them (no walk-data walls) */
+async function hasBuildings(me, r) { try { const d = await api(`/api/l2model/tiles?x=${Math.round(me.x)}&y=${Math.round(me.y)}&r=${Math.round(r)}`); return (d.tiles || []).some(t => t.pieces > 20); } catch (e) { return false; } }
 // BAKED TILES (owner 2026-10-17: "cache it all ... load instant ... 1-2 draw calls"): above ground every 8192 tile is ONE mesh + ONE atlas,
 // baked once on the server (docs/plan/tools/l2bake.js) and cached by the browser for good; tiles stay loaded while you move (max 9)
 const TILES = { map: new Map(), busy: false, gen: 0 };

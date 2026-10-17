@@ -2,6 +2,30 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.9 (2026-10-17)
+
+- Start fix for public installs (the Start task / dashboard Start no longer aborts with AutoStart list in settings.xml looks wrong when your AutoStart list does not hold the main leader
+- swarm.config.json accounts are logged in too)
+- L2Swarm 3.9.3 support (3.9 refuses account files whose combat skill fields are in the old order
+- the combat profile editor writes the new order)
+- user task first (an item job / dispatch / crystallize you start is never interrupted by stash, hand-overs, letters, crafting or other automations)
+- Special Ability exchange picks the right list at the blacksmith
+- item job walks in Giran retry
+- loot hand-over waits while the receiver runs your task
+- 3D view ground flattened under trees and towns
+- release build runs at below-normal priority.
+
+## v1.8.8 (2026-10-17)
+
+- L2Swarm 3.9.3 support (3.9 refuses account files whose combat skill fields are in the old order
+- the combat profile editor writes the new order)
+- user task first (an item job / dispatch / crystallize you start is never interrupted by stash, hand-overs, letters, crafting or other automations)
+- Special Ability exchange picks the right list at the blacksmith
+- item job walks in Giran retry
+- loot hand-over waits while the receiver runs your task
+- 3D view ground flattened under trees/towns
+- release build runs at below-normal priority so the bots are not starved.
+
 ## v1.8.7 (2026-10-17)
 
 - 3D view: buildings load instantly (every area is baked once into one model + one texture atlas, one draw call, cached by the browser)

@@ -159,6 +159,16 @@
     return { src: i, id: s.id, name: s.name, needTarget: s.needTarget, mp: s.mp, range: s.range, enabled: bool(txt(n, 'IsEnabled')), repeat: bool(txt(n, 'IsRepeat')),
       repeatDelay: intOr(txt(n, 'RepeatDelaySeconds'), 0), groups: g };
   }
+  /** L2SWARM 3.9 (2026-10-17: 40 accounts refused at login, "does not match the internal schema"): inside a CombatSkill the basic part
+   *  (Skill, IsEnabled, IsRepeat, RepeatDelaySeconds) must come before the advanced part (isAdvanced, AdvCombatType ...); 3.8 wrote
+   *  isAdvanced before IsRepeat. RepeatDelaySeconds 0 (the default) is left out. */
+  function order39(n) {
+    const take = (name) => { const i = n.c.findIndex(c => c.n === name); return i >= 0 ? n.c.splice(i, 1)[0] : null; };
+    const rd = take('RepeatDelaySeconds'), rp = take('IsRepeat'), ia = take('isAdvanced');
+    let at = n.c.findIndex(c => c.n === 'IsEnabled'); if (at < 0) at = n.c.findIndex(c => c.n === 'Skill');
+    const ins = [rp, rd && String(rd.t || '0') !== '0' ? rd : null, ia].filter(Boolean);
+    n.c.splice(at + 1, 0, ...ins);
+  }
   function combatSkillNode(m, old) {
     const putIf = old ? putIfOld : put;   // new entries get every field; L2Swarm's own entries keep "missing stays missing"
     const n = old ? clone(old) : { n: 'CombatSkill', a: { 'xsi:type': 'CombatSkillAdv' }, c: [] };
@@ -180,6 +190,7 @@
       put(n, 'AdvCombatValue', intOr(first.value, 0), ['ConditionGroups']);
       put(n, 'AdvCombatDistance', intOr(first.distance, 0), ['AdvCombatValue']);
     }
+    order39(n);
     return n;
   }
   function autoSkillModel(n, i) {

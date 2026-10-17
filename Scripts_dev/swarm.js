@@ -11232,7 +11232,7 @@ async function kitBuyRun(ids, why) {
     try {
       for (const k of Object.keys(groups)) {
         const G = groups[k];
-        if (!(await giranGo(G.offer.route))) { G.rows.forEach(r => res.push(`${r.name}: could not walk the Giran route '${G.offer.route}'`)); continue; }
+        if (!(await ijGiranGo(G.offer.route))) { G.rows.forEach(r => res.push(`${r.name}: could not walk the Giran route '${G.offer.route}'`)); continue; }
         let npc = null; const names = [G.offer.npc].concat(G.offer.alt || []); try { snapNpcs().forEach(n => { if (!npc && names.includes(n.Name)) npc = n.ref; }); } catch (e) { }
         if (!npc) { G.rows.forEach(r => res.push(`${r.name}: ${names.join(' / ')} not found`)); continue; }
         for (const r of G.rows) {
@@ -11420,7 +11420,7 @@ async function ijBuy(id, jid) {
   const offer = offers[0];
   const before = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === id) before.add(num(i.objId)); }); } catch (e) { }
   ijStatus(jid, null, `walking to ${offer.npc} (Giran ${offer.route})`);
-  if (!(await giranGo(offer.route))) return { ok: false, why: `could not walk the Giran route '${offer.route}'` };
+  if (!(await ijGiranGo(offer.route))) return { ok: false, why: `could not walk the Giran route '${offer.route}'` };
   let npc = null; const names = [offer.npc].concat(offer.alt || []); try { snapNpcs().forEach(n => { if (!npc && names.includes(n.Name)) npc = n.ref; }); } catch (e) { }
   if (!npc) return { ok: false, why: `${names.join(' / ')} not found` };
   let sh = await scanClick(npc, offer.path, true);
@@ -11478,7 +11478,7 @@ function msDump(pages, why) {
 async function ijSA(sa, weaponObjId, jid) {
   const wid = num(sa.weapon), ench = enchLevelOf(weaponObjId);
   ijStatus(jid, null, `walking to the blacksmith Pushkin (Giran)`);
-  if (!(await giranGo('blacksmith'))) return { ok: false, why: 'could not walk the Giran route to the blacksmith' };
+  if (!(await ijGiranGo('blacksmith'))) return { ok: false, why: 'could not walk the Giran route to the blacksmith' };
   let npc = null; try { snapNpcs().forEach(n => { if (!npc && /^(Pushkin|Mendio)$/.test(String(n.Name))) npc = n.ref; }); } catch (e) { }
   if (!npc) try { snapNpcs().forEach(n => { if (!npc && /blacksmith/i.test(String(n.Title || ''))) npc = n.ref; }); } catch (e) { }
   if (!npc) return { ok: false, why: 'no blacksmith in sight' };
@@ -11489,7 +11489,10 @@ async function ijSA(sa, weaponObjId, jid) {
     let html = await openNpc(npc); savePage('sa_blacksmith', html || '');
     for (let depth = 0; depth < 4 && html && !MSL.pages.length; depth++) {
       const L = npcLinks(String(html || ''));
-      const link = L.find(l => /special abilit|bestow|weapon.*abilit|soul crystal/i.test(l.text)) || null;
+      // 2026-10-17 (Dagger1's Homunkulus's Sword: Pushkin's 2nd page also lists "Bestow the special S-grade weapon some abilities" - that
+      // S-grade list opened, empty for a C-grade sword): after the first click take "View list" first; S / A-grade SA links only for those grades
+      const isSA = (t) => /special abilit|bestow|weapon.*abilit|soul crystal/i.test(t) && !/\b[SA]-grade\b/i.test(t);
+      const link = (depth > 0 && L.find(l => /^\s*(view|see) (the )?list/i.test(l.text))) || L.find(l => isSA(l.text)) || null;
       if (!link) { savePage('sa_blacksmith' + depth, html || ''); return { ok: false, why: `no "special ability" link at ${npc.Name}: ${L.map(l => l.text).join(' | ').slice(0, 200)}` }; }
       const nx = await dlgPage(link, 2500, npc.Name, { expect: ['npc', 'multisell', 'shop'] });
       const t0 = now(); while (!MSL.pages.length && now() - t0 < 2500) await sleep(150);
@@ -12437,6 +12440,8 @@ function giranRoutes() {
   return giranRoutesCache;
 }
 /** place: 'start' | 'grocer' | 'warehouse' | 'weapons' | 'jewelry' | 'armor' | 'blacksmith'. true when standing at the end of it. */
+/** an item job's Giran walk: up to 3 tries (another task can interrupt a walk; the job itself holds the character) */
+async function ijGiranGo(place) { for (let i = 0; i < 3; i++) { if (await giranGo(place)) return true; if (currentTownKey() !== 'Giran') return false; await sleep(1500); } return false; }
 async function giranGo(place) {
   await settleAfterPort();
   const G = giranRoutes(), R = G.routes || {};
@@ -19769,6 +19774,8 @@ function stashWanted() {   // STORAGE-2026-10-13: my own settings (auto + trigge
 /** is an automatic store due for me now? o = { inSupply, inTown, force } -> { due, why, set } */
 function stashDueMine(o) {
   const set = stashSettingsMine();
+  // ONE OWNER (owner 2026-10-17: Dagger1's Special Ability job stopped - the automatic stash took him to the warehouse mid-walk)
+  { const u = userTaskWhy(); if (u) return { due: false, why: u + ' runs', set }; }
   const d = stashTriggerDue(set, Object.assign({ bag: num(Inventory.Count), load: num(Me.Load), maxLoad: num(Me.MaxLoad), lastAt: STASH.lastAt, now: now() }, o || {}));
   return Object.assign(d, { set });
 }
@@ -20347,6 +20354,7 @@ function hovBag() {
 function hovBusyWhy() {
   try {
     if (Me.IsDead) return 'dead';
+    { const u = typeof userTaskWhy === 'function' ? userTaskWhy() : ''; if (u) return u; }   // USER TASK FIRST (2026-10-17: Tank1's loot trade blocked Dagger1 at Pushkin mid SA job): givers wait
     if (inRaid()) return 'in a raid';
     if (inKamaInstance()) return 'in Kamaloka';
     if (state.mode === 'mission') return 'on a mission';
@@ -20725,9 +20733,20 @@ function clanHandHereExtra() {
     idle: !autoLvl.active && !control.owner && !userOrder.name && !qp && !HOV.busy && !Me.IsDead };
 }
 /** '' = free for the automatic clan item hand-over; else why not */
+/** USER TASK FIRST (owner 2026-10-17: "the character HAS TO finish the task. Other tasks will then wait."): a task the owner started on this
+ *  character (item job, dispatch, crystallizing) holds it until it ends; every automatic task waits (runAuto + clanHandBusyWhy + the stash) */
+function userTaskWhy() {
+  try {
+    if (typeof IJ !== 'undefined' && IJ.busy) return 'your item job ' + IJ.busy;
+    if (typeof DSP !== 'undefined' && DSP.busy) return 'your dispatch ' + DSP.busy;
+    if (typeof CRY !== 'undefined' && CRY.busy) return 'your crystallize order';
+  } catch (e) { }
+  return '';
+}
 function clanHandBusyWhy() {
   try {
     if (Me.IsDead) return 'dead';
+    { const u = userTaskWhy(); if (u) return u; }
     if (rcTeamHolds()) return 'the raid circuit owns the party (24/7)';   // CIRCUIT 24/7 (2026-10-13): no clan item hand-over walks
     if (inRaid()) return 'in a raid';
     if (inKamaInstance() || (inst && inst.on)) return 'in an instance';
@@ -35135,6 +35154,8 @@ function runHeld(n) {
 /** the gate of every AUTOMATIC task: false = the switch is OFF (noted once per 10 min per kind, never in party chat) */
 function runAuto(kind) {
   const e = runMine();
+  // USER TASK FIRST: survival / trades / orders still run, every automatic task waits until the owner's task is done
+  if (!RUN_ALWAYS.test(String(kind || ''))) { const u = typeof userTaskWhy === 'function' ? userTaskWhy() : ''; if (u) { if (now() - (RUNST.said['u:' + kind] || 0) > 300000) { RUNST.said['u:' + kind] = now(); note(`waiting: no automatic ${kind} while ${u} runs`); } return false; } }
   if (collectorOn()) { if (RUN_ALWAYS.test(String(kind || '')) || COLLECTOR_KINDS.test(String(kind || ''))) return true; if (now() - (RUNST.said['c:' + kind] || 0) > 600000) { RUNST.said['c:' + kind] = now(); note(`collector: no automatic ${kind} — I stay in town (dashboard Storage page -> Collector)`); } return false; }   // COLLECTOR
   if (runAutoAllowed(kind, e)) return true;
   if (now() - (RUNST.said[kind] || 0) > 600000) { RUNST.said[kind] = now(); note(`run switch OFF: no automatic ${kind} — ${e.held ? 'this character is stopped' : 'the party is stopped'} (dashboard Start switches it on)`); }

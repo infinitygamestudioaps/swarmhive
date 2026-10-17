@@ -159,8 +159,25 @@ function Brake-Reopen {
     } finally { Release-StartLock }
 }
 function AutoStartOk {
-    $xml = Get-Content "$root\Settings\settings.xml" -Raw
-    ($xml -match [regex]::Escape($SwarmMainConfig)) -and ($xml -notmatch 'AutoStartEntry[^>]*(OldTank|OldHeal|OldMage)')
+    # Only refuses what is really wrong: L2Swarm once rewrote AutoStart with the owner's retired mage team (OldTank / OldHeal / OldMage).
+    # A missing main-leader config is NOT a reason to refuse any more (public users, Discord 2026-10-17: "start ABORTED: AutoStart list in
+    # settings.xml looks wrong" with a valid list of their own): it only gets a log line; Start-L2 also logs in swarm.config.json's accounts.
+    $sx = "$root\Settings\settings.xml"
+    if (-not (Test-Path $sx)) { return $true }
+    $xml = Get-Content $sx -Raw
+    if ($xml -match 'AutoStartEntry[^>]*(OldTank|OldHeal|OldMage)') { return $false }
+    if ($SwarmMainConfig -and ($xml -notmatch [regex]::Escape($SwarmMainConfig))) { Log $ctlLog "start: note - $SwarmMainConfig is not in L2Swarm's AutoStart list (logging in that list + the swarm.config.json accounts)" }
+    $true
+}
+function ConfigAccounts {
+    # swarm.config.json accounts with autoStart (default true) and a config file that exists -> full paths
+    $out = @()
+    try { foreach ($a in @(SwarmCfgValue $SwarmCfg 'accounts' @())) {
+        if (-not $a -or -not $a.config -or $a.autoStart -eq $false -or $a.enabled -eq $false) { continue }
+        $p = if ([IO.Path]::IsPathRooted([string]$a.config)) { [string]$a.config } else { Join-Path "$root\Settings" ([string]$a.config) }
+        if (Test-Path $p) { $out += $p }
+    } } catch { }
+    $out
 }
 function Stop-L2 {
     # Hard stop on purpose: a polite close (CloseMainWindow) pops L2Swarm's "are you sure?" dialog at whoever
@@ -198,7 +215,10 @@ function Start-L2 {
     # this script opens the configs one by one through MCP, $loginGapSec apart, in the AutoStart order (Tank1 first).
     $sx = "$root\Settings\settings.xml"
     $xml = Get-Content $sx -Raw
-    $configs = [regex]::Matches($xml, 'AutoStartEntry configPath="([^"]+)"') | ForEach-Object { $_.Groups[1].Value }
+    $configs = @([regex]::Matches($xml, 'AutoStartEntry configPath="([^"]+)"') | ForEach-Object { $_.Groups[1].Value })
+    # swarm.config.json accounts are logged in too, after the AutoStart list (2026-10-17, public users)
+    $have = @($configs | ForEach-Object { (Split-Path $_ -Leaf).ToLower() })
+    foreach ($c in @(ConfigAccounts)) { if ($have -notcontains (Split-Path $c -Leaf).ToLower()) { $configs = @($configs) + $c; $have += (Split-Path $c -Leaf).ToLower() } }
     # Settings\start_extra.txt: extra config paths (one per line) logged in after the AutoStart list â€” new academy accounts added on the
     # dashboard (2026-10-07; settings.xml is not touched while L2Swarm runs, it saves its own copy from memory)
     $extraFile = "$root\Settings\start_extra.txt"

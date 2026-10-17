@@ -15,7 +15,7 @@ const STATIC = { '/view3d.js': ['view3d.js', 'application/javascript; charset=ut
   '/vendor/three.module.min.js': ['vendor/three.module.min.js', 'application/javascript; charset=utf-8', 'public, max-age=604800'], '/vendor/OrbitControls.js': ['vendor/OrbitControls.js', 'application/javascript; charset=utf-8', 'public, max-age=604800'] };
 /** the ground grid: n x n cells of `step` units around (x, y), following the layers outward from height z (breadth first, each cell takes the
  *  layer nearest its parent's height, a step up / down of more than `maxJump` = no link) */
-function terrain(G, x, y, z, r, step) {
+function terrain(G, x, y, z, r, step, opts) {
   const n = Math.max(8, Math.min(320, Math.round((2 * r) / step)));
   const x0 = Math.round(x - (n * step) / 2), y0 = Math.round(y - (n * step) / 2);
   const h = new Int16Array(n * n).fill(HOLE), w = new Uint8Array(n * n), seen = new Uint8Array(n * n);
@@ -67,6 +67,21 @@ function terrain(G, x, y, z, r, step) {
       if (src[k] - med > 100 && high <= 9) h[k] = med;
     }
   }
+  // TOWNS WITH REAL BUILDINGS (owner 2026-10-17, Giran: "walls that do not exist in the game ... pillars of the church"): the walk data stores
+  // building walls / pillars as raised ground; where the real building models are drawn (flat=1) every cell more than 120 above the low ground
+  // of its 9x9 neighbourhood (its 20 % height) is lowered to it - the buildings themselves show the shapes
+  if (!under && opts && opts.flat) {
+    const src = Int16Array.from(h), win = [];
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+      const k = j * n + i; if (src[k] === HOLE) continue;
+      win.length = 0;
+      for (let dj = -8; dj <= 8; dj += 2) for (let di = -8; di <= 8; di += 2) { const a = i + di, b2 = j + dj; if (a < 0 || b2 < 0 || a >= n || b2 >= n) continue; const v = src[b2 * n + a]; if (v !== HOLE) win.push(v); }
+      if (win.length < 12) continue;
+      win.sort((p, q) => p - q);
+      const low = win[Math.floor(win.length * 0.1)];
+      if (src[k] - low > 120) h[k] = low;
+    }
+  }
   return { x0, y0, step, n, h, w };
 }
 // REPLAY (step 2): every 2 s one frame of every character (position, HP / MP, dead, the current cast, the target position, party), the last
@@ -104,7 +119,7 @@ async function handle(req, res, url, ctx) {
     const r = Math.max(500, Math.min(6000, q('r', 3000))), step = Math.max(16, Math.min(128, Math.round(q('step', 32) / 16) * 16));
     const t0 = Date.now();
     try {
-      const T = terrain(geo(ctx), x, y, z, r, step);
+      const T = terrain(geo(ctx), x, y, z, r, step, { flat: url.searchParams.get('flat') === '1' });
       ctx.json(res, 200, { x0: T.x0, y0: T.y0, step: T.step, n: T.n, z, h: Buffer.from(T.h.buffer).toString('base64'), w: Buffer.from(T.w.buffer).toString('base64'), ms: Date.now() - t0 });
     } catch (e) { ctx.json(res, 500, { error: e.message }); }
     return true;
