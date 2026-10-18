@@ -5465,6 +5465,19 @@ const DLG = dlgEngine({ now: () => now(), sleep: (ms) => sleep(ms), setTimeout: 
   action: (id) => Send.Action(id), bypass: (cmd) => Send.ReqBypassToServer(cmd, true),
   links: (html, board) => board ? pageActions(String(html || '')).map(a => ({ cmd: a.cmd, text: a.label })) : npcLinks(String(html || '')),
   text: (html) => htmlText(String(html || '')), log: dlgLog });
+// FRONTNPC-2026-10-18 (owner, HIGHEST PRIORITY: "you MUST stand right in front of an NPC to talk to it"): every DLG.open first walks the
+// character to a spot ~80 in front of the NPC (my side of it, walked path); only then the talk. Dagger1 15:43: a buy from 1900 away was refused.
+{ const openRaw = DLG.open; DLG.open = async (npc, o) => { try { await standInFrontOf(npc); } catch (e) { } return openRaw(npc, o); }; }
+async function standInFrontOf(npc) {
+  const ref = npc && (npc.ref || npc); if (!ref) return;
+  const x = num(ref.X), y = num(ref.Y), z = num(ref.Z);
+  if (!isFinite(x) || !isFinite(y) || (!x && !y)) return;                 // position unknown: the engine opens as before
+  if (Math.hypot(x - Me.X, y - Me.Y) <= 120) return;
+  const a = Math.atan2(Me.Y - y, Me.X - x), tx = Math.round(x + Math.cos(a) * 80), ty = Math.round(y + Math.sin(a) * 80);
+  await walkTo(tx, ty, z || Me.Z, 60, 45000);
+  try { Send.StopMove(); } catch (e) { }
+  if (Math.hypot(x - Me.X, y - Me.Y) > 250) note(`could not get in front of ${ref.Name || 'the NPC'} (${Math.round(Math.hypot(x - Me.X, y - Me.Y))} away)`);
+}
 /** CLICK + WAIT_RESULT for one link -> its page html | null (DLG.last says why). link = { cmd, text } | a bypass string.
  *  o.reclick: true only for links whose answer is certain (menus); never for an action (a confirm, a toggle, "give me ...") */
 async function dlgPage(link, ms, from, o) {
@@ -11982,6 +11995,11 @@ async function ijBuyAt(o, id, count, jid) {
   try { await townWalkToNpc(atl, { solo: true, atlasFirst: true }); } catch (e) { }
   let npc = null, bd = 900; try { snapNpcs().forEach(n => { if (String(n.Name) === o.npc) { const d = Math.hypot(n.X - atl.x, n.Y - atl.y); if (d < bd) { bd = d; npc = n.ref; } } }); } catch (e) { }
   if (!npc) return { ok: false, why: `${o.npc} not in sight` };
+  // NEARBUY-2026-10-18 (Dagger1 15:43: the walk to Stanford ended 1900 short, the shop page still opened but the server refused the buy
+  // silently): next to the merchant first (wall-checked walk), never a buy from far away
+  { const dn = () => Math.hypot(num(npc.X) - Me.X, num(npc.Y) - Me.Y);
+    if (dn() > 250) { ijStatus(jid, null, `${o.npc} is ${Math.round(dn())} away - walking up to him first`); try { await walkTo(num(npc.X), num(npc.Y), num(npc.Z), 150, 45000); } catch (e) { } }
+    if (dn() > 400) return { ok: false, why: `could not get next to ${o.npc} (${Math.round(dn())} away)` }; }
   const objs = () => { const s = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === num(id)) s.add(num(i.objId)); }); } catch (e) { } return s; };
   const before = objs(), c0 = bagCount(id), a0 = itemCount(57);
   const r = await gscanClick(npc, o.path || [], true);
@@ -16352,6 +16370,7 @@ function raidCursed(b) {
     if (tMax > cl + 8) { note(`raid ${b.name}: ${who} is level ${tMax}, more than 8 above the boss or its minions (lowest ${cl}) — raid curse, skipping it`, true); raidEvent(`SKIP: raid curse (${who} lvl ${tMax} vs lowest ${cl})`); return true; } }
   return false;
 }
+const RAIDREADY = { dist: 0, extra: 600, near: 600, dz: 250, waitMs: 120000 };   // dist 0 = CONFIG.mission.stageDist + extra (the team STAGES ~1500 from the boss)   // PULLGATE2-2026-10-18: the damage dealers' fighting range to the boss before any pull
 async function raidCountdown(b, runId) {
   await waitForTeamHere(`raid start: ${b.name}`);
   if (!(await jointGate(b, runId))) return false;          // joint raid: the main leader gathers the parties, the others wait for his GO
@@ -16367,7 +16386,36 @@ async function raidCountdown(b, runId) {
       if (!regroupAlive(runId)) return false;
       const members = teamNames().map(n => { const lp = livePos[n]; return { name: n, healer: !!(lp && lp.healer) || HEALER_ROLES.test(String((CONFIG.roster || {})[n] || '')), online: !!(lp && now() - (lp.at || 0) < 15000), alive: !(lp && lp.IsDead), d: lp ? Math.hypot(num(lp.X) - Me.X, num(lp.Y) - Me.Y) : NaN, benched: benched(n) }; });
       const g = mtPullGate({ waited: now() - t1, members });
-      if (g.act === 'pull') { if (g.missing.length) note(`raid ${b.name}: ${g.line}`, true); break; }
+      if (g.act === 'pull') {
+        if (g.missing.length) note(`raid ${b.name}: ${g.line}`, true);
+        // PULLGATE2-2026-10-18 (owner: "How can they start a raid if the damage dealers are not there? I thought we had an explicit rule"):
+        // Lidia (in her well, z -2880): the team stood 1300-1700 away on the ground above and could not get closer, the tank pulled alone and
+        // died. Now every living damage dealer must stand within RR2.dist of the BOSS (and within RR2.dz in height) before the
+        // countdown; 2 min to get there (party chat says who), else this boss is skipped as unreachable for the dealers.
+        const RR0 = typeof RAIDREADY !== 'undefined' ? RAIDREADY : { dist: 0, extra: 600, near: 600, dz: 250, waitMs: 120000 };
+        const RR2 = Object.assign({}, RR0, { dist: RR0.dist || ((num((CONFIG.mission || {}).stageDist) || 1500) + (RR0.extra || 600)) });
+        const bm = (() => { try { return findMobByName(b.name, 4000); } catch (e) { return null; } })();
+        const bx = bm ? num(bm.X) : num(b.x), by = bm ? num(bm.Y) : num(b.y), bz = bm ? num(bm.Z) : num(b.z);
+        const far = () => teamNames().filter(n => { const lp = livePos[n]; if (!lp || lp.IsDead || benched(n) || now() - (lp.at || 0) > 15000) return false;
+          if (lp.healer || HEALER_ROLES.test(String((CONFIG.roster || {})[n] || ''))) return false;
+          // PULLGATE3-2026-10-18 (Ereve: the stage spot of a fight area is ~2400 out, so a distance-to-the-boss rule skipped a normal raid): a dealer
+          // must stand WITH the leader (the staging spot, within RR2.near) and at the boss's HEIGHT (Lidia: the team ~320 above her well = blocked)
+          return Math.hypot(num(lp.X) - Me.X, num(lp.Y) - Me.Y) > RR2.near || (isFinite(bz) && bz && Math.abs(num(lp.Z) - bz) > RR2.dz); });
+        let f0 = far();
+        if (f0.length) {
+          const t2 = now(); let said2 = 0;
+          SayToParty(`[raid] ${b.name}: no pull yet - ${f0.join(', ')} not with me at the boss's height (come within ${RR2.near} of me)`.slice(0, 250));
+          while (regroupAlive(runId) && f0.length && now() - t2 < RR2.waitMs) { await sleep(3000); f0 = far(); if (f0.length && now() - said2 > 30000) { said2 = now(); try { App.emit('swarm.rescue', { to: { x: bx, y: by, z: bz }, why: 'raid fighting range' }); } catch (e) { } } }
+          if (!regroupAlive(runId)) return false;
+          if (f0.length) {
+            const why = `the damage dealers cannot reach ${b.name} (${f0.join(', ')} not with me at the boss's height)`;
+            SayToParty(`[raid] ${why} - not pulling, next boss`.slice(0, 250)); note(`raid ${b.name}: ${why}`, true); raidEvent(`SKIP: ${why}`); gkFail = why;
+            try { raidUnreachable(b.name); } catch (e) { }
+            return false;
+          }
+        }
+        break;
+      }
       if (g.act === 'skip') {
         SayToParty(`[raid] ${b.name}: ${g.line}`.slice(0, 250)); note(`raid ${b.name}: ${g.line}`, true); raidEvent(`SKIP: ${g.line}`);
         gkFail = g.line;
@@ -20040,6 +20088,9 @@ const COLLT = { farSince: 0, said: 0 };
 setInterval(async () => {
   try {
     if (!state.role || !IsCharacterReady() || Me.IsDead || !collectorOn()) return;
+    // USERFIRST-COLLECTOR-2026-10-18 (Dagger1 14:25: "store the bag" put back the crystals his item job had just taken out; the job waited
+    // forever): the collector chores (back to town / start, sell, store the bag) wait while the owner's task runs on me
+    { const u = typeof userTaskWhy === 'function' ? userTaskWhy() : ''; if (u) return; }
     if (autoLvl.active && !autoLvl.stop) { autoLvl.stop = true; note('collector: leveling stopped — I stay in town', true); }
     if (control.owner || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || STASH.busy ||   /* ATLASTEST: never during a scout / route test trip */ (typeof WH !== 'undefined' && WH.busy) || tradeState || state.gkBusy || state.portPrep || (typeof TSELL !== 'undefined' && TSELL.busy) || (typeof WHS_RUN !== 'undefined' && WHS_RUN.on) || state.escaping) { COLLT.farSince = 0; return; }
     const C = collectorMine(), here = currentTownKey();
@@ -21616,6 +21667,7 @@ async function marketWalk(s, TD) {
 async function marketRead(s, waitMs) {
   mktHook();
   MKT.cap = []; const c0 = now();
+  try { await standInFrontOf({ X: s.x, Y: s.y, Z: s.z, Name: s.owner }); } catch (e) { }   // FRONTNPC: a private store = in front of its owner too
   try { Send.Action(s.objId); await sleep(350); Send.Action(s.objId); } catch (e) { }
   while (now() - c0 < (waitMs || 4500) && !MKT.cap.some(x => (marketParse(x.b) || {}).owner === s.objId)) await sleep(150);
   const got = MKT.cap.map(x => marketParse(x.b)).filter(x => x && x.owner === s.objId);
@@ -27180,6 +27232,7 @@ async function siegeEngrave(spec) {
     if (SIEGE.stop) { say('stopped (!siege stop)'); return; }
     for (let i = 0; i < 4 && !Me.IsDead && !SIEGE.stop && !SIEGE.artifact.done && !SIEGE.endMsgAt; i++) {
       const e = siegeNpc(A.npcId, A.x, A.y, 800); if (!e) { say('the artifact is not in view'); await sleep(3000); continue; }
+      try { await standInFrontOf(e); } catch (er) { }                  // FRONTNPC
       Send.Action(num(e.objId)); await sleep(500);
       const t1 = now(); Send.RequestMagicSkillUse(SIEGE.cfg.sealSkill); SIEGE.artifact.engraving = Me.Name;
       if (!isLeader() || !SIEGE.main) App.emit('swarm.siegenote', { msg: `artifact: ${Me.Name} engraving`, engraving: Me.Name });
@@ -29757,7 +29810,7 @@ async function raidHuntLoop(minL, maxL) {
 //   After every stashEvery kills (and when nothing is up): Giran, every member puts its loot into the CLAN warehouse (stash rules), on.
 //   Live plan: Logs/raidcircuit_<leader>.json (dashboard).
 // ==== RCIRCUIT-PURE begin (copied by docs/plan/tools/test_raid_circuit.js; no host objects in here)
-var RC_DEF = { on: false, bosses: [], order: 'list', clear: 'attackers', countdownS: 5, stashEvery: 1, stashBagAbove: 0, idle: 'town',
+var RC_DEF = { on: false, bosses: [], order: 'list', clear: 'attackers', countdownS: 10, stashEvery: 1, stashBagAbove: 0, idle: 'town',
   onWipe: 'continue', maxWipes: 2, recheckMin: 60, windowRecheckMin: 20, aliveFreshMin: 40, minRespawnH: 12, maxRespawnH: 24,
   skipFailH: 6, curseCheck: true };
 /** the effective circuit config of a party (file defaults + party entry over RC_DEF) */
@@ -34492,6 +34545,8 @@ setInterval(() => {
     lead: isLeader() ? Me.Name : CONFIG.leader,   // TEAMLEAD-2026-10-13: WHOSE party I am with (withLeader alone made party Jade count in party Yellow)
     fight: !!(now() - lastAttackerOnMe.at < 6000 || Me.IsInCombat || Me.IsAttacking || now() - hpWatch.dropAt < 6000),
     // PAIRSGATE (2026-10-09 17:55): REALLY in a fight = a monster hits ME / my HP drops (a teleport hold counts only these, never a fresh pull)
+    tid: (() => { try { const T = Target; return T && T.objId && (Me.IsAttacking || IsInCombat || Me.IsCasting) ? num(T.objId) : 0; } catch (e) { return 0; } })(),   // MINIONSKIP-2026-10-18
+    thp: (() => { try { const T = Target; const v = T ? Number(T.HpPercent) : NaN; return isFinite(v) ? Math.round(v * 10) / 10 : null; } catch (e) { return null; } })(),
     hit: !!((now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for) || now() - hpWatch.dropAt < 6000),
     atk: !!(now() - lastAttackerOnMe.at < 6000) }));   // DROWNFIGHT-2026-10-14: a creature really hits me (HP lost to drowning / falling / poison alone is NOT a fight)   // the leader never ports while someone fights or takes damage
 }, 3000);
@@ -34499,7 +34554,7 @@ App.on('swarm.pos', (event) => {
   const d = event.data;
   if (!d || !d.name) return;
   try { const src = event.source; if (src && src.accountId) posAcct[d.name] = String(src.accountId); } catch (e) { }
-  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, atk: d.atk === undefined ? undefined : !!d.atk, withLeader: !!d.withLeader, lead: d.lead ? String(d.lead) : '', low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, dlv: !!d.dlv, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
+  livePos[d.name] = { Name: d.name, objId: num(d.oid) || 0, X: d.x, Y: d.y, Z: d.z, IsDead: d.dead, at: now(), resSkill: !!d.resSkill, healer: !!d.healer, scrolls: d.scrolls || 0, fight: !!d.fight, hit: d.hit === undefined ? undefined : !!d.hit, atk: d.atk === undefined ? undefined : !!d.atk, tid: num(d.tid) || 0, thp: d.thp === null || d.thp === undefined ? null : num(d.thp), withLeader: !!d.withLeader, lead: d.lead ? String(d.lead) : '', low: d.low || '', deb: d.deb || [], hp: d.hp, mp: d.mp, role: d.role || '', frenzy: !!d.frenzy, shots: d.shots || null, lvl: d.lvl || 0, rescuing: d.rescuing || '', escaping: d.escaping || '', cls: num(d.cls) || 0, dlv: !!d.dlv, sur: d.sur || null, ab: d.ab || null, bufNeed: num(d.bufNeed) || 0 };
   try { if (livePos[d.name]) livePos[d.name].keys = Array.isArray(d.keys) ? d.keys : []; } catch (e) { }   // DUNGEON ENTRY ITEMS 2026-10-12
   try { if (livePos[d.name]) livePos[d.name].rk = d.rk && typeof d.rk === 'object' ? d.rk : null; } catch (e) { }   // RESURRECTION 2026-10-13: its res kit (resGather)
   rkRosterLearn(d.name, d.role);                // ROLE KINDS: a teammate's kind / auto role -> its token
@@ -34527,7 +34582,8 @@ function leaderHandPlayed() {
   if (now() - HANDLEAD.at < 30000) return HANDLEAD.v;
   HANDLEAD.at = now(); let v = false;
   try { const m = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Settings\\client_mode.json`)).replace(/^﻿/, '')) || {}; v = String(m[CONFIG.leader] || '').toLowerCase() === 'ingame'; } catch (e) { }
-  HANDLEAD.v = v; return v;
+  HANDLEAD.v = v;
+  return v && !(typeof runOn === 'function' && runOn());   // HANDLEAD-2: only while the party is switched OFF (raid hunt / Start = the bots lead, client open or not)
 }
 // HANDLEAD keeper (owner 11:55: "make sure it NEVER turns off again"): a hand-played leader = every member trails him with L2Swarm follow,
 // forced every 2 s (follow name + ActiveFollow on, bot on, no script route walk holding it off). Paused only while dead / trading.
@@ -34535,7 +34591,7 @@ setInterval(() => {
   try {
     if (isLeader() || !state.role || !leaderHandPlayed() || Me.IsDead || inRaid() || !IsCharacterReady()) return;
     let trading = false; try { trading = !!(tradeState || HOV.busy); } catch (e) { } if (trading) return;
-    if (memberRoute.id || memberRoute.pts) { memberRoute.id = null; memberRoute.pts = null; memberRoute.mt = false; }
+    if (memberRoute.mt && memberRoute.pts) return;                       // HANDLEAD-2: a team walk the leader started (an order) is never cancelled
     if (NNAV) NNAV.wantFollow = false;
     // HANDCATCH (owner 12:00: "rest of party should just follow the waypoints to leader under Baium"): far from the leader (> 1200 or another
     // floor) = walk the route waypoints (Scripts/data/hand_lead.json route, default raid:29020) from my nearest point to his, then follow again
@@ -39380,9 +39436,15 @@ setInterval(() => {
   if (raidFocus.id) { const fm = bossMinions(boss).find(m => m.objId === raidFocus.id); if (fm) { const hp = hpOf(fm), sn = FX.seen[fm.objId];
     // FOCUSFIX2-2026-10-13 (Repiro: the spellsingers stood still): 'no damage' only counts while the team may attack (full aggro / stuck off-tank);
     // while everybody holds for the tank, the minion naturally loses nothing - the old rule skipped every minion and the focus fell on the boss
-    const attacking = !!(fullAgg.full || fullAgg.stuck);
-    if (!sn || !attacking || (hp !== null && hp < sn.hp - 0.5)) FX.seen[fm.objId] = { hp: hp === null ? 101 : hp, at: now() };
-    else if (now() - sn.at > 15000) { FX.skip[fm.objId] = now() + 120000; note(`raid: ${fm.Name} takes no damage (HP ${hp === null ? 'unknown' : hp + ' %'} for 15 s) - focus moves on`, true); } } }
+    // MINIONSKIP-2026-10-18 (Lidia: 5 minions read HP 0 % - the server sends a monster's HP only to whoever targets it - nobody was hitting them,
+    // and the rule dropped them one by one): it only counts while a teammate REALLY attacks that minion (its report: tid = the minion), and it
+    // uses the HP that teammate sees; nobody on it = never skipped
+    const hitters = teamNames().map(n => livePos[n]).filter(lp => lp && !lp.IsDead && now() - (lp.at || 0) < 6000 && num(lp.tid) === num(fm.objId));
+    const seenHp = hitters.map(lp => lp.thp).filter(v => v !== null && isFinite(v) && v > 0);
+    const hpR = seenHp.length ? Math.min(...seenHp) : hp;
+    const attacking = !!(fullAgg.full || fullAgg.stuck) && hitters.length > 0;
+    if (!sn || !attacking || (hpR !== null && hpR < sn.hp - 0.5)) FX.seen[fm.objId] = { hp: hpR === null ? 101 : hpR, at: now() };
+    else if (now() - sn.at > 15000) { FX.skip[fm.objId] = now() + 120000; note(`raid: ${fm.Name} takes no damage (HP ${hpR === null ? 'unknown' : hpR + ' %'} for 15 s while ${hitters.map(h => h.Name).join(', ')} hit it) - focus moves on`, true); } } }
   // FOCUSFIX3-2026-10-13: no HP filter (the HP read is not reliable on the brain engine - it emptied the list, focus 0); only minions proven
   // to take no damage while the team attacked are skipped, and never all of them
   // ENGAGEDFOCUS-2026-10-14 (owner: "spellsingers not shooting against Nakondas, you said you fixed it" - the focus sat on Nakondas' Slave / Chain

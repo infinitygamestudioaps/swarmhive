@@ -2,6 +2,13 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.11 (2026-10-18)
+
+- NPC rule: every character walks right in front of an NPC before talking to it (shops, warehouses, teleports, quest givers, buff stores, item jobs
+- never from a distance). Raids: no countdown or pull until every damage dealer stands with the leader at the height of the boss (else the boss is skipped as unreachable)
+- the minion no-damage skip only counts while a teammate really hits it
+- raid circuit countdown 10 s. Your tasks first: the clan collector chores wait while an item job runs. Item jobs walk up to the merchant before buying. Hand-lead follow only while the party is switched off. Healer role message only on a real class change.
+
 ## v1.8.10 (2026-10-18)
 
 - Navigation: parties run from waypoint to waypoint and only stop at a waypoint, where the leader holds the monsters and the party kills them, then moves on (no stop for every monster)
