@@ -3534,7 +3534,11 @@ setInterval(() => {
   if (isHealerClass && !healerMode) {
     healerMode = true;
     Options.FollowAtk = false;                  // stop med at skyde, følg stadig lederen
-    note(`class change to ${Me.ClassName} — taking over the healer role`, true);
+    // HEALSAY-2026-10-18 (owner: "I keep seeing Bishop1 / Saint1 saying they are a healer class"): said in party chat only on a REAL class change,
+    // not after every script start (deploy / reload); the last announced class id per character: Logs/healer_class_<name>.txt
+    { const hf = `${SWARM_ROOT}\\Logs\\healer_class_${Me.Name}.txt`; let was = ''; try { was = String(File.ReadAllText(hf)).trim(); } catch (e) { }
+      const isNew = was !== String(num(Me.ClassId)); if (isNew) { try { File.WriteAllText(hf, String(num(Me.ClassId))); } catch (e) { } }
+      note(`class change to ${Me.ClassName} — taking over the healer role`, isNew); }
   }
   if (!healerMode || healing || Me.IsDead || state.buffTurn || resAfterHold()) return;   // RESURRECTION 2026-10-13: a revived healer rebuffs first
   if (!hiveHealsOn()) return;                                          // HIVESW-2026-10-15: Hive heals OFF = the healer brain is idle
@@ -8724,9 +8728,11 @@ async function routeHop(p, abort, onDetour) {
     }
     const at2 = ok || Math.hypot(p.x - Me.X, p.y - Me.Y) <= 150;
     // OWNER 2026-10-13 19:10 (3D): a swim point = dive until its height is reached; a point inside a mapped multi-floor dungeon = the right floor
+    // STAIRZ-2026-10-18 (Tank1 at the Tower of Insolence stairs 2nd -> 3rd floor: "at 115776,19520 but on the wrong floor (z -2816, point -2768)"
+    // forever): a point ON A STAIRCASE lies between two floor bands and the climbing height lags; within 200 of the point's own height = reached
     if (at2 && isFinite(p.z) && typeof reach3D === 'function') {
       if (p.swim) return await reach3D(p, abort);
-      try { const fb = rsmFloorBand(dungeonRooms(), p.x, p.y, p.z); if (fb && (Me.Z < fb[0] || Me.Z > fb[1])) { note(`route: at ${P(p.x, p.y)} but on the wrong floor (z ${Math.round(Me.Z)}, point ${Math.round(p.z)}) — not reached`, true); return false; } } catch (e) { }
+      try { const fb = rsmFloorBand(dungeonRooms(), p.x, p.y, p.z); if (fb && (Me.Z < fb[0] || Me.Z > fb[1]) && Math.abs(Me.Z - p.z) > 200) { note(`route: at ${P(p.x, p.y)} but on the wrong floor (z ${Math.round(Me.Z)}, point ${Math.round(p.z)}) — not reached`, true); return false; } } catch (e) { }
     }
     return at2;
   } finally { routeHopActive = false; state.preciseWalk = precise0; }
@@ -8742,7 +8748,7 @@ async function routeHop(p, abort, onDetour) {
 // the way stops the team (fight first, then on from the SAME waypoint). Pace: the leader pauses while a member that walks with him is more
 // than paceGap behind along the route; members never walk past the leader's current waypoint. Per party in Scripts/data/route_rules.json
 // (moveTogether, mtMaxWaitSec, mtLeaveSec). No host calls in this block (docs/plan/tools/test_move_together.js runs it in node).
-const MT = { v: 1, reachR: 200, zBand: 300, stuckMs: 8000, progress: 100, paceGap: 600, maxWaitMs: 60000, leaveMs: 90000, freshMs: 15000, minWalk: 1200,
+const MT = { v: 1, lowHp: 40, critHp: 20, fightMaxMs: 15000, packLeft: 5, packR: 300, fightMinMs: 3000, leash: 600, regroupR: 500, reachR: 200, zBand: 300, stuckMs: 8000, progress: 100, paceGap: 600, maxWaitMs: 60000, leaveMs: 90000, freshMs: 15000, minWalk: 1200,
   ladder: ['sidestep', 'replan', 'back', 'around'], ladderWet: ['back', 'replan', 'around'], stuckWetMs: 4000, breathMs: 60000, breathMargin: 4000, swimSpeed: 50, swimGateMs: 8000, pullNear: 1500, pullWaitMs: 180000, sideStep: 250, flatDz: 150, retryWaitMs: 30000, resumeMaxMs: 1800000, near: 1500,
   limits: { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [200, 3000], mtStuckSec: [3, 60] } };   // = RSM_LIMITS (route rules)
 const MT_WORDS = { breath: 'out of breath soon: swimming back to dry ground', sidestep: 'trying a side-step', replan: 're-planning a way around', back: 'back to the last point, trying again', around: 'trying detours', wait: 'all tries used, retrying every 30 s', stuck: 'not moving', left: 'catching up by itself' };
@@ -8831,7 +8837,14 @@ function mtDecide(o) {
   const now = o.now, cfg = o.cfg || mtCfg({}), trail0 = new Set(o.trail || []);
   const pt = `point ${(o.gate || 0) + 1}/${o.n || '?'}`;
   const out = (act, waitFor, leave, trail, line) => ({ act, waitFor: waitFor || [], leave: leave || [], trail: trail || [...trail0], line });
-  if (o.fight) return out('fight', [], [], null, `${pt} · fighting on the way — the walk goes on from this point after it`);
+  // RUNON-2026-10-18 (owner: "run to a waypoint, wait up, then kill off all monsters because they will follow you, then move on"): on a LEG the
+  // team keeps running (aggressive monsters follow); at the waypoint (gate) it groups up and kills everything that followed, then goes on.
+  // Only a member below MT.lowHp on the way makes the team fight where it stands.
+  // RUNON-2: only a member below MT.critHp stops the team on a leg (the healers heal the 20-40 % ones while we run); a waypoint gets ONE fight of at
+  // most MT.fightMaxMs (o.fightDone: then the team runs on and the rest follows to the next point - a respawning room never holds it for good)
+  const crit = (o.members || []).some(m => m.alive && m.crit);
+  if (o.fight && (crit || (o.phase === 'gate' && !o.fightDone)))
+    return out('fight', [], [], null, crit ? `${pt} · someone is very low on HP — fighting here, then on` : `${pt} · grouped up — killing everything that followed us, then on`);
   if (o.phase === 'gate' && o.swimGate && now - (o.since || now) >= MT.swimGateMs) {   // a waypoint IN the water: never tread water long (breath) — the real wait is at the shore
     const sw = (o.members || []).filter(m => m.online && m.alive && !m.benched && !m.left && m.reached < o.gate).map(m => m.name);
     return out('go', [], [], [...new Set([...trail0].concat(sw))], `${pt} · in the water — swimming on to the shore, the team gathers there${sw.length ? ' (' + sw.join(', ') + ' right behind)' : ''}`);
@@ -8845,7 +8858,7 @@ function mtDecide(o) {
     : rest.filter(m => !trail.includes(m.name) && m.reached < o.gate && (o.leaderProg || 0) - (m.prog || 0) > cfg.paceGap);
   const wf = missing.map(m => ({ name: m.name, why: mtWhy(m, now) }));
   const lv = leave.length ? ` · going on without ${leave.join(', ')} (stuck ${Math.round(cfg.leaveMs / 1000)} s: catching up by itself)` : '';
-  if (!missing.length) return out('go', [], leave, trail, `${pt} · ${o.phase === 'gate' ? 'everyone here' : 'walking together'}${lv}`);
+  if (!missing.length) return out('go', [], leave, trail, `${pt} · ${o.phase === 'gate' ? 'everyone here' : 'running together'}${lv}`);
   if (waited >= cfg.maxWaitMs && !missing.some(m => m.stuck || m.wet)) {   // a swimmer is always waited for
     const tr = [...new Set(trail.concat(missing.map(m => m.name)))];
     return out('go', [], leave, tr, `${pt} · waited ${Math.round(waited / 1000)} s — going on, ${missing.map(m => m.name).join(', ')} still walking the same points behind us${lv}`);
@@ -8943,10 +8956,10 @@ function mtView(phase) {
     const away = !!(L.floor && !fresh && pos && P && isFinite(pos.z) && isFinite(P.z) && Math.abs(pos.z - P.z) > 800);   // a floor walk: still on the floor below / above (its floor teleport turn)
     if (!fresh && !away && pos && reached < g) { const r = mtStuckTick(L.trk[n], { now: t, idx: g, d, pause: !!(lp && lp.fight), stuckMs: L.cfg.stuckMs }); L.trk[n] = r.tr; if (r.stuck) stuck = { stage: 'stuck', since: r.tr.bestAt }; }   // a window without reports (old script): judged from its position
     if (L.left.has(n) && online && reached >= g) {   /* 2026-10-14: stuck just before the gate is NOT caught up (11x leave/catch-up loop) */ L.left.delete(n); note(`route to ${L.label}: ${n} caught up with the team again (point ${Math.max(1, g)}/${pts.length})`, true); }
-    return { name: n, online, alive: !(lp && lp.IsDead), benched: benched(n), left: L.left.has(n), reached, prog: pos ? mtProg(pts, L.cum, reached, pos) : 0, d, stuck, fight: !!(lp && lp.hit), wet: !!(fresh && rep.wet), away };
+    return { name: n, online, alive: !(lp && lp.IsDead), benched: benched(n), left: L.left.has(n), reached, prog: pos ? mtProg(pts, L.cum, reached, pos) : 0, d, stuck, fight: !!(lp && lp.hit), wet: !!(fresh && rep.wet), away, low: !!(lp && isFinite(num(lp.hp)) && num(lp.hp) > 0 && num(lp.hp) < MT.lowHp), crit: !!(lp && isFinite(num(lp.hp)) && num(lp.hp) > 0 && num(lp.hp) < MT.critHp) };
   });
   const since = phase === 'gate' ? L.gateSince : (L.paceSince || t);
-  const v = mtDecide({ now: t, phase, gate: g, n: pts.length, since, swimGate: !!(P && P.swim), leaderProg: mtProg(pts, L.cum, phase === 'gate' ? g : g - 1, me), cfg: L.cfg, trail: [...L.trail], fight: rcTravelFighting(), members });
+  const v = mtDecide({ now: t, phase, gate: g, n: pts.length, since, swimGate: !!(P && P.swim), leaderProg: mtProg(pts, L.cum, phase === 'gate' ? g : g - 1, me), cfg: L.cfg, trail: [...L.trail], fightDone: L.fightDoneGate === g, fight: rcTravelFighting(), members });
   L.trail = new Set(v.trail);
   if (phase === 'leg') L.paceSince = v.act === 'pace' ? (L.paceSince || t) : 0;
   if (v.leave.length) mtLeave(v.leave, members);
@@ -8976,19 +8989,45 @@ function mtBreak() {
   if (L.brk) mtShow(v);
   return L.brk;
 }
+/** RUNON-2026-10-18: true = I am on a team walk LEG (between waypoints) with enough HP: keep running, no self-defence / help stops;
+ *  the monsters follow and are killed at the waypoint (mtDecide fights at the gate). */
+/** TOGETHER-2026-10-18: the team's current waypoint while I walk a team route as a member (null otherwise) */
+function mtTeamPoint() { try { if (isLeader() || !memberRoute.mt || !memberRoute.pts) return null; return memberRoute.pts[Math.min(memberRoute.pts.length - 1, Math.max(0, memberRoute.gate))] || null; } catch (e) { return null; } }
+const MTRUN = { p: null, at: 0 };
+function mtRunOn() {
+  try {
+    if (Me.IsDead) return false;
+    const hp = Number(Me.HpPercent); if (isFinite(hp) && hp > 0 && hp < MT.critHp) return false;   // RUNON-4: only a real reading under 20 % fights
+    // RUNON-5 (Tank1 died 2026-10-18 08:16 stuck at point 3 without fighting back): running on only while I really move - no progress for
+    // 3 s = defend myself (the walker keeps trying meanwhile)
+    { const t = now(), p = MTRUN.p; if (!p || Math.hypot(Me.X - p.x, Me.Y - p.y) > 60) { MTRUN.p = { x: Me.X, y: Me.Y }; MTRUN.at = t; } else if (t - MTRUN.at > 3000) return false; }
+    if (typeof MTL !== 'undefined' && MTL && MTL.pts) return !MTL.fighting;                   // I lead a team walk (no isLeader() needed)
+    if (!memberRoute.mt || !memberRoute.pts) return false;
+    const P = memberRoute.pts[memberRoute.gate]; if (!P) return false;
+    return !mtAt(P, { x: Me.X, y: Me.Y, z: Me.Z }, 300);
+  } catch (e) { return false; }
+}
 function mtShow(v) { const L = MTL; if (!L) return; setTask(`route to ${L.label}: ${v.line}`.slice(0, 220)); try { pstHold('route ' + L.label, v.line, L.gateSince || now()); } catch (e) { } }
 /** a fight on the way: everyone stops (the members' hops hold), self-defence / help fight it; then on from the same waypoint */
+/** PACKSTOP: live monsters within MT.packR of me (the pack that followed the team) */
+function mtPackNear() { let n = 0; try { snapMobs().forEach(m => { if (!m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) <= MT.packR && Math.abs(num(m.Z) - Me.Z) < 300) n++; }); } catch (e) { } return n; }
 async function mtFight(abort) {
-  const L = MTL, t0 = now();
+  const L = MTL, t0 = now(); L.fighting = true;
   try { Send.StopMove(); } catch (e) { }
   note(`route to ${L.label}: fighting on the way at point ${L.gate + 1}/${L.pts.length} — the whole team stops, then on from this point`);
   const gp = L.pts[Math.max(0, Math.min(L.pts.length - 1, L.gate))] || { x: Me.X, y: Me.Y, z: Me.Z };   // LEASH-2026-10-14
-  while (rcTravelFighting() && now() - t0 < 300000 && !(abort && abort()) && !Me.IsDead) {
+  while (rcTravelFighting() && now() - t0 < MT.fightMaxMs && !(abort && abort()) && !Me.IsDead) {
     L.hold = now() + 12000; L.emit(false);
     mtShow({ line: `point ${L.gate + 1}/${L.pts.length} · fighting on the way (${Math.round((now() - t0) / 1000)} s) — on from this point after it` });
-    if (isLeader() && typeof mtLeashFight === 'function') { try { await mtLeashFight(gp, abort); } catch (e) { logError('mt leash fight', e); } }
-    await sleep(1500);
+    // PACKSTOP-2026-10-18 (the owner's own technique, watched on ToI floor 6: the leader stands 8-16 s and NEVER attacks, the party kills what
+    // followed, he moves on once about 5 or fewer are left near him): the leader only holds aggro here (fights back only when very low)
+    if (isLeader() && num(Me.HpPercent) < MT.critHp && typeof mtLeashFight === 'function') { try { await mtLeashFight(gp, abort); } catch (e) { logError('mt leash fight', e); } }
+    else if (isLeader()) { try { if (Me.IsAttacking || IsInCombat) { stopCombatG(); Send.StopMove(); } } catch (e) { } }
+    if (now() - t0 >= MT.fightMinMs && mtPackNear() <= MT.packLeft) break;
+    await sleep(1000);
   }
+  L.fighting = false;
+  if (now() - t0 >= MT.fightMaxMs) { L.fightDoneGate = L.gate; note(`route to ${L.label}: fought ${Math.round(MT.fightMaxMs / 1000)} s at point ${L.gate + 1}/${L.pts.length} — running on, the rest follows us to the next point`); }   // RUNON-2
   L.hold = 0; L.emit(false);
   L.gateSince = now(); L.paceSince = 0; L.chkAt = 0;                 // the fight's time does not count as waiting
 }
@@ -9019,7 +9058,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
         const b = mtBreak();
         if (b === 'fight') { await mtFight(abort); continue; }
         if (b === 'pace') { try { Send.StopMove(); } catch (e) { } await sleep(1000); continue; }
-        setTask(`route to ${label}: walking to point ${j + 1}/${n} with the team`);
+        setTask(`route to ${label}: running to point ${j + 1}/${n} with the team`);
         let brk = '';
         const at = j - 1;
         const hop = await routeHop(pts[j], () => { if (stopped()) return true; const q = mtBreak(); if (q) { brk = q; return true; } return false; },
@@ -9205,6 +9244,10 @@ function mtMemberTick(m) {
   if (!m.cfgAt || now() - m.cfgAt > 30000) { m.cfgAt = now(); try { m.cfg = mtCfg(routeRulesNow()); } catch (e) { m.cfg = null; } }   // MOVETOGETHER step 2: the party's stuck seconds
   const next = m.my + 1, p = m.pts[next];
   if (m.left && m.my >= m.gate) { m.left = false; note('route walk: caught up with the team — walking together again'); }
+  // TOGETHER-2026-10-18 (owner: "Destroyer1 is not following ... the team sticks together"): during the team's fight hold a member that ended up more
+  // than MT.regroupR from the team's waypoint (chased a monster) walks straight back to it - never holds position far from the group
+  if (now() < (m.hold || 0) && !Me.IsDead && !m.left) { const G = m.pts[Math.min(m.pts.length - 1, Math.max(0, m.gate))];
+    if (G && Math.hypot(G.x - Me.X, G.y - Me.Y) > MT.regroupR && now() - (m.regroupAt || 0) > 3000) { m.regroupAt = now(); try { if (Target && (IsInCombat || Me.IsAttacking)) { if (IsInCombat) stopCombatG(); } Send.MoveBackwardToLocation(Math.round(G.x), Math.round(G.y), Math.round(G.z || Me.Z)); } catch (e) { } if (!m.regroupSaid || now() - m.regroupSaid > 30000) { m.regroupSaid = now(); note(`route walk: ${Math.round(Math.hypot(G.x - Me.X, G.y - Me.Y))} from the team - back to it`); } } }
   // SWIM (owner 2026-10-13, Tillion): in the water = the next point or the one I came from is a swim point (or the server says I drown); breath watched
   const prevP = m.pts[Math.max(0, m.my)], drown = now() - (state.drownAt || 0) < 5000;
   m.wet = !!(p && ((p.swim && !(prevP && !prevP.swim && Math.hypot(prevP.x - Me.X, prevP.y - Me.Y) < 150)) || (m.my >= 0 && prevP && prevP.swim))) || drown;   // standing on the dry waypoint before the water is not "in the water"
@@ -10096,7 +10139,15 @@ async function walkDirectRun(x, y, z, dist, timeoutMs, abort, forceDirect, myMov
       }
       if (stuckCount === 4 && Math.hypot(Me.X - walkStart.x, Me.Y - walkStart.y) < 30) sendAppearing('walk did not move me at all');
       if (stuckCount <= 2 && now() - (state.portAt || 0) < 120000) sendAppearing('stuck right after a teleport');   // frozen with NPCs in sight (2026-10-07 Oren)   // frozen, not a wall (see .town)
-      if (stuckCount === 1 || stuckCount === 4) note(`walking: stuck at ${Math.round(Me.X)},${Math.round(Me.Y)} — ${stuckCount === 1 ? 'finding a new path' : 'trying a straight line'}`);
+      if (stuckCount === 1 || stuckCount === 4) note(`walking: stuck at ${Math.round(Me.X)},${Math.round(Me.Y)} — ${stuckCount === 1 ? 'finding a new path' : 'asking the wall-checked path finder'}`);
+      // NOBEELINE-2026-10-18 (owner: "you cross from A to B instead of using the defined path, you run into walls"): stuck toward a target more than
+      // 800 away = the geopath service plans a wall-free way and I walk that (never a blind straight line). Not on a user route (its own legs),
+      // not from inside such a walk (no nesting).
+      if (stuckCount === 4 && forceDirect !== 'route' && distTo(x, y) > 800 && !state.nbInGeo && typeof geoWalk === 'function') {
+        state.nbInGeo = true; let g = null;
+        try { navStop(myMove); g = await geoWalk(x, y, z, dist, Math.max(15000, until - now()), abort); } catch (e) { } finally { state.nbInGeo = false; }
+        if (g === true || distTo(x, y) <= dist) return true;
+      }
       if (stuckCount >= 6) { note(`walking: cannot get further towards ${x},${y} — giving up on this leg`); return false; }
       lastPos = { x: Me.X, y: Me.Y }; stillSince = now(); issue();
     }
@@ -11318,7 +11369,8 @@ async function kitBuyLeadTrip(who) {
   try {
     while ((inRaid() || state.mode === 'mission') && orderState.seq === seq && now() - t0 < 45 * 60000) await sleep(5000);
     if (orderState.seq !== seq || inRaid() || state.mode === 'mission') return;
-    note(`kitbuy: taking the team to Giran, ${who} buys Frenzy kit pieces (your order), then we carry on`, true);
+    const isItem = KB.whyFor && KB.whyFor[who] === 'item';
+    note(isItem ? `item job: taking the team to Giran and waiting there until ${who} has the new gear (your order), then we carry on` : `kitbuy: taking the team to Giran, ${who} buys Frenzy kit pieces (your order), then we carry on`, true);
     if (autoLvl.active) { wasLvl = true; autoLvl.stop = true; const tl = now(); while (autoLvl.active && now() - tl < 60000) await sleep(1000); }
     if (!(await orderWaitControl('!kitbuy-trip', seq))) return;
     ctl = true; stopCombatG();
@@ -11327,7 +11379,12 @@ async function kitBuyLeadTrip(who) {
       if (!tr.ok) { if (!tr.superseded) note(`kitbuy: could not get the team to Giran for ${who} (${tr.why || '?'})`, true); return; }
     }
     const tw = now();
-    while (!KB.doneFor[who] && orderState.seq === seq && now() - tw < 15 * 60000) await sleep(2000);
+    let backAt = 0;
+    const holdMs = (KB.whyFor && KB.whyFor[who] === 'item' ? 45 : 15) * 60000;   // IJHOLD: an item job (warehouse, enchant, SA, hand-over) takes longer
+    while (!KB.doneFor[who] && orderState.seq === seq && now() - tw < holdMs) {
+      if (currentTownKey() !== 'Giran' && !inRaid() && now() - backAt > 60000) { backAt = now(); const tr = await orderTownTrip('!kitbuy ' + who, 'Giran', { regroup: true, control: '!kitbuy-trip' }); if (!tr.ok && tr.superseded) break; }
+      await sleep(2000);
+    }
     note(`kitbuy: ${who} ${KB.doneFor[who] ? 'has finished shopping' : 'did not report back within 15 min'}`);
   } finally {
     if (ctl) orderRelease('!kitbuy-trip', seq);
@@ -11338,7 +11395,7 @@ App.on('swarm.kitbuy.trip', (e) => {
   try {
     if (!isLeader() || !mateMsg(e) || e.source.characterName === Me.Name || KB.leadFor) return;
     const who = String((e.data && e.data.name) || e.source.characterName);
-    KB.leadFor = who;
+    KB.leadFor = who; KB.whyFor = KB.whyFor || {}; KB.whyFor[who] = String((e.data && e.data.why) || '');
     kitBuyLeadTrip(who).catch(er => logError('kitbuy trip', er)).then(() => { KB.leadFor = ''; });
   } catch (er) { }
 });
@@ -11376,12 +11433,16 @@ async function ijToGiran(seq, label) {
   const t0 = now(); let said = false;
   while ((inRaid() || state.mode === 'mission') && !stale() && now() - t0 < 45 * 60000) { if (!said) { said = true; note(`${label}: waiting, the party is in a raid / mission`, true); } await sleep(5000); }
   if (stale()) { o.why = 'a newer order replaced it'; return o; }
-  if (currentTownKey() === 'Giran') { o.ok = true; return o; }
   let team = teamNames().length > 0; try { team = team && !soloChar(); } catch (e) { }
+  // IJHOLD-2026-10-17 (owner: "the team should stop what they are doing and return to get new gear, otherwise the person stands in town waiting
+  // for ever"): Nuker18 was in Giran only because his party was passing through, so no trip was asked, and the leader ported back to Cruma
+  // with him. A party member now ALWAYS asks its leader to hold the party in Giran until the item job reports done (swarm.kitbuy.done).
+  if (team && !isLeader()) { try { App.emit('swarm.kitbuy.trip', { name: Me.Name, why: 'item', label }); } catch (e) { } }
+  if (currentTownKey() === 'Giran') { o.ok = true; o.member = team && !isLeader(); return o; }
   if (team && !isLeader()) {
-    o.member = true; let ask = 0; const tw = now();
+    o.member = true; let ask = now(); const tw = now();
     while (currentTownKey() !== 'Giran' && !stale() && now() - tw < 15 * 60000) {
-      if (now() - ask > 120000) { ask = now(); App.emit('swarm.kitbuy.trip', { name: Me.Name }); note(`${label}: asked my leader ${CONFIG.leader} to take the party to Giran`); }
+      if (now() - ask > 120000) { ask = now(); App.emit('swarm.kitbuy.trip', { name: Me.Name, why: 'item', label }); note(`${label}: asked my leader ${CONFIG.leader} to take the party to Giran`); }
       await sleep(3000);
     }
     o.ok = currentTownKey() === 'Giran'; if (!o.ok) o.why = stale() ? 'a newer order replaced it' : `my leader ${CONFIG.leader} did not take the party to Giran within 15 min`;
@@ -11546,7 +11607,12 @@ async function itemJobOrder(id) {
       const have0 = new Set(); try { Inventory.forEach(i => have0.add(num(i.objId))); } catch (e) { }
       ijStatus(id, { state: 'ready' }, `${me} is in Giran, waiting for the item`, '_rx');
       const t0 = now(); let oid = 0;
+      let reask = now();
       while (!oid && now() - t0 < 40 * 60000 && orderState.seq === seq) {
+        if (trip.member && currentTownKey() !== 'Giran' && now() - reask > 60000) {   // IJHOLD: the party left Giran without me getting the item
+          reask = now(); ijStatus(id, null, `${me} was taken out of Giran - asking ${CONFIG.leader} to bring the party back`, '_rx');
+          try { App.emit('swarm.kitbuy.trip', { name: me, why: 'item', label: '!itemjob' }); } catch (e) { }
+        }
         try { Inventory.forEach(i => { if (!have0.has(num(i.objId)) && (num(i.Id) === num(J.finalId || 0) || num(i.Id) === num(J.item.id) || (J.sa && num(i.Id) === num(J.sa.saId)))) oid = num(i.objId); }); } catch (e) { }
         const st = (() => { try { return JSON.parse(File.ReadAllText(`${IJ.dir()}\\${id}_status.json`)) || {}; } catch (e) { return {}; } })();
         if (!oid && st.state === 'failed') { ijStatus(id, { state: 'failed' }, `${me}: the job stopped (${st.result || 'see above'}) — carrying on`, '_rx'); return; }
@@ -11765,6 +11831,22 @@ async function dspGoOne(J, stop, team, abort) {
   const arrived = () => Math.hypot(Me.X - tgt.x, Me.Y - tgt.y) < (num(stop.arriveR) || 900) && (!isFinite(tgt.z) || !tgt.z || Math.abs(Me.Z - tgt.z) < 700);
   if (arrived()) return { ok: true, how: 'already there', sec: 0 };
   const r = navAtlasRoute(stop.key) || (stop.type === 'point' ? navAtlasRoute({ x: tgt.x, y: tgt.y, z: tgt.z || null, maxDist: 1500 }) : null); let how = '', u = navAtlasUsable(r);   // a map point: the nearest atlas route within 1500
+  // DSPUSER-2026-10-18 (owner: "did you add all the logic I taught you" - the dispatch ran the computed atlas route, never the owner's
+  // recorded + locked route): a raid stop with a LOCKED recorded route = travel (atlas steps up to the first walk) + the owner's points as
+  // a team walk (move together, stop-and-clear), from the nearest point; done at its last point (e.g. the Angelic Vortex)
+  { const um = /^raid:(\d+)$/.exec(String(stop.key || '')); const ur = um ? loadRaidRoute({ id: um[1], name: stop.name }) : null;
+    if (ur && ur.manual && Array.isArray(ur.points) && ur.points.length > 1) {
+      const P = ur.points, last = P[P.length - 1], atEnd = () => Math.hypot(last.x - Me.X, last.y - Me.Y) < 600 && Math.abs((last.z || Me.Z) - Me.Z) < 400;
+      if (atEnd()) return { ok: true, how: 'your recorded route (already at its end)', sec: 0 };
+      const onRoute = P.some(p => Math.hypot(p.x - Me.X, p.y - Me.Y) < 1500 && Math.abs((p.z || Me.Z) - Me.Z) < 600);
+      if (!onRoute && r && u.ok) { const fw = r.steps.findIndex(x => x.do === 'walk'); if (fw > 0) { try { await navAtlasRun(r, { why: 'dispatch travel ' + (stop.name || stop.key), team, upTo: fw - 1, abort }); } catch (e) { logError('dispatch travel', e); } } }
+      const st = ur.start || {}, startTown = st.kind === 'town' ? st.town : (townKeyFor(String(st.from || '')) || '');
+      try { const w = dzFloor(dungeonRooms(), Me.X, Me.Y, Me.Z); if (w && w.d && /insolence/i.test(w.d.name) && w.fi === 0 && toiVortexOn() && (last.z || 0) > 5500) { if (await toiVortexHop(10, team)) note(`dispatch: Dimensional Vortex to the tenth floor - the route goes on from there`, true); } } catch (e) { logError('dispatch vortex', e); }
+      note(`dispatch: ${stop.name || stop.key}: walking YOUR recorded route (${P.length} points)`, true);
+      let okw = false; try { okw = await leadRouteWalk(P, stop.name || ur.boss || 'route', abort, startTown, st, { id: Number(um[1]), name: stop.name || ur.boss, x: tgt.x, y: tgt.y, z: tgt.z }); } catch (e) { logError('dispatch user route', e); }
+      if (okw || atEnd()) return { ok: true, how: 'your recorded route', sec: Math.round((now() - t0) / 1000) };
+      note(`dispatch: your recorded route did not get us to its end - trying the computed route`, true);
+    } }
   if (r && u.ok) {
     const ei = r.steps.findIndex(x => x.do === 'enter' && x.how === 'bosszone');
     let fabric = 0; try { fabric = num(ItemCount(4295)); } catch (e) { }
@@ -11783,7 +11865,11 @@ async function dspGoOne(J, stop, team, abort) {
   let ok = false;
   try {
     try { await navAtlasNear(tgt.x, tgt.y, 'dispatch ' + stop.name); } catch (e) { }
-    ok = team ? await leadTeamWalk(tgt.x, tgt.y, tgt.z, 700, 25 * 60000, abort) : await walkTo(tgt.x, tgt.y, tgt.z, 400, 25 * 60000, abort);
+    // NOBEELINE-2026-10-18 (06:50: this fallback sent party Tank1 straight at Baium's position through the Tower floors): a target inside a
+    // dungeon with floors goes through the dungeon walker (recorded route for floor changes, then room by room), never a straight team walk
+    let dz = null; try { const w = dzFloor(dungeonRooms(), tgt.x, tgt.y, isFinite(tgt.z) && tgt.z ? tgt.z : Me.Z); if (w && w.d && (w.d.floors || []).length > 1 && rgHas(w.d)) dz = w.d; } catch (e) { }
+    if (dz) { const rr = await rgWalk(dz, { x: tgt.x, y: tgt.y, z: tgt.z }, { team, allowNpc: true, label: stop.name, abort, timeoutMs: 25 * 60000 }); ok = !!(rr && rr.ok); if (!ok) dspStatus(J.id, null, `${stop.name}: inside ${dz.name} the room route found no way (${(rr && rr.why) || '?'}) — record the route on the dashboard`); }
+    else ok = team ? await leadTeamWalk(tgt.x, tgt.y, tgt.z, 700, 25 * 60000, abort) : await walkTo(tgt.x, tgt.y, tgt.z, 400, 25 * 60000, abort);
   } catch (e) { logError('dispatch fallback', e); }
   const pts = rec.stop();
   if (ok || arrived()) { const learned = dspLearn(stop, r, pts, how); return { ok: true, how: `another way (${how})`, learned, sec: Math.round((now() - t0) / 1000) }; }
@@ -11912,9 +11998,18 @@ async function ijBuyAt(o, id, count, jid) {
       const live = r.items.find(i => i.id === num(id)); if (!live) return { ok: false, why: `not in ${o.npc}'s list any more` };
       if (a0 < Math.ceil(num(live.price) * count * 1.25)) return { ok: false, why: `not enough adena (${num(live.price) * count} + tax, I have ${a0})` };
       ijStatus(jid, null, `buying ${count}× at ${o.npc}`);
-      buyPacket(r.shopId, [{ id: num(id), count }]);
+      // IJBUY-2026-10-17 (Dagger1 20:27: the buy packet alone got no answer at Helvetia, nothing bought, the SA job stopped): L2Swarm's own
+      // BuyItem first, like the supply runs (they bought fine on 3.9.3), the High Five buy packet only as the fallback; a refusal is named.
+      try { BuyItem(num(id), count); } catch (e) { }
+      let ef = await DLG.effect({ check: () => bagCount(id) > c0, base: 2500, label: `${o.npc}: buy item ${id} x${count}` });
+      if (bagCount(id) <= c0 && !(ef.sys && /^(adena|bag)$/.test(ef.sys.key)) && r.shopId !== undefined && r.shopId !== null) {
+        ijStatus(jid, null, `${o.npc}: no answer to the buy - sending the buy packet`);
+        try { buyPacket(r.shopId, [{ id: num(id), count }]); } catch (e) { }
+        ef = await DLG.effect({ check: () => bagCount(id) > c0, base: 4000, label: `${o.npc}: buy packet item ${id} x${count}` });
+      }
+      if (bagCount(id) <= c0 && ef.sys) return { ok: false, why: `${o.npc} refused the buy: ${ef.sys.why}` };
     }
-    await DLG.effect({ check: () => bagCount(id) > c0, base: 2500, label: `${o.npc}: buy / exchange item ${id}` });
+    if (o.kind === 'exchange') await DLG.effect({ check: () => bagCount(id) > c0, base: 2500, label: `${o.npc}: buy / exchange item ${id}` });
   } finally { try { Send.RequestBuySellUIClose(); } catch (e) { } }
   let objId = 0; objs().forEach(x => { if (!before.has(x)) objId = x; }); if (!objId && bagCount(id) > c0) objs().forEach(x => { objId = x; });
   const got = bagCount(id) - c0;
@@ -12461,6 +12556,15 @@ async function giranGo(place) {
   }
   // skip a leading part I would just walk back over (already on the target route near its start)
   intent('walk', `Giran recorded route to ${place} (${path.length} points)`, { x: path[path.length - 1][0], y: path[path.length - 1][1], z: path[path.length - 1][2] });
+  // GIRANJOIN-2026-10-17 (owner: "Are you trying to walk through the wall again?" - Dagger1 stood 300 from Helvetia on the OTHER side of
+  // her shop wall; the nearest recorded point by straight distance was the trade spot behind the wall, and the straight move never got
+  // there): when I am not standing on the recorded route (> 150 from its points), I first get onto it with the wall-checked path finder
+  // (geopath service), never in a straight line through a building. The service down (null) = the old straight walk.
+  if (best && best.d > 150 && path.length && typeof geoWalk === 'function') {
+    const p = path[0];
+    let gw = null; try { gw = await geoWalk(p[0], p[1], p[2], 100, 45000); } catch (e) { }
+    note(`giran: joining the recorded route ${Math.round(best.d)} away -> ${gw === true ? 'on it (wall-checked path)' : gw === null ? 'path service did not answer, walking straight' : 'no wall-free way (' + gw + ')'}`);
+  }
   const g0 = control.gen;
   for (const p of path) {
     if (interrupted(g0)) break;
@@ -25170,11 +25274,111 @@ function rgTargetPoint(RG, target) {
  * allowNpc (floor teleporters on the way), onEnter(step) (get into the dungeon), abort, timeoutMs, label, maxReplans }
  * -> { ok, why, plan }
  */
+/** RECFLOOR: walk the owner's recorded route between floors (team = move-together walk), stop on the target floor */
+// ===== TOIVORTEX (2026-10-18; owner: "Fix the last two bullets" = the Tower of Insolence Dimension Stone shortcut + Gate Chant). Live facts
+// (docs/plan/toi_vortex.md): Researcher Keplon (next to each Dimensional Vortex) sells Green / Blue / Red Dimensional Stones for 100,000 adena each,
+// also "for the Party"; Dimensional Vortex 1 (ground floor) offers "Move to the <second..tenth> floor using the <color> Dimensional Stone" -
+// one stone per character per jump, Green = floors 2-3, Blue = 4-6, Red = 7-10. It costs adena, so it only runs when the party's route rule
+// "toiVortex" is on (Scripts/data/route_rules.json, default OFF: owner rule, nothing is bought unless switched on).
+const TOIV = { ord: ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'], stones: { Green: 4401, Blue: 4402, Red: 4403 }, busy: false };
+function toiVortexOn() { try { return !!(routeRulesNow() || {}).toiVortex; } catch (e) { return false; } }
+const toiColor = (n) => n <= 3 ? 'Green' : n <= 6 ? 'Blue' : 'Red';
+/** the nearest NPC whose name matches re (snapshot) */
+function toiNpc(re) { let best = null, bd = 1e9; try { snapNpcs().forEach(n => { if (!re.test(String(n.Name || ''))) return; const d = Math.hypot(num(n.X) - Me.X, num(n.Y) - Me.Y); if (d < bd && Math.abs(num(n.Z) - Me.Z) < 400) { bd = d; best = n; } }); } catch (e) { } return best; }
+/** open an NPC (walking to it first) -> its page html | null */
+async function toiOpen(n) {
+  if (Math.hypot(num(n.X) - Me.X, num(n.Y) - Me.Y) > 150) await walkTo(num(n.X), num(n.Y), num(n.Z), 120, 30000);
+  const op = await DLG.open(n.ref || n, { base: 5000, tries: 2 }); return op && op.ok ? op.html : null;
+}
+/** buy one stone of a color (for the party when team) at the nearest Keplon / Euclie / Pithgon -> true when my count went up */
+async function toiBuyStone(color, team) {
+  const id = TOIV.stones[color], c0 = itemCount(id);
+  const k = toiNpc(/^(Keplon|Euclie|Pithgon)$/); if (!k) { note('tower vortex: no stone seller (Keplon) in sight'); return false; }
+  let h = await toiOpen(k); if (!h) return false;
+  const l1 = npcLinks(h).find(l => /dimensional stones on you/i.test(l.text)); if (l1) { h = await dlgPage(l1, 5000, k.Name); if (!h) return false; }
+  const want = team ? new RegExp(color + ' Dimensional Stones for the Party', 'i') : new RegExp('Buy a ' + color + ' Dimensional Stone', 'i');
+  const l2 = npcLinks(h).find(l => want.test(l.text)) || npcLinks(h).find(l => new RegExp('Buy a ' + color, 'i').test(l.text)); if (!l2) { note(`tower vortex: ${k.Name} offers no ${color} stone`); return false; }
+  await dlgPage(l2, 5000, k.Name);
+  const t0 = now(); while (now() - t0 < 6000 && itemCount(id) <= c0) await sleep(300);
+  note(`tower vortex: ${itemCount(id) > c0 ? 'bought' : 'could NOT buy'} ${team ? 'party ' : ''}${color} Dimensional Stone(s) at ${k.Name} (adena ${itemCount(57)})`, true);
+  return itemCount(id) > c0;
+}
+/** my own jump: talk to the nearest Dimensional Vortex, pick "<ordinal> floor" -> true when I landed higher */
+async function toiJump(n) {
+  const z0 = Me.Z, v = toiNpc(/^Dimensional Vortex/); if (!v) { note('tower vortex: no Dimensional Vortex in sight'); return false; }
+  if (itemCount(TOIV.stones[toiColor(n)]) < 1) { note(`tower vortex: no ${toiColor(n)} Dimensional Stone for floor ${n}`); return false; }
+  const h = await toiOpen(v); if (!h) return false;
+  const l = npcLinks(h).find(x => new RegExp('to the ' + TOIV.ord[n] + ' floor', 'i').test(x.text)); if (!l) { note(`tower vortex: ${v.Name} has no link to the ${TOIV.ord[n]} floor`); return false; }
+  await dlgTpOrPage(l, 6000, v.Name);
+  const t0 = now(); while (now() - t0 < 8000 && Math.abs(Me.Z - z0) < 500) await sleep(300);
+  try { appearBurst('tower vortex'); } catch (e) { }
+  return Math.abs(Me.Z - z0) >= 500;
+}
+/** the team jump (leader): buy the party's stones, everyone jumps, the leader waits until all are up (90 s) -> true when I jumped */
+async function toiVortexHop(n, team) {
+  if (TOIV.busy || n < 2 || n > 10) return false;
+  TOIV.busy = true;
+  try {
+    const color = toiColor(n);
+    if (itemCount(TOIV.stones[color]) < 1 && !(await toiBuyStone(color, team))) return false;
+    if (team) { App.emit('swarm.toivortex', { floor: n, color, leader: Me.Name }); SayToParty(`[route] Tower of Insolence: everyone through the Dimensional Vortex to the ${TOIV.ord[n]} floor`); }
+    const ok = await toiJump(n);
+    if (ok && team) { const zt = Me.Z, t0 = now(); while (now() - t0 < 90000 && teamNames().some(m => { const lp = livePos[m]; return lp && !lp.IsDead && Math.abs(num(lp.Z) - zt) > 600; })) await sleep(1000); }
+    return ok;
+  } finally { TOIV.busy = false; }
+}
+App.on('swarm.toivortex', (e) => {
+  try { if (!mateMsg(e) || isLeader() || !e.data) return; const n = num(e.data.floor);
+    (async () => { await sleep(1500); if (!(await toiJump(n))) { if (itemCount(TOIV.stones[toiColor(n)]) < 1 && (await toiBuyStone(toiColor(n), false))) await toiJump(n); } })().catch(er => logError('toi vortex member', er));
+  } catch (er) { }
+});
+/** GATECHANT (owner 2026-10-18; Doomcryer level 78, unverified on L2Toggle): "!gatechant" = the Doomcryer summons the whole party to himself
+ *  (no confirmation by them; 4 Summon Crystals per cast, 15 s cast, 10 min reuse). Found by name, so it works once learned. */
+async function gateChantOrder() {
+  let id = 0; try { SkillsList.forEach(k => { if (/gate chant/i.test(String(k.Name || ''))) id = num(k.Id); }); } catch (e) { }
+  if (!id) { note('gate chant: I have not learned Gate Chant (Doomcryer level 78)', true); return; }
+  let crystals = 0; try { Inventory.forEach(i => { if (/summoning crystal|summon crystal/i.test(String(i.Name || ''))) crystals += num(i.Count); }); } catch (e) { }
+  if (crystals < 4) { note(`gate chant: needs 4 Summon Crystals, I have ${crystals}`, true); return; }
+  SayToParty('[gate chant] summoning the whole party to me in 15 s - stand still');
+  stopCombatG(); try { Send.StopMove(); } catch (e) { }
+  await cast(id, 16000);
+  note('gate chant: cast', true);
+}
+async function rgRecordedFloorHop(d, target, o, abort) {
+  let map = {}; try { map = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\dungeon_recorded_routes.json`)).replace(/^\uFEFF/, '')) || {}; } catch (e) { return; }
+  const ids = map[d.name]; if (!Array.isArray(ids) || !ids.length) return;
+  const tp = rgTargetPoint(rgFor(d, target), target); if (!tp || !isFinite(tp.z)) return;
+  const D = dungeonRooms(), me = dzFloor(D, Me.X, Me.Y, Me.Z), tw = dzFloor(D, tp.x, tp.y, tp.z);
+  if (!tw || !tw.d || tw.d.name !== d.name || tw.fi < 0 || (me && me.d && me.d.name === d.name && me.fi === tw.fi)) return;
+  const band = (d.floors[tw.fi] || {}).z; if (!Array.isArray(band)) return;
+  const inBand = (p) => p.z >= band[0] - 150 && p.z <= band[1] + 150;
+  if (/insolence/i.test(d.name) && toiVortexOn() && me && me.fi === 0 && tw.fi >= 1) {   // TOIVORTEX: one jump instead of the climb
+    const ok = await toiVortexHop(Math.min(10, tw.fi + 1), !!(o.team && isLeader() && teamNames().length > 1));
+    if (ok && tw.fi <= 9) return;                                      // landed on the target floor: the room route takes over
+  }
+  for (const id of ids) {
+    const r = loadRaidRoute({ id, name: id }); if (!r || !Array.isArray(r.points) || r.points.length < 2) continue;
+    const P = r.points; let bi = -1, bd = 1e12; P.forEach((p, i) => { const dd = Math.hypot(p.x - Me.X, p.y - Me.Y) + Math.abs((p.z || Me.Z) - Me.Z) * 3; if (dd < bd) { bd = dd; bi = i; } });
+    if (bi < 0 || bd > 3000) continue;                                   // I am not near this route
+    const up = band[0] > Me.Z, step = (P[P.length - 1].z > P[0].z) === up ? 1 : -1;   // the direction along the route that leads to the floor
+    const seg = []; for (let k = bi; k >= 0 && k < P.length; k += step) { seg.push({ x: P[k].x, y: P[k].y, z: P[k].z }); if (inBand(P[k])) break; }
+    if (!seg.length || !inBand(seg[seg.length - 1])) continue;          // this route does not reach that floor from here
+    note(`dungeon: ${d.name}: recorded route to ${(d.floors[tw.fi] || {}).name || 'floor ' + (tw.fi + 1)} (${seg.length} points), then the room route`, true);
+    const team = !!(o.team && isLeader() && teamNames().length > 1);
+    if (team && typeof leadRouteWalk === 'function') await leadRouteWalk(seg, o.label || d.name, abort, '', null, null);
+    else for (const p of seg) { if (abort()) return; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 120) continue; await walkDirect(p.x, p.y, p.z, 120, 15000, abort, 'route'); }
+    return;
+  }
+}
 async function rgWalk(d, target, o) {
   o = o || {};
   const until = now() + (o.timeoutMs || 900000), abort = () => !!((o.abort && o.abort()) || Me.IsDead || now() > until);
   const here = () => ({ x: Me.X, y: Me.Y, z: Me.Z });
   const inside = () => { try { const w = dzFloor(dungeonRooms(), Me.X, Me.Y, Me.Z); return !!(w && w.d && w.d.name === d.name && w.fi >= 0); } catch (e) { return false; } };
+  // RECFLOOR-2026-10-18 (owner: "to go from floor to floor use the recorded route, combined with the computed route: when you are at the floor
+  // you want, that takes over and finds the room"): target room on another floor + a recorded route for this dungeon
+  // (Scripts/data/dungeon_recorded_routes.json) = walk the recorded points from the nearest one until the target floor height band, then plan here
+  if (!o.noRecorded && typeof rgRecordedFloorHop === 'function') { try { await rgRecordedFloorHop(d, target, o, abort); } catch (e) { try { logError('recorded floor hop', e); } catch (e2) { } } }
   let RG = rgFor(d, target);
   // FOGREACH-2026-10-13: inside = the floor's height band AND near its hallways (the FoG landing on the volcano rim matched the Hall of Flames band)
   const insideG = () => inside() && (d.isTown || typeof rgGraphNear !== 'function' || rgGraphNear(RG, here()));
@@ -25617,6 +25821,11 @@ function navAtlasStartIdx(steps, me) {
       return i;
     }
   }
+  // RESUMEIDX-2026-10-18 (party Tank1 in the Tower of Insolence 1 km off the route after a fight -> "50 steps from step 1" = back to Aden):
+  // no point within 800 -> the nearest route point on MY floor (height within 600) up to 5000 away, never the town start while inside
+  { let bi = -1, bd = 5000; for (let i = 0; i < steps.length; i++) { const s = steps[i]; if (s.do !== 'walk' || !s.points) continue;
+      for (let k = 0; k < s.points.length; k += 3) { if (Math.abs(s.points[k + 2] - me.z) >= 600) continue; const d = Math.hypot(s.points[k] - me.x, s.points[k + 1] - me.y); if (d < bd) { bd = d; bi = i; } } }
+    if (bi >= 0) return bi; }
   for (let i = steps.length - 1; i >= 0; i--) { const s = steps[i]; if (s.do === 'gk' && me.town && me.townKey(s.from) === me.town) return i; }
   return 0;
 }
@@ -25783,7 +25992,7 @@ function rsmMemberLine(pub, t) { if (!pub) return ''; return `${pub.final ? 'rou
 // way"): per party (Scripts/data/route_rules.json parties.<leader>, edited on the dashboard route view -> Route rules) what a route may do.
 // MOVETOGETHER step 2 (2026-10-13): number rules (seconds / units) with their limits; a value outside is clamped
 const RSM_LIMITS = { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [200, 3000], mtStuckSec: [3, 60] };
-const RSM_RULES = { openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 600, mtStuckSec: 8 };   // MOVETOGETHER-2026-10-13: walk together (default ON)   // owner 19:10: keys a route needs ON, fortress gates opt-in
+const RSM_RULES = { toiVortex: false, openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 600, mtStuckSec: 8 };   // MOVETOGETHER-2026-10-13: walk together (default ON)   // owner 19:10: keys a route needs ON, fortress gates opt-in
 /** the rules of a party: built-in defaults < file defaults / rule defaults < the party's own */
 function rsmRules(file, party) {
   const o = Object.assign({}, RSM_RULES);
@@ -31046,6 +31255,8 @@ setInterval(() => {
   // re-targeted onto minions between Aggression / Sting); the dealers' focus + the tank's re-aggro handle monsters on us
   if (raidOwnsTargeting({ inRaid: inRaid(), raidRunning: !!(raidSeq && raidSeq.running), tank: /^(sk|tank)$/.test(state.role || ''), dealer: MELEE_DD.test(state.role || '') || RAID_MELEE_EXTRA.test(state.role || '') || CASTER_ROLES.test(state.role || '') })) return;
   if (now() < (state.fleeUntil || 0)) return;     // retreating: run, do not fight back
+  if (mtRunOn()) return;                           // RUNON-2026-10-18: on a team walk leg: keep running, the monster follows, killed at the waypoint
+  { const tp = mtTeamPoint(); if (tp && Math.hypot(tp.x - Me.X, tp.y - Me.Y) > MT.regroupR && num(Me.HpPercent) >= MT.critHp) return; }   // TOGETHER: back to the team first (mtMemberTick walks me), it follows me
   // inside an instance members never start L2Swarm's own combat (it chases monsters around the room, user 2026-10-05 22:08): casters step
   // away, melee hit the team's target, the tank's Aggression loop takes the monster off them
   if (inst.on && !isLeader()) return;
@@ -32893,13 +33104,14 @@ App.on('swarm.attacked', (event) => {
   if (inst.on && !isLeader()) return;
   // hunting pairs (2026-10-07): a pair member only helps its own pair mate or a healer — the leader sends a second pair to a pair in trouble
   if (!isLeader() && myPair.on && pairActive() && !myPair.msg.names.includes(d.name) && !HEALER_ROLES.test((livePos[d.name] || {}).role || '')) return;
+  if (mtRunOn()) return;                           // RUNON-2026-10-18: on a team walk leg nobody runs back to help: killed together at the waypoint
   const v = partyMember(d.name);
   if (!v || Math.hypot(v.X - Me.X, v.Y - Me.Y) > CONFIG.hive.helpDist) return;
   const mob = mobById(d.attacker);
   if (!mob || mob.IsDead || Math.abs((mob.Z || Me.Z) - Me.Z) > CONFIG.rest.zLimit) return;
   if (ignoredMob(mob)) return;
   { const hp = isLeader() ? (MTL && MTL.pts && MTL.pts[MTL.gate]) : (memberRoute.mt && memberRoute.pts && memberRoute.pts[memberRoute.gate]);   // LEASH-2026-10-14: no chasing 2.3 km off a team walk
-    if (hp && Math.hypot(num(mob.X) - num(hp.x), num(mob.Y) - num(hp.y)) > 1500) return; }
+    if (hp && Math.hypot(num(mob.X) - num(hp.x), num(mob.Y) - num(hp.y)) > MT.leash) return; }   // TOGETHER-2026-10-18: 600 (was 1500: Destroyer1 ran 1.1 km off the ToI route)
   if (isMarkedForOther(mob)) return;                                       // ejerens quest-mob: han dræber den selv
   if (Target && Target.objId === mob.objId && (IsInCombat || Me.IsAttacking)) { if (selfDef.started && lastAttackerOnMe.for) lastAttackerOnMe.at = now(); return; }   // still helping: keep the fight alive
   if (num(assistSt.issued.id) === num(mob.objId) && now() - assistSt.issued.at < 8000) return;   // ASSIST-2026-10-15: already walking in on it (the leader's target)
@@ -33038,6 +33250,8 @@ function assistMemberTick(force) {
   let attacker = 0; try { if (now() - lastAttackerOnMe.at < 3000 && !lastAttackerOnMe.for) { const m = mobById(lastAttackerOnMe.id); if (m && !m.IsDead) attacker = num(m.objId); } } catch (e) { }
   const caster = (() => { try { return casterOwnsAttacks(); } catch (e) { return false; } })();
   const selectOnly = !caster && (noMelee() || CASTER_ROLES.test(state.role || ''));   // a caster whose L2Swarm profile fights (Hive skills OFF): select only, never melee
+  { const tp = mtTeamPoint(); const lt = assistLeaderView(); const tm = lt && lt.id ? mobById(lt.id) : null;   // TOGETHER-2026-10-18: no assist run off the team route
+    if (tp && tm && Math.hypot(num(tm.X) - num(tp.x), num(tm.Y) - num(tp.y)) > MT.leash) return; }
   const d = assistDecide({ on: assistOn(), healer: isHealerRole() || HEALER_ROLES.test(state.role || '') || (noMelee() && !caster), blocked: assistBlocked(), attacker,
     lt: assistLeaderView(), mates: (ltFresh && assistSt.lt.id) ? [] : assistMateAttackers(), chase: ASSIST.chase, zl: assistZl(), nextRange: ASSIST.nextRange,
     caster, selectOnly, cur, sinceIssue: cur && cur.id === iss.id ? now() - iss.at : 1e9, reissueMs: ASSIST.reissueMs, stopDead: myDead && !!Me.IsMoving });
@@ -34306,9 +34520,57 @@ function followHold(ms) { state.followHoldUntil = Math.max(state.followHoldUntil
 // forever"): with "Hive picks my skills" OFF a member's own L2Swarm profile owns follow + assist + combat while hunting. The native-nav guard, the
 // hive's own assist (ASSIST: script attacks + a follow hold every 150 ms) and the 3 s follow check no longer keep L2Swarm follow off. Raids,
 // instances, the raid clear and missions keep their routines; routes, NPC walks, trades and teleports still hold follow off and switch it back on.
+/** HANDLEAD-2026-10-18 (owner played Tank1 by hand in ToI: "why is Bishop1 running off ... why is it turning on and off?"): my leader is played
+ *  in the game client (Settings/client_mode.json "ingame") -> I trail him with L2Swarm follow only, the script never takes the follow over */
+const HANDLEAD = { at: 0, v: false };
+function leaderHandPlayed() {
+  if (now() - HANDLEAD.at < 30000) return HANDLEAD.v;
+  HANDLEAD.at = now(); let v = false;
+  try { const m = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Settings\\client_mode.json`)).replace(/^﻿/, '')) || {}; v = String(m[CONFIG.leader] || '').toLowerCase() === 'ingame'; } catch (e) { }
+  HANDLEAD.v = v; return v;
+}
+// HANDLEAD keeper (owner 11:55: "make sure it NEVER turns off again"): a hand-played leader = every member trails him with L2Swarm follow,
+// forced every 2 s (follow name + ActiveFollow on, bot on, no script route walk holding it off). Paused only while dead / trading.
+setInterval(() => {
+  try {
+    if (isLeader() || !state.role || !leaderHandPlayed() || Me.IsDead || inRaid() || !IsCharacterReady()) return;
+    let trading = false; try { trading = !!(tradeState || HOV.busy); } catch (e) { } if (trading) return;
+    if (memberRoute.id || memberRoute.pts) { memberRoute.id = null; memberRoute.pts = null; memberRoute.mt = false; }
+    if (NNAV) NNAV.wantFollow = false;
+    // HANDCATCH (owner 12:00: "rest of party should just follow the waypoints to leader under Baium"): far from the leader (> 1200 or another
+    // floor) = walk the route waypoints (Scripts/data/hand_lead.json route, default raid:29020) from my nearest point to his, then follow again
+    if (HANDLEAD.walking) return;
+    { const lp = partyMember(CONFIG.leader); if (lp) { const d = Math.hypot(num(lp.X) - Me.X, num(lp.Y) - Me.Y), dz = Math.abs(num(lp.Z) - Me.Z);
+        if ((d > 1200 || dz > 300) && d < 30000 && now() - (HANDLEAD.lastWalk || 0) > 5000) { HANDLEAD.walking = true; HANDLEAD.lastWalk = now(); handCatchUp(lp).catch(e => logError('hand catch-up', e)).then(() => { HANDLEAD.walking = false; }); return; } } }
+    if (String(Options.FollowName || '') !== String(CONFIG.leader)) Options.FollowName = CONFIG.leader;
+    if (!Options.ActiveFollow) Options.ActiveFollow = true;
+    if (!IsEnabled) EnableBot();
+  } catch (e) { }
+}, 2000);
+/** HANDCATCH: walk the route waypoints toward the hand-played leader (re-reads his position as I go), then L2Swarm follow again */
+async function handCatchUp(lp0) {
+  let key = 'raid:29020'; try { const c = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\hand_lead.json`)).replace(/^﻿/, '')); if (c && c.route) key = String(c.route); } catch (e) { }
+  const r = navAtlasByKey(key);
+  const P = [];
+  { const um = /^raid:(\d+)$/.exec(key); const ur = um ? loadRaidRoute({ id: um[1], name: key }) : null; if (ur && ur.manual && Array.isArray(ur.points)) ur.points.forEach(p => P.push({ x: p.x, y: p.y, z: p.z })); }   // DSPUSER: the owner's recorded route first
+  if (!P.length && (!r || !r.steps)) return;
+  if (!P.length) r.steps.forEach(st => { if (st.do === 'walk' && Array.isArray(st.points)) for (let k = 0; k + 2 < st.points.length; k += 3) P.push({ x: st.points[k], y: st.points[k + 1], z: st.points[k + 2] }); });
+  if (P.length < 2) return;
+  const near = (x, y, z) => { let bi = 0, bd = 1e12; P.forEach((p, i) => { const d = Math.hypot(p.x - x, p.y - y) + Math.abs(p.z - z) * 3; if (d < bd) { bd = d; bi = i; } }); return { i: bi, d: bd }; };
+  const me = near(Me.X, Me.Y, Me.Z), ld = near(num(lp0.X), num(lp0.Y), num(lp0.Z));
+  if (me.d > 2500 || ld.d > 2500) return;                              // neither of us is on this route
+  const pts = me.i <= ld.i ? P.slice(me.i, ld.i + 1) : P.slice(ld.i, me.i + 1).reverse();
+  try { Options.ActiveFollow = false; } catch (e) { }
+  note(`hand lead: ${CONFIG.leader} is ${Math.round(Math.hypot(num(lp0.X) - Me.X, num(lp0.Y) - Me.Y))} away - walking the ${(r && r.name) || key} route to him (${pts.length} points)`);
+  const close = () => { const lp = partyMember(CONFIG.leader); return !!(lp && Math.hypot(num(lp.X) - Me.X, num(lp.Y) - Me.Y) < 600 && Math.abs(num(lp.Z) - Me.Z) < 250); };
+  for (const p of pts) { if (close() || Me.IsDead || !leaderHandPlayed()) break; if (Math.hypot(p.x - Me.X, p.y - Me.Y) < 120) continue; await walkDirect(p.x, p.y, p.z, 120, 15000, () => close() || Me.IsDead, 'route'); }
+  try { Options.ActiveFollow = true; Options.FollowName = CONFIG.leader; } catch (e) { }
+}
 function ownFollowNow() {
   try {
-    if (isLeader() || hiveSkillsOn()) return false;
+    if (isLeader()) return false;
+    if (typeof leaderHandPlayed === 'function' && leaderHandPlayed() && !inRaid()) return true;                     // HANDLEAD: the player leads by hand
+    if (hiveSkillsOn()) return false;
     if (inst.on || inKamaInstance() || inRaid() || state.mode === 'raidclear' || state.mode === 'mission') return false;
     return true;
   } catch (e) { return false; }
@@ -38317,6 +38579,11 @@ function handleSay(charName, text, messageType) {
       lettersTick(true).then(r => note(`[letters] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!letters', e));
       break;
     }
+    case '!gatechant': {                        // !gatechant [name]: the Doomcryer summons the whole party (Gate Chant, level 78)
+      if (parts[1] && parts[1].toLowerCase() !== String(Me.Name).toLowerCase()) break;
+      gateChantOrder().catch(e => logError('!gatechant', e));
+      break;
+    }
     case '!stashplan':                           // !stashplan [name]: DRY RUN — what I would put into my warehouse -> Logs/stash_plan_<name>.json + party chat
     case '!stash': {                             // !stash [name]: deposit now (Giran: recorded route to Taurin; a leader / solo character outside Giran goes there first)
       let stDest = '', sp = parts;                                    // CMDFIX2-SUPPLY-2026-10-12: '!stash private|clan [name]' = this order's warehouse
@@ -38347,7 +38614,8 @@ function handleSay(charName, text, messageType) {
     case '!park': {                              // !park [grocer|warehouse|weapons|start]: everyone stops, goes to Giran, walks the recorded route there and waits (user 2026-10-04 20:15)
       const place = String(parts[1] || 'grocer').toLowerCase();
       const tag = orderPauseTag('park', place), seq = orderState.seq;
-      if (isLeader()) { abortRegroup('!park'); setLeadPaused(true, tag); }   // nothing restarts leveling until the next order
+      if (isLeader()) { abortRegroup('!park'); setLeadPaused(true, tag); }
+      note(`!park: going to the ${place === 'start' ? 'Giran start' : place + ' in Giran'} and waiting there for orders`);   // nothing restarts leveling until the next order
       autoLvl.stop = true; raidHunt.stop = true; state.mode = 'idle'; state.goPending = false; stopCombatG();
       (async () => {
         // ORDERSTICK (2026-10-10): a control slot held by a more important task = wait for it (it was 'return' = the order was dropped)
@@ -38509,7 +38777,9 @@ function handleSay(charName, text, messageType) {
           // SELLPICK 2026-10-13: in Giran the recorded route to Helvetia (Giran walking rule), like the town sell / supply run
           const giran = /giran/i.test(String(currentTownKey() || ''));
           let merchant = null;
-          if (giran) { try { await giranGo('grocer'); snapNpcs().forEach(n => { if (n.Name === 'Helvetia') merchant = n.ref; }); } catch (e) { } }
+          // SELLWALK-2026-10-17 (Dagger1 never moved from the Giran landing on !sell): the pause above stops every walk that is not
+          // this order's own (walkGate) - the Giran route walk ran without the gate, so it waited behind its own pause until it timed out
+          if (giran) { state.walkGate = true; try { await giranGo('grocer'); snapNpcs().forEach(n => { if (n.Name === 'Helvetia') merchant = n.ref; }); } catch (e) { } state.walkGate = false; }
           if (!merchant) {
             state.walkGate = true;
             const merchantP = findNpcOrWalk(n => CONFIG.restock.npcMatch.test(`${n.Title} ${n.Name}`) && !CONFIG.restock.skipNpcs.includes(n.Name), grocerSpawns(), CONFIG.restock.walkTimeoutMs);
@@ -38519,9 +38789,9 @@ function handleSay(charName, text, messageType) {
           if (!merchant) { note('sell: no merchant reached - stand in a town (Giran: Helvetia) and order !sell again', true); intentDone('sell', false, 'no merchant reached'); return; }
           const r = await sellAt(merchant, '!sell');
           note(`sell: done — ${r.msg}`, true);
-          if (giran) { try { await giranGo('start'); } catch (e) { } }
+          if (giran) { state.walkGate = true; try { await giranGo('start'); } catch (e) { } state.walkGate = false; }
         } finally {
-          state.pauseOwner = false; state.pauseWalk = false; state.npcBusy = false;
+          state.walkGate = false; state.pauseOwner = false; state.pauseWalk = false; state.npcBusy = false;
           charLock.release('sell');
           if (wasEnabled && !IsEnabled) EnableBot();
         }

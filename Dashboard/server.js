@@ -1381,6 +1381,14 @@ function landings() {
     if (!t) { const tk = gkKey(to); t = list.find(x => gkKey(String(x.desc).split('->')[1]) === tk); }   // same destination from another town
     if (t) out.push({ desc, from, to, x: t.x, y: t.y, z: t.z });
   }
+  // GKLANDMAP-2026-10-18 (Discord, Vykaax: "This Aden -> ToI marker is still in the wrong spot"): the datapack landing (114649,11115 = the clan
+  // hall teleport) is not where the server's Aden gatekeeper puts you. The bots learn every real landing (Scripts/data/gk_landing_live.json,
+  // GKLANDING in swarm.js; ToI: 119965,16043 after 68 teleports): the map shows the learned spot when there is one.
+  try {
+    const live = readJson(path.join(DATA, 'gk_landing_live.json'), {}), alias = (s) => String(s || '').replace(/\btoi\b/ig, 'Tower of Insolence');
+    const lk = {}; Object.keys(live || {}).forEach(k => { const L = live[k]; if (L && Number.isFinite(L.x) && Number.isFinite(L.y) && (L.n || 0) >= 2) { const [f, t2] = alias(k).split('->'); lk[gkKey(f) + '>' + gkKey(t2)] = L; } });
+    out.forEach(o => { const L = lk[gkKey(o.from) + '>' + gkKey(alias(o.to))]; if (L) { o.datapack = [o.x, o.y, o.z]; o.x = L.x; o.y = L.y; o.z = L.z; o.learned = L.n; } });
+  } catch (e) { }
   const v = { gk: out, towns: TOWN_LANDINGS };
   LANDINGS = { at: Date.now(), v };
   return v;

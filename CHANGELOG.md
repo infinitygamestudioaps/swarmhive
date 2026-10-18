@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.10 (2026-10-18)
+
+- Navigation: parties run from waypoint to waypoint and only stop at a waypoint, where the leader holds the monsters and the party kills them, then moves on (no stop for every monster)
+- members stay within 600 of the group and walk back during stops
+- a stuck character fights back
+- stairs are not another floor
+- recorded routes are used by the dispatch and for floor changes in dungeons (then the room route finds the room)
+- no blind straight lines when stuck (wall-checked path finder instead)
+- a run continues from the nearest route point after a fight or reload. Hand-played leader: members always follow (forced follow, after death too) and catch up along the recorded route. Fixes: !sell in Giran (characters never walked to the shop), item jobs buy with L2Swarm BuyItem first, the party waits in Giran until an item job hands over the gear, the map shows the real gatekeeper landings the bots learned (Aden to ToI), healers no longer repeat their healer-role message after every restart. New: Tower of Insolence Dimensional Vortex route rule (off by default), !gatechant order.
+
 ## v1.8.9 (2026-10-17)
 
 - Start fix for public installs (the Start task / dashboard Start no longer aborts with AutoStart list in settings.xml looks wrong when your AutoStart list does not hold the main leader

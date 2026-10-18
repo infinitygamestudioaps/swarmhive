@@ -1,113 +1,124 @@
 {
-  "_readme": "ROUTE RULES (owner 2026-10-13: \"everything must be configurable manually; nothing automatic unless you ask for it - many people play their own way\"). Per party (key = party leader) what the bots may do on a computed route (raid travel, circuit, npc / quest / area trips through the nav atlas). Read live by swarm.js (routeRulesNow, every 30 s). Edited on the dashboard: route view -> Route rules (POST /api/routerules). A party without an entry uses 'defaults'. Missing file = the same defaults (built into swarm.js RSM_RULES; Dashboard/routeview_api.js RR_BUILTIN).",
-  "rules": [
-    {
-      "key": "openDoors",
-      "label": "Pass closed doors",
-      "default": true,
-      "help": "off = a closed door on the way stops the route (BLOCKED) — the bots never touch a door"
-    },
-    {
-      "key": "waitTimedDoors",
-      "label": "Wait at timed doors",
-      "default": true,
-      "help": "doors that open and close by themselves (Garden of Eva, Cruma): wait for the open phase"
-    },
-    {
-      "key": "npcDoors",
-      "label": "Ask the door NPC",
-      "default": true,
-      "help": "doors a gatekeeper NPC opens (Pagan Temple gate)"
-    },
-    {
-      "key": "unlockDoors",
-      "label": "Unlock doors (dagger class)",
-      "default": true,
-      "help": "a Rogue / Treasure Hunter / Plains Walker ... casts Unlock (skill 27, uses Thief Keys)"
-    },
-    {
-      "key": "keyDoors",
-      "label": "Use key items on doors",
-      "default": true,
-      "help": "a key item from the bag (it may be used up)"
-    },
-    {
-      "key": "buyKeys",
-      "label": "Buy the keys a route's doors need",
-      "default": true,
-      "help": "on = before leaving town the Unlock member buys the Thief Keys THIS route's Unlock doors need (by his Unlock level, 2 tries a door) at the nearest grocer; nothing is bought for routes without such doors (owner 2026-10-13)"
-    },
-    {
-      "key": "swim",
-      "label": "Swim when there is no dry way",
-      "default": true,
-      "help": "off = a route that swims is not used (Tillion, the Garden of Eva dive): the old travel code is tried instead"
-    },
-    {
-      "key": "drops",
-      "label": "Drop off ledges",
-      "default": true,
-      "help": "off = a route with a one-way drop is not used (drops over 333 cost HP, never below 1 HP)"
-    },
-    {
-      "key": "heineWalkOut",
-      "label": "Walk out of Heine on foot",
-      "default": true,
-      "help": "off = the old rule: only Heine's gatekeeper takes the party out"
-    },
-    {
-      "key": "tryFortressGates",
-      "label": "Try fortress gates",
-      "default": false,
-      "help": "on = a route that goes around a fortress (Valley Fortress: Sejarr's Servitor, Nakondas) takes the shorter way through its gates; a closed gate stops the route (only the owner clan opens them; unknown whether they are open without an owner on your server)"
-    },
-    {
-      "key": "moveTogether",
-      "label": "Move together: wait for everyone at every waypoint",
-      "default": true,
-      "help": "on (recommended, also in the public package: it keeps the team safe) = every member walks the same waypoints; the leader waits at each one until everyone is there (max 60 s for a slow walker; a stuck member gets side-step / re-plan / step back, after 90 s it catches up by itself). Off = the old way: everyone walks the points at its own pace and the team meets at the end"
-    },
-    {
-      "key": "mtMaxWaitSec",
-      "label": "Move together: longest wait at one waypoint",
-      "type": "number",
-      "unit": "s",
-      "min": 10,
-      "max": 600,
-      "default": 60,
-      "help": "how long the leader waits at a waypoint for a member that is still walking; after that the team goes on and the slow member follows on the same points (a stuck member or a swimmer is always waited for)"
-    },
-    {
-      "key": "mtLeaveSec",
-      "label": "Move together: go on without a stuck member after",
-      "type": "number",
-      "unit": "s",
-      "min": 20,
-      "max": 1800,
-      "default": 90,
-      "help": "a member that cannot get past a spot tries side-step, a new way, a step back; after this many seconds the team goes on and it catches up by itself (own way, else .town) — said in party chat; never in the water"
-    },
-    {
-      "key": "mtPaceGap",
-      "label": "Move together: the leader slows down when someone is this far behind",
-      "type": "number",
-      "unit": "units",
-      "min": 200,
-      "max": 3000,
-      "default": 600,
-      "help": "distance along the route; the leader stops until the member is closer (1 metre is about 40 units in game)"
-    },
-    {
-      "key": "mtStuckSec",
-      "label": "Move together: \"stuck\" after this many seconds without getting closer",
-      "type": "number",
-      "unit": "s",
-      "min": 3,
-      "max": 60,
-      "default": 8,
-      "help": "then the member starts its unstick steps (in the water always after 4 s)"
-    }
-  ],
-  "defaults": {},
-  "parties": {}
+ "_readme": "ROUTE RULES (owner 2026-10-13: \"everything must be configurable manually; nothing automatic unless you ask for it - many people play their own way\"). Per party (key = party leader) what the bots may do on a computed route (raid travel, circuit, npc / quest / area trips through the nav atlas). Read live by swarm.js (routeRulesNow, every 30 s). Edited on the dashboard: route view -> Route rules (POST /api/routerules). A party without an entry uses 'defaults'. Missing file = the same defaults (built into swarm.js RSM_RULES; Dashboard/routeview_api.js RR_BUILTIN).",
+ "rules": [
+  {
+   "key": "toiVortex",
+   "label": "Tower of Insolence: use the Dimensional Vortex",
+   "default": false,
+   "help": "Buys Dimensional Stones at Keplon (100,000 adena per character per jump, the party option) and jumps from the ground floor straight to the floor of the target (up to the 10th) instead of the climb. Green = floors 2-3, Blue = 4-6, Red = 7-10."
+  },
+  {
+   "key": "openDoors",
+   "label": "Pass closed doors",
+   "default": true,
+   "help": "off = a closed door on the way stops the route (BLOCKED) — the bots never touch a door"
+  },
+  {
+   "key": "waitTimedDoors",
+   "label": "Wait at timed doors",
+   "default": true,
+   "help": "doors that open and close by themselves (Garden of Eva, Cruma): wait for the open phase"
+  },
+  {
+   "key": "npcDoors",
+   "label": "Ask the door NPC",
+   "default": true,
+   "help": "doors a gatekeeper NPC opens (Pagan Temple gate)"
+  },
+  {
+   "key": "unlockDoors",
+   "label": "Unlock doors (dagger class)",
+   "default": true,
+   "help": "a Rogue / Treasure Hunter / Plains Walker ... casts Unlock (skill 27, uses Thief Keys)"
+  },
+  {
+   "key": "keyDoors",
+   "label": "Use key items on doors",
+   "default": true,
+   "help": "a key item from the bag (it may be used up)"
+  },
+  {
+   "key": "buyKeys",
+   "label": "Buy the keys a route's doors need",
+   "default": true,
+   "help": "on = before leaving town the Unlock member buys the Thief Keys THIS route's Unlock doors need (by his Unlock level, 2 tries a door) at the nearest grocer; nothing is bought for routes without such doors (owner 2026-10-13)"
+  },
+  {
+   "key": "swim",
+   "label": "Swim when there is no dry way",
+   "default": true,
+   "help": "off = a route that swims is not used (Tillion, the Garden of Eva dive): the old travel code is tried instead"
+  },
+  {
+   "key": "drops",
+   "label": "Drop off ledges",
+   "default": true,
+   "help": "off = a route with a one-way drop is not used (drops over 333 cost HP, never below 1 HP)"
+  },
+  {
+   "key": "heineWalkOut",
+   "label": "Walk out of Heine on foot",
+   "default": true,
+   "help": "off = the old rule: only Heine's gatekeeper takes the party out"
+  },
+  {
+   "key": "tryFortressGates",
+   "label": "Try fortress gates",
+   "default": false,
+   "help": "on = a route that goes around a fortress (Valley Fortress: Sejarr's Servitor, Nakondas) takes the shorter way through its gates; a closed gate stops the route (only the owner clan opens them; unknown whether they are open without an owner on your server)"
+  },
+  {
+   "key": "moveTogether",
+   "label": "Move together: wait for everyone at every waypoint",
+   "default": true,
+   "help": "on (recommended, also in the public package: it keeps the team safe) = every member walks the same waypoints; the leader waits at each one until everyone is there (max 60 s for a slow walker; a stuck member gets side-step / re-plan / step back, after 90 s it catches up by itself). Off = the old way: everyone walks the points at its own pace and the team meets at the end"
+  },
+  {
+   "key": "mtMaxWaitSec",
+   "label": "Move together: longest wait at one waypoint",
+   "type": "number",
+   "unit": "s",
+   "min": 10,
+   "max": 600,
+   "default": 60,
+   "help": "how long the leader waits at a waypoint for a member that is still walking; after that the team goes on and the slow member follows on the same points (a stuck member or a swimmer is always waited for)"
+  },
+  {
+   "key": "mtLeaveSec",
+   "label": "Move together: go on without a stuck member after",
+   "type": "number",
+   "unit": "s",
+   "min": 20,
+   "max": 1800,
+   "default": 90,
+   "help": "a member that cannot get past a spot tries side-step, a new way, a step back; after this many seconds the team goes on and it catches up by itself (own way, else .town) — said in party chat; never in the water"
+  },
+  {
+   "key": "mtPaceGap",
+   "label": "Move together: the leader slows down when someone is this far behind",
+   "type": "number",
+   "unit": "units",
+   "min": 200,
+   "max": 3000,
+   "default": 600,
+   "help": "distance along the route; the leader stops until the member is closer (1 metre is about 40 units in game)"
+  },
+  {
+   "key": "mtStuckSec",
+   "label": "Move together: \"stuck\" after this many seconds without getting closer",
+   "type": "number",
+   "unit": "s",
+   "min": 3,
+   "max": 60,
+   "default": 8,
+   "help": "then the member starts its unstick steps (in the water always after 4 s)"
+  }
+ ],
+ "defaults": {},
+ "parties": {
+  "Tank1": {
+   "mtMaxWaitSec": 10
+  }
+ },
+ "_updated": "2026-10-18T11:22:03.743Z"
 }

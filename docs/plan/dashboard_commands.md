@@ -13,10 +13,10 @@ How a command travels (server.js `commandPlan`):
 - **@login / @logout**: MCP open_account (the character's config) / close_account.
 - Passwords are never read or set (any / command naming a password is refused); `/config save` never takes a file name (it would re-point the account).
 
-Counts: 187 catalog entries — 145 swarm (99 distinct !words = every !command swarm.js handles except the internal !ready),
+Counts: 188 catalog entries — 146 swarm (100 distinct !words = every !command swarm.js handles except the internal !ready),
 34 L2Swarm chat-box (32 distinct /words), 8 dashboard actions.
 Hidden (not offered in the command center, still typed by hand): return, clancreate, b_runmacro, farm, camp, go, raidold, career, escort, queststop_old, gear, shop, kamaold.
-Safety: 26 safe, 140 confirm, 18 destructive.
+Safety: 26 safe, 141 confirm, 18 destructive.
 
 ## Move / Travel
 
@@ -38,6 +38,7 @@ Safety: 26 safe, 140 confirm, 18 destructive.
 | `/walk` | — | each chosen character (L2Swarm) | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Walk (slow): Switch to walking speed. |
 | `/unstuck` | — | each chosen character (L2Swarm) | one character, several characters | **destructive** (confirm + typed YES; server refuses without it) | palette · character sheet | /unstuck (to the nearest town): Last resort: the server sends the character to a town after a long cast. Breaks off whatever it does. |
 | `!dispatch {id}` | <id>: text | each character for itself ([name] = only that one) | one character | needs confirm | palette · character sheet | Dispatch: a party / a character to places (tour): Sent by the Dispatch page (#/dispatch). The tour file Logs/dispatch/<id>.json lists the stops (nav atlas places or map points); the party leader takes the party (or the one character goes alone, optionally sneaking). Per stop: the computed / own route as a state machine; when it fails: teleport closer + walk with the path finder, recorded, and saved as the place's learned route when it arrives (a locked route is never overwritten). Epic boss doors: stops at the door unless the tour says enter and the entry item is in the bag. Results: Logs/dispatch/<id>_status.json + results.json. |
+| `!gatechant[ {name}]` | [name]: char | each character for itself ([name] = only that one) | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Gate Chant: summon the whole party to the Doomcryer: The Doomcryer (level 78, Gate Chant learned) summons every party member to himself: no confirmation needed, 4 Summon Crystals per cast, 15 s cast, 10 min reuse. |
 | `!formation[ {shape}]` | [shape]: select | party leader acts, party follows | party, all parties | needs confirm | palette · party sheet | Formation in town: The party lines up in front of the town landing, side by side (each party its own lane): tank in front, casters, healers at the back. Leveling stops and the members hold their slots until the next order. Scripts/data/formations.json sets the spot. |
 | `!hunthere[ {radius}]` | [radius]: text | party leader acts, party follows | party, all parties | needs confirm | palette · party sheet | Hunt here 24/7: The party hunts around the spot where its leader stands now, around the clock: no supply runs, no Giran regroups, no daily Kamaloka. After a death it comes back here. "!hunthere off" = back to the automatic spots. Not inside a town. |
 | `!hunthere off` | — | party leader acts, party follows | party, all parties | needs confirm | palette · party sheet | Hunt here 24/7: off: Ends Hunt here 24/7 and restores the spot choice from before it (or the automatic spots). A party without Hunt here keeps its choice (answers "was not on"). |

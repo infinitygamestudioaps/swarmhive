@@ -49,6 +49,11 @@ const M = pc.__M;
   // the decision
   const mm = (o) => Object.assign({ name: 'A', online: true, alive: true, benched: false, left: false, reached: 3, prog: 3000, d: 50, stuck: null, fight: false }, o);
   const D = (o) => M.mtDecide(Object.assign({ now: 100000, phase: 'gate', gate: 3, n: 10, since: 100000, leaderProg: 3000, cfg: M.mtCfg({}), trail: [], fight: false, members: [] }, o));
+  { const mem = (crit) => [{ name: 'A', online: true, alive: true, reached: 3, prog: 3000, low: crit, crit }];   // RUNON-2026-10-18
+    ok(D({ phase: 'leg', fight: true, members: mem(false) }).act !== 'fight', 'runon: a fight on a leg -> the team runs on');
+    ok(D({ phase: 'leg', fight: true, members: mem(true) }).act === 'fight', 'runon: someone below 20 % on a leg -> fight here');
+    ok(D({ phase: 'gate', fight: true, fightDone: true, members: mem(false) }).act !== 'fight', 'runon: a waypoint fight already done (60 s) -> run on');
+    ok(D({ phase: 'gate', fight: true, members: mem(false) }).act === 'fight' && /grouped up/.test(D({ phase: 'gate', fight: true, members: mem(false) }).line), 'runon: at the waypoint -> group up and kill what followed'); }
   ok(D({ members: [mm({}), mm({ name: 'B' })] }).act === 'go', 'gate: everyone at the waypoint -> go');
   const w = D({ members: [mm({}), mm({ name: 'B', reached: 2, d: 700 })] });
   ok(w.act === 'wait' && /point 4\/10 · waiting for B \(700 away\)/.test(w.line), `gate: one still walking -> wait ("${w.line}")`);
@@ -252,7 +257,8 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
     ok(cStuck >= 0, 'C noticed it was stuck');
     ok(!S.errs.length, 'no errors' + (S.errs.length ? ': ' + S.errs[0] : ''));
   }
-  // D) a fight on the way: everyone stops, the leader does not move on, the walk resumes at the same waypoint
+  // D) RUNON-2026-10-18 (owner: run to the waypoint, group up, kill what followed, move on): a fight on a LEG does not stop the team; at the
+  //    next waypoint it groups up and fights; the walk then goes on to the end
   {
     const pts = line(6);
     const { S, win, run } = sim({ leader: 'Lead', pts });
@@ -260,14 +266,14 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
     let res = null; L.H.leadRouteWalk(pts, 'Test Boss', () => false, '', null, null).then(r => { res = r; });
     await run(12000);
     S.fightUntil = S.t + 20000; S.fighter = 'A';
-    await run(1500);
-    const g0 = L.ctx.state.mt.i, pos0 = { x: L.me.X, y: L.me.Y }, a0 = { x: S.wins.A.me.X, y: S.wins.A.me.Y };
-    await run(15000);
-    ok(L.ctx.state.mt.i === g0 && Math.hypot(L.me.X - pos0.x, L.me.Y - pos0.y) < 60, `fight: the leader stays at waypoint ${g0 + 1} (moved ${Math.round(Math.hypot(L.me.X - pos0.x, L.me.Y - pos0.y))})`);
-    ok(S.wins.A.H.memberRoute.hold > S.t || Math.hypot(S.wins.A.me.X - a0.x, S.wins.A.me.Y - a0.y) < 60, 'fight: the members hold too');
-    ok(/fighting on the way/.test(L.task || L.ctx.state.mt.line || '') || L.notes.some(n => /fighting on the way/.test(n)), 'fight: said in the live line');
+    const g0 = L.ctx.state.mt.i, pos0 = { x: L.me.X, y: L.me.Y };
+    let sawGateFight = false, sawLegFight = false;
+    for (let k = 0; k < 30; k++) { await run(500); const ln = L.ctx.state.mt.line || ''; if (/grouped up/.test(ln)) sawGateFight = true; if (/fighting on the way/.test(ln)) sawLegFight = true; }
+    ok(L.ctx.state.mt.i > g0 || Math.hypot(L.me.X - pos0.x, L.me.Y - pos0.y) > 60, 'run on: a fight on the leg does not stop the leader (it walks on to the next waypoint)');
+    ok(!sawLegFight, 'run on: no "fighting on the way" stop on a leg');
+    ok(sawGateFight || L.notes.some(n => /grouped up|killing everything/.test(n)), 'at the waypoint: grouped up, killing what followed');
     await run(400000, () => res !== null);
-    ok(res === true && L.ctx.state.mt.act === 'done', 'after the fight: on from the same waypoint to the end');
+    ok(res === true && L.ctx.state.mt.act === 'done', 'after the fight at the waypoint: on to the end');
     ok(!S.errs.length, 'no errors' + (S.errs.length ? ': ' + S.errs[0] : ''));
   }
   // E) a slow walker: the max wait (here 20 s) runs out while it is still walking -> the team goes on, it trails on the same points and is waited
