@@ -45,6 +45,9 @@ check(cd.act === 'change' && cd.ready.join() === 'A' && cd.skipped.join() === 'B
 check(P.planClassDecide([{ name: 'A', status: 'waiting', classId: 1, classId0: 0, needLevel: 40, level: 20 }, { name: 'B', status: 'needs-approval' }]).act === 'done', 'class decide: changed + unapproved = done');
 const bl = P.planClassDecide([{ name: 'A', status: 'waiting', classId: 0, classId0: 0, needLevel: 20, nextName: 'Warrior', level: 18 }]);
 check(bl.act === 'blocked' && /A \(Warrior at level 20, now 18\)/.test(bl.why), 'class decide: below the class level = blocked, says who + why');
+// TESTERFIX-2026-10-19: Hive already changed them at 20 (classId == classId0 at the step start), next change at 40 -> nothing due = done
+const lt = P.planClassDecide([{ name: 'A', status: 'waiting', classId: 1, classId0: 1, needLevel: 40, nextName: 'Hawkeye', level: 20 }]);
+check(lt.act === 'done' && /next: A: Hawkeye at 40/.test(lt.why), 'class decide: next change 20 levels away = done (not stuck at 20 waiting for 40)');
 check(P.planRaidOutcome(['2026-10-13T09:00:00.000Z\t25372\tDiscarded Guardian\tdead', '2026-10-13T10:05:00.000Z\t25372\tDiscarded Guardian\twiped'], 25372, T0) === 'wiped' && P.planRaidOutcome(['2026-10-13T09:00:00.000Z\t25372\tX\tdead'], 25372, T0) === null, 'raid outcome: only after the step started');
 const si = P.planStartInfo(plan1, { stepId: 's2' }, false);
 check(si.on && si.idx === 1 && si.left === 3 && /step 2\/4: quest 101/.test(si.text), 'start info: step 2/4');
@@ -296,6 +299,7 @@ const LVL_UP = (W, per) => { W.ev.push({ at: W.t, fn: function up() { if (W.ctx.
     const kinds = sg.steps.map(s => s.kind), lv = sg.steps.filter(s => s.kind === 'level').map(s => s.to);
     check(sg.steps.length > 5 && kinds[kinds.length - 1] === 'wait' && lv[lv.length - 1] === 40 && lv.every((x, i) => !i || x > lv[i - 1]), `suggestPlan (real data): ${sg.steps.length} steps, levels rising to 40, ends with "wait"`);
     check(kinds.filter(k => k === 'class').length === 2 && kinds.includes('supply') && kinds.includes('gear'), 'suggestPlan: class change at 20 and 40 + supplies + gear');
+    check(kinds.indexOf('gear') >= 0 && kinds.indexOf('gear') < kinds.indexOf('supply'), 'suggestPlan: Gear up BEFORE Supplies (shots for the new grade, TESTERFIX-2026-10-19)');
     const qs = sg.steps.filter(s => s.kind === 'quest').map(s => (rows.find(x => x.id === s.quest) || {}));
     check(qs.length > 0 && qs.length <= 12 && qs.every(q => q.type === 'one-time' && q.parse === 'full'), `suggestPlan: ${qs.length} quests, all one-time + every step known`);
     check(sg.steps.every(s => PL.normStep(s)), 'suggestPlan: every step is valid');

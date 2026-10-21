@@ -1,0 +1,49 @@
+{
+ "_about": "ACADEMY PIPELINE (owner 2026-10-21, ACADEMY-2026-10-21; guide docs/guide/pages/academy.md). An account added on the dashboard as 'Academy mage (automatic)' gets a random character (name + digits), goes to Giran with .giran, is invited into the clan ACADEMY by the clan leader, gets adena from the givers (fund round), buys its kit, levels 1-40 alone, changes class at 20 and 40 (the 2nd class change graduates it: the clan gets the Academy reputation), logs out, and the account makes the next academy character (until its character slots are full). Read live by swarm.js (academy steps) and Dashboard/academy_api.js (the manager). Edit by hand: the next characters use the new values.",
+ "on": true,
+ "race": 2,
+ "classId": 38,
+ "sexes": [0, 1],
+ "classPlan": [39, 40],
+ "role": "nuker",
+ "names": {
+  "_about": "a name = one of 'first' + one of 'second' + 2-4 digits (max 16 letters/digits in total)",
+  "first": ["Nyx", "Vel", "Mor", "Kael", "Shad", "Drav", "Ilyth", "Zar", "Vex", "Sere", "Myr", "Ash", "Noct", "Umbr", "Rhae", "Xil"],
+  "second": ["ara", "eth", "iel", "ora", "yn", "ith", "ael", "is", "ra", "on", "wen", "oth"],
+  "digitsMin": 2,
+  "digitsMax": 4,
+  "tries": 6
+ },
+ "funds": {
+  "_about": "adena an academy character asks the givers for (fund_rules.json chars.<Name>.target wins); it waits in Giran until it has 'need' (max waitMin)",
+  "target": 2000000,
+  "need": 900000,
+  "waitMin": 45
+ },
+ "buy": {
+  "start": [
+   { "id": 2509, "name": "Spiritshot (No Grade)", "count": 5000, "npc": "Helvetia", "shots": true }
+  ],
+  "level20": [
+   { "id": 1101, "name": "Tunic of Devotion", "count": 1, "equip": true },
+   { "id": 1104, "name": "Stockings of Devotion", "count": 1, "equip": true },
+   { "id": 44, "name": "Leather Helmet", "count": 1, "equip": true },
+   { "id": 11729, "name": "Common Item - Staff of Life", "count": 1, "equip": true, "alt": [11732] },
+   { "id": 3948, "name": "Blessed Spiritshot (D-Grade)", "count": 10000, "npc": "Helvetia", "shots": true }
+  ]
+ },
+ "spots": {
+  "_about": "where it levels (party plan level steps; override = the owner accepted the level gap: Ant Nest monsters are 29-35)",
+  "to20": { "mode": "auto" },
+  "to25": { "mode": "manual", "kind": "rooms", "dungeon": "Ant Nest", "spot": "Ant Nest", "roomId": "antnest-1-straight-a", "override": true, "stay": true },
+  "to40": { "mode": "manual", "kind": "rooms", "dungeon": "Ant Nest", "spot": "Ant Nest", "roomId": "antnest-1-straight-b", "override": true, "stay": true }
+ },
+ "huntRadius": 1000,
+ "closestTarget": true,
+ "end": {
+  "_about": "after the 2nd class change: logout + the next academy character on the same account (newCharacter false = only log out)",
+  "logout": true,
+  "newCharacter": true,
+  "maxCharacters": 7
+ }
+}

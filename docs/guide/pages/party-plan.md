@@ -61,7 +61,7 @@ If someone else saves plans while your window is open (another page or phone), S
 
 - the party's own hunting places from its leveling route (else the known places for each level),
 - the best **one-time** quests that every member can take, near the hunting place's town first (at most two per level band),
-- a class change at 20 / 40 / 76, followed by supplies and gear in Giran,
+- a class change at 20 / 40 / 76, followed by better gear and then supplies in Giran (so the shots match the new weapon grade),
 - and **Wait for my order** at the end.
 
 ![A suggested plan](../img/party_plan_08_suggest_phone.png)

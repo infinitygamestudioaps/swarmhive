@@ -100,15 +100,17 @@
   }
   function stepCard(s, i, chk, cur, doneMap) {
     const info = PL().INFO[s.kind] || {}, c = chk.steps[i] || { warns: [], errors: [] };
-    const done = !!doneMap[s.id], isCur = i === cur && !!(PP.party && PP.party.plan && J(PP.party.plan.steps.map(x => x.id)) === J(PP.W.steps.map(x => x.id)));
+    // TESTERFIX-2026-10-19 (l3tal: "it is checked on the plan but on the quests tab it says failed"): a skipped / failed step shows ✗ + why, never ✓
+    const dd = doneMap[s.id], bad = !!(dd && (dd.failed || dd.skipped || /^skipped/i.test(String(dd.result || ''))));
+    const done = !!dd, isCur = i === cur && !!(PP.party && PP.party.plan && J(PP.party.plan.steps.map(x => x.id)) === J(PP.W.steps.map(x => x.id)));
     const lv = s.kind === 'level' ? '' : `<span class="pp-lv">party ≈ level ${E(c.levelAt)} here</span>`;
     const warn = c.errors.map(w => `<span class="pp-w bad">⛔ ${E(w)}</span>`).join('') + c.warns.map(w => `<span class="pp-w">⚠ ${E(w)}</span>`).join('');
     const adv = window.UIKit && UIKit.isAdv() ? `<span class="pp-adv">${E(s.id)}${s.kind === 'quest' ? ' · quest ' + E(s.quest) : s.kind === 'raid' ? ' · npc ' + E(s.boss) : ''}</span>` : '';
     const n = PP.W.steps.length;
-    return `<li class="pp-step k-${E(s.kind)}${isCur ? ' cur' : ''}${done ? ' done' : ''}" data-ppidx="${i}"${fine() ? ' draggable="true"' : ''}>
-      <div class="pp-num" aria-hidden="true">${done ? '✓' : isCur ? '▶' : i + 1}</div>
+    return `<li class="pp-step k-${E(s.kind)}${isCur ? ' cur' : ''}${done ? (bad ? ' skipped' : ' done') : ''}" data-ppidx="${i}"${fine() ? ' draggable="true"' : ''}>
+      <div class="pp-num" aria-hidden="true">${bad ? '✗' : done ? '✓' : isCur ? '▶' : i + 1}</div>
       <div class="pp-card"><button type="button" class="pp-main" data-ppedit="${i}" aria-label="Step ${i + 1}: ${E(PL().stepText(s, ctxS()))} — edit">
-        <span class="pp-ic" aria-hidden="true">${info.icon || '•'}</span><span class="pp-txt"><b>${E(PL().stepText(s, ctxS()))}</b>${lv}${warn}${s.note && s.kind !== 'wait' ? `<span class="pp-lv">📝 ${E(s.note)}</span>` : ''}${adv}</span></button>
+        <span class="pp-ic" aria-hidden="true">${info.icon || '•'}</span><span class="pp-txt"><b>${E(PL().stepText(s, ctxS()))}</b>${lv}${warn}${bad ? `<span class="pp-w bad">✗ ${E(String(dd.result || 'skipped'))}</span>` : ''}${s.note && s.kind !== 'wait' ? `<span class="pp-lv">📝 ${E(s.note)}</span>` : ''}${adv}</span></button>
         <div class="pp-ctl">${fine() ? '<span class="pp-grip" title="Drag to move" aria-hidden="true">⠿</span>' : ''}<button type="button" data-ppmove="${i}" data-d="-1" aria-label="Move up"${i ? '' : ' disabled'}>▲</button><button type="button" data-ppmove="${i}" data-d="1" aria-label="Move down"${i < n - 1 ? '' : ' disabled'}>▼</button><button type="button" data-ppdel="${i}" aria-label="Delete step ${i + 1}">🗑</button></div></div>
       </li>`;
   }
@@ -412,7 +414,7 @@
     const lo = startLevel();
     const goals = [20, 40, 52, 61, 76, 85].filter(l => l > lo).slice(0, 4);
     if (!goals.length) { uiAlert({ title: 'Nothing to suggest', body: 'The party is already at the top level.' }); return; }
-    const to = await uiChoice({ title: 'Suggest a plan', body: [uiP(`From level ${lo} (the party’s lowest) to which level?`), uiNote('It uses the party’s own hunting places (else the known places for each level), the best quests every member can take, a class change at 20 / 40 / 76, supplies and gear in Giran — and ends with “Wait for my order”. You can change everything afterwards.')],
+    const to = await uiChoice({ title: 'Suggest a plan', body: [uiP(`From level ${lo} (the party’s lowest) to which level?`), uiNote('It uses the party’s own hunting places (else the known places for each level), the best quests every member can take, a class change at 20 / 40 / 76, better gear and then supplies in Giran — and ends with “Wait for my order”. You can change everything afterwards.')],
       buttons: goals.map((l) => ({ label: `Level ${l}`, value: l, primary: l === (goals.includes(40) ? 40 : goals[goals.length - 1]) })) });
     if (!to) return;
     const o = CACHE.opts || {};

@@ -27,9 +27,9 @@ O = P.tcLearnPure({ works: null, misses: [{ by: 'A', at: 1 }] }, { ok: true, by:
 t(O.works === true && !O.misses.length, 'a success = works');
 t(P.tcGkText('Giran') === 'Town of Giran' && P.tcGkText('Hunters') === 'Hunters Village' && P.tcGkText('Rune') === 'Rune Township', 'gatekeeper link texts');
 // host wiring
-t(/tcMode\(\) === 'gatekeeper'\) && !supplyHoldsTeam\(\)\) return await townByGatekeeper/.test(src), 'townCommand routes to the gatekeeper');
+t(/tcMode\(\) === 'gatekeeper'\) && !supplyHoldsTeam\(\)( && !opts\.soInner)?\) return await townByGatekeeper/.test(src), 'townCommand routes to the gatekeeper');   // SRVOPT-2026-10-21: not inside a party's own '.townname' way
 t(/!wanted\.noTownCmd && tcMode\(\) !== 'gatekeeper'/.test(src), 'gkTeleport skips .townname in gatekeeper mode');
-t(/if \(!cands\.length\) return await townByGatekeeper/.test(src), 'all commands refused -> the gatekeeper');
+t(/if \(!cands\.length\) return (opts\.soInner \? false : )?await townByGatekeeper/.test(src), 'all commands refused -> the gatekeeper');   // SRVOPT-2026-10-21: inside a party's own way the next way decides
 t(src.includes("tk0 && tcMode() !== 'gatekeeper' && dfTownRule"), 'gkTeleportInner lets a gatekeeper take us to a town in gatekeeper mode');
 t(src.includes("if (tcMode() === 'gatekeeper') await scrollToTown("), 'the field scroll step reads the scroll directly (no useEscape loop)');
 t(src.includes("const dun = !cur ? tcInDungeon() : '';") && src.split("const dun = !cur ? tcInDungeon()")[1].slice(0, 300).includes("scrollToTown"), 'inside a dungeon: Scroll of Escape first');

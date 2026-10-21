@@ -19,6 +19,13 @@ if ((Get-FileHash $src).Hash -eq (Get-FileHash $dst).Hash) { Log "SKIP: no chang
 & node --check $src
 if ($LASTEXITCODE -ne 0) { Log "ABORT: syntax error in Scripts_dev\swarm.js"; exit 1 }
 
+# REQUIREMENTS GUARDRAIL (owner 2026-10-20: "make sure the system uses the guardrails"): the owner's permanent rules in docs\requirements
+# must hold before anything reaches the bots. -Force does NOT skip this: fix the code (or, with the owner's OK, the requirement) instead.
+$reqOut = & node "$root\docs\plan\tools\requirements_check.js" 2>&1
+$reqOut | ForEach-Object { Write-Output "  $_" }
+if ($LASTEXITCODE -ne 0) { Log ("ABORT: a requirement is broken (docs\requirements) - " + (($reqOut | Where-Object { $_ -match 'BROKEN|not in index|no tests|does not exist' }) -join ' | ')); exit 7 }
+Log "requirements OK"
+
 $last = Get-Content $log -ErrorAction SilentlyContinue | Where-Object { $_ -match ' DEPLOYED' } | Select-Object -Last 1
 if ($last -and -not $Force) {
     $age = (Get-Date) - [datetime]::ParseExact($last.Substring(0,19), 'yyyy-MM-dd HH:mm:ss', $null)

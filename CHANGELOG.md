@@ -2,6 +2,21 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.12 (2026-10-21)
+
+- Board buffs: the turn waits until the character is really out of combat (self-defence pauses, the leader holds new pulls), a refusal in combat no longer counts as a failure, town visits rebuff
+- Keep hunting: a party that hunts its spot stays there (others in the room are only noted, the arriving party yields), the dead walk back alone, a whole wipe returns straight to the spot, nearby spot changes are walked without a Giran trip, a failed route step re-plans from where the team stands
+- Safe-spot rebuff: 60 min before the board buffs run out the team rebuffs at a safe spot next to its hunting area and walks straight back
+- Move together: fight time no longer resets the waiting clock, a leader whose party has only healers fights himself, a member stuck in combat no longer holds the walk, the destination door is fought at instead of run past
+- Chosen spot: arrived only inside the chosen room, the chosen outline stays on the map while the party hunts nearby
+- Server options per party (party Settings, Server): buff source (Community Board, own party buffers, player buff stores, own buffers standing in town, Newbie Helper), way to town (.townname, return skill, Scroll of Escape, gatekeeper, walk back), switch for the server taking the party along at gatekeepers
+- Academy mages: add an account as Academy mage (automatic) and it creates a Dark Elven mage, joins the clan academy, gets its gear and levels 1-40 (Ant Nest), graduates and starts a new one
+- Gift of Vitality from the Giran event priest in supply runs and with !vitality
+- !npcmap also maps event NPCs
+- the Chant of Victory store switch now works
+- brain host: several parties per worker, code cache, priority and EcoQoS opt-out, direct worker channels (perf block in brain_host.json)
+- dashboard: Restart brain host button on the PC tab, phone fix for the class plan badge
+
 ## v1.8.11 (2026-10-18)
 
 - NPC rule: every character walks right in front of an NPC before talking to it (shops, warehouses, teleports, quest givers, buff stores, item jobs

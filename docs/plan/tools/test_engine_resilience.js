@@ -167,11 +167,17 @@ async function partD() {
   await waitFor(() => A.A1.bye, 2000);                                         // review: the bye travels over a socket (was read in the same tick: flaky)
   ok(q === 3 && A.A1.bye, `#37 A1 stalled its worker 3 times (async code) -> QUARANTINED (stall #${q}), its agent told bye (${A.A1.bye})`);
   ok(await booted('A2'), '#37 the rest of party P1 (A2) runs again in a fresh worker');
-  // ---- D2: a live raid of party P2: ONE stall of B1 quarantines it
+  // ---- D2: a live raid of party P2. SMOOTH-2026-10-20 (Archon Suscepter wipe: the quarantined raid leader had no brain): ONE stall of B1 =
+  // a worker restart only (B1 keeps its brain); a SECOND real stall in the same fight quarantines it (fightQuarantineAfter 2)
+  fs.writeFileSync(path.join(overlay, 'Logs', 'raid_live_P2.json'), JSON.stringify({ boss: 'Kraven', at: new Date().toISOString() }));
+  { const kills0 = P.st.watchdogKills; await stall('B1', 3000); await waitFor(() => P.st.watchdogKills > kills0, 6000); }
+  await sleepR(600);
+  ok(P.st.watchdogKills > 0 && !P.quarantined.has('B1') && !A.B1.bye, `#25 one stall during a live raid of its party -> B1's worker restarted, B1 NOT quarantined (agent bye: ${A.B1.bye})`);
+  await booted('B1');
   fs.writeFileSync(path.join(overlay, 'Logs', 'raid_live_P2.json'), JSON.stringify({ boss: 'Kraven', at: new Date().toISOString() }));
   { const kills0 = P.st.watchdogKills; await stall('B1', 3000); await waitFor(() => P.st.watchdogKills > kills0, 6000); }
   await waitFor(() => A.B1.bye, 2000);
-  ok(P.quarantined.has('B1') && !!A.B1.bye, `#25 one stall during a live raid of its party -> B1 quarantined at once (agent bye: ${A.B1.bye})`);
+  ok(P.quarantined.has('B1') && !!A.B1.bye, `#25 a second stall in the same raid -> B1 quarantined (agent bye: ${A.B1.bye})`);
   // ---- D3: live allow list: D1 removed, E1 added; party P1 (A2) keeps running (no restart), a broken file changes nothing
   await ev('A2', 'globalThis.__keep = 4242');
   const restarts0 = P.st.workerRestarts;
@@ -195,9 +201,12 @@ async function partD() {
     `#38 stats file: pid ${S && S.pid}, RSS ${S && S.rssMb} MB, ${S && S.workers.length} workers (${S ? S.workers.map(w => w.party + ' ' + w.heapMb + ' MB').join(', ') : '-'}), quarantined ${S ? JSON.stringify(S.quarantined.map(x => x.name)) : '-'}, ${S ? S.alerts.length : 0} alerts`);
   // ---- D4b (review): swarm.js names the live file after the writer (liveFileName() = Me.Name); party P4's file is raid_live_E1.json
   fs.writeFileSync(path.join(overlay, 'Logs', 'raid_live_E1.json'), JSON.stringify({ boss: 'Kraven', at: new Date().toISOString() }));
-  { const kills0 = P.st.watchdogKills; await stall('E1', 3000); await waitFor(() => P.st.watchdogKills > kills0, 6000); }
+  for (let k = 0; k < 2; k++) {                                              // SMOOTH-2026-10-20: two stalls in a fight (one = restart only)
+    if (k) { await booted('E1'); fs.writeFileSync(path.join(overlay, 'Logs', 'raid_live_E1.json'), JSON.stringify({ boss: 'Kraven', at: new Date().toISOString() })); }
+    const kills0 = P.st.watchdogKills; await stall('E1', 3000); await waitFor(() => P.st.watchdogKills > kills0, 6000);
+  }
   await waitFor(() => A.E1.bye, 2000);
-  ok(P.quarantined.has('E1') && !!A.E1.bye, `#25 a live raid file named after the party's leader (raid_live_E1.json, party key P4) counts: one stall quarantines E1 (bye: ${A.E1.bye})`);
+  ok(P.quarantined.has('E1') && !!A.E1.bye, `#25 a live raid file named after the party's leader (raid_live_E1.json, party key P4) counts: two stalls in that fight quarantine E1 (bye: ${A.E1.bye})`);
   // ---- D5: a quarantine ends (quarantineMs 8 s here): A1's next hello is accepted again
   await waitFor(() => !P.quarantined.has('A1') || (P.quarExpire && (P.quarExpire(), !P.quarantined.has('A1'))), 12000, 500);
   A.A1b = fakeAgent(port, 'A1');

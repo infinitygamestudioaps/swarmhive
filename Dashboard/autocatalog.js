@@ -106,6 +106,12 @@
     { key: 'dyes', group: 'supply', title: 'Draw symbols (dyes)', gate: 'start', def: 'off', eval: 'pauto', pauto: ['dyes'],
       what: 'During supply runs each character with a symbol plan buys the dyes and draws its next symbol in Giran.',
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
+    { key: 'storeCov', group: 'supply', title: 'Chant of Victory from a buff store', gate: 'start', def: 'off', eval: 'pauto', pauto: ['storeCov'],   // BUFFSTORE-2026-10-19
+      what: 'At the end of a supply run in Giran the leader buys Chant of Victory for the whole party from a player buff store, when it is cheap and running out.',
+      switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
+    { key: 'vitality', group: 'supply', title: 'Gift of Vitality', gate: 'start', def: 'off', eval: 'pauto', pauto: ['vitality'],   // VITALITY-2026-10-21
+      what: 'In a supply run in Giran every character below vitality level 4 takes the free Gift of Vitality from the high priest next to the temple (at most once every 5 hours).',
+      switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
     { key: 'unload', group: 'supply', title: 'Spare loot to a teammate', gate: 'start', def: 'off', eval: 'pauto', pauto: ['unload'],   // UNLOADGATE-2026-10-16
       what: 'In a supply run, when the leader carries more than 150 kinds of items, he trades what he does not use to the teammate with the most free slots (never potions, shots, scrolls, arrows, letters or items marked for selling).',
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },

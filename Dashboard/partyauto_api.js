@@ -21,6 +21,12 @@ const KINDS = [
     help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out.' },
   { key: 'sell', char: true, label: 'Sell junk on town visits',
     help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
+  // BUFFSTORE-2026-10-19 (owner: "maybe even take COV before you enter the catacomb, it's barely any adena"): default OFF
+  { key: 'storeCov', char: false, label: 'Chant of Victory from a Giran buff store in supply runs',
+    help: 'At the end of every supply run in Giran the leader buys Chant of Victory for the whole party from a player buff store near the landing (a seller whose title says COV; about 1 adena per member, 12 hours). Skipped while more than 1 hour is left, or when the store asks more than 5000 adena. Lost on death until the next supply run.' },
+  // VITALITY-2026-10-21 (public tester Vykaax: "refill vitality when in town during resupply"): default OFF
+  { key: 'vitality', char: false, label: 'Gift of Vitality in supply runs',
+    help: "In every supply run in Giran each character whose vitality is below level 4 walks to Eva's High Priest (Steve Shyagel, next to the Giran temple) and takes the free Gift of Vitality: vitality level 4 for 2 hours (more experience). Each character at most once every 5 hours; when the priest is gone (event over) it tries again 6 hours later. Your order !vitality [name] takes it at once." },
   { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs',
     help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' },
   // UNLOADGATE-2026-10-16 (player Vykaax: the leader traded his bag to a follower by itself): default OFF

@@ -83,7 +83,7 @@ const cut = (a, b) => { const i = src.indexOf(a), j = src.indexOf(b, i + 1); if 
   ok(/try \{ surrenderMissed\(\); \} catch \(e\) \{ \} const d = \{ resisted: res/.test(src), 'wired: the resist / interrupt watcher calls surrenderMissed');
 
   // ---- 7) SPOTKEEP ------------------------------------------------------------------------------------------------------------
-  ok(/const SPOTKEEP = \{ windowMs: 600000 \};/.test(src), 'a spot is judged over 10 min');
+  ok(/const SPOTKEEP = \{ windowMs: 600000(?: \}|, emptyMs: \d+ \});/.test(src), 'a spot is judged over 10 min');   // EMPTY5-2026-10-20 added emptyMs (test_empty_spot.js checks it)
   ok(/autoLvl\.teamKillTimes\.push\(now\(\)\)/.test(src), 'every monster that dies near the party counts (not only the leader\'s own kills)');
   ok(/else if \(why && \/kills in\|exp in\/\.test\(why\) && \(autoLvl\.weakWindows \|\| 0\) < 1\)/.test(src), 'one weak window = stay one more round; leave only after two');
   ok(/const MULTI = \{ emptyMs: 150000,/.test(src) && /staleMs: 300000 \}/.test(src), 'an area is empty after 150 s (was 35 s), checked again after 5 min');

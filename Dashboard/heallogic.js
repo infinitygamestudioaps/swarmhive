@@ -195,7 +195,10 @@ function hsOrder(list, priority, o) {
 function hsRechargeTarget(team, sc) {
   const R = hsObj(sc && sc.recharge); if (R.on === false) return null;
   const below = Number.isFinite(hsInt(R.below)) ? hsInt(R.below) : HS_DEFAULT.recharge.below;
-  const want = (team || []).filter(t => !t.me && !t.dead && Number(t.mp) < below && (R.who === 'everyone' || HS_CASTER_RE.test(t.role || ''))).sort((a, b) => a.mp - b.mp);
+  // SPOIL-2026-10-19 (owner: "the Elven Elder should just recharge and heal the Bounty Hunter"): a spoiler lives on MP (Spoil 38, Spoil Festival
+  // 113) and counts as a caster here, recharged below max(scheme %, 60)
+  const spoilerLow = (t) => t.role === 'spoiler' && Number(t.mp) < Math.max(below, 60);
+  const want = (team || []).filter(t => !t.me && !t.dead && (Number(t.mp) < below || spoilerLow(t)) && (R.who === 'everyone' || HS_CASTER_RE.test(t.role || '') || t.role === 'spoiler')).sort((a, b) => a.mp - b.mp);
   return want.length ? { t: want[0], count: want.length } : null;
 }
 /** the healer's own Mana Potion line: raids / dungeons 90 % (raid rule, unchanged); otherwise the scheme's % (automatic = 70 %) */

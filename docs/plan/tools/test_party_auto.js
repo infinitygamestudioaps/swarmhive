@@ -270,8 +270,10 @@ function ltaEnv(cfg, me) {
   if (fs.existsSync(LIVEF)) {
     const live = JSON.parse(fs.readFileSync(LIVEF, 'utf8')), cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'swarm.config.json'), 'utf8').replace(/^\uFEFF/, ''));
     const leaders = [...new Set((cfg.accounts || []).filter(a => a && a.character && a.party).map(a => a.party))];
-    const off = leaders.filter(L => !['supplyWatch', 'sell', 'dyes'].every(k => E(live, k, L, L).on));
-    check(!off.length, `owner install: today's behaviour kept — all ${leaders.length} parties of swarm.config.json have supply watch + selling + symbols ON`, off.join(', '));
+    // owner 2026-10-21: parties with supply watch / selling / symbols OFF are ON PURPOSE (they survive without supplies and level fast),
+    // so this checks the owner's file is valid (every party resolves every switch to on/off), not that the switches are ON
+    const bad = leaders.filter(L => !Object.keys(P.PAUTO_KINDS).every(k => typeof E(live, k, L, L).on === 'boolean'));
+    check(!bad.length, `owner install: the live party_auto.json resolves every switch for all ${leaders.length} parties of swarm.config.json`, bad.join(', '));
   } else check(true, 'owner live file not present (public install): everything OFF');
   const RBF = path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'), RB = fs.existsSync(RBF) ? fs.readFileSync(RBF, 'utf8') : null;   // PKGSKIP: the public package has no release_build.js
   if (RB === null) check(true, 'release seed: skipped (no release_build.js in a public install)'); else check(/'party_auto\.json'\]/.test(RB) && /case 'party_auto\.json': \{ const out = \{ _about: o\._about, v: 1, default: \{ supplyWatch: false, sell: false, dyes: false \}, parties: \{\}, chars: \{\} \}/.test(RB), 'release_build: party_auto.json ships as an example with everything OFF (no parties / characters)');

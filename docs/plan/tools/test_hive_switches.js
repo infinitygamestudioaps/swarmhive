@@ -106,7 +106,8 @@ check(JSON.stringify(T.FIGHT_TOGGLES) === JSON.stringify(API.FIGHT_TOGGLES), 'th
   const L = src.split('\n');
   const EXC = { escEscBuff: 'escape alone: Dash / Sprint before running (survival)', escCastCC: 'escape alone: crowd control on what hits me (survival)', kamaelChangeWeapon: 'gear: Change Weapon',
     scoutSpeedTick: 'your !scout order: run / stealth buffs on the trip', navAtlasDoor: 'route: Unlock on a door (route rules)', 'swarm.navatlas.unlock': 'route: Unlock (route rules)',
-    siegeCarry: 'siege order: flag', siegeEngrave: 'siege order: seal', resRun: 'resurrection (own switch)', raidOverride: 'your !ov order (character page "use now")', toggleOffOne: 'gated (OFF only)' };
+    siegeCarry: 'siege order: flag', siegeEngrave: 'siege order: seal', resRun: 'resurrection (own switch)', raidOverride: 'your !ov order (character page "use now")', toggleOffOne: 'gated (OFF only)',
+    soReturnSkill: 'party setting "way to town": a return-to-town skill instead of .town (travel, SRVOPT-2026-10-21)' };
   const sites = [], bad = [];
   L.forEach((l, i) => {
     if (!/Send\.RequestMagicSkillUse\(/.test(l) || /^\s*\/\//.test(l)) return;
@@ -133,12 +134,12 @@ gate('function tankReady(which)', /if \(!hiveSkillsOn\(\)\) return null;/, 'tank
 gate('async function raidDebuffStep(boss)', S, 'raid debuff step');
 gate('async function raidDebuffCast(boss, d)', S, 'raid debuff cast');
 gate('async function drainAndFrenzy(', S, 'destroyer HP drain + Frenzy');
-gate('async function sweepCorpse(', S, 'Sweeper');
+// SPOIL-2026-10-19: Spoil + Sweeper + the festivals moved into spoilerStep() (cast through castNow, gated too)
+gate('async function spoilerStep(', /if \(state\.role !== 'spoiler' \|\| !hiveSkillsOn\(\)\) return null;/, 'spoiler: Spoil / Sweeper / festivals (spoilerStep)');
 gate('async function epicCastTick()', /!hiveSkillsOn\(\)/, 'epic phase casts');
 gate('async function castOnMate(t, k)', /if \(!hiveHealsOn\(\)\) return false;/, 'castOnMate (every heal on a teammate)');
 gate('async function healTick()', /if \(!hiveHealsOn\(\)\) return;/, 'healTick (healer brain)');
 has(/if \(state\.role !== 'summoner'[^\n]*\n\s+if \(!hiveSkillsOn\(\)\) return;/, 'summoner: summon / servitor care');
-has(/if \(state\.role !== 'spoiler'[^\n]*\n\s+if \(!hiveSkillsOn\(\)\) return;/, 'spoiler: Spoil');
 has(/if \(state\.role !== 'crafter'[^\n]*\n\s+if \(!hiveSkillsOn\(\)\) return;/, 'crafter: golem summon');
 has(/if \(k && k\.IsReady && hiveSkillsOn\(\)\) Send\.RequestMagicSkillUse\(plan\.lock\.id\); else Send\.Attack/, 'pull cycle: a plain hit instead of the lock skill');
 has(/if \(hiveSkillsOn\(\)\) for \(const sk of plan\.attacks\)/, 'instance melee: no skill after the hit');

@@ -86,6 +86,9 @@ function ConfigOf($name) {
     (Get-ChildItem "$root\Settings\*.xml" | Where-Object { $_.Name -ne 'settings.xml' -and (Select-String -Path $_.FullName -Pattern $pat -Quiet) } | Select-Object -First 1).FullName
 }
 # seconds since the last mouse/keyboard input of the logged-on user (the Hook's auto-login types with global keystrokes)
+# HOOKNOW-2026-10-18 (owner: "Just launch the ingame client RIGHT away! no waiting"): the auto-login types the password with global
+# keystrokes, so it starts at the first 2 s pause in typing, at most 20 s after the switch (was: 60 s without any input, re-checked every 2 min)
+function WaitTypingPause($name) { for ($i = 0; $i -lt 40; $i++) { $idle = UserIdleSec; if ($idle -lt 0 -or $idle -ge 2) { break }; Start-Sleep -Milliseconds 500 }; Log "hook ${name}: starting the game client now (do not type for ~20 s: the login is typed into the front window)" }
 function UserIdleSec {
     try {
         if (-not ('CMIdle' -as [type])) { Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class CMIdle { [StructLayout(LayoutKind.Sequential)] struct LII { public uint cbSize; public uint dwTime; } [DllImport("user32.dll")] static extern bool GetLastInputInfo(ref LII p); public static double Sec() { var l = new LII(); l.cbSize = (uint)Marshal.SizeOf(typeof(LII)); if (!GetLastInputInfo(ref l)) return -1; return unchecked((uint)Environment.TickCount - l.dwTime) / 1000.0; } }' }
@@ -120,8 +123,7 @@ function HookCharacter($name) {
     $exe = ''; try { if ((Get-Content $cfg -Raw) -match '<L2ExePath>([^<]+)<') { $exe = $Matches[1] } } catch { }
     if (-not $exe -or -not (Test-Path $exe)) { Log "hook ${name}: $(Split-Path $cfg -Leaf) has no valid <L2ExePath> ('$exe') - L2Swarm would open a modal 'Select L2.exe' dialog; set the path first (close account, edit XML, open) - not pressing Hook"; return $false }
     if ($NoUi) {
-        $idle = UserIdleSec
-        if ($idle -ge 0 -and $idle -lt 60) { Log "hook ${name}: waiting - the user was active $([int]$idle) s ago (auto-login types with global keystrokes)"; return $false }
+        WaitTypingPause $name
         $before = @(Get-Process l2 -ErrorAction SilentlyContinue | ForEach-Object Id)
         try { $r = Mcp 'manage_hook' @{ action = 'start'; account_name = $cfg }; Log "hook ${name}: manage_hook start -> $(($r | ConvertFrom-Json).result.content[0].text)" }
         catch { Log "hook ${name}: manage_hook start failed: $_"; return $false }
@@ -140,8 +142,7 @@ function HookCharacter($name) {
     $hookCond = New-Object Windows.Automation.PropertyCondition($AE::AutomationIdProperty, 'btnHook')
     $btn = $win.FindFirst([Windows.Automation.TreeScope]::Descendants, $hookCond)
     if ($btn -and -not $btn.Current.IsEnabled) { Log "hook ${name}: the Hook button is disabled - another hooked client is still running (L2Swarm allows ONE hooked client at a time; the button comes back when that l2.exe exits)"; return $false }
-    $idle = UserIdleSec
-    if ($idle -ge 0 -and $idle -lt 60) { Log "hook ${name}: waiting - the user was active $([int]$idle) s ago (the Hook auto-login types the password with global keystrokes into the front window)"; return $false }
+    WaitTypingPause $name
     # 1) select the account in L2Swarm's account list (a list item whose text contains the character name)
     $items = FindAll ([Windows.Automation.Condition]::TrueCondition) | Where-Object {
         $_.Current.ControlType.ProgrammaticName -match 'ListItem|DataItem|TreeItem' -and $_.Current.Name -match [regex]::Escape($name) }
@@ -264,7 +265,8 @@ foreach ($name in @($wanted.Keys)) {
     if ($want -eq 'ingame' -and -not $alive) {
         if ($loginBusy -or $young) { continue }                     # next run (2 min)
         # at most one try per 5 min per character
-        if ($cur -and $cur.tried -and ((Get-Date) - [datetime]$cur.tried).TotalMinutes -lt 5) { continue }
+        $clickedAfter = $false; try { $clickedAfter = $cur -and $cur.tried -and ((Get-Item $modeFile).LastWriteTime -gt [datetime]$cur.tried) } catch { }
+        if ($cur -and $cur.tried -and -not $clickedAfter -and ((Get-Date) - [datetime]$cur.tried).TotalMinutes -lt 5) { continue }
         # hook loop brake: 3 hooks within 60 min -> pause 60 min (each hook = a full client start + login + password typing)
         $recent = @(@($hist.hooks.$name) | Where-Object { $_ -and ((Get-Date) - [datetime]$_).TotalMinutes -lt 60 })
         if ($recent.Count -ge 3) {

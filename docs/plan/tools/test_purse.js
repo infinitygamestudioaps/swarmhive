@@ -129,7 +129,9 @@ check(P.purseCardRows(R0, { name: 'JadeLeader', adena: 2000000 }, mem).length ==
   check(g.ok && !('memberKeep' in g.rules) && Object.keys(g.rules.parties).length === 0, 'API: a file without purse / memberKeep stays without them (no keys added)');
   const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'fund_rules.json'), 'utf8').replace(/^﻿/, ''));
   const ls = API.fundSanitize(live, live);
-  check(ls.ok && Object.keys(ls.rules.parties).every(k => !('purse' in ls.rules.parties[k])) && !('memberKeep' in ls.rules), 'API: the owner\'s file round-trips without purse / memberKeep keys');
+  // 2026-10-21: the owner switches Leader pays on himself (Spoiler7 2026-10-20) = check that the round trip adds / drops no purse / memberKeep key
+  const pk = (o) => JSON.stringify([Object.keys(o.parties || {}).filter(k => 'purse' in o.parties[k]).sort(), 'memberKeep' in o]);
+  check(ls.ok && pk(ls.rules) === pk(live), 'API: the owner\'s file round-trips without purse / memberKeep keys added or dropped', pk(live));
 }
 
 // ---- 4) source checks: order of the steps, the scaled pocket money, the hooks -------------------------------------------------
@@ -164,7 +166,8 @@ check(P.purseCardRows(R0, { name: 'JadeLeader', adena: 2000000 }, mem).length ==
 // ---- 5) defaults ---------------------------------------------------------------------------------------------------------------
 {
   const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'fund_rules.json'), 'utf8').replace(/^﻿/, ''));
-  check(Object.keys(live.parties || {}).every(k => P.purseRule(live, k).on === false) && !live.memberKeep, "owner's fund_rules.json: Leader pays OFF for every party, the file has no purse / memberKeep (his rules unchanged)");
+  // 2026-10-21: parties the owner switched on himself (a purse entry with on:true, saved by the dashboard) are his choice; every other party = OFF
+  check(Object.keys(live.parties || {}).every(k => (live.parties[k].purse && live.parties[k].purse.on === true) || P.purseRule(live, k).on === false), "owner's fund_rules.json: Leader pays OFF for every party he did not switch on himself (his rules unchanged)");
   // PKGSKIP-2026-10-13: the public package has no release_build.js (owner tool) -> that check is skipped there
   const RBF = path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'), rb = fs.existsSync(RBF) ? fs.readFileSync(RBF, 'utf8') : null;
   if (rb === null) console.log('  skipped: the release_build.js check needs the owner install (the public package has no release_build.js)');

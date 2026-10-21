@@ -169,7 +169,7 @@ has(/if \(!runAuto\('leveling after an automatic pause'\)\) return;/, 'an automa
   check(/if \(!runAuto\('resume'\)\) \{[^\n]*return; \}/.test(b), '... the activity resume returns while OFF'); }
 has(/const k = dailyDue\(\);\n  if \(!k\) return;\n  if \(!runAuto\('daily Kamaloka'\)\) return;/, 'daily Kamaloka asks the switch');
 has(/if \(!low\.length\) return;\n  if \(!runAuto\('supply run'\)\) return;/, 'supply watch asks the switch');
-has(/const runOK = runOn\(\);[^\n]*\n  if \(ok && runOK && leadMode\(\)[^\n]*supplyDue/, 'Giran regroup: no automatic supply run while OFF');
+has(/const runOK = runOn\(\);[^\n]*\n(?:\s*\/\/[^\n]*\n)*  if \(ok && runOK && leadMode\(\)[^\n]*supplyDue/, 'Giran regroup: no automatic supply run while OFF');
 ['fund other teams', 'seven signs'].forEach(s => has(new RegExp("if \\(ok && runOK && leadMode\\(\\)[^\\n]*pstStep\\('regroup', '" + s + "'\\)"), `Giran regroup: no automatic "${s}" while OFF`));
 has(/if \(ok && runOK && leadMode\(\) && !rcHub && !leadRunBusy && !regroupRun && Me\.Name === clanLeaderName\(\)\)/, 'Giran regroup: no automatic clan warehouse look while OFF');
 has(/if \(!runAuto\('split regroup'\)\) return;[^\n]*\n  if \(!takeControl\('regroup: left behind'/, 'split watchdog asks the switch');

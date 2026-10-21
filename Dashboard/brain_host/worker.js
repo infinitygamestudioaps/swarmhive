@@ -40,16 +40,47 @@ function invokeMark(name, entering) {
     const was = Atomics.load(mark, 0);
     Atomics.store(mark, 0, stack.length ? stack.pop() : 0); Atomics.store(mark, 1, stack.length);
     if (WIDE && stack.length === 0 && was) { Atomics.store(mark, 2, was); markT[1] = Date.now(); if (!lastClearQueued) { lastClearQueued = true; setImmediate(clearLast); } }
+    if (WIDE && stack.length === 0) Atomics.add(mark, 3, 1);   // SMOOTH-2026-10-20 progress counter: a callback finished (main's watchdog: busy != stuck)
   }
+}
+// SMOOTH-2026-10-20 (Archon Suscepter wipe 22:24: the watchdog killed party Tank2 10 s into the pull and quarantined its leader for 30 min,
+// although no callback had run longer than ~200 ms): main used to post every TCP chunk and every App event as its own message, and the port
+// handed this thread hundreds of them in one go, so the heartbeat timer (and the 1 s brain pings to the agents) could not run for seconds.
+// Now main sends ONE 'batch' per tick; the items go into an ordered queue that is worked off in slices of SLICE_MS, and the rest continues
+// in a setImmediate, so timers get their turn between slices. 'stats' / 'eval' are answered at once (order does not matter for them).
+const SLICE_MS = W.sliceMs || 25;
+const inq = []; let inqHead = 0, inqScheduled = false;
+function inqRun() {
+  inqScheduled = false;
+  const t0 = performance.now();
+  while (inqHead < inq.length) {
+    const m = inq[inqHead]; inq[inqHead++] = undefined;
+    try { handleMsg(m); } catch (e) { try { runner.log('worker message ' + (m && m.k) + ': ' + (e && e.message)); } catch (e2) { } }
+    if (WIDE) Atomics.add(mark, 3, 1);
+    if (performance.now() - t0 >= SLICE_MS) break;
+  }
+  if (inqHead >= inq.length) { inq.length = 0; inqHead = 0; }
+  else if (inqHead > 4096) { inq.splice(0, inqHead); inqHead = 0; }
+  if (inqHead < inq.length && !inqScheduled) { inqScheduled = true; setImmediate(inqRun); }
+}
+function inqPush(m) {
+  if (m.k === 'stats' || m.k === 'eval') { handleMsg(m); return; }
+  inq.push(m);
+  if (!inqScheduled) { inqScheduled = true; setImmediate(inqRun); }
 }
 
 let brain = new Set();
+const DIRECT = Array.isArray(W.directNames) && W.directNames.length ? new Set(W.directNames) : null, peers = new Map(); let slots = {}, directSent = 0, directGot = 0;   // FARMPERF-2026-10-20
 const opts = Object.assign({}, W.runner || {}, {
   port: null, invokeMark,
+  partyOf: W.partyMap ? ((n) => W.partyMap[n] || n) : undefined,   // FARMPERF-2026-10-20: several parties in one worker (pool "workers")
   logFile: W.runner && W.runner.logFile,
   brainAccounts: (acc) => brain.has(acc),
   extraBrainAccounts: () => Array.from(brain),
-  onAppOut: (env, target, from) => post({ k: 'app', env, target, from }),
+  onAppOut: (env, target, from) => {               // FARMPERF-2026-10-20: loss-tolerant names to a worker we have a port to: direct
+    if (target && DIRECT && DIRECT.has(env.name)) { const key = slots[String(target)], p = key && peers.get(key); if (p) { try { p.postMessage({ k: 'appin', env, only: String(target) }); directSent++; return; } catch (e) { peers.delete(key); } } }
+    post({ k: 'app', env, target, from });
+  },
   onContext: (C) => post({ k: 'acc', accountId: C.accountId, name: C.name }),
   // BRAIN ACCOUNTS FOLLOW THE AGENT (engine audit #21/#22/#31, 2026-10-12): a context whose agent connects (again, maybe with a new runtime
   // account id) -> 'acc' with every id it answers to; its agent gone > linkGraceMs or the context disposed -> 'gone' (main drops the ids from
@@ -73,6 +104,11 @@ class PSock extends EventEmitter {
 const conns = new Map();
 
 parentPort.on('message', (m) => {
+  if (!m) return;
+  if (m.k === 'batch') { const it = m.items || []; for (let i = 0; i < it.length; i++) inqPush(it[i]); return; }
+  inqPush(m);
+});
+function handleMsg(m) {
   switch (m.k) {
     case 'open': { const s = new PSock(m.cid); conns.set(m.cid, s); runner.handle(s); break; }
     case 'data': {
@@ -90,7 +126,9 @@ parentPort.on('message', (m) => {
       else for (const C of Array.from(runner.ctxs.values())) if (C.accountId !== (env.source && env.source.accountId)) runner.injectFor(C, env);
       break;
     }
-    case 'brain': brain = new Set(m.accounts || []); if (runner.o.bridge) runner.bridgeHello(); break;
+    case 'brain': brain = new Set(m.accounts || []); if (m.slots) slots = m.slots; if (runner.o.bridge) runner.bridgeHello(); break;
+    case 'peer': { const old = peers.get(m.key); if (old) { try { old.close(); } catch (e) { } } const p = m.port; peers.set(m.key, p); p.on('message', (x) => { if (x && x.k === 'appin') { directGot++; inqPush(x); } }); break; }   // FARMPERF direct ports
+    case 'peerdown': { const p = peers.get(m.key); if (p) { try { p.close(); } catch (e) { } peers.delete(m.key); } break; }
     case 'eval': {                                 // tests only (pool option allowEval): run code inside one context
       if (!W.allowEval) { post({ k: 'evalres', id: m.id, ok: false, v: 'eval not allowed' }); break; }
       const C = runner.ctxs.get(m.name);
@@ -100,11 +138,11 @@ parentPort.on('message', (m) => {
     }
     case 'stats': {
       const r = runner.report(), h = v8.getHeapStatistics(), elu = performance.eventLoopUtilization(lastElu); lastElu = performance.eventLoopUtilization();
-      post({ k: 'stats', id: m.id, party: W.party, heapUsed: h.used_heap_size, heapTotal: h.total_heap_size, elu: elu.utilization, lag: eldMs(), hot: r.st.hot || 0, st: r.st, bus: r.bus, vfsMb: +((runner.vfs.st.bytesCached || 0) / 1048576).toFixed(1), shared: { files: runner.shared ? runner.shared.size : 0, hits: r.st.sharedHits || 0, parses: r.st.sharedParses || 0 },   /* PERF-2026-10-15 */
+      post({ k: 'stats', id: m.id, party: W.party, heapUsed: h.used_heap_size, heapTotal: h.total_heap_size, elu: elu.utilization, lag: eldMs(), hot: r.st.hot || 0, st: r.st, bus: r.bus, vfsMb: +((runner.vfs.st.bytesCached || 0) / 1048576).toFixed(1), direct: { sent: directSent, got: directGot, peers: peers.size }, shared: { files: runner.shared ? runner.shared.size : 0, hits: r.st.sharedHits || 0, parses: r.st.sharedParses || 0 },   /* PERF-2026-10-15 */
         contexts: r.contexts.map(c => ({ name: c.name, booted: c.booted, connected: c.connected, timers: c.timers, title: c.title })), missing: Array.from(r.missing.entries()), errors: Array.from(r.errors.entries()) });
       break;
     }
-    case 'agentcfg': if (m.agentPush !== undefined) runner.setAgentPush(m.agentPush); if (m.partyHot !== undefined) runner.o.partyHot = m.partyHot; break;   // ENGINELAT live switches
+    case 'agentcfg': if (m.agentPush !== undefined) runner.setAgentPush(m.agentPush); if (m.partyHot !== undefined) runner.o.partyHot = m.partyHot; if (m.agentSlim !== undefined) runner.setAgentSlim(m.agentSlim); break;   // ENGINELAT live switches (+ SLIM-2026-10-20)
     case 'stop': runner.stop('pool stop').then(() => post({ k: 'stopped' })); break;
     case 'drop': {                                 // live allow list (audit #26/#35): this character leaves the brain; its agent is still connected,
       const C = runner.ctxs.get(m.name);           // so OnBeforeScriptStop's L2Swarm writes (combat skills back on) reach it before main says 'bye'
@@ -113,7 +151,7 @@ parentPort.on('message', (m) => {
       break;
     }
   }
-});
+}
 let lastElu = performance.eventLoopUtilization();
 function safe(x) { try { return JSON.parse(JSON.stringify(x, (k, v) => typeof v === 'bigint' ? Number(v) : v)); } catch (e) { return String(x); } }
 // LEAK-2026-10-15 heap probe (opt-in): Logs/brain_heap_probe.flag -> one JSON line per worker in Logs/brain_heap_probe.log (heap + the biggest

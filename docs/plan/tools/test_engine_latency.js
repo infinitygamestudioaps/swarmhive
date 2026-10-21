@@ -176,8 +176,12 @@ function makeAgent(o) {
     ok(b.w.filter(m => m.a === 'hot').length === 1, 'throttled (once per 4 s)');
     a.mirror.fl.IsInCombat = false; b.hotAt -= 5000; Runner.prototype.partyHot.call(R);
     ok(b.w.filter(m => m.a === 'hot').length === 2, 'held after the fight (15 s)');
-    R.hotUntil = Date.now() - 1; b.hotAt -= 5000; Runner.prototype.partyHot.call(R);
+    for (const k of R.hotUntilP.keys()) R.hotUntilP.set(k, Date.now() - 1); b.hotAt -= 5000; Runner.prototype.partyHot.call(R);   // FARMPERF: hold kept per party
     ok(b.w.filter(m => m.a === 'hot').length === 2, 'nobody fights and the hold is over: no hint');
+    const RP = { o: { partyOf: (n) => n[0] }, st: {}, ctxs: new Map() };   // FARMPERF worker slots: two parties in one worker (party = first letter)
+    const pa = mk('Atank', true), pb = mk('Ahealer', false), qa = mk('Bidle', false);
+    [pa, pb, qa].forEach(x => RP.ctxs.set(x.name, x)); Runner.prototype.partyHot.call(RP);
+    ok(pb.w.some(m => m.a === 'hot') && !qa.w.length, 'two parties in one worker: only the fighting party gets the hint');
     const R2 = { o: { partyHot: false }, st: {}, ctxs: new Map([['T', mk('T', true)]]) }; Runner.prototype.partyHot.call(R2);
     ok(!R2.ctxs.get('T').w.length, 'partyHot false: off');
     const R3 = { o: { agentPush: ['Tank'] }, ctxs: new Map([['Tank', mk('Tank', false)], ['Healer', mk('Healer', false)]]) };

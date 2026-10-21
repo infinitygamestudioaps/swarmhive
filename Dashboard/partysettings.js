@@ -43,16 +43,16 @@
     return Math.round(Number(m[1]) * ({ '': 1, k: 1e3, m: 1e6, b: 1e9 })[m[2]]);
   }
   const SRC = { fund: '/api/fundrules', gear: '/api/gearauto', storage: '/api/storage', tactics: '/api/tactics', routes: '/api/routerules',
-    daily: '/api/daily', ss: '/api/sevensigns', clan: '/api/clanauto', run: '/api/runstate', pauto: '/api/partyauto', res: '/api/resrules', loot: '/api/lootrules' };   // RESURRECTION 2026-10-13: + res; LOOT RULES 2026-10-13: + loot
+    daily: '/api/daily', ss: '/api/sevensigns', clan: '/api/clanauto', run: '/api/runstate', pauto: '/api/partyauto', res: '/api/resrules', loot: '/api/lootrules', srv: '/api/serveropts' };   // SRVOPT-2026-10-21: + srv (Server section)   // RESURRECTION 2026-10-13: + res; LOOT RULES 2026-10-13: + loot
   /** which source each editable section needs */
-  const SEC_SRC = { res: 'res', money: 'fund', supplies: 'pauto', combat: 'pauto', gear: 'gear', storage: 'storage', loot: 'loot', tactics: 'tactics', routes: 'routes', daily: 'daily', ss: 'ss', clan: 'clan' };
-  const SEC_NAME = { res: 'Resurrection', money: 'Money', supplies: 'Supplies', combat: 'Combat', gear: 'Gear', storage: 'Storage', loot: 'Loot', tactics: 'Fighting', routes: 'Routes', daily: 'Daily (Kamaloka)', ss: 'Daily (Seven Signs)', clan: 'Clan' };
+  const SEC_SRC = { res: 'res', money: 'fund', supplies: 'pauto', combat: 'pauto', gear: 'gear', storage: 'storage', loot: 'loot', tactics: 'tactics', routes: 'routes', daily: 'daily', ss: 'ss', clan: 'clan', server: 'srv' };
+  const SEC_NAME = { server: 'Server', res: 'Resurrection', money: 'Money', supplies: 'Supplies', combat: 'Combat', gear: 'Gear', storage: 'Storage', loot: 'Loot', tactics: 'Fighting', routes: 'Routes', daily: 'Daily (Kamaloka)', ss: 'Daily (Seven Signs)', clan: 'Clan' };
   // PARTYAUTO 2026-10-13: the switches of the Supplies section (the same list as Dashboard/partyauto_api.js KINDS; the API's own list wins)
   const PA_KINDS = [
     { key: 'supplyWatch', char: false, label: 'Supply runs when someone runs low', help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out.' },
     { key: 'sell', char: true, label: 'Sell junk on town visits', help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
     { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs', help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' }];
-  const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate' };   // UNLOADGATE-2026-10-16
+  const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate', storeCov: 'Chant of Victory', vitality: 'Gift of Vitality' };   // UNLOADGATE-2026-10-16
   // HIVESW-2026-10-15: the Combat section's switches (= partyauto_api.js KINDS group 'combat'; default ON when nothing is set)
   const CB_KINDS = [
     { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills', help: 'On: Hive chooses and casts attacks, area attacks, debuffs, buffs, songs / dances, toggles and the raid role skills. Off: Hive casts nothing by itself — your L2Swarm profile (Combat Skills tab) fights; Hive still walks, follows, resupplies and shows everything here.' },
@@ -99,6 +99,7 @@
     combat: (d, L, M) => { const D = obj(d.data), pick = (o) => { const x = obj(o), r = {}; ['skills', 'heals', 'potions'].forEach(k => { if (typeof x[k] === 'boolean') r[k] = x[k]; }); return r; }; return { party: pick(obj(D.parties)[L]), chars: M.map(n => pick(obj(D.chars)[n])), def: pick(D.default) }; },   // HIVESW
     res: (d, L) => obj(obj(d.data).parties)[L] || null,   // RESURRECTION 2026-10-13
     loot: (d, L) => obj(obj(d.data).parties)[L] || null,  // LOOT RULES 2026-10-13
+    server: (d, L) => obj(obj(d.data).parties)[L] || null,   // SRVOPT-2026-10-21
     gear: (d, L, M) => { const p = (d.parties || []).find(x => x.leader === L) || {}; const mm = {}; (p.members || []).forEach(m => { if (M.includes(m.name)) mm[m.name] = [m.auto, m.lock]; }); return { party: p.auto === undefined ? null : p.auto, mm }; },
     storage: (d, L, M) => { const r = obj(d.rules); return { party: obj(r.parties)[L] || null, chars: M.map(n => obj(r.chars)[n] || null), except: (obj(r.letters).except || []).filter(n => M.includes(n)).sort() }; },
     tactics: (d, L) => obj(d.tactics)[L] || null,
@@ -151,6 +152,7 @@
       W.loot = { has, on: has ? raw.on !== false : false, mode: e.mode, to: e.to, enchant: e.enchant, adena: e.adenaAbove ? fmtN(e.adenaAbove) : '', keepGrades: e.keepGrades.slice(),
         keepEnchanted: e.keepEnchanted, keepSpecial: e.keepSpecial, never: e.never.slice(), always: e.always.slice() };
     }
+    if (ok(D.srv)) W.server = srvModel(D.srv, L);   // SRVOPT-2026-10-21
     if (ok(D.gear)) {
       const p = (D.gear.parties || []).find(x => x.leader === L) || null, mm = {};
       M.forEach(n => { const m = p ? (p.members || []).find(x => x.name === n) : null; mm[n] = { auto: m && typeof m.auto === 'boolean' ? m.auto : null, lock: !!(m && m.lock) }; });
@@ -556,6 +558,84 @@
     return section('routes', '🧭', 'Routes', `${nOn} of ${bools.length} allowed${nOwn ? ` · ${nOwn} changed` : ' · defaults'}`, body, { dirty: dirtySecs().includes('routes') });
   }
 
+  // SRVOPT-2026-10-21 (public tester Hero: "choose between 4 types of buffers ... return options ... 'follow party leader's dialogue' in a tick
+  // box"): /api/serveropts (Dashboard/serveropts_api.js) -> Scripts/data/server_options.json parties.<leader>. Nothing set = today's behaviour.
+  const SRV_SRC = [['board', 'Community Board (Alt+B)'], ['party', "The party's own buffers"], ['store', 'Buy from player buff stores'], ['station', 'Own buffers waiting in a town'], ['newbie', 'Newbie Helper']];
+  const SRV_WAY = [['townCmd', '.townname command'], ['returnSkill', 'Return skill'], ['soe', 'Scroll of Escape'], ['gatekeeper', 'Gatekeeper'], ['walk', 'Walk back']];
+  const SRV_TOWNS = ['Gludin', 'Gludio', 'Dion', 'Giran', 'Oren', 'Aden', 'Hunters', 'Heine', 'Goddard', 'Rune', 'Schuttgart'];
+  const srvList = (s) => String(s || '').split(',').map(x => x.trim()).filter(Boolean);
+  const srvTxt = (a) => (Array.isArray(a) ? a.join(', ') : '');
+  const srvInfo = () => (ok(PS.D.srv) ? PS.D.srv : null);
+  function srvModel(d, L) {
+    const P = obj(obj(obj(d.data).parties)[L]), st = obj(P.store), sn = obj(P.station), nb = obj(P.newbie), str = (v) => (isSet(v) ? String(v) : '');
+    return { buffSources: Array.isArray(P.buffSources) ? P.buffSources.slice() : null, townWays: Array.isArray(P.townWays) ? P.townWays.slice() : null,
+      serverFollow: typeof P.serverFollow === 'boolean' ? P.serverFollow : null, returnSkills: srvTxt(P.returnSkills), walkMax: str(P.walkMax),
+      store: { buffs: srvTxt(st.buffs), titles: srvTxt(st.titles), maxPrice: str(st.maxPrice), minLeftMin: str(st.minLeftMin) },
+      station: { town: str(sn.town), x: str(sn.x), y: str(sn.y), z: str(sn.z), buffers: srvTxt(sn.buffers), minBuffs: str(sn.minBuffs) },
+      newbie: { maxLevel: str(nb.maxLevel), minBuffs: str(nb.minBuffs) } };
+  }
+  /** the value of each key the API stores (null = no own value) */
+  function srvValues(w) {
+    const n = (v) => (isSet(String(v == null ? '' : v).trim()) ? Number(String(v).replace(/[\s,]/g, '')) : undefined);
+    const pack = (o) => { const out = {}; Object.keys(o).forEach(k => { if (o[k] !== undefined && !(Array.isArray(o[k]) && !o[k].length)) out[k] = o[k]; }); return Object.keys(out).length ? out : null; };
+    const rs = srvList(w.returnSkills).map(Number);
+    return { buffSources: w.buffSources && w.buffSources.length ? w.buffSources : null, townWays: w.townWays && w.townWays.length ? w.townWays : null, serverFollow: w.serverFollow,
+      returnSkills: rs.length ? rs : null, walkMax: n(w.walkMax) === undefined ? null : n(w.walkMax),
+      store: pack({ buffs: srvList(w.store.buffs), titles: srvList(w.store.titles), maxPrice: n(w.store.maxPrice), minLeftMin: n(w.store.minLeftMin) }),
+      station: pack({ town: w.station.town || undefined, x: n(w.station.x), y: n(w.station.y), z: n(w.station.z), buffers: srvList(w.station.buffers), minBuffs: n(w.station.minBuffs) }),
+      newbie: pack({ maxLevel: n(w.newbie.maxLevel), minBuffs: n(w.newbie.minBuffs) }) };
+  }
+  /** the setting for all parties (the file's "default" entry, else the built-in one) */
+  function srvAll() { const I = srvInfo(); return I && I.all ? I.all : { buffSources: ['board', 'party'], townWays: ['auto'], serverFollow: true, store: { maxPrice: 5000, titles: ['buff'], minLeftMin: 60 }, station: { town: 'Giran', minBuffs: 5 }, newbie: { maxLevel: 62, minBuffs: 4 }, walkMax: 40000 }; }
+  function srvOrder(path, cur, all, opts, what) {
+    const eff = cur || all, own = !!cur;
+    const chips = opts.map(([k, t]) => { const i = eff.indexOf(k); return `<button type="button" class="ps-chipbtn" aria-pressed="${i >= 0}" data-psorder="${E(path)}" data-v="${E(k)}">${i >= 0 ? `<b>${i + 1}.</b> ` : ''}${E(t)}</button>`; }).join('');
+    return `<div class="ps-givers"><div class="ps-gp"><span class="ps-gpl">${E(what)}</span>${chips}</div></div>${own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="${E(path)}">Back to the default</button>` : ''}`;
+  }
+  function secServer() {
+    const ic = '<img class="gi" src="/icons/skill1204.png" alt="" width="20" height="20">';
+    if (!ok(PS.D.srv)) return section('server', ic, 'Server', 'not available', unavailable('srv'));
+    if (!PS.W.server) return '';
+    const w = PS.W.server, all = srvAll(), I = srvInfo(), lab = (list, k) => (list.find(x => x[0] === k) || ['', k])[1];
+    const src = w.buffSources || all.buffSources, ways = w.townWays || all.townWays, auto = !ways.length || ways.indexOf('auto') >= 0;
+    const follow = w.serverFollow === null ? all.serverFollow !== false : w.serverFollow;
+    const help = (k, list) => { const h = (list || []).find(x => x.key === k); return h ? h.help : ''; };
+    const srcHelp = src.map(k => `<li><b>${E(lab(SRV_SRC, k))}</b> — ${E(help(k, I && I.sources))}</li>`).join('');
+    const wayHelp = auto ? `<li><b>Automatic (as before)</b> — ${E(help('auto', I && I.ways) || '.townname when the server knows it, else the gatekeepers.')}</li>` : ways.map(k => `<li><b>${E(lab(SRV_WAY, k))}</b> — ${E(help(k, I && I.ways))}</li>`).join('');
+    const store = src.indexOf('store') < 0 ? '' : `<div class="ps-sub"><b>Player buff stores</b></div>
+      <div class="ps-grid">${inp('server.store.buffs', w.store.buffs, 'Buffs to buy (names, comma between)', { mode: 'text', ph: 'Chant of Victory, Prophecy of Fire' })}
+      ${inp('server.store.titles', w.store.titles, 'Seller title contains', { mode: 'text', ph: srvTxt(obj(all.store).titles) || 'buff' })}
+      ${inp('server.store.maxPrice', w.store.maxPrice, 'At most adena per buff', { ph: fmtN(obj(all.store).maxPrice), small: true })}
+      ${inp('server.store.minLeftMin', w.store.minLeftMin, 'Buy again when less than (minutes)', { ph: String(obj(all.store).minLeftMin || 60), small: true })}</div>
+      ${!w.store.buffs ? note('Fill in at least one buff name — with an empty list the stores are skipped.', 'bad') : ''}`;
+    const station = src.indexOf('station') < 0 ? '' : `<div class="ps-sub"><b>Own buffer station</b></div>
+      <div class="ps-grid">${sel('server.station.town', w.station.town, [['', `Default (${obj(all.station).town || 'Giran'})`]].concat(SRV_TOWNS.map(t => [t, t])), 'Town')}
+      ${inp('server.station.x', w.station.x, 'x', { ph: '83000', small: true })}${inp('server.station.y', w.station.y, 'y', { ph: '148000', small: true })}${inp('server.station.z', w.station.z, 'z', { ph: '-3400', small: true })}
+      ${inp('server.station.buffers', w.station.buffers, 'Buffer characters (names, in order)', { mode: 'text', ph: 'MyProphet, MySwordsinger' })}
+      ${inp('server.station.minBuffs', w.station.minBuffs, 'Go there below (buffs)', { ph: String(obj(all.station).minBuffs || 5), small: true })}</div>
+      ${note('The buffer characters must be online and standing at that spot, not in another party (or leading their own). They invite the guest, buff it with every buff they know and send it off again; its own leader invites it back.', 'info')}`;
+    const newbie = src.indexOf('newbie') < 0 ? '' : `<div class="ps-sub"><b>Newbie Helper</b></div>
+      <div class="ps-grid">${inp('server.newbie.maxLevel', w.newbie.maxLevel, 'Up to level', { ph: String(obj(all.newbie).maxLevel || 62), small: true })}
+      ${inp('server.newbie.minBuffs', w.newbie.minBuffs, 'Go there below (buffs)', { ph: String(obj(all.newbie).minBuffs || 4), small: true })}</div>`;
+    const rskill = auto || ways.indexOf('returnSkill') < 0 ? '' : `<div class="ps-grid">${inp('server.returnSkills', w.returnSkills, 'Extra return skill ids (optional)', { mode: 'text', ph: 'skills named Return / Escape are found by themselves' })}</div>`;
+    const walk = auto || ways.indexOf('walk') < 0 ? '' : `<div class="ps-grid">${inp('server.walkMax', w.walkMax, 'Walk back at most (distance)', { ph: fmtN(all.walkMax || 40000), small: true })}</div>`;
+    const sum = `${lab(SRV_SRC, src[0])}${src.length > 1 ? ' first' : ''} · ${auto ? 'town: automatic' : 'town: ' + ways.map(k => lab(SRV_WAY, k)).join(' > ')}${follow ? '' : ' · everyone clicks the gatekeeper'}`;
+    const body = `${note('For servers that work differently from L2Toggle. Leave everything as it is when the bots already buff, go to town and teleport fine.')}
+      <div class="ps-sub"><b>Where buffs come from</b> <span class="ps-muted">(tap in order; the first one that works is used)</span></div>
+      ${srvOrder('server.buffSources', w.buffSources, all.buffSources || ['board', 'party'], SRV_SRC, 'Buff sources')}
+      <ul class="ps-what">${srcHelp}</ul>
+      ${note('Player buff stores, your buffer station and the Newbie Helper are only used in a town (supply runs, town visits); out in the field the next source in the list is used.', 'info')}
+      ${store}${station}${newbie}
+      <div class="ps-sub"><b>Way back to town</b> <span class="ps-muted">(tap in order; tap none for automatic)</span></div>
+      ${srvOrder('server.townWays', w.townWays && w.townWays.indexOf('auto') < 0 ? w.townWays : null, auto ? [] : ways, SRV_WAY, 'Ways to town')}
+      <ul class="ps-what">${wayHelp}</ul>
+      ${rskill}${walk}
+      ${item(sw('server.serverFollow', follow, "The server takes my party along at gatekeepers", "On — only the leader clicks the gatekeeper; the server (\"Follow Party Leader's Dialog\") brings the party.", 'Off — after gathering, every member clicks the same gatekeeper link itself.'),
+        "Switch this off on servers without the \"Follow Party Leader's Dialog\" option.", w.serverFollow !== null ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="server.serverFollow">Back to the default (${all.serverFollow !== false ? 'on' : 'off'})</button>` : '')}
+      ${adv(note('File: Scripts/data/server_options.json — parties.' + E(PS.leader) + ' (buffSources, townWays, serverFollow, store, station, newbie, returnSkills, walkMax); missing = "default" (all parties), then today\'s behaviour. swarm.js SRVOPT.'))}`;
+    return section('server', ic, 'Server', sum, body, { dirty: dirtySecs().includes('server') });
+  }
+
   // RESURRECTION 2026-10-13 (owner 21:00: "I need to be able to use 'Scroll of Resurrection' via an action or the Resurrection skill ... Chanter4
   // should use a scroll of resurrection on the bishop, then the bishop should buff up immediately"): automatic res (default ON — survival),
   // scrolls, scrolls on a dead healer in raids (default ON, owner), scrolls on anyone in raids (default OFF), who may read scrolls, how far a resser
@@ -718,7 +798,7 @@
     }
     const names = PS.M.map(n => { const m = memberInfo(n); return `${E(n)}${m.level ? ` <small>${E(m.level)}</small>` : ''}`; }).join(', ');
     document.getElementById('psIntro').innerHTML = `<div class="ps-who">${names}</div><div class="ps-what">Everything this party may do by itself, in one place. Switch on only what you want — the rest stays off. Changes are saved with <b>Save</b> below.</div>`;
-    document.getElementById('psBody').innerHTML = [secRun(), secPlan(), secFight(), secHeal(), secRes(), secMoney(), secSupplies(), secCombat(), secGear(), secStorage(), secLoot(), secClan(), secDaily(), secRoutes()].join('');
+    document.getElementById('psBody').innerHTML = [secRun(), secPlan(), secFight(), secHeal(), secRes(), secMoney(), secSupplies(), secCombat(), secGear(), secStorage(), secLoot(), secClan(), secDaily(), secRoutes(), secServer()].join('');   // SRVOPT-2026-10-21: + Server
     renderBar();
     if (keepScroll && sc) sc.scrollTop = top;
   }
@@ -782,6 +862,16 @@
   // ============================================================================================ events
   function validate(path, raw) {
     delete PS.bad[path];
+    if (/^server./.test(path)) {   // SRVOPT-2026-10-21
+      if (raw === '') return; const k = path.slice(7);
+      const lim = { 'store.maxPrice': [0, 100000000], 'store.minLeftMin': [1, 720], 'station.x': [-400000, 400000], 'station.y': [-400000, 400000], 'station.z': [-30000, 30000], 'station.minBuffs': [1, 40], 'newbie.maxLevel': [1, 99], 'newbie.minBuffs': [1, 40], walkMax: [2000, 200000] }[k];
+      if (lim) { const n = Number(raw.replace(/[s,]/g, '')); if (!Number.isFinite(n) || Math.round(n) !== n || n < lim[0] || n > lim[1]) PS.bad[path] = `a whole number from ${fmtN(lim[0])} to ${fmtN(lim[1])}`; return; }
+      if (k === 'returnSkills' && srvList(raw).some(x => !/^d{1,5}$/.test(x))) PS.bad[path] = 'skill ids (numbers), comma between';
+      if (k === 'station.buffers' && srvList(raw).some(x => !/^[A-Za-z0-9_-]{1,40}$/.test(x))) PS.bad[path] = 'character names, comma between';
+      if (k === 'store.buffs' && srvList(raw).some(x => !/^[A-Za-z0-9][A-Za-z0-9 '-:.]{0,59}$/.test(x))) PS.bad[path] = 'buff names, comma between';
+      if (k === 'store.titles' && srvList(raw).some(x => !/^[^<>"]{1,30}$/.test(x))) PS.bad[path] = 'short words, comma between';
+      return;
+    }
     if (/^money\.mk\./.test(path)) { const n = amt(raw); if (n == null || Number.isNaN(n)) PS.bad[path] = 'a number, e.g. 5k or 50,000'; return; }   // PURSE: pocket money by level
     if (/^money\.(lt|mt|keep|chars\.|purse\.(lk|mc|bu))/.test(path)) { const n = amt(raw); if (Number.isNaN(n)) PS.bad[path] = 'a number, e.g. 8m, 300k or 8,000,000'; return; }
     if (path === 'loot.adena') { const n = amt(raw); if (Number.isNaN(n)) PS.bad[path] = 'a number, e.g. 5m, 300k or 0'; return; }   // LOOT RULES 2026-10-13
@@ -817,6 +907,8 @@
     if (s && !s.disabled) { e.preventDefault(); setP(s.dataset.psw, s.dataset.eff !== '1'); render(true); return; }
     const g = t.closest('[data-psseg]');
     if (g) { e.preventDefault(); let v = g.dataset.v; setP(g.dataset.psseg, v); render(true); return; }
+    const po = t.closest('[data-psorder]');   // SRVOPT-2026-10-21: an ordered choice (tap = add at the end / remove); the first tap starts the party's own list
+    if (po) { e.preventDefault(); const p = po.dataset.psorder, v = po.dataset.v, cur = Array.isArray(getP(p)) ? getP(p).filter(x => x !== 'auto') : []; const i = cur.indexOf(v); if (i >= 0) cur.splice(i, 1); else cur.push(v); setP(p, cur.length ? cur : null); render(true); return; }
     const r = t.closest('[data-psreset]');
     if (r) { e.preventDefault(); setP(r.dataset.psreset, null); render(true); return; }
     const gp = t.closest('[data-psgiverp]');
@@ -909,6 +1001,13 @@
       if (W.supplies.allToo) out.push(`Supply amounts for every party without its own: ${amtTable(W.supplies.amt) ? 'these amounts' : 'the standard amounts'}`);
       PS.M.forEach(n => supKinds().filter(k => k.char).forEach(k => { const a = (W0.supplies.chars[n] || {})[k.key], b = (W.supplies.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key === 'sell' ? 'selling' : 'symbols'} ${b === null || b === undefined ? 'like the party' : onoff(b)}`); }));
     }
+    if (W.server && J(W.server) !== J(W0.server)) {   // SRVOPT-2026-10-21
+      const a = srvValues(W0.server), b = srvValues(W.server), L = (list, k) => (list.find(x => x[0] === k) || ['', k])[1];
+      if (J(a.buffSources) !== J(b.buffSources)) out.push(`Buffs come from (party ${PS.leader}): ${b.buffSources ? b.buffSources.map(k => L(SRV_SRC, k)).join(' > ') : 'the default'}`);
+      if (J(a.townWays) !== J(b.townWays)) out.push(`Way back to town (party ${PS.leader}): ${b.townWays ? b.townWays.map(k => L(SRV_WAY, k)).join(' > ') : 'automatic (as before)'}`);
+      if (a.serverFollow !== b.serverFollow) out.push(`The server takes party ${PS.leader} along at gatekeepers: ${b.serverFollow === null ? 'the default' : onoff(b.serverFollow)}`);
+      ['store', 'station', 'newbie', 'returnSkills', 'walkMax'].forEach(k => { if (J(a[k]) !== J(b[k])) out.push(`${({ store: 'Player buff stores', station: 'Buffer station', newbie: 'Newbie Helper', returnSkills: 'Return skill ids', walkMax: 'Walk back at most' })[k]}: ${b[k] === null ? 'the default' : typeof b[k] === 'object' && !Array.isArray(b[k]) ? Object.keys(b[k]).map(q => q + ' ' + (Array.isArray(b[k][q]) ? b[k][q].join(', ') : b[k][q])).join(', ') : Array.isArray(b[k]) ? b[k].join(', ') : b[k]}`); });
+    }
     if (W.res && J(W.res) !== J(W0.res)) {   // RESURRECTION 2026-10-13
       const L = { auto: 'Raise dead teammates by themselves', scrolls: 'Use Scrolls of Resurrection', raidHealerScrolls: 'In raids: scroll a dead healer', raidAllScrolls: 'In raids: scroll anyone', blessedFirst: 'Blessed scrolls first' };
       Object.keys(L).forEach(k => { if (W.res[k] !== W0.res[k]) out.push(`${L[k]} (party ${PS.leader}): ${W.res[k] === null ? 'the default (' + (resAll(k) ? 'on' : 'off') + ')' : onoff(W.res[k])}`); });
@@ -973,6 +1072,12 @@
       const d = await call(SRC.fund, { method: 'POST', body: JSON.stringify({ rules: r, rev: fresh.rev, by: 'party settings' }) });
       // PURSE: an older dashboard server drops the new keys without an error — say so instead of a silent 'saved'
       if (d && d.ok && ((puCh && !(d.rules && d.rules.parties && d.rules.parties[L] && d.rules.parties[L].purse)) || (J(a.mk) !== J(b.mk) && !(d.rules && d.rules.memberKeep)))) return { ok: false, error: 'the dashboard server is older than this page and did not keep "Leader pays" / the pocket money — restart the dashboard server (PC tab), then save again' };
+      return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
+    },
+    async server(fresh) {   // SRVOPT-2026-10-21: only the changed keys of this party's entry (null = removed)
+      const a = srvValues(PS.W0.server), b = srvValues(PS.W.server), values = {};
+      Object.keys(b).forEach(k => { if (J(a[k]) !== J(b[k])) values[k] = b[k] === undefined ? null : b[k]; });
+      const d = await call(SRC.srv, { method: 'POST', body: JSON.stringify({ party: PS.leader, values, rev: fresh.rev, by: 'party settings' }) });
       return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
     },
     async res(fresh) {   // RESURRECTION 2026-10-13: only the changed keys of this party's entry (null = removed)

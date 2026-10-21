@@ -42,13 +42,23 @@ class AppBus {
     const me = () => bus.members.get(bus.resolve(accountId0));
     const idNow = () => { const m = me(); return m ? m.accountId : String(accountId0); };
     const check = (name) => { if (typeof name !== 'string' || !/^[A-Za-z0-9._:-]{1,128}$/.test(name)) throw new Error(`App: invalid event name '${name}'`); };
+    // SMOOTH-2026-10-20: swarm.pos sends the SAME data object to ~30 targets in one loop (App.emitTo per target, every 3 s per character):
+    // the JSON text, its byte check, the clock text and the source block are made once per (name, data object) within the same synchronous
+    // turn and reused (cleared in a microtask, so a later emit of a mutated object is serialised again). Each envelope keeps its own id.
+    let memo = null;
     const pack = (name, data) => {
       check(name);
-      const json = JSON.stringify(data === undefined ? null : data);   // BigInt / circular -> TypeError, as in L2Swarm
-      if (Buffer.byteLength(json, 'utf8') > bus.o.maxBytes) throw new Error(`App: payload of '${name}' is larger than 64 KiB`);
-      const m = me();
-      return { id: `b${Date.now().toString(36)}${(++bus.seq).toString(36)}`, name, sentAtUtc: new Date().toISOString(),
-        source: { accountId: idNow(), characterName: m ? m.name : '', scriptId: m ? m.scriptId : '', scriptName: m ? m.scriptName : 'swarm.js' }, json };
+      let json, sentAtUtc, source;
+      if (memo && memo.name === name && memo.data === data && data !== null && typeof data === 'object') { json = memo.json; sentAtUtc = memo.sentAtUtc; source = memo.source; bus.st.packReused = (bus.st.packReused || 0) + 1; }
+      else {
+        json = JSON.stringify(data === undefined ? null : data);   // BigInt / circular -> TypeError, as in L2Swarm
+        if ((json.length > bus.o.maxBytes / 3 ? Buffer.byteLength(json, 'utf8') : json.length) > bus.o.maxBytes) throw new Error(`App: payload of '${name}' is larger than 64 KiB`);
+        const m = me();
+        sentAtUtc = new Date().toISOString();
+        source = { accountId: idNow(), characterName: m ? m.name : '', scriptId: m ? m.scriptId : '', scriptName: m ? m.scriptName : 'swarm.js' };
+        if (data !== null && typeof data === 'object') { const first = !memo; memo = { name, data, json, sentAtUtc, source }; if (first) queueMicrotask(() => { memo = null; }); }
+      }
+      return { id: `b${Date.now().toString(36)}${(++bus.seq).toString(36)}`, name, sentAtUtc, source, json };
     };
     return {
       on(name, cb) { check(name); if (typeof cb !== 'function') throw new Error('App.on: callback must be a function'); const m = me(); if (!m) return ''; const tok = `app:${accountId0}:${++bus.seq}`; m.subs.set(tok, { name, cb }); return tok; },
@@ -84,19 +94,32 @@ class AppBus {
     r.busy = true;
     this.o.schedule(() => this.drain(r));
   }
+  // SMOOTH-2026-10-20: the envelope text is built once per event (was: JSON.stringify + regex replace once per subscriber), and one drain
+  // runs at most sliceMs before it yields (setImmediate) so a burst of App events cannot hold the thread (heartbeat / brain pings) for seconds.
   drain(r) {
+    const t0 = Date.now(), slice = this.o.sliceMs || 20;
     while (r.queue.length) {
       const env = r.queue.shift();
-      const subs = Array.from(r.subs.values()).filter(s => s.name === env.name);
-      for (const s of subs) {
-        let e;
-        try { e = r.parse(JSON.stringify({ id: env.id, name: env.name, sentAtUtc: env.sentAtUtc, source: env.source, data: null }).replace(/"data":null}$/, `"data":${env.json}}`)); }
-        catch (er) { this.st.errors++; continue; }
-        try { if (r.invoke) r.invoke(s.cb, [e]); else s.cb(e); this.st.delivered++; } catch (er) { this.st.errors++; if (this.o.log) this.o.log(`App ${env.name} -> ${r.name}: ${er && er.message}`); }
+      let subs = null; for (const s of r.subs.values()) if (s.name === env.name) (subs || (subs = [])).push(s);
+      if (subs) {
+        const text = envText(env);
+        for (const s of subs) {
+          let e;
+          try { e = r.parse(text); }
+          catch (er) { this.st.errors++; continue; }
+          try { if (r.invoke) r.invoke(s.cb, [e]); else s.cb(e); this.st.delivered++; } catch (er) { this.st.errors++; if (this.o.log) this.o.log(`App ${env.name} -> ${r.name}: ${er && er.message}`); }
+        }
       }
+      if (r.queue.length && Date.now() - t0 >= slice) { this.st.yields = (this.st.yields || 0) + 1; this.o.schedule(() => this.drain(r)); return; }
     }
     r.busy = false;
   }
+}
+/** the envelope as JSON text with the payload text spliced in: { id, name, sentAtUtc, source, data } (same order / shape as before) */
+function envText(env) {
+  let s = '{';
+  for (const k of ['id', 'name', 'sentAtUtc', 'source']) { const v = env[k]; if (v === undefined || typeof v === 'function') continue; s += JSON.stringify(k) + ':' + JSON.stringify(v) + ','; }   // undefined fields left out, as JSON.stringify does
+  return s + '"data":' + env.json + '}';
 }
 
 module.exports = { AppBus };

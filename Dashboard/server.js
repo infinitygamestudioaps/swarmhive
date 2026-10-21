@@ -15,6 +15,8 @@ const SC = require(path.join(__dirname, '..', 'docs', 'plan', 'tools', 'swarm_co
 const ROOT = SC.ROOT;
 const ROOT_FWD = SC.ROOT_FWD;   // forward slashes, for paths inside generated L2Swarm scripts
 const LOGS = path.join(ROOT, 'Logs');
+// STATEDIR 2026-10-21: where the swarm_state_<name>.json files are read (env = the UI tests' fixture folder; default unchanged = Logs)
+const STATE_DIR = process.env.SWARM_STATE_DIR || LOGS;
 const PLAN = path.join(ROOT, 'docs', 'plan');
 const DATA = path.join(ROOT, 'Scripts', 'data');
 const SETTINGS = path.join(ROOT, 'Settings');
@@ -27,7 +29,7 @@ const MapFloors = require('./mapfloors.js');
 const mapFloors = () => MapFloors.load(path.join(DATA, 'dungeon_rooms.json'));
 /** a map viewer's position from Logs/swarm_state_<name>.json ({x, y, z}) or null */
 function viewerPos(name) {
-  const s = readJson(path.join(LOGS, 'swarm_state_' + String(name || '').replace(/[^A-Za-z0-9_]/g, '') + '.json'), null);
+  const s = readJson(path.join(STATE_DIR, 'swarm_state_' + String(name || '').replace(/[^A-Za-z0-9_]/g, '') + '.json'), null);
   return s && [s.x, s.y, s.z].every(v => v !== null && v !== undefined && isFinite(+v)) ? { x: +s.x, y: +s.y, z: +s.z } : null;
 }
 const PORT = SC.dashboardPort;
@@ -369,14 +371,14 @@ function readStates() {
   return RS_CACHE.list.map(s => Object.assign({}, s, { ageSec: Math.round((now - Date.parse(s.updated)) / 1000) }));
 }
 function stateFileNames() {
-  if (Date.now() - RS_DIR.at > 3000) { try { RS_DIR = { at: Date.now(), names: fs.readdirSync(LOGS).filter(f => /^swarm_state_.+\.json$/.test(f)) }; } catch (e) { RS_DIR.at = Date.now(); } }
+  if (Date.now() - RS_DIR.at > 3000) { try { RS_DIR = { at: Date.now(), names: fs.readdirSync(STATE_DIR).filter(f => /^swarm_state_.+\.json$/.test(f)) }; } catch (e) { RS_DIR.at = Date.now(); } }
   return RS_DIR.names;
 }
 function readStatesFresh() {
   const teams = teamMap();
   const out = [];
   for (const f of stateFileNames()) {
-    const s = readJson(path.join(LOGS, f), null);
+    const s = readJson(path.join(STATE_DIR, f), null);
     if (!s || !s.name) continue;
     if (f !== `swarm_state_${s.name}.json`) continue;   // e.g. swarm_state_null.json written during a disconnect (a ghost character)
     s.ageSec = Math.round((Date.now() - Date.parse(s.updated)) / 1000);
@@ -783,7 +785,7 @@ function raidReportsFresh() {
   }
   const levels = [];
   for (const n of Object.keys(PARTY_OF)) {
-    const s = readJson(path.join(LOGS, 'swarm_state_' + n + '.json'), null) || {};
+    const s = readJson(path.join(STATE_DIR, 'swarm_state_' + n + '.json'), null) || {};
     levels.push({ name: n, party: PARTY_OF[n], level: s.level ?? null, exp: s.exp ?? null, cls: s.cls || '' });
   }
   return {
@@ -828,7 +830,7 @@ function kamalokaInfo() {
   const TM = teamMap();   // KAMALOKA PAGE 2026-10-09: live config (was PARTY_OF from the start of the server)
   const parties = dailyLeaders().map(leader => {
     const members = Object.keys(TM).filter(n => TM[n] === leader).map(n => {
-      const s = readJson(path.join(LOGS, 'swarm_state_' + n + '.json'), null) || {};
+      const s = readJson(path.join(STATE_DIR, 'swarm_state_' + n + '.json'), null) || {};
       return { name: n, level: s.level ?? null };
     });
     const p = readJson(path.join(LOGS, 'daily_' + leader + '.json'), null);
@@ -1278,7 +1280,9 @@ async function transferRun({ from, to, what }) {
       dist = a && b && a.character && b.character ? Math.hypot(a.character.x - b.character.x, a.character.y - b.character.y) : Infinity;
       log(`meeting: ${from} ${where(a)}, ${to} ${where(b)}, ${Math.round(dist)} apart`);
     }
-    if (dist > 150) throw new Error(`${from} and ${to} could not meet (${Math.round(dist)} apart)`);
+    // docs/requirements/trade.md R2 (2026-10-20): never a trade request out of reach / through a wall: within 140 AND on the same floor
+    const dzMeet = a && b && a.character && b.character ? Math.abs(a.character.z - b.character.z) : Infinity;
+    if (dist > 140 || dzMeet >= 150) throw new Error(`${from} and ${to} could not meet (${Math.round(dist)} apart, height difference ${Math.round(dzMeet)}) — no trade request sent`);
     const toObj = b.character.obj_id;
     // what to give
     const inv = await mcpJ('get_account_data', { ...fromSel, type: 'inventory' });
@@ -1924,6 +1928,10 @@ const OQM = require('./orderqueue');
 const ORDERQ_LIVE = { on: false };
 const ORDERQ = OQM.create({ dir: () => process.env.SWARM_ORDERS_DIR || (process.env.SWARM_CMD_DIR ? path.join(CMD_DIR, 'orders') : (ORDERQ_LIVE.on ? path.join(LOGS, 'orders') : null)) });
 setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
+// ACADEMY-2026-10-21 (Dashboard/academy_api.js): the academy manager every 30 s — set up a new academy character (approved class plan, party plan,
+// invite list, run switch), follow a renamed creation, and after a graduation close the account and make the next academy character on it
+const ACADEMY_CTX = () => ({ DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun, mcpCall });
+setInterval(() => { try { require('./academy_api').tick(ACADEMY_CTX()).catch(() => { }); } catch (e) { } }, 30000);
 // VIEW3D 2026-10-17: the 3D view's 10-minute replay recorder (Dashboard/view3d_api.js)
 try { require('./view3d_api').startRecorder(readStates); } catch (e) { }
 // MOB IGNORE 2026-10-17 (owner: Treasure Chests are never attacked): L2Swarm mob rules on every open account (Dashboard/mobignore_api.js)
@@ -2299,11 +2307,17 @@ http.createServer(async (req, res) => {
     // PARTY AUTOMATIONS 2026-10-13 (Dashboard/partyauto_api.js): GET/POST /api/partyauto (key checked inside): the per-party / per-character switches of the
     // supply watch, selling and symbols (Scripts/data/party_auto.json, read by swarm.js every 5 s; missing = OFF); the party settings popup's Supplies section
     if (await require('./partyauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // SERVER OPTIONS (SRVOPT-2026-10-21, Dashboard/serveropts_api.js): GET/POST /api/serveropts (key checked inside): per party the buff source, the ways to town and
+    // the "Follow Party Leader's Dialog" tick box (Scripts/data/server_options.json; missing = today's behaviour)
+    if (await require('./serveropts_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // RESURRECTION 2026-10-13 (Dashboard/resrules_api.js): /respanel.js (public: the Resurrect dialog + party card) + GET/POST /api/resrules (key checked
     // inside): automatic res on/off, scrolls, scrolls on healers in raids, who may read scrolls, how far a resser walks (Scripts/data/res_rules.json, read by swarm.js every 5 s)
     // HUNT TIMER 2026-10-15 (Dashboard/hunttimer_api.js): /huntlogic.js, /hunttimer.js|css (public) + GET/POST /api/hunttimer (key checked inside): how long a party hunts
     // at its chosen spot + what then (Scripts/data/hunt_timers.json, read by swarm.js HUNTTIMER every 5 s; the clock in Logs/hunt_timer_<leader>.json)
     if (await require('./hunttimer_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, allowed, json, send })) return;
+    // SPOIL 2026-10-19 (Dashboard/spoilpage_api.js): /spoilpage.js|css (public) + GET/POST /api/spoil, /api/spoil/area, /api/spoil/search (key checked inside):
+    // which monsters the Bounty Hunters spoil, by their spoil drops (Scripts/data/spoil_rules.json, read by swarm.js SPOIL every 10 s)
+    if (await require('./spoilpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, mainLeader: MAIN_LEADER, allowed, json, send, viewerPos, mcpCallChar })) return;
     if (await require('./resrules_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // LOOT RULES 2026-10-13 (Dashboard/lootrules_api.js): /lootlogic.js (public: the decision logic) + GET/POST /api/lootrules (key checked inside): what a
     // party's loot does — hand it to a collector (clan leader / a character), keep it, only non-gear, keep S-grade / enchanted / special gear, never / always lists
@@ -2342,6 +2356,7 @@ http.createServer(async (req, res) => {
     // ADD ACCOUNT 2026-10-12 (Dashboard/addaccount_api.js): /addaccount.js|css (public) + GET/POST /api/addaccount (key checked inside):
     // Accounts tab "+ Add account" -> Settings/<Login>.xml via new_account.ps1 (password only in the child's env), swarm.config.json, start_extra.txt
     if (await require('./addaccount_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, allowed, json, send, mcpCall })) return;
+    if (await require('./academy_api').handle(req, res, url, ACADEMY_CTX())) return;   // ACADEMY-2026-10-21: GET/POST /api/academy
     // SOUL STAGE PLAN 2026-10-12 (Dashboard/soulplan_api.js, READ-ONLY): /soullogic.js|soulplan.js|css (public) + GET /api/soulstageplan (key checked inside)
     if (await require('./soulplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, allowed, json, send })) return;
     if (!allowed(req, url)) return send(res, 401,'text/plain; charset=utf-8', 'Access denied: open the link with ?key=... (see Dashboard\\key.txt on the PC)');
@@ -2593,9 +2608,25 @@ http.createServer(async (req, res) => {
     }
     // BRAIN HOST (engine audit #38, 2026-10-12): the pool's stats file (pid, RSS, per-worker heap / ELU / contexts, quarantined, restarts,
     // alerts) + its IPC health when the dashboard started it + the restart deferral
-    if (url.pathname === '/api/brainhost') {
+    if (url.pathname === '/api/brainhost' && req.method !== 'POST') {
       const stats = BHS.readStats(BH_STATS, 60000), health = await bhAsk({ k: 'health' }, 3000);
       return json(res, 200, { cfg: bhCfg(), running: !!bhProc, ipc: !!(bhProc && bhProc.connected), restartDeferredSince: bhDeferSince ? new Date(bhDeferSince).toISOString() : null, stats, health });
+    }
+    // RESTART THE BRAIN HOST (owner 2026-10-21: "Build in the Pool restart into the app"; PC tab -> New engine -> Restart brain host):
+    // only the pool process, not the dashboard. Refused while a brain party is in a raid / Kamaloka / epic (live file < 30 s old) unless
+    // force; every brain character reboots its swarm.js (orders in progress start over, activities resume from Logs/activity_*.json).
+    // The pool's exit handler (startBrainHost) starts it again after 5 s with the current brain_host.json (incl. "perf").
+    if (url.pathname === '/api/brainhost' && req.method === 'POST') {
+      const b = await body(req);
+      if (b.action !== 'restart') return json(res, 400, { error: 'action must be restart' });
+      const c = bhCfg(), fights = bhFights(c);
+      if (fights.length && !b.force) return json(res, 409, { error: 'a fight is live: ' + fights.map(f => f.party + ' (' + f.kind + ')').join(', '), fights });
+      const line = `${new Date().toISOString()} [dashboard] brain host RESTART asked on the PC tab${fights.length ? ' (forced during ' + fights.map(f => f.party + ' ' + f.kind).join(', ') + ')' : ''}\r\n`;
+      try { fs.appendFileSync(path.join(LOGS, 'brain_host.log'), line); } catch (e) { }
+      try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), line); } catch (e) { }
+      if (!bhProc) { startBrainHost(); return json(res, 200, { ok: true, out: 'the brain host was not running: starting it' }); }
+      try { bhProc.kill(); } catch (e) { return json(res, 500, { error: 'stop failed: ' + e.message }); }
+      return json(res, 200, { ok: true, out: 'brain host stopping: it starts again in about 5 s, the characters reconnect within a minute' });
     }
     // NEW ENGINE (2026-10-13, engine default; PC tab "New engine"): status + moving the running accounts from swarm.js to the agent ONE BY ONE
     // (docs/plan/tools/attach_agent.js --all [--apply] in the background; its output goes to Logs/engine_switch.log)

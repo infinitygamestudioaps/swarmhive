@@ -28,11 +28,11 @@ const need = (cond, why) => cond ? '' : why;
 const CMDS = [
   { id: 'status', cmd: '!status', each: true, expect: (ev) => need(NAMES.every(n => ev.chat.some(m => m.from === n && /\| HP \d+% MP \d+%/.test(m.text)) || (ev.chatTry[n] || 0) > 0), 'no "[role] mode | HP .. MP .." line from each') },
   { id: 'stop', cmd: '!stop', expect: (ev) => need(ev.js(LEADER, 'state.mode') === 'idle' && ev.js(MEMBER, 'state.mode') === 'idle' && ev.files.some(f => /lead_pause_Spoiler6/.test(f)), 'state.mode not idle / no lead_pause file') },
-  { id: 'park start', cmd: '!park start', stopAfter: true, expect: (ev) => need(/park/.test(String(ev.js(LEADER, 'pauseInfo() && pauseInfo().tag'))) || anyNote(ev, /!park/), 'no park pause tag / note') },
+  { id: 'park start', cmd: '!park start', stopAfter: true, expect: (ev) => need(/park/.test(String(ev.js(LEADER, 'pauseInfo() && pauseInfo().why'))) || anyNote(ev, /!park/), 'no park pause tag / note') },
   { id: 'level', cmd: '!level', stopAfter: true, expect: (ev) => need(anyNote(ev, /level|spot|giran|team/i, [LEADER]) || ev.js(LEADER, '!!(autoLvl.active || autoLvl.spot)') || ev.calls[LEADER] > 0, 'leader did nothing') },
   // fully buffed = requestBuffTurn() only log()s "har allerede N buffs" (correct no-op); before 2026-10-12 this check passed only on a stray host call
   { id: 'buff', cmd: '!buff', expect: (ev) => need(anyNote(ev, /buff/i) || ev.calls[LEADER] + ev.calls[MEMBER] > 0 || NAMES.every(n => ev.js(n, '!needsBuff()') === true), 'no buff note / board call (and someone needs buffs)') },
-  { id: 'town giran', cmd: '!town giran', stopAfter: true, expect: (ev) => need(/town/.test(String(ev.js(LEADER, 'pauseInfo() && pauseInfo().tag'))) || anyNote(ev, /town|giran/i, [LEADER]), 'no town pause tag / note') },
+  { id: 'town giran', cmd: '!town giran', stopAfter: true, expect: (ev) => need(/town/.test(String(ev.js(LEADER, 'pauseInfo() && pauseInfo().why'))) || anyNote(ev, /town|giran/i, [LEADER]), 'no town pause tag / note') },
   { id: 'mark', cmd: '!mark simtest_spot', expect: (ev) => need(chatOr(ev, /\[goto\] saved: simtest_spot/, [LEADER]) && /simtest_spot/.test(JSON.stringify(ev.js(LEADER, 'loadPlaces()'))), 'place not saved / no "[goto] saved" line') },
   { id: 'places', cmd: '!places', expect: (ev) => need(chatOr(ev, /\[goto\] places:/, [LEADER]), 'no "[goto] places" line') },
   { id: 'dumpskills', cmd: '!dumpskills', each: true, expect: (ev) => need(NAMES.every(n => ev.files.some(f => f === `skills_${n}.json`)), 'no Logs/skills_<name>.json for each') },

@@ -211,6 +211,74 @@ async function job(ctx, b) {
   if (body && body.error) return { code: 500, error: body.error };
   return { ok: true, id, job: J };
 }
+/** ENCHMANY-2026-10-18: several bag pieces to +to in one job (the bot enchants them one after another, one scroll at a time) */
+async function enchantMany(ctx, b) {
+  const name = String(b.name || ''); if (!NAME_RE.test(name)) return { code: 400, error: 'name?' };
+  const to = Number(b.to) || 0; if (to < 1 || to > 25) return { code: 400, error: 'pick a + level' };
+  // ENCHMANY-WH 2026-10-20 (owner: "Its not under 'Clan Warehouse'"): items = [{ src: bag|wh|clan, objId (bag), id, enchant }]; the old objIds = bag only
+  const picks = Array.isArray(b.items) && b.items.length ? b.items.map(x => ({ src: String(x.src || 'bag'), objId: Number(x.objId) || 0, id: Number(x.id) || 0, enchant: Number(x.enchant) || 0 }))
+    : (Array.isArray(b.objIds) ? b.objIds : []).map(Number).filter(Boolean).map(oid => ({ src: 'bag', objId: oid }));
+  if (!picks.length) return { code: 400, error: 'tick at least one item' };
+  if (picks.some(p => !['bag', 'wh', 'clan'].includes(p.src))) return { code: 400, error: 'items come from the bag, the warehouse or the clan warehouse' };
+  const C = await charInfo(ctx, name, false); if (C.error) return C;
+  const R = rates(ctx), safe = Number(R.safe) || 4, blessed = !!b.blessed, list = [], skip = [], need = {}, whOver = [];
+  const used = { wh: {}, clan: {} };                                       // several identical warehouse pieces: each pick takes one more
+  for (const p of picks) {
+    let r = null;
+    if (p.src === 'bag') { r = C.bag.find(x => Number(x.objId) === p.objId); if (!r) { skip.push(`item ${p.objId} is not in the bag`); continue; } }
+    else {
+      const k = `${p.id}:${p.enchant}`, n = (used[p.src][k] || 0) + 1;
+      const rows = C[p.src].filter(x => Number(x.id) === p.id && (Number(x.enchant) || 0) === p.enchant), have = rows.reduce((s, x) => s + (Number(x.count) || 1), 0);
+      if (have < n) { skip.push(`${(rows[0] && rows[0].name) || 'item ' + p.id} +${p.enchant} is not in the ${p.src === 'clan' ? 'clan ' : ''}warehouse (any more)`); continue; }
+      used[p.src][k] = n; r = rows[0];
+      if (p.enchant >= PROTECT_ENCH) { skip.push(`${r.name} +${p.enchant}: +${PROTECT_ENCH} and higher leaves the warehouse only by its own single pick`); continue; }
+      if (p.enchant > safe) whOver.push(`${r.name} +${p.enchant}`);
+    }
+    if (r.common) { skip.push(`${r.name}: Common items cannot be enchanted`); continue; }
+    if (!r.kind || IL.gradeKey(r.grade) === 'NONE') { skip.push(`${r.name}: cannot be enchanted`); continue; }
+    const cur = Number(r.enchant) || 0; if (cur >= to) { skip.push(`${r.name} is already +${cur}`); continue; }
+    const scroll = IL.scrollFor(r.kind, r.grade, blessed); if (!scroll) { skip.push(`${r.name}: no scroll for it`); continue; }
+    need[scroll] = (need[scroll] || 0) + (to - cur);
+    list.push({ src: p.src, objId: p.src === 'bag' ? p.objId : 0, id: r.id, name: r.name, from: cur, to, scroll, kind: r.kind, grade: r.grade, chance: IL.chanceTo(cur, to, r.kind, !!r.full, R) });
+  }
+  const fromClan = list.some(x => x.src === 'clan'), CL = clanLeader(ctx);
+  if (fromClan && !CL) return { code: 409, error: 'No clan leader known: nobody can take things out of the clan warehouse.' };
+  if (whOver.length && !b.overSafeOk) return { code: 409, error: `${whOver.join(', ')} ${whOver.length === 1 ? 'is' : 'are'} above the safe +${safe}: tick the warning first (it leaves the warehouse only because you pick it).`, needWarning: true };
+  if (!list.length) return { code: 400, error: skip.join('; ') || 'nothing to enchant' };
+  // ENCHSCROLLS 2026-10-20 (owner: "it says there is not enchants in the bags?" — Dagger1: 0 in the bag, 644 / 31 / 363 ... in the clan warehouse):
+  // scrolls missing from the bag are OFFERED from the warehouse / clan warehouse (scrollOptions); taken only when the owner says yes (scrollsFrom)
+  const cnt = (rows, sid) => rows.filter(x => x.id === Number(sid)).reduce((n, x) => n + (Number(x.count) || 0), 0);
+  const have = (sid) => cnt(C.bag, sid), take = b.scrollsFrom === 'warehouses';
+  const opts = [], scrollNeeds = [];
+  for (const sid of Object.keys(need)) {
+    const bag = have(sid), gap = need[sid] - bag; if (gap <= 0) continue;
+    const w = cnt(C.wh, sid), c = cnt(C.clan, sid), nm = facts(ctx, sid).name;
+    opts.push({ id: Number(sid), name: nm, need: need[sid], bag, wh: w, clan: c });
+    if (take) { const fw = Math.min(gap, w), fc = Math.min(gap - fw, c); if (fw + fc > 0) scrollNeeds.push({ id: Number(sid), what: nm, need: bag + fw + fc, from: { bag, wh: fw, clan: fc } }); }
+  }
+  if (!take && opts.some(o => o.wh + o.clan > 0)) return { code: 409, error: `Not enough enchant scrolls in ${name}'s bag — they can come from the ${opts.some(o => o.clan) ? 'clan ' : ''}warehouse.`, scrollOptions: opts };
+  const got = (o) => o.bag + (take ? Math.min(o.need - o.bag, o.wh + o.clan) : 0);
+  const missing = opts.filter(o => got(o) < 1).map(o => o.name);
+  if (missing.length) return { code: 409, error: `No ${missing.join(', ')} in ${name}'s bag, warehouse or the clan warehouse` };
+  const short = opts.filter(o => got(o) < o.need).map(o => `${o.name}: ${got(o)} of up to ${o.need}`);
+  const scrollClan = scrollNeeds.some(n => n.from.clan > 0);
+  if (scrollClan && !CL) return { code: 409, error: 'No clan leader known: nobody can take scrolls out of the clan warehouse.' };
+  const over = to > safe;
+  if (over && !b.overSafeOk) return { code: 409, error: `+${to} is above the safe +${safe}: a failed ${blessed ? 'blessed scroll drops the item to +0' : 'scroll DESTROYS the item'}. Tick the warning first.`, needWarning: true };
+  const id = `ij_${name.toLowerCase()}_${Date.now().toString(36)}`;
+  const takeTxt = (x) => x.src === 'clan' ? `take ${x.name} +${x.from} out of the clan warehouse${CL && CL !== name ? ` (${CL} hands it over)` : ''}, then ` : x.src === 'wh' ? `take ${x.name} +${x.from} out of the warehouse, then ` : '';
+  const steps = scrollNeeds.map(n => `take ${n.need - n.from.bag}× ${n.what} out of the ${n.from.clan ? (n.from.wh ? 'warehouse + clan warehouse' : 'clan warehouse') : 'warehouse'}${n.from.clan && CL && CL !== name ? ` (${CL} hands them over)` : ''}`)
+    .concat(list.map(x => `${takeTxt(x)}enchant ${x.name} +${x.from} → +${to} (chance ${IL.pct(x.chance)})`)).concat(short.length ? [`scrolls may run out: ${short.join(', ')}`] : []).concat(skip.map(s => `skipped: ${s}`));
+  const J = { id, doer: name, item: { src: list[0].src, id: list[0].id, objId: list[0].objId, enchant: list[0].from, name: `${list.length} item(s) to +${to}`, kind: list[0].kind, grade: list[0].grade },
+    enchantMany: list.map(x => ({ src: x.src, objId: x.objId, id: x.id, from: x.from, name: x.name, to, scroll: x.scroll })), overSafeOk: !!b.overSafeOk, clanLeader: CL, needs: scrollNeeds, steps, created: isoNow(), by: String(b.by || 'dashboard').slice(0, 40) };
+  fs.mkdirSync(JOBDIR(ctx), { recursive: true });
+  fs.writeFileSync(path.join(JOBDIR(ctx), id + '.json'), JSON.stringify(J, null, 1));
+  try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}	items	job ${id}: ${steps.join(' / ').slice(0, 400)}	${J.by}
+`); } catch (e) { }
+  const r = await ctx.commandRun({ cmd: `!itemjob ${id}`, targets: ['chars:' + [name].concat((fromClan || scrollClan) && CL !== name ? [CL] : []).join(',')] });   // the clan leader hears it to hand the pieces over
+  const body = r && r.body ? r.body : r; if (body && body.error) return { code: 500, error: body.error };
+  return { ok: true, id, job: J, skipped: skip, short };
+}
 /** the doer status + the receiver steps in one time line (the job is done when the receiver wore it / failed when either failed) */
 function mergeStatus(a, b) {
   if (!a && !b) return null; if (!b) return a;
@@ -295,6 +363,7 @@ async function handle(req, res, url, ctx) {
     if (sub === 'log') return out(activity(ctx, q('name'), q('n'))), true;
     if (sub === 'plan' && req.method === 'POST') return out(await plan(ctx, b)), true;
     if (sub === 'job' && req.method === 'POST') return out(await job(ctx, b)), true;
+    if (sub === 'enchantmany' && req.method === 'POST') return out(await enchantMany(ctx, b)), true;
     if (sub === 'job') return out(jobStatus(ctx, q('id'))), true;
     if (sub === 'look' && req.method === 'POST') { const n = String(b.name || ''); if (!NAME_RE.test(n)) return out({ code: 400, error: 'name?' }), true; const r = await ctx.commandRun({ cmd: `!whlook ${n}`, targets: ['chars:' + n] }); const bd = r && r.body ? r.body : r; return out(bd && bd.error ? { code: 500, error: bd.error } : { ok: true }), true; }
     if (sub === 'craft' && req.method === 'POST') return out(await craftOrder(ctx, b)), true;
@@ -302,4 +371,4 @@ async function handle(req, res, url, ctx) {
     out({ code: 404, error: 'unknown items API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { handle, chars, charInfo, shops, plan, job, jobStatus, craftInfo, recipes, facts, activity, STATIC };
+module.exports = { handle, chars, charInfo, shops, plan, job, enchantMany, jobStatus, craftInfo, recipes, facts, activity, STATIC };

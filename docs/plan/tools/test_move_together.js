@@ -104,7 +104,9 @@ const M = pc.__M;
 console.log('2) simulated team (real leader + member code)');
 const sa = SRC.indexOf('// MOVETOGETHER-PURE-BEGIN'), sb = SRC.indexOf('/** ROUTE TEST (user 2026-10-06 21:55');
 ok(sa > 0 && sb > sa, 'leader + member block found');
-const BLOCK = SRC.slice(sa, sb);
+// KEEPHUNT-2026-10-21: the route walk uses khRouteEnd / KEEPHUNT (end-of-route = arrived): its pure block goes in too
+const ka = SRC.indexOf('// KEEPHUNT-PURE-START'), kb = SRC.indexOf('// KEEPHUNT-PURE-END');
+const BLOCK = (ka > 0 && kb > ka ? SRC.slice(ka, kb) + '\n' : '') + SRC.slice(sa, sb);
 
 function sim(opts) {
   opts = opts || {};

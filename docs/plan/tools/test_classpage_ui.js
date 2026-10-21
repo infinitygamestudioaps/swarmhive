@@ -1,6 +1,8 @@
 // CLASS PLANS: headless browser check of the Classes page + badges (Edge via CDP) against the SANDBOX server (cmdcenter_testserver.js:
 // mocked MCP, nothing reaches the game). The plans file is a SCRATCH copy seeded from Scripts/data/class_plans.migrated.json (env
-// SWARM_CLASSPLANS_FILE); every confirm() is accepted. iPhone 390x844 + desktop 1366x900.
+// SWARM_CLASSPLANS_FILE); every confirm() is accepted. The character states (class, level, swarm.js plan report) come from the FIXED folder
+// fixtures/classpage_states (env SWARM_STATE_DIR, 2026-10-21): the live Logs/swarm_state_*.json change as the characters level. In it the
+// Tank2 nukers are Elven Wizards and the Tank3 nukers Dark Wizards at level 38 (both before their 40 change). iPhone 390x844 + desktop 1366x900.
 //   node docs/plan/tools/test_classpage_ui.js [screenshot dir]     (default: %TEMP%\classpage_shots — never the repo)
 'use strict';
 const path = require('path'), fs = require('fs'), cp = require('child_process'), os = require('os');
@@ -14,9 +16,14 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   fs.mkdirSync(OUT, { recursive: true });
   const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'cpui-'));
   const PFILE = path.join(TMP, 'class_plans.json');
-  fs.copyFileSync(path.join(ROOT, 'Scripts', 'data', 'class_plans.migrated.json'), PFILE);
+  fs.copyFileSync(path.join(__dirname, 'fixtures', 'class_plans_ui_seed.json'), PFILE);   // fixed seed (2026-10-21): the review file changes with the owner's accounts
+  const SDIR = path.join(TMP, 'states'); fs.mkdirSync(SDIR);   // fixed states, stamped "now" (a stale heartbeat would show the rows as offline)
+  const NOW = new Date().toISOString();
+  for (const fn of fs.readdirSync(path.join(__dirname, 'fixtures', 'classpage_states')).filter(x => /^swarm_state_.+.json$/.test(x))) {
+    const st = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'classpage_states', fn), 'utf8')); st.updated = NOW; fs.writeFileSync(path.join(SDIR, fn), JSON.stringify(st));
+  }
   const LIVE = path.join(ROOT, 'Scripts', 'data', 'class_plans.json'); const liveSt = () => { try { const s = fs.statSync(LIVE); return s.size + ':' + s.mtimeMs; } catch (e) { return 'absent'; } }; const LIVE0 = liveSt();
-  const srv = cp.spawn(process.execPath, [path.join(__dirname, 'cmdcenter_testserver.js')], { stdio: ['ignore', 'pipe', 'pipe'], env: Object.assign({}, process.env, { SWARM_CLASSPLANS_FILE: PFILE }) });
+  const srv = cp.spawn(process.execPath, [path.join(__dirname, 'cmdcenter_testserver.js')], { stdio: ['ignore', 'pipe', 'pipe'], env: Object.assign({}, process.env, { SWARM_CLASSPLANS_FILE: PFILE, SWARM_STATE_DIR: SDIR }) });
   let PORT = 0; const mcpLog = [];
   srv.stdout.on('data', d => String(d).split('\n').forEach(l => { const m = l.match(/^PORT (\d+)/); if (m) PORT = +m[1]; else if (l.startsWith('MCP ')) mcpLog.push(l); }));
   srv.stderr.on('data', d => process.stderr.write('[server] ' + d));
@@ -58,7 +65,8 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   ok('approved members show no warning badge (Tank1, Inspector1)', !rowB.some(x => /^(Tank1|Inspector1):(No class plan|Plan not approved)/.test(x)));
   ok('party header badge on party Tank2 (6 without approved plan)', await ev(`[...document.querySelectorAll('.whead h2')].some(h => /Party Tank2/.test(h.textContent) && /6 no class plan/.test(h.textContent))`));
   ok('phone rows show the short text (No plan) with the full text as aria-label', await ev(`(() => { const b = document.querySelector('.mem2[data-char="Nuker1"] .cpbadge'); return getComputedStyle(b.querySelector('.sh')).display !== 'none' && b.querySelector('.sh').textContent === 'No plan' && /^No class plan: /.test(b.getAttribute('aria-label')); })()`));
-  ok('the row badge never covers the exp column (phone)', await ev(`[...document.querySelectorAll('.mem2 .cpbadge')].every(b => { const x = b.closest('.mem2').querySelector('.xp'); return b.getBoundingClientRect().right <= x.getBoundingClientRect().left + 1; })`));
+  // 2D check (the badge sits in the 3rd row under exp / adena since NOJUMP-2026-10-13): it never overlaps the exp or adena cell, and its text is never clipped
+  ok('the row badge never covers the exp column (phone) and is shown whole', await ev(`[...document.querySelectorAll('.mem2 .cpbadge')].every(b => { const r = b.getBoundingClientRect(), row = b.closest('.mem2'); const hit = (e) => { if (!e) return false; const q = e.getBoundingClientRect(); return r.left < q.right - 1 && q.left < r.right - 1 && r.top < q.bottom - 1 && q.top < r.bottom - 1; }; return !hit(row.querySelector('.xp')) && !hit(row.querySelector('.ad')) && b.scrollWidth <= b.clientWidth + 1 && r.right <= row.getBoundingClientRect().right + 1; })`), await ev(`(() => { const b = [...document.querySelectorAll('.mem2 .cpbadge')].find(b => b.scrollWidth > b.clientWidth + 1); return b ? b.closest('.mem2').dataset.char + ' clipped ' + b.clientWidth + '/' + b.scrollWidth : ''; })()`));
   ok('the badge is animated', await ev(`getComputedStyle(document.querySelector('.mem2 .cpbadge.cpb-miss')).animationName !== 'none'`));
   ok('no horizontal page scroll (iPhone, Parties)', await ev(`document.documentElement.scrollWidth <= innerWidth + 1`), await ev(`document.documentElement.scrollWidth + ' / ' + innerWidth`));
   await ev(`window.scrollTo(0, 0)`); await sleep(500); await shot('01_iphone_parties_banner');

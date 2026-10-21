@@ -68,7 +68,7 @@ class Pool {
       logFile: path.join(ROOT, 'Logs', 'brain_host.log'), stallMs: 8000, hbMs: 250, runner: {}, geopath: false, allowEval: false, quarantineAfter: 3, quarantineWindowMs: 600000, verbose: false,
       watchScriptMs: 0, reloadGapMs: 3000, backoffBaseMs: 5000, backoffMaxMs: 300000,
       // RESILIENCE (audit #25/#26/#35/#37/#38): quarantine end, quarantine in a live fight, live allow list, stats file, memory guard
-      quarantineMs: 1800000, fightQuarantineAfter: 1, liveFightMs: 30000, liveFight: null, configFile: null, configPollMs: 5000,
+      quarantineMs: 1800000, fightQuarantineAfter: 2, hardStallMs: 45000,   /* SMOOTH-2026-10-20: was 1 (one stall in a raid = 30 min quarantine) */ liveFightMs: 30000, liveFight: null, configFile: null, configPollMs: 5000,
       statsFile: null, statsMs: 10000, maxRssMb: 0, memRestart: false, memRestartGapMs: 600000, dropWaitMs: 5000,
       // IDENTITY (audit #24): agent bytes / cross-party App events for a party whose worker is restarting are kept this long / this much
       bufMaxAgeMs: 15000, bufMaxBytes: 4194304, appQueueMax: 2000 }, opts || {});
@@ -97,6 +97,47 @@ class Pool {
       this.vfs = createVfs({ root: this.o.root, overlay: this.o.overlay, isolate: this.o.isolate });
       this.geo = new GeoBridge({ vfs: this.vfs, log: (m) => this.log(m) });
     }
+  }
+  // FARMPERF-2026-10-20 WORKER SLOTS (brain_host.json "perf": { "workers": N }, read at pool start): N worker threads, each hosting several
+  // parties (greedy by character count, biggest party first) instead of one thread per party (24 isolates on a 2+8-core laptop). Every map
+  // below keyed "by party" is keyed by the SLOT key (sk(party)): without "workers" sk(party) = party = the old behaviour exactly.
+  sk(party) { if (!this.slotMap) return party; let k = this.slotMap.get(party); if (!k) k = this.assignSlot(party); return k; }
+  /** parties of a slot key (just [key] without slots) */
+  partiesOf(key) { if (!this.slotMap) return [key]; const out = []; for (const [p, k] of this.slotMap) if (k === key) out.push(p); return out.length ? out : [key]; }
+  assignSlot(party) {
+    const size = (p) => (this.o.allow || []).filter(nm => this.partyOf(nm) === p).length || 1;
+    const load = new Map(); for (let i = 1; i <= this.slotN; i++) load.set('w' + i, 0);
+    for (const [p, k] of this.slotMap) load.set(k, (load.get(k) || 0) + size(p));
+    let best = 'w1'; for (const [k, v] of load) if (v < load.get(best)) best = k;
+    this.slotMap.set(party, best); return best;
+  }
+  /** at pool start: "perf" from brain_host.json (resource limits, plain globals, code cache, slots) */
+  setupPerf() {
+    let j = null; try { if (this.o.configFile) j = JSON.parse(fs.readFileSync(this.o.configFile, 'utf8').replace(/^\uFEFF/, '')); } catch (e) { j = null; }
+    const p = Object.assign({}, (j && j.perf) || {}, this.o.perf || {}); this.perf = p;
+    const N = Math.max(0, Math.floor(Number(p.workers) || 0));
+    if (N > 0) {
+      this.slotN = N; this.slotMap = new Map();
+      const parties = new Map(); (this.o.allow || []).forEach(nm => { const pt = this.partyOf(nm); parties.set(pt, (parties.get(pt) || 0) + 1); });
+      Array.from(parties.entries()).sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]))).forEach(([pt]) => this.assignSlot(pt));
+      const desc = {}; for (const [pt, k] of this.slotMap) (desc[k] = desc[k] || []).push(pt);
+      this.log(`worker slots: ${N} workers for ${parties.size} parties — ${Object.keys(desc).sort().map(k => k + ': ' + desc[k].join(',')).join(' | ')}`);
+    }
+    if (Number(p.workerOldMb) > 0 || Number(p.workerYoungMb) > 0) this.o.resourceLimits = Object.assign({}, this.o.resourceLimits || {}, Number(p.workerOldMb) > 0 ? { maxOldGenerationSizeMb: Number(p.workerOldMb) } : {}, Number(p.workerYoungMb) > 0 ? { maxYoungGenerationSizeMb: Number(p.workerYoungMb) } : {});
+    if (p.dontContextify !== undefined) this.o.runner = Object.assign({}, this.o.runner || {}, { dontContextify: !!p.dontContextify });
+    if (p.codeCache !== false && !this.o.overlay) this.o.runner = Object.assign({}, this.o.runner || {}, { codeCacheDir: path.join(this.o.root, 'Logs', 'brain_cache') });
+    // above-normal priority for the brain host process (workers are threads of it). Never HIGH: L2Swarm and the OS must keep up too.
+    if (p.priority !== false && !this.o.overlay) { try { require('os').setPriority(0, require('os').constants.priority.PRIORITY_ABOVE_NORMAL); this.log('process priority: above normal'); } catch (e) { this.log('process priority not changed: ' + e.message); } }
+    // Windows EcoQoS opt-out (guide: a hidden background node can be classed EcoQoS = efficient cores + low clock): SetProcessInformation(
+    // ProcessPowerThrottling, ControlMask EXECUTION_SPEED | IGNORE_TIMER_RESOLUTION, StateMask 0) on THIS process, from a short PowerShell child
+    // (Node has no API for it). perf.highQos false = off. Logged; a failure changes nothing else.
+    if (p.highQos !== false && !this.o.overlay && process.platform === 'win32') {
+      const ps = `$s='[DllImport("kernel32.dll")]public static extern IntPtr OpenProcess(int a,bool b,int c);[DllImport("kernel32.dll")]public static extern bool SetProcessInformation(IntPtr h,int c,byte[] i,int s);[DllImport("kernel32.dll")]public static extern int GetLastError();';` +
+        `Add-Type -MemberDefinition $s -Name K -Namespace Q;$h=[Q.K]::OpenProcess(0x0200,$false,${process.pid});$b=New-Object byte[] 12;[BitConverter]::GetBytes([int]1).CopyTo($b,0);[BitConverter]::GetBytes([int]5).CopyTo($b,4);` +
+        `if([Q.K]::SetProcessInformation($h,4,$b,12)){'ok'}else{'fail '+[Q.K]::GetLastError()}`;
+      try { require('child_process').execFile('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', ps], { windowsHide: true, timeout: 20000 }, (e, out) => this.log(`EcoQoS opt-out (high QoS) for pid ${process.pid}: ${e ? 'failed: ' + e.message.split('\n')[0] : String(out).trim()}`)); } catch (e) { this.log('EcoQoS opt-out not started: ' + e.message); }
+    }
+    this.log(`perf: ${JSON.stringify({ workers: N || 'one per party', resourceLimits: this.o.resourceLimits || null, dontContextify: !!(this.o.runner && this.o.runner.dontContextify), codeCache: !!(this.o.runner && this.o.runner.codeCacheDir) })}`);
   }
   log(m) { const line = `${new Date().toISOString()} [pool] ${m}`; if (this.o.verbose) console.log(line); try { if (this.o.logFile) fs.appendFileSync(this.o.logFile, line + '\r\n'); } catch (e) { } }
   later(fn, ms) { const t = setTimeout(() => { this.timers.delete(t); fn(); }, ms); this.timers.add(t); return t; }
@@ -128,7 +169,7 @@ class Pool {
     this.st.reloads++;
     if (this.quarantined.size) { this.log(`script reload: quarantine of ${Array.from(this.quarantined).join(', ')} lifted (new code)`); this.quarantined.clear(); this.quarUntil.clear(); for (const c of this.conns.values()) c.refused = false; }
     const parties = new Set(Array.from(this.workers.keys()));
-    for (const c of this.conns.values()) if (!c.refused) parties.add(c.party);
+    for (const c of this.conns.values()) if (!c.refused) parties.add(this.sk(c.party));
     let i = 0;
     for (const party of parties) {
       const delay = (i++) * this.o.reloadGapMs;
@@ -161,15 +202,18 @@ class Pool {
     if (this.src === null && !this.loadSource('first worker')) { this.log(`worker for party ${party} NOT started: no compiling script (${this.o.script})`); return null; }
     const sab = new SharedArrayBuffer(32);           // Int32 [cur, depth, last, 0] + Float64 [entered ms, last left ms] (worker.js, audit #37)
     const runnerOpts = Object.assign({ script: this.o.script, root: this.o.root, overlay: this.o.overlay, isolate: this.o.isolate, logFile: this.o.logFile, verbose: this.o.verbose }, this.o.runner || {}, { source: this.src });
-    const w = new Worker(path.join(__dirname, 'worker.js'), { workerData: { party, sab, hbMs: this.o.hbMs, runner: runnerOpts, allowEval: !!this.o.allowEval, geoToMain: !!this.geo, busyOk: true }, resourceLimits: this.o.resourceLimits });
+    const directNames = this.perf && this.perf.directPorts ? (Array.isArray(this.perf.directNames) ? this.perf.directNames.map(String) : ['swarm.pos']) : null;
+    const partyMap = this.slotMap ? Object.fromEntries((this.o.allow || []).map(nm => [nm, this.partyOf(nm)])) : null;   // FARMPERF: several parties in this worker
+    const w = new Worker(path.join(__dirname, 'worker.js'), { workerData: { party, sab, hbMs: this.o.hbMs, runner: runnerOpts, allowEval: !!this.o.allowEval, geoToMain: !!this.geo, busyOk: true, partyMap, directNames }, resourceLimits: this.o.resourceLimits });
     W = { party, w, sab, mark: new Int32Array(sab, 0, 4), markT: new Float64Array(sab, 16, 2), lastHb: Date.now(), names: [], ready: false, gen: (this.genSeq = (this.genSeq || 0) + 1), dead: false, hash: this.srcHash, startedAt: Date.now() };
     this.workers.set(party, W);
     w.on('message', (m) => this.fromWorker(W, m));
     w.on('error', (e) => { this.log(`worker ${party} error: ${e && e.stack || e}`); });
     w.on('exit', (code) => { W.dead = true; if (this.workers.get(party) === W && !this.stopping) { this.log(`worker ${party} exited (${code}); restarting`); this.restart(W, 'exit ' + code); } });
-    this.log(`worker for party ${party} started`);
+    this.log(`worker for party ${party} started${this.slotMap ? ' (parties ' + this.partiesOf(party).join(', ') + ')' : ''}`);
     // existing connections of this party (a restart): replay their hello
-    for (const [cid, c] of this.conns) if (c.party === party && !c.refused) this.openIn(W, cid, c);
+    for (const [cid, c] of this.conns) if (this.sk(c.party) === party && !c.refused) this.openIn(W, cid, c);
+    if (this.perf && this.perf.directPorts) this.wirePeers(W);   // FARMPERF-2026-10-20
     this.pushBrain();
     this.flushApp(W);
     return W;
@@ -180,16 +224,33 @@ class Pool {
   // Now main keeps the start of the current partial line (c.tail) and the chunks of the gap (max bufMaxAgeMs / bufMaxBytes) and replays them
   // after the hello, so the new worker reads whole lines.
   openIn(W, cid, c) {
-    W.w.postMessage({ k: 'open', cid }); W.w.postMessage({ k: 'data', cid, chunk: c.hello + '\n' });
+    this.send(W, { k: 'open', cid }); this.send(W, { k: 'data', cid, chunk: c.hello + '\n' });
     let pend = (c.tail || '') + (c.q ? c.q.join('') : ''); const pendAt = c.q && c.qAt ? c.qAt : Date.now();
     if (c.q && c.qAt && Date.now() - c.qAt > this.o.bufMaxAgeMs) { const i = pend.lastIndexOf('\n'); this.st.bufDropped = (this.st.bufDropped || 0) + (i + 1); pend = pend.slice(i + 1); }
     c.q = null; c.qAt = 0; c.qBytes = 0; c.tail = '';
-    if (pend) { this.noteSent(c, pend, pendAt); W.w.postMessage({ k: 'data', cid, chunk: pend }); this.noteTail(c, pend); this.st.bufReplayed = (this.st.bufReplayed || 0) + pend.length; }
+    if (pend) { this.noteSent(c, pend, pendAt); this.send(W, { k: 'data', cid, chunk: pend }); this.noteTail(c, pend); this.st.bufReplayed = (this.st.bufReplayed || 0) + pend.length; }
+  }
+  // SMOOTH-2026-10-20: everything for one worker (agent chunks, App events, open / close / brain / ...) is queued and posted as ONE 'batch'
+  // per main-thread tick (setImmediate), in order. One message per chunk / per App event used to flood the worker's port (hundreds per turn),
+  // which kept its heartbeat timer from running -> false watchdog kills mid-raid. The worker works the batch off in time slices (worker.js).
+  send(W, m) {
+    if (!W || W.dead) return;
+    if (!W.outq) W.outq = [];
+    W.outq.push(m);
+    if (!W.outSched) { W.outSched = true; setImmediate(() => this.flushOut(W)); }
+  }
+  flushOut(W) {
+    W.outSched = false;
+    const q = W.outq; if (!q || !q.length) return;
+    W.outq = [];
+    if (W.dead) return;
+    this.st.batches = (this.st.batches || 0) + 1; this.st.batchItems = (this.st.batchItems || 0) + q.length;
+    try { W.w.postMessage(q.length === 1 ? q[0] : { k: 'batch', items: q }); } catch (e) { this.log(`party ${W.party}: batch post failed: ${e && e.message}`); }
   }
   /** an agent chunk: to the party's live worker, or kept until it has one again */
   forward(cid, c, chunk) {
-    const W = this.workers.get(c.party);
-    if (W && !W.dead) { this.noteSent(c, chunk); W.w.postMessage({ k: 'data', cid, chunk }); this.noteTail(c, chunk); return; }
+    const W = this.workers.get(this.sk(c.party));
+    if (W && !W.dead) { this.noteSent(c, chunk); this.send(W, { k: 'data', cid, chunk }); this.noteTail(c, chunk); return; }
     if (!c.q) { c.q = []; c.qAt = Date.now(); c.qBytes = 0; }
     c.q.push(chunk); c.qBytes += chunk.length;
     if (c.qBytes > this.o.bufMaxBytes) {             // too much: drop whole lines, keep the start of the current partial line (alignment)
@@ -216,7 +277,7 @@ class Pool {
   requeueUnread(W) {
     const cut = W.lastHb; let bytes = 0, apps = 0;
     for (const c of this.conns.values()) {
-      if (c.party !== W.party || c.refused || !c.sent || !c.sent.length) continue;
+      if (this.sk(c.party) !== W.party || c.refused || !c.sent || !c.sent.length) continue;
       const i = c.sent.findIndex(e => e.at >= cut); const s = c.sent; c.sent = []; c.sentBytes = 0;
       if (i < 0) continue;
       const back = s.slice(i), prev = c.q || [];
@@ -233,18 +294,18 @@ class Pool {
   flushApp(W) {
     const q = this.appQ.get(W.party); if (!q || !q.length) return; this.appQ.delete(W.party);
     const t = Date.now(); let n = 0;
-    for (const e of q) if (t - e.at <= this.o.bufMaxAgeMs) { this.noteAppSent(W, e.env, e.only, e.at); W.w.postMessage({ k: 'appin', env: e.env, only: e.only }); n++; }
+    for (const e of q) if (t - e.at <= this.o.bufMaxAgeMs) { this.noteAppSent(W, e.env, e.only, e.at); this.send(W, { k: 'appin', env: e.env, only: e.only }); n++; }
     if (n) this.log(`party ${W.party}: ${n} App event(s) that arrived during its worker restart delivered`);
   }
   appTo(party, env, only) {
     const T = this.workers.get(party);
-    if (T && !T.dead) { this.noteAppSent(T, env, only); T.w.postMessage({ k: 'appin', env, only }); return; }
+    if (T && !T.dead) { this.noteAppSent(T, env, only); this.send(T, { k: 'appin', env, only }); return; }
     let q = this.appQ.get(party); if (!q) this.appQ.set(party, q = []);
     q.push({ env, only, at: Date.now() }); if (q.length > this.o.appQueueMax) q.shift();
     this.st.appQueued = (this.st.appQueued || 0) + 1;
   }
   /** parties that exist (a worker, or a connection waiting for one) */
-  livePartiesExcept(party) { const set = new Set(); for (const T of this.workers.values()) if (!T.dead) set.add(T.party); for (const c of this.conns.values()) if (!c.refused) set.add(c.party); set.delete(party); return set; }
+  livePartiesExcept(party) { const set = new Set(); for (const T of this.workers.values()) if (!T.dead) set.add(T.party); for (const c of this.conns.values()) if (!c.refused) set.add(this.sk(c.party)); set.delete(party); return set; }
   fromWorker(W, m) {
     if (this.workers.get(W.party) !== W) {                    // a terminated generation: only what its contexts emitted before it stopped (audit #24)
       if (m.k === 'app') { this.relayApp(W, m, true); return; }
@@ -285,33 +346,63 @@ class Pool {
     else for (const p of this.livePartiesExcept(W.party)) this.appTo(p, env, null);
     if (stale) this.st.appFromDeadGen = (this.st.appFromDeadGen || 0) + 1;
   }
-  pushBrain() { const accounts = Array.from(this.accounts.keys()); for (const W of this.workers.values()) if (!W.dead) W.w.postMessage({ k: 'brain', accounts }); }
+  pushBrain() { const accounts = Array.from(this.accounts.keys()), slots = this.perf && this.perf.directPorts ? Object.fromEntries(this.accounts) : undefined; for (const W of this.workers.values()) if (!W.dead) this.send(W, slots ? { k: 'brain', accounts, slots } : { k: 'brain', accounts }); }
+  // FARMPERF-2026-10-20 DIRECT PORTS (brain_host.json perf.directPorts): every pair of live workers gets its own MessageChannel, so the
+  // loss-tolerant high-volume App events (perf.directNames, default swarm.pos: re-sent every 3 s) go worker -> worker without the main hop
+  // (one copy instead of two). Everything else (trades, hand-overs, orders) still goes through main, which buffers it across restarts.
+  sendT(W, m, list) { if (!W || W.dead) return; this.flushOut(W); try { W.w.postMessage(m, list); } catch (e) { this.log(`party ${W.party}: transfer failed: ${e && e.message}`); } }
+  wirePeers(W) {
+    const { MessageChannel } = require('worker_threads'); const seen = new Set();
+    for (const T of this.workers.values()) {
+      if (T === W || T.dead || seen.has(T)) continue; seen.add(T);
+      const ch = new MessageChannel();
+      this.sendT(W, { k: 'peer', key: T.party, port: ch.port1 }, [ch.port1]); this.sendT(T, { k: 'peer', key: W.party, port: ch.port2 }, [ch.port2]);
+    }
+    this.st.peerWires = (this.st.peerWires || 0) + seen.size;
+  }
   /** the watchdog: a worker whose heartbeat stopped is terminated and started again */
   watch() {
     const t = Date.now();
     for (const W of Array.from(this.workers.values())) {
+      // SMOOTH-2026-10-20 PROGRESS WATCHDOG: the worker counts every finished callback / handled message (SAB Int32 [3]). A late heartbeat
+      // with that counter still moving is an OVERLOADED worker, not a stuck one: killing it (recompile + replay + resync of every agent)
+      // only made the load worse (99 kills on 2026-10-20, none with a callback older than 0.5 s). Stuck = no progress for stallMs, or no
+      // heartbeat at all for hardStallMs (a starved worker that never reaches its timers is useless too).
+      if (!W.dead) { const pg = Atomics.load(W.mark, 3); if (pg !== W.prog) { W.prog = pg; W.progAt = t; } }
       if (W.dead || t - W.lastHb < this.o.stallMs || (W.busyUntil && t < W.busyUntil)) continue;
+      const hard = Number(this.o.hardStallMs) || 45000;
+      if (t - (W.progAt || W.startedAt || 0) < this.o.stallMs && t - W.lastHb < hard) {
+        if (!W.slowAt || t - W.slowAt > 60000) { W.slowAt = t; this.st.slowWorkers = (this.st.slowWorkers || 0) + 1; this.log(`party ${W.party}: worker overloaded (heartbeat ${t - W.lastHb} ms late, but it is still working) — not restarting it`); }
+        continue;
+      }
       // WHO (audit #37): inside a guarded callback (mark[0]) or, when that is 0, the context whose callback ran last (mark[2]; its promise
       // continuations run after the callback returned and keep the worker from reaching the setImmediate that clears it)
       const att = stallWho(W, t);
       const name = att.name, fight = name ? this.liveFight(W.party) : '';
       this.st.watchdogKills++;
       this.log(`WATCHDOG party ${W.party}: no heartbeat for ${t - W.lastHb} ms — ${name ? `context ${name} ${att.how} for ${att.since} ms` : 'no context could be named (no callback ran since the last idle turn)'}${fight ? ` — the party has a live ${fight}` : ''}; terminating the worker`);
-      if (name) {
+      // SMOOTH-2026-10-20: we only get here when the worker made NO progress for stallMs, so the named context really ran all that time;
+      // it is blamed only when its callback / continuation started (or last ran) at least 3/4 of the window ago (a context that ran last but
+      // only briefly is chance: Char1 43x, Dagger1 20x on 10-20 under the old heartbeat-only watchdog). In a live fight ONE stall is a
+      // restart (~1 s), not a 30 min quarantine (a raid leader in reflex mode = a wipe); fightQuarantineAfter (2) stalls in the window are.
+      const guilty = name && att.since >= this.o.stallMs * 0.75;
+      if (name && !guilty) this.log(`WATCHDOG: ${name} is not blamed (${att.how || 'unknown'}, only ${att.since} ms) — no quarantine count`);
+      if (guilty && !(fight && !(this.o.fightQuarantineAfter > 0))) {
         const arr = (this.stalls.get(name) || []).filter(x => t - x < this.o.quarantineWindowMs); arr.push(t); this.stalls.set(name, arr);
         const need = fight ? Math.max(1, this.o.fightQuarantineAfter) : this.o.quarantineAfter;
         if (arr.length >= need && !this.quarantined.has(name)) this.quarantine(name, fight ? `blocked its worker during a live ${fight} (party ${W.party})` : `blocked its worker ${arr.length} times in ${Math.round(this.o.quarantineWindowMs / 60000)} min`);
-      } else this.alert('stall', W.party, '', `party ${W.party}: watchdog stall that no context could be named for`);
+      } else if (!name) this.alert('stall', W.party, '', `party ${W.party}: watchdog stall that no context could be named for`);
       this.restart(W, 'watchdog');
     }
   }
   restart(W, why, delayMs) {
     if (this.workers.get(W.party) === W) this.workers.delete(W.party);
+    if (this.perf && this.perf.directPorts) for (const T of this.workers.values()) if (T !== W && !T.dead) this.send(T, { k: 'peerdown', key: W.party });   // FARMPERF: its ports die with it
     W.dead = true; try { W.w.terminate(); } catch (e) { }
     if (/^(watchdog|exit)/.test(String(why || ''))) { try { this.requeueUnread(W); } catch (e) { this.log('requeue after ' + why + ': ' + e.message); } }   // stall window (identity review)
     // the accounts of the party's connections that are still open stay brain accounts through the restart (their agents keep their bridge
     // lists; other parties' emitTo to them is queued, audit #24); only accounts without a live connection are dropped
-    const live = new Set(); for (const c of this.conns.values()) if (c.party === W.party && !c.refused && c.accountId) live.add(c.accountId);
+    const live = new Set(); for (const c of this.conns.values()) if (this.sk(c.party) === W.party && !c.refused && c.accountId) live.add(c.accountId);
     let dropped = 0; for (const [acc, p] of Array.from(this.accounts)) if (p === W.party && !live.has(acc)) { this.accounts.delete(acc); dropped++; }
     if (dropped) this.pushBrain();
     this.st.workerRestarts++;
@@ -338,7 +429,7 @@ class Pool {
         sock.write(JSON.stringify({ a: 'bye', why: this.quarantined.has(name) ? 'quarantined' : 'not allowed' }) + '\n'); sock.end(); return;
       }
       c = { sock, name, party: this.partyOf(name), hello: line, accountId: String(hello.accountId || '') };
-      const W = this.worker(c.party);              // before conns.set: a NEW worker replays only the connections it already has
+      const W = this.worker(this.sk(c.party));     // before conns.set: a NEW worker replays only the connections it already has
       this.conns.set(cid, c);
       // no compiling script yet: the connection waits; a reload starts the worker and replays the hello. The rest of the first chunk (lines
       // after the hello) is kept for that replay (review 2026-10-12: it was dropped here)
@@ -347,10 +438,10 @@ class Pool {
       if (rest) this.forward(cid, c, rest);
     });
     sock.on('close', () => {
-      if (!c) return; this.conns.delete(cid); const W = this.workers.get(c.party);
-      if (W && !W.dead) { W.w.postMessage({ k: 'close', cid }); return; }
+      if (!c) return; this.conns.delete(cid); const W = this.workers.get(this.sk(c.party));
+      if (W && !W.dead) { this.send(W, { k: 'close', cid }); return; }
       // closed while the party had no live worker: nobody will say 'gone' for it (audit #22/#24)
-      if (c.accountId && this.accounts.get(c.accountId) === c.party && !Array.from(this.conns.values()).some(o => o.accountId === c.accountId)) { this.accounts.delete(c.accountId); this.pushBrain(); }
+      if (c.accountId && this.accounts.get(c.accountId) === this.sk(c.party) && !Array.from(this.conns.values()).some(o => o.accountId === c.accountId)) { this.accounts.delete(c.accountId); this.pushBrain(); }
     });
     sock.on('error', () => { });
   }
@@ -366,10 +457,10 @@ class Pool {
   logsDir() { return this.o.overlay ? path.join(this.o.overlay, 'Logs') : path.join(this.o.root, 'Logs'); }
   /** a raid / Kamaloka / epic of this party written in the last liveFightMs -> its kind, else '' (swarm.js writes these files every 1-2 s) */
   liveFight(party) {
-    if (typeof this.o.liveFight === 'function') { try { return this.o.liveFight(party) || ''; } catch (e) { return ''; } }
+    if (typeof this.o.liveFight === 'function') { try { for (const p of this.partiesOf(party)) { const f = this.o.liveFight(p); if (f) return f; } return ''; } catch (e) { return ''; } }
     // the party key (swarm.config.json party = its leader) and every character of that worker: swarm.js names the file after the WRITER
     // (liveFileName() = Me.Name of the party leader), which is not the config party key when the leader changed (review 2026-10-12)
-    const W = this.workers.get(party), keys = [party].concat(W && Array.isArray(W.names) ? W.names : []);
+    const W = this.workers.get(party), keys = [party].concat(this.partiesOf(party), W && Array.isArray(W.names) ? W.names : []);
     for (const k of Array.from(new Set(keys))) { const f = liveFightOf(this.logsDir(), k, Date.now(), this.o.liveFightMs); if (f) return f; }
     return '';
   }
@@ -422,10 +513,10 @@ class Pool {
     const cs = Array.from(this.conns.values()).filter(c => c.name === name);
     if (!cs.length) return;
     cs.forEach(c => { c.dropping = true; });
-    const W = this.workers.get(cs[0].party);
+    const W = this.workers.get(this.sk(cs[0].party));
     const d = { why, timer: null }; this.drops.set(name, d);
     d.timer = this.later(() => this.dropDone(name, 'worker did not answer'), this.o.dropWaitMs);
-    if (W && !W.dead) W.w.postMessage({ k: 'drop', name, why }); else this.dropDone(name, 'no worker');
+    if (W && !W.dead) this.send(W, { k: 'drop', name, why }); else this.dropDone(name, 'no worker');
   }
   dropDone(name, how) {
     const d = this.drops.get(name); if (!d) return;
@@ -434,7 +525,7 @@ class Pool {
       if (c.name !== name) continue;
       c.refused = true; this.conns.delete(cid);
       try { c.sock.write(JSON.stringify({ a: 'bye', why: 'not allowed' }) + '\n'); c.sock.end(); } catch (e) { }
-      const W = this.workers.get(c.party); if (W && !W.dead) W.w.postMessage({ k: 'close', cid });
+      const W = this.workers.get(this.sk(c.party)); if (W && !W.dead) this.send(W, { k: 'close', cid });
     }
     this.log(`${name} left the brain (${d.why}; ${how})`);
   }
@@ -447,7 +538,7 @@ class Pool {
       const out = { at: new Date(t).toISOString(), pid: s.pid, port: this.o.port, rssMb, heapMb: Math.round(s.mem.heapUsed / 1048576), st: s.st, script: this.srcHash || '',
         allow: this.o.allow, quarantined: Array.from(this.quarantined).map(n => ({ name: n, until: this.quarUntil.has(n) ? new Date(this.quarUntil.get(n)).toISOString() : null })),
         alerts: this.alerts.slice(-20), restarts: Array.from(this.fails.entries()).map(([p, a]) => ({ party: p, last2min: a.filter(x => t - x < 120000).length })),
-        mainLag: this.mainLag(), workers: s.workers.map(w => ({ party: w.party, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), lag: w.lag || null, hot: w.hot || 0, vfsMb: w.vfsMb, shared: w.shared, contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
+        mainLag: this.mainLag(), workers: s.workers.map(w => ({ party: w.party, parties: this.slotMap ? this.partiesOf(w.party) : undefined, heapMb: Math.round((w.heapUsed || 0) / 1048576), elu: +(Number(w.elu || 0) * 100).toFixed(1), lag: w.lag || null, hot: w.hot || 0, vfsMb: w.vfsMb, shared: w.shared, contexts: (w.contexts || []).map(c => ({ name: c.name, booted: c.booted, connected: c.connected })) })),
         missingWorkers: Array.from(this.workers.values()).filter(W => !W.dead && !s.workers.some(w => w.party === W.party)).map(W => W.party) };
       this.memGuard(rssMb, out); this.lagLog(out); this.heapLog(out); out.heapHist = this.heapHist || [];
       if (this.o.statsFile) { const tmp = this.o.statsFile + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(out)); fs.renameSync(tmp, this.o.statsFile); }
@@ -484,11 +575,11 @@ class Pool {
     // PERF-2026-10-15 kill switch: "sharedParse": false in brain_host.json = workers started from now on (restart / reload / new party) parse
     // their own copies again (the old way); the running ones keep what they have until they restart
     if (typeof j.sharedParse === 'boolean' && this.o.runner && this.o.runner.sharedParse !== j.sharedParse) { this.o.runner = Object.assign({}, this.o.runner, { sharedParse: j.sharedParse }); this.log(`shared parse ${j.sharedParse ? 'ON' : 'OFF'} for workers started from now on (brain_host.json "sharedParse")`); }
-    const push = j.agentPush === true ? true : Array.isArray(j.agentPush) ? j.agentPush.map(String) : false, hot = j.partyHot !== false;
-    const sig = JSON.stringify([push, hot]); if (sig === this.agentCfgSig) return; this.agentCfgSig = sig;
-    this.o.runner = Object.assign({}, this.o.runner || {}, { agentPush: push, partyHot: hot });
-    for (const W of this.workers.values()) if (!W.dead) W.w.postMessage({ k: 'agentcfg', agentPush: push, partyHot: hot });
-    this.log(`agent config: push ${push === true ? 'ALL' : push.length ? push.join(', ') : 'off'}, party fight hint ${hot ? 'on' : 'off'}`);
+    const push = j.agentPush === true ? true : Array.isArray(j.agentPush) ? j.agentPush.map(String) : false, hot = j.partyHot !== false, slim = j.agentSlim !== false;   // SLIM-2026-10-20: on unless "agentSlim": false
+    const sig = JSON.stringify([push, hot, slim]); if (sig === this.agentCfgSig) return; this.agentCfgSig = sig;
+    this.o.runner = Object.assign({}, this.o.runner || {}, { agentPush: push, partyHot: hot, agentSlim: slim });
+    for (const W of this.workers.values()) if (!W.dead) this.send(W, { k: 'agentcfg', agentPush: push, partyHot: hot, agentSlim: slim });
+    this.log(`agent config: push ${push === true ? 'ALL' : push.length ? push.join(', ') : 'off'}, party fight hint ${hot ? 'on' : 'off'}, slim reports ${slim ? 'on' : 'off'}`);
   }
   /** MEMORY GUARD: above maxRssMb an ALERT; with memRestart the worker with the biggest heap (never a party with a live fight) restarts */
   memGuard(rssMb, out) {
@@ -499,7 +590,10 @@ class Pool {
     const all = out.workers || [];
     // LEAK-2026-10-15: judged per CHARACTER (heap / contexts): the old absolute compare always picked the biggest party (Tank1, 9 characters:
     // 7 restarts on 2026-10-15) because a 9-character worker is >= 2x the median of mostly 2-3-character workers even without any leak
-    const per = (w) => (Number(w.heapMb) || 0) / Math.max(1, (w.contexts || []).length);
+    // SMOOTH-2026-10-20: minus the fixed cost of an isolate (script source + bytecode + shared datasets, ~45 MB with 0 contexts): a 1-character
+    // party (Nuker19) always looked like 2x the median per character and was restarted every 10 min for 0 MB gained (32 restarts on 10-20)
+    const base = Number(this.o.memBaseMb) || 45;
+    const per = (w) => Math.max(0, (Number(w.heapMb) || 0) - base) / Math.max(1, (w.contexts || []).length);
     const cand = all.filter(w => !this.liveFight(w.party)).sort((a, b) => per(b) - per(a) || b.heapMb - a.heapMb)[0];
     const W = cand && this.workers.get(cand.party);
     if (!W) { this.log(`memory guard: every big worker has a live fight — not restarting anything`); return; }
@@ -517,6 +611,7 @@ class Pool {
     this.restart(W, 'memory guard', 200);
   }
   start() {
+    try { this.setupPerf(); } catch (e) { this.log('perf setup: ' + e.message); }   // FARMPERF-2026-10-20
     this.wd = setInterval(() => this.watch(), Math.max(100, Math.round(this.o.hbMs)));
     if (this.o.configFile) { this.pollConfig(true); this.cfgIv = setInterval(() => { try { this.pollConfig(); } catch (e) { this.log('config poll: ' + e.message); } }, this.o.configPollMs); }
     if (this.o.statsFile || this.o.maxRssMb > 0) this.statsIv = setInterval(() => { this.writeStats(); }, this.o.statsMs);
@@ -552,7 +647,7 @@ class Pool {
     const conn = Array.from(this.conns.values()).find(c => c.name === name);
     const party = conn ? conn.party : this.partyOf(name);
     if (!conn) return { ok: false, why: 'agent not connected', party };
-    const W = this.workers.get(party), t = Date.now();
+    const W = this.workers.get(this.sk(party)), t = Date.now();
     // review 2026-10-12: the supervisor asks once per stale CHARACTER, so a party of 5 with a stuck worker gave 5 restarts in a row (each one
     // boots swarm.js in every context again), and a party waiting out its restart backoff (crash loop) was started at once, past the backoff.
     // One worker start per party per reviveGapMs (default 2 min) is enough; a pending backoff restart is left alone.
@@ -569,7 +664,7 @@ class Pool {
   }
   /** tests: run code in one context (needs allowEval) */
   eval(name, code) {
-    const party = this.partyOf(name), W = this.workers.get(party); if (!W) return Promise.resolve({ ok: false, v: 'no worker' });
+    const party = this.partyOf(name), W = this.workers.get(this.sk(party)); if (!W) return Promise.resolve({ ok: false, v: 'no worker' });
     const id = ++this.seq; return new Promise(r => { this.evals.set(id, r); W.w.postMessage({ k: 'eval', id, name, code }); setTimeout(() => { if (this.evals.has(id)) { this.evals.delete(id); r({ ok: false, v: 'timeout' }); } }, 10000); });
   }
   async stats() {

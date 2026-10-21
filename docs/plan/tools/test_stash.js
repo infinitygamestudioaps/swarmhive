@@ -54,6 +54,7 @@ const marked = (name) => new Set([...(sellMarks.all || []), ...(sellMarks[name] 
 const item = (id, name, o) => Object.assign({ id, objId: 1000 + id, name, count: 1, stackable: !(gear[id] && gear[id].s), gear: !!(gear[id] && gear[id].s) }, o || {});
 // STORAGE-2026-10-13: the built-in rule checks run WITHOUT Dagger1's own preset (he stores everything since 2026-10-13); his preset is checked in 2b
 const rulesBase = Object.assign({}, rules, { chars: Object.assign({}, rules.chars || {}) }); delete rulesBase.chars.Dagger1;
+delete rulesBase.neverStore;   // 2026-10-21: the owner's own "never store" list (Storage page; e.g. Recipe: Sword of Damascus since 2026-10-21) is checked in its own section below
 const ctxQ = { name: 'Dagger1', crafter: false, createLvl: 0, commonLvl: 0, keepIds: keepBase, stonesToPriest: false, hasTeam: false, rules: rulesBase, data };
 {
   const C = (it, ctx) => M.stashClassify(it, ctx || ctxQ);
@@ -94,7 +95,8 @@ const ctxQ = { name: 'Dagger1', crafter: false, createLvl: 0, commonLvl: 0, keep
     const p = M.stashPlan(bag, ctxQ);
     console.log(`     Dagger1's ${bag.length} bag entries: ${M.stashPlanLine(p)}`);
     console.log(`     kept: ${p.keep.map(r => `${r.name} [${r.cat}]`).join(', ')}`);
-    check(p.deposit.length >= 100, `Dagger1: ${p.deposit.length} of ${bag.length} entries go to the warehouse (frees >= 100 slots)`);
+    // 2026-10-21: the file is rewritten by every grocer visit (47 entries since 2026-10-21 16:49, was 150+ on 2026-10-09): >= 100 only for a big bag, always: every entry decided
+    check((bag.length < 150 || p.deposit.length >= 100) && p.deposit.length + p.keep.length + (p.sell || []).length === bag.length, `Dagger1: ${p.deposit.length} of ${bag.length} entries go to the warehouse (frees >= 100 slots when the bag is big), every entry decided`);
     check(!p.deposit.some(r => [736, 737, 1061, 728, 1060].includes(r.id)), 'Dagger1: no SoE / SoR / potions in the deposit');
     check(p.keep.filter(r => r.cat === 'unknown').length <= 10, `Dagger1: unknown kinds kept: ${p.keep.filter(r => r.cat === 'unknown').map(r => r.name).join(', ') || 'none'}`);
   } catch (e) { warns.push('Logs/shop_Dagger1.txt not readable: ' + e.message); }

@@ -108,8 +108,8 @@ function agConnect() {
     c.Connect(AG.host, AG.port);
     AG.sock = c; AG.st = c.GetStream(); AG.buf = ''; AG.utail = []; AG.pr = false; AG.pinged = false; AG.lastRx = now(); AG.silentSince = 0; if (!AG.rx) AG.rx = Encoding.UTF8.GetBytes(' '.repeat(65536));
     let acc = ''; try { acc = String(App.self().accountId || ''); } catch (e) { }
-    agSend({ t: 'hello', v: AG.v, caps: ['bridge', 'assume', 'invsync', 'enumopt', 'ack', 'push', 'hot'], name: String(Me.Name || ''), objId: num(Me.objId), accountId: acc, version: String(typeof __VERSION__ !== 'undefined' ? __VERSION__ : ''), cls: num(Me.ClassId), level: num(Me.Level) });
-    AG.full = true; AG.last = { me: {}, cr: {}, sec: {}, skr: {}, fl: {}, opt: {}, q: {}, tgt: -1, html: '' }; AG.pend = [];   // AGENTPERF: jobs of the old connection are moot (the full report re-queues all)
+    agSend({ t: 'hello', v: AG.v, caps: ['bridge', 'assume', 'invsync', 'enumopt', 'ack', 'push', 'hot', 'slim'], name: String(Me.Name || ''), objId: num(Me.objId), accountId: acc, version: String(typeof __VERSION__ !== 'undefined' ? __VERSION__ : ''), cls: num(Me.ClassId), level: num(Me.Level) });
+    AG.full = true; AG.fullForce = true; AG.slim = false; AG.last = { me: {}, cr: {}, sec: {}, skr: {}, fl: {}, opt: {}, q: {}, tgt: -1, html: '', invMap: null, partySig: '', party: null }; AG.pend = [];   // AGENTPERF: jobs of the old connection are moot (the full report re-queues all)
   } catch (e) { agDrop(); }
 }
 // SLOWTRACE-2026-10-13 (user: "why do we keep seeing agent2.js ran JS for 30 s without returning" - 200-700 L2Swarm watchdog interrupts per hour):
@@ -318,8 +318,8 @@ function agDo(m) {
       if (m.to) App.emitTo(String(m.to), String(m.name), d); else App.emit(String(m.name), d);
       return;
     }
-    case 'resync': AG.full = true; return;
-    case 'cfg': if (m.push !== undefined) { AG.push = !!m.push; if (AG.push) pushArm(); } return;   // ENGINELAT PUSH switch from the brain
+    case 'resync': AG.full = true; AG.fullForce = true; return;
+    case 'cfg': if (m.push !== undefined) { AG.push = !!m.push; if (AG.push) pushArm(); } if (m.slim !== undefined && !!m.slim !== !!AG.slim) { AG.slim = !!m.slim; AG.full = true; AG.fullForce = true; } return;   // SLIM-2026-10-20: the brain reads invd / partyd (one forced full report to start the deltas from)   // ENGINELAT PUSH switch from the brain
     case 'hot': wake('hot'); return;                     // ENGINELAT: my party fights (brain hint) -> fast ticks
     case 'ping': agSend({ t: 'pong', id: m.id, at: now() }); return;
     case 'bye': agDrop(); AG.connAt = now() + 60000; return;
@@ -400,13 +400,16 @@ function buyRows() { let r = null; try { r = fastList(LS.buy, BuyList); } catch 
 
 // ---------------------------------------------------------------- the bag at once (#15)
 /** send the bag now (force: even when unchanged, as the answer barrier of InvSync); iv = bag version (bumped when the content changed) */
+// SLIM-2026-10-20 helpers: objId -> row text of a full bag (the base of the next invd); buff time rounding (5 s below 2 min ... 10 min above 1 h)
+function invMapOf(a) { const m = {}; try { for (const r of a) if (r && num(r.objId)) m[num(r.objId)] = JSON.stringify(r); } catch (e) { } return m; }
+function rtRound(t) { if (!AG.slim) return Math.round(t / 5) * 5; const step = t >= 3600 ? 600 : t >= 600 ? 60 : t >= 120 ? 10 : 5; return Math.round(t / step) * step; }
 function invPush(force) {
   AG.invDirty = false;
   let a; try { a = invRows(); } catch (e) { return false; }
   const s = JSON.stringify(a);
   if (!force && AG.last.sec.inv === s) return false;
   if (AG.last.sec.inv !== s) AG.invVer++;
-  AG.last.sec.inv = s;
+  AG.last.sec.inv = s; AG.last.invMap = invMapOf(a); AG.invSentAt = now();   // SLIM-2026-10-20: the next bag delta starts from this full bag
   return agSend({ t: 'st', seq: AG.rep, inv: a, iv: AG.invVer });
 }
 
@@ -533,11 +536,20 @@ const JOBS = {
     else { try { SkillsList.forEach(s => { const id = num(s.Id), r = s.IsReady ? 1 : 0; AG.hr += 2; if (r) delete AG.cdAt[id]; if (AG.last.skr[id] !== r) { AG.last.skr[id] = r; skr[id] = r ? [1] : [0, num(s.ReuseDelay), skEl(s, id)]; n++; } }); } catch (e) { } }   // a cooldown: [0, ReuseDelay, Elapsed] once; the brain counts Elapsed on
     if (n) msg.skr = skr;
   },
-  party: (msg, force) => section('party', partyRows, msg, force),
+  party: (msg, force) => {
+    // SLIM-2026-10-20: the party table changed nearly every report (HP / MP / X / Y / Z of 9 members = ~2.3 KB every 250 ms in a fight). Same
+    // members (same objIds, same order) -> partyd = [[objId, {changed fields}]]; a member joined / left / reordered -> the full array as before
+    if (!AG.slim || force) { section('party', partyRows, msg, force); if (msg.party) { AG.last.party = msg.party.map(p => Object.assign({}, p)); AG.last.partySig = msg.party.map(p => num(p.objId)).join(','); } return; }
+    let rows; try { rows = partyRows(); } catch (e) { return; } if (!rows) return;
+    const sig = rows.map(p => num(p.objId)).join(',');
+    if (sig !== AG.last.partySig || !AG.last.party || AG.last.party.length !== rows.length) { const st = JSON.stringify(rows); AG.last.sec.party = st; msg.party = rows; AG.last.party = rows.map(p => Object.assign({}, p)); AG.last.partySig = sig; return; }
+    const upd = []; for (let i = 0; i < rows.length; i++) { const p = AG.last.party[i], c = rows[i], d = {}; let k = 0; for (const f in c) if (p[f] !== c[f]) { d[f] = c[f]; p[f] = c[f]; k++; } for (const f in p) if (!(f in c)) { delete p[f]; d[f] = null; k++; } if (k) upd.push([num(c.objId), d]); }
+    if (upd.length) { msg.partyd = upd; AG.last.sec.party = null; AG.partyDeltas = (AG.partyDeltas || 0) + 1; }
+  },
   buffs: (msg, force) => section('buffs', () => {
     const rows = fastList(LS.buffs, BuffsList);
-    if (rows) return rows.map(x => { const r = Object.assign({}, x); r.RemainTime = Math.round(num(r.RemainTime) / 5) * 5; return r; });
-    const b = []; BuffsList.forEach(x => { const r = pick(x, BUFF_FIELDS); AG.hr += BUFF_FIELDS.length; r.RemainTime = Math.round(num(r.RemainTime) / 5) * 5; b.push(r); }); return b;
+    if (rows) return rows.map(x => { const r = Object.assign({}, x); r.RemainTime = rtRound(num(r.RemainTime)); return r; });
+    const b = []; BuffsList.forEach(x => { const r = pick(x, BUFF_FIELDS); AG.hr += BUFF_FIELDS.length; r.RemainTime = rtRound(num(r.RemainTime)); b.push(r); }); return b;
   }, msg, force),
   cr: (msg, force) => {                               // creatures every 2nd report (500 ms); every report (250 ms) while I fight (TIMING: monster HP / TargetObjId)
     // PERF-2026-10-15: the same snapshot text as last time (nobody moved, no HP changed: idle in a quiet place) = the same rows = nothing to
@@ -554,7 +566,21 @@ const JOBS = {
   },
   meSlow: (msg) => { const me = pickMe(ME_SLOW); const d = diffObj(AG.last.me, me); if (d) msg.me = Object.assign(msg.me || {}, d); },
   clan: (msg, force) => { try { const c = Me.Clan; AG.hr += 6; const cid = num(c && (c.Id || c.ClanId)); const cl = c ? { Id: cid, Name: plain(c.Name), Level: num(c.Level), ClanId: cid, AllyName: plain(c.AllyName) } : null; /* #12: swarm.js reads Me.Clan.Id */ const s = JSON.stringify(cl); if (force || s !== AG.last.clan) { AG.last.clan = s; (msg.me = msg.me || {}).Clan = cl; } } catch (e) { } },
-  inv: (msg, force) => { AG.invDirty = false; const pi = AG.last.sec.inv; section('inv', invRows, msg, force); if (msg.inv) { if (AG.last.sec.inv !== pi) AG.invVer++; msg.iv = AG.invVer; } },   // a bag change goes out with the next report (250 ms)
+  inv: (msg, force) => {
+    // FARMPERF-2026-10-20: under slim a bag change found by the events goes out at most once a second (a fight fires OnInventoryUpdate on
+    // every soulshot); still dirty = the next tick tries again. InvSync (the bag barrier) and full reports are never held back.
+    if (AG.slim && !force && AG.invSentAt && now() - AG.invSentAt < 1000) { AG.invDirty = true; AG.invHeld = (AG.invHeld || 0) + 1; return; }
+    AG.invDirty = false; const pi = AG.last.sec.inv;
+    if (AG.slim && !force && AG.last.invMap) {      // SLIM-2026-10-20 invd = { upd: [whole row of every new / changed item], del: [objId] }
+      let a; try { a = invRows(); } catch (e) { return; } if (!a) return;
+      const s = JSON.stringify(a); if (s === pi) return;
+      if (!a.every(r => r && num(r.objId))) { AG.last.sec.inv = s; msg.inv = a; AG.last.invMap = invMapOf(a); AG.invVer++; msg.iv = AG.invVer; AG.invSentAt = now(); return; }
+      const map = {}, upd = [], del = []; for (const r of a) { const id = num(r.objId), rs = JSON.stringify(r); map[id] = rs; if (AG.last.invMap[id] !== rs) upd.push(r); }
+      for (const id in AG.last.invMap) if (map[id] === undefined) del.push(num(id));
+      AG.last.sec.inv = s; AG.last.invMap = map; AG.invVer++; msg.invd = { upd, del }; msg.iv = AG.invVer; AG.invSentAt = now(); AG.invDeltas = (AG.invDeltas || 0) + 1; return;
+    }
+    section('inv', invRows, msg, force); if (msg.inv) { AG.invSentAt = now(); AG.last.invMap = invMapOf(msg.inv); if (AG.last.sec.inv !== pi) AG.invVer++; msg.iv = AG.invVer; }
+  },   // a bag change goes out with the next report (250 ms)
   skills: (msg, force) => {                           // full objects only when the list (id/level) changed; readiness as the small skr diff
     let rows = fastList(LS.skills, SkillsList), live = false;
     if (!rows) { rows = []; live = true; try { SkillsList.forEach(s => { rows.push(s); AG.hr += 2; }); } catch (e) { } }
@@ -619,13 +645,15 @@ function report() {
     meSlow: !full && r % 4 === 0, clan: !full && r % 24 === 0, inv: full || r % 4 === 0 || AG.invDirty,
   };
   const dflt = asleep ? sk % 4 === 1 : (full || r % 4 === 0);
-  JOB_ORDER.forEach(k => { if (due[k] !== undefined ? due[k] : dflt) queueJob(k, full); });
+  const force = full && (AG.fullForce || !AG.slim);   // SLIM-2026-10-20: a timed full report (60 s) re-sends nothing that did not change
+  if (full) { AG.fullForce = false; if (!force) AG.lightFulls = (AG.lightFulls || 0) + 1; }
+  JOB_ORDER.forEach(k => { if (due[k] !== undefined ? due[k] : dflt) queueJob(k, force); });
   runPend(msg);
 }
 
 // ---------------------------------------------------------------- events -> brain
 function ev(h, a) { if (AG.st) agSend({ t: 'ev', h, a, at: now() }); }   // ENGINELAT: at = when L2Swarm handed it to me (the brain measures the rest)
-function OnLogin() { ev('OnLogin', []); AG.full = true; }
+function OnLogin() { ev('OnLogin', []); AG.full = true; AG.fullForce = true; }
 function OnLogout() { ev('OnLogout', []); }
 function OnSay(charName, text, messageType) { /* WAKE2: chat never wakes (bots post party status lines; an order typed in chat reaches the brain at once as this event, and the brain's order then wakes) */ ev('OnSay', [String(charName), String(text), num(messageType)]); }
 function OnSystemMessage(msgId, params) { ev('OnSystemMessage', [num(msgId), ser(params, 0)]); }
@@ -640,7 +668,7 @@ function OnMagicSkillUse(objId, targetId, skillId) {
   try { if (num(objId) === num(Me.objId)) { AG.last.me.IsCasting = null; const id = num(skillId); AG.cdAt[id] = now(); AG.last.skr[id] = 2; const q = AG.castReq[id]; if (q) { delete AG.castReq[id]; if (now() - q < 5000) latNote('cast', now() - q); } } } catch (e) { }   // ENGINELAT: my request ran -> server started it   // cdAt: skEl (cooldown start of my own cast)
 }
 function OnTargetSelected(objId, targetObjId) { if (num(objId) === AG.myId && num(targetObjId) && num(targetObjId) !== AG.last.tgt && !AG.partyIds[num(targetObjId)]) wake('ev:myTarget');   /* WAKE2: a re-select / cancel / teammate target does not */ ev('OnTargetSelected', [num(objId), num(targetObjId)]); try { if (num(objId) === num(Me.objId)) AG.last.tgt = -1; } catch (e) { } }
-function OnTeleportToLocation(objId, X, Y, Z) { if (num(objId) === num(Me.objId)) { AG.full = true; wake('ev:teleport'); } ev('OnTeleportToLocation', [num(objId), num(X), num(Y), num(Z)]); }
+function OnTeleportToLocation(objId, X, Y, Z) { if (num(objId) === num(Me.objId)) { AG.full = true; AG.fullForce = true; wake('ev:teleport'); } ev('OnTeleportToLocation', [num(objId), num(X), num(Y), num(Z)]); }
 function OnNpcHtmlMessage(html) { wake('ev:html'); ev('OnNpcHtmlMessage', [String(html)]); }
 function OnNpcQuestHtmlMessage(html) { wake('ev:questHtml'); ev('OnNpcQuestHtmlMessage', [String(html)]); }
 function OnCommunityBoardHtmlMessage(html) { wake('ev:board'); ev('OnCommunityBoardHtmlMessage', [String(html)]); }

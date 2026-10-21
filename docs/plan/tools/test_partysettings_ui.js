@@ -27,6 +27,7 @@ const FILES = {
   SWARM_PARTYAUTO_FILE: path.join(DATA, 'party_auto.json'),   // PARTYAUTO 2026-10-13: Supplies section
   SWARM_RESRULES_FILE: path.join(DATA, 'res_rules.json'),     // RESURRECTION 2026-10-13: Resurrection section (missing = automatic res ON)
   SWARM_LOOTRULES_FILE: path.join(DATA, 'loot_rules.json'),   // LOOT RULES 2026-10-13: Loot section (missing = OFF; details: test_loot_ui.js)
+  SWARM_SERVEROPTS_FILE: path.join(DATA, 'server_options.json'),   // SRVOPT-2026-10-21: Server section (missing = today's behaviour; details: test_server_options.js)
 };
 const rd = (f) => { try { return fs.readFileSync(f, 'utf8'); } catch (e) { return null; } };
 const LIVE0 = Object.fromEntries(Object.values(FILES).map(f => [f, rd(f)]));

@@ -105,14 +105,19 @@ async function attach(name) {
     if (APPLY) await mcp('manage_account_scripts', { ...sel, action: 'start', script_name: ag.name });
     outcome.moved.push(name); return true;
   }
-  const file = `agent2_${name.replace(/[^A-Za-z0-9]/g, '')}.js`, src = fs.readFileSync(fs.existsSync(path.join(SCRIPTS, 'agent2.js')) ? path.join(SCRIPTS, 'agent2.js') : path.join(ROOT, 'Scripts_dev', 'agent2.js'), 'utf8');
+  const file = `agent2_${name.replace(/[^A-Za-z0-9]/g, '')}.js`;
+  let src = fs.readFileSync(fs.existsSync(path.join(SCRIPTS, 'agent2.js')) ? path.join(SCRIPTS, 'agent2.js') : path.join(ROOT, 'Scripts_dev', 'agent2.js'), 'utf8');
+  // MCPLIMIT-2026-10-20: L2Swarm 3.9.3's MCP refuses request bodies above ~64 KB ("Empty or unreadable request"); agent2.js is ~75 KB, so the
+  // create silently failed for the 15 Flyt characters and this tool still said "attached". A big agent goes in as a tiny starter that runs
+  // Scripts/agent2.js from disk (agent2.js has no 'use strict' and declares its On* handlers as plain functions, so an indirect eval makes them global).
+  if (Buffer.byteLength(src, 'utf8') > 50000) src = "// brain agent starter (MCPLIMIT 2026-10-20): the L2Swarm MCP refuses uploads above ~64 KB -> run agent2.js from disk (--sync turns this into a full copy)\n(0, eval)(File.ReadAllText(__DIR__ + '\\\\Scripts\\\\agent2.js'));\n";
   say(`${name}: create its own copy Scripts/${file} (${src.length} chars from Scripts/agent2.js) and start it — Scripts/agent2.js is not touched`);
   if (!APPLY) { outcome.moved.push(name); return true; }
   // a leftover copy that is not attached here can only be this character's own (the name carries it): remove it so create can write it
   try { fs.unlinkSync(path.join(SCRIPTS, file)); say(`${name}: removed an unattached leftover Scripts/${file}`); } catch (e) { }
   const cr = await mcp('manage_account_scripts', { ...sel, action: 'create', file_name: file, source: src });
   const guid = cr.script_guid || cr.guid || (cr.script && (cr.script.guid || cr.script.script_guid)) || null;
-  if (cr.text && /error|fail|refus|exists/i.test(cr.text) && !/created/i.test(cr.text)) { say(`${name}: create answered: ${cr.text.slice(0, 200)} — stopped here (swarm.js stays stopped; start it again by hand if needed)`); outcome.skipped.push(name); return false; }
+  if (cr.text && /error|fail|refus|exists|unreadable|empty|unknown field/i.test(cr.text) && !/created/i.test(cr.text)) { say(`${name}: create answered: ${cr.text.slice(0, 200)} — stopped here (swarm.js stays stopped; start it again by hand if needed)`); outcome.skipped.push(name); return false; }
   await mcp('manage_account_scripts', { ...sel, action: 'start', ...(guid ? { script_guid: guid } : { script_name: file }) });
   say(`${name}: ${file} attached + started — check Logs/brain_host.log for 'agent ${name} connected'`);
   outcome.moved.push(name); return true;

@@ -71,7 +71,20 @@ class Runner {
     if (typeof this.o.patch === 'function') src = this.o.patch(src);
     this.src = src;
     this.srcHash = require('crypto').createHash('sha1').update(src).digest('hex').slice(0, 12);
-    this.script = new vm.Script(src, { filename: path.basename(this.o.script) });
+    // FARMPERF-2026-10-20 V8 CODE CACHE (runner option codeCacheDir; the pool passes Logs\brain_cache): a worker start / restart reads the cache
+    // made for this script + this Node version instead of parsing 3.4 MB again; rejected caches (other V8) are deleted and made again.
+    let cachedData, cacheFile = null;
+    if (this.o.codeCacheDir) {
+      cacheFile = path.join(this.o.codeCacheDir, `swarm_${this.srcHash}_${process.version}.v8cache`);
+      try { cachedData = fs.readFileSync(cacheFile); } catch (e) { cachedData = undefined; }
+    }
+    this.script = new vm.Script(src, cachedData ? { filename: path.basename(this.o.script), cachedData } : { filename: path.basename(this.o.script) });
+    this.cacheFile = cacheFile; this.st.codeCache = cachedData ? (this.script.cachedDataRejected ? 'rejected' : 'used') : (cacheFile ? 'none' : 'off');
+    if (cachedData && this.script.cachedDataRejected) { try { fs.unlinkSync(cacheFile); } catch (e) { } }
+    if (cacheFile && this.st.codeCache !== 'used') {   // made after 2 min of running (lazily compiled functions included), once, atomically
+      const t = setTimeout(() => { try { if (fs.existsSync(cacheFile)) return; const d = this.script.createCachedData(); fs.mkdirSync(path.dirname(cacheFile), { recursive: true }); const tmp = cacheFile + '.' + process.pid + '.' + Date.now() + '.tmp'; fs.writeFileSync(tmp, d); fs.renameSync(tmp, cacheFile); this.log(`code cache written: ${path.basename(cacheFile)} (${Math.round(d.length / 1024)} KB)`); } catch (e) { this.log('code cache not written: ' + (e && e.message)); } }, this.o.codeCacheAfterMs || 120000);
+      if (t.unref) t.unref();
+    }
     if (!this.o.bridgeNames) this.o.bridgeNames = appEventNames(src);
     this.st.compileMs = Date.now() - t0;
     return this.script;
@@ -109,7 +122,17 @@ class Runner {
     const host = createHost({ name, accountId: accountId || `brain:${name}`, mirror, link: linkRef, timers, clock: this.clock, Date: makeDate(this.clock), vfs: this.vfs, bus: this.bus,
       root: this.o.root, version: this.o.version, bigint: this.o.bigint, allowProcess: !!this.o.allowProcess, invoke, log: (m) => this.log(m), onError: (w, e) => this.noteError(`${name} ${w}`, e), verbose: this.o.verbose });
     C = { name, accountId: accountId || `brain:${name}`, mirror, host, timers, linkRef, get link() { return link; }, set link(l) { link = l; }, ctx: null, startedAt: this.clock.now(), lostAt: 0, booted: false };
-    const ctx = vm.createContext(host.global, { name: `swarm:${name}` });
+    // FARMPERF-2026-10-20 DONT_CONTEXTIFY (Node >= 22.8; runner option dontContextify, brain_host.json "dontContextify", env BRAIN_DONT_CONTEXTIFY=1
+    // for the simulators): the context's global is an ORDINARY V8 global (no Node interceptors on every read / write of swarm.js's ~2,500
+    // top-level names). The host globals (accessors Me / Target / ..., functions, the Date override) are copied onto it as property descriptors,
+    // and host.global becomes that object (TriggerJsEvent / OnBeforeScriptStop look the script's functions up there).
+    let ctx;
+    const dc = (this.o.dontContextify === undefined ? process.env.BRAIN_DONT_CONTEXTIFY === '1' : !!this.o.dontContextify) && vm.constants && vm.constants.DONT_CONTEXTIFY;
+    if (dc) {
+      ctx = vm.createContext(vm.constants.DONT_CONTEXTIFY, { name: `swarm:${name}` });
+      Object.defineProperties(ctx, Object.getOwnPropertyDescriptors(host.global));
+      host.global = ctx; this.st.plainGlobals = (this.st.plainGlobals || 0) + 1;
+    } else ctx = vm.createContext(host.global, { name: `swarm:${name}` });
     C.ctx = ctx;
     host.setRealm({ Promise: vm.runInContext('Promise', ctx), JSON: vm.runInContext('JSON', ctx) });
     if (this.o.sharedParse) {
@@ -143,6 +166,7 @@ class Runner {
     try { C.host.onAttach(); } catch (e) { this.noteError(`${C.name} onAttach`, e); }
     L.write({ a: 'resync' });
     if (this.pushFor(C)) L.write({ a: 'cfg', push: true });   // ENGINELAT PUSH (opt-in per character: brain_host.json "agentPush")
+    if (this.o.agentSlim !== false && C.mirror.agentCaps.includes('slim')) L.write({ a: 'cfg', slim: true });   // SLIM-2026-10-20 (kill switch brain_host.json "agentSlim": false)
     this.linkState(C, true);                         // a brain account (again): the pool / every worker's brain list
     if (this.o.bridge) this.bridgeHello();
     return L;
@@ -223,15 +247,24 @@ class Runner {
     const old = this.o.agentPush; this.o.agentPush = p;
     for (const C of this.ctxs.values()) { const was = old === true || (Array.isArray(old) && old.includes(C.name)), now = this.pushFor(C); if (was !== now && C.link.connected()) C.link.write({ a: 'cfg', push: now }); }
   }
+  /** SLIM-2026-10-20 live switch (brain_host.json "agentSlim"): every connected agent that can (caps 'slim') is told on / off */
+  setAgentSlim(on) {
+    on = on !== false; if ((this.o.agentSlim !== false) === on) return; this.o.agentSlim = on;
+    for (const C of this.ctxs.values()) if (C.link.connected() && (C.mirror.agentCaps || []).includes('slim')) C.link.write({ a: 'cfg', slim: on });
+  }
   /** PARTY HOT: while anyone of this runner's contexts (pool: one worker = one party) fights, every agent of it keeps fast ticks (healers / casters
    *  waiting for their first order no longer sit in calm 250 ms / sleep 1 s ticks). Hint every hotEveryMs, held hotHoldMs after the last fight. */
   partyHot() {
     if (this.o.partyHot === false) return;
-    const t = Date.now(); let fight = false;
-    for (const C of this.ctxs.values()) { const m = C.mirror; if (m && m.fl && (m.fl.IsInCombat || m.fl.IsAttacking || (m.me && m.me.IsCasting))) { fight = true; break; } }
-    if (fight) this.hotUntil = t + (this.o.hotHoldMs || 15000);
-    if (!this.hotUntil || t > this.hotUntil) return;
+    // FARMPERF-2026-10-20: a worker may host several parties (pool "workers"): the hint is kept PER PARTY (opts.partyOf: name -> party;
+    // without it every context of this runner counts as one party, as before)
+    const t = Date.now(), pOf = typeof this.o.partyOf === 'function' ? this.o.partyOf : () => '';
+    const hot = this.hotUntilP || (this.hotUntilP = new Map());
+    for (const C of this.ctxs.values()) { const m = C.mirror; if (m && m.fl && (m.fl.IsInCombat || m.fl.IsAttacking || (m.me && m.me.IsCasting))) hot.set(pOf(C.name), t + (this.o.hotHoldMs || 15000)); }
+    let any = false; for (const u of hot.values()) if (t <= u) { any = true; break; }
+    if (!any) return;
     for (const C of this.ctxs.values()) {
+      const u = hot.get(pOf(C.name)); if (!u || t > u) continue;
       if (!C.link.connected() || !(Array.isArray(C.mirror.agentCaps) && C.mirror.agentCaps.includes('hot'))) continue;
       if (t - (C.hotAt || 0) < (this.o.hotEveryMs || 4000)) continue;
       C.hotAt = t; C.link.write({ a: 'hot' }); this.st.hot = (this.st.hot || 0) + 1;
@@ -248,9 +281,11 @@ class Runner {
     sock.setNoDelay(true); sock.setEncoding('utf8');
     let buf = '', C = null, L = null;
     sock.on('data', (chunk) => {
-      buf += chunk; let i;
-      while ((i = buf.indexOf('\n')) >= 0) {
-        const line = buf.slice(0, i); buf = buf.slice(i + 1); if (!line.trim()) continue;
+      buf += chunk; let i, p = 0;   // SMOOTH-2026-10-20: walk the lines with an index, cut the rest once (was a slice of the whole rest per line)
+      while (true) {
+        if (p > 0 && p >= buf.length) { buf = ''; p = 0; break; }
+        i = buf.indexOf('\n', p); if (i < 0) { if (p) { buf = buf.slice(p); p = 0; } break; }
+        const line = buf.slice(p, i); p = i + 1; if (!line.trim()) continue;
         let m; try { m = JSON.parse(line); } catch (e) { this.noteError('bad line', e); continue; }
         try { this.onMsg(m, line.length, sock, () => C, (c, l) => { C = c; L = l; sock.ctxName = c && c.name; }, () => L); } catch (e) { this.noteError(`${C ? C.name : '?'} ${m.t}`, e); }
       }

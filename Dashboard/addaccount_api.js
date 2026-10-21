@@ -16,7 +16,9 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const { execFile } = require('child_process');
-const BHS = require('./brain_host/supervise');   // ENGINE DEFAULT (2026-10-13): a brain character's account runs agent2.js, not swarm.js
+const BHS = require('./brain_host/supervise');
+const AL = require('./academy_logic');           // ACADEMY-2026-10-21: the "Academy mage (automatic)" choice (random name, Dark Elven Mystic, solo, academy: true)
+const academyOf = (ctx) => AL.academyCfg(readJ(ctx, path.join(ctx.DATA || path.join(ctx.ROOT, 'Scripts', 'data'), 'academy.json'), {}));   // ENGINE DEFAULT (2026-10-13): a brain character's account runs agent2.js, not swarm.js
 
 const STATIC = { '/addaccount.js': 'application/javascript; charset=utf-8', '/addaccount.css': 'text/css; charset=utf-8' };
 // swarm.js ROLEKIND.kinds + 'auto' + the named roles with special routines (swarm.config.example.json "accounts" help)
@@ -96,18 +98,20 @@ function info(ctx) {
     characters: accountsOf(cfg).map(a => a.character).filter(Boolean), logins: accountsOf(cfg).map(a => String(a.login).toLowerCase()),
     loginGap: loginGapSec(ctx, cfg), scripts: Array.isArray(cfg.scripts) && cfg.scripts.length ? cfg.scripts : ['swarm.js'],
     healerRoles: Array.isArray(cfg.healerRoles) && cfg.healerRoles.length ? cfg.healerRoles : DEFAULT_HEALERS,
-    loginQueue: STATE.queue.map(q => q.login), lastLogins: STATE.lastLogin.slice(-20) };
+    loginQueue: STATE.queue.map(q => q.login), lastLogins: STATE.lastLogin.slice(-20),
+    academy: (() => { const A = academyOf(ctx); const c = baseClasses(ctx).find(x => x.id === A.classId); return { on: A.on, className: c ? c.name : 'class ' + A.classId, plan: A.classPlan, role: A.role }; })() };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------- parsing
 /** bulk text -> rows. "login;password;character;party;role" — party / role may be empty (empty party = the character leads its own party,
  *  empty role = auto). A password that contains ';' works when the line has all 5 fields (everything between the login and the last 3
  *  fields is the password). 3 or 4 fields = login;password;character[;party]. '#' lines and blank lines are skipped. Tabs work like ';'. */
-function parseBulk(text) {
-  const rows = [], errors = [];
+function parseBulk(text, opt) {
+  const rows = [], errors = [], acad = !!(opt && opt.academy);   // ACADEMY-2026-10-21: academy lines are just login;password (the name is made up)
   String(text || '').replace(/\r/g, '').split('\n').forEach((line, i) => {
     const t = line.trim(); if (!t || t.startsWith('#')) return;
     const f = t.split(/;|\t/);
+    if (acad) { if (f.length < 2) { errors.push({ line: i + 1, login: (f[0] || '').trim(), status: 'error', reason: 'needs login;password' }); return; } rows.push({ line: i + 1, login: f[0].trim(), password: f.slice(1).join(';'), character: '', party: '', role: '' }); return; }
     if (f.length < 3) { errors.push({ line: i + 1, login: (f[0] || '').trim(), status: 'error', reason: 'needs at least login;password;character' }); return; }
     let login, password, character, party = '', role = '';
     if (f.length >= 5) { login = f[0]; password = f.slice(1, f.length - 3).join(';'); character = f[f.length - 3]; party = f[f.length - 2]; role = f[f.length - 1]; }
@@ -127,6 +131,20 @@ function validateOne(r, D) {
   if (!pw) return bad('password missing');
   if (pw.length > 64) return bad('password longer than 64 characters');
   if (/[\r\n\0]/.test(pw)) return bad('password contains a line break');
+  if (r.academy === true) {                                            // ACADEMY-2026-10-21
+    const A = D.academy || AL.academyCfg({});
+    if (!A.on) return bad('the academy pipeline is switched off (Scripts/data/academy.json "on": false)');
+    const cls = (D.classes || []).find(c => c.id === Number(A.classId));
+    if (!cls) return bad(`academy.json classId ${A.classId} is not a start class`);
+    const sexes = (Array.isArray(A.sexes) && A.sexes.length ? A.sexes : [0, 1]).filter(s => !cls.gender || (cls.gender === 'M' ? s === 0 : s === 1));
+    const sex = sexes.length ? sexes[Math.floor((D.rnd || Math.random)() * sexes.length) % sexes.length] : 0;
+    const names = AL.academyNames(A, D.rnd || Math.random, D.taken || new Set(), Number(A.names.tries) || 6);
+    names.forEach(n => D.taken && D.taken.add(n.toLowerCase()));
+    const role = D.roles.has(String(A.role)) ? String(A.role) : 'auto';
+    return { ok: true, row: { line: r.line, login, password: pw, character: names[0], mode: 'new', academy: true,
+      create: { race: cls.race, sex, classId: cls.id, className: cls.name, stats: BASE_STATS[cls.id] || BASE_STATS[cls.type === 'mystic' ? 10 : 0], names },
+      party: names[0], role, autoStart: r.autoStart !== false } };
+  }
   const character = String(r.character || '').trim();
   if (!NAME_RE.test(character)) return bad('character name: 2-16 letters or digits (L2Swarm selects the character by this name)');
   const mode = r.mode === 'new' ? 'new' : 'existing';
@@ -157,25 +175,31 @@ function validateOne(r, D) {
 // ---------------------------------------------------------------------------------------------------------------------------- files
 /** the one-off first-login script that creates the character (same proven pattern as the owner's mkchar tool, one name) */
 function buildCreateScript(rootFwd, login, c, name) {
+  // ACADEMY-2026-10-21: c.names = more names to try when the server says one is taken; c.resultFile = where the outcome goes (the academy manager)
+  const NAMES = Array.isArray(c.names) && c.names.length ? c.names : [name];
   return `// created by the dashboard (Add account): creates ${name} on the empty account ${login} at the first login, then does nothing.
 (async () => {
   const L = ${JSON.stringify(login)}, NAME = ${JSON.stringify(name)}, ST = ${JSON.stringify(c.stats)};
+  const NAMES = ${JSON.stringify(NAMES)}, FIRST = NAME, RES = ${JSON.stringify(c.resultFile ? rootFwd + '/' + c.resultFile : '')};
+  let CUR = NAME, ni = 0, reason = -1;
+  const out = (o) => { if (!RES) return; try { File.WriteAllText(RES, JSON.stringify(Object.assign({ login: L, forChar: FIRST, at: new Date().toISOString() }, o))); } catch (e) { } };
   const log = (t) => { try { File.AppendAllText(${JSON.stringify(rootFwd + '/Logs/create_chars.txt')}, new Date().toISOString() + ' [' + L + '] ' + t + '\\r\\n'); } catch (e) { } };
   let result = null, tries = 0;
   try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
   globalThis.OnIncomingPacket = (p) => {
     try { const op = Number(p[2]) & 255;
       if (op === 0x0f) result = 'OK';
-      else if (op === 0x10) { result = 'FAIL'; log('CharCreateFail for ' + NAME + ' reason ' + (Number(p[3]) & 255)); } } catch (e) { }
+      else if (op === 0x10) { result = 'FAIL'; reason = Number(p[3]) & 255; log('CharCreateFail for ' + CUR + ' reason ' + reason); } } catch (e) { }
   };
   for (let n = 0; n < 240; n++) {
     await sleep(5000);
-    try { if (Me && Me.Name) { if (n === 0 || result) log('RESULT OK ' + Me.Name + ' (in game)'); return; } } catch (e) { }
-    if (result === 'OK') { log('RESULT OK ' + NAME + ' (created, waiting for the login)'); result = 'DONE'; }
+    try { if (Me && Me.Name) { if (n === 0 || result) log('RESULT OK ' + Me.Name + ' (in game)'); if (RES && result) out({ result: 'ok', name: String(Me.Name) }); return; } } catch (e) { }
+    if (result === 'OK') { log('RESULT OK ' + CUR + ' (created, waiting for the login)'); out({ result: 'ok', name: CUR }); result = 'DONE'; }
     if (result === 'DONE') continue;
-    if (result === 'FAIL' || tries >= 6) { log('RESULT FAIL ' + NAME + ' was refused (name taken or not allowed): pick another name on the dashboard'); return; }
-    if (n === 0) log('waiting for the character list to create ' + NAME);
-    try { Send.NewCharacter(); await sleep(1500); Send.CharacterCreate(NAME, ${c.race}, ${c.sex}, ${c.classId}, ST[0], ST[1], ST[2], ST[3], ST[4], ST[5], 0, 0, 0); tries++; log('CharacterCreate sent: ' + NAME + ' (try ' + tries + ')'); } catch (e) { log('error ' + e); }
+    if (result === 'FAIL' && reason !== 1 && ni + 1 < NAMES.length) { ni++; CUR = NAMES[ni]; result = null; tries = 0; log('trying the next name: ' + CUR); }
+    if (result === 'FAIL' || tries >= 6) { log('RESULT FAIL ' + CUR + ' was refused (' + (reason === 1 ? 'no free character slot' : 'name taken or not allowed') + '): pick another name on the dashboard'); out({ result: 'fail', name: CUR, reason, slotsFull: reason === 1 }); return; }
+    if (n === 0) log('waiting for the character list to create ' + CUR);
+    try { const NAME = CUR; Send.NewCharacter(); await sleep(1500); Send.CharacterCreate(NAME, ${c.race}, ${c.sex}, ${c.classId}, ST[0], ST[1], ST[2], ST[3], ST[4], ST[5], 0, 0, 0); tries++; log('CharacterCreate sent: ' + NAME + ' (try ' + tries + ')'); } catch (e) { log('error ' + e); }
   }
   log('RESULT FAIL timeout');
 })();
@@ -320,15 +344,16 @@ async function add(ctx, b) {
   // 1) rows: the single form or the pasted lines
   let rows = [], results = [];
   if (typeof b.bulk === 'string' && b.bulk.trim()) {
-    const P = parseBulk(b.bulk); results = P.errors;
+    const P = parseBulk(b.bulk, { academy: b.bulkAcademy === true }); results = P.errors;
     const nw = b.bulkNew && typeof b.bulkNew === 'object' && b.bulkNew.classId != null && b.bulkNew.classId !== '' ? b.bulkNew : null;
-    rows = P.rows.map(r => Object.assign(r, { autoStart: b.autoStart !== false }, nw ? { mode: 'new', race: nw.race, sex: nw.sex, classId: nw.classId } : { mode: 'existing' }));
+    rows = P.rows.map(r => Object.assign(r, { autoStart: b.autoStart !== false }, b.bulkAcademy === true ? { academy: true } : nw ? { mode: 'new', race: nw.race, sex: nw.sex, classId: nw.classId } : { mode: 'existing' }));
   } else if (Array.isArray(b.accounts)) rows = b.accounts.map((a, i) => Object.assign({ line: i + 1 }, a || {}));
   if (!rows.length && !results.length) return { code: 400, error: 'nothing to add' };
   if (rows.length > MAX_BATCH) return { code: 400, error: `at most ${MAX_BATCH} accounts at once` };
   // 2) validate (syntax, then duplicates and parties across config + this batch)
   const accs = accountsOf(cfg);
-  const D = { roles: new Set(roles(cfg).map(r => r.value)), classes: baseClasses(ctx), leaders: new Set(partiesOf(cfg).map(p => p.leader)) };
+  const D = { roles: new Set(roles(cfg).map(r => r.value)), classes: baseClasses(ctx), leaders: new Set(partiesOf(cfg).map(p => p.leader)),
+    academy: academyOf(ctx), taken: new Set(accs.map(a => String(a.character || '').toLowerCase()).filter(Boolean)), rnd: ctx.rnd };   // ACADEMY-2026-10-21
   const cfgLogins = new Set(accs.map(a => String(a.login).toLowerCase())), xmlLogins = knownLogins(ctx);
   const cfgChars = new Set(accs.map(a => String(a.character || '').toLowerCase()).filter(Boolean));
   // characters of this batch that lead their own party may be named as the party of other lines of the batch
@@ -380,7 +405,8 @@ async function add(ctx, b) {
     try {
       if (r.mode === 'new') {
         mk = 'mkchar_' + r.login + '.js';
-        fs.writeFileSync(path.join(ctx.ROOT, 'Scripts', mk), buildCreateScript(rootFwd, r.login, r.create, r.character));
+        const cc = r.academy ? Object.assign({}, r.create, { resultFile: 'Logs/academy_create_' + r.login + '.json' }) : r.create;   // ACADEMY-2026-10-21
+        fs.writeFileSync(path.join(ctx.ROOT, 'Scripts', mk), buildCreateScript(rootFwd, r.login, cc, r.character));
       }
       const isLeader = r.party === r.character;
       const kindHealer = healers.includes(r.role) || r.role === 'healer';
@@ -393,7 +419,7 @@ async function add(ctx, b) {
       // safety net: the plain password must never be in the file (L2Swarm stores it encrypted)
       const xml = fs.readFileSync(r.file, 'utf8');
       if (r.password.length >= 3 && xml.includes(r.password)) { try { fs.unlinkSync(r.file); } catch (e) { } throw new Error('the config held the password in plain text — removed it, nothing added (check docs/plan/tools/new_account.ps1)'); }
-      const entry = { login: r.login, character: r.character, config: path.basename(r.file), party: r.party, role: r.role, autoStart: r.autoStart, enabled: true,
+      const entry = { login: r.login, character: r.character, config: path.basename(r.file), party: r.party, role: r.role, autoStart: r.autoStart, enabled: true, ...(r.academy ? { academy: true } : {}),
         note: `added on the dashboard ${new Date().toISOString().slice(0, 10)}${r.mode === 'new' ? ` (new ${r.create.className}, created at the first login)` : ''}` };
       created.push({ r, entry });
       results.push({ line: r.line, login: r.login, character: r.character, status: 'created', config: path.basename(r.file),

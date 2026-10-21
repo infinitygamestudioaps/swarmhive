@@ -346,6 +346,7 @@ details.tact > summary b { color: var(--gold); }
 .mem2 .bdg { grid-area: bdg; display: flex; justify-content: flex-end; align-items: center; gap: 3px; overflow: hidden; white-space: nowrap; }
 .mem2 .bdg > * { flex: 0 1 auto; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; margin: 0 !important; }
 .mem2 .bdg .cpbadge .lg { display: none; } .mem2 .bdg .cpbadge .sh { display: inline; }
+.mem2 .bdg > .cpbadge { flex: none; }   /* 2026-10-21: the class plan warning is never clipped ("No pla"); the other chips (☀ Dawn) shrink with ... instead */
 .mem2 .xp { grid-area: xp; text-align: right; font: 700 var(--fs-mini) Consolas, monospace; color: var(--gold); white-space: nowrap; }
 .mem2 .ad { grid-area: ad; text-align: right; font: var(--fs-mini) Consolas, monospace; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mem2 .bars { grid-area: bars; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 100%; max-width: 420px; }
@@ -689,6 +690,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="crafting" title="Crafters: what they can make with the materials in bag, warehouse and clan warehouse"><img class="gi" src="/icons/icon/etc_recipe_blue_i00.png" alt=""> Crafting</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
+      <button data-tab="spoil" title="Which monsters the Bounty Hunters spoil, by their spoil drops"><img class="gi" src="/icons/icon/skill0254.png" alt=""> Spoil</button>
       <button data-tab="storage"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Storage</button>
       <button data-tab="market"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Market</button>
       <button data-tab="sevensigns"><img class="gi" src="/icons/icon/accessory_lbracelet_of_dawn.png" alt=""> 7 Signs</button>
@@ -909,6 +911,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <div class="act" style="margin:8px 0">
         <button data-eng="check" title="Dry run: lists which accounts still run swarm.js inside L2Swarm (changes nothing)">Check accounts</button>
         <button data-eng="move" title="Stops swarm.js and starts the small agent, one account at a time">Move accounts to the new engine</button>
+        <button data-eng="bhrestart" title="Restarts only the brain host (every new-engine character reboots its script); refused during a raid unless you confirm twice">Restart brain host</button>
       </div>
       <pre class="log" id="pcEngineLog"></pre>
     </div>
@@ -1210,7 +1213,8 @@ function route() {
   if (window.TradePage && TradePage.route(kind, arg)) return;   // HANDOVER 2026-10-10: #/trade[/party:<leader>|char:<name>] (Dashboard/tradepage.js); closes itself on other pages
   if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
   if (window.MarketPage && MarketPage.route(kind, arg)) return;   // MARKET 2026-10-14: #/market player shops (Dashboard/marketpage.js)
-  if (window.StoragePage && StoragePage.route(kind, arg)) return;   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
+  if (window.StoragePage && StoragePage.route(kind, arg)) return;
+  if (window.SpoilPage && SpoilPage.route(kind, arg)) return;   // SPOIL 2026-10-19: #/spoil[/<leader>] which monsters the Bounty Hunters spoil (Dashboard/spoilpage.js); closes itself on other pages   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
   if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
   if (window.View3D && View3D.route(kind, arg)) return;   // VIEW3D 2026-10-17: #/view3d/<name> live 3D view from the geodata + map art (Dashboard/view3d.js)
@@ -1529,7 +1533,10 @@ function partyMap(leader, list) {
   const ms = L.ageSec <= 60 ? L.manualSpot : null, pe = ((PSPOT.data || {}).spots || {})[leader];
   const chosen = ms && ms.mode === 'manual' && ms.room ? { dungeon: ms.dungeon, room: ms.room, poly: ms.poly }
     : !ms && pe && pe.mode === 'manual' && pe.kind === 'rooms' && pe.roomId && pe.roomId !== 'any' ? { dungeon: pe.dungeon || pe.spot, room: pe.roomId, poly: null } : null;
-  let cpoly = chosen && !(zone && zone.room === chosen.room) && !(ms && ms.status === 'arrived') && !(MF && MF.room(L, chosen.room) === false) ? ((chosen.poly && chosen.poly.length >= 3) ? chosen.poly : roomPolyFor(chosen.dungeon, chosen.room)) : null;
+  // MTFIX-2026-10-21 (public tester: "Validus highlighted yellow, the old polygon is gone"): the chosen outline stays while the party hunts a local fallback /
+  // another room, even when the leader reported 'arrived'
+  const elsewhere = !!(zone && (zone.local || (zone.room && zone.room !== chosen?.room)));
+  let cpoly = chosen && !(zone && zone.room === chosen.room && !zone.local) && !(ms && ms.status === 'arrived' && !elsewhere) && !(MF && MF.room(L, chosen.room) === false) ? ((chosen.poly && chosen.poly.length >= 3) ? chosen.poly : roomPolyFor(chosen.dungeon, chosen.room)) : null;
   if (cpoly) { const cx = cpoly.reduce((a, p) => a + p[0], 0) / cpoly.length, cy = cpoly.reduce((a, p) => a + p[1], 0) / cpoly.length; if (Math.hypot(cx - L.x, cy - L.y) > 15000) cpoly = null; }
   // square view around the leader, big enough for the team + the hunting square
   let R = 2500;
@@ -3989,7 +3996,18 @@ async function loadEngine() {
   document.querySelectorAll('#tab-pc [data-eng]').forEach(b => { b.disabled = !!g.job || !g.on; });
   clearTimeout(ENG_POLL); if (g.job) ENG_POLL = setTimeout(loadEngine, 3000);
 }
+// RESTART THE BRAIN HOST (owner 2026-10-21): POST /api/brainhost {action:'restart'}; a live raid / Kamaloka / epic = 409 -> ask again (danger)
+async function brainHostRestart() {
+  if (!await uiConfirm({ title: 'Restart the brain host?', body: [uiP('Every character on the new engine reboots its script. They reconnect within about a minute and carry on with what they were doing; an order that is running starts over.'),
+    uiNote('Use it after a brain host settings change (Scripts/data/brain_host.json "perf") or when the characters stop reacting. Not during a raid.')], confirmText: 'Restart brain host' })) return;
+  let d = await api('/api/brainhost', { method: 'POST', body: JSON.stringify({ action: 'restart' }) });
+  if (d.fights && d.fights.length && await uiConfirm({ title: 'A fight is going on!', body: [uiP('Live now: ' + d.fights.map(f => f.party + ' (' + f.kind + ')').join(', ') + '.'), uiNote('Restarting now interrupts that fight and can wipe the party. Better wait until it is over.')], confirmText: 'Restart anyway', danger: true }))
+    d = await api('/api/brainhost', { method: 'POST', body: JSON.stringify({ action: 'restart', force: true }) });
+  $('msg').innerHTML = (d.ok ? GI(UI.yes, 'sm') : GI(UI.warn, 'sm')) + ' ' + esc(d.out || d.error || '');
+  setTimeout(loadEngine, 8000); setTimeout(loadEngine, 30000);
+}
 async function engineAction(a) {
+  if (a === 'bhrestart') return brainHostRestart();
   if (a === 'move' && !await uiConfirm({ title: 'Move the accounts to the new engine?', body: [uiP('Each account that still runs swarm.js inside L2Swarm gets swarm.js stopped and the small agent started — one account at a time, a few seconds apart. Accounts already moved are left alone.'),
     uiNote('Refused during a raid / Kamaloka and while the brain pool is not running. Back to the old engine: Scripts/data/brain_host.json "on": false, then attach_agent.js --back (docs/plan/INSTALL.md).')], confirmText: 'Move accounts' })) return;
   const d = await api('/api/engine', { method: 'POST', body: JSON.stringify({ action: a }) });
@@ -5142,6 +5160,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/marketpage.css"><script src="/marketpage.js"></script><!-- MARKET 2026-10-14 -->
 <link rel="stylesheet" href="/storagepage.css">
 <script src="/storagepage.js"></script>
+<link rel="stylesheet" href="/spoilpage.css"><script src="/spoilpage.js"></script><!-- SPOIL 2026-10-19: #/spoil (Dashboard/spoilpage.js, served by spoilpage_api.js) -->
 <link rel="stylesheet" href="/crafterpanel.css"><script src="/crafterpanel.js"></script><!-- OUR CRAFTER 2026-10-15: Storage box "Our crafter" + party settings line (Dashboard/crafterpanel.js, served by crafter_api.js) -->
 <!-- PARTY SETTINGS 2026-10-13 (owner: "a popup with settings per party, you set up the different things yourself"): "⚙ Settings" on every party card +
      the character page = one popup over the existing settings APIs (adena, gear, storage, tactics, route rules, daily, 7 Signs, clan invites, run switch). -->

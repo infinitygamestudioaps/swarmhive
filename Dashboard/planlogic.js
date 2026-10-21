@@ -19,7 +19,7 @@
 //     raid   { boss: <npc id>, name, level, onFail }            wait { note }
 (function (root) {
   'use strict';
-  const KINDS = ['level', 'quest', 'class', 'town', 'supply', 'gear', 'raid', 'wait'];
+  const KINDS = ['level', 'quest', 'class', 'town', 'supply', 'gear', 'raid', 'wait', 'academy'];   // ACADEMY-2026-10-21: academy { act: join | funds | buy | graduate, set }
   const INFO = {
     level: { icon: '⚔️', label: 'Level up', hint: 'Hunt until the party reaches a level' },
     quest: { icon: '📜', label: 'Do a quest', hint: 'One quest — rewards shown' },
@@ -29,6 +29,7 @@
     gear: { icon: '🛡️', label: 'Gear up', hint: 'Buy better gear in Giran' },
     raid: { icon: '🐉', label: 'Raid boss', hint: 'Optional: fight one raid boss' },
     wait: { icon: '✋', label: 'Wait for my order', hint: 'The party stops here until you say Continue' },
+    academy: { icon: '🎓', label: 'Academy', hint: 'Academy mage steps (made by the Academy pipeline)' },
   };
   // = Scripts_dev/swarm.js TOWN_CMD keys (the !town order)
   const TOWNS = ['Giran', 'Gludin', 'Gludio', 'Dion', 'Oren', 'Aden', 'Hunters', 'Heine', 'Goddard', 'Rune', 'Schuttgart'];
@@ -61,6 +62,8 @@
     if (!out.spot) return { mode: 'party' };
     const a = int(o.levelMin, 1, 99), b = int(o.levelMax, 1, 99);
     if (a != null) out.levelMin = a; if (b != null) out.levelMax = b;
+    if (o.override === true) out.override = true;                     // ACADEMY-2026-10-21: the owner accepted the level gap (party_spots.json override)
+    if (typeof o.stay === 'boolean') out.stay = o.stay;
     return out;
   }
   function normWho(w) { return Array.isArray(w) ? [...new Set(w.map(String).filter(n => NAME_RE.test(n)))].slice(0, 12) : []; }
@@ -78,6 +81,7 @@
         out.repeat = int(s.repeat, 1, 99) || 1; out.onFail = s.onFail === 'skip' ? 'skip' : 'stop'; break;
       case 'class': if (who.length) out.who = who; break;
       case 'town': out.town = TOWNS.find(t => t.toLowerCase() === String(s.town || '').toLowerCase().replace(/^\./, '')) || 'Giran'; break;
+      case 'academy': out.act = ['join', 'funds', 'buy', 'graduate'].includes(s.act) ? s.act : null; if (!out.act) return null; if (out.act === 'buy') out.set = /^[A-Za-z0-9_]{1,20}$/.test(String(s.set || '')) ? String(s.set) : 'start'; break;
       case 'raid': out.boss = int(s.boss, 1, 9999999); if (!out.boss) return null; out.name = str(s.name, 80); { const l = int(s.level, 1, 99); if (l != null) out.level = l; } out.onFail = s.onFail === 'skip' ? 'skip' : 'stop'; break;
       default: break;
     }
@@ -146,6 +150,7 @@
       case 'gear': return 'Go to Giran and buy better gear';
       case 'raid': return `Fight the raid boss ${s.name || '#' + s.boss}${s.level ? ` (level ${s.level})` : ''}`;
       case 'wait': return `Wait for my order${s.note ? ` — ${s.note}` : ''}`;
+      case 'academy': return { join: 'Academy: go to Giran and get invited into the clan Academy', funds: 'Academy: get adena from the givers for the kit', buy: `Academy: buy the ${s.set === 'level20' ? 'level-20 kit (Devotion set, Common weapon, D spiritshots) and wear it' : 'start kit (No-Grade spiritshots)'}`, graduate: 'Academy: graduated — log out, the account makes the next academy character' }[s.act] || 'Academy step';
       default: return '?';
     }
   }
@@ -210,8 +215,15 @@
         const withPlan = inScope.filter(m => m.cp && ['ready', 'waiting', 'done'].includes(m.cp.status));
         if (noPlan.length) w.push(`${names(noPlan.map(m => m.name))}: no approved class plan — will NOT change class (Classes page)`);
         if (!withPlan.length && inScope.length) w.push('nobody here has an approved class plan — this step changes nothing');
-        const low = withPlan.filter(m => m.cp.status === 'waiting' && m.cp.needLevel && m.cp.needLevel > Math.max(lvl, Number(m.level) || 0));
-        if (low.length) w.push(`${names(low.map(m => `${m.name} (${m.cp.nextName} at ${m.cp.needLevel})`))} — the party is about ${lvl} here`);
+        // TESTERFIX-2026-10-19 (Vykaax: "it got stuck at lvl 20 trying to perform a lvl 40 class change"): only a change 1-2 levels away holds the step
+        // (= the step sits a little early); a change far away = nothing is due here, the step ends at once (= swarm.js planClassDecide)
+        const due = (m) => m.cp.needLevel - Math.max(lvl, Number(m.level) || 0);
+        const low = withPlan.filter(m => m.cp.status === 'waiting' && m.cp.needLevel && due(m) > 0 && due(m) <= 2);
+        if (low.length) w.push(`${names(low.map(m => `${m.name} (${m.cp.nextName} at ${m.cp.needLevel})`))} — the party is about ${lvl} here: put a level step before it`);
+        const later = withPlan.filter(m => m.cp.status === 'waiting' && m.cp.needLevel && due(m) > 2);
+        if (later.length && later.length === withPlan.length) w.push(`nothing to change at level ${lvl} (next: ${names(later.map(m => `${m.name} → ${m.cp.nextName} at ${m.cp.needLevel}`))}) — this step ends at once`);
+      } else if (s.kind === 'supply' && plan.steps[i + 1] && plan.steps[i + 1].kind === 'gear') {
+        w.push('supplies before Gear up: the shots are bought for the old weapon grade — move Gear up above Supplies');   // TESTERFIX-2026-10-19
       } else if (s.kind === 'raid') {
         const bl = Number(s.level || (R[s.boss] && R[s.boss].level)) || 0;
         if (bl && lvl > bl + 8) w.push(`the party (about ${lvl}) is more than 8 levels above the boss (${bl}): the raid curse`);
@@ -229,7 +241,7 @@
   /** inp = { leader, members: [...as checkPlan], zones: [/api/partyspot options.zones], datapack: [options.datapack], quests: [rows],
    *  from, to } -> { steps, notes: [] }. Zones of THIS party (teams contains the leader) come before 'all' zones; datapack spots fill gaps;
    *  quests: one-time, every step known, no prerequisites, best adena + exp, at most 2 per level band; class change at 20 / 40 / 76 followed
-   *  by supplies + gear in Giran; ends with "wait for my order". Everything is editable afterwards. */
+   *  by better gear, then supplies (shots for the new grade) in Giran; ends with "wait for my order". Everything is editable afterwards. */
   function suggestPlan(inp) {
     const I = obj(inp), M = I.members || [], leader = String(I.leader || '');
     const lows = M.map(m => Number(m.level) || 1);
@@ -287,8 +299,8 @@
       prev = L; L = t;
       if (brk.includes(L)) {
         steps.push(normStep({ kind: 'class' }));
+        steps.push(normStep({ kind: 'gear' }));      // TESTERFIX-2026-10-19 (Vykaax: "Supplies should be purchased after Gear Up, otherwise the party is buying outdated shots")
         steps.push(normStep({ kind: 'supply' }));
-        steps.push(normStep({ kind: 'gear' }));
       }
     }
     steps.push(normStep({ kind: 'wait', note: `plan to level ${to} finished` }));

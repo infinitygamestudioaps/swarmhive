@@ -3,6 +3,7 @@
 //   me:    { field: value }            changed Me fields (Name, objId, X, Y, Z, HP, ..., see agent2 ME_FIELDS)
 //   cr:    { all?, set: [creature], upd: [[objId, { field: value }]], del: [objId] }   creatures (developer snapshot fields + crtType number)
 //   party / inv / buffs / skills / drops / pets / buy: a full array when that section changed (string-compared in the agent)
+//   invd:  { upd: [whole bag row], del: [objId] }   partyd: [[objId, { field: value | null = gone }]]   (SLIM-2026-10-20, agent caps 'slim')
 //   skr:   { skillId: [1] | [0, ReuseDelayMs, ElapsedMs] } skill readiness changes (a cooldown: the brain counts Elapsed on from _cdAt)
 //   TIMING (2026-10-12, audit #10/#13/#27/#28): skills are kept per Id (a level-up updates the SAME data object, so views and swarm.js's
 //   skillNamed cache stay live); brain-private fields (_cdAt = cooldown start on the brain clock, _cdRe = that cooldown's length) survive
@@ -56,6 +57,21 @@ class Mirror {
     }
     for (const sec of ['party', 'inv', 'buffs', 'skills', 'drops', 'pets', 'buy', 'petInv']) if (Array.isArray(m[sec])) this[sec] = keepIdentity(this[sec], m[sec], sec === 'skills');
     if (Array.isArray(m.inv)) { this.invAt = this.now(); this.invVer = m.iv !== undefined ? Number(m.iv) || 0 : this.invVer + 1; }
+    // SLIM-2026-10-20 (agent caps 'slim', after the brain's cfg {slim:true}): the bag / party as changes only. Same data objects are kept
+    // (views handed out earlier stay live, like keepIdentity); a new bag array each time, as a full 'inv' gives one.
+    if (m.invd && typeof m.invd === 'object') {
+      const del = new Set((m.invd.del || []).map(Number)), byId = new Map();
+      const arr = this.inv.filter(x => { const id = Number(x && x.objId); if (del.has(id)) return false; if (id) byId.set(id, x); return true; });
+      for (const r of (m.invd.upd || [])) {
+        const id = Number(r && r.objId); if (!id) continue; const o = byId.get(id);
+        if (o) { for (const f of Object.keys(o)) if (!(f in r) && f[0] !== '_') delete o[f]; Object.assign(o, r); } else { arr.push(r); byId.set(id, r); }
+      }
+      this.inv = arr; this.invAt = this.now(); this.invVer = m.iv !== undefined ? Number(m.iv) || 0 : this.invVer + 1; this.deltas = (this.deltas || 0) + 1;
+    }
+    if (Array.isArray(m.partyd)) {
+      for (const [id, f] of m.partyd) { const o = this.party.find(x => Number(x && x.objId) === Number(id)); if (!o || !f) continue; for (const k of Object.keys(f)) { if (f[k] === null) delete o[k]; else o[k] = f[k]; } }
+      this.deltas = (this.deltas || 0) + 1;
+    }
     if (Array.isArray(m.skills)) this.skills.forEach(s => {                                  // cooldown clock across full reports (audit #13)
       if (s._el !== undefined) { const el = Number(s._el) || 0, re = Number(s.ReuseDelay) || 0; delete s._el; if (!s.IsReady) { s._cdAt = this.now() - el; s._cdRe = re > 0 && el < re ? re : 0; } }
       if (s.IsReady) { s._cdAt = 0; s._cdRe = 0; }

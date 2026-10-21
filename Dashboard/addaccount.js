@@ -80,7 +80,9 @@
         <fieldset class="aa-set"><legend>Character</legend>
           <label class="chk"><input type="radio" name="aaCm" value="existing" checked> Use an existing character</label>
           <label class="chk"><input type="radio" name="aaCm" value="new"> Create a new character</label>
-          <label>Name<input id="aaChar" maxlength="16" autocapitalize="off" spellcheck="false" placeholder="exact name, 2-16 letters/digits"></label>
+          <label class="chk" title="ACADEMY-2026-10-21: a random name, a ${h((I.academy || {}).className || 'mage')}, invited into the clan Academy, levels 1-40 alone, graduates, then the account makes the next one"><input type="radio" name="aaCm" value="academy"${I.academy && I.academy.on !== false ? '' : ' disabled'}> Academy mage (automatic)</label>
+          <div id="aaAcadInfo" class="muted" hidden>A random name with digits, a new ${h((I.academy || {}).className || 'mage')}, alone: <b>.giran</b> → invited into the clan <b>Academy</b> by the clan leader → adena from the givers → kit (spiritshots; at 20 the Devotion set + a Common weapon) → level 1-40 (class change at 20 and 40) → graduates (the clan gets the reputation) → logs out → the account makes the next academy character. Settings: <code>Scripts/data/academy.json</code>.</div>
+          <label id="aaCharWrap">Name<input id="aaChar" maxlength="16" autocapitalize="off" spellcheck="false" placeholder="exact name, 2-16 letters/digits"></label>
           <div id="aaNewWrap" hidden>${newCharBlock('aa')}</div>
         </fieldset>
         <div class="aa-grid">
@@ -99,6 +101,7 @@
           <textarea id="aaBulk" rows="6" spellcheck="false" autocapitalize="off" placeholder="login1;password1;Charname1;;tank&#10;login2;password2;Charname2;Charname1;healer"></textarea></label>
         <div class="muted">Party empty = the character leads a new party (others in the list may name it). Role empty = auto. Lines starting with # are skipped.
           A password with <code>;</code> in it works when the line has all 5 fields.</div>
+        <label class="chk"><input type="checkbox" id="aaBAcad"${I.academy && I.academy.on !== false ? '' : ' disabled'}> Academy mages (automatic): the lines are just <code>login;password</code> — every account gets a random academy character and runs by itself</label>
         <label class="chk"><input type="checkbox" id="aaBNewOn"> These characters do not exist yet — create them all as:</label>
         <div id="aaBNewWrap" hidden>${newCharBlock('aaB')}</div>
         <div class="aa-checks">
@@ -119,7 +122,8 @@
   function wire() {
     id('aaPanel').querySelectorAll('[data-aamode]').forEach(b => { b.onclick = () => { A.mode = b.dataset.aamode; clearSecrets(); render(); }; });
     const one = id('aaOne'); if (!one) return;
-    one.querySelectorAll('input[name=aaCm]').forEach(x => { x.onchange = () => { id('aaNewWrap').hidden = !(one.querySelector('input[name=aaCm]:checked').value === 'new'); }; });
+    one.querySelectorAll('input[name=aaCm]').forEach(x => { x.onchange = () => { const m = one.querySelector('input[name=aaCm]:checked').value; id('aaNewWrap').hidden = m !== 'new'; id('aaAcadInfo').hidden = m !== 'academy'; id('aaCharWrap').hidden = m === 'academy'; id('aaParty').closest('label').hidden = m === 'academy'; id('aaRole').closest('label').hidden = m === 'academy'; }; });
+    id('aaBAcad').onchange = () => { if (id('aaBAcad').checked) { id('aaBNewOn').checked = false; id('aaBNewWrap').hidden = true; } id('aaBNewOn').disabled = id('aaBAcad').checked; };
     wireClass('aa'); wireClass('aaB');
     id('aaBNewOn').onchange = () => { id('aaBNewWrap').hidden = !id('aaBNewOn').checked; };
     one.onsubmit = (e) => { e.preventDefault(); submitOne(); };
@@ -133,12 +137,14 @@
     const r = { login: id('aaLogin').value.trim(), password: id('aaPw').value, character: id('aaChar').value.trim(), mode,
       party: id('aaParty').value, role: id('aaRole').value, autoStart: id('aaAuto').checked };
     if (mode === 'new') Object.assign(r, { race: +id('aaRace').value, sex: +id('aaSex').value, classId: id('aaClass').value === '' ? '' : +id('aaClass').value });
+    if (mode === 'academy') Object.assign(r, { academy: true, character: '', party: '', role: '' });   // ACADEMY-2026-10-21: the server makes up the name
     return r;
   }
   function checkOne(r) {
     if (!LOGIN_RE.test(r.login)) return 'Login: 3-32 letters, digits or _.';
     if ((A.info.logins || []).includes(r.login.toLowerCase())) return `Login ${r.login} is already in swarm.config.json.`;
     if (!r.password) return 'Password: needed once (it is stored encrypted only).';
+    if (r.academy) return '';
     if (!NAME_RE.test(r.character)) return 'Character name: 2-16 letters or digits.';
     if ((A.info.characters || []).some(c => c.toLowerCase() === r.character.toLowerCase())) return `${r.character} is already in swarm.config.json.`;
     if (r.mode === 'new' && r.classId === '') return 'Start class: pick one.';
@@ -148,7 +154,9 @@
     if (A.busy) return;
     const r = oneRow(), err = checkOne(r); id('aaErr').textContent = err; if (err) return;
     const cls = r.mode === 'new' ? ((A.info.baseClasses || []).find(c => c.id === r.classId) || {}).name : '';
-    const ok = await uiConfirm({ title: `Add account ${r.login}?`, confirmText: 'Add account',
+    const ok = r.academy ? await uiConfirm({ title: `Add academy account ${r.login}?`, confirmText: 'Add academy account',
+      body: [uiP('A new ', uiEm((A.info.academy || {}).className || 'mage'), ' with a random name is created at the first login and runs the whole academy plan by itself (Giran, Academy invite, adena, kit, level 1-40, graduation, then the next character).'),
+        uiNote('The password is stored only encrypted inside the new L2Swarm config, like L2Swarm does itself.')] }) : await uiConfirm({ title: `Add account ${r.login}?`, confirmText: 'Add account',
       body: [uiList([
         uiP('Character: ', uiEm(r.character), r.mode === 'new' ? ` — NEW ${cls} (${r.sex ? 'female' : 'male'}), created at the first login` : ' (exists already)'),
         uiP('Party: ', r.party ? uiEm(r.party) : uiEm('new party, ' + r.character + ' leads it')),
@@ -163,21 +171,22 @@
     if (A.busy) return;
     const t = id('aaBulk').value; id('aaBErr').textContent = '';
     if (!t.trim()) { id('aaBErr').textContent = 'Paste one account per line first.'; return; }
-    const nw = id('aaBNewOn').checked ? { race: +id('aaBRace').value, sex: +id('aaBSex').value, classId: id('aaBClass').value === '' ? '' : +id('aaBClass').value } : null;
+    const acad = id('aaBAcad') && id('aaBAcad').checked;   // ACADEMY-2026-10-21
+    const nw = !acad && id('aaBNewOn').checked ? { race: +id('aaBRace').value, sex: +id('aaBSex').value, classId: id('aaBClass').value === '' ? '' : +id('aaBClass').value } : null;
     if (nw && nw.classId === '') { id('aaBErr').textContent = 'Start class: pick one.'; return; }
     const n = t.split('\n').filter(l => l.trim() && !l.trim().startsWith('#')).length;
     if (!dry && !await uiConfirm({ title: `Add ${n} account${n === 1 ? '' : 's'}?`, confirmText: 'Add all',
-      body: [uiP(nw ? 'Every character is created new as ' : 'The characters exist already', nw ? uiEm(((A.info.baseClasses || []).find(c => c.id === nw.classId) || {}).name + (nw.sex ? ' (female)' : ' (male)')) : '', '.'),
+      body: [acad ? uiP('Every account gets a random ', uiEm((A.info.academy || {}).className || 'mage'), ' that runs the academy plan by itself.') : uiP(nw ? 'Every character is created new as ' : 'The characters exist already', nw ? uiEm(((A.info.baseClasses || []).find(c => c.id === nw.classId) || {}).name + (nw.sex ? ' (female)' : ' (male)')) : '', '.'),
         uiP('Auto-start: ', id('aaBAuto').checked ? 'yes' : 'no', id('aaBNow').checked ? ` · logs in right away, one by one (${A.info.loginGap} s apart)` : ''),
         uiNote('Press Check first to see what would happen. Passwords are stored only encrypted inside each L2Swarm config; the list is emptied after Add.')] })) return;
-    const body = { bulk: t, bulkNew: nw, autoStart: id('aaBAuto').checked, loginNow: id('aaBNow').checked, dryRun: !!dry };
+    const body = { bulk: t, bulkNew: nw, bulkAcademy: !!acad, autoStart: id('aaBAuto').checked, loginNow: id('aaBNow').checked, dryRun: !!dry };
     const d = await post(body, dry ? 'aaCheck' : 'aaBAdd');
     body.bulk = null;
     if (!dry) {
       // the list held passwords: empty it; lines that failed come back WITHOUT their password (type it again)
       const lines = t.replace(/\r/g, '').split('\n'); id('aaBulk').value = '';
       const failed = ((d && d.results) || []).filter(x => x.status === 'error').map(x => lines[(x.line || 0) - 1]).filter(Boolean).map(l => {
-        const f = l.split(/;|\t/); if (f.length >= 5) return [f[0], '', f[f.length - 3], f[f.length - 2], f[f.length - 1]].join(';'); return [f[0], ''].concat(f.slice(2)).join(';'); });
+        const f = l.split(/;|\t/); if (acad) return f[0] + ';'; if (f.length >= 5) return [f[0], '', f[f.length - 3], f[f.length - 2], f[f.length - 1]].join(';'); return [f[0], ''].concat(f.slice(2)).join(';'); });
       if (failed.length) { id('aaBulk').value = failed.join('\n'); id('aaBErr').textContent = 'The lines that failed are back in the list without their password: fix them, type the password again, press Add all.'; }
     }
   }
