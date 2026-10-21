@@ -108,7 +108,7 @@ function xmlEnsureScript(xml, file, fullPath, guid) {
  *  -> { act: 'setup' | 'rename' | 'next' | 'slotsfull' | 'wait' | 'none', name?, why } */
 function academyDecide(acc, st, cr, done, cfg) {
   const C = academyCfg(cfg), D = done || {};
-  if (!acc || !acc.academy || acc.enabled === false) return { act: 'none', why: 'not an academy account' };
+  if (!acc || !acc.academyMage || acc.enabled === false) return { act: 'none', why: 'not an academy account' };
   if (D.stopped) return { act: 'none', why: D.stopped };
   const ch = String(acc.character || '');
   if (cr && cr.result === 'fail' && cr.slotsFull) return { act: 'slotsfull', why: 'the account has no free character slot — academy loop stopped' };

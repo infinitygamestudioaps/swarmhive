@@ -1931,6 +1931,18 @@ setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
 // ACADEMY-2026-10-21 (Dashboard/academy_api.js): the academy manager every 30 s — set up a new academy character (approved class plan, party plan,
 // invite list, run switch), follow a renamed creation, and after a graduation close the account and make the next academy character on it
 const ACADEMY_CTX = () => ({ DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun, mcpCall });
+// OPTREQ-2026-10-21 (public tester after the v1.8.12 update: every page answered {"error":"Cannot find module './academy_api'"}): a NEW optional
+// module that is missing (half-finished update) switches off its own page only, never the whole dashboard. Logged once per module.
+const OPTREQ_MISS = new Set();
+function optRequire(m) {
+  try { return require(m); } catch (e) {
+    if (e && e.code === 'MODULE_NOT_FOUND' && String(e.message).includes(m.replace(/^\.\//, ''))) {
+      if (!OPTREQ_MISS.has(m)) { OPTREQ_MISS.add(m); console.log('[dashboard] ' + m + '.js is missing (run update.cmd again): its page is off'); }
+      return null;
+    }
+    throw e;
+  }
+}
 setInterval(() => { try { require('./academy_api').tick(ACADEMY_CTX()).catch(() => { }); } catch (e) { } }, 30000);
 // VIEW3D 2026-10-17: the 3D view's 10-minute replay recorder (Dashboard/view3d_api.js)
 try { require('./view3d_api').startRecorder(readStates); } catch (e) { }
@@ -2309,7 +2321,7 @@ http.createServer(async (req, res) => {
     if (await require('./partyauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // SERVER OPTIONS (SRVOPT-2026-10-21, Dashboard/serveropts_api.js): GET/POST /api/serveropts (key checked inside): per party the buff source, the ways to town and
     // the "Follow Party Leader's Dialog" tick box (Scripts/data/server_options.json; missing = today's behaviour)
-    if (await require('./serveropts_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    if (optRequire('./serveropts_api') && await optRequire('./serveropts_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
     // RESURRECTION 2026-10-13 (Dashboard/resrules_api.js): /respanel.js (public: the Resurrect dialog + party card) + GET/POST /api/resrules (key checked
     // inside): automatic res on/off, scrolls, scrolls on healers in raids, who may read scrolls, how far a resser walks (Scripts/data/res_rules.json, read by swarm.js every 5 s)
     // HUNT TIMER 2026-10-15 (Dashboard/hunttimer_api.js): /huntlogic.js, /hunttimer.js|css (public) + GET/POST /api/hunttimer (key checked inside): how long a party hunts
@@ -2356,7 +2368,7 @@ http.createServer(async (req, res) => {
     // ADD ACCOUNT 2026-10-12 (Dashboard/addaccount_api.js): /addaccount.js|css (public) + GET/POST /api/addaccount (key checked inside):
     // Accounts tab "+ Add account" -> Settings/<Login>.xml via new_account.ps1 (password only in the child's env), swarm.config.json, start_extra.txt
     if (await require('./addaccount_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, allowed, json, send, mcpCall })) return;
-    if (await require('./academy_api').handle(req, res, url, ACADEMY_CTX())) return;   // ACADEMY-2026-10-21: GET/POST /api/academy
+    if (optRequire('./academy_api') && await optRequire('./academy_api').handle(req, res, url, ACADEMY_CTX())) return;   // ACADEMY-2026-10-21: GET/POST /api/academy
     // SOUL STAGE PLAN 2026-10-12 (Dashboard/soulplan_api.js, READ-ONLY): /soullogic.js|soulplan.js|css (public) + GET /api/soulstageplan (key checked inside)
     if (await require('./soulplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, allowed, json, send })) return;
     if (!allowed(req, url)) return send(res, 401,'text/plain; charset=utf-8', 'Access denied: open the link with ?key=... (see Dashboard\\key.txt on the PC)');
@@ -2627,6 +2639,30 @@ http.createServer(async (req, res) => {
       if (!bhProc) { startBrainHost(); return json(res, 200, { ok: true, out: 'the brain host was not running: starting it' }); }
       try { bhProc.kill(); } catch (e) { return json(res, 500, { error: 'stop failed: ' + e.message }); }
       return json(res, 200, { ok: true, out: 'brain host stopping: it starts again in about 5 s, the characters reconnect within a minute' });
+    }
+    // RESTART THE DASHBOARD ITSELF (owner 2026-10-21: "You can restart the dashboard ... Dont ask me all the time"; PC tab -> Restart dashboard):
+    // the dashboard often runs ELEVATED (started from an admin shell / the keep-alive task), so nothing outside may stop it. It starts its own
+    // successor (same rights, same folder) 3 s later, stops its children (brain host pool, path finder, data service) and exits; the successor
+    // loads the new server code and a fresh brain host. Refused while a brain party is in a raid / Kamaloka / epic unless force (same rule as above).
+    if (url.pathname === '/api/dashboard' && req.method === 'POST') {
+      const b = await body(req);
+      if (b.action !== 'restart') return json(res, 400, { error: 'action must be restart' });
+      const fights = bhFights(bhCfg());
+      if (fights.length && !b.force) return json(res, 409, { error: 'a fight is live: ' + fights.map(f => f.party + ' (' + f.kind + ')').join(', '), fights });
+      const line = `${new Date().toISOString()} [dashboard] DASHBOARD RESTART asked (${String(b.by || 'PC tab').slice(0, 40)})${fights.length ? ' (forced during ' + fights.map(f => f.party + ' ' + f.kind).join(', ') + ')' : ''}\r\n`;
+      try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), line); fs.appendFileSync(path.join(LOGS, 'brain_host.log'), line); } catch (e) { }
+      try {
+        const succ = require('child_process').spawn(process.env.ComSpec || 'cmd.exe', ['/c', `ping -n 4 127.0.0.1 >nul & "${process.execPath}" server.js`], { cwd: __dirname, detached: true, stdio: 'ignore', windowsHide: true });
+        succ.unref();
+      } catch (e) { return json(res, 500, { error: 'could not start the new dashboard: ' + e.message }); }
+      json(res, 200, { ok: true, out: 'dashboard restarting: back in about 10 s (the brain host and the characters reconnect within a minute)' });
+      setTimeout(() => {
+        try { if (bhProc) { bhProc.removeAllListeners('exit'); bhProc.kill(); } } catch (e) { }
+        try { if (geoSvc) geoSvc.kill(); } catch (e) { }
+        try { if (dataSvc) dataSvc.kill(); } catch (e) { }
+        process.exit(0);
+      }, 600);
+      return;
     }
     // NEW ENGINE (2026-10-13, engine default; PC tab "New engine"): status + moving the running accounts from swarm.js to the agent ONE BY ONE
     // (docs/plan/tools/attach_agent.js --all [--apply] in the background; its output goes to Logs/engine_switch.log)

@@ -30,6 +30,12 @@ $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
 $bak = Join-Path $root "Logs\update_backup\$stamp"
 function Say($m, $c = 'Gray') { Write-Host $m -ForegroundColor $c }
 function Rel($p) { return $p.Substring($root.Length + 1) }
+# REPAIR-2026-10-21 (a tester's dashboard lost Dashboard\academy_api.js in the v1.8.12 update): the files a MANIFEST lists that are missing here
+function MissingFiles($man) {
+    if (-not (Test-Path -LiteralPath $man)) { return @() }
+    @(Get-Content -LiteralPath $man | Where-Object { $_ -and -not $_.StartsWith('#') } | ForEach-Object { (($_ -split '\s+', 2)[1]).Trim() -replace '/', '\' } |
+        Where-Object { $_ -and -not (Test-Path -LiteralPath (Join-Path $root $_)) })
+}
 function Hash($p) { if (Test-Path -LiteralPath $p) { (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash } else { '' } }
 function Backup($rel) {
     $src = Join-Path $root $rel; if (-not (Test-Path -LiteralPath $src)) { return }
@@ -67,7 +73,12 @@ if ($useGit) {
     if (-not $new) { Say "unknown version $target" Red; exit 1 }
     $new = $new.Trim(); $old = (& git rev-parse HEAD).Trim()
     $newVer = (& git show "${new}:VERSION"); if ($newVer) { $newVer = ($newVer -join '').Trim() } else { $newVer = '?' }
-    if ($old -eq $new) { Say "already up to date ($oldVer)." Green; if ($Check) { exit 0 } }
+    if ($old -eq $new) {
+        Say "already up to date ($oldVer)." Green
+        $gone = @(& git ls-files --deleted)                      # REPAIR-2026-10-21: files of this version that are missing on disk come back
+        if ($gone.Count -and -not $Check) { & git checkout -- $gone; Say "  restored $($gone.Count) missing file(s): $(($gone | Select-Object -First 5) -join ', ')" Yellow }
+        if ($Check) { exit 0 }
+    }
     else {
         Say "update available: $oldVer -> $newVer" Green
         if ($Check) { & git log --oneline "$old..$new" | Select-Object -First 20 | ForEach-Object { Say "  $_" }; exit 0 }
@@ -121,7 +132,9 @@ if ($useGit) {
         if (-not $rel -or -not $rel.tag_name) { Say "no release $(if ($Version) { $Version } else { '' }) found on $Repo (no network?) - download the SwarmKit zip from its GitHub releases page and run  update.cmd -Zip <file.zip>" Red; exit 1 }
         $ref = $rel.tag_name
         Say "newest release on $Repo`: $ref"
-        if (($ref -replace '^v', '') -eq $oldVer) { Say "already up to date ($oldVer)." Green; exit 0 }
+        $miss = @(MissingFiles "$root\MANIFEST.sha256")        # REPAIR-2026-10-21: same version but files missing -> download it again and repair
+        if (($ref -replace '^v', '') -eq $oldVer -and -not $miss.Count) { Say "already up to date ($oldVer)." Green; exit 0 }
+        if ($miss.Count) { Say "$($miss.Count) file(s) of your version are missing (e.g. $($miss[0])) - downloading $ref to repair" Yellow }
         if ($Check) { Say "update available: $oldVer -> $($ref -replace '^v', '')" Green; exit 0 }
         $asset = @($rel.assets) | Where-Object { $_.name -like 'SwarmKit-*.zip' } | Select-Object -First 1
         $url = if ($asset) { $asset.browser_download_url } else { "https://api.github.com/repos/$Repo/zipball/$ref" }
@@ -148,7 +161,14 @@ if ($useGit) {
     $newVer = (Get-Content "$src\VERSION" -Raw).Trim()
     function ReadManifest($f) { $h = @{}; if (Test-Path $f) { Get-Content $f | Where-Object { $_ -and -not $_.StartsWith('#') } | ForEach-Object { $x, $n = $_ -split '\s+', 2; $h[$n.Trim() -replace '/', '\'] = $x } }; $h }
     $oldMan = ReadManifest "$root\MANIFEST.sha256"; $newMan = ReadManifest "$src\MANIFEST.sha256"
-    if ($oldVer -eq $newVer -and (Hash "$root\MANIFEST.sha256") -eq (Hash "$src\MANIFEST.sha256")) { Say "already up to date ($oldVer)." Green; Remove-Item -Recurse -Force $tmp; if ($Check) { exit 0 } }
+    if ($oldVer -eq $newVer -and (Hash "$root\MANIFEST.sha256") -eq (Hash "$src\MANIFEST.sha256")) {
+        Say "already up to date ($oldVer)." Green
+        foreach ($m in @(MissingFiles "$root\MANIFEST.sha256")) {         # REPAIR-2026-10-21: a file of this version that is missing comes back
+            $from = Join-Path $src $m; $to = Join-Path $root $m
+            if (-not $Check -and (Test-Path -LiteralPath $from)) { New-Item -ItemType Directory -Force (Split-Path $to) | Out-Null; Copy-Item -LiteralPath $from $to -Force; Say "  restored missing $m" Yellow }
+        }
+        Remove-Item -Recurse -Force $tmp; if ($Check) { exit 0 }
+    }
     else {
         Say "update: $oldVer -> $newVer" Green
         if ($Check) { Remove-Item -Recurse -Force $tmp; exit 0 }

@@ -2,6 +2,15 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.13 (2026-10-21)
+
+- Hotfix: update.cmd now repairs an install that is missing files of its version (a v1.8.12 update could leave out Dashboard academy_api.js
+- run update.cmd again and it restores what is missing, git or zip)
+- the dashboard no longer fails on every page when a new optional module is missing (only that page is off)
+- Academy mages: the automatic pipeline now uses its own account field academyMage, accounts that are only invited into the clan academy are never taken over (accounts added as Academy mage with v1.8.12: add them again or set academyMage true in swarm.config.json)
+- PC tab: Restart dashboard button (the dashboard restarts itself with its own rights, refused during raids)
+- fixed !dyeplan running the vitality order
+
 ## v1.8.12 (2026-10-21)
 
 - Board buffs: the turn waits until the character is really out of combat (self-defence pauses, the leader holds new pulls), a refusal in combat no longer counts as a failure, town visits rebuff

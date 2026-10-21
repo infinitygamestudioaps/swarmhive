@@ -45,8 +45,9 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(PL.normStep({ id: 'x1', kind: 'academy', act: 'bogus' }) === null && PL.normStep({ id: 'x2', kind: 'academy', act: 'graduate' }).act === 'graduate', 'planlogic: academy acts checked');
     check(/Academy: buy the level-20 kit/.test(PL.stepText(plan.steps[5], {})), 'planlogic: plain sentence for the academy steps');
     // decisions
-    const acc = { login: 'acad1', character: 'Nyxara12', academy: true, config: 'Acad1.xml' };
+    const acc = { login: 'acad1', character: 'Nyxara12', academy: true, academyMage: true, config: 'Acad1.xml' };
     check(AL.academyDecide({ login: 'x', character: 'A' }, null, null, {}, CFG).act === 'none', 'decide: not an academy account -> nothing');
+    check(AL.academyDecide({ login: 'mylogin62', character: 'Spoiler7', academy: true, role: 'spoiler' }, null, null, {}, CFG).act === 'none', 'decide: an account only INVITED into the academy (academy: true, no academyMage: the Flyt characters, 2026-10-21) is never taken over');
     check(AL.academyDecide(acc, null, null, {}, CFG).act === 'setup', 'decide: a new academy character -> setup');
     check(AL.academyDecide(acc, null, null, { setupFor: 'Nyxara12' }, CFG).act === 'wait', 'decide: set up, running -> wait');
     check(AL.academyDecide(acc, null, { result: 'ok', name: 'Velith345', forChar: 'Nyxara12' }, { setupFor: 'Nyxara12' }, CFG).act === 'rename', 'decide: created under another name -> rename');
@@ -130,7 +131,7 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     fs.copyFileSync(path.join(ROOT, 'Scripts', 'data', 'class_tree.json'), path.join(DATA, 'class_tree.json'));
     fs.writeFileSync(path.join(DATA, 'clan_quests.json'), JSON.stringify({ clan: { name: 'MyClan', inviteAllow: ['Someone'] } }));
     const CF = path.join(tmp, 'swarm.config.json');
-    fs.writeFileSync(CF, JSON.stringify({ accounts: [{ login: 'quick', character: 'Dagger1', party: 'Dagger1', role: 'tank' }, { login: 'acad1', character: 'Nyxara12', party: 'Nyxara12', role: 'nuker', config: 'Acad1.xml', academy: true }] }, null, 2));
+    fs.writeFileSync(CF, JSON.stringify({ accounts: [{ login: 'quick', character: 'Dagger1', party: 'Dagger1', role: 'tank' }, { login: 'acad1', character: 'Nyxara12', party: 'Nyxara12', role: 'nuker', config: 'Acad1.xml', academy: true, academyMage: true }, { login: 'mylogin62', character: 'Spoiler7', party: 'Spoiler7', role: 'spoiler', config: 'Mylogin62.xml', academy: true }] }, null, 2));
     fs.writeFileSync(path.join(SET, 'Acad1.xml'), '<?xml version="1.0"?>\r\n<Option>\r\n  <ScriptsList><Script><IsEnabled>true</IsEnabled><guid>g1</guid><Name>agent2.js</Name><Path>C:\\x\\agent2.js</Path></Script></ScriptsList>\r\n  <SelectedCharacter>Nyxara12</SelectedCharacter>\r\n</Option>\r\n');
     const calls = [], sends = [];
     const teamMap = () => { const j = JSON.parse(fs.readFileSync(CF, 'utf8')); const m = {}; j.accounts.forEach(a => { m[a.character] = a.party || a.character; }); return m; };
@@ -184,6 +185,8 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(!r.acted.length, 'stopped: nothing more happens');
     const st = AM.status(ctx);
     check(st.ok && st.accounts.length === 1 && st.accounts[0].stopped, 'GET status: the account with its stop reason');
+    check(!stubs.partyplan.some(p => p.party === 'Spoiler7') && !stubs.runstate.some(x => JSON.stringify(x).includes('Spoiler7')) && !stubs.classpage.some(x => x.name === 'Spoiler7'),
+      'the manager never touched the invited-only account (Spoiler7: academy: true, no academyMage): no plan, no run switch, no class plan');
     try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { }
   }
 
@@ -197,7 +200,7 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(/await giranGo\('start'\)/.test(blk('async function acadToGiran', 'async function acadJoin')) && /planStepOrder\(\{ kind: 'town', town: 'Giran' \}\)/.test(src), 'swarm.js: .giran (town step) + the recorded Giran route to the start (the clan leader invites there)');
     check(PL.KINDS.includes('academy') && PL.INFO.academy, 'planlogic: academy kind + label');
     const srv = fs.readFileSync(path.join(DASH, 'server.js'), 'utf8');
-    check(/require\('\.\/academy_api'\)\.tick\(ACADEMY_CTX\(\)\)/.test(srv) && /require\('\.\/academy_api'\)\.handle\(req, res, url, ACADEMY_CTX\(\)\)/.test(srv), 'server.js: the manager tick (30 s) + /api/academy');
+    check(/require\('\.\/academy_api'\)\.tick\(ACADEMY_CTX\(\)\)/.test(srv) && /(?:require|optRequire)\('\.\/academy_api'\)\.handle\(req, res, url, ACADEMY_CTX\(\)\)/.test(srv), 'server.js: the manager tick (30 s) + /api/academy');
     const page = fs.readFileSync(path.join(DASH, 'addaccount.js'), 'utf8');
     check(/value="academy"/.test(page) && /id="aaBAcad"/.test(page) && /bulkAcademy: !!acad/.test(page), 'add-account page: "Academy mage (automatic)" + the bulk academy tick');
     check(fs.existsSync(path.join(ROOT, 'docs', 'guide', 'pages', 'academy.md')), 'guide page docs/guide/pages/academy.md');

@@ -419,7 +419,7 @@ async function add(ctx, b) {
       // safety net: the plain password must never be in the file (L2Swarm stores it encrypted)
       const xml = fs.readFileSync(r.file, 'utf8');
       if (r.password.length >= 3 && xml.includes(r.password)) { try { fs.unlinkSync(r.file); } catch (e) { } throw new Error('the config held the password in plain text — removed it, nothing added (check docs/plan/tools/new_account.ps1)'); }
-      const entry = { login: r.login, character: r.character, config: path.basename(r.file), party: r.party, role: r.role, autoStart: r.autoStart, enabled: true, ...(r.academy ? { academy: true } : {}),
+      const entry = { login: r.login, character: r.character, config: path.basename(r.file), party: r.party, role: r.role, autoStart: r.autoStart, enabled: true, ...(r.academy ? { academy: true, academyMage: true } : {}),   /* ACADEMYFIELD-2026-10-21: academyMage = the automatic pipeline (academy alone = only the invite) */
         note: `added on the dashboard ${new Date().toISOString().slice(0, 10)}${r.mode === 'new' ? ` (new ${r.create.className}, created at the first login)` : ''}` };
       created.push({ r, entry });
       results.push({ line: r.line, login: r.login, character: r.character, status: 'created', config: path.basename(r.file),

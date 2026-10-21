@@ -813,7 +813,8 @@ if (SWARM_CFG) {
     (SWARM_CFG.accounts || []).forEach(a => {
       if (!a || !a.character || a.enabled === false || !a.role) return;
       CONFIG.roster[a.character] = String(a.role);
-      if (a.academy) (CONFIG.academy = CONFIG.academy || {})[a.character] = true;   // ACADEMY-2026-10-20: accounts[].academy = invited into the clan ACADEMY (pledge type -1), not the main clan
+      if (a.academy || a.academyMage) (CONFIG.academy = CONFIG.academy || {})[a.character] = true;   // ACADEMYFIELD-2026-10-21: academyMage (the automatic pipeline) is invited too
+      if (a.academyMage) (CONFIG.academyMage = CONFIG.academyMage || {})[a.character] = true;   // ACADEMY-2026-10-20: accounts[].academy = invited into the clan ACADEMY (pledge type -1), not the main clan
       const party = String(a.party || a.character);
       if (party !== CONFIG.leader) CONFIG.teams[a.character] = party; else delete CONFIG.teams[a.character];
       // accounts[].classPlan: a SUGGESTION for the dashboard Classes page only (CLASS PLANS 2026-10-10) — never read here
@@ -33065,15 +33066,17 @@ function acadCfg() {
   if (!ACAD.j || now() - ACAD.jAt > 60000) { try { ACAD.j = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\academy.json`)).replace(/^﻿/, '')); } catch (e) { ACAD.j = ACAD.j || {}; } ACAD.jAt = now(); }
   return acadCfgPure(ACAD.j);
 }
-const isAcademy = (n) => !!(CONFIG.academy && CONFIG.academy[n || Me.Name]);
+// ACADEMYFIELD-2026-10-21 (2026-10-21 the pipeline took over the 20 Flyt characters: accounts[].academy already meant 'invited into the clan ACADEMY'):
+// the automatic academy MAGE pipeline is accounts[].academyMage only; accounts[].academy stays the plain academy invite
+const isAcademy = (n) => !!(CONFIG.academyMage && CONFIG.academyMage[n || Me.Name]);
 /** new academy accounts in swarm.config.json -> CONFIG.roster / academy / teams (added only, never removed; read when the file changes) */
 function academyRosterSync() {
   const f = SWARM_ROOT + '\\swarm.config.json', st = fileStamp(f);
   if (!st || st === ACAD.stamp) return; ACAD.stamp = st;
   let j = null; try { j = JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, '')); } catch (e) { return; }
   ((j && j.accounts) || []).forEach(a => {
-    if (!a || !a.academy || !a.character || a.enabled === false || !a.role) return;
-    const n = String(a.character); (CONFIG.academy = CONFIG.academy || {})[n] = true;
+    if (!a || !a.academyMage || !a.character || a.enabled === false || !a.role) return;   // ACADEMYFIELD-2026-10-21
+    const n = String(a.character); (CONFIG.academy = CONFIG.academy || {})[n] = true; (CONFIG.academyMage = CONFIG.academyMage || {})[n] = true;
     if (!CONFIG.roster[n]) { CONFIG.roster[n] = String(a.role); const party = String(a.party || n); if (party !== CONFIG.leader) CONFIG.teams[n] = party; }
   });
 }
@@ -33197,7 +33200,7 @@ async function acadGraduate() {
   return { ok: true, result: `graduated (${d.why})` };
 }
 async function planStepAcademy(step) {
-  if (!isAcademy()) return { fail: `${Me.Name} is not an academy character (swarm.config.json accounts[].academy)` };
+  if (!isAcademy()) return { fail: `${Me.Name} is not an academy mage (swarm.config.json accounts[].academyMage)` };
   if (step.act === 'join') return acadJoin();
   if (step.act === 'funds') return acadFunds();
   if (step.act === 'buy') return acadBuy(step);

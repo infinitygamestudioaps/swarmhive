@@ -184,7 +184,7 @@ const live0 = fs.existsSync(LIVE) ? fs.readFileSync(LIVE, 'utf8') : null;
   check(r.ok && !d.parties.Tank1, 'API: a party with nothing left is removed');
   const I = A.info(ctx); check(I.sources.length === 5 && I.ways.length === 6 && I.defaults.buffSources.join() === 'board,party' && I.all.townWays.join() === 'townCmd,soe', 'API info: sources / ways / defaults / the all-parties values');
   const srv = fs.readFileSync(path.join(ROOT, 'Dashboard', 'server.js'), 'utf8');
-  check(/require\('\.\/serveropts_api'\)\.handle\(req, res, url,/.test(srv), 'server.js hooks /api/serveropts');
+  check(/(?:require|optRequire)\('\.\/serveropts_api'\)\.handle\(req, res, url,/.test(srv), 'server.js hooks /api/serveropts');   // OPTREQ-2026-10-21: optional module guard
   const ps = fs.readFileSync(path.join(ROOT, 'Dashboard', 'partysettings.js'), 'utf8');
   check(/srv: '\/api\/serveropts'/.test(ps) && /server: 'srv'/.test(ps) && /function secServer\(\)/.test(ps) && /secRoutes\(\), secServer\(\)\]/.test(ps), 'party settings: the Server section is loaded and shown');
   check(/async server\(fresh\)/.test(ps) && /Buffs come from \(party/.test(ps) && /data-psorder/.test(ps), 'party settings: its save, its change lines and the ordered choice');

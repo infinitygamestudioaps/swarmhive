@@ -24,7 +24,7 @@ function mgrRead(ctx) { const j = readJ(mgrFile(ctx), {}); j.accounts = j.accoun
 function mgrSave(ctx, j) { j.at = iso(); try { writeAtomic(mgrFile(ctx), JSON.stringify(j, null, 1)); } catch (e) { log(ctx, 'state write failed: ' + e.message); } }
 const cfgOf = (ctx) => AL.academyCfg(readJ(path.join(P(ctx).data, 'academy.json'), {}));
 function rosterRaw(ctx) { try { return fs.readFileSync(P(ctx).cfg, 'utf8'); } catch (e) { return ''; } }
-function academyAccounts(ctx) { const raw = rosterRaw(ctx); let j = null; try { j = JSON.parse(raw.replace(/^﻿/, '')); } catch (e) { return []; } return (j.accounts || []).filter(a => a && a.academy); }
+function academyAccounts(ctx) { const raw = rosterRaw(ctx); let j = null; try { j = JSON.parse(raw.replace(/^﻿/, '')); } catch (e) { return []; } return (j.accounts || []).filter(a => a && a.academyMage);   /* ACADEMYFIELD-2026-10-21: only the automatic pipeline (accounts[].academy alone = an academy invite, e.g. the Flyt characters) */ }
 
 /** swarm.config.json: one account's character (+ party when it led itself) -> the new name; keeps the file's layout as far as JSON allows */
 function rosterRename(ctx, login, oldName, newName) {
