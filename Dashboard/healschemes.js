@@ -15,11 +15,18 @@
   const HL = () => window.HealLogic;
   const clone = (o) => JSON.parse(JSON.stringify(o));
   const SIT = {
-    single: { title: 'Heal a teammate', help: 'Normal heals: anyone in the party below this HP %.', ic: '✚' },
-    emergency: { title: 'Someone is dying', help: 'A fast, strong heal on anyone below this HP %.', ic: '⚠' },
-    group: { title: 'Party heal', help: 'When this many party members are below the HP %.', ic: '❖' },
-    self: { title: 'Heal myself', help: 'When this character is not the party healer (it fights or buffs) and its own HP drops. Self Heal is only used when it knows no other heal.', ic: '♥' },
-    recharge: { title: 'MP for teammates (Recharge)', help: 'Gives MP to a teammate below this MP %, when nobody needs HP.', ic: '💧' } };
+    single: { title: 'Heal a teammate', help: 'Normal heals: anyone in the party below this HP %.', sk: 1011 },
+    emergency: { title: 'Someone is dying', help: 'A fast, strong heal on anyone below this HP %.', sk: 1218 },
+    group: { title: 'Party heal', help: 'When this many party members are below the HP %.', sk: 1219 },
+    self: { title: 'Heal myself', help: 'When this character is not the party healer (it fights or buffs) and its own HP drops. Self Heal is only used when it knows no other heal.', sk: 1216 },
+    recharge: { title: 'MP for teammates (Recharge)', help: 'Gives MP to a teammate below this MP %, when nobody needs HP.', sk: 1013 } };
+  // HEALICONS-2026-10-22 (owner: "Under Healing for a Healer i want icons"): in-game skill / item icons instead of emoji and a plain dropdown
+  const ICS = (id) => { try { return typeof skillIcon === 'function' ? skillIcon(id) : ''; } catch (e) { return ''; } };
+  const ICI = (id) => { try { return typeof itemIcon === 'function' ? itemIcon(id) : ''; } catch (e) { return ''; } };
+  const ICG = (k) => { try { return typeof GI === 'function' && typeof UI !== 'undefined' && UI[k] ? GI(UI[k], 'sm') : ''; } catch (e) { return ''; } };
+  const IMG = (src) => src ? '<img class="hs-ici" src="' + E(src) + '" alt="">' : '';
+  // heals that eat Spirit Ore per cast (L2J H5: Major Heal 1, Major Group Heal 4) - without the ore the brain takes the next best heal by itself
+  const ORE = { 1401: 1, 1402: 4 };
   const PRI = [['auto', 'Automatic'], ['tank', 'Tank'], ['healers', 'Healers'], ['lowest', 'Lowest HP']];   // short: four fit a 390 px phone
   const PRI_HELP = { auto: 'The lowest HP first. In raids the tank always comes first below 60 % (raid rule).', tank: 'The tank (and the party leader in raids) first, then the lowest HP.', healers: 'Healers first (so the healers stay alive), then the lowest HP.', lowest: 'Always the lowest HP first. In raids the tank still comes first below 60 % (raid rule).' };
   const HS = { open: false, name: '', data: null, at: 0, loading: null, scope: 'char', F: null, F0: null, busy: false, msg: '', opener: null, err: '' };
@@ -64,6 +71,7 @@
     ['single', 'emergency', 'group', 'self', 'recharge'].forEach(k => {
       const x = s[k] || {};
       f[k] = { skill: x.skill != null && x.skill !== 'auto' ? String(x.skill) : 'auto', below: x.below != null ? String(x.below) : '' };
+      if (k !== 'recharge') f[k].noOre = x.noOre != null && x.noOre !== 'auto' ? String(x.noOre) : 'auto';   // NOOREPICK-2026-10-22
       if (k === 'group') f[k].count = x.count != null ? String(x.count) : '';
       if (k === 'recharge') { f[k].on = typeof x.on === 'boolean' ? x.on : null; f[k].who = x.who || ''; }
     });
@@ -74,6 +82,7 @@
     ['single', 'emergency', 'group', 'self', 'recharge'].forEach(k => {
       const x = f[k], o = {};
       if (x.skill && x.skill !== 'auto') o.skill = Number(x.skill);
+      if (k !== 'recharge' && x.noOre && x.noOre !== 'auto') o.noOre = Number(x.noOre);   // NOOREPICK
       if (String(x.below).trim() !== '') o.below = Number(String(x.below).trim());
       if (k === 'group' && String(x.count).trim() !== '') o.count = Number(String(x.count).trim());
       if (k === 'recharge') { if (x.on === false) o.on = false; if (x.who) o.who = x.who; }
@@ -131,11 +140,43 @@
   function num(path, val, label, ph, unit) {
     return `<label class="ps-field sm hs-num"><span class="ps-lab">${E(label)}</span><span class="hs-inrow"><input type="text" inputmode="numeric" autocomplete="off" data-hsin="${E(path)}" value="${E(val)}" placeholder="${E(ph)}"><span class="hs-unit">${E(unit || '')}</span></span></label>`;
   }
+  /** HEALICONS: what the automatic choice takes when the Spirit Ore heals cannot be cast (no ore in the bag) */
+  function oreFallback(R, sit) {
+    const L = HL(); if (!L || !R) return null;
+    const sc = liveScheme(R); if (!sc) return null;
+    const auto = clone(sc); auto[sit] = Object.assign({}, auto[sit], { skill: 'auto' });
+    const sk = (HS.data && HS.data.skills) || {};
+    const known = (R.known || []).map(k => Object.assign({}, k, { ready: !ORE[k.id], mp: 0, hit: k.hit != null ? k.hit : (sk[k.id] || {}).hit || 0, reuse: k.reuse != null ? k.reuse : (sk[k.id] || {}).reuse || 0 }));
+    return L.hsPick(known, sit, auto, { forMe: sit === 'self' });
+  }
+  function skillSub(k) { const nm = k.name || skillName(k.id), full = skillLine(k); return (full.indexOf(nm + ' — ') === 0 ? full.slice(nm.length + 3) : full) + (ORE[k.id] ? ' · needs ' + ORE[k.id] + ' Spirit Ore' : ''); }
+  /** NOORE-2026-10-22 (owner screenshot: "Automatic — now: Major Heal" while Bishop1 had no Spirit Ore): out of ore RIGHT NOW = the page state's oreOut
+   *  (swarm_state, the brain writes it when it skips an ore heal) seen in the last 5 min */
+  function noOreNow(R) { try { const c = typeof STATE !== 'undefined' && STATE && STATE.chars ? STATE.chars.find(x => x.name === (R && R.name)) : null; return !!(c && c.oreOut && c.ageSec != null && c.ageSec < 300 && Date.now() - Date.parse(c.oreOut.at || 0) < 300000); } catch (e) { return false; } }
   function skillSel(sit, R) {
-    const opts = optionsFor(sit, R), cur = HS.F[sit].skill, ap = autoPick(R, sit);
-    const autoTxt = ap ? `Automatic — ${ap.name}` : 'Automatic (best skill it knows)';
+    const noOre = noOreNow(R), ap0 = autoPick(R, sit), ap = noOre && ap0 && ORE[ap0.id] ? (oreFallback(R, sit) || ap0) : ap0;
+    const opts = optionsFor(sit, R), cur = HS.F[sit].skill;
     const has = cur === 'auto' || opts.some(k => String(k.id) === cur);
-    return `<label class="ps-field hs-skill"><span class="ps-lab">Skill</span><select data-hssel="${sit}.skill"><option value="auto"${cur === 'auto' ? ' selected' : ''}>${E(autoTxt)}</option>${opts.map(k => `<option value="${k.id}"${String(k.id) === cur ? ' selected' : ''}>${E(skillLine(k))}</option>`).join('')}${has ? '' : `<option value="${E(cur)}" selected>${E(skillName(cur))} (not learned)</option>`}</select></label>`;
+    const btn = (v, id, title, sub, on, extra) => `<button type="button" class="hs-sk${on ? ' on' : ''}${extra || ''}" role="radio" aria-checked="${on}" data-hspick="${sit}.skill" data-v="${E(v)}" title="${E(title + (sub ? ' — ' + sub : ''))}">${id ? `<img src="${E(ICS(id))}" alt="">` : '<span class="hs-skx">A</span>'}<span class="hs-skt"><b>${E(title)}</b>${sub ? `<small>${E(sub)}</small>` : ''}</span></button>`;
+    let html = btn('auto', ap ? ap.id : 0, 'Automatic', ap ? 'now: ' + ap.name + (ap !== ap0 ? ' (no Spirit Ore)' : '') : 'the best skill it knows', cur === 'auto', ' auto');
+    html += opts.map(k => btn(String(k.id), k.id, k.name || skillName(k.id), skillSub(k), String(k.id) === cur)).join('');
+    if (!has) html += btn(cur, Number(cur), skillName(cur), 'not learned', true, ' missing');
+    // Spirit Ore: say what it falls back to (the brain does it by itself: a heal without its ore counts as "not ready")
+    const oreId = cur !== 'auto' && ORE[Number(cur)] ? Number(cur) : (cur === 'auto' && ap0 && ORE[ap0.id] ? ap0.id : 0);
+    let note = '';
+    if (oreId && noOre) { const fb = oreFallback(R, sit); note = `<div class="ps-note warn hs-ore out">${IMG(ICI(3031))}<span><b>Out of Spirit Ore now</b> — instead of <b>${E(skillName(oreId))}</b> it casts <b>${E(fb ? fb.name : 'its next best heal')}</b> until the next supply run buys ore.</span></div>`; }
+    else if (oreId) { const fb = oreFallback(R, sit); note = `<div class="ps-note info hs-ore">${IMG(ICI(3031))}<span><b>${E(skillName(oreId))}</b> needs ${ORE[oreId]} Spirit Ore per cast. Without Spirit Ore it uses <b>${E(fb ? fb.name : 'its next best heal')}</b> instead, by itself.</span></div>`; }
+    return `<div class="ps-field hs-skill"><span class="ps-lab">Skill</span><div class="hs-skgrid" role="radiogroup" aria-label="Skill">${html}</div>${note}</div>` + noOreSel(sit, R, opts);
+  }
+  /** NOOREPICK-2026-10-22: "If out of Spirit Ore, use" - the second choice, offered when the character knows a Spirit Ore heal for this situation */
+  function noOreSel(sit, R, opts) {
+    if (sit === 'recharge' || !opts.some(k => ORE[k.id])) return '';
+    const cur = (HS.F[sit] && HS.F[sit].noOre) || 'auto', fb = oreFallback(R, sit), alt = opts.filter(k => !ORE[k.id]);
+    const btn = (v, id, title, sub, on, extra) => `<button type="button" class="hs-sk${on ? ' on' : ''}${extra || ''}" role="radio" aria-checked="${on}" data-hspick="${sit}.noOre" data-v="${E(v)}" title="${E(title + (sub ? ' — ' + sub : ''))}">${id ? `<img src="${E(ICS(id))}" alt="">` : '<span class="hs-skx">A</span>'}<span class="hs-skt"><b>${E(title)}</b>${sub ? `<small>${E(sub)}</small>` : ''}</span></button>`;
+    let html = btn('auto', fb ? fb.id : 0, 'Automatic', fb ? 'the next best: ' + fb.name : 'the next best heal', cur === 'auto', ' auto');
+    html += alt.map(k => btn(String(k.id), k.id, k.name || skillName(k.id), skillSub(k), String(k.id) === cur)).join('');
+    if (cur !== 'auto' && !alt.some(k => String(k.id) === cur)) html += btn(cur, Number(cur), skillName(cur), 'not learned', true, ' missing');
+    return `<div class="ps-field hs-skill hs-noore"><span class="ps-lab">${IMG(ICI(3031))} If out of Spirit Ore, use</span><div class="hs-skgrid" role="radiogroup" aria-label="If out of Spirit Ore, use">${html}</div></div>`;
   }
   function sitCard(sit, R, B) {
     const S = SIT[sit], f = HS.F[sit], b = B[sit] || {};
@@ -152,7 +193,7 @@
       if (opts.length || sit === 'self') body += skillSel(sit, R);
     }
     const own = JSON.stringify(toScheme(HS.F)[sit] || {}) !== '{}';
-    return `<section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">${S.ic}</span><b>${E(S.title)}</b>${own ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">automatic</span>'}</div><div class="ps-what">${E(S.help)}</div>${body}</section>`;
+    return `<section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">${IMG(ICS(S.sk))}</span><b>${E(S.title)}</b>${own ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">automatic</span>'}</div><div class="ps-what">${E(S.help)}</div>${body}</section>`;
   }
   function render() {
     const ov = frame(), sc = document.getElementById('hsScroll'), top = sc ? sc.scrollTop : 0;
@@ -165,7 +206,7 @@
     if (!R.canHeal) { body.innerHTML = `<div class="hs-who">${E(R.cls || '')} · level ${E(R.level || '?')}</div><div class="ps-note">${E(R.name)} knows no heal or MP skill${R.level ? ' at level ' + E(R.level) : ''}. Mystics learn Heal at level 7; healers (Cleric, Shillien / Elven Oracle) learn much more after the class change at 20.</div>`; renderBar(); return; }
     const B = baseScheme(R), cname = (HS.data.classNames || {})[R.classId] || R.cls || 'class';
     const pri = HS.F.priority;
-    const never = (R.known || []).map(k => `<button type="button" class="hs-chip" aria-pressed="${HS.F.never.includes(k.id)}" data-hsnever="${k.id}">${E(k.name)}</button>`).join('');
+    const never = (R.known || []).map(k => `<button type="button" class="hs-chip" aria-pressed="${HS.F.never.includes(k.id)}" data-hsnever="${k.id}">${IMG(ICS(k.id))}${E(k.name)}</button>`).join('');
     body.innerHTML = `
       <div class="hs-who">${E(R.cls || '')} · level ${E(R.level || '?')}${R.party ? ` · party ${E(R.party)}` : ''}</div>
       ${statusLine(R)}
@@ -173,12 +214,12 @@
       ${seg('scope', HS.scope, [['char', 'Only ' + R.name], ['class', 'Every ' + cname]], 'These settings are for')}
       ${HS.scope === 'class' ? `<div class="ps-note info">Every ${E(cname)} uses these, unless that character has its own settings${R.own ? ` (<b>${E(R.name)} has its own</b>, they win)` : ''}.</div>` : (R.classScheme ? `<div class="ps-note info">Grey values come from the settings for every ${E(cname)}.</div>` : '')}
       ${['emergency', 'single', 'group', 'self', 'recharge'].map(s => sitCard(s, R, B)).join('')}
-      <section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">☰</span><b>Who first</b>${pri !== 'auto' ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">automatic</span>'}</div>
+      <section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">${ICG('party')}</span><b>Who first</b>${pri !== 'auto' ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">automatic</span>'}</div>
         ${seg('priority', pri, PRI, 'Who gets healed first')}<div class="ps-what">${E(PRI_HELP[pri] || '')}</div></section>
-      <section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">🧪</span><b>Mana potion for itself</b>${HS.F.potion !== '' ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">automatic</span>'}</div>
+      <section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">${IMG(ICI(728))}</span><b>Mana potion for itself</b>${HS.F.potion !== '' ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">automatic</span>'}</div>
         <div class="ps-what">The healer drinks a Mana Potion below this MP %. Empty = automatic (${E(B && B.potion && B.potion.below !== 'auto' ? B.potion.below : 70)} %). In raids and dungeons it always drinks below 90 % (raid rule).</div>
         <div class="hs-fields">${num('potion', HS.F.potion, 'Drink below', String(B && B.potion && B.potion.below !== 'auto' ? B.potion.below : 70), '% MP')}</div></section>
-      <section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">⛔</span><b>Never use</b>${HS.F.never.length ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">none</span>'}</div>
+      <section class="hs-card"><div class="hs-ct"><span class="hs-ic" aria-hidden="true">${ICG('warn')}</span><b>Never use</b>${HS.F.never.length ? '<span class="hs-chg">changed</span>' : '<span class="hs-auto">none</span>'}</div>
         <div class="ps-what">Tap a skill to never use it for healing or MP (also not automatically).</div><div class="hs-chips">${never}</div></section>
       <details class="hs-adv"><summary>Details</summary>
         <div class="ps-what">L2Swarm's own auto-skill "Self Heal" (in the character's L2Swarm config) heals with the weakest heal. For healer classes that know a real heal, the bot switches it off while running (the config file is not changed).</div>
@@ -225,6 +266,8 @@
     }
     const s = t.closest('[data-hssw]');
     if (s) { e.preventDefault(); const R = rowOf(HS.name), B = baseScheme(R) || {}; const cur = HS.F.recharge.on === null ? (B.recharge || {}).on !== false : HS.F.recharge.on; HS.F.recharge.on = !cur === ((B.recharge || {}).on !== false) ? null : !cur; HS.msg = ''; render(); return; }
+    const pk = t.closest('[data-hspick]');   // HEALICONS: the icon skill picker
+    if (pk) { e.preventDefault(); setP(pk.dataset.hspick, pk.dataset.v); HS.msg = ''; render(); return; }
     const nv = t.closest('[data-hsnever]');
     if (nv) { e.preventDefault(); const id = Number(nv.dataset.hsnever), L = HS.F.never, i = L.indexOf(id); if (i >= 0) L.splice(i, 1); else L.push(id); HS.msg = ''; render(); return; }
     const a = t.closest('[data-hsact]'); if (!a) return;

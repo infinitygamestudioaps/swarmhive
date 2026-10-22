@@ -155,7 +155,7 @@ const P3 = (p) => p ? (Array.isArray(p) ? { x: +p[0], y: +p[1], z: +p[2] } : { x
 
 // ---------------------------------------------------------------------------------------------------------------- one floor
 function floorGraph(d, F, fi, extraPts, spawns) {
-  const rooms = (F.rooms || []).filter(r => r.poly && r.poly.length >= 3 && r.center && (r.polyInfo || {}).quality !== 'duplicate');
+  const rooms = (F.rooms || []).filter(r => r.poly && r.poly.length >= 3 && r.center && (r.polyInfo || {}).quality !== 'duplicate' && !r.mergedInto);   // ROOMMERGE-2026-10-22: a room combined into another is no node of its own
   const allPts = rooms.map(r => r.center).concat(extraPts.map(p => [p.x, p.y]));
   const xs = allPts.map(p => p[0]), ys = allPts.map(p => p[1]), B = d.bbox;
   const box = [Math.max(B[0] - 2500, Math.min(...xs) - 4000), Math.min(B[1] + 2500, Math.max(...xs) + 4000), Math.max(B[2] - 2500, Math.min(...ys) - 4000), Math.min(B[3] + 2500, Math.max(...ys) + 4000)];

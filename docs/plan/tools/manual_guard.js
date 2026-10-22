@@ -14,7 +14,7 @@ const fs = require('fs'), path = require('path');
 
 /** fields the dashboard editor owns per kind (restored from disk at write time) */
 const USER_FIELDS = {
-  room: ['name', 'poly', 'center', 'radius', 'zRange', 'area', 'polyInfo', 'levelRange', 'suitsPartyLevel', 'notes', 'enabled', 'monsters', 'spawnCount', 'edited', 'manual'],
+  room: ['name', 'poly', 'center', 'radius', 'zRange', 'area', 'polyInfo', 'levelRange', 'suitsPartyLevel', 'notes', 'enabled', 'monsters', 'spawnCount', 'mergedInto', 'edited', 'manual'],   // mergedInto: ROOMMERGE-2026-10-22
   spot: ['name', 'center', 'radius', 'poly', 'levelMin', 'levelMax', 'enabled', 'note', 'edited', 'manual'],
   zone: ['name', 'x', 'y', 'z', 'radius', 'poly', 'zmap', 'levelMin', 'levelMax', 'enabled', 'note', 'edited', 'manual'],
   area: ['name', 'poly', 'center', 'x', 'y', 'z', 'radius', 'zRange', 'levelRange', 'levelMin', 'levelMax', 'suitsPartyLevel', 'polyInfo', 'enabled', 'notes', 'note', 'area', 'edited', 'manual'],

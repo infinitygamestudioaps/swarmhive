@@ -5,7 +5,9 @@
 //   POST /api/polyedit?kind=..&id=..  { rev, item, applyMonsters }        -> validate + write (atomic, lock, history) -> { ok, item, rev, warnings, jobs }
 //   POST /api/polyedit?action=reset&kind=..&id=..  { rev }                 -> back to the generated shape (edited.orig), manual flag removed
 //   POST /api/polyedit?action=geocheck { points:[[x,y]], band:[zLo,zHi] }  -> per point walkable + snap point, per edge wall-free (geopath.js)
-//   GET  /api/polyedit?action=jobs                          -> background recomputes (safe spots of a floor, zone sub-areas)
+//   GET  /api/polyedit?action=jobs                          -> background recomputes (safe spots of a floor, zone sub-areas, the room graph)
+//   POST /api/polyedit?action=merge { ids:[room ids, one floor], name? } -> ROOMMERGE-2026-10-22: one room (Dashboard/roommerge.js), the others
+//        switched off with mergedInto; party_spots.json + party_plans.json room ids remapped; room graph rebuilt in the background (room_graph.js)
 // Files (kept in their own format: dungeon_rooms.json compact, the others as on disk):
 //   room -> Scripts/data/dungeon_rooms.json (rooms by id)   zone -> custom_zones.json (by name)   spot -> hunting_spots_h5.json (by index)
 //   area -> field_areas.json (by id/name, only when the file exists)
@@ -465,7 +467,8 @@ module.exports = function polyEdit(opts) {
           changed = apply(kind, hit, it, b);
         }
         const jobs = [];
-        if (kind === 'room' && (changed.poly || changed.center || changed.zRange)) { hit.F.safeSpotsStale = { at: new Date().toISOString(), room: hit.raw.id }; jobs.push(['safespots', `${hit.d.name}#${hit.fi}`, path.join(TOOLS, 'polyedit_safespots.js'), ['--dungeon', hit.d.name, '--floor', String(hit.fi)]]); }
+        if (kind === 'room' && (changed.poly || changed.center || changed.zRange)) { hit.F.safeSpotsStale = { at: new Date().toISOString(), room: hit.raw.id }; jobs.push(['safespots', `${hit.d.name}#${hit.fi}`, path.join(TOOLS, 'polyedit_safespots.js'), ['--dungeon', hit.d.name, '--floor', String(hit.fi)]]);
+          if (hit.d.key) jobs.push(['roomgraph', hit.d.key, path.join(TOOLS, 'room_graph.js'), ['--only', hit.d.key, '--no-images']]); }   // ROOMMERGE-2026-10-22: doors / corridors follow the new outline
         if (kind === 'area' && hit.R && (changed.poly || reset)) hit.R.safeSpotsStale = { at: new Date().toISOString(), area: hit.raw.id };   // field_areas.js --only <region> recomputes them
         if (kind === 'zone' && (changed.poly || changed.x || changed.y || changed.radius || reset) && !hit.raw.rooms && !hit.raw.dungeon) jobs.push(['subareas', 'all', path.join(TOOLS, 'zone_subareas.js'), []]);
         const hist = G.saveHistory(file, DATA, 50);
@@ -628,12 +631,42 @@ module.exports = function polyEdit(opts) {
   }
   LIVE.raidarea = 'Bots: swarm.js (RAIDAREA, after the next deploy) re-reads raid_areas.json when its write time changes (checked at most every 10 s): the leader stages at the stage point, clears only inside the clear area, the tank pulls the boss into the fight area and keeps it there, casters and healers stand inside it. A raid already past its clear keeps the old area for the clear but uses the new one for positions.';
 
+  // ------------------------------------------------------------------------------------------------------------- ROOM MERGE (2026-10-22)
+  /** remap room ids in another data file (party_spots.json / party_plans.json): lock, history copy, atomic write; -> changed count */
+  function remapFile(name, alias) {
+    const f = path.join(DATA, name); if (!fs.existsSync(f)) return 0;
+    let n = 0;
+    G.withLock(f, () => { const t = G.readText(f), j = JSON.parse(t.text); n = require('./roommerge').remapIds(j, alias); if (!n) return; G.saveHistory(f, DATA, 50); G.atomicWrite(f, G.stringifyLike(j, t.fmt)); }, { who: 'polyedit merge' });
+    return n;
+  }
+  function merge(b) {
+    const file = fileOf('room'); if (!fs.existsSync(file)) return { code: 404, body: { error: FILES.room + ' does not exist' } };
+    let result = null, R = null;
+    try {
+      G.withLock(file, () => {
+        const t = G.readText(file), data = JSON.parse(t.text);
+        try { R = require('./roommerge').mergeRooms(data, b.ids, { name: b.name }); } catch (e) { result = { code: 400, body: { error: e.message } }; return; }
+        const hist = G.saveHistory(file, DATA, 50);
+        G.atomicWrite(file, G.stringifyLike(data, t.fmt));
+        delete cache.room;
+        log(`merge rooms ${(b.ids || []).join('+')} -> ${R.id} (${R.dungeon} floor ${R.floor + 1}) history ${hist ? path.basename(hist) : '-'}`);
+        result = { code: 200, body: { ok: true, id: R.id, absorbed: R.absorbed, alias: R.alias, dungeon: R.dungeon, floor: R.floor, room: R.room, history: hist ? path.relative(ROOT, hist) : null } };
+      }, { who: 'polyedit merge' });
+    } catch (e) { return { code: 500, body: { error: e.message } }; }
+    if (!result || result.code !== 200) return result || { code: 500, body: { error: 'not merged' } };
+    const remapped = {}; ['party_spots.json', 'party_plans.json'].forEach(f => { try { remapped[f] = remapFile(f, R.alias); } catch (e) { remapped[f] = 'failed: ' + e.message; } });
+    result.body.remapped = remapped;
+    result.body.jobs = R.key ? [startJob('roomgraph', R.key, path.join(TOOLS, 'room_graph.js'), ['--only', R.key, '--no-images'])] : [];
+    return result;
+  }
+
   // ------------------------------------------------------------------------------------------------------------- entry point
   function handle(method, q, body) {
     try {
       const action = q.get('action') || '';
       if (action === 'jobs') return { code: 200, body: { jobs: [...JOBS.values()].map(view).reverse() } };
       if (action === 'geocheck') return { code: 200, body: geocheck(body || {}) };
+      if (action === 'merge') return method === 'POST' ? merge(body || {}) : { code: 405, body: { error: 'POST' } };   // ROOMMERGE-2026-10-22
       const lk = q.get('list');
       if (lk) { const out = {}; lk.split(',').filter(k => KINDS.includes(k)).forEach(k => { out[k] = list(k); }); if (lk.split(',').includes('raidarea')) out.raidarea = raList(); out.areaFile = fs.existsSync(fileOf('area')); return { code: 200, body: out }; }
       const kind = q.get('kind') || '', id = q.get('id');
@@ -646,5 +679,5 @@ module.exports = function polyEdit(opts) {
         context: context(kind, hit, L.data), live: LIVE[kind] } };
     } catch (e) { return { code: 500, body: { error: e.message } }; }
   }
-  return { handle, _t: { validate, selfX, area, inPoly, toItem, find, load, geocheck, list, JOBS, raValidate, raItem, raList, raDefaultStage } };
+  return { handle, merge, _t: { validate, selfX, area, inPoly, toItem, find, load, geocheck, list, JOBS, raValidate, raItem, raList, raDefaultStage } };
 };

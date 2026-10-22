@@ -53,6 +53,7 @@ function hsClean(s) {
     if (x.skill !== undefined) { const v = sk(x.skill); if (v !== undefined) o.skill = v; }
     if (x.below !== undefined) { const v = pct(x.below, 5, 99); if (v !== undefined) o.below = v; }
     if (k === 'group' && x.count !== undefined) { const v = pct(x.count, 2, 9); if (v !== undefined) o.count = v; }
+    if (k !== 'recharge' && x.noOre !== undefined) { const v = sk(x.noOre); if (v !== undefined) o.noOre = v; }   // NOOREPICK-2026-10-22: the second choice when out of Spirit Ore
     if (k === 'recharge') { if (typeof x.on === 'boolean') o.on = x.on; if (HS_WHO.includes(x.who)) o.who = x.who; }
     if (Object.keys(o).length) out[k] = o;
   });
@@ -69,6 +70,7 @@ function hsValidate(s) {
   HS_SITS.forEach(k => {
     const x = hsObj(S[k]), c = hsObj(C[k]);
     if (x.skill !== undefined && c.skill === undefined) errors.push(`${label[k]}: the skill must be "automatic" or one of the character's skills`);
+    if (k !== 'recharge' && x.noOre !== undefined && c.noOre === undefined) errors.push(`${label[k]}: "if out of Spirit Ore" must be "automatic" or one of the character's skills`);   // NOOREPICK
     if (x.below !== undefined && c.below === undefined) errors.push(`${label[k]}: the % must be a number from 5 to 99`);
     if (k === 'group' && x.count !== undefined && c.count === undefined) errors.push(`${label[k]}: "how many" must be 2 to 9`);
     if (k === 'recharge' && x.who !== undefined && c.who === undefined) errors.push(`${label[k]}: choose "casters only" or "everyone"`);
@@ -146,6 +148,14 @@ function hsPick(known, sit, sc, o) {
   const hasSingle = K.some(k => k.kind === 'single');
   const usable = (k) => k.kind !== 'self' || meOk;                       // Self Heal only lands on the caster
   const conf = hsObj(sc[sit]), want = conf.skill;
+  // NOOREPICK-2026-10-22 (owner: "I want to be able to select the secondary skill to use IF we are out of spirit ores"): a heal of this situation is
+  // learned but cannot be cast for want of its item (noItem, set by the host: Major Heal 1 / Major Group Heal 4 Spirit Ore) -> the player's second
+  // choice (conf.noOre) when it is ready; for a picked skill only when THAT skill is the one without ore. 'auto' / missing = the next best (below).
+  if (typeof conf.noOre === 'number') {
+    const ch = HS_CHOOSE[sit] || [];
+    const oreOut = K.some(k => k.noItem && ch.includes(k.kind) && (typeof want !== 'number' || k.id === want));
+    if (oreOut) { const f = K.find(k => k.id === conf.noOre && ch.includes(k.kind) && usable(k)); if (f && f.ready) return { id: f.id, name: f.name, why: 'out of Spirit Ore — your second choice' }; }
+  }
   let note = '';
   if (typeof want === 'number') {
     const c = K.find(k => k.id === want && (HS_CHOOSE[sit] || []).includes(k.kind) && usable(k));

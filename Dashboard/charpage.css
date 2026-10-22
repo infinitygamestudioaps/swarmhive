@@ -258,3 +258,34 @@
 .cp-frenzy .fk-ic { width: 32px; height: 32px; flex: none; border: 1px solid rgba(255, 255, 255, .15); border-radius: 3px; }
 .cp-frenzy .fk-ic.miss { opacity: .45; filter: grayscale(.6); }
 .cp-frenzy .fk-sic { width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; border-radius: 2px; }
+/* CRYINV-2026-10-22: crystallize from the inventory (dwarves with Crystallize) */
+.cp-crybtn.on { border-color: #c0392b; color: #ffb4a8; }
+.cp-it.cry-no { opacity: .28; filter: grayscale(.8); }
+.cp-it.cry-ok { box-shadow: inset 0 0 0 2px rgba(120, 200, 255, .55); }
+.cp-it.cry-sel { box-shadow: inset 0 0 0 3px #e74c3c; }
+.cp-it.cry-sel::after { content: '✓'; position: absolute; right: 2px; top: 0; font: 700 var(--fs-mini) sans-serif; color: #fff; background: #c0392b; border-radius: 3px; padding: 0 3px; }
+.cp-crybar { margin-top: 8px; padding: 8px; border: 1px solid #5a2a24; background: rgba(60, 20, 16, .35); display: flex; flex-direction: column; gap: 6px; }
+.cp-cryhead { font-size: var(--fs-small, 12px); }
+.cp-crychk { display: flex; gap: 6px; align-items: center; font-size: var(--fs-small, 12px); }
+.cp-cryact { display: flex; flex-wrap: wrap; gap: 6px; }
+.cp-cryact .danger { margin-left: auto; }
+.cp-cryhint { font-size: var(--fs-mini, 11px); }
+
+/* STATECTL-2026-10-22: the State box (character page) + the party card's State section */
+.stc { display: flex; flex-direction: column; gap: 4px; }
+.stc-row { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 3px 6px; border: 1px solid rgba(255,255,255,.06); border-radius: 6px; background: rgba(0,0,0,.22); }
+.stc-row .gi { width: 20px; height: 20px; flex: none; }
+.stc-l { flex: 1; min-width: 0; font-size: var(--fs-cap, 12px); line-height: 1.35; }
+.stc-l small { color: var(--muted, #9a9182); }
+.stc-stop { flex: none; min-height: 30px; padding: 2px 10px; }
+.stc-last { font-size: var(--fs-mini, 11px); margin-top: 2px; }
+.stc-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.stc-btns .uk-btn { min-height: 38px; }
+.stc.compact .stc-btns .uk-btn { min-height: 32px; font-size: var(--fs-cap, 12px); }
+details.stc-party { margin: 0 0 8px; padding: 4px 8px; border: 1px solid var(--line, #3b382f); background: var(--box, rgba(0,0,0,.2)); font-size: var(--fs-cap, 12px); }
+details.stc-party > summary { cursor: pointer; display: flex; align-items: center; gap: 6px; list-style: none; min-height: 30px; }
+details.stc-party > summary::-webkit-details-marker { display: none; }
+details.stc-party > summary b { color: var(--gold, #e3c27a); }
+.stc-mem { margin: 6px 0; }
+.stc-mn { font-weight: 700; color: var(--ink, #e6dcc2); margin-bottom: 3px; }
+@media (min-width: 1100px) { details.stc-party[open] { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 0 12px; } details.stc-party[open] > summary, details.stc-party .stc-btns.party { grid-column: 1 / -1; } }

@@ -83,7 +83,12 @@
     const L = list.find(c => c.name === leader) || list.find(c => c.leader) || list[0];
     if (!L) return null;
     const o = { ic: UI.party, cls: '', h: '', steps: null, i: 0, of: 0, stepAt: 0, since: 0, subs: [], why: '', next: '', limit: 180, key: '' };
-    if (!A.live(L)) { o.ic = UI.idle; o.cls = 'bad'; o.h = `Leader <b>${esc(L.name)}</b> is not reporting — offline or its script stopped`; o.key = 'off'; return o; }
+    if (!A.live(L)) {   // PCOVERVIEW-2026-10-22: 'offline for 11 min' (the banner showed 'NaNhNaN': no step age on this early return)
+      const off = L.ageSec != null && isFinite(+L.ageSec) ? +L.ageSec * 1000 : null, down = list.filter(c => !A.live(c)).length;
+      o.ic = UI.idle; o.cls = 'bad'; o.key = 'off'; o.age = off != null ? off : 0; o.offline = true;
+      o.h = `Leader <b>${esc(L.name)}</b> is not reporting${off != null ? ' for ' + A.dur(off) : ''} — offline or its script stopped${down > 1 ? ` (${down} of ${list.length} in the party)` : ''}`;
+      return o;
+    }
     const t = String(L.task || ''), ps = L.partyStatus || null;
     const trades = tradesOf(list, d);
     let m;
@@ -211,7 +216,7 @@
       if (o.steps) meta.push(`step ${o.i + 1}/${o.of}`);
       if (o.next) meta.push('next: ' + esc(o.next));
       if (o.since && o.since !== o.stepAt) meta.push('started ' + A.dur(A.srvNow() - o.since) + ' ago');
-      const ageTxt = (o.estimated ? '≥ ' : '') + A.dur(o.age);
+      const ageTxt = o.offline || o.age == null || !isFinite(+o.age) ? '' : (o.estimated ? '≥ ' : '') + A.dur(o.age);   // PCOVERVIEW: never 'NaNhNaN'
       return `<div class="psb ${o.cls || ''}${o.warn ? ' warn' : ''}" data-psb="${esc(leader)}">
         <div class="psb-h">${GI(o.ic || UI.party, 'sm')}<div class="psb-t">${o.h}</div><span class="psb-age" title="${o.estimated ? 'seen by the dashboard for at least this long' : 'this step has taken'}">${ageTxt}</span></div>
         ${bar}${meta.length ? `<div class="psb-meta">${meta.join(' · ')}</div>` : ''}${routeLine(leader)}

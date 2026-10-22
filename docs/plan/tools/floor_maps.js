@@ -3,7 +3,10 @@
 // the L2J geodata: ground walkable at the floor's height = stone (lighter = higher), cells next to a wall / a drop = dark wall line, the rest
 // transparent. Output: Dashboard/floormaps/<key>_<floor>.png + Dashboard/floormaps/index.json { "<dungeon name>": { "<floor index>": { f, x, y, w, h } } }
 // (world units, top-left corner). The dashboard (mapfloors.js plainLayer) puts the picture under the room outlines on a floor without map art.
-// Use: node docs/plan/tools/floor_maps.js [--only <dungeon words>]      (no dependencies: PNG written with zlib)
+// Use: node docs/plan/tools/floor_maps.js [--only <dungeon words>] [--gaps]      (no dependencies: PNG written with zlib)
+// --gaps (TOIGAP-2026-10-22, owner: "Tank1 traversing Tower of Insolence: it's not updating the floors, they look like walking into wrong rooms"):
+// also the IN-BETWEEN levels (stair landings / corridors between two floor bands, e.g. ToI z -1408 between floor 3 and 4) -> index key "g<i>"
+// (i = the lower floor's index); mapfloors.js shows that picture (and no room outlines) while the viewer stands between those two floors.
 'use strict';
 const fs = require('fs'), path = require('path'), zlib = require('zlib');
 const GP = require('./geopath');
@@ -52,6 +55,30 @@ function drawFloor(box, z, opts) {
   }
   return { w: W, h: H, rgba, x: GP.toWorldX(gx0) - 8, y: GP.toWorldY(gy0) - 8, cells };
 }
+/** TOIGAP: the levels between two consecutive floor bands of one dungeon -> <key>_g<i>.png, idx[name]['g' + i] (i = lower floor index) */
+function floorBox(F) {
+  const pts = [];
+  (F.rooms || []).filter(r => Array.isArray(r.center)).forEach(r => { const R = (Number(r.radius) || 600) + PAD; pts.push([r.center[0] - R, r.center[1] - R], [r.center[0] + R, r.center[1] + R]); (r.poly || []).forEach(p => pts.push([p[0] - PAD, p[1] - PAD], [p[0] + PAD, p[1] + PAD])); });
+  return pts.length ? [Math.min(...pts.map(p => p[0])), Math.min(...pts.map(p => p[1])), Math.max(...pts.map(p => p[0])), Math.max(...pts.map(p => p[1]))] : null;
+}
+function drawGaps(d, idx) {
+  const fl = (d.floors || []).map((F, i) => ({ F, i })).filter(o => Array.isArray(o.F.z) && o.F.z.length >= 2).sort((a, b) => a.F.z[0] - b.F.z[0]);
+  const key = String(d.key || d.idPrefix || d.name).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  let n = 0;
+  for (let k = 0; k + 1 < fl.length; k++) {
+    const lo = fl[k], hi = fl[k + 1], z = [Math.max(...lo.F.z) + 65, Math.min(...hi.F.z) - 65];
+    if (z[1] - z[0] < 100) continue;                                   // bands touch: no level between them
+    const a = floorBox(lo.F), b = floorBox(hi.F); if (!a && !b) continue;
+    const box = a && b ? [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])] : (a || b);
+    const m = drawFloor(box, z, { roofOnly: !!d.cave });
+    if (m.cells < 400) { console.log(`${d.name} between floor ${lo.i} and ${hi.i}: ${m.cells} cells at z ${z.join('..')} - skipped`); continue; }
+    const f = `${key}_g${lo.i}.png`;
+    fs.writeFileSync(path.join(OUT, f), png(m.w, m.h, m.rgba));
+    (idx[d.name] = idx[d.name] || {})['g' + lo.i] = { f, x: m.x, y: m.y, w: m.w * 16, h: m.h * 16, v: Date.now(), z, between: [lo.i, hi.i] };
+    n++; console.log(`${d.name} between ${lo.F.name} and ${hi.F.name}: z ${z.join('..')}, ${m.cells} walkable -> ${f}`);
+  }
+  return n;
+}
 function main() {
   const oi = process.argv.indexOf('--only'), only = oi > 0 ? String(process.argv[oi + 1] || '').toLowerCase() : '';
   const D = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'dungeon_rooms.json'), 'utf8').replace(/^﻿/, ''));
@@ -59,6 +86,7 @@ function main() {
   const idxFile = path.join(OUT, 'index.json');
   let idx = {}; try { idx = JSON.parse(fs.readFileSync(idxFile, 'utf8')); } catch (e) { }
   let n = 0;
+  const gaps = process.argv.includes('--gaps');
   D.forEach(d => {
     if (only && !String(d.name).toLowerCase().includes(only)) return;
     (d.floors || []).forEach((F, fi) => {
@@ -76,6 +104,7 @@ function main() {
       (idx[d.name] = idx[d.name] || {})[fi] = { f, x: m.x, y: m.y, w: m.w * 16, h: m.h * 16, v: Date.now() };   // v: cache stamp (the /icons/ route is cached for a year)
       n++; console.log(`${d.name} floor ${fi} (${F.name || ''}): ${m.w}x${m.h} cells, ${m.cells} walkable, ${Date.now() - t0} ms -> ${f}`);
     });
+    if (gaps) n += drawGaps(d, idx);
   });
   fs.writeFileSync(idxFile, JSON.stringify(idx, null, 1));
   console.log(`${n} floor maps written to ${OUT}`);

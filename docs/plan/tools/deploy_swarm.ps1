@@ -46,6 +46,24 @@ if (-not $Force) {
     }
 }
 
+# BUSYGUARD 2026-10-22 (owner, after a deploy cut Healer12's Giran regroup at 17:17 because her live "regroup" was called stale by hand): never
+# while a character's LIVE state (swarm_state written < 2 min ago) shows a team step: regroup / supply / trade / hand-over / sell / gear, a
+# running party status, or an open trade. The state wins over any guess; -Force still deploys (logged).
+if (-not $Force) {
+    $busy = @()
+    foreach ($sf in @(Get-ChildItem "$root\Logs\swarm_state_*.json" -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-2) })) {
+        try {
+            $s = Get-Content $sf.FullName -Raw -ErrorAction Stop | ConvertFrom-Json
+            $why = ''
+            if ("$($s.task)" -match '^(supply|regroup|handover|hand-over|trade|hand-out|sell|gear)') { $why = "$($s.task)".Trim() }
+            elseif ($s.partyStatus -and $s.partyStatus.what) { $why = "party $($s.partyStatus.what)" }
+            elseif ($s.trade -and $s.trade.stage -and "$($s.trade.stage)" -notmatch 'done|failed') { $why = "trade $($s.trade.stage)" }
+            if ($why) { $busy += "$($s.name): $why" }
+        } catch { }
+    }
+    if ($busy.Count) { Log ("ABORT: busy (live state) - " + (($busy | Select-Object -First 6) -join ' | ') + " - deploy after it, or use -Force."); exit 8 }
+}
+
 # never while accounts are still logging in (2026-10-04 23:20: two live reloads during logins -> 6 GB in 5 min; 2026-10-07 01:38: a queued
 # deploy waited for the "L2Swarm Start" task, but MemWatch had restarted L2Swarm itself, so the deploy hit the logins anyway).
 # l2swarm_ctl.ps1 holds this lock for every start, whoever triggered it.

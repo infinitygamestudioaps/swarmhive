@@ -82,7 +82,7 @@ function patchState(j) {
   const overflow = () => ev(`document.documentElement.scrollWidth > window.innerWidth + 1`);
 
   // ---- list -> region map ----
-  await click(`[data-spotpick="${PARTY}"]`);
+  await waitFor(`!document.getElementById('spotov')`, 10000); await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */
   ok('picker opens', await waitFor(`!!document.querySelector('#spotov .spotlist')`));
   await waitFor(`!!document.querySelector('[data-spkreg]') || !!document.getElementById('spkall')`, 8000);
   await ev(`(() => { const a = document.getElementById('spkall'); if (a && !a.checked) { a.checked = true; a.dispatchEvent(new Event('input', { bubbles: true })); } return true; })()`);
@@ -132,12 +132,13 @@ function patchState(j) {
     P ? JSON.stringify(P.body).slice(0, 200) : 'no POST');
   ok('a confirm dialog came first', dialogs.length >= 1 || await ev(`true`), dialogs.slice(-1)[0] ? dialogs.slice(-1)[0].slice(0, 120) : '(level dialog)');
   // ---- dungeon: rooms on two floors ----
-  await click(`[data-spotpick="${PARTY}"]`);
+  await waitFor(`!document.getElementById('spotov')`, 10000);   /* SPOTMAP: the last save closes the picker when its follow-up questions are done - reopen after that */
+  await waitFor(`!document.getElementById('spotov')`, 10000); await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */
   await waitFor(`!!document.querySelector('#spotov .spotlist')`);
   await ev(`(() => { const a = document.getElementById('spkall'); if (a && !a.checked) { a.checked = true; a.dispatchEvent(new Event('input', { bubbles: true })); } return true; })()`);
   await waitFor(`!!document.querySelector('[data-spkdun="Cruma Tower"]')`, 8000);
   await click('[data-spkdun="Cruma Tower"]');
-  ok('Cruma Tower room map opens', await waitFor(`document.querySelectorAll('#spotov polygon[data-room]').length > 5`, 10000));
+  ok('Cruma Tower room map opens', await waitFor(`document.querySelectorAll('#spotov polygon[data-room]').length > 5`, 10000), await ev(`(() => { const o = document.getElementById('spotov'); return o ? o.innerText.replace(/s+/g, ' ').slice(0, 200) : 'no overlay'; })()`));
   await click('[data-spkfloor="0"]'); await sleep(300);
   const r1 = await ev(`document.querySelector('#spotov polygon[data-room]').getAttribute('data-room')`);
   await click(`#spotov polygon[data-room="${r1}"]`); await sleep(200);
@@ -154,7 +155,7 @@ function patchState(j) {
   const P2 = posts[posts.length - 1];
   ok('Hunt in 2 rooms -> POST { kind rooms, roomId = the first, roomIds [2], order } (intercepted)', P2 && P2.body.kind === 'rooms' && P2.body.roomId === r1 && JSON.stringify(P2.body.roomIds) === JSON.stringify([r1, r2]) && !!P2.body.order, P2 ? JSON.stringify(P2.body).slice(0, 220) : 'no POST');
   // a single room keeps the OLD format (no roomIds)
-  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('#spotov .spotlist')`);
+  await waitFor(`!document.getElementById('spotov')`, 10000); await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('#spotov .spotlist')`);
   await ev(`(() => { const a = document.getElementById('spkall'); if (a && !a.checked) { a.checked = true; a.dispatchEvent(new Event('input', { bubbles: true })); } return true; })()`);
   await waitFor(`!!document.querySelector('[data-spkdun="Cruma Tower"]')`, 8000); await click('[data-spkdun="Cruma Tower"]');
   await waitFor(`document.querySelectorAll('#spotov polygon[data-room]').length > 5`, 10000);
@@ -178,7 +179,7 @@ function patchState(j) {
   // ---- desktop ----
   await cdp('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
-  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('#spotov .spotlist')`);
+  await waitFor(`!document.getElementById('spotov')`, 10000); await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('#spotov .spotlist')`);
   await ev(`(() => { const a = document.getElementById('spkall'); if (a && !a.checked) { a.checked = true; a.dispatchEvent(new Event('input', { bubbles: true })); } return true; })()`);
   await waitFor(`!!document.querySelector('[data-spkreg="fields-of-massacre"]')`, 8000); await click('[data-spkreg="fields-of-massacre"]');
   ok('desktop: Fields of Massacre map', await waitFor(`document.querySelectorAll('#spotov polygon[data-area]').length > 5`, 10000));

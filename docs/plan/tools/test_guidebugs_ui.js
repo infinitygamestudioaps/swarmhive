@@ -219,7 +219,7 @@ fs.writeFileSync(path.join(SB, 'Logs', 'memwatch.log'), '2026-10-09 12:00:00 ok 
       await ev(`document.querySelector('[data-spotpick]').click()`);
       if (await waitFor(`document.getElementById('spotov') && document.getElementById('spotov').innerText.length > 50`, 8000)) {
         await sleep(600);
-        const sp = await ev(`(() => { const W = document.documentElement.clientWidth, o = []; document.querySelectorAll('#spotov *').forEach(e => { const r = e.getBoundingClientRect(); if (r.width && r.right > W + 1 && !e.closest('.dmap')) o.push((e.className || e.tagName) + '@' + Math.round(r.right)); }); return o.slice(0, 6); })()`);
+        const sp = await ev(`(() => { const W = document.documentElement.clientWidth, o = []; document.querySelectorAll('#spotov *').forEach(e => { const r = e.getBoundingClientRect(); if (r.width && r.right > W + 1 && !e.closest('.dmap, .leaflet-container')) o.push((e.className || e.tagName) + '@' + Math.round(r.right)); }); return o.slice(0, 6); })()`);
         ok('#8 spot picker: nothing wider than the screen (outside the dungeon map scroll box)', sp.length === 0, sp.join(', '));
         await shot('guidebugs_phone_spot_picker.png');
         await ev(`closeSpotPicker()`);

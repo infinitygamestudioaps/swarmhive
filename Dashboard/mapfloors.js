@@ -143,6 +143,7 @@
   function lvlOf(M, k) {
     if (!k || k === 'surface') return { k: 'surface', d: null, dn: '', fi: -1, n: 'surface', z: null };
     const [dk, fs] = k.split('#'), d = M && (M.dungeons || []).find(x => x.key === dk), fi = +fs, f = d && d.floors[fi];
+    if (/^g\d+$/.test(fs || '')) { const gi = +fs.slice(1); return { k, d: dk, dn: d ? d.name : dk, fi: -1, gap: gi, n: gapLabel(d, gi), z: null }; }   // TOIGAP: no z = no layer guess, the floor picture only
     return { k, d: dk, dn: d ? d.name : dk, fi, n: f ? f.n : '', z: f ? f.z : null };
   }
   /** the level a position would get on its own: a floor key, 'surface', or 'door:<dungeon>' (inside a dungeon box, on no floor band) */
@@ -150,6 +151,14 @@
     const f = floorOf(M, p.x, p.y, p.z);
     return f && f.k ? f.k : f ? 'door:' + f.d : 'surface';
   }
+  /** TOIGAP-2026-10-22: 'between 3rd floor and 4th floor' (gi = the lower floor's index) */
+  function gapLabel(d, gi) {
+    const a = d && d.floors[gi]; if (!a || !a.z) return 'between floors';
+    let b = null; d.floors.forEach(f => { if (f.z && f.z[0] > a.z[1] && (!b || f.z[0] < b.z[0])) b = f; });
+    return 'between ' + a.n + ' and ' + (b ? b.n : 'the next floor');
+  }
+  /** does the in-between level above floor gi have a picture? (browser: floormaps index 'g<gi>'; node: never) */
+  function gapPic(dn, gi) { try { return !!(FM.idx && FM.idx[dn] && FM.idx[dn]['g' + gi]); } catch (e) { return false; } }
   /** a 'door:' point (inside a dungeon's box, on no floor band / outside the floor areas). FIX 2026-10-13 13:52 (party Char1 OUTDOORS at
    *  6120,-107059,-2336 got 'caveoftrials#0' = the dark Cave of Trials layer, because a door point took any floor within 800 of its band):
    *  only a point in the GAP between two floor bands of that dungeon (stairs between floors, x/y inside one of their floor areas) counts as a
@@ -164,6 +173,7 @@
       const lo = fl[k], hi = fl[k + 1];
       if (!(z > lo.f.z[1] + BAND && z < hi.f.z[0] - BAND) || !(inBox(lo.f) || inBox(hi.f))) continue;
       const kl = dk + '#' + lo.i, kh = dk + '#' + hi.i;
+      if (gapPic(d.name, lo.i)) return dk + '#g' + lo.i;   // TOIGAP-2026-10-22: the level between these two floors has its own picture (ToI stair rings) = its own level
       if (cur === kl || cur === kh) return cur;
       return z - lo.f.z[1] <= hi.f.z[0] - z ? kl : kh;
     }
@@ -237,13 +247,14 @@
       if (!FM.pending && typeof fetch === 'function' && FM.tries < 5) { FM.pending = true; fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(j => { FM.idx = j || {}; FM.pending = false; try { window.dispatchEvent(new Event('mapfloors:ready')); } catch (e) { } }).catch(() => { FM.pending = false; FM.tries++; }); }
       return '';
     }
-    const e = (FM.idx[lvl.dn] || {})[lvl.fi]; if (!e) return '';
+    const e = (FM.idx[lvl.dn] || {})[lvl.gap != null ? 'g' + lvl.gap : lvl.fi]; if (!e) return '';   // TOIGAP: 'g<i>' = the level between two floors
     return `<image href="/icons/floormaps/${e.f}${e.v ? '?v=' + e.v : ''}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" preserveAspectRatio="none" pointer-events="none" style="image-rendering:pixelated"/>`;
   }
   // room outlines of a floor without map art (/api/dungeonmap through index.html's api(), cached per dungeon; maps re-render on mapfloors:ready)
   const DM = {};
   function plainLayer(lvl, u) {
     if (!lvl || lvl.k === 'surface' || !lvl.dn) return '';
+    if (lvl.gap != null) return floorPic(lvl);   // TOIGAP: between two floors = that level's picture, no floor's room outlines
     const c = DM[lvl.dn];
     if (!c) {
       DM[lvl.dn] = { at: Date.now(), m: null };
@@ -275,6 +286,6 @@
     zone: (viewer, zone) => zoneOnLevel(B.model, viewer, zone),
     // map art per floor (2026-10-13 10:25)
     trackLevel, tileSuffix, lvlOf, view, tile, plainLayer, floorPic,   // FLOORPICK-2026-10-16: the room picker uses the geodata floor picture too
-    version: '2026-10-13',
+    gapLabel, version: '2026-10-22',
   };
 });

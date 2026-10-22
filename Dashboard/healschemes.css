@@ -56,3 +56,75 @@ html.hs-lock, html.hs-lock body { overflow: hidden; }
 .hs-pt span { font-size: var(--fs-cap, 12px); color: var(--muted, #8e8879); overflow: hidden; text-overflow: ellipsis; }
 .hs-pedit { flex: 0 0 auto; min-height: 40px; }
 @media (prefers-reduced-motion: reduce) { .hs-chip { transition: none; } }
+
+/* HEALICONS-2026-10-22: in-game icons + an icon skill picker instead of the dropdown */
+.hs-ic .hs-ici, .hs-ic .gi { width: 22px; height: 22px; display: block; }
+.hs-ici { width: 18px; height: 18px; vertical-align: middle; border-radius: 2px; }
+.hs-skgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; margin-top: 4px; }
+.hs-sk { display: flex; align-items: center; gap: 8px; text-align: left; padding: 5px 7px; min-height: 44px; border: 1px solid var(--line2, #3d382b); background: rgba(0,0,0,.28); color: inherit; cursor: pointer; border-image: none; }
+.hs-sk img { width: 32px; height: 32px; flex: none; border: 1px solid #000; }
+.hs-sk .hs-skx { width: 32px; height: 32px; flex: none; display: grid; place-items: center; font-weight: 700; color: var(--gold, #e3c27a); border: 1px dashed var(--line2, #3d382b); }
+.hs-sk .hs-skt { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+.hs-sk .hs-skt b { font-size: var(--fs-small, 12px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hs-sk .hs-skt small { font-size: var(--fs-mini, 11px); color: var(--muted, #9a9182); }
+.hs-sk:hover { border-color: var(--gold, #e3c27a); }
+.hs-sk.on { border-color: var(--gold, #e3c27a); background: linear-gradient(90deg, rgba(227,194,122,.18), rgba(0,0,0,.28)); box-shadow: inset 0 0 0 1px rgba(227,194,122,.5); }
+.hs-sk.missing { opacity: .6; }
+.hs-ore { display: flex; gap: 8px; align-items: flex-start; margin-top: 6px; }
+.hs-chip .hs-ici { width: 16px; height: 16px; margin-right: 4px; }
+@media (max-width: 480px) { .hs-skgrid { grid-template-columns: 1fr; } }
+
+/* HEALPOLISH-2026-10-22 (owner: "make the ui look nicer"): wider sheet with two card columns on a PC, tidy card heads, the threshold on one line,
+   compact left-aligned skill tiles (icon + name + numbers), a clear gold selection with a check mark, Automatic across the whole row */
+@media (min-width: 1100px) {
+  .hs-dlg { width: min(1180px, 96vw); height: min(940px, 94vh); }
+  #hsBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 12px; align-items: start; }
+  #hsBody > * { grid-column: 1 / -1; }
+  #hsBody > .hs-card { grid-column: auto; margin: 0; }
+}
+.hs-scroll { padding: 12px 14px 20px; }
+.hs-who { font-size: var(--fs-section, 14px); color: var(--gold, #e3c27a); font-weight: 700; letter-spacing: .2px; }
+.hs-card { position: relative; border: 1px solid #3f3a2e; border-radius: 10px; padding: 0 12px 12px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(48, 43, 32, .55), rgba(10, 10, 8, .55)); box-shadow: inset 0 1px 0 rgba(255, 235, 190, .05), 0 2px 8px rgba(0, 0, 0, .35); }
+.hs-ct { margin: 0 -12px 8px; padding: 8px 12px; min-height: 40px; border-bottom: 1px solid rgba(227, 194, 122, .14);
+  background: linear-gradient(90deg, rgba(227, 194, 122, .10), rgba(227, 194, 122, 0) 70%); }
+.hs-ic { flex: 0 0 28px; height: 28px; display: grid; place-items: center; }
+.hs-ic .hs-ici, .hs-ic .gi { width: 26px; height: 26px; border: 1px solid #000; border-radius: 4px; box-shadow: 0 0 0 1px rgba(227, 194, 122, .35); }
+.hs-ct b { font-size: 15px; letter-spacing: .2px; }
+.hs-card > .ps-what { font-size: var(--fs-cap, 12px); color: var(--muted, #9a9182); margin: 0 0 8px; }
+/* the threshold: "When HP is below [ 50 ] %" on one line */
+.hs-card .hs-fields { gap: 6px 14px; margin-bottom: 4px; }
+.hs-card .hs-num { flex-direction: row; align-items: center; gap: 8px; }
+.hs-card .hs-num .ps-lab { margin: 0; font-size: var(--fs-cap, 12px); color: var(--ink, #d9cfb6); }
+.hs-card .hs-num input { width: 64px; min-height: 34px; text-align: center; font-weight: 700; font-size: 15px; }
+/* skill tiles */
+.hs-skill > .ps-lab { margin: 8px 0 2px; font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted, #9a9182); }
+.hs-skgrid { grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 6px; }
+.hs-sk { position: relative; justify-content: flex-start; text-align: left; gap: 9px; min-height: 42px; padding: 4px 8px 4px 5px; border-radius: 7px;
+  border: 1px solid #3a352a; background: linear-gradient(180deg, rgba(36, 33, 26, .9), rgba(16, 15, 12, .9)); transition: border-color .12s, transform .12s, box-shadow .12s; }
+.hs-sk img, .hs-sk .hs-skx { width: 30px; height: 30px; border-radius: 4px; }
+.hs-sk .hs-skt { align-items: flex-start; }
+.hs-sk .hs-skt b { color: var(--ink, #e6dcc2); font-size: 12.5px; }
+.hs-sk .hs-skt small { font-size: 11px; }
+.hs-sk:hover { border-color: rgba(227, 194, 122, .6); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0, 0, 0, .4); }
+.hs-sk.on { border-color: var(--gold, #e3c27a); background: linear-gradient(180deg, rgba(110, 88, 40, .55), rgba(40, 32, 16, .75)); box-shadow: 0 0 0 1px rgba(227, 194, 122, .45), 0 0 10px rgba(227, 194, 122, .18); }
+.hs-sk.on .hs-skt b { color: var(--gold, #ffd98a); }
+.hs-sk.on::after { content: '✓'; position: absolute; top: 3px; right: 6px; font: 700 12px/1 sans-serif; color: #1b1a14; background: var(--gold, #e3c27a); border-radius: 50%; width: 16px; height: 16px; display: grid; place-items: center; }
+.hs-sk.auto { grid-column: 1 / -1; }
+.hs-sk.auto .hs-skt b::after { content: ' · best skill it knows, picked by itself'; font-weight: 400; color: var(--muted, #9a9182); font-size: 11px; }
+.hs-sk:focus-visible { outline: 2px solid var(--gold, #e3c27a); outline-offset: 1px; }
+.hs-ore { padding: 7px 10px; border-radius: 7px; background: rgba(90, 140, 200, .10); border: 1px solid rgba(120, 170, 230, .25); font-size: var(--fs-cap, 12px); }
+.hs-ore .hs-ici { width: 20px; height: 20px; flex: none; }
+.hs-chip { display: inline-flex; align-items: center; }
+@media (max-width: 480px) { .hs-skgrid { grid-template-columns: 1fr; } .hs-sk.auto .hs-skt b::after { content: ''; } }
+@media (prefers-reduced-motion: reduce) { .hs-sk { transition: none; } .hs-sk:hover { transform: none; } }
+
+/* NOORE-2026-10-22: out of Spirit Ore right now */
+.hs-ore.out { background: rgba(200, 120, 40, .12); border-color: rgba(233, 160, 70, .45); }
+
+/* NOOREPICK-2026-10-22: the second choice when out of Spirit Ore */
+.hs-noore { margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(233, 160, 70, .35); }
+.hs-noore > .ps-lab { display: flex; align-items: center; gap: 6px; color: #e9a046; }
+.hs-noore .hs-ici { width: 16px; height: 16px; }
+.hs-noore .hs-sk.on { border-color: #e9a046; box-shadow: 0 0 0 1px rgba(233, 160, 70, .45), 0 0 10px rgba(233, 160, 70, .18); }
+.hs-noore .hs-sk.on::after { background: #e9a046; }

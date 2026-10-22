@@ -113,7 +113,7 @@ for (const sc of S) {
   check(/kind: 'blocked', detail: `\$\{g\.reason \|\|/.test(src) && /\$\{label\} — \$\{g\.reason \|\|/.test(src), 'bot: a chosen spot that is blocked: the party card status (detail) and the note say the sentence');
   check((src.match(/NOT going into \$\{d\.name\} — \$\{[ag]\.reason \|\| [ag]\.why\}/g) || []).length === 2 && /NOT back into \$\{d\.name\} — \$\{g\.reason \|\| g\.why\}/.test(src), 'bot: !dungeon, enterDungeon and the resume say the sentence');
   check(/return Object\.assign\(g, \{ cur, reason: ssgReason\(g, cur\) \}\)/.test(html), 'dashboard: ssGateParty attaches the same sentence');
-  check((html.match(/ssChipWhy\(ssGateParty\(SPK\.party/g) || []).length === 2 && /ssChipWhy\(ssg, true\)/.test(html) && /' ' \+ ssChipWhy\(ssd\)/.test(html), 'dashboard: spot picker rows (dungeons + zones), the dungeon map banner and the party card hunting line show it');
+  check((html.match(/ssChipWhy\(ssGateParty\(SPK\.party/g) || []).length >= 4 /* 2 picker rows + 2 spot map info panels (SPOTMAP-2026-10-22) */ &&/ssChipWhy\(ssg, true\)/.test(html) && /' ' \+ ssChipWhy\(ssd\)/.test(html), 'dashboard: spot picker rows (dungeons + zones), the dungeon map banner and the party card hunting line show it');
   check(/\$\{g\.reason \|\| g\.why\}\\n\\nThe party will NOT go there/.test(html) && /parts\.push\(g\.reason \|\|/.test(html), 'dashboard: the "is closed now" dialog and the hunt popup notes use it');
   check(/class="ssreason"/.test(html) && /\.ssreason \{/.test(html), 'dashboard: the sentence is visible text (phones have no tooltips) with its own style');
   const s7 = rdT('Dashboard/sevensigns.js'), s7api = rdT('Dashboard/sevensigns_api.js'), auApi = rdT('Dashboard/autooverview_api.js');

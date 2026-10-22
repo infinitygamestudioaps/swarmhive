@@ -21,7 +21,7 @@
   'use strict';
   const SEC = 'tab-charpage';
   const CP = { name: null, open: false, party: null, live: null, liveAt: 0, char: null, charAt: 0, intents: [], skew: 0, timers: [], busy: {},
-    view: null, follow: true, tilesKey: '', info: '', cols: 0, invF: 'all', invQ: '', pop: null, buffMax: {}, actKey: '', err: '', raf: 0, readyFlash: {} };
+    view: null, follow: true, tilesKey: '', info: '', cols: 0, invF: 'all', invQ: '', pop: null, buffMax: {}, actKey: '', err: '', raf: 0, readyFlash: {}, cry: { rep: null, at: 0, busy: false, on: false, sel: new Set(), ench: false, spec: false, name: '' } };
   const $id = (i) => document.getElementById(i);
   const srvNow = () => Date.now() + CP.skew;
   const nf = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
@@ -43,6 +43,7 @@
       <div class="cp-cols" id="cpCols"><div class="cp-col"></div><div class="cp-col"></div><div class="cp-col"></div></div>
       <div id="cpStore" hidden>
         ${BOX('live', 'Right now', UI.menuAction, '<span class="cp-age" id="cpAge"></span>')}
+        ${BOX('state', 'State — what holds it now', UI.system)}<!-- STATECTL-2026-10-22 -->
         <div class="box cp-box cp-map" data-cpsec="map"><h3>${GI(UI.map, 'sm')}<span>Where it is</span><span class="cp-where" id="cpWhere"></span></h3>
           <div class="cp-mapwrap" id="cpMap"><svg id="cpSvg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" data-fsfix="off"><rect id="cpBg" fill="#0d2a33"/><g id="cpTiles"></g><g id="cpOver"></g></svg>
             <div class="cp-zoom"><button id="cpZin" title="zoom in" aria-label="zoom in">+</button><button id="cpZout" title="zoom out" aria-label="zoom out">−</button><button id="cpFollow" class="on" title="follow (fit me and what I am doing)" aria-label="follow">◎</button></div>
@@ -52,8 +53,8 @@
         ${BOX('frenzy', 'Frenzy kit (HP swap)', UI.sword)}
         <div class="box cp-box cp-inv" data-cpsec="inv"><h3>${GI(UI.inv, 'sm')}<span>Inventory</span><span class="cp-cnt" id="cpInvN"></span></h3>
           <div class="cp-invbar"><div class="cp-seg" role="tablist">${[['all', 'All'], ['use', 'Use'], ['gear', 'Gear'], ['mats', 'Materials'], ['quest', 'Quest']].map(([k, t]) => `<button data-cpinvf="${k}" class="${k === 'all' ? 'on' : ''}">${t}</button>`).join('')}</div>
-            <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"></div>
-          <div id="cp_inv"></div></div>
+            <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"><button type="button" id="cpCryBtn" class="uk-btn cp-crybtn" data-cpcry="mode" hidden>Crystallize</button></div>
+          <div id="cp_inv"></div><div id="cp_cry"></div></div>
         ${BOX('skills', 'Skills', UI.skill, '<span class="cp-cnt muted">tap = use now</span>')}
         ${BOX('hive', 'Combat — Hive or my L2Swarm profile', UI.sword)}
         ${BOX('buffs', 'Buffs', UI.buff)}
@@ -68,9 +69,9 @@
   }
   // which box in which column, per layout (phone / tablet / desktop)
   const LAYOUT = {
-    1: [['live', 'map', 'buffs', 'skills', 'hive', 'gear', 'frenzy', 'inv', 'timeline', 'stats', 'orders', 'prio']],
-    2: [['live', 'map', 'buffs', 'timeline', 'orders'], ['gear', 'frenzy', 'skills', 'hive', 'inv', 'stats', 'prio']],
-    3: [['live', 'map', 'timeline'], ['gear', 'frenzy', 'inv', 'stats', 'prio'], ['skills', 'hive', 'buffs', 'orders']],
+    1: [['live', 'state', 'map', 'buffs', 'skills', 'hive', 'gear', 'frenzy', 'inv', 'timeline', 'stats', 'orders', 'prio']],
+    2: [['live', 'state', 'map', 'buffs', 'timeline', 'orders'], ['gear', 'frenzy', 'skills', 'hive', 'inv', 'stats', 'prio']],
+    3: [['live', 'state', 'map', 'timeline'], ['gear', 'frenzy', 'inv', 'stats', 'prio'], ['skills', 'hive', 'buffs', 'orders']],
   };
   function layout() {
     const w = window.innerWidth, n = w >= 1280 ? 3 : w >= 760 ? 2 : 1;
@@ -194,6 +195,7 @@
     if (!CP.open) return;
     if (!fromAll) renderHead();
     renderNow(); renderStatsLight();
+    try { if (window.StateCtl && $id('cp_state')) patch($id('cp_state'), StateCtl.listHtml(CP.name, false)); } catch (e) { }   // STATECTL-2026-10-22
     if (CP.follow || !CP.view) fit();
     schedule();
   }
@@ -464,9 +466,90 @@
       .sort((a, b) => order[cat(a)] - order[cat(b)] || a.name.localeCompare(b.name));
     $id('cpInvN').textContent = `${all.filter(i => !i.quest).length} items${all.some(i => i.quest) ? ' · ' + all.filter(i => i.quest).length + ' quest' : ''}${whLine()}`;
     const sel = (i) => { try { const s = sellState(i.id, CP.name); return s && s !== 'keep' ? ' selling' : ''; } catch (e) { return ''; } };
-    patch($id('cp_inv'), L.length ? `<div class="cp-igrid">${L.map(i => `<button class="cp-it c-${cat(i)}${sel(i)}" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' ×' + nf(i.count) + (i.grade && i.grade !== 'None' ? ' · ' + i.grade : ''))}">
+    cryLoad(false); const C = CP.cry, cj = cryMap();   // CRYINV-2026-10-22
+    const cryCls = (i) => { if (!C.on) return ''; const j = cj[Number(i.objId)]; if (!j || cryBlockUi(j)) return ' cry-no'; return C.sel.has(Number(i.objId)) ? ' cry-sel' : ' cry-ok'; };
+    patch($id('cp_inv'), L.length ? `<div class="cp-igrid">${L.map(i => `<button class="cp-it c-${cat(i)}${sel(i)}${cryCls(i)}" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' ×' + nf(i.count) + (i.grade && i.grade !== 'None' ? ' · ' + i.grade : ''))}">
       <img src="${itemIcon(i.id)}" alt="">${i.enchant ? `<b class="en">+${i.enchant}</b>` : ''}${Number(i.count) > 1 ? `<b class="n">${short(i.count)}</b>` : ''}${grade(i.grade)}</button>`).join('')}</div>`
       : `<div class="muted">${(d.items || []).length ? 'nothing matches' : d.error ? 'no game data' : 'loading…'}</div>`);
+    renderCry();
+  }
+
+  // ---------------------------------------------------------------- crystallize from the inventory (CRYINV-2026-10-22)
+  // Owner 2026-10-22: "crystallize items inside inventories IF it's a dwarf that is hunting ... the button inside the inventory for a character".
+  // Only for a character with the Crystallize skill (its swarm.js writes Logs/crafter_bag_<name>.json = which pieces can go and why not; read
+  // through GET /api/crafter, once a minute). Tap Crystallize -> tap pieces (or "All that can go") -> red confirm -> POST /api/crafter/crystallize
+  // (checked again on the server against the bag report, then "!crystallize <name> <ids>"). A hunting dwarf waits for a quiet moment itself.
+  const CRY_GRADES = ['D', 'C', 'B', 'A', 'S'];
+  function cryLoad(force) {
+    const C = CP.cry;
+    if (!CP.name || C.busy || (!force && Date.now() - C.at < 60000 && C.name === CP.name)) return;
+    if (C.name !== CP.name) { C.rep = null; C.on = false; C.sel.clear(); C.name = CP.name; }
+    C.busy = true; C.at = Date.now(); const want = CP.name;
+    api('/api/crafter').then(j => {
+      if (CP.name !== want) return;
+      const c = ((j && j.crafters) || []).find(x => x.name === want);
+      C.rep = c && c.bag && Number(c.bag.skill) > 0 ? c.bag : null;
+      if (!C.rep) { C.on = false; C.sel.clear(); }
+      renderInv();
+    }).catch(() => { }).finally(() => { C.busy = false; });
+  }
+  function cryMap() { const m = {}; ((CP.cry.rep && CP.cry.rep.cryst) || []).forEach(j => { m[Number(j.objId)] = j; }); return m; }
+  /** = swarm.js cryBlock with the page's ticks: '' = may go, else why not */
+  function cryBlockUi(j) {
+    const C = CP.cry;
+    if (!j) return 'unknown piece';
+    if (j.hard) return j.hard;
+    if (j.enchant > 0 && !C.ench) return `enchanted +${j.enchant} — tick "include enchanted"`;
+    if ((j.special || []).length && !C.spec) return `${j.special.join(', ')} — tick "include special items"`;
+    return '';
+  }
+  function cryRows() { const m = cryMap(); return [...CP.cry.sel].map(id => m[id]).filter(j => j && !cryBlockUi(j)); }
+  function renderCry() {
+    const C = CP.cry, btn = $id('cpCryBtn'), box = $id('cp_cry'); if (!btn || !box) return;
+    btn.hidden = !C.rep; btn.textContent = C.on ? 'Cancel' : 'Crystallize'; btn.classList.toggle('on', C.on);
+    if (!C.rep || !C.on) { patch(box, ''); return; }
+    const all = C.rep.cryst || [], free = all.filter(j => !cryBlockUi(j)), rows = cryRows(), tot = {};
+    rows.forEach(j => { tot[j.grade] = (tot[j.grade] || 0) + (Number(j.crystals) || 0); });
+    const age = C.rep.atMs ? Math.round((Date.now() - Number(C.rep.atMs)) / 60000) : null;
+    patch(box, `<div class="cp-crybar">
+      <div class="cp-cryhead">Tap the items to turn into crystals — <b>${free.length}</b> of ${all.length} can go (Crystallize level ${esc(C.rep.skill)}${Number(C.rep.skill) < 5 ? ': up to ' + CRY_GRADES[Number(C.rep.skill) - 1] + '-grade' : ''}). No-grade items cannot be crystallized.${age != null && age > 2 ? ` <span class="muted">Bag list ${age} min old.</span>` : ''}</div>
+      <label class="cp-crychk"><input type="checkbox" data-cpcry="ench"${C.ench ? ' checked' : ''}> include enchanted</label>
+      <label class="cp-crychk"><input type="checkbox" data-cpcry="spec"${C.spec ? ' checked' : ''}> include special items (S.A., augmented, untradeable)</label>
+      <div class="cp-cryact"><button type="button" class="uk-btn ghost" data-cpcry="all">All that can go</button><button type="button" class="uk-btn ghost" data-cpcry="none">None</button>
+      <button type="button" class="uk-btn danger" data-cpcry="go"${rows.length ? '' : ' disabled'}>Crystallize ${rows.length || ''}${rows.length ? ' → ' + CRY_GRADES.filter(g => tot[g]).map(g => nf(tot[g]) + ' ' + g).join(' + ') : ''}</button></div>
+      <div class="muted cp-cryhint">While it hunts it waits for a moment when nothing hits it, then crystallizes. Worn items are never touched.</div></div>`);
+  }
+  function cryPick(el) {
+    const id = Number(el.dataset.cpitem), j = cryMap()[id];
+    if (!j) { toast('this item cannot be crystallized', false); return; }
+    const why = cryBlockUi(j); if (why) { toast(`${j.name}: ${why}`, false); return; }
+    if (CP.cry.sel.has(id)) CP.cry.sel.delete(id); else CP.cry.sel.add(id);
+    renderInv();
+  }
+  async function cryClick(b) {
+    const C = CP.cry, a = b.dataset.cpcry;
+    if (a === 'mode') { C.on = !C.on; C.sel.clear(); if (C.on) cryLoad(true); renderInv(); return; }
+    if (a === 'ench') { C.ench = !!b.checked; renderInv(); return; }
+    if (a === 'spec') { C.spec = !!b.checked; renderInv(); return; }
+    if (a === 'all') { (C.rep && C.rep.cryst || []).forEach(j => { if (!cryBlockUi(j)) C.sel.add(Number(j.objId)); }); renderInv(); return; }
+    if (a === 'none') { C.sel.clear(); renderInv(); return; }
+    if (a !== 'go') return;
+    const rows = cryRows(); if (!rows.length) return;
+    const tot = {}; rows.forEach(j => { tot[j.grade] = (tot[j.grade] || 0) + (Number(j.crystals) || 0); });
+    const risky = rows.filter(j => j.enchant > 0 || (j.special || []).length), n = CP.name;
+    const ok = await uiConfirm({ title: `${n}: crystallize ${rows.length} item${rows.length === 1 ? '' : 's'}?`, danger: true, typeToConfirm: risky.length ? 'YES' : '',
+      body: [uiWarn('This destroys the items. They turn into crystals and cannot be brought back.'),
+        uiP(uiEm(n), ' crystallizes exactly these from its own bag:'),
+        uiList(rows.map(j => `${j.name}${j.enchant ? ' +' + j.enchant : ''} — ${j.grade} · ${nf(j.crystals)} crystals${(j.special || []).length ? ' (' + j.special.join(', ') + ')' : ''}`)),
+        uiKV(CRY_GRADES.filter(g => tot[g]).map(g => [`${g}-grade crystals`, nf(tot[g])])),
+        risky.length ? uiWarn(`${risky.length} of them are enchanted or special. Type YES to go on.`) : ''].filter(Boolean),
+      confirmText: 'Crystallize them', cancelText: 'Cancel' });
+    if (!ok) return;
+    const r = await api('/api/crafter/crystallize', { method: 'POST', body: JSON.stringify({ name: n, objIds: rows.map(j => Number(j.objId)), enchanted: C.ench, special: C.spec, confirm: true }) });
+    if (!r || r.error) { toast(`Not sent: ${(r && r.error) || 'no answer'}`, false); return; }
+    C.sel.clear(); C.on = false; C.at = 0;
+    toast(`${n} crystallizes ${rows.length} item${rows.length === 1 ? '' : 's'} now — the result shows in its steps and party chat`, true);
+    renderInv();
   }
 
   // ---------------------------------------------------------------- skills grid (cooldown sweeps)
@@ -671,6 +754,17 @@
       <div class="cp-pb">${opts.map(([on, l], i) => `<button data-cpgo="cast" data-id="${id}" data-on="${esc(on)}" class="${i === 0 ? 'pri' : ''}">${esc(l)}</button>`).join('')}</div>
       ${left > 0 ? '<div class="muted cp-pd">On cooldown: the order waits in its window until the skill is ready (or fails, see the toast).</div>' : ''}`);
   }
+  // EQUIPSLOT-2026-10-22 (owner: "When i want to equip rings i need to be able to assign ring 1 or 2 and earring 1 or 2"): a ring / earring in the bag gets
+  // two buttons; the bot takes off what is in that slot and puts this one on ("use <objId> ring1|ring2|ear1|ear2", swarm.js raidOverride 'use')
+  function jewelKind(it) { const s = String(it.slot || ''); return /FINGER/.test(s) ? 'ring' : /EAR/.test(s) ? 'ear' : ''; }
+  function jewelBtns(it) {
+    const k = jewelKind(it), worn = ((CP.char && CP.char.items) || []).filter(i => i.equipped && jewelKind(i) === k);
+    const nm = k === 'ring' ? 'Ring' : 'Earring', key = k === 'ring' ? 'ring' : 'ear';
+    const wornTxt = worn.length ? `worn now: ${worn.map(i => esc(i.name) + (i.enchant ? ' +' + i.enchant : '')).join(' · ')}` : `no ${nm.toLowerCase()} worn`;
+    return `<button class="pri" data-cpgo="useslot" data-obj="${esc(it.objId)}" data-slot="${key}1" data-id="${it.id}" title="takes off what is in ${nm.toLowerCase()} slot 1, puts this one there">Put on as ${nm} 1</button>`
+      + `<button class="pri" data-cpgo="useslot" data-obj="${esc(it.objId)}" data-slot="${key}2" data-id="${it.id}" title="takes off what is in ${nm.toLowerCase()} slot 2, puts this one there">Put on as ${nm} 2</button>`
+      + `<div class="muted cp-pd" style="flex-basis:100%">${wornTxt}. The piece in the chosen slot goes back to the bag.</div>`;
+  }
   function itemPop(btn) {
     const key = btn.dataset.cpitem, it = ((CP.char && CP.char.items) || []).find(i => String(i.objId || i.id) === key); if (!it) return;
     const canDrop = !it.equipped && !it.quest && it.id !== 57;
@@ -679,9 +773,13 @@
       if (!it.equipped && !it.quest) { const st = sellState(it.id, CP.name); const o = (v, t) => `<option value="${v}"${st === v ? ' selected' : ''}>${t}</option>`;
         sell = `<label class="cp-psell">sell at every restock <select class="sellsel ${st && st !== 'keep' ? 'on' : ''}" data-sellid="${it.id}" data-sellchar="${esc(CP.name)}">${o('', '—')}${o('char', 'sell (' + esc(CP.name) + ')')}${o('all', 'sell (all bots)')}${o('keep', 'never sell')}</select></label>`; }
     } catch (e) { }
+    // CRYINV-2026-10-22 (owner: "I still dont see the crystallize option here" - he tapped an item): the item menu offers it too (dwarves with Crystallize)
+    let cry = '';
+    try { cryLoad(false); if (CP.cry.rep) { const j = cryMap()[Number(it.objId)], why = j ? cryBlockUi(j) : 'cannot be crystallized';
+      cry = !why ? `<button class="danger" data-cpcryone="${esc(it.objId)}">Crystallize… (${nf(j.crystals)} ${esc(j.grade)} crystals)</button>` : `<div class="muted cp-pd">Crystallize: ${esc(why)}</div>`; } } catch (e) { }
     showPop(btn, `<div class="cp-ph"><img src="${itemIcon(it.id)}" alt=""><div><b>${esc(it.name)}</b>${it.enchant ? ' <b class="en">+' + it.enchant + '</b>' : ''} ${grade(it.grade)}<div class="muted">×${nf(it.count)} · ${esc(it.type || '')}${it.slot && it.slot !== 'NONE' ? ' · ' + esc(it.slot) : ''}${it.equipped ? ' · <span class="ok">worn</span>' : ''}${it.quest ? ' · quest item' : ''}</div></div></div>
-      <div class="cp-pb">${!it.equipped ? `<button class="pri" data-cpgo="use" data-id="${it.id}">${it.type === 'Weapon' || it.type === 'Armor' ? 'Equip now' : 'Use now'}</button>` : ''}
-        ${canDrop ? `<button class="danger" data-cpdrop="${esc(it.objId || it.id)}" data-id="${it.id}" data-n="${it.count}">Drop…</button>` : ''}</div>
+      <div class="cp-pb">${!it.equipped && jewelKind(it) ? jewelBtns(it) : !it.equipped ? `<button class="pri" data-cpgo="use" data-id="${it.id}">${it.type === 'Weapon' || it.type === 'Armor' ? 'Equip now' : 'Use now'}</button>` : ''}
+        ${canDrop ? `<button class="danger" data-cpdrop="${esc(it.objId || it.id)}" data-id="${it.id}" data-n="${it.count}">Drop…</button>` : ''}${cry.startsWith('<button') ? cry : ''}</div>${cry.startsWith('<div') ? cry : ''}
       ${sell}${!canDrop ? `<div class="muted cp-pd">${it.equipped ? 'Worn items cannot be dropped from here.' : it.quest ? 'Quest items cannot be dropped from here.' : ''}</div>` : ''}`);
   }
 
@@ -904,6 +1002,7 @@
     $id('cpFollow').classList.toggle('on', CP.follow);
     $id('cpInfo').textContent = CP.info || '';
     let wh = ''; try { wh = typeof whereWords === 'function' ? whereWords(c.x, c.y) : ''; loadTownPos(); } catch (e) { }
+    try { const lv = window.MapFloors && c.z != null && isFinite(c.z) ? MapFloors.view('cp:' + CP.name, c) : null; if (lv && lv.k !== 'surface' && lv.dn) wh = lv.dn + ' · ' + lv.n; } catch (e) { }   // TOIGAP-2026-10-22: inside a dungeon = its floor / the level between two floors
     $id('cpWhere').textContent = wh;
     anim();
   }
@@ -921,7 +1020,8 @@
       const f = t.closest('[data-cpinvf]'); if (f) { CP.invF = f.dataset.cpinvf; s.querySelectorAll('[data-cpinvf]').forEach(b => b.classList.toggle('on', b === f)); renderInv(); return; }
       const q = t.closest('[data-cpq]'); if (q && !q.disabled) { e.stopPropagation(); quick(q.dataset.cpq); return; }
       const sk = t.closest('.cp-sk'); if (sk) { e.stopPropagation(); skillPop(sk); return; }
-      const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); itemPop(it); return; }
+      const cb = t.closest('[data-cpcry]'); if (cb) { e.stopPropagation(); cryClick(cb).catch(er => toast(er.message, false)); return; }   // CRYINV-2026-10-22
+      const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); if (CP.cry.on) { cryPick(it); return; } itemPop(it); return; }
       const fb = t.closest('[data-fkbuy]'); if (fb) { e.stopPropagation(); frenzyBuy().catch(er => toast(er.message, false)); return; }   // KITBUY 2026-10-15
       const cm = t.closest('[data-cpclient]'); if (cm) { e.stopPropagation(); try { setClientMode(CP.name, cm.dataset.cpclient); } catch (er) { toast(er.message, false); } return; }
       const ov = t.closest('[data-cpovmenu]'); if (ov && window.Override) { e.stopPropagation(); Override.open(CP.name, ov, { context: 'char', title: CP.name }); return; }
@@ -930,11 +1030,15 @@
       const p = CP.pop; if (!p) return;
       const t = e.target;
       if (!t.closest('#cpPop')) { if (!t.closest('.cp-sk, [data-cpitem]')) closePop(); return; }
+      const co = t.closest('[data-cpcryone]');   // CRYINV-2026-10-22: one piece from the item menu -> the same red confirm as the inventory mode
+      if (co) { closePop(); CP.cry.sel = new Set([Number(co.dataset.cpcryone)]); try { await cryClick({ dataset: { cpcry: 'go' } }); } catch (er) { toast(er.message, false); } CP.cry.sel.clear(); return; }
       const g = t.closest('[data-cpgo]');
       if (g) {
         const id = g.dataset.id;
         if (g.dataset.cpgo === 'cast') { const on = g.dataset.on || ''; sendOv(`cast ${id}${on ? ' ' + on : ''}`, `${skName(id)}${on ? ' on ' + on : ''}`); }
         if (g.dataset.cpgo === 'use') { const it = ((CP.char && CP.char.items) || []).find(i => String(i.id) === id); sendOv('use ' + id, 'use ' + (it ? it.name : 'item ' + id)); }
+        if (g.dataset.cpgo === 'useslot') { const it = ((CP.char && CP.char.items) || []).find(i => String(i.objId) === String(g.dataset.obj)); const sl = g.dataset.slot, lab = { ring1: 'ring slot 1', ring2: 'ring slot 2', ear1: 'earring slot 1', ear2: 'earring slot 2' }[sl] || sl;   // EQUIPSLOT-2026-10-22
+          sendOv('use ' + g.dataset.obj + ' ' + sl, `put ${it ? it.name : 'the piece'} into ${lab}`); }
         closePop(); return;
       }
       const dr = t.closest('[data-cpdrop]');
@@ -956,4 +1060,73 @@
   window.CharPage = { route, open, close, _cp: CP, version: '2026-10-09' };
   // the page may already be on #/char/<name> (index.html's first route() ran before this script loaded)
   try { const [k, a] = location.hash.replace(/^#\/?/, '').split('/'); if (k === 'char' && a) open(decodeURIComponent(a)); } catch (e) { }
+})();
+
+// STATECTL-2026-10-22 (owner: "Make sure we can control STATE for each account, we keep ending up in weird scenarios"): the "State" box on the character
+// page + the party card. Shows swarm_state.stateCtl (swarm.js STATECTL: everything that holds the character now) with in-game icons, a Stop button per
+// stoppable item and two resets (back to normal = the party Start / stand idle = run switch OFF). Sends "!ov <name> state ..." through /api/command:
+// the override word is allowed without a dashboard restart and only the named character acts (the catalog's "!state ..." works after the restart).
+window.StateCtl = (() => {
+  'use strict';
+  const E = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const OPEN = {};   // party card: which State sections are open (the card is re-rendered every few seconds)
+  const ICON = { dead: 'dead', escape: 'run', control: 'star', order: 'menuAction', queued: 'menuAction', handover: 'trade', handin: 'trade', supply: 'inv', regroup: 'party',
+    rescue: 'res', teamwalk: 'map', routewalk: 'map', routesm: 'map', raid: 'raid', autolevel: 'sword', trade: 'trade', buffturn: 'buff', crystallize: 'inv', hunttimer: 'target',
+    plan: 'quest', pause: 'idle', run: 'online' };
+  const gi = (k) => { try { const u = typeof UI !== 'undefined' ? UI[ICON[String(k).split(':')[0]] || 'system'] : null; return u && typeof GI === 'function' ? GI(u, 'sm') : ''; } catch (e) { return ''; } };
+  const charOf = (n) => { try { return typeof STATE !== 'undefined' && STATE && STATE.chars ? STATE.chars.find(c => c.name === n) : null; } catch (e) { return null; } };
+  const ago = (ms) => { if (!ms) return ''; const s = Math.max(0, Math.round((Date.now() - Number(ms)) / 1000)); return s < 60 ? s + ' s' : s < 3600 ? Math.round(s / 60) + ' min' : Math.round(s / 3600) + ' h'; };
+  function itemsOf(n) { const c = charOf(n); return c && c.stateCtl && Array.isArray(c.stateCtl.items) ? c.stateCtl : null; }
+  /** the list for one character (compact = the party card) */
+  function listHtml(n, compact) {
+    const S = itemsOf(n), c = charOf(n);
+    if (!c) return `<div class="muted">${E(n)} is not reporting.</div>`;
+    if (!S) return `<div class="muted">No state list yet — it appears after the next swarm.js update.</div>`;
+    const items = S.items || [];
+    const rows = items.length ? items.map(it => `<div class="stc-row${it.canStop ? ' can' : ''}" data-stckey="${E(it.key)}">${gi(it.key)}<span class="stc-l">${E(it.label)}${it.since && !compact ? ` <small>· ${E(ago(it.since))}</small>` : ''}</span>${it.canStop ? `<button type="button" class="uk-btn ghost stc-stop" data-stctl="stop" data-n="${E(n)}" data-key="${E(it.key)}" data-label="${E(it.label)}">Stop</button>` : ''}</div>`).join('')
+      : `<div class="stc-row">${gi('run')}<span class="stc-l">Nothing holds it right now.</span></div>`;
+    const last = S.last && S.last.msg ? `<div class="stc-last muted">Last: ${E(S.last.msg)}</div>` : '';
+    const btns = `<div class="stc-btns"><button type="button" class="uk-btn" data-stctl="reset" data-mode="resume" data-n="${E(n)}">Reset → back to normal</button><button type="button" class="uk-btn ghost" data-stctl="reset" data-mode="idle" data-n="${E(n)}">Reset → stand idle</button></div>`;
+    return `<div class="stc${compact ? ' compact' : ''}">${rows}${last}${btns}</div>`;
+  }
+  /** the party card: one line ("State: Tank1 3 · Bishop1 1 ...") that opens every member's list + a whole-party reset */
+  function partyHtml(leader, list) {
+    const names = (list || []).map(c => c.name);
+    const cnt = names.map(n => { const S = itemsOf(n); return { n, k: S ? (S.items || []).filter(i => !/^(run|plan|hunttimer)$/.test(i.key)).length : 0 }; });
+    const busy = cnt.filter(x => x.k > 0);
+    const sum = busy.length ? busy.map(x => `${E(x.n)} ${x.k}`).join(' · ') : 'nothing stuck';
+    return `<details class="stc-party" data-stcparty="${E(leader)}"${OPEN[leader] ? ' open' : ''}><summary>${gi('control')}<b>State</b> <span class="muted">${sum}</span></summary>
+      ${names.map(n => `<div class="stc-mem"><div class="stc-mn">${E(n)}</div>${listHtml(n, true)}</div>`).join('')}
+      <div class="stc-btns party"><button type="button" class="uk-btn" data-stctl="partyreset" data-mode="resume" data-leader="${E(leader)}" data-names="${E(names.join(','))}">Reset whole party → back to normal</button><button type="button" class="uk-btn ghost" data-stctl="partyreset" data-mode="idle" data-leader="${E(leader)}" data-names="${E(names.join(','))}">Reset whole party → stand idle</button></div></details>`;
+  }
+  async function send(n, args) {
+    try { return await api('/api/command', { method: 'POST', body: JSON.stringify({ text: `!ov ${n} state ${args}`, targets: ['char:' + n], confirm: true }) }); }
+    catch (e) { return { error: String(e && e.message || e) }; }
+  }
+  const say = (msg, ok) => { try { if (window.UIKit && UIKit.toast) UIKit.toast(msg, ok !== false); else if (typeof uiAlert === 'function') uiAlert({ title: 'State', body: msg }); } catch (e) { } };
+  async function onClick(b) {
+    const a = b.dataset.stctl, n = b.dataset.n, mode = b.dataset.mode;
+    if (a === 'stop') {
+      const ok = await uiConfirm({ title: `${n}: stop this?`, body: [uiP(uiEm(b.dataset.label || b.dataset.key))].concat([uiNote('Only this one thing stops. Everything else keeps running.')]), confirmText: 'Stop it', cancelText: 'Cancel' });
+      if (!ok) return;
+      const r = await send(n, `stop ${n} ${b.dataset.key}`); say(r && !r.error ? `${n}: stop sent — the State list updates in a few seconds` : `Not sent: ${(r && r.error) || 'no answer'}`, !(r && r.error)); return;
+    }
+    if (a === 'reset' || a === 'partyreset') {
+      const names = a === 'reset' ? [n] : String(b.dataset.names || '').split(',').filter(Boolean);
+      const who = a === 'reset' ? n : `party ${b.dataset.leader} (${names.length} characters)`;
+      const ok = await uiConfirm({ title: `Reset the state of ${who}?`, danger: mode === 'idle',
+        body: [uiP('Cancels every running and waiting order, hand-over, route walk, regroup / supply run, leveling and a stuck trade, and forgets half-finished saved progress.'),
+          uiP(mode === 'resume' ? 'Then: the run switch goes ON and the party starts its normal plan / chosen spot.' : 'Then: it stands still with the run switch OFF until your next order.'),
+          uiNote('Survival (heals, potions, escaping from a fight) is never stopped.')],
+        confirmText: mode === 'resume' ? 'Reset → back to normal' : 'Reset → stand idle', cancelText: 'Cancel' });
+      if (!ok) return;
+      // the leader last: its Start (resume) then finds the members already cleared
+      const lead = b.dataset.leader, order = names.filter(x => x !== lead).concat(names.includes(lead) ? [lead] : []);
+      let bad = 0; for (const x of order) { const r = await send(x, `reset ${x} ${mode}`); if (!r || r.error) bad++; }
+      say(bad ? `${bad} of ${order.length} not sent` : `Reset sent to ${order.length === 1 ? order[0] : order.length + ' characters'} — the State list updates in a few seconds`, !bad);
+    }
+  }
+  document.addEventListener('toggle', (e) => { const d = e.target; if (d && d.matches && d.matches('details.stc-party')) OPEN[d.dataset.stcparty] = d.open; }, true);
+  document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('[data-stctl]'); if (!b) return; e.preventDefault(); e.stopPropagation(); onClick(b).catch(er => say(er.message, false)); }, true);
+  return { listHtml, partyHtml, itemsOf, version: '2026-10-22' };
 })();

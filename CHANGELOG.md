@@ -2,6 +2,17 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.16 (2026-10-22)
+
+- NPCs: a character always walks right in front of an NPC before clicking (learned standing spots shared by all characters, the NPC front, 8 spots around it, L2Swarm walker fallback) and never clicks from out of range
+- the failure now says could not get in front instead of did not answer (most did not answer cases were clicks from 250+ away, e.g. the Gift of Vitality priest in Giran)
+- Community Board: no Buffs click during a fight, a stuck in combat flag no longer blocks rebuffs, teleports or route walks (leader not rebuffing in town)
+- Party plan: a level step uses the party level override (party stayed at Seal of Shilen instead of ToI)
+- Hunting: a monster that takes no damage is dropped by self-defence too and the character steps away from it, a repeat no-damage target is skipped for 10 min
+- Spot map: keep-out zones are never picked as a hunting spot (the filter never matched)
+- Deploy: refuses while a character is in a regroup, supply run, trade or hand-over
+- new requirement docs/requirements/npc.md
+
 ## v1.8.15 (2026-10-22)
 
 - Soulshots and spiritshots have no limit any more in the supply amounts: give your characters whatever you want (any whole number, 0 or more)

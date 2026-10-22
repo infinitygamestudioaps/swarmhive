@@ -36,7 +36,7 @@ check(/giranServices\('after the gear purchases'\)/.test(SRC), '!gearup (the pla
 check(/async function giranServices[\s\S]{0,1600}pautoOn\('storeCov'\)[\s\S]{0,200}storeBuyBuff\(STORE_COV\.id, 'Party'/.test(SRC), 'services: COV for the party when storeCov is on');
 check(/async function giranServices[\s\S]{0,2400}pautoOn\('vitality'\)/.test(SRC), 'services: Gift of Vitality when its switch is on');
 check(/async function giranServices[\s\S]{0,400}lastSupplyAtGet\(\)/.test(SRC), 'services skipped right after a supply run (it did them)');
-check(/khRebuffMode\(buffDue && pautoOn\('storeCov'\), dpDue\) === 'giran'/.test(SRC) && /khGiranRebuffTrip\(why, solo\)\) return 'giran'/.test(SRC), 'KEEPHUNT rebuff -> Giran trip when storeCov / DP due');
+check(/khRebuffMode\(buffDue && pautoOn\('storeCov'\), dpDue \|\| bagFull\.length > 0\) === 'giran'/.test(SRC) && /khGiranRebuffTrip\(why, solo\)\) return 'giran'/.test(SRC), 'KEEPHUNT rebuff -> Giran trip when storeCov / DP due');
 check(/rb === 'giran'\) \{ lastPick = 0; autoLvl\.spot = null; continue; \}/.test(SRC), 'after the Giran trip the hunting loop picks its spot again (= travels straight back)');
 check(/else if \(autoLvl\.spot && !autoLvl\.spot\.manual\) \{[\s\S]{0,400}spotDeathsTooMany/.test(SRC), 'deadly-spot skip only for hive-picked spots (your dashboard choice is never skipped)');
 const PA = path.join(ROOT, 'Scripts', 'data', 'party_auto.json');

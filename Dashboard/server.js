@@ -1950,6 +1950,13 @@ try { require('./view3d_api').startRecorder(readStates); } catch (e) { }
 { const mi = () => { try { require('./mobignore_api').tick({ DATA, LOGS, mcpCall }).catch(() => { }); } catch (e) { } }; setTimeout(mi, 30000); setInterval(mi, 120000); }
 // WHAUTO-2026-10-16: the clan warehouse defaults (sell / crystallize) - one order per round while the collector is idle in Giran (switch in Scripts/data/wh_auto.json, default off)
 setInterval(() => { try { require('./whauto_api').tick({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, commandRun }).catch(() => { }); } catch (e) { } }, 60000);
+// AUTOFUND 2026-10-22 (owner: poor Flyt dwarves never got adena -> "Both"): Dashboard/autofund.js, fund_rules.json "share"; a hand-over order through our own /api/trade/order
+setInterval(() => { try {
+  const tctx = { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap };
+  require('./autofund').tick({ DATA, LOGS, readStates, swarmCfg: () => { try { return readJson(path.join(ROOT, 'swarm.config.json'), null); } catch (e) { return null; } },
+    recentOrders: () => require('./tradepage_api').recentOrders(tctx, 60),
+    post: (p, b) => fetch(`http://127.0.0.1:${PORT}${p}`, { method: 'POST', headers: { 'x-key': KEY, 'content-type': 'application/json' }, body: JSON.stringify(b) }).then(r => r.json()).catch(e => ({ error: String(e && e.message || e) })) }).catch(() => { });
+} catch (e) { } }, 180000);
 /** one line per send: how many of its characters picked the order up, and who still waits (and why) */
 function orderSummary(rs) {
   const by = {}; rs.forEach(r => { by[r.state] = (by[r.state] || 0) + 1; });
@@ -2914,7 +2921,7 @@ http.createServer(async (req, res) => {
       return json(res, 200, { name: d.name, levelRange: d.levelRange, catacomb: !!d.catacomb, bbox: d.bbox, mapLayers: d.mapLayers || [],
         floors: (d.floors || []).map(F => ({ name: F.name, z: F.z, levelRange: F.levelRange || null, safeSpots: F.safeSpots || [],
           rooms: (F.rooms || []).map(r => ({ id: r.id, name: r.name, center: r.center, radius: r.radius, poly: r.poly || null, zRange: r.zRange || null, levelRange: r.levelRange, suits: r.suitsPartyLevel,
-            quality: (r.polyInfo || {}).quality || null, added: !!r.added, monsters: (r.monsters || []).slice(0, 5).map(m => `${m.name} ${m.level}${m.aggressive ? ' (A)' : ''}${m.count > 1 ? ' x' + m.count : ''}`), reachable: !!r.route })),
+            quality: (r.polyInfo || {}).quality || null, added: !!r.added, mergedInto: r.mergedInto || undefined, enabled: r.enabled === false ? false : undefined, manual: r.manual === true || undefined, merged: (r.polyInfo || {}).merged || undefined, /* ROOMMERGE-2026-10-22 */ monsters: (r.monsters || []).slice(0, 5).map(m => `${m.name} ${m.level}${m.aggressive ? ' (A)' : ''}${m.count > 1 ? ' x' + m.count : ''}`), reachable: !!r.route })),
           // FLOOR LINKS (2026-10-09): the ways off this floor (teleporter NPC / stairs) for the Rooms tab
           links: (F.links || []).map(l => ({ to: l.to, toName: typeof l.to === 'number' ? (l.to < 0 ? 'outside' : ((d.floors[l.to] || {}).name || String(l.to))) : String(l.to), kind: l.kind, npc: l.npc ? l.npc.name : null,
             text: l.linkText || null, at: l.at || null, land: l.land || null, verified: l.verified, evidence: l.evidence || '', needs: l.needs || null })),

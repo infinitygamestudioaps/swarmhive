@@ -396,6 +396,13 @@ details.tact > summary b { color: var(--gold); }
 /* PBANNERS-PHONE 2026-10-14 (owner screenshot: the 'Running' line cut in half, 'Hunting …' cut after one line): on a phone the box grows with its
    lines (no inner scroll box, the bigger phone text never fits 58 px); the PC keeps the fixed height (no jumping cards in the grid) */
 @media (max-width: 700px) { .pbanners { height: auto; min-height: 58px; overflow: visible; } }
+/* PCOVERVIEW-2026-10-22 (owner screenshot: "Make this better overview on PC" - the Running line, the leader banner and its route line were squeezed
+   into a 58 px scroll box with an inner scrollbar, the 3rd line cut off): on a PC the strip grows with its lines too (everything readable at once,
+   no inner scroll), and Tactics + Hunting spot share ONE row (two columns) instead of two stacked rows */
+@media (min-width: 701px) { .pbanners { height: auto; min-height: 58px; overflow: visible; }
+  .pmeta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 0 10px; align-items: start; }
+  .pmeta > details.tact { margin-bottom: 8px; } }
+.pmeta { min-width: 0; }
 .castrow { display: flex; align-items: center; gap: 5px; min-width: 0; font-size: var(--fs-cap); }
 .castrow img.ic { width: 18px; height: 18px; flex: none; }
 .castbar { position: relative; flex: 1; min-width: 60px; height: 12px; background: #1b1610; border: 1px solid #5a4a2a; overflow: hidden; }
@@ -2054,18 +2061,22 @@ function heldBy(name, key) {
 function openSpotPicker(party, opt) {
   const lv = partyLevels(party);
   const cur0 = (opt && opt.cur) || ((PSPOT.data || {}).spots || {})[party] || {};
-  SPK = { forPlan: (opt && opt.forPlan) || null, cur: (opt && opt.cur) || null, party, lvl: lv, filter: '', all: false, stay: !!cur0.stay, moveOn: !!cur0.moveOn, dungeon: null, floor: 0, room: null, region: null, focus: null, sel: [], order: cur0.order === 'rotate' ? 'rotate' : 'nearest' };
+  SPK = { forPlan: (opt && opt.forPlan) || null, cur: (opt && opt.cur) || null, party, lvl: lv, filter: '', all: false, stay: !!cur0.stay, moveOn: !!cur0.moveOn, dungeon: null, floor: 0, room: null, region: null, focus: null, sel: [], order: cur0.order === 'rotate' ? 'rotate' : 'nearest', pv: window.L && window.SpotMap ? 'map' : 'list' };   /* pv = picker view (SPK.view belongs to the dungeon map) */   // SPOTMAP-2026-10-22: the full-screen map first
+  if (window.SpotMap) { SpotMap.destroy(); SpotMap._state.selFor = ''; }
+  document.documentElement.classList.add('spm-lock');   // SPOTMAP: full screen, no page scrollbar behind it
   loadPartySpots(true); loadSevenSigns(true); renderSpotPicker();
 }
 // PLANPICK-2026-10-17 (owner: "I should be able to change the plan" / "I dont see the room under plan"): the plan step editor opens this same picker; the choice goes back to the step, nothing is saved here
 window.openSpotPickerFor = (party, cur, cb, dungeon) => { openSpotPicker(party, { forPlan: cb, cur: cur || {} }); if (dungeon) openDungeonPick(dungeon); };
-function closeSpotPicker() { SPK = null; const o = $('spotov'); if (o) o.remove(); }
+function closeSpotPicker() { SPK = null; document.documentElement.classList.remove('spm-lock'); if (window.SpotMap) SpotMap.destroy(); const o = $('spotov'); if (o) o.remove(); }   // SPOTMAP: the Leaflet map is freed too
 function renderSpotPicker() {
   if (!SPK) return;
   let ov = $('spotov'); if (!ov) { ov = document.createElement('div'); ov.id = 'spotov'; ov.className = 'charov'; document.body.appendChild(ov); }
   ov.style.zIndex = SPK.forPlan ? '9500' : '';   // PLANPICK: above the plan window
   const d = PSPOT.data;
   if (!d) { ov.innerHTML = `<div class="spotbox"><div class="shead"><h2>Hunting spot · party ${esc(SPK.party)}</h2><button data-spkclose>Close</button></div><div class="muted">Loading… (the dashboard server needs a restart for this)</div></div>`; return; }
+  if (window.SpotMap && (SPK.region || SPK.dungeon || SPK.pv !== 'map')) SpotMap.destroy();   // SPOTMAP: leaving the map view
+  if (!SPK.region && !SPK.dungeon && SPK.pv === 'map' && window.SpotMap && window.L) { SpotMap.render(ov); return; }   // SPOTMAP-2026-10-22
   if (SPK.region) { const dm0 = ov.querySelector('.dmap'), sc = dm0 ? [dm0.scrollLeft, dm0.scrollTop] : null; ov.innerHTML = fieldPickHtml(); const dm1 = ov.querySelector('.dmap'); if (sc && dm1) { dm1.scrollLeft = sc[0]; dm1.scrollTop = sc[1]; } return; }   // FIELD AREAS (2026-10-08 22:45)
   if (SPK.dungeon) { const dm0 = ov.querySelector('.dmap'), sc = dm0 ? [dm0.scrollLeft, dm0.scrollTop] : null; ov.innerHTML = dungeonPickHtml(); const dm1 = ov.querySelector('.dmap'); if (sc && dm1) { dm1.scrollLeft = sc[0]; dm1.scrollTop = sc[1]; } return; }   // keep the phone map's scroll (mobile fix 2026-10-08)
   const { min, max } = SPK.lvl, f = SPK.filter.toLowerCase();
@@ -2082,7 +2093,7 @@ function renderSpotPicker() {
   const dp = (d.options.datapack || []).filter(s => match(s.name) && fits(s.levelMin, s.levelMax)).slice(0, 150)
     .map(s => row(`data-spkdp="${esc(s.name)}"`, s.levelMin + '–' + s.levelMax, s.name, `<span class="muted">${esc(s.via)} · ${s.mobs} monsters</span> ${heldBy(s.name)}`)).join('');
   ov.innerHTML = `<div class="spotbox"><div class="shead"><h2>${SPK.forPlan ? "Plan step place" : "Hunting spot"} · party ${esc(SPK.party)} <span class="muted">(lvl ${min}–${max})</span></h2>
-      <button data-spkauto>Auto (the leader picks)</button><button data-spkclose>Close</button></div>
+      ${window.SpotMap && window.L ? '<button data-spmview="map">← Map</button>' : ''}<button data-spkauto>Auto (the leader picks)</button><button data-spkclose>Close</button></div>
     <div class="shead"><input type="search" id="spkq" placeholder="search…" value="${esc(SPK.filter)}"><label class="chk"><input type="checkbox" id="spkall"${SPK.all ? ' checked' : ''}> all levels</label>
       <label class="chk" title="Stay even when other players hunt there"><input type="checkbox" id="spkstay"${SPK.stay ? ' checked' : ''}> stay even if occupied</label> <label class="chk" title="When the party's lowest level is more than 3 above the monsters here, go back to auto and find a better place (user 2026-10-09)"><input type="checkbox" id="spkmoveon"${SPK.moveOn ? ' checked' : ''}> move on when outgrown</label>
       <span class="muted">now: ${esc(spotLabel(cur))}</span></div>
@@ -2190,7 +2201,7 @@ function dungeonPickHtml() {
   const ssg = m.catacomb || ssDungeonName(m.name) ? ssGateParty(SPK.party, m.name) : null;
   const ssBanner = m.catacomb || ssDungeonName(m.name) ? `<div class="shead">${ssChipWhy(ssg, true)} <span class="muted">Way in: only the Gatekeeper Ziggurat (every member uses it); every member must be signed up with the Seven Signs (always Dawn).</span></div>` : '';
   return `<div class="spotbox"><div class="shead"><h2>${esc(m.name)} · party ${esc(SPK.party)} <span class="muted">(lvl ${SPK.lvl.min}–${SPK.lvl.max})</span></h2>
-      <button data-spkback>← List</button><button data-spkany>Any free room</button><button data-spkclose>Close</button></div>${ssBanner}
+      <button data-spkback>← ${SPK.pv === 'map' ? 'Map' : 'List'}</button><button data-spkany>Any free room</button><button data-spkclose>Close</button></div>${ssBanner}
     <div class="shead">${m.floors.map((f, i) => `<button data-spkfloor="${i}"${i === SPK.floor ? ' class="on"' : ''}>${esc(f.name)}${f.levelRange ? ' (' + f.levelRange.join('–') + ')' : ''}</button>`).join('')}
       <label class="chk"><input type="checkbox" id="spkstay"${SPK.stay ? ' checked' : ''}> stay even if occupied</label> <label class="chk" title="When the party's lowest level is more than 3 above the monsters here, go back to auto and find a better place (user 2026-10-09)"><input type="checkbox" id="spkmoveon"${SPK.moveOn ? ' checked' : ''}> move on when outgrown</label></div>
     ${selbar}<div class="dmaphint">Drag inside the map to see all of it · tap rooms to choose them.</div><div class="dmap"><svg viewBox="${x0} ${y0} ${W} ${H}" preserveAspectRatio="xMidYMid meet"><rect x="${x0}" y="${y0}" width="${W}" height="${H}" fill="#0d2a33"/>${imgs}${over}</svg></div>
@@ -2324,7 +2335,7 @@ function fieldPickHtml() {
       ${heldBy('', 'area:' + A.id)}<div class="act"><button class="rv-routebtn" data-rvopen="area:${esc(A.id)}" data-rvtitle="Route to ${esc(A.name)}" data-rvparty="${esc(SPK.party)}" title="the computed path, your own route and which one the bots use">Route ›</button></div>` : '<span class="muted">Tap areas to choose them (tap again = remove). The party hunts the first one and moves on to the next when an area has had no monster for ~35 s, when other players hunt there, or when another of our parties takes it.</span>';
   const selbar = selBarHtml((SPK.sel || []).map(id => { const a = areas.find(x => x.id === id); return { id, t: a ? `area ${a.n} (${a.levelRange.join('-')})` : id }; }), 'area', 'green');
   return `<div class="spotbox"><div class="shead"><h2>${esc(m.name)} · party ${esc(SPK.party)} <span class="muted">(lvl ${L}–${Lx})</span></h2>
-      <button data-spkback>← List</button><button data-spkclose>Close</button>
+      <button data-spkback>← ${SPK.pv === 'map' ? 'Map' : 'List'}</button><button data-spkclose>Close</button>
       <label class="chk"><input type="checkbox" id="spkstay"${SPK.stay ? ' checked' : ''}> stay even if occupied</label> <label class="chk" title="When the party's lowest level is more than 3 above the monsters here, go back to auto and find a better place (user 2026-10-09)"><input type="checkbox" id="spkmoveon"${SPK.moveOn ? ' checked' : ''}> move on when outgrown</label></div>
     <div class="fitkey"><span><i style="background:#5fd35f"></i>fits</span><span><i style="background:#e3c27a"></i>close (±3)</span><span><i style="background:#8a8a8a"></i>too low</span><span><i style="background:#d9534f"></i>too high</span><span><i style="background:#ff5a45"></i>other players</span><span>party colour = one of our parties</span><span style="color:#28c850">⛊ safe spot</span><span style="color:#9fd0ff">◆ landing</span><span><i style="background:#4a4a4a"></i>dashed grey = not reachable (no landing within the 25k walk limit; tap for why)</span></div>
     ${selbar}<div class="dmaphint">Drag inside the map to see all of it · tap areas to choose them.</div><div class="dmap"><svg viewBox="${x0} ${y0} ${W} ${H}" preserveAspectRatio="xMidYMid meet"><rect x="${x0}" y="${y0}" width="${W}" height="${H}" fill="#0d2a33"/>${imgs}${over}</svg></div>
@@ -2354,6 +2365,7 @@ document.addEventListener('click', (e) => {
   if (t.closest('[data-spkclose]') || t.id === 'spotov') { closeSpotPicker(); return; }
   if (t.closest('[data-spkauto]')) { saveSpot({ mode: 'auto' }, 'Auto (the leader picks)'); return; }
   if (t.closest('[data-spkback]')) { SPK.dungeon = null; SPK.region = null; SPK.sel = []; renderSpotPicker(); return; }
+  { const vw = t.closest('[data-spmview]'); if (vw) { SPK.pv = vw.dataset.spmview; renderSpotPicker(); return; } }   // SPOTMAP: map <-> list
   if (spkSelClick(t)) return;                                                         // several rooms / field areas (2026-10-08 22:45)
   const fl = t.closest('[data-spkfloor]'); if (fl) { SPK.floor = +fl.dataset.spkfloor; SPK.room = null; renderSpotPicker(); return; }
   const rm = t.closest('[data-room]'); if (rm) { SPK.room = rm.dataset.room; spkToggle(rm.dataset.room); renderSpotPicker(); return; }   // tap = choose / remove (numbered)
@@ -2417,8 +2429,8 @@ function renderParties() {
       ${queue}</div>
       ${window.ResPanel ? ResPanel.partyHtml(leader, list) : ''}<!-- RESURRECTION 2026-10-13: dead members + who raises them + Res all dead -->
       ${window.PurseCard ? PurseCard.partyHtml(leader, list) : ''}<!-- PURSE 2026-10-13: 'Needs you' card (Dashboard/partysettings.js PurseCard), below the fixed-height banner strip: a member cannot afford its gear while 'Leader pays' is off -->
-      ${tacticsHtml(leader, list)}
-      ${spotPickHtml(leader, list)}
+      <div class="pmeta">${tacticsHtml(leader, list)}<div class="pmeta-spot">${spotPickHtml(leader, list)}</div></div><!-- PCOVERVIEW-2026-10-22: one row on a PC -->
+      ${window.StateCtl ? StateCtl.partyHtml(leader, list) : ''}<!-- STATECTL-2026-10-22: the State of every member + whole-party reset -->
       <div class="pwrap">${partyMap(leader, list)}<div class="members">${list.map(memberRow).join('')}${ghostRows(leader, list)}</div></div></div>`;
   }).join('') || '<div class="win muted">No characters are reporting yet. Is L2Swarm running with swarm.js loaded?</div>');
 }
@@ -5247,5 +5259,782 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/soulplan.css">
 <script src="/soullogic.js"></script>
 <script src="/soulplan.js"></script>
+<!-- SPOTMAP-2026-10-22 (owner: '"Hunting spot" needs to have a map, this map needs to be able to zoom into areas and select hunting spots and create
+     my own' + 'full width and height'; round 2: 'select ALL of the map and all hunting spots ALSO the ones that is not my level with colors ... select a
+     dungeon and then go to different levels of the dungeon and select areas or rooms ... create my own hunting areas by setting points on the map when i
+     zoom in ... show the spawn of the monsters AND it should be possible to exclude obstacles'). The party card's "Choose…" opens a FULL-SCREEN world map
+     (Leaflet, the Map tab's tiles + the sharp /minitile pieces when zoomed in):
+       - EVERY hunting ground / area / dungeon / own zone / datapack spot, coloured by fit to the party level (nothing hidden; a pick above the level gets
+         the list's level warning + override through saveSpot -> spotChoiceChecks: warn, never refuse);
+       - areas of SEVERAL hunting grounds in one choice (party_spots.json kind 'field' + areaIds: swarm.js multiTargets looks every area up by its own id
+         in field_areas.json - no swarm.js / server change; region = the first area's hunting ground, used as the label only);
+       - a dungeon = its floors as tabs INSIDE the map (floor art /icons/floormaps incl. the ToI in-between levels g<i>), rooms on any floor, several across
+         floors (kind 'rooms' + roomIds, like the room map);
+       - Draw my own spot at any zoom: tap = a corner, drag a corner, tap a corner + "Delete point", tap the small middle handle of an edge = a new corner
+         there; inside a dungeon floor the zone gets the floor band ({ floor: { name, zMin, zMax } }, points with z) -> POST /api/zones ({x,y,z} points);
+       - monster spawns from /api/spawnsin (spawns_h5 + npcs_h5 + aggro_h5, max 60k box, 2500 points; the floor band inside a dungeon) from zoom 1 on,
+         clustered per 26 px: aggressive = filled, passive = ring, colour = level vs the party; tap = names, levels, count;
+       - Keep out: polygons inside a spot = custom zone `holes` ({x,y,z?} polygons, swarm.js inZoneHole: monsters inside are never fought). An own zone
+         keeps them in its own holes; for chosen areas / rooms they go into the party's "Keep out · <party>" zone (note KEEPOUT, levels 99-99, never a
+         hunting spot: swarm.js KEEPOUT-2026-10-22 guard in pickSpot, deploy needed for that one line).
+     Inline in index.html (served fresh: no server restart). Test: docs/plan/tools/test_spotpicker_map.js -->
+<style>
+html.spm-lock, html.spm-lock body { overflow: hidden; }
+#spotov.charov { padding: 0; align-items: stretch; }
+#spotov .spotbox { max-width: none; width: 100vw; min-height: 100vh; border: 0; border-radius: 0; display: flex; flex-direction: column; }
+#spotov .spotlist { max-height: none; flex: 1 1 auto; overflow: auto; }
+#spotov .dmap svg { max-height: calc(100vh - 230px); }
+#spotov .spotbox.spm { height: 100vh; height: 100dvh; padding: 0; overflow: hidden; }
+.spm-head { flex: none; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line2, #555); background: var(--panel, #1b1a16); }
+.spm-head h2 { margin: 0 6px 0 0; font-size: var(--fs-title); }
+.spm-now { font-size: var(--fs-cap); color: var(--muted, #999); min-width: 0; overflow-wrap: anywhere; }
+.spm-search { position: relative; flex: 1 1 200px; min-width: 0; max-width: 420px; }
+.spm-search input { width: 100%; box-sizing: border-box; min-height: 34px; }
+.spm-res { position: absolute; top: 100%; left: 0; right: 0; z-index: 1200; background: var(--panel, #1b1a16); border: 1px solid var(--line2, #555); max-height: 50vh; overflow: auto; }
+.spm-res:empty { display: none; }
+.spm-res button { display: flex; width: 100%; gap: 8px; align-items: center; text-align: left; padding: 7px 9px; border: 0; border-bottom: 1px solid rgba(255,255,255,.06); background: transparent; color: inherit; min-height: 40px; border-image: none; }
+.spm-res button:hover { background: rgba(227,194,122,.12); }
+.spm-res .k { font-size: var(--fs-mini); color: var(--muted, #999); margin-left: auto; white-space: nowrap; }
+.spm-dunbar { flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; padding: 6px 10px; border-bottom: 1px solid var(--line2, #555); background: #15140f; }
+.spm-dunbar:empty { display: none; }
+.spm-dunbar b { color: var(--gold, #e3c27a); margin-right: 4px; }
+.spm-dunbar button.on { background: #6d4f16; color: #ffe08a; }
+.spm-dunbar button.gap { font-style: italic; opacity: .85; }
+.spm-main { flex: 1 1 auto; position: relative; min-height: 0; }
+#spmMap { position: absolute; inset: 0; background: #0d2a33; }
+#spmMap.dun { background: #111316; }
+.spm-tools { position: absolute; top: 10px; right: 10px; z-index: 800; display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
+.spm-tools button { min-height: 38px; min-width: 38px; }
+.spm-tools .spm-zb { font: 700 20px/1 Tahoma, sans-serif; }
+.spm-tools button.on { background: #6d4f16; color: #ffe08a; }
+.spm-tools .gi { width: 16px; height: 16px; vertical-align: -3px; }
+.spm-key { position: absolute; left: 10px; bottom: 10px; z-index: 800; background: rgba(15,14,11,.86); border: 1px solid var(--line2, #555); padding: 4px 8px; font-size: var(--fs-mini); max-width: calc(100% - 20px); }
+.spm-key summary { cursor: pointer; color: var(--gold, #e3c27a); min-height: 26px; display: flex; align-items: center; }
+.spm-key .row { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 4px 0 2px; }
+.spm-key i { display: inline-block; width: 11px; height: 11px; vertical-align: -1px; margin-right: 4px; border: 1px solid #000; }
+.spm-key i.ring { background: transparent !important; border: 2px solid #5fd35f; border-radius: 50%; }
+.spm-key i.dot { border-radius: 50%; }
+.spm-info { position: absolute; left: 10px; top: 10px; z-index: 800; width: min(430px, calc(100% - 80px)); max-height: calc(100% - 70px); overflow: auto; background: rgba(20,19,15,.95); border: 1px solid var(--line2, #555); padding: 8px 10px; box-shadow: 0 6px 20px rgba(0,0,0,.5); }
+.spm-info[hidden] { display: none; }
+.spm-info h3 { margin: 0 0 4px; font-size: var(--fs-section, 14px); color: var(--gold, #e3c27a); display: flex; align-items: center; gap: 6px; }
+.spm-info .act { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.spm-info label { display: flex; flex-direction: column; gap: 2px; font-size: var(--fs-cap); margin: 4px 0; }
+.spm-info .lv2 { display: flex; gap: 8px; }
+.spm-info .lv2 input { width: 70px; }
+.spm-info .mobs { margin: 4px 0 0; padding: 0; list-style: none; font-size: var(--fs-cap); }
+.spm-info .mobs li { display: flex; gap: 6px; padding: 2px 0; border-bottom: 1px dashed rgba(255,255,255,.07); }
+.spm-info .mobs li .n { margin-left: auto; color: var(--muted, #999); }
+.spm-bar { flex: none; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 10px; border-top: 1px solid var(--line2, #555); background: var(--panel, #1b1a16); }
+.spm-bar .go { font-weight: 700; }
+.spm-bar .selchips { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+.spm-bar .spm-what { font-size: var(--fs-cap); color: var(--muted, #999); }
+.spm-lblw { background: none; border: 0; }
+.spm-lbl { display: inline-block; white-space: nowrap; transform: translate(-50%, -50%); font: 700 11px/1.15 Tahoma, sans-serif; color: #fff; text-align: center; text-shadow: 0 0 3px #000, 0 0 2px #000, 1px 1px 0 #000; pointer-events: none; }
+.spm-lbl small { display: block; font-weight: 400; font-size: 10px; color: #e8e2cf; }
+.spm-lbl.reg { font-size: 12px; }
+.spm-lbl.area { font-size: 10px; }
+.spm-num { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #fff; color: #000; font: 700 12px/1 Tahoma, sans-serif; border: 1px solid #000; transform: translate(-50%, -50%); pointer-events: none; }
+.spm-dun { display: flex; align-items: center; gap: 4px; transform: translate(-12px, -12px); white-space: nowrap; cursor: pointer; }
+.spm-dun img { width: 22px; height: 22px; border: 1px solid #000; background: #222; box-shadow: 0 0 0 2px rgba(255,255,255,.75); border-radius: 3px; }
+.spm-dun span { font: 700 11px/1.1 Tahoma, sans-serif; color: #fff; text-shadow: 0 0 3px #000, 0 0 2px #000; }
+.spm-dun span small { display: block; font-weight: 400; font-size: 10px; color: #e8e2cf; }
+.spm-dun.cur img { box-shadow: 0 0 0 3px #fff, 0 0 10px #fff; }
+.spm-vtx { width: 16px; height: 16px; border-radius: 50%; background: #ffe08a; border: 2px solid #000; transform: translate(-8px, -8px); cursor: grab; box-sizing: border-box; }
+.spm-vtx.sel { background: #ff7a5a; width: 20px; height: 20px; transform: translate(-10px, -10px); box-shadow: 0 0 0 3px #fff; }
+.spm-vtx.ko { background: #ff8f7f; }
+.spm-mid { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,224,138,.45); border: 2px solid rgba(0,0,0,.7); transform: translate(-6px, -6px); cursor: copy; box-sizing: border-box; }
+.spm-clu { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; font: 700 10px/1 Tahoma, sans-serif; color: #000; border: 2px solid #000; transform: translate(-50%, -50%); cursor: pointer; box-sizing: border-box; }
+.spm-clu.pas { background: rgba(20,20,20,.75) !important; color: #fff; }
+#spmMap.drawing { cursor: crosshair; }
+#spmMap .leaflet-interactive { cursor: pointer; }
+#spmMap.drawing .leaflet-interactive { cursor: crosshair; }
+/* while drawing every tap goes to the map itself (shapes are rebuilt when data arrives: a tap on a shape being replaced was lost) - corners + edge handles stay tappable */
+#spmMap.drawing .leaflet-overlay-pane path, #spmMap.drawing .leaflet-spmMobs-pane *, #spmMap.drawing .leaflet-marker-pane .spm-dun, #spmMap.drawing .leaflet-spmMobs-pane .spm-clu { pointer-events: none !important; }
+@media (max-width: 640px) {
+  .spm-head h2 { font-size: var(--fs-section, 14px); flex: 1 1 100%; }
+  .spm-search { flex: 1 1 100%; max-width: none; order: 5; }
+  .spm-tools { top: 6px; right: 6px; left: 6px; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 4px; pointer-events: none; }
+  .spm-tools button { pointer-events: auto; min-height: 36px; min-width: 36px; padding: 2px 8px; font-size: var(--fs-mini, 11px); }
+  .spm-tools .spm-zb { font-size: 18px; }
+  .spm-info { left: 6px; top: 90px; width: calc(100% - 12px); max-height: 46%; }
+  .spm-key .row { gap: 3px 8px; }
+}
+</style>
+<script>
+// =========================================================================================== SPOTMAP-2026-10-22 (round 2)
+const SPM = { map: null, groups: null, tiles: [], fm: {}, fmBusy: 0, zones: null, zonesAt: 0, zonesBusy: false, sel: null, selFor: '', edit: null, info: null, res: [],
+  dun: null, dunBusy: false, fmIdx: null, spawn: { key: '', busy: false, list: [], at: 0 }, focusReg: '', focusDun: '', drawT: 0 };
+const SPM_EMPTY = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+const SPM_KEEP = (party) => 'Keep out · ' + party;
+const spmLL = (x, y) => [y, x];                                   // Leaflet CRS.Simple: lat = game y (south = down), lng = game x (the Map tab's way)
+function spmDestroy() { try { if (SPM.map) SPM.map.remove(); } catch (e) { } SPM.map = null; SPM.groups = null; SPM.tiles = []; SPM.edit = null; SPM.info = null; SPM.spawn.key = ''; }
+/** fit of a level range for the party: fit | near (+-3) | low (too easy) | high (too hard) — the same colours as the region / dungeon maps */
+function spmFit(a, b, L, Lx) { if (L < a - 3) return 'high'; if (L >= a && L <= b) return 'fit'; if (L >= a - 3 && L <= b + 3) return 'near'; return 'low'; }
+function spmMobCol(l) { const L = SPK ? SPK.lvl.min : 1; return l > L + 6 ? '#d9534f' : l > L + 2 ? '#ff9f40' : l >= L - 4 ? '#5fd35f' : '#8a8a8a'; }
+function spmCur() { return (SPK && (SPK.cur || ((PSPOT.data || {}).spots || {})[SPK.party])) || {}; }
+function spmIc(k) { return typeof GI === 'function' && typeof UI !== 'undefined' && UI[k] ? GI(UI[k], 'sm') : ''; }
+function spmInitSel() {
+  const c = spmCur();
+  if (c.mode !== 'manual') return null;
+  if (c.kind === 'field') return { kind: 'field', ids: (c.areaIds || []).slice(), regionOf: {} };
+  if (c.kind === 'rooms' && c.roomId !== 'any') return { kind: 'rooms', dungeon: c.dungeon, ids: (Array.isArray(c.roomIds) && c.roomIds.length ? c.roomIds : c.roomId ? [c.roomId] : []).slice() };
+  if (c.kind === 'zone') return { kind: 'zone', name: c.spot };
+  if (c.kind === 'datapack') return { kind: 'datapack', name: c.spot };
+  return null;
+}
+function spmShell() {
+  return `<div class="spotbox spm" role="dialog" aria-label="Hunting spot map">
+    <div class="spm-head"><h2>${spmIc('map')} ${SPK.forPlan ? 'Plan step place' : 'Hunting spot'} · party ${esc(SPK.party)} <span class="muted">(lvl ${SPK.lvl.min}–${SPK.lvl.max})</span></h2>
+      <span class="spm-now" id="spmNow"></span>
+      <div class="spm-search"><input type="search" id="spmq" placeholder="find a place (hunting ground, dungeon, zone)…" autocomplete="off" aria-label="find a place"><div class="spm-res" id="spmRes"></div></div>
+      <button data-spmview="list" title="the old list of every place">List</button><button data-spkauto>Auto (the leader picks)</button><button data-spkclose>Close</button></div>
+    <div class="spm-dunbar" id="spmDun"></div>
+    <div class="spm-main"><div id="spmMap"></div>
+      <div class="spm-tools"><button class="spm-zb" data-spmzoom="1" title="zoom in" aria-label="zoom in">+</button><button class="spm-zb" data-spmzoom="-1" title="zoom out" aria-label="zoom out">−</button>
+        <button data-spmfit="party" title="show the party">Party</button><button data-spmfit="spots" title="show every place that fits the party">Fitting spots</button>
+        <button data-spmmobs class="on" title="monster spawns (from zoom level 1)">${spmIc('attack')} Monsters</button>
+        <button data-spmdraw title="draw your own hunting spot: tap the corners">${spmIc('map')} Draw my own spot</button>
+        <button data-spmkeep title="draw a keep-out area inside your spot: monsters there are never fought">${spmIc('warn')} Keep out</button></div>
+      <details class="spm-key"><summary>Colours</summary><div class="row"><span><i style="background:#5fd35f"></i>fits</span><span><i style="background:#e3c27a"></i>close (±3)</span><span><i style="background:#8a8a8a"></i>too low</span><span><i style="background:#d9534f"></i>too high</span><span><i style="background:#ff5a45"></i>other players</span><span><i style="background:#3b82f6"></i>one of our parties</span><span><i style="background:#ffffff"></i>chosen</span><span><i style="background:#c38bd0"></i>datapack spot</span><span><i style="background:#5aa9ff"></i>your own zone</span><span><i style="background:#ff2b2b"></i>keep out</span><span><i class="dot" style="background:#5fd35f"></i>aggressive monsters</span><span><i class="ring"></i>passive monsters</span><span>squares = dungeons</span></div></details>
+      <div class="spm-info" id="spmInfo" hidden></div></div>
+    <div class="spm-bar" id="spmBar"></div></div>`;
+}
+function spmInit(ov) {
+  const el = ov.querySelector('#spmMap'); if (!el || !window.L) return;
+  const crs = L.extend({}, L.CRS.Simple, { transformation: new L.Transformation(1 / 128, 20 * 256, 1 / 128, 18 * 256) });
+  const R = 32768, bounds = [[(10 - 18) * R, (11 - 20) * R], [(26 - 18) * R, (27 - 20) * R]];
+  const map = SPM.map = L.map(el, { crs, minZoom: -3, maxZoom: 5, zoomSnap: 0.25, zoomDelta: 0.5, wheelPxPerZoomLevel: 90, attributionControl: false, zoomControl: false, center: [44500, -120000], zoom: -1, maxBounds: L.latLngBounds(bounds).pad(0.2), preferCanvas: false });
+  const world = L.tileLayer('/maptiles/{x}_{y}.jpg', { tileSize: 256, minZoom: -3, maxZoom: 5, minNativeZoom: 0, maxNativeZoom: 0, noWrap: true, keepBuffer: 1, bounds, errorTileUrl: SPM_EMPTY }).addTo(map);
+  // sharp pieces when zoomed in: /minitile/<X>_<Y>_<col>_<row>.jpg = 8192 units each (the character mini-map's pieces; made on first use)
+  const Mini = L.TileLayer.extend({ getTileUrl(c) { const gx = c.x - 80, gy = c.y - 72, RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18; return `/minitile/${RX}_${RY}_${gx - Math.floor(gx / 4) * 4}_${gy - Math.floor(gy / 4) * 4}.jpg`; } });
+  const mini = new Mini('', { tileSize: 256, minZoom: 1, maxZoom: 5, minNativeZoom: 2, maxNativeZoom: 2, noWrap: true, keepBuffer: 0, bounds, errorTileUrl: SPM_EMPTY }).addTo(map);
+  SPM.tiles = [world, mini];
+  map.createPane('spmMobs'); map.getPane('spmMobs').style.zIndex = 390;   // UNDER the areas / rooms (overlayPane 400): a tap inside one selects it; dots outside stay tappable
+  map.createPane('spmEdit'); map.getPane('spmEdit').style.zIndex = 650;
+  SPM.groups = { floor: L.layerGroup().addTo(map), regions: L.layerGroup().addTo(map), zones: L.layerGroup().addTo(map), areas: L.layerGroup().addTo(map), rooms: L.layerGroup().addTo(map), holes: L.layerGroup().addTo(map), dp: L.layerGroup().addTo(map), dun: L.layerGroup().addTo(map), mobs: L.layerGroup().addTo(map), party: L.layerGroup().addTo(map), edit: L.layerGroup().addTo(map), labels: L.layerGroup().addTo(map) };
+  let t = 0; const later = () => { clearTimeout(t); t = setTimeout(() => { spmLayers(); spmMobs(); }, 140); };
+  map.on('moveend zoomend', later);
+  map.on('click', (e) => { if (spmEditTap(e)) return; spmHitRun(e); });
+  setTimeout(() => { try { map.invalidateSize(); spmStartView(); spmLayers(); spmMobs(); } catch (e) { } }, 30);
+  if (!SPM._mf) { SPM._mf = true; window.addEventListener('mapfloors:ready', () => { if (SPM.map) spmLayers(); }); }
+}
+function spmStartView() {
+  const map = SPM.map, d = PSPOT.data || {}, s = SPM.sel, c = spmCur();
+  if (s && s.kind === 'field' && s.ids.length) { const a = spmAreaAny(s.ids[0]); if (a && a.center) { map.setView(spmLL(a.center[0], a.center[1]), 0.75); return; } const r = (d.options.regions || []).find(x => String(s.ids[0]).indexOf(x.id + '-') === 0); if (r && r.center) { map.setView(spmLL(r.center[0], r.center[1]), 0.75); return; } }
+  if (s && (s.kind === 'zone' || s.kind === 'datapack')) { const z = s.kind === 'zone' ? (d.options.zones || []).find(x => x.name === s.name) : (d.options.datapack || []).find(x => x.name === s.name); if (z && isFinite(z.x)) { map.setView(spmLL(z.x, z.y), 0.75); return; } }
+  if (s && s.kind === 'rooms' && s.dungeon) { const dn = (d.options.dungeons || []).find(x => x.name === s.dungeon); if (dn) { spmOpenDungeon(dn.name); return; } }
+  if (!spmFitParty()) spmFitSpots();
+}
+function spmPartyChars() { return ((STATE && STATE.chars) || []).filter(ch => ch.party === SPK.party && isFinite(ch.x) && isFinite(ch.y) && ch.ageSec < 3600); }
+function spmFitParty() { const P = spmPartyChars(); if (!P.length || !SPM.map) return false; const lead = P.find(ch => ch.name === SPK.party) || P[0]; SPM.map.setView(spmLL(lead.x, lead.y), 0); return true; }
+function spmFitSpots() {
+  if (!SPM.map) return; const d = PSPOT.data || {}, { min, max } = SPK.lvl, pts = [];
+  (d.options.regions || []).forEach(r => { if (r.center && r.levelRange && spmFit(r.levelRange[0], r.levelRange[1], min, max) === 'fit') pts.push(spmLL(r.center[0], r.center[1])); });
+  if (pts.length) SPM.map.fitBounds(L.latLngBounds(pts).pad(0.15)); else SPM.map.setView([44500, -120000], -2);
+}
+/** a dungeon's middle from the floor model (Dashboard/mapfloors.js, /api/mapfloors): { x, y } | null */
+function spmDunBox(name) {
+  const M = window.MapFloors && MapFloors.get ? MapFloors.get() : null; if (!M) return null;
+  const k = String(name || '').toLowerCase(), dd = (M.dungeons || []).find(x => String(x.name || '').toLowerCase() === k); if (!dd || !Array.isArray(dd.bbox)) return null;
+  return { x: (dd.bbox[0] + dd.bbox[1]) / 2, y: (dd.bbox[2] + dd.bbox[3]) / 2 };
+}
+/** /api/zones (our own zones with their drawn outline + keep-out holes), cached 60 s */
+function spmZones(force) {
+  if (SPM.zonesBusy || (!force && SPM.zones && Date.now() - SPM.zonesAt < 60000)) return SPM.zones || [];
+  SPM.zonesBusy = true;
+  api('/api/zones').then(r => { SPM.zones = (r && r.zones) || []; SPM.zonesAt = Date.now(); if (SPM.map) spmLayers(); }).catch(() => { }).finally(() => { SPM.zonesBusy = false; });
+  return SPM.zones || [];
+}
+/** a hunting ground's areas (/api/fieldmap, cached; at most 3 loads at a time) */
+function spmFm(id) {
+  const c = SPM.fm[id]; if (c) return c.m;
+  if (SPM.fmBusy >= 3) return null;
+  SPM.fm[id] = { at: Date.now(), m: null }; SPM.fmBusy++;
+  api('/api/fieldmap?id=' + encodeURIComponent(id)).then(m => { if (m && !m.error) SPM.fm[id].m = m; else delete SPM.fm[id]; }).catch(() => { delete SPM.fm[id]; })
+    .finally(() => { SPM.fmBusy--; if (SPM.map) { clearTimeout(SPM.drawT); SPM.drawT = setTimeout(() => { spmLayers(); spmBar(); }, 80); } });
+  return null;
+}
+/** an area (any hunting ground) by id, from the loaded hunting grounds: { ...area, regionId, regionName } | null */
+function spmAreaAny(id) {
+  for (const k of Object.keys(SPM.fm)) { const m = SPM.fm[k].m; if (!m) continue; const a = (m.areas || []).find(x => x.id === id); if (a) return Object.assign({ regionId: m.id || k, regionName: m.name || k }, a); }
+  return null;
+}
+function spmRegionOfArea(id) { const rs = ((PSPOT.data || {}).options || {}).regions || []; return rs.filter(r => String(id).indexOf(r.id + '-') === 0).sort((a, b) => b.id.length - a.id.length)[0] || null; }
+// TAPS (2026-10-22, test: a tap on a shape that was being replaced by a data refresh was lost): shapes are drawn non-interactive; the map takes
+// every tap and asks this hit list (rebuilt with the layers, swapped in one go) which place is under it: markers first, then keep-out, areas /
+// rooms, zones, monster dots. A drag is never a tap (Leaflet sends no click after a drag).
+function spmHitAdd(list, prio, test, act) { list.push({ prio, test, act }); }
+function spmPx(x, y) { return SPM.map.latLngToContainerPoint(spmLL(x, y)); }
+function spmNearPx(x, y, r) { return (ll, pt) => { const p = spmPx(x, y); return Math.hypot(p.x - pt.x, p.y - pt.y) <= r; }; }
+function spmInside(P) { const Q = P.map(p => ({ x: +p[0], y: +p[1] })); return (ll) => spmInPoly(ll.lng, ll.lat, Q); }
+function spmHitRun(e) {
+  const pt = SPM.map.latLngToContainerPoint(e.latlng), L2 = (SPM.hit || []).concat(SPM.hitMobs || []).sort((a, b) => a.prio - b.prio);
+  for (const h of L2) { let yes = false; try { yes = h.test(e.latlng, pt); } catch (er) { } if (yes) { h.act(); return true; } }
+  return false;
+}
+function spmLabel(x, y, html, cls) { return L.marker(spmLL(x, y), { interactive: false, keyboard: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-lbl ${cls || ''}">${html}</span>` }) }); }
+function spmNum(x, y, n) { return L.marker(spmLL(x, y), { interactive: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-num" style="margin-top:-22px">${n}</span>` }) }); }
+/** while drawing: a tap anywhere (on a shape too) = a corner. true = it was a drawing tap */
+function spmEditTap(e) {
+  if (!SPM.edit) return false; try { L.DomEvent.stop(e); } catch (er) { }
+  SPM.edit.pts.push([Math.round(e.latlng.lng), Math.round(e.latlng.lat)]); SPM.edit.sel = -1; spmEditShape(); spmInfoEdit(); return true;
+}
+// =========================================================================================== layers
+function spmLayers() {
+  const map = SPM.map; if (!map || !SPK || !SPM.groups) return;
+  const G = SPM.groups; Object.keys(G).forEach(k => { if (k !== 'edit' && k !== 'mobs') G[k].clearLayers(); });
+  const HIT = []; SPM.hit = HIT;
+  if (SPM.dun) { spmDunLayers(HIT); return; }
+  SPM.tiles.forEach(t => { if (!map.hasLayer(t)) t.addTo(map); });
+  const d = PSPOT.data || {}, o = d.options || {}, { min, max } = SPK.lvl, z = map.getZoom(), B = map.getBounds().pad(0.35);
+  const claims = d.claims || [], occ = d.occupied || [], s = SPM.sel, c = spmCur();
+  const inB = (x, y) => B.contains(spmLL(x, y));
+  // --- our own zones FIRST = under the hunting-ground areas (an area tap wins over a big zone around it; the zone stays tappable outside them)
+  const Z = spmZones(false), zinfo = {}; (o.zones || []).forEach(x => { zinfo[x.name] = x; });
+  Z.forEach(zn => {
+    if (/^KEEPOUT\b/.test(String(zn.note || ''))) return;                    // keep-out carriers: only their holes are drawn (below)
+    const zi = zinfo[zn.name] || zn, lvA = +zi.levelMin || 1, lvB = +zi.levelMax || 99, fit = spmFit(lvA, lvB, min, max);
+    const sel = s && s.kind === 'zone' && s.name === zn.name, cur = c.kind === 'zone' && c.spot === zn.name;
+    if (!isFinite(zn.x) || !inB(zn.x, zn.y) || zn.floor) return;             // a dungeon-floor zone shows on its floor
+    const off = zi.enabled === false, col = sel ? '#fff' : off ? '#777' : '#5aa9ff';
+    const opt = { color: col, weight: sel ? 3 : cur ? 2.5 : 1.6, fillColor: off ? '#777' : '#5aa9ff', fillOpacity: sel ? 0.4 : 0.16, dashArray: off ? '6 5' : null, interactive: false };
+    const P = spmPolyOf(zn.poly);
+    const shape = P ? L.polygon(P.map(q => spmLL(q[0], q[1])), opt) : L.circle(spmLL(zn.x, zn.y), Object.assign({ radius: +zn.radius || 2000 }, opt));
+    spmHitAdd(HIT, 3, P ? spmInside(P) : (ll) => Math.hypot(ll.lng - zn.x, ll.lat - zn.y) <= (+zn.radius || 2000), () => spmPickZone(zn, zi));
+    G.zones.addLayer(shape);
+    if (z >= -1) G.labels.addLayer(spmLabel(zn.x, zn.y, `${esc(zn.name)}<small>lvl ${lvA}–${lvB} · ${fit === 'fit' ? 'fits' : fit === 'near' ? 'close' : fit === 'high' ? 'too high' : 'too low'}${off ? ' · off' : ''}${zi.rooms ? ' · rooms' : ''}</small>`));
+  });
+  // --- hunting grounds: every one (coloured by fit); a marker + name zoomed out, their areas zoomed in
+  (o.regions || []).forEach(r => {
+    if (!r.center || !r.levelRange) return;
+    const fit = spmFit(r.levelRange[0], r.levelRange[1], min, max), mine = (s && s.kind === 'field' && s.ids.some(id => String(id).indexOf(r.id + '-') === 0)) || (c.kind === 'field' && (c.areaIds || []).some(id => String(id).indexOf(r.id + '-') === 0));
+    const held = claims.some(cl => String(cl.key || '').startsWith('area:' + r.id + '-') && cl.team !== SPK.party), busy = occ.some(oc => String(oc.key || '').startsWith('area:' + r.id + '-'));
+    const col = FIT_COL[fit];
+    if (!inB(r.center[0], r.center[1])) return;
+    if (z < 0) {
+      const m = L.circleMarker(spmLL(r.center[0], r.center[1]), { radius: mine ? 10 : 8, color: mine ? '#fff' : '#000', weight: mine ? 3 : 1.5, fillColor: busy ? '#ff5a45' : col, fillOpacity: 0.9, interactive: false });
+      spmHitAdd(HIT, 0, spmNearPx(r.center[0], r.center[1], 13), () => { map.setView(spmLL(r.center[0], r.center[1]), Math.max(0.75, z)); spmShowRegion(r); });
+      G.regions.addLayer(m);
+      if (z >= -2) G.labels.addLayer(spmLabel(r.center[0], r.center[1] - 1500 * Math.pow(2, -z), `${esc(r.name)}<small>lvl ${r.levelRange.join('–')}${held ? ' · our party' : ''}${busy ? ' · others' : ''}</small>`, 'reg'));
+      return;
+    }
+    const fm = spmFm(r.id);
+    if (!fm) { G.regions.addLayer(L.circleMarker(spmLL(r.center[0], r.center[1]), { radius: 7, color: '#000', weight: 1, fillColor: col, fillOpacity: 0.6, interactive: false })); return; }
+    (fm.areas || []).forEach(a => {
+      if (!a.poly || a.poly.length < 3) return;
+      const af = areaFit(a, min, max), key = 'area:' + a.id;
+      const cl = claims.find(x => x.key === key && x.team !== SPK.party), oc = occ.find(x => x.key === key);
+      const si = s && s.kind === 'field' ? s.ids.indexOf(a.id) : -1, cur = c.kind === 'field' && (c.areaIds || []).includes(a.id);
+      const ac = !a.reachable ? FIT_COL.unreach : oc ? '#ff5a45' : cl ? partyColor(cl.team) : FIT_COL[af];
+      const p = L.polygon(a.poly.map(q => spmLL(q[0], q[1])), { color: si >= 0 ? '#fff' : ac, weight: si >= 0 ? 3 : cur ? 2.5 : 1.5, fillColor: ac, fillOpacity: si >= 0 ? 0.45 : cur ? 0.35 : 0.22, dashArray: a.reachable ? null : '6 5', interactive: false });
+      spmHitAdd(HIT, 2, spmInside(a.poly), () => spmToggleArea(r, fm, a));
+      G.areas.addLayer(p);
+      if (z >= 1) G.labels.addLayer(spmLabel(a.center[0], a.center[1], `${a.n} · ${a.levelRange.join('-')}${a.reachable ? '' : '<small>not reachable</small>'}${cl ? '<small>party ' + esc(cl.team) + '</small>' : ''}${oc ? '<small>others: ' + esc(oc.by) + '</small>' : ''}`, 'area'));
+      if (si >= 0) G.labels.addLayer(spmNum(a.center[0], a.center[1], si + 1));
+    });
+    if (z < 1.5) G.labels.addLayer(spmLabel(r.center[0], r.center[1], `${esc(r.name)}<small>lvl ${r.levelRange.join('–')}</small>`, 'reg'));
+  });
+  // --- dungeons: a square marker at the dungeon (tap = its floors inside this map)
+  const dunIc = typeof UI !== 'undefined' && UI.raid ? '/icons/' + UI.raid + '.png' : '';
+  (o.dungeons || []).forEach(dn => {
+    const lr = dn.levelRange || [0, 99], fit = spmFit(lr[0], lr[1], min, max), cur = c.kind === 'rooms' && c.dungeon === dn.name;
+    const b = spmDunBox(dn.name); if (!b || !inB(b.x, b.y)) return;
+    spmHitAdd(HIT, 0, (ll, pt) => { const p = spmPx(b.x, b.y); return pt.x >= p.x - 14 && pt.x <= p.x + 14 + 8 * dn.name.length && Math.abs(pt.y - p.y) <= 14; }, () => spmShowDungeon(dn));
+    const m = L.marker(spmLL(b.x, b.y), { interactive: false, keyboard: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<div class="spm-dun${cur ? ' cur' : ''}"><img src="${esc(dunIc)}" alt="" style="background:${FIT_COL[fit]}"><span>${esc(dn.name)}<small>lvl ${lr.join('–')} · ${dn.rooms} rooms${cur ? ' · chosen' : ''}</small></span></div>` }) });
+    G.dun.addLayer(m);
+  });
+  // --- datapack spots (zoomed in only: there are hundreds)
+  if (z >= 0) (o.datapack || []).forEach(sp => {
+    if (!isFinite(sp.x) || !inB(sp.x, sp.y)) return;
+    const fit = spmFit(sp.levelMin, sp.levelMax, min, max), sel = s && s.kind === 'datapack' && s.name === sp.name;
+    const m = L.circleMarker(spmLL(sp.x, sp.y), { radius: sel ? 8 : 6, color: sel ? '#fff' : FIT_COL[fit], weight: sel ? 3 : 2, fillColor: '#c38bd0', fillOpacity: 0.9, interactive: false });
+    spmHitAdd(HIT, 0, spmNearPx(sp.x, sp.y, 10), () => { spmSelSingle({ kind: 'datapack', name: sp.name }); spmInfoHtml(`<h3>${esc(sp.name)}</h3><div>monsters lvl ${sp.levelMin}–${sp.levelMax} · ${sp.mobs} monsters</div><div class="muted">way: ${esc(sp.via || '')}</div>${heldBy(sp.name)}`); });
+    G.dp.addLayer(m);
+    if (z >= 1.5) G.labels.addLayer(spmLabel(sp.x, sp.y + 700 * Math.pow(2, -z + 1), `${esc(sp.name)}<small>lvl ${sp.levelMin}–${sp.levelMax}</small>`));
+  });
+  spmHoleLayer(null, HIT);
+  spmPartyLayer(null);
+}
+/** zone poly in any of its forms ([x,y] / {x,y,z}) -> [[x,y],...] | null */
+function spmPolyOf(P) { if (!Array.isArray(P) || P.length < 3) return null; const out = P.map(p => Array.isArray(p) ? [+p[0], +p[1]] : [+p.x, +p.y]).filter(p => isFinite(p[0]) && isFinite(p[1])); return out.length >= 3 ? out : null; }
+/** every keep-out hole of the zones this party uses (its own zones + its Keep out zone); band = a dungeon floor's z (holes with z on other floors skipped) */
+function spmHoleLayer(band, HIT) {
+  const G = SPM.groups, B = SPM.map.getBounds().pad(0.3);
+  (SPM.zones || []).forEach(zn => {
+    const mine = zn.team === SPK.party || zn.team === 'all' || !zn.team || (Array.isArray(zn.teams) && (zn.teams.includes(SPK.party) || zn.teams.includes('all')));
+    if (!mine || !Array.isArray(zn.holes)) return;
+    zn.holes.forEach((h, hi) => {
+      const P = spmPolyOf(h); if (!P || !B.contains(spmLL(P[0][0], P[0][1]))) return;
+      const zs = h.map(p => +p.z).filter(isFinite);
+      if (band && zs.length && (Math.max(...zs) < band[0] - 400 || Math.min(...zs) > band[1] + 400)) return;
+      if (!band && zs.length && SPM.dun) return;
+      const poly = L.polygon(P.map(q => spmLL(q[0], q[1])), { color: '#ff2b2b', weight: 2, dashArray: '5 4', fillColor: '#ff2b2b', fillOpacity: 0.28, interactive: false });
+      if (HIT) spmHitAdd(HIT, 1, spmInside(P), () => spmShowHole(zn, hi));
+      G.holes.addLayer(poly);
+    });
+  });
+}
+function spmPartyLayer(band) {
+  const G = SPM.groups, z = SPM.map.getZoom();
+  spmPartyChars().forEach(ch => {
+    if (band && isFinite(ch.z) && (ch.z < band[0] - 300 || ch.z > band[1] + 300)) return;
+    G.party.addLayer(L.circleMarker(spmLL(ch.x, ch.y), { radius: ch.name === SPK.party ? 7 : 5, color: '#fff', weight: 2, fillColor: partyColor(ch.party), fillOpacity: 1, interactive: false }));
+    if (ch.name === SPK.party) G.labels.addLayer(spmLabel(ch.x, ch.y - 900 * Math.pow(2, -z), `${esc(ch.name)}<small>party leader</small>`));
+  });
+}
+// =========================================================================================== monster spawns (/api/spawnsin)
+function spmMobs() {
+  const map = SPM.map, G = SPM.groups; if (!map || !G) return;
+  const on = SPM.mobsOn !== false, z = map.getZoom();
+  if (!on || z < 1) { G.mobs.clearLayers(); SPM.spawn.key = ''; return; }
+  const c = map.getCenter(), b = map.getBounds(), half = 29000;
+  const x0 = Math.max(b.getWest(), c.lng - half), x1 = Math.min(b.getEast(), c.lng + half), y0 = Math.max(b.getNorth() < b.getSouth() ? b.getNorth() : b.getSouth(), c.lat - half), y1 = Math.min(Math.max(b.getNorth(), b.getSouth()), c.lat + half);
+  const band = SPM.dun ? spmDunBand() : null, q = (v) => Math.round(v / 2000) * 2000;
+  const key = [q(x0), q(y0), q(x1), q(y1), band ? band.join(':') : ''].join('|');
+  const draw = () => spmMobDraw(band);
+  if (key === SPM.spawn.key) { draw(); return; }
+  if (SPM.spawn.busy) return;
+  SPM.spawn.busy = true; const want = key;
+  const X0 = q(x0) - 2000, Y0 = q(y0) - 2000, X1 = Math.min(q(x1) + 2000, X0 + 60000), Y1 = Math.min(q(y1) + 2000, Y0 + 60000);
+  api(`/api/spawnsin?x0=${X0}&y0=${Y0}&x1=${X1}&y1=${Y1}${band ? `&z0=${band[0] - 300}&z1=${band[1] + 300}` : ''}`).then(r => { if (r && Array.isArray(r.mobs)) { SPM.spawn.list = r.mobs; SPM.spawn.key = want; draw(); } })
+    .catch(() => { }).finally(() => { SPM.spawn.busy = false; });
+}
+/** cluster per 26 screen px: one marker per cell (count, aggressive share, the highest level); tap = names / levels / count */
+function spmMobDraw(band) {
+  const map = SPM.map, G = SPM.groups; G.mobs.clearLayers(); const HM = []; SPM.hitMobs = HM;
+  const b = map.getBounds().pad(0.1), cells = {}, z = map.getZoom(), cs = 26;
+  SPM.spawn.list.forEach(m => {
+    if (!b.contains(spmLL(m.x, m.y))) return;
+    const p = map.latLngToLayerPoint(spmLL(m.x, m.y)), k = Math.floor(p.x / cs) + ':' + Math.floor(p.y / cs);
+    const c = cells[k] || (cells[k] = { x: 0, y: 0, n: 0, ag: 0, lv: 0, boss: 0, names: {} });
+    c.x += m.x; c.y += m.y; c.n++; if (m.a) c.ag++; if (m.b) c.boss++; c.lv = Math.max(c.lv, m.l);
+    const nm = m.n + '|' + m.l + '|' + (m.a ? 1 : 0); c.names[nm] = (c.names[nm] || 0) + 1;
+  });
+  Object.values(cells).forEach(c => {
+    const x = c.x / c.n, y = c.y / c.n, col = c.boss ? '#ff00d4' : spmMobCol(c.lv), agg = c.ag * 2 >= c.n;
+    let mk;
+    if (c.n === 1 || z >= 3.5) mk = L.circleMarker(spmLL(x, y), { pane: 'spmMobs', radius: c.boss ? 7 : 4.5, color: agg ? '#000' : col, weight: agg ? 1 : 2.5, fillColor: col, fillOpacity: agg ? 0.95 : 0.05, interactive: false });
+    else mk = L.marker(spmLL(x, y), { pane: 'spmMobs', interactive: false, keyboard: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-clu${agg ? '' : ' pas'}" style="background:${col};border-color:${agg ? '#000' : col}">${c.n}</span>` }) });
+    spmHitAdd(HM, 4, spmNearPx(x, y, c.n === 1 ? 8 : 13), () => spmShowMobs(c));
+    G.mobs.addLayer(mk);
+  });
+}
+function spmShowMobs(c) {
+  const rows = Object.keys(c.names).map(k => { const [n, l, a] = k.split('|'); return { n, l: +l, a: a === '1', c: c.names[k] }; }).sort((a, b) => b.l - a.l || b.c - a.c);
+  spmInfoHtml(`<h3>${spmIc('attack')} ${c.n} monster${c.n === 1 ? '' : 's'} here</h3><div class="muted">${c.ag} aggressive (they attack first), ${c.n - c.ag} passive${c.boss ? ' · <span class="st-dead">raid boss</span>' : ''}</div>
+    <ul class="mobs">${rows.map(r => `<li><span style="color:${spmMobCol(r.l)}">lvl ${r.l}</span> ${esc(r.n)}${r.a ? ' <span class="st-dead">aggressive</span>' : ''}<span class="n">×${r.c}</span></li>`).join('')}</ul>`);
+}
+// =========================================================================================== selection
+/** tap an area: choose / remove it — areas of SEVERAL hunting grounds can be chosen together (the bots move between them) */
+function spmToggleArea(r, fm, a) {
+  const s = SPM.sel;
+  if (!a.reachable && !(s && s.kind === 'field' && s.ids.includes(a.id))) { spmShowArea(r, a); return; }   // not reachable: shown, never chosen (same rule as the region map)
+  if (!s || s.kind !== 'field') { if (s && window.UIKit) UIKit.toast('Areas replace your other choice (one kind of place at a time)', { kind: 'info' }); SPM.sel = { kind: 'field', ids: [a.id] }; }
+  else { const i = s.ids.indexOf(a.id); if (i >= 0) s.ids.splice(i, 1); else s.ids.push(a.id); if (!s.ids.length) SPM.sel = null; }
+  spmShowArea(r, a); spmBar(); spmLayers();
+}
+function spmSelSingle(sel) { if (SPM.sel && (SPM.sel.kind === 'field' || SPM.sel.kind === 'rooms') && SPM.sel.ids && SPM.sel.ids.length && window.UIKit) UIKit.toast('This replaces your chosen areas / rooms', { kind: 'info' }); SPM.sel = sel; spmBar(); spmLayers(); }
+function spmShowRegion(r) {
+  SPM.focusReg = r.id;
+  const fit = spmFit(r.levelRange[0], r.levelRange[1], SPK.lvl.min, SPK.lvl.max);
+  spmInfoHtml(`<h3>${esc(r.name)}</h3><div>monsters lvl ${r.levelRange.join('–')} · ${r.areas} areas${r.reachable < r.areas ? ' (' + (r.areas - r.reachable) + ' not reachable)' : ''}</div>${fit === 'high' ? '<div class="st-dead">above your party\'s level — you can still choose it (you get a warning)</div>' : ''}<div class="muted">way in: ${esc(r.landing || 'no gatekeeper landing')}</div>${regionHeld(r.id)}<div class="muted" style="margin-top:4px">Zoom in and tap its areas to choose them. Areas of other hunting grounds can be added too.</div>`);
+}
+/** the loaded spawns inside a polygon ([[x,y]..]) as an info list (empty when none / not loaded) */
+function spmMobsIn(poly) {
+  if (!Array.isArray(poly) || poly.length < 3 || !SPM.spawn.list.length) return '';
+  const P = poly.map(p => ({ x: +p[0], y: +p[1] })), rows = {};
+  SPM.spawn.list.forEach(m => { if (typeof inPolyXY === 'function' ? !inPolyXY(m.x, m.y, P) : !spmInPoly(m.x, m.y, P)) return; const k = m.n + '|' + m.l + '|' + (m.a ? 1 : 0); rows[k] = (rows[k] || 0) + 1; });
+  const L = Object.keys(rows).map(k => { const [n, l, a] = k.split('|'); return { n, l: +l, a: a === '1', c: rows[k] }; }).sort((x, y) => y.l - x.l); if (!L.length) return '';
+  return `<div class="muted" style="margin-top:4px">Monsters spawning here:</div><ul class="mobs">${L.map(r => `<li><span style="color:${spmMobCol(r.l)}">lvl ${r.l}</span> ${esc(r.n)}${r.a ? ' <span class="st-dead">aggressive</span>' : ''}<span class="n">×${r.c}</span></li>`).join('')}</ul>`;
+}
+function spmInPoly(x, y, P) { let ins = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const a = P[i], b = P[j]; if (((a.y > y) !== (b.y > y)) && (x < (b.x - a.x) * (y - a.y) / ((b.y - a.y) || 1e-9) + a.x)) ins = !ins; } return ins; }
+function spmShowArea(r, a) {
+  spmInfoHtml(`<h3>${esc(a.name || r.name + ' area ' + a.n)}</h3><div>monsters lvl ${a.levelRange.join('–')} · suits party lvl ${(a.suits || []).join('–')} · ${a.spawns || '?'} monsters${a.aggressiveShare != null ? ', ' + Math.round(a.aggressiveShare * 100) + ' % aggressive' : ''}</div>
+    <div class="muted">${esc((a.monsters || []).join(', '))}</div>
+    <div class="muted">${!a.reachable ? `<span class="st-dead">not reachable: ${esc(a.unreachable || 'no gatekeeper landing within the walk limit')}</span> — it cannot be chosen` : a.entry ? `way in: ${esc(a.entry.desc)} + ${(a.entry.walk / 1000).toFixed(1)}k walk` : ''}${(a.raidBosses || []).length ? ' · <span class="st-dead">raid boss near: ' + esc(a.raidBosses.map(b => b.name + ' ' + b.level).join(', ')) + '</span>' : ''}</div>${heldBy('', 'area:' + a.id)}${spmMobsIn(a.poly)}`);
+}
+function spmShowDungeon(dn) {
+  SPM.focusDun = dn.name;
+  const cat = dn.catacomb || ssDungeonName(dn.name);
+  spmInfoHtml(`<h3>${esc(dn.name)}</h3><div>monsters lvl ${(dn.levelRange || []).join('–')} · ${dn.rooms} rooms · ${(dn.floors || []).length} floor${(dn.floors || []).length === 1 ? '' : 's'}</div>${cat ? ssChipWhy(ssGateParty(SPK.party, dn.name)) : ''} ${heldBy(dn.name)}
+    <div class="act"><button class="go" data-spmdun="${esc(dn.name)}">Open its floors</button></div>`);
+}
+function spmPickZone(zn, zi) {
+  if (zi && zi.rooms) { spmInfoHtml(`<h3>${esc(zn.name)}</h3><div>a dungeon zone (${esc(zi.rooms)})</div><div class="act"><button class="go" data-spmdun="${esc(zi.rooms)}">Open its floors</button></div>`); return; }
+  spmSelSingle({ kind: 'zone', name: zn.name });
+  const holes = (zn.holes || []).length;
+  spmInfoHtml(`<h3>${esc(zn.name)}</h3><div>your own zone · lvl ${zi.levelMin || '?'}–${zi.levelMax || '?'}${zn.floor ? ' · ' + esc(zn.floor.name) : ''}${zi.enabled === false ? ' · <span class="st-dead">switched off on the Zones tab</span>' : ''}</div>${holes ? `<div class="muted">${holes} keep-out area${holes === 1 ? '' : 's'} inside</div>` : ''}${heldBy(zn.name)}
+    <div class="act"><button data-spmzshape="${esc(zn.name)}">Change its corners here</button><button data-spmzedit="${esc(zn.name)}">Open in the zone editor</button></div>`);
+}
+function spmShowHole(zn, hi) {
+  spmInfoHtml(`<h3>${spmIc('warn')} Keep-out area</h3><div>${/^KEEPOUT\b/.test(String(zn.note || '')) ? 'for your chosen areas / rooms' : 'inside your zone <b>' + esc(zn.name) + '</b>'}: monsters inside are never fought.</div>
+    <div class="act"><button class="danger" data-spmholedel="${esc(zn.name)}" data-hi="${hi}">Remove this keep-out area</button></div>`);
+}
+function spmInfoHtml(html) { const el = $('spmInfo'); if (!el) return; SPM.info = html; el.hidden = false; el.innerHTML = `<button class="x" data-spminfox aria-label="close" style="float:right">×</button>` + html; }
+// =========================================================================================== the bottom bar
+function spmBar() {
+  const el = $('spmBar'); if (!el || !SPK) return;
+  const s = SPM.sel, d = PSPOT.data || {};
+  let what = '<span class="spm-what">Tap areas (from any hunting ground), a dungeon, your own zone or a datapack spot. Everything can be chosen — places above your level get a warning.</span>', go = '', chips = '';
+  if (s && s.kind === 'field') {
+    const nm = (id) => { const a = spmAreaAny(id), r = spmRegionOfArea(id); return a ? `${a.regionName} ${a.n} (${a.levelRange.join('-')})` : (r ? r.name + ' ' : '') + 'area ' + String(id).split('-').pop(); };
+    const regs = [...new Set(s.ids.map(id => (spmRegionOfArea(id) || {}).name || '?'))];
+    chips = `<span class="selchips">${s.ids.map((id, i) => `<span class="selchip"><b>${i + 1}</b>${esc(nm(id))}</span>`).join('')}</span>`;
+    what = `<span class="spm-what">${regs.length > 1 ? regs.length + ' hunting grounds' : esc(regs[0])}</span>`;
+    go = `<button data-spmfitall title="every free area that fits the party in the hunting grounds you picked from">Select all fitting</button><button data-spmorder title="which area comes next when the current one is empty">Next: ${SPK.order === 'rotate' ? 'in my order' : 'nearest first'}</button><button class="go" data-spmsave>${s.ids.length > 1 ? `Hunt in ${s.ids.length} areas` : 'Hunt in this area'}</button>`;
+  } else if (s && s.kind === 'rooms') {
+    const M = SPM.dun && SPM.dun.m && SPM.dun.m.name === s.dungeon ? SPM.dun.m : null, lab = (id) => { if (!M) return id; for (let i = 0; i < M.floors.length; i++) if ((M.floors[i].rooms || []).some(r => r.id === id)) return 'F' + (i + 1) + ' ' + id.split('-').slice(2).join('-'); return id; };
+    chips = `<span class="selchips">${s.ids.map((id, i) => `<span class="selchip"><b>${i + 1}</b>${esc(lab(id))}</span>`).join('')}</span>`;
+    what = `<span class="spm-what">${esc(s.dungeon)}</span>`;
+    go = `<button data-spmorder>Next: ${SPK.order === 'rotate' ? 'in my order' : 'nearest first'}</button><button class="go" data-spmsave>${s.ids.length > 1 ? `Hunt in ${s.ids.length} rooms` : 'Hunt in this room'}</button>`;
+  } else if (s && s.kind === 'zone') { what = `<span class="spm-what">your own zone: <b>${esc(s.name)}</b></span>`; go = `<button class="go" data-spmsave>Hunt here</button>`; }
+  else if (s && s.kind === 'datapack') { what = `<span class="spm-what">datapack spot: <b>${esc(s.name)}</b></span>`; go = `<button class="go" data-spmsave>Hunt here</button>`; }
+  const any = SPM.dun ? `<button data-spmanyroom title="the bots pick a free room of ${esc(SPM.dun.m.name)} that fits">Any free room here</button>` : '';
+  // ROOMMERGE-2026-10-22: 2+ chosen rooms of one floor -> one room
+  const sameFloor = (() => { if (!SPM.dun || !s || s.kind !== 'rooms' || s.ids.length < 2 || s.dungeon !== SPM.dun.m.name) return false; const fl = s.ids.map(id => SPM.dun.m.floors.findIndex(F => (F.rooms || []).some(r => r.id === id))); return fl.every(v => v >= 0 && v === fl[0]); })();
+  const comb = sameFloor ? `<button data-spmmerge title="one room from these (rooms the generator cut in two)">Combine into one room</button>` : '';
+  el.innerHTML = `${what}${chips}${go}${s ? '<button data-spmclear>Clear</button>' : ''}${any}${comb}
+    <label class="chk" title="Stay even when other players hunt there"><input type="checkbox" id="spkstay"${SPK.stay ? ' checked' : ''}> stay even if occupied</label>
+    <label class="chk" title="When the party's lowest level is more than 3 above the monsters here, go back to auto and find a better place"><input type="checkbox" id="spkmoveon"${SPK.moveOn ? ' checked' : ''}> move on when outgrown</label>`;
+  const now = $('spmNow'); if (now) now.innerHTML = `now: ${esc(spotLabel((d.spots || {})[SPK.party] || SPK.cur || {}))}`;
+}
+function spmSave() {
+  const s = SPM.sel; if (!s) return;
+  const ord = SPK.order === 'rotate' ? 'in your order' : 'nearest first';
+  if (s.kind === 'field') {
+    if (!s.ids.length) return;
+    const r0 = spmRegionOfArea(s.ids[0]), regs = [...new Set(s.ids.map(id => (spmRegionOfArea(id) || {}).name || ''))].filter(Boolean);
+    const lab = s.ids.length > 1 ? `${regs.length > 1 ? regs.join(' + ') : regs[0]} · ${s.ids.length} areas (next: ${ord})` : `${regs[0] || ''} · area ${String(s.ids[0]).split('-').pop()}`;
+    // several hunting grounds: region = the first area's (a label for the server); swarm.js finds every area by its own id
+    saveSpot({ mode: 'manual', kind: 'field', region: r0 ? r0.id : '', spot: r0 ? r0.name : '', areaIds: s.ids.slice(), order: SPK.order, stay: SPK.stay }, lab);
+  } else if (s.kind === 'rooms') {
+    if (!s.ids.length) return;
+    saveSpot(Object.assign({ mode: 'manual', kind: 'rooms', dungeon: s.dungeon, roomId: s.ids[0], stay: SPK.stay }, s.ids.length > 1 ? { roomIds: s.ids.slice(), order: SPK.order } : {}),
+      s.ids.length > 1 ? `${s.dungeon} · ${s.ids.length} rooms (next: ${ord})` : `${s.dungeon} · room ${s.ids[0]}`);
+  } else if (s.kind === 'zone') saveSpot({ mode: 'manual', kind: 'zone', spot: s.name, stay: SPK.stay }, s.name);
+  else if (s.kind === 'datapack') saveSpot({ mode: 'manual', kind: 'datapack', spot: s.name, stay: SPK.stay }, s.name + ' (datapack spot)');
+}
+// =========================================================================================== dungeons inside the map
+async function spmOpenDungeon(name) {
+  if (SPM.dunBusy) return; SPM.dunBusy = true;
+  try {
+    const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (!m || m.error) throw new Error((m && m.error) || 'not found');
+    if (!SPM.fmIdx) { try { SPM.fmIdx = await (await fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' })).json(); } catch (e) { SPM.fmIdx = {}; } }
+    const L0 = SPK.lvl.min; let fi = 0, bd = 1e9;
+    m.floors.forEach((F, i) => (F.rooms || []).forEach(r => { const s = r.suits || r.levelRange || [0, 99]; const off = L0 < s[0] ? s[0] - L0 : L0 > s[1] ? L0 - s[1] : 0; if (off < bd) { bd = off; fi = i; } }));
+    const s = SPM.sel; if (s && s.kind === 'rooms' && s.dungeon === m.name && s.ids.length) m.floors.forEach((F, i) => { if ((F.rooms || []).some(r => r.id === s.ids[0])) fi = i; });
+    SPM.dun = { m, fi, gap: null };
+    const el = $('spmMap'); if (el) el.classList.add('dun');
+    spmDunBar(); spmDunFit(); spmLayers(); spmMobs(); spmBar();
+    const cat = m.catacomb || ssDungeonName(m.name);
+    spmInfoHtml(`<h3>${esc(m.name)}</h3><div>Tap the floors above, then rooms on any floor (several, also on different floors: the party moves on to the next room when one is empty).</div>${cat ? ssChipWhy(ssGateParty(SPK.party, m.name), true) + '<div class="muted">Way in: only the Gatekeeper Ziggurat; every member must be signed up with the Seven Signs (always Dawn).</div>' : ''}`);
+  } catch (er) { uiError(er.message, 'Could not open the dungeon'); }
+  finally { SPM.dunBusy = false; }
+}
+function spmLeaveDungeon() {
+  const b = SPM.dun && spmDunBox(SPM.dun.m.name);
+  SPM.dun = null; const el = $('spmMap'); if (el) el.classList.remove('dun'); spmDunBar(); spmEditStop();
+  if (b && SPM.map) SPM.map.setView(spmLL(b.x, b.y), 0); spmLayers(); spmMobs(); spmBar();
+}
+/** the floor band: a floor's z, or an in-between level's z (ToI stair rings) */
+function spmDunBand() { const D = SPM.dun; if (!D) return null; if (D.gap) return D.gap.z; const F = D.m.floors[D.fi]; return F && Array.isArray(F.z) ? F.z : null; }
+function spmDunBar() {
+  const el = $('spmDun'); if (!el) return; const D = SPM.dun; if (!D) { el.innerHTML = ''; return; }
+  const idx = (SPM.fmIdx || {})[D.m.name] || {}, gaps = Object.keys(idx).filter(k => /^g\d+$/.test(k)).map(k => Object.assign({ key: k, gi: +k.slice(1) }, idx[k]));
+  let btns = '';
+  D.m.floors.forEach((F, i) => {
+    btns += `<button data-spmfloor="${i}"${!D.gap && i === D.fi ? ' class="on"' : ''}>${esc(F.name)}${F.levelRange ? ' (' + F.levelRange.join('–') + ')' : ''}</button>`;
+    const g = gaps.find(x => x.gi === i); if (g) btns += `<button class="gap${D.gap && D.gap.key === g.key ? ' on' : ''}" data-spmgap="${g.key}" title="the level between two floors (stairs / corridors): monsters, keep-out areas and your own spots">between</button>`;
+  });
+  el.innerHTML = `<button data-spmdunback>← Map</button><b>${esc(D.m.name)}</b>${btns}<button data-spmfitfloor title="show the whole floor">Fit floor</button>`;
+}
+function spmDunFit() {
+  const D = SPM.dun, F = D.gap ? null : D.m.floors[D.fi], pts = [];
+  if (F) (F.rooms || []).forEach(r => (r.poly && r.poly.length ? r.poly : r.center ? [[r.center[0], r.center[1]]] : []).forEach(p => pts.push(spmLL(p[0], p[1]))));
+  const art = spmDunArt(); if (art) { pts.push(spmLL(art.x, art.y)); pts.push(spmLL(art.x + art.w, art.y + art.h)); }
+  if (!pts.length && Array.isArray(D.m.bbox)) { pts.push(spmLL(D.m.bbox[0], D.m.bbox[2])); pts.push(spmLL(D.m.bbox[1], D.m.bbox[3])); }
+  if (pts.length) SPM.map.fitBounds(L.latLngBounds(pts).pad(0.08));
+}
+/** the floor picture (docs/plan/tools/floor_maps.js): idx[name][fi] or idx[name]['g<i>'] -> { f, x, y, w, h, v } */
+function spmDunArt() { const D = SPM.dun; if (!D) return null; const idx = (SPM.fmIdx || {})[D.m.name] || {}; return D.gap ? idx[D.gap.key] || null : idx[D.fi] || null; }
+function spmDunLayers(HIT) {
+  const map = SPM.map, G = SPM.groups, D = SPM.dun, s = SPM.sel, c = spmCur(), d = PSPOT.data || {}, claims = d.claims || [], occ = d.occupied || [], z = map.getZoom();
+  SPM.tiles.forEach(t => { if (map.hasLayer(t)) map.removeLayer(t); });
+  const art = spmDunArt();
+  if (art) G.floor.addLayer(L.imageOverlay(`/icons/floormaps/${art.f}${art.v ? '?v=' + art.v : ''}`, [spmLL(art.x, art.y), spmLL(art.x + art.w, art.y + art.h)], { interactive: false }));
+  const band = spmDunBand();
+  if (!D.gap) {
+    const F = D.m.floors[D.fi], L0 = SPK.lvl.min, L1 = SPK.lvl.max;
+    (F.rooms || []).forEach(r => {
+      if (!r.center || r.mergedInto) return;   // ROOMMERGE: combined into another room
+      const sr = r.suits || r.levelRange || [0, 99], fit = spmFit(sr[0], sr[1], L0, L1);
+      const cl = claims.find(x => (x.room === r.id || x.key === 'room:' + r.id) && x.team !== SPK.party), oc = occ.find(x => x.key === 'room:' + r.id);
+      const si = s && s.kind === 'rooms' && s.dungeon === D.m.name ? s.ids.indexOf(r.id) : -1, cur = c.kind === 'rooms' && c.dungeon === D.m.name && ((c.roomIds || []).includes(r.id) || c.roomId === r.id);
+      const col = oc ? '#ff5a45' : cl ? partyColor(cl.team) : FIT_COL[fit];
+      const opt = { color: si >= 0 ? '#fff' : col, weight: si >= 0 ? 3 : cur ? 2.5 : 1.5, fillColor: col, fillOpacity: si >= 0 ? 0.45 : cur ? 0.35 : 0.22, interactive: false };
+      const hasP = r.poly && r.poly.length >= 3, shape = hasP ? L.polygon(r.poly.map(p => spmLL(p[0], p[1])), opt) : L.circle(spmLL(r.center[0], r.center[1]), Object.assign({ radius: r.radius || 500 }, opt));
+      spmHitAdd(HIT, 2, hasP ? spmInside(r.poly) : (ll) => Math.hypot(ll.lng - r.center[0], ll.lat - r.center[1]) <= (r.radius || 500), () => spmToggleRoom(r));
+      G.rooms.addLayer(shape);
+      G.labels.addLayer(spmLabel(r.center[0], r.center[1], `${esc(r.id.split('-').slice(2).join('-'))} · ${(r.levelRange || []).join('-')}${cl ? '<small>party ' + esc(cl.team) + '</small>' : ''}${oc ? '<small>others: ' + esc(oc.by) + '</small>' : ''}`, 'area'));
+      if (si >= 0) G.labels.addLayer(spmNum(r.center[0], r.center[1], si + 1));
+    });
+    (F.links || []).forEach(l => { if (!l.at) return; G.labels.addLayer(spmLabel(l.at.x, l.at.y, `◆ ${esc((l.npc || (l.kind === 'walk' ? 'stairs' : l.kind)) + ' → ' + l.toName)}`)); });
+  }
+  // own zones drawn on this floor (zone.floor band overlapping)
+  (SPM.zones || []).forEach(zn => {
+    if (!zn.floor || !band || zn.floor.zMax < band[0] - 200 || zn.floor.zMin > band[1] + 200 || /^KEEPOUT\b/.test(String(zn.note || ''))) return;
+    const P = spmPolyOf(zn.poly); if (!P) return;
+    const sel = s && s.kind === 'zone' && s.name === zn.name;
+    const pg = L.polygon(P.map(q => spmLL(q[0], q[1])), { color: sel ? '#fff' : '#5aa9ff', weight: sel ? 3 : 1.8, fillColor: '#5aa9ff', fillOpacity: sel ? 0.4 : 0.18, interactive: false });
+    spmHitAdd(HIT, 3, spmInside(P), () => spmPickZone(zn, zn));
+    G.zones.addLayer(pg); G.labels.addLayer(spmLabel(zn.x, zn.y, `${esc(zn.name)}<small>your own spot</small>`));
+  });
+  spmHoleLayer(band, HIT);
+  spmPartyLayer(band);
+}
+function spmToggleRoom(r) {
+  const D = SPM.dun, s = SPM.sel;
+  if (!s || s.kind !== 'rooms' || s.dungeon !== D.m.name) { if (s && window.UIKit) UIKit.toast('Rooms replace your other choice', { kind: 'info' }); SPM.sel = { kind: 'rooms', dungeon: D.m.name, ids: [r.id] }; }
+  else { const i = s.ids.indexOf(r.id); if (i >= 0) s.ids.splice(i, 1); else s.ids.push(r.id); if (!s.ids.length) SPM.sel = null; }
+  spmInfoHtml(`<h3>${esc(r.name || r.id)}</h3><div>monsters lvl ${(r.levelRange || []).join('–')} · suits party lvl ${(r.suits || []).join('–')}</div><div class="muted">${esc((r.monsters || []).map(m => typeof m === 'string' ? m : m.name).join(', '))}</div>${r.reachable === false ? '<div class="st-dead">no walk route from the floor entry</div>' : ''}${r.manual || r.merged ? '<div class="muted">outline changed on the dashboard' + (r.merged ? ' (combined from ' + esc(r.merged.join(' + ')) + ')' : '') + '</div>' : ''}${heldBy('', 'room:' + r.id)}${spmMobsIn(r.poly)}
+    <div class="act"><button data-spmroomshape="${esc(r.id)}" title="drag, add or delete the corners of this room's outline">Change shape</button></div>`);
+  spmBar(); spmLayers();
+}
+// =========================================================================================== search
+function spmSearch(q) {
+  const el = $('spmRes'); if (!el) return; q = String(q || '').trim().toLowerCase();
+  if (q.length < 2) { el.innerHTML = ''; return; }
+  const o = (PSPOT.data || {}).options || {}, out = [];
+  const leave = () => { if (SPM.dun) spmLeaveDungeon(); };
+  (o.regions || []).forEach(r => { if (r.center && String(r.name).toLowerCase().includes(q)) out.push({ k: 'hunting ground', t: r.name, lv: (r.levelRange || []).join('–'), go: () => { leave(); SPM.map.setView(spmLL(r.center[0], r.center[1]), 0.75); spmShowRegion(r); } }); });
+  (o.dungeons || []).forEach(dn => { if (String(dn.name).toLowerCase().includes(q)) out.push({ k: 'dungeon', t: dn.name, lv: (dn.levelRange || []).join('–'), go: () => { leave(); const b = spmDunBox(dn.name); if (b) SPM.map.setView(spmLL(b.x, b.y), 0); spmShowDungeon(dn); spmLayers(); } }); });
+  (SPM.zones || []).forEach(zn => { if (String(zn.name).toLowerCase().includes(q) && isFinite(zn.x) && !/^KEEPOUT\b/.test(String(zn.note || ''))) out.push({ k: 'your zone', t: zn.name, lv: (zn.levelMin || '?') + '–' + (zn.levelMax || '?'), go: () => { leave(); SPM.map.setView(spmLL(zn.x, zn.y), 0.75); spmPickZone(zn, ((o.zones || []).find(x => x.name === zn.name)) || zn); } }); });
+  (o.datapack || []).forEach(sp => { if (isFinite(sp.x) && String(sp.name).toLowerCase().includes(q)) out.push({ k: 'datapack spot', t: sp.name, lv: sp.levelMin + '–' + sp.levelMax, go: () => { leave(); SPM.map.setView(spmLL(sp.x, sp.y), 1); spmSelSingle({ kind: 'datapack', name: sp.name }); } }); });
+  SPM.res = out.slice(0, 12);
+  el.innerHTML = SPM.res.map((x, i) => `<button data-spmres="${i}"><b>${esc(x.t)}</b> <span class="muted">lvl ${esc(x.lv)}</span><span class="k">${esc(x.k)}</span></button>`).join('') || '<div class="muted" style="padding:6px 9px">nothing found</div>';
+}
+// =========================================================================================== draw: own spot / keep-out / change corners
+// SPM.edit = { mode: 'zone' | 'keep' | 'shape', pts: [[x,y]...], sel: corner index | -1, zone: name (shape) }
+function spmEditStart(mode, pts, zone) {
+  SPM.edit = { mode, pts: (pts || []).map(p => [Math.round(p[0]), Math.round(p[1])]), sel: -1, zone: zone || '' };
+  document.querySelectorAll('[data-spmdraw],[data-spmkeep]').forEach(b => b.classList.toggle('on', (b.hasAttribute('data-spmdraw') && mode !== 'keep') || (b.hasAttribute('data-spmkeep') && mode === 'keep')));
+  const el = $('spmMap'); if (el) el.classList.add('drawing');
+  spmEditShape(); spmInfoEdit();
+}
+function spmEditStop() {
+  SPM.edit = null; if (SPM.groups) SPM.groups.edit.clearLayers();
+  document.querySelectorAll('[data-spmdraw],[data-spmkeep]').forEach(b => b.classList.remove('on'));
+  const el = $('spmMap'); if (el) el.classList.remove('drawing');
+}
+/** the polygon + a draggable corner per point (tap = select it) + a small handle in the middle of every edge (tap / drag = a new corner there) */
+function spmEditShape() {
+  const G = SPM.groups, E = SPM.edit; if (!G || !E) return; G.edit.clearLayers();
+  const P = E.pts, col = E.mode === 'keep' ? '#ff6b5a' : '#ffe08a'; if (!P.length) return;
+  const ll = P.map(p => spmLL(p[0], p[1]));
+  const shape = P.length >= 3 ? L.polygon(ll, { pane: 'spmEdit', color: col, weight: 2.5, fillColor: col, fillOpacity: 0.22, interactive: false }) : L.polyline(ll, { pane: 'spmEdit', color: col, weight: 2.5, interactive: false });
+  G.edit.addLayer(shape);
+  const redraw = () => { if (shape.setLatLngs) shape.setLatLngs(E.pts.map(pp => spmLL(pp[0], pp[1]))); };
+  P.forEach((p, i) => {
+    const m = L.marker(spmLL(p[0], p[1]), { pane: 'spmEdit', draggable: true, autoPan: true, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<div class="spm-vtx${E.mode === 'keep' ? ' ko' : ''}${E.sel === i ? ' sel' : ''}" data-vtx="${i}"></div>` }) });
+    m.on('dragstart', () => { E.sel = i; });
+    m.on('drag', (e) => { const q = e.target.getLatLng(); E.pts[i] = [Math.round(q.lng), Math.round(q.lat)]; redraw(); });
+    m.on('dragend', () => { spmEditShape(); spmInfoEdit(); });
+    m.on('click', (e) => { L.DomEvent.stop(e); if (E.sel === i) return; E.sel = i; spmEditShape(); spmInfoEdit(); });   // tap = select (never a toggle: some browsers send the tap twice)
+    G.edit.addLayer(m);
+  });
+  if (P.length >= 2) {
+    const n = P.length, edges = P.length >= 3 ? n : n - 1;
+    for (let i = 0; i < edges; i++) {
+      const a = P[i], b = P[(i + 1) % n], mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+      const h = L.marker(spmLL(mx, my), { pane: 'spmEdit', draggable: true, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<div class="spm-mid" data-mid="${i}" title="tap or drag: a new corner here"></div>` }) });
+      const insert = (q) => { E.pts.splice(i + 1, 0, [Math.round(q.lng), Math.round(q.lat)]); E.sel = i + 1; };
+      h.on('click', (e) => { L.DomEvent.stop(e); insert(L.latLng(my, mx)); spmEditShape(); spmInfoEdit(); });
+      h.on('dragend', (e) => { insert(e.target.getLatLng()); spmEditShape(); spmInfoEdit(); });
+      G.edit.addLayer(h);
+    }
+  }
+}
+function spmInfoEdit() {
+  const E = SPM.edit; if (!E) return; const n = E.pts.length;
+  const title = E.mode === 'keep' ? 'Keep-out area' : E.mode === 'shape' ? 'Change the corners of ' + esc(E.zone) : E.mode === 'room' ? 'Change the shape of room ' + esc(E.zone) : 'Draw my own spot';
+  const what = E.mode === 'keep' ? 'Tap the corners of the area to stay out of (a wall pocket, a dangerous pack, a raid boss). Monsters inside are never fought.' : 'Tap the map to put the corners of your hunting spot. Zoom in for precise corners.';
+  const where = SPM.dun ? `<div class="muted">On ${esc(SPM.dun.gap ? 'the level between floors' : SPM.dun.m.floors[SPM.dun.fi].name)} of ${esc(SPM.dun.m.name)} (only this floor).</div>` : '';
+  const done = E.mode === 'keep' ? `<button class="go" data-spmkeepsave${n >= 3 ? '' : ' disabled'}>Add this keep-out area</button>` : E.mode === 'room' ? `<button class="go" data-spmroomsave${n >= 3 ? '' : ' disabled'}>Save the room's shape</button>` : E.mode === 'shape' ? `<button class="go" data-spmshapesave${n >= 3 ? '' : ' disabled'}>Save the new corners</button>` : `<button class="go" data-spmfinish${n >= 3 ? '' : ' disabled'}>Done — name it</button>`;
+  spmInfoHtml(`<h3>${spmIc(E.mode === 'keep' ? 'warn' : 'map')} ${title}</h3><div>${what} Drag a corner to move it, tap a corner then "Delete point", tap a small dot between two corners for a new corner there.</div>${where}<div class="muted">${n} corner${n === 1 ? '' : 's'}${E.sel >= 0 ? ' · corner ' + (E.sel + 1) + ' selected' : ''}</div>
+    <div class="act"><button data-spmundo${n ? '' : ' disabled'}>Undo last corner</button><button data-spmdelpt${E.sel >= 0 ? '' : ' disabled'}>Delete point</button>${done}<button data-spmdrawoff>Cancel</button></div>`);
+}
+function spmInfoForm() {
+  const { min, max } = SPK.lvl, nm = 'My spot ' + new Date().toISOString().slice(5, 16).replace('T', ' ');
+  spmInfoHtml(`<h3>Save my own spot</h3><label>Name<input id="spmzname" value="${esc(nm)}" maxlength="60"></label>
+    <div class="lv2"><label>Monsters from level<input id="spmzmin" inputmode="numeric" value="${Math.max(1, min - 2)}"></label><label>to level<input id="spmzmax" inputmode="numeric" value="${max + 3}"></label></div>
+    <div class="muted">Saved as a zone for party ${esc(SPK.party)} (Zones tab)${SPM.dun ? ', on this floor only' : ''}, then chosen for the party. The bots hunt inside the outline.</div>
+    <div class="act"><button class="go" data-spmzsave>Save my spot</button><button data-spmdrawback>Back to drawing</button><button data-spmdrawoff>Cancel</button></div><div id="spmzmsg" class="muted"></div>`);
+}
+/** the height of an outdoor spot: the nearest known hunting-ground area / party member */
+function spmGuessZ(x, y) {
+  let best = null, bd = 1e12; const add = (px, py, pz) => { if (!isFinite(pz)) return; const dd = Math.hypot(px - x, py - y); if (dd < bd) { bd = dd; best = pz; } };
+  Object.values(SPM.fm).forEach(c => { ((c.m && c.m.areas) || []).forEach(a => { if (a.center) add(a.center[0], a.center[1], a.center[2]); }); });
+  (((PSPOT.data || {}).options || {}).regions || []).forEach(r => { if (r.center) add(r.center[0], r.center[1], r.center[2]); });
+  spmPartyChars().forEach(ch => add(ch.x, ch.y, ch.z));
+  return best === null ? 0 : Math.round(best);
+}
+/** the drawn corners as the zone API wants them ({x,y} / {x,y,z} on a dungeon floor) */
+function spmPts(P, z) { return P.map(p => Object.assign({ x: Math.round(p[0]), y: Math.round(p[1]) }, isFinite(z) && z !== null ? { z: Math.round(z) } : {})); }
+/** a zone as the POST /api/zones body that keeps everything it has (the server replaces poly / holes / pulls with what is sent) */
+function spmZoneBody(zn, over) {
+  const b = Object.assign({}, zn, { oldName: zn.name }, over || {});
+  ['updated', 'zmap'].forEach(k => delete b[k]);
+  return b;
+}
+async function spmPost(body) { const r = await api('/api/zones', { method: 'POST', body: JSON.stringify(body) }); if (!r || !r.ok) throw new Error((r && r.error) || 'not saved'); SPM.zones = r.zones || SPM.zones; SPM.zonesAt = Date.now(); return r; }
+async function spmZoneSave() {
+  const P = (SPM.edit && SPM.edit.pts) || []; if (P.length < 3) return;
+  const name = String(($('spmzname') || {}).value || '').trim(), lo = Math.round(+($('spmzmin') || {}).value), hi = Math.round(+($('spmzmax') || {}).value), msg = $('spmzmsg');
+  const say = (t) => { if (msg) msg.innerHTML = t; };
+  if (!name) return say('Give your spot a name.');
+  if (!(lo >= 1 && hi >= lo && hi <= 99)) return say('Levels: from 1 to 99, the second one at least the first.');
+  if ((SPM.zones || []).some(zz => zz.name.toLowerCase() === name.toLowerCase())) return say('A zone with this name exists already — pick another name.');
+  const band = SPM.dun ? spmDunBand() : null, zmid = band ? Math.round((band[0] + band[1]) / 2) : null;
+  const cx = Math.round(P.reduce((a, p) => a + p[0], 0) / P.length), cy = Math.round(P.reduce((a, p) => a + p[1], 0) / P.length);
+  const body = { name, x: cx, y: cy, z: band ? zmid : spmGuessZ(cx, cy), radius: Math.max(300, Math.round(Math.max(...P.map(p => Math.hypot(p[0] - cx, p[1] - cy))))), levelMin: lo, levelMax: hi, team: SPK.party, kind: 'any', enabled: true,
+    poly: spmPts(P, zmid), holes: [], pulls: [], note: 'drawn on the hunting spot map ' + new Date().toISOString().slice(0, 16) };
+  if (band) body.floor = { name: SPM.dun.m.name + ' · ' + (SPM.dun.gap ? 'between floors' : SPM.dun.m.floors[SPM.dun.fi].name), zMin: Math.round(band[0]), zMax: Math.round(band[1]) };
+  say('Saving…');
+  try {
+    await spmPost(body);
+    spmEditStop(); loadPartySpots(true);
+    SPM.sel = { kind: 'zone', name };
+    spmInfoHtml(`<h3>${esc(name)}</h3><div>Saved as your own zone (lvl ${lo}–${hi}).</div><div class="muted">Press "Hunt here" below to send the party there. "Keep out" draws areas inside it to stay away from.</div>`);
+    spmBar(); spmLayers();
+  } catch (e) { say('Not saved: ' + esc(e.message)); }
+}
+/** keep-out: an own zone chosen -> its own holes; else (chosen areas / rooms / nothing) -> the party's "Keep out · <party>" zone (KEEPOUT, levels 99-99) */
+async function spmKeepSave() {
+  const P = (SPM.edit && SPM.edit.pts) || []; if (P.length < 3) return;
+  const band = SPM.dun ? spmDunBand() : null, zmid = band ? Math.round((band[0] + band[1]) / 2) : null, hole = spmPts(P, zmid);
+  const s = SPM.sel, own = s && s.kind === 'zone' ? (SPM.zones || []).find(z => z.name === s.name) : null;
+  try {
+    if (own) await spmPost(spmZoneBody(own, { holes: (own.holes || []).concat([hole]) }));
+    else {
+      const nm = SPM_KEEP(SPK.party), ko = (SPM.zones || []).find(z => z.name === nm);
+      if (ko) await spmPost(spmZoneBody(ko, { holes: (ko.holes || []).concat([hole]), enabled: true }));
+      else {
+        const cx = Math.round(P.reduce((a, p) => a + p[0], 0) / P.length), cy = Math.round(P.reduce((a, p) => a + p[1], 0) / P.length);
+        await spmPost({ name: nm, x: cx, y: cy, z: zmid !== null ? zmid : spmGuessZ(cx, cy), radius: 500, levelMin: 99, levelMax: 99, team: SPK.party, kind: 'any', enabled: true, holes: [hole], pulls: [],
+          note: 'KEEPOUT areas for party ' + SPK.party + ' (hunting spot map): monsters inside are never fought; never a hunting spot itself' });
+      }
+    }
+    spmEditStop();
+    spmInfoHtml(`<h3>${spmIc('warn')} Keep-out area added</h3><div>${own ? 'Inside your zone <b>' + esc(own.name) + '</b>.' : 'For party ' + esc(SPK.party) + ' (its chosen areas / rooms and anywhere it hunts).'} The bots never fight monsters inside it.</div>`);
+    spmLayers();
+  } catch (e) { uiError(e.message, 'Keep-out area not saved'); }
+}
+async function spmShapeSave() {
+  const E = SPM.edit, zn = E && (SPM.zones || []).find(z => z.name === E.zone); if (!zn || E.pts.length < 3) return;
+  const zmid = zn.floor ? Math.round((zn.floor.zMin + zn.floor.zMax) / 2) : null;
+  try { await spmPost(spmZoneBody(zn, { poly: spmPts(E.pts, zmid) })); spmEditStop(); spmInfoHtml(`<h3>${esc(zn.name)}</h3><div>New corners saved.</div>`); spmLayers(); }
+  catch (e) { uiError(e.message, 'Corners not saved'); }
+}
+/** ROOMMERGE-2026-10-22: a room's outline through the shape editor's own save (/api/polyedit: lock, history, manual + edited.orig, safe spots + room graph jobs) */
+async function spmRoomShapeSave() {
+  const E = SPM.edit; if (!E || E.mode !== 'room' || E.pts.length < 3) return;
+  try {
+    const g = await api('/api/polyedit?kind=room&id=' + encodeURIComponent(E.zone)); if (!g || g.error || !g.item) throw new Error((g && g.error) || 'room not found');
+    const item = Object.assign({}, g.item, { shape: 'poly', poly: E.pts.map(p => [Math.round(p[0]), Math.round(p[1])]) });
+    const r = await api('/api/polyedit?kind=room&id=' + encodeURIComponent(E.zone), { method: 'POST', body: JSON.stringify({ rev: g.rev, item }) });
+    if (!r || r.error) throw new Error((r && r.error) || 'not saved');
+    const graph = (r.jobs || []).some(j => j.type === 'roomgraph');
+    spmEditStop();
+    await spmReloadDungeon();
+    spmInfoHtml(`<h3>Room ${esc(E.zone)}</h3><div>New shape saved.${(r.warnings || []).length ? ' <span class="st-dead">' + esc(r.warnings.join('; ')) + '</span>' : ''}</div><div class="muted">${graph ? 'The room connections are being recalculated in the background (about a minute).' : 'The room connections (doors / corridors) update after the next dashboard restart, or with: node docs/plan/tools/room_graph.js --only ' + esc((SPM.dun && SPM.dun.m.key) || '<dungeon>')}</div>`);
+  } catch (e) { uiError(e.message, 'Room shape not saved'); }
+}
+async function spmReloadDungeon() {
+  if (!SPM.dun) return; const fi = SPM.dun.fi, gap = SPM.dun.gap, name = SPM.dun.m.name;
+  try { const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (m && !m.error) { SPM.dun.m = m; SPM.dun.fi = Math.min(fi, m.floors.length - 1); SPM.dun.gap = gap; } } catch (e) { }
+  spmDunBar(); spmLayers(); spmBar();
+}
+/** ROOMMERGE-2026-10-22: the chosen rooms of one floor -> one room (POST /api/polyedit?action=merge; after the next dashboard restart) */
+async function spmMerge() {
+  const s = SPM.sel; if (!SPM.dun || !s || s.kind !== 'rooms' || s.ids.length < 2) return;
+  const rooms = s.ids.map(id => SPM.dun.m.floors.flatMap(F => F.rooms || []).find(r => r.id === id)).filter(Boolean);
+  const name = await uiPrompt({ title: 'Combine ' + rooms.length + ' rooms into one?', body: 'One room with the outline of all of them (for rooms that were cut in two). It keeps the id of ' + rooms[0].id + '; the others are switched off and point to it, so chosen spots and plans keep working. Levels and monsters are added together.', label: 'Name of the combined room', value: rooms[0].name || rooms[0].id, confirmText: 'Combine them' });
+  if (name === null || name === undefined) return;
+  let r;
+  try { r = await api('/api/polyedit?action=merge', { method: 'POST', body: JSON.stringify({ ids: s.ids.slice(), name }) }); } catch (e) { r = { error: e.message }; }
+  if (r && r.error && /kind \(room/.test(r.error)) { uiError('Combining rooms is available after the next dashboard restart.', 'Not yet available'); return; }
+  if (!r || r.error) { uiError((r && r.error) || 'no answer', 'Rooms not combined'); return; }
+  SPM.sel = { kind: 'rooms', dungeon: SPM.dun.m.name, ids: [r.id] };
+  await spmReloadDungeon();
+  const rm = r.remapped || {}, nRemap = Object.values(rm).filter(v => typeof v === 'number').reduce((a, b) => a + b, 0);
+  spmInfoHtml(`<h3>Rooms combined</h3><div><b>${esc(r.room && r.room.name || r.id)}</b> (${esc(r.id)}) now covers ${esc([r.id].concat(r.absorbed || []).join(' + '))}.</div><div class="muted">${nRemap ? nRemap + ' chosen spot / plan entr' + (nRemap === 1 ? 'y' : 'ies') + ' moved to the combined room. ' : ''}${(r.jobs || []).some(j => j.type === 'roomgraph' && !j.skipped) ? 'The room connections are being recalculated in the background (about a minute).' : ''}</div>`);
+}
+async function spmHoleDel(name, hi) {
+  const zn = (SPM.zones || []).find(z => z.name === name); if (!zn) return;
+  if (!(await uiConfirm({ title: 'Remove this keep-out area?', body: 'The bots fight monsters there again.', confirmText: 'Remove it', danger: true }))) return;
+  const holes = (zn.holes || []).filter((h, i) => i !== hi);
+  try { await spmPost(spmZoneBody(zn, { holes })); const el = $('spmInfo'); if (el) { el.hidden = true; el.innerHTML = ''; } spmLayers(); } catch (e) { uiError(e.message, 'Not removed'); }
+}
+// =========================================================================================== render + events
+function spmRender(ov) {
+  ov.classList.add('spm-ov');
+  if (!SPM.map || !ov.querySelector('#spmMap')) {
+    spmDestroy(); SPM.dun = null;
+    if (SPM.selFor !== SPK.party + '|' + (SPK.forPlan ? 'plan' : '')) { SPM.sel = spmInitSel(); SPM.selFor = SPK.party + '|' + (SPK.forPlan ? 'plan' : ''); }
+    ov.innerHTML = spmShell(); spmInit(ov); spmZones(true);
+    // a chosen field selection: load its hunting grounds (labels + "Select all fitting")
+    if (SPM.sel && SPM.sel.kind === 'field') [...new Set(SPM.sel.ids.map(id => (spmRegionOfArea(id) || {}).id).filter(Boolean))].forEach(spmFm);
+    if (!ov._spm) { ov._spm = true; spmBind(ov); }
+  }
+  spmBar(); spmLayers();
+}
+function spmBind(ov) {
+  ov.addEventListener('click', (e) => {
+    if (!SPK || !ov.querySelector('.spm')) return;
+    const t = e.target, q = (s) => t.closest(s);
+    if (q('[data-spmzoom]')) { SPM.map && SPM.map.setZoom(SPM.map.getZoom() + (+q('[data-spmzoom]').dataset.spmzoom)); return; }
+    if (q('[data-spmfit]')) { if (SPM.dun) spmLeaveDungeon(); if (q('[data-spmfit]').dataset.spmfit === 'party') { if (!spmFitParty() && window.UIKit) UIKit.toast('No live position for this party', { kind: 'info' }); } else spmFitSpots(); return; }
+    if (q('[data-spmmobs]')) { SPM.mobsOn = SPM.mobsOn === false; q('[data-spmmobs]').classList.toggle('on', SPM.mobsOn !== false); if (SPM.mobsOn !== false && SPM.map && SPM.map.getZoom() < 1 && window.UIKit) UIKit.toast('Zoom in to see the monsters', { kind: 'info' }); spmMobs(); return; }
+    if (q('[data-spmdraw]')) { if (SPM.edit && SPM.edit.mode !== 'keep') spmEditStop(); else spmEditStart('zone'); return; }
+    if (q('[data-spmkeep]')) { if (SPM.edit && SPM.edit.mode === 'keep') spmEditStop(); else spmEditStart('keep'); return; }
+    if (q('[data-spmundo]')) { if (SPM.edit) { SPM.edit.pts.pop(); SPM.edit.sel = -1; spmEditShape(); spmInfoEdit(); } return; }
+    if (q('[data-spmdelpt]')) { const E = SPM.edit; if (E && E.sel >= 0) { E.pts.splice(E.sel, 1); E.sel = -1; spmEditShape(); spmInfoEdit(); } return; }
+    if (q('[data-spmfinish]')) { if (SPM.edit && SPM.edit.pts.length >= 3) spmInfoForm(); return; }
+    if (q('[data-spmdrawback]')) { spmInfoEdit(); return; }
+    if (q('[data-spmdrawoff]')) { spmEditStop(); const el = $('spmInfo'); if (el) { el.hidden = true; el.innerHTML = ''; } return; }
+    if (q('[data-spmzsave]')) { spmZoneSave(); return; }
+    if (q('[data-spmkeepsave]')) { spmKeepSave(); return; }
+    if (q('[data-spmshapesave]')) { spmShapeSave(); return; }
+    if (q('[data-spmroomshape]')) { const id = q('[data-spmroomshape]').dataset.spmroomshape, r = SPM.dun && SPM.dun.m.floors.flatMap(F => F.rooms || []).find(x => x.id === id); const P = r && (r.poly && r.poly.length >= 3 ? r.poly : null); if (P) spmEditStart('room', P, id); else if (window.UIKit) UIKit.toast('This room has no outline yet — open it in the shape editor', { kind: 'info' }); return; }
+    if (q('[data-spmroomsave]')) { spmRoomShapeSave(); return; }
+    if (q('[data-spmmerge]')) { spmMerge(); return; }
+    if (q('[data-spmholedel]')) { const b = q('[data-spmholedel]'); spmHoleDel(b.dataset.spmholedel, +b.dataset.hi); return; }
+    if (q('[data-spmzshape]')) { const zn = (SPM.zones || []).find(z => z.name === q('[data-spmzshape]').dataset.spmzshape); const P = zn && spmPolyOf(zn.poly); if (P) spmEditStart('shape', P, zn.name); else if (window.UIKit) UIKit.toast('This zone is a circle — open it in the zone editor', { kind: 'info' }); return; }
+    if (q('[data-spmzedit]')) { const nm = q('[data-spmzedit]').dataset.spmzedit; closeSpotPicker(); go('#/zones'); setTimeout(() => { try { const z = (ZONES || []).find(o => o.name === nm); if (z) { zeLoadList(); $('zeZone').value = nm; zeOpen(z); $('zeMap').scrollIntoView({ behavior: 'smooth', block: 'center' }); } } catch (er) { } }, 1200); return; }
+    if (q('[data-spmdun]')) { spmOpenDungeon(q('[data-spmdun]').dataset.spmdun); return; }
+    if (q('[data-spmdunback]')) { spmLeaveDungeon(); return; }
+    if (q('[data-spmfitfloor]')) { if (SPM.dun) spmDunFit(); return; }
+    if (q('[data-spmfloor]')) { SPM.dun.fi = +q('[data-spmfloor]').dataset.spmfloor; SPM.dun.gap = null; spmDunBar(); spmDunFit(); spmLayers(); spmMobs(); return; }
+    if (q('[data-spmgap]')) { const k = q('[data-spmgap]').dataset.spmgap, g = ((SPM.fmIdx || {})[SPM.dun.m.name] || {})[k]; if (g) { SPM.dun.gap = { key: k, z: g.z || null }; spmDunBar(); spmDunFit(); spmLayers(); spmMobs(); } return; }
+    if (q('[data-spmanyroom]')) { if (SPM.dun) saveSpot({ mode: 'manual', kind: 'rooms', dungeon: SPM.dun.m.name, roomId: 'any', stay: SPK.stay }, `${SPM.dun.m.name} · any free room`); return; }
+    if (q('[data-spminfox]')) { const el = $('spmInfo'); if (el) { el.hidden = true; el.innerHTML = ''; } SPM.info = null; if (SPM.edit) spmEditStop(); return; }
+    if (q('[data-spmclear]')) { SPM.sel = null; spmBar(); spmLayers(); return; }
+    if (q('[data-spmorder]')) { SPK.order = SPK.order === 'rotate' ? 'nearest' : 'rotate'; spmBar(); return; }
+    if (q('[data-spmfitall]')) { const s = SPM.sel; if (s && s.kind === 'field') { const d = PSPOT.data || {}, taken = (k) => (d.claims || []).some(c => c.key === k && c.team !== SPK.party) || (d.occupied || []).some(o => o.key === k);
+      [...new Set(s.ids.map(id => (spmRegionOfArea(id) || {}).id).filter(Boolean))].forEach(rid => { const fm = (SPM.fm[rid] || {}).m; ((fm && fm.areas) || []).filter(a => a.reachable && areaFit(a, SPK.lvl.min, SPK.lvl.max) === 'fit' && !taken('area:' + a.id)).forEach(a => { if (!s.ids.includes(a.id)) s.ids.push(a.id); }); });
+      spmBar(); spmLayers(); } return; }
+    if (q('[data-spmsave]')) { spmSave(); return; }
+    if (q('[data-spmres]')) { const r = (SPM.res || [])[+q('[data-spmres]').dataset.spmres]; const el = $('spmRes'); if (el) el.innerHTML = ''; if (r && SPM.map) r.go(); return; }
+  });
+  ov.addEventListener('input', (e) => { if (e.target.id === 'spmq') spmSearch(e.target.value); });
+  ov.addEventListener('keydown', (e) => {
+    if (e.target.id === 'spmq' && e.key === 'Enter') { const r = (SPM.res || [])[0]; const el = $('spmRes'); if (el) el.innerHTML = ''; if (r && SPM.map) r.go(); }
+    if (e.key === 'Escape' && SPM.edit) spmEditStop();
+    if ((e.key === 'Delete' || e.key === 'Backspace') && SPM.edit && SPM.edit.sel >= 0 && !/INPUT|TEXTAREA/.test(e.target.tagName)) { SPM.edit.pts.splice(SPM.edit.sel, 1); SPM.edit.sel = -1; spmEditShape(); spmInfoEdit(); }
+  });
+}
+window.SpotMap = { _state: SPM, render: spmRender, destroy: spmDestroy, fit: spmFit };
+</script>
+
 </body>
 </html>

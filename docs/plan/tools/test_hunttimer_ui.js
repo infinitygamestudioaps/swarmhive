@@ -105,7 +105,7 @@ const readTimers = (F) => { try { return JSON.parse(fs.readFileSync(F, 'utf8'));
 
   // ---- 2) a spot choice with 2 h + "Town, supplies, come back" ----
   await UID.set(ev, { values: { hours: 2, end: 'resupply' }, button: 'go' });
-  await click(`[data-spotpick="${PARTY}"]`);
+  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */
   await waitFor(`!!document.querySelector('#spotov .spotlist')`, 10000);
   await ev(`(() => { const a = document.getElementById('spkall'); if (a && !a.checked) { a.checked = true; a.dispatchEvent(new Event('input', { bubbles: true })); } return true; })()`);
   await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000);
@@ -136,23 +136,23 @@ const readTimers = (F) => { try { return JSON.parse(fs.readFileSync(F, 'utf8'));
   ok('End now: the time is stamped (the leader runs the end action within 15 s)', !!T.parties[PARTY].endNow);
   // ---- 5) Supply run first ----
   await UID.set(ev, { values: { hours: 3, end: 'town' }, button: 'supply' });
-  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000);
+  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000);
   await click('[data-spkdp]');
   ok('"Supply run first": !supply sent to the party (intercepted)', await (async () => { for (let i = 0; i < 60; i++) { if (posts.some(p => /\/api\/command/.test(p.url) && p.body && p.body.cmd === '!supply' && p.body.target === 'party:' + PARTY)) return true; await sleep(100); } return false; })());
   T = readTimers(HTF);
   ok('... and the 3 h timer is set (go to town and wait)', T.parties[PARTY].hours === 3 && T.parties[PARTY].endAction === 'town' && T.parties[PARTY].id !== e.id);
   // ---- 6) Until I stop it / Back to auto ----
   await UID.set(ev, { values: { hours: 'stop' }, button: 'go' });
-  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000);
+  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000);
   await click('[data-spkdp]');
   for (let i = 0; i < 50; i++) { T = readTimers(HTF); if (T && !T.parties[PARTY]) break; await sleep(100); }
   ok('"Until I stop it": the timer is removed (today\'s behaviour)', T && !T.parties[PARTY]);
   await UID.set(ev, { values: { hours: 1 }, button: 'go' });
-  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000); await click('[data-spkdp]');
+  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000); await click('[data-spkdp]');
   for (let i = 0; i < 50; i++) { T = readTimers(HTF); if (T && T.parties[PARTY]) break; await sleep(100); }
   await UID.set(ev, true);
   await ev(`(HuntTimer.load(true), true)`); await sleep(500);
-  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spkauto]')`, 8000); await click('[data-spkauto]');
+  await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('[data-spkauto]')`, 8000); await click('[data-spkauto]');
   for (let i = 0; i < 50; i++) { T = readTimers(HTF); if (T && !T.parties[PARTY]) break; await sleep(100); }
   ok('Back to auto: the timer is removed too', T && !T.parties[PARTY]);
   ok('no page errors', !errors.length, errors.slice(0, 2).join(' ; '));

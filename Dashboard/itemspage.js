@@ -322,10 +322,30 @@
         if (!r || r.error || !r.job || !(r.job.enchantMany || r.job.enchant)) continue;
         const v = model(r.job, r.status || {}, (E.hist || {})[id]); v.at = Date.now(); out.push(v);
       }
+      // ENCHSYNC-2026-10-22 (owner: "/enchanting is not updating the enchantment process with clan warehouse status and items ... it does not match up with the
+      // warehouse i have"): a cut-off / unfinished job only knew its own steps (Dagger1's 20 Oct job listed 6 Karmian Boots "waiting" while the clan warehouse
+      // held 2). Every open item is checked against the doer's bag + clan warehouse NOW (name + level; the clan rows carry no object id): still there = it waits,
+      // gone = "not there any more" and it no longer counts for Resume
+      for (const v of out) {
+        if (!(v.interrupted || !v.final) || !v.items.some(x => x.st === 'waiting' || x.st === 'stopped')) continue;
+        const C = await doerNow(v.doer); if (!C) continue;
+        const avail = {}; const add = (r, where) => { const k = r.name.replace(/^\+\d+\s+/, '') + '|' + (Number(r.enchant) || 0); (avail[k] = avail[k] || []).push(where); };
+        (C.bag || []).forEach(r => add(r, 'bag')); (C.wh || []).forEach(r => add(r, 'warehouse')); (C.clan || []).forEach(r => { for (let k = 0; k < Math.max(1, Number(r.count) || 1); k++) add(r, 'clan warehouse'); });
+        v.items.forEach(x => {
+          if (x.st !== 'waiting' && x.st !== 'stopped') return;
+          const lv = x.st === 'stopped' ? x.lvl : x.from, L = avail[x.name + '|' + lv];
+          if (L && L.length) { const where = L.shift(); x.here = where; x.why = (x.why ? x.why + ' · ' : '') + 'in the ' + (where === 'bag' ? v.doer + "'s bag" : where) + ' now' + (lv ? ' at +' + lv : ''); }
+          else { x.st = 'gone'; x.why = 'not in the ' + (x.src === 'clan' ? 'clan warehouse' : x.src === 'bag' ? v.doer + "'s bag" : 'warehouse') + ' any more (used, sold or lost after this job)'; }
+        });
+        v.c.wait = v.items.filter(x => x.st === 'waiting').length; v.c.gone = v.items.filter(x => x.st === 'gone').length;
+        v.seen = C.clanSeen || ''; v.seenBy = C.clanSeenBy || '';
+      }
       E.jobs = out; E.err = '';
     } catch (e) { E.err = String(e && e.message || e); }
     E.busy = false; renderJobs(); schedule();
   }
+  const DOER = {};
+  async function doerNow(n) { const c = DOER[n]; if (c && Date.now() - c.at < 60000) return c.d; try { const d = await api('/api/items/char?name=' + encodeURIComponent(n)); if (d && !d.error) { DOER[n] = { at: Date.now(), d }; return d; } } catch (e) { } return c ? c.d : null; }
   function schedule() {
     clearTimeout(E.timer); if (!E.open) return;
     const live = E.jobs.some(j => !j.final);
@@ -493,7 +513,7 @@
   }
 
   // ---------------------------------------------------------------------------------------------------------------- render
-  const ST_TXT = { waiting: 'waiting', taking: 'taking it out…', enchanting: 'enchanting…', done: 'reached', broke: 'broke', dropped: 'dropped to', stopped: 'stopped', skipped: 'not done' };
+  const ST_TXT = { gone: 'not there any more', waiting: 'waiting', taking: 'taking it out…', enchanting: 'enchanting…', done: 'reached', broke: 'broke', dropped: 'dropped to', stopped: 'stopped', skipped: 'not done' };
   function pips(x) {
     let s = '';
     for (let k = 1; k <= x.to; k++) {
@@ -513,10 +533,11 @@
     const now = j.items.find(x => x.st === 'enchanting' || x.st === 'taking');
     const eta = !j.final && j.perTry && j.left ? `about ${mins(j.perTry * j.left)} left at most` : '';
     const head = `${h(j.doer)} · ${n} item${n === 1 ? '' : 's'} → +${j.to}${j.blessed ? ' (blessed)' : ''}`;
-    const sum = [`<span class="enp-k ok">${gim('icon/etc_scroll_of_enchant_armor_i02')} ${j.c.done} reached +${j.to}</span>`, j.c.broke ? `<span class="enp-k bad">✗ ${j.c.broke} broke</span>` : '', j.c.dropped ? `<span class="enp-k warn">${j.c.dropped} dropped</span>` : '', j.c.work ? `<span class="enp-k now">${j.c.work} working</span>` : '', j.c.wait ? `<span class="enp-k">${j.c.wait} waiting</span>` : '', j.c.skip ? `<span class="enp-k">${j.c.skip} not done</span>` : ''].filter(Boolean).join('');
+    const sum = [`<span class="enp-k ok">${gim('icon/etc_scroll_of_enchant_armor_i02')} ${j.c.done} reached +${j.to}</span>`, j.c.broke ? `<span class="enp-k bad">✗ ${j.c.broke} broke</span>` : '', j.c.dropped ? `<span class="enp-k warn">${j.c.dropped} dropped</span>` : '', j.c.work ? `<span class="enp-k now">${j.c.work} working</span>` : '', j.c.wait ? `<span class="enp-k">${j.c.wait} waiting</span>` : '', j.c.skip ? `<span class="enp-k">${j.c.skip} not done</span>` : '', j.c.gone ? `<span class="enp-k">${j.c.gone} not there any more</span>` : ''].filter(Boolean).join('');
     const state = j.interrupted ? 'cut off' : j.final ? (j.state === 'done' ? 'finished' : 'stopped') : 'running';
     const left = j.items.filter(x => x.st === 'waiting' || x.st === 'stopped').length;
-    const cut = j.interrupted ? `<div class="itp-danger enp-cut">${h(j.doer)}'s script was restarted in the middle of this job, so it stopped. ${left} item${left === 1 ? '' : 's'} not finished — nothing else happens until you press Resume.<button type="button" class="itp-go" data-enpresume="${h(j.id)}" data-enpdoer="${h(j.doer)}">Resume (${left} left)</button></div>` : '';
+    const seenTxt = j.seen ? ` (clan warehouse checked ${h(day(j.seen))} ${h(clock(j.seen))}${j.seenBy ? ' by ' + h(j.seenBy) : ''})` : '';
+    const cut = j.interrupted ? (left ? `<div class="itp-danger enp-cut">${h(j.doer)}'s script was restarted in the middle of this job, so it stopped. ${left} item${left === 1 ? '' : 's'} still there and not finished${j.c.gone ? `, ${j.c.gone} not there any more` : ''}${seenTxt} — nothing else happens until you press Resume.<button type="button" class="itp-go" data-enpresume="${h(j.id)}" data-enpdoer="${h(j.doer)}">Resume (${left} left)</button></div>` : `<div class="itp-note enp-cut">This job was cut off by a restart. None of its unfinished items are in the bag or the clan warehouse any more${seenTxt}, so there is nothing left to resume.</div>`) : '';
     const body = `${cut}<div class="enp-bar"><span style="width:${pct}%"></span></div>
       <div class="enp-sum">${sum}</div>
       <div class="enp-meta">${h(state)} · started ${h(day(j.created))} ${h(clock(j.created))}${j.tries ? ` · ${j.tries} scroll${j.tries === 1 ? '' : 's'} used` : ''}${eta ? ' · ' + h(eta) : ''}${j.overSafe && j.to > SAFE ? ` · <b class="enp-risk">above +${SAFE}: every fail ${j.blessed ? 'drops the item to +0' : 'destroys the item'}</b>` : ''}</div>
