@@ -79,7 +79,7 @@ const TOGGLE_NAME_RE = /^[A-Za-z0-9][A-Za-z0-9 '\-:.]{0,39}$/;   // a skill name
 const BANDS = [1, 20, 40, 52, 61, 76];
 const BAND_LABEL = { 1: 'Level 1–19 (no grade)', 20: 'Level 20–39 (D grade)', 40: 'Level 40–51 (C grade)', 52: 'Level 52–60 (B grade)', 61: 'Level 61–75 (A grade)', 76: 'Level 76+ (S grade)' };
 const AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore'];   // = swarm.js PAUTO_AMT_KEYS (ORE 2026-10-14: + Spirit Ore)
-const AMT_INFO = { soulshots: { label: 'Soulshots', short: 'Soulshots', max: 1000000 }, spiritshots: { label: 'Spiritshots', short: 'Spiritshots', max: 1000000 },
+const AMT_INFO = { soulshots: { label: 'Soulshots', short: 'Soulshots', max: null }, spiritshots: { label: 'Spiritshots', short: 'Spiritshots', max: null },
   mana: { label: 'Mana Potions', short: 'Mana pots', max: 100000 }, healing: { label: 'Healing Potions', short: 'Heal pots', max: 50000 },
   soe: { label: 'Scrolls of Escape', short: 'Escape', max: 2000 }, sor: { label: 'Scrolls of Resurrection', short: 'Res scrolls', max: 2000 },
   ore: { label: 'Spirit Ore (only characters whose skills eat it: Major Heal, cubics, summons)', short: 'Spirit Ore', max: 500000 } };   // LIMITS-2026-10-22 (public tester: 25k Spirit Ore was refused): all limits x5-x25
@@ -115,7 +115,8 @@ function amountsIn(t, where, errors) {
       if (!AMT_KEYS.includes(k)) { errors.push(`${where} ${b}: unknown item "${String(k).slice(0, 20)}"`); return; }
       const v = row[k]; if (v === null || v === '') return;
       const n = Number(v);
-      if (!Number.isFinite(n) || n < 0 || Math.round(n) !== n || n > AMT_INFO[k].max) { errors.push(`${where} ${BAND_LABEL[b]}: ${AMT_INFO[k].label} must be a whole number from 0 to ${AMT_INFO[k].max}`); return; }
+      const mx = AMT_INFO[k].max;   // NOLIMIT-2026-10-22 (owner: shots have no limit, whatever the player wants to give): max null = any whole number
+      if (!Number.isSafeInteger(n) || n < 0 || (mx !== null && n > mx)) { errors.push(`${where} ${BAND_LABEL[b]}: ${AMT_INFO[k].label} must be a whole number ${mx !== null ? 'from 0 to ' + mx : '(0 or more)'}`); return; }
       r[k] = n;
     });
     if (Object.keys(r).length) out[String(b)] = r;

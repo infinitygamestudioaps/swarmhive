@@ -2,6 +2,10 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.15 (2026-10-22)
+
+- Soulshots and spiritshots have no limit any more in the supply amounts: give your characters whatever you want (any whole number, 0 or more)
+
 ## v1.8.14 (2026-10-22)
 
 - Buff turn reworked after tester feedback: the party keeps fighting while one character buffs, the buffing character follows without assisting and fights back when attacked, a fight never counts as a failed try

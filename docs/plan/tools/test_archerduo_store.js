@@ -2,6 +2,7 @@
 const fs = require('fs'), path = require('path'), R = path.join(__dirname, '..', '..', '..');
 const S = fs.readFileSync(path.join(R, 'Scripts_dev', 'swarm.js'), 'utf8');
 const PS = fs.readFileSync(path.join(R, 'Dashboard', 'partysettings.js'), 'utf8'), PA = fs.readFileSync(path.join(R, 'Dashboard', 'partyauto_api.js'), 'utf8');
+const api = require(path.join(R, 'Dashboard', 'partyauto_api.js'));
 let ok = 0, bad = 0; const t = (n, c) => { if (c) ok++; else { bad++; console.log('FAIL', n); } };
 t('mtNoDealer reads the live healer flag', /function mtNoDealer\(\)[^\n]*livePos\[n\]\.healer/.test(S));
 t('mtNoDealer reads the live role', /function mtNoDealer\(\)[^\n]*livePos\[n\]\.role/.test(S));
@@ -16,7 +17,9 @@ t('rebuff trip calls the add-on', /await soStoreAddOn\(out, 'rebuff trip'\)/.tes
 t('up to 6 stores tried', /sellers\.slice\(0, 6\)/.test(S));
 t('dashboard Spirit Ore limit 500k', /\['ore', 'Spirit Ore', 500000\]/.test(PS));
 t('API Spirit Ore limit 500k', /short: 'Spirit Ore', max: 500000 \} \};/.test(PA));
-t('API soulshots 1M', /short: 'Soulshots', max: 1000000/.test(PA));
-const api = require(path.join(R, 'Dashboard', 'partyauto_api.js'));
+t('API soulshots: no limit', /short: 'Soulshots', max: null/.test(PA) && /short: 'Spiritshots', max: null/.test(PA));
+t('dashboard shots: no limit', PS.includes("['soulshots', 'Soulshots', null], ['spiritshots', 'Spiritshots', null]"));
+{ const e1 = [], o1 = api.amountsIn({ '76': { soulshots: 5000000, spiritshots: 2500000, ore: 25000 } }, 'test', e1); t('API accepts 5M soulshots + 25k ore', !e1.length && o1 && o1['76'] && o1['76'].soulshots === 5000000);
+  const e2 = []; api.amountsIn({ '76': { soulshots: -1, ore: 600000 } }, 'test', e2); t('API refuses negative shots + ore above 500k', e2.length === 2); }
 t('API module loads', !!api);
 console.log(`${ok} passed, ${bad} failed`); process.exit(bad ? 1 : 0);
