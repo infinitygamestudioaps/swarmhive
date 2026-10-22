@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.14 (2026-10-22)
+
+- Buff turn reworked after tester feedback: the party keeps fighting while one character buffs, the buffing character follows without assisting and fights back when attacked, a fight never counts as a failed try
+- Death Penalty for every party also without supply runs (Scroll: Recovery bought on every Giran visit, read in the field, short Giran trip at death penalty 4)
+- Chant of Victory: with the store switch on the 12 hour rebuff becomes a quick Giran trip and the team goes straight back
+- a party that dies 3 times within an hour at a spot the bot picked skips it for 6 hours
+- archer or other dealer leader with only a healer now kills everything on the way (also ranged monsters outside the leash) instead of standing still
+- player buff store buffs come on top of the other buff sources wherever store is in the list, bought for the whole party on supply runs and rebuff trips, up to 6 stores tried
+- supply amount limits raised (Spirit Ore 500k, shots 1M, mana 100k)
+
 ## v1.8.13 (2026-10-21)
 
 - Hotfix: update.cmd now repairs an install that is missing files of its version (a v1.8.12 update could leave out Dashboard academy_api.js

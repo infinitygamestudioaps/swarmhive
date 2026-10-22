@@ -1,0 +1,22 @@
+// ARCHERDUO / STOREADD / LIMITS 2026-10-22 (public testers): archer + healer duo kills on the way; store buffs come on top; bigger supply limits
+const fs = require('fs'), path = require('path'), R = path.join(__dirname, '..', '..', '..');
+const S = fs.readFileSync(path.join(R, 'Scripts_dev', 'swarm.js'), 'utf8');
+const PS = fs.readFileSync(path.join(R, 'Dashboard', 'partysettings.js'), 'utf8'), PA = fs.readFileSync(path.join(R, 'Dashboard', 'partyauto_api.js'), 'utf8');
+let ok = 0, bad = 0; const t = (n, c) => { if (c) ok++; else { bad++; console.log('FAIL', n); } };
+t('mtNoDealer reads the live healer flag', /function mtNoDealer\(\)[^\n]*livePos\[n\]\.healer/.test(S));
+t('mtNoDealer reads the live role', /function mtNoDealer\(\)[^\n]*livePos\[n\]\.role/.test(S));
+t('mtFight: solo killer never cancels its own shot', /soloKill && Me\.IsAttacking\)\) Send\.StopMove/.test(S));
+t('mtFight: solo killer fights until nothing is left', /mtPackNear\(\) <= \(soloKill \? 0 : MT\.packLeft\)/.test(S));
+t('mtLeashFight shoots a ranged attacker outside the leash', /ARCHERDUO-2026-10-22: a ranged/.test(S) && /< 1600\) mobs\.push\(m\)/.test(S));
+t('soStoreAddOn exists', /async function soStoreAddOn\(out, tag\)/.test(S));
+t('store add-on ignores the source order', /e\.buffSources\.indexOf\('store'\) < 0/.test(S));
+t('store add-on: Party button, else me', /storeBuyBuff\(id, 'Party', name, opt\)/.test(S) && /no Party button/.test(S));
+t('supply run calls the add-on', /await soStoreAddOn\(res, 'supply'\)/.test(S));
+t('rebuff trip calls the add-on', /await soStoreAddOn\(out, 'rebuff trip'\)/.test(S));
+t('up to 6 stores tried', /sellers\.slice\(0, 6\)/.test(S));
+t('dashboard Spirit Ore limit 500k', /\['ore', 'Spirit Ore', 500000\]/.test(PS));
+t('API Spirit Ore limit 500k', /short: 'Spirit Ore', max: 500000 \} \};/.test(PA));
+t('API soulshots 1M', /short: 'Soulshots', max: 1000000/.test(PA));
+const api = require(path.join(R, 'Dashboard', 'partyauto_api.js'));
+t('API module loads', !!api);
+console.log(`${ok} passed, ${bad} failed`); process.exit(bad ? 1 : 0);

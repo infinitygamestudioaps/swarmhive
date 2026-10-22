@@ -196,7 +196,7 @@ const ov = C.COMMANDS.find(c => c.id === 'ovres');
 check(ov && /\{how\}/.test(ov.tpl) && ov.args.some(x => x.key === 'how'), 'catalog: Override resurrect takes "how" (skill / scroll / blessed)');
 const has = (re, what) => check(re.test(src), 'wiring: ' + what);
 has(/globalThis\.OnRevive = \(objId\) => \{\n  if \(!IsMe\(objId\)\) return;\n  try \{ if \(resAfterRevive\(\)\) return; \}/, 'OnRevive -> resAfterRevive (rebuff first) before the old buff-turn request');
-has(/state\.buffTurn \|\| resAfterHold\(\)\) return;/, 'healer brain holds while the revived healer rebuffs');
+has(/(?:state\.buffTurn|bfTurnQuiet\(\)) \|\| resAfterHold\(\)\) return;/, 'healer brain holds while the revived healer rebuffs');   // BUFFFIX2-2026-10-21: bfTurnQuiet = the buff turn while nothing hits me
 has(/scrolls: itemCount\(737\), rk: resPosKit\(\)/, 'swarm.pos carries the res kit');
 has(/livePos\[d\.name\]\.rk = /, 'teammates keep the res kit');
 has(/if \(cmd === '!res' \|\| cmd === '!resall'\) \{ resOrder\(parts\); return; \}/, 'handleSay: !res / !resall');

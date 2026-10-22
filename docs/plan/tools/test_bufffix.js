@@ -3,7 +3,7 @@
 //   node docs/plan/tools/test_bufffix.js        (exit code 1 when a check fails)
 //   A  waitOutOfCombat: waits for a clear moment (out of combat + no hit for 8 s, held 3 s), steps out of reach once after 15 s, gives up at the max
 //   B  the buff turn: never clicks in a fight, a fight refusal is no board failure (short retry, no back-off), town clears the back-off,
-//      self-defence stays off during the turn, no second click in a fight, the leader holds the pulls while a teammate buffs
+//      BUFFFIX2: self-defence fights back during the turn, the bot stays on (follow, no assist), a fight is no failed attempt, the pull hold only with buffHoldPulls
 //   C  resAfterStep: "board buffs refused" instead of "buffs done" after a refused board
 //   D  mtFight: the fight time is summed per waypoint (the wait clock is not reset), fightDone after fightMaxMs in total; the leader fights when
 //      nobody else can kill; a member held in a fight without progress counts as stuck
@@ -46,13 +46,57 @@ const lineOf = (name) => { const m = new RegExp('^(async )?function ' + name + '
   // ---- B: the buff turn (source shape: host code)
   {
     const turn = fnText('runBuffTurn');
-    ok(/await waitOutOfCombat\(\)/.test(turn) && turn.indexOf('waitOutOfCombat()') < turn.indexOf('await buffSelf('), `B runBuffTurn waits out of combat BEFORE the board click (line ${lineOf('runBuffTurn')})`);
+    ok(/await waitOutOfCombat\(/.test(turn) && turn.indexOf('await waitOutOfCombat(') < turn.indexOf('await buffSelf('), `B runBuffTurn waits out of combat BEFORE the board click (line ${lineOf('runBuffTurn')})`);
     ok(/else if \(inCombatFail && !Me\.IsDead\)[\s\S]{0,200}inCombatRetryMs/.test(turn) && !/inCombatFail[\s\S]{0,120}buffFails = \(state\.buffFails/.test(turn), 'B a turn refused for a fight: short retry, buffFails unchanged (no 5/10/20/40/60 min back-off)');
-    ok(/if \(state\.buffTurn\) return;\s+\/\/ BUFFFIX/.test(src), 'B self-defence stays off during my buff turn (it switched the bot ON again)');
+    // BUFFFIX2-2026-10-21 (Vykaax): self-defence is NOT paused (a duo's healer cannot protect me), the bot stays on (I keep following), no assist
+    ok(!/if \(state\.buffTurn\) return;/.test(src) && /if \(state\.buffTurn\) \{ if \(now\(\) - \(state\.buffTurnFight \|\| 0\) > 4000\) state\.buffTurnFight = now\(\); \}/.test(src), 'B2 self-defence fights back during my buff turn (marks the fight for the turn)');
+    ok(!/DisableBot\(\)/.test(turn) && /noStep: true/.test(turn), 'B2 the buff turn keeps the bot ON (following) and never walks off to a safe spot');
+    ok(!/state\.buffTurn \|\| benched\(\)\) return;/.test(src), 'B2 the script follow (nnFollow) keeps following during a buff turn');
+    ok(/!healerMode \|\| healing \|\| Me\.IsDead \|\| bfTurnQuiet\(\)/.test(src) && /!healerMode && !bfTurnQuiet\(\) && !state\.escaping/.test(src), 'B2 healing + attack skills come back as soon as a monster hits me during the turn');
     ok(/reclick: !action && !bfInCombat\(\)/.test(src), 'B no second board click in a fight');
     ok(/!buffsPage && bfInCombat\(\)\) \{ const e = new Error[\s\S]{0,140}e\.inCombat = true/.test(src), "B a 'Buffs' timeout in a fight is an in-combat error (not a board failure)");
     ok(/buffBackoffReset\('in town, out of combat'\)/.test(src), 'B in town out of combat the back-off is cleared (the supply visit rebuffs)');
-    ok(/buffCurrent && buffCurrent\.name !== Me\.Name && !bfInCombat\(\) && autoLvl\.spot[\s\S]{0,200}holding the pulls/.test(src), 'B the leveling leader holds new pulls while a teammate buffs (max 60 s)');
+    ok(/!solo && bfHoldPullsOn\(\) && buffCurrent && buffCurrent\.name !== Me\.Name && !bfInCombat\(\) && autoLvl\.spot[\s\S]{0,200}holding the pulls/.test(src), 'B2 the pull hold during a teammate\'s buff turn only with the party option buffHoldPulls');
+    { const hold = new Function('now', 'SWARM_ROOT', 'File', 'teamOf', 'Me', 'BFHOLD', fnText('bfHoldPullsOn') + '\nreturn bfHoldPullsOn;');
+      const fileWith = (txt) => ({ ReadAllText: () => { if (txt === null) throw new Error('no file'); return txt; } });
+      const mkH = (txt) => hold(() => 1e9, 'C:\\x', fileWith(txt), () => 'Spoiler7', { Name: 'Spoiler7' }, { v: false, at: 0 });
+      ok(mkH(null)() === false && mkH('{}')() === false, 'B2 buffHoldPulls missing = OFF: the party keeps fighting while one character buffs (default)');
+      ok(mkH('{"default":{"buffHoldPulls":true}}')() === true && mkH('{"default":{"buffHoldPulls":true},"parties":{"Spoiler7":{"buffHoldPulls":false}}}')() === false, 'B2 buffHoldPulls: default true holds, the party\'s own false wins'); }
+    // B2 the turn on a fake clock: following without assist, attacked -> fight -> clear -> click again (the fight is no failed attempt), duo leader + healer
+    {
+      const runTurn = async (scenario) => {
+        const W = { t: 0, clicks: 0, fa: [], enabled: true, disabled: 0, startC: 0, notes: [] };
+        const state = { buffTurn: false, buffTurnFight: 0, buffFails: 0, buffBackoffUntil: 0, buffFailInCombat: false };
+        const Opt = { _fa: true, get FollowAtk() { return this._fa; }, set FollowAtk(v) { this._fa = v; W.fa.push(v); } };
+        const env = { state, CONFIG: { buffs: { attempts: 3, outOfCombatMaxMs: 45000, inCombatRetryMs: 60000, turnTimeoutMs: 150000, backoffMs: 300000, fightCycles: 4 } },
+          now: () => W.t, sleep: async (ms) => { W.t += ms; }, Me: { IsDead: false }, IsInCombat: false, Options: Opt,
+          needsBuff: () => true, longBuffCount: () => 3, buffSecondsLeft: () => 100, fmtTime: (s) => s + 's', note: (m) => W.notes.push(m),
+          stopCombatG: () => { }, startCombatG: () => { W.startC++; }, DisableBot: () => { W.disabled++; }, EnableBot: () => { },
+          bfHitMe: (ms) => scenario.hitAt(W.t, ms),
+          waitOutOfCombat: async (max, settle, opt) => { W.noStep = !!(opt && opt.noStep); const r = await scenario.wait(W, state); return r; },
+          buffSelf: async () => { W.clicks++; W.faAtClick = Opt.FollowAtk; return scenario.click(W, state); } };
+        const f = new Function(...Object.keys(env), fnText('runBuffTurn') + '\nreturn runBuffTurn;')(...Object.values(env));
+        const ok2 = await f(); return { ok: ok2, W, state };
+      };
+      // a monster hits me twice while I wait; each time self-defence marks a fight; after it the clear moment comes and the click works
+      let fightN = 0;
+      const sc1 = { hitAt: () => false,
+        wait: async (W, st) => { if (fightN < 2) { fightN++; W.t += 8000; st.buffTurnFight = W.t; } W.t += 3000; return true; },
+        click: (W) => W.clicks >= 1 };
+      const r1 = await runTurn(sc1);
+      ok(r1.ok === true && r1.W.clicks === 1 && r1.W.disabled === 0, `B2 attacked twice while waiting: fought (self-defence), then ONE click worked; the bot was never switched off (clicks ${r1.W.clicks})`);
+      ok(r1.W.faAtClick === false && r1.W.fa[r1.W.fa.length - 1] === true && r1.W.noStep === true, 'B2 follow without assist during the turn (FollowAtk off at the click, back on after), no walking off');
+      ok(r1.state.buffTurn === false && r1.state.buffFails === 0, 'B2 the turn ends cleanly, no failure counted');
+      // hit DURING the click (the board refused for the fight): that try is not counted, the next clear moment clicks again
+      const sc2 = { hitAt: (t) => false, wait: async (W) => { W.t += 3000; return true; },
+        click: (W, st) => { if (W.clicks === 1) { st.buffFailInCombat = true; return false; } return true; } };
+      const r2 = await runTurn(sc2);
+      ok(r2.ok === true && r2.W.clicks === 2, `B2 hit during the click: fight, then the SAME attempt again (2 clicks, the first not counted as a failure)`);
+      // a duo whose healer cannot protect me: attacked over and over -> after fightCycles fights the turn ends as "in combat" (short retry, never a long back-off)
+      const sc3 = { hitAt: () => false, wait: async (W, st) => { W.t += 6000; st.buffTurnFight = W.t; return true; }, click: (W, st) => { st.buffFailInCombat = true; return false; } };
+      const r3 = await runTurn(sc3);
+      ok(r3.ok === false && r3.W.clicks <= 5 && r3.state.buffFails === 0 && r3.state.buffBackoffUntil > 0 && r3.state.buffBackoffUntil - r3.W.t <= 60000, `B2 duo, attacked again and again: it keeps fighting back, the turn ends as "in combat" -> retry in 60 s, no back-off (${r3.W.clicks} clicks)`);
+    }
     ok(/turnTimeoutMs: 150000/.test(src), 'B the leader queue gives a turn 150 s (it may wait 45 s for a clear moment)');
     ok(/A\.boardTries\+\+; if \(!inRaid\(\) && !await waitOutOfCombat\(15000, 2000\)\)/.test(src) && /if \(await waitOutOfCombat\(20000, 2000\)\) await buffSelf\('return trip/.test(src), 'B after a revive + on the return trip: wait out of combat before the board');
   }

@@ -79,10 +79,10 @@ const TOGGLE_NAME_RE = /^[A-Za-z0-9][A-Za-z0-9 '\-:.]{0,39}$/;   // a skill name
 const BANDS = [1, 20, 40, 52, 61, 76];
 const BAND_LABEL = { 1: 'Level 1–19 (no grade)', 20: 'Level 20–39 (D grade)', 40: 'Level 40–51 (C grade)', 52: 'Level 52–60 (B grade)', 61: 'Level 61–75 (A grade)', 76: 'Level 76+ (S grade)' };
 const AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore'];   // = swarm.js PAUTO_AMT_KEYS (ORE 2026-10-14: + Spirit Ore)
-const AMT_INFO = { soulshots: { label: 'Soulshots', short: 'Soulshots', max: 100000 }, spiritshots: { label: 'Spiritshots', short: 'Spiritshots', max: 100000 },
-  mana: { label: 'Mana Potions', short: 'Mana pots', max: 20000 }, healing: { label: 'Healing Potions', short: 'Heal pots', max: 5000 },
-  soe: { label: 'Scrolls of Escape', short: 'Escape', max: 200 }, sor: { label: 'Scrolls of Resurrection', short: 'Res scrolls', max: 200 },
-  ore: { label: 'Spirit Ore (only characters whose skills eat it: Major Heal, cubics, summons)', short: 'Spirit Ore', max: 20000 } };
+const AMT_INFO = { soulshots: { label: 'Soulshots', short: 'Soulshots', max: 1000000 }, spiritshots: { label: 'Spiritshots', short: 'Spiritshots', max: 1000000 },
+  mana: { label: 'Mana Potions', short: 'Mana pots', max: 100000 }, healing: { label: 'Healing Potions', short: 'Heal pots', max: 50000 },
+  soe: { label: 'Scrolls of Escape', short: 'Escape', max: 2000 }, sor: { label: 'Scrolls of Resurrection', short: 'Res scrolls', max: 2000 },
+  ore: { label: 'Spirit Ore (only characters whose skills eat it: Major Heal, cubics, summons)', short: 'Spirit Ore', max: 500000 } };   // LIMITS-2026-10-22 (public tester: 25k Spirit Ore was refused): all limits x5-x25
 // = swarm.js CONFIG.lead.supply (shotsFighter, shotsMage, manaPotions, healingPotions || 30, soe, sor): what a character carries when nothing is set
 const BUILTIN = { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300 };   // ore = CONFIG.lead.supply.oreUsers
 // "Fill in suggested amounts" on the dashboard: cheap at low levels, more as the grade (and the shot use) grows

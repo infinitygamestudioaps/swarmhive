@@ -56,7 +56,7 @@ has(/re-planning from here to the destination/, 'a stuck leg on the destination 
 console.log('6) safe-spot rebuff (owner add-on)');
 has(/d\.bl = khBoardLeftSec\(\)/, 'every window reports its board-buff time left (swarm.pos bl)');
 has(/function khRebuffCfg\(\)[\s\S]{0,300}server_options\.json[\s\S]{0,500}let on = true, min = 60|let on = true, min = 60[\s\S]{0,300}server_options\.json/, 'setting safeRebuff in server_options.json, missing = ON at 60 min');
-has(/left >= cfg\.minLeftMin \* 60\) return false/, 'only below the threshold');
+has(/buffDue = cfg\.on && left >= 0 && left < cfg\.minLeftMin \* 60[\s\S]{0,900}if \(!buffDue\) return false;/, 'only below the threshold (DPCOV-2026-10-21: buffDue; a DP trip may start without it)');
 has(/khSafePoint\(1200, avoid\)/, 'a safe spot = no live monster within 1200 on this floor');
 has(/App\.emit\('swarm\.khrebuff'[\s\S]{0,600}waitOutOfCombat\(45000, 3000\)/, 'the leader calls the team, rebuffs after the out-of-combat wait');
 has(/tries < 2 \? 'trying another safe spot' : 'falling back to the normal rebuff rotation'/, 'board refused: one more safe spot, then the old rotation (said in party chat)');

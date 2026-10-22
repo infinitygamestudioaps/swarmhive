@@ -142,7 +142,8 @@ function harness(code, opt) {
     DLV: { on: false }, CharList: { forEach() { } }, appendShared: () => { }, lastSysMsg: null, rkPetToHeal: () => null, Target: null, mobById: () => null,
     skillPlan: { key: '', attacks: [], selfBuffs: [], toggles: [], lock: null },   // the support-heal gate (CASTPRIO) reads the caster's plan; a healer has no magic attacks
     logError: (w, e) => { console.error('  host error', w, e); }, setInterval: (f) => { intervals.push(f); return 0; },
-    hiveHealsOn: () => opt.heals !== false, hiveSkillsOn: () => true };   // HIVESW-2026-10-15: Hive heals (the default; opt.heals false = the player's profile heals)
+    hiveHealsOn: () => opt.heals !== false, hiveSkillsOn: () => true,
+    bfTurnQuiet: () => false };   // BUFFFIX2-2026-10-21: the heal guards ask whether a quiet buff turn holds the healer (none in these cases)   // HIVESW-2026-10-15: Hive heals (the default; opt.heals false = the player's profile heals)
   const names = Object.keys(env);
   const exportsList = opt.old ? 'healTick, castOnMate' : 'healTick, castOnMate, hsReport, HSH';
   const fn = new Function(...names, code + `\nreturn { ${exportsList}, setHealer: (v) => { healerMode = v; }, getHealer: () => healerMode };`);

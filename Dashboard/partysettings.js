@@ -199,7 +199,7 @@
   const paDef = (k) => { const d = ok(PS.D.pauto) ? obj(obj(PS.D.pauto.data).default)[k] : undefined; if (typeof d === 'boolean') return d; const K = paKinds().find(x => x.key === k) || CB_KINDS.find(x => x.key === k); return !!(K && K.def); };
   // SUPPLYAMT 2026-10-14: the amounts table (the API sends bands / items / built-in / suggested values)
   const AMT_FALLBACK = { bands: [[1, 'Level 1–19 (no grade)'], [20, 'Level 20–39 (D grade)'], [40, 'Level 40–51 (C grade)'], [52, 'Level 52–60 (B grade)'], [61, 'Level 61–75 (A grade)'], [76, 'Level 76+ (S grade)']].map(([start, label]) => ({ start, label })),
-    keys: [['soulshots', 'Soulshots', 100000], ['spiritshots', 'Spiritshots', 100000], ['mana', 'Mana pots', 20000], ['healing', 'Heal pots', 5000], ['soe', 'Escape', 200], ['sor', 'Res scrolls', 200], ['ore', 'Spirit Ore', 20000]].map(([key, short, max]) => ({ key, short, label: short, max })),
+    keys: [['soulshots', 'Soulshots', 1000000], ['spiritshots', 'Spiritshots', 1000000], ['mana', 'Mana pots', 100000], ['healing', 'Heal pots', 50000], ['soe', 'Escape', 2000], ['sor', 'Res scrolls', 2000], ['ore', 'Spirit Ore', 500000]].map(([key, short, max]) => ({ key, short, label: short, max })),
     builtin: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300 }, suggest: {} };
   const amtInfo = () => (ok(PS.D.pauto) && PS.D.pauto.amounts ? PS.D.pauto.amounts : AMT_FALLBACK);
   const amtBands = () => amtInfo().bands, amtKeys = () => amtInfo().keys;

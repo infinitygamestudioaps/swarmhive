@@ -78,7 +78,7 @@ function soNeedsOther(s, eff, count, wanted) {
 const SOURCE_INFO = {
   board: { label: 'Community Board (Alt+B)', help: 'The free buffer of the server board (Alt+B, Buffs, a scheme, Buff Me). Used only when the board works on this server.' },
   party: { label: "The party's own buffers", help: 'Buffers in the party (prophets, songs and dances ...) keep everyone buffed by their buff plan. Nobody leaves the party for buffs.' },
-  store: { label: 'Buy from player buff stores', help: 'In a town, buy the buffs you list from player buff stores (sellers found by their title), at most your price per buff.' },
+  store: { label: 'Buy from player buff stores', help: 'In a town, buy the buffs you list from player buff stores (sellers found by their title), at most your price per buff. Comes ON TOP of the other sources, wherever it is in the list: the leader buys them for the whole party on every supply run and rebuff trip.' },
   station: { label: 'Own buffers waiting in a town', help: "Your own buffer characters stand at one spot in a town. A character that needs buffs walks there, joins each buffer's party one by one, gets buffed, leaves, and its own leader invites it back." },
   newbie: { label: 'Newbie Helper', help: 'The Newbie Helper NPC in a town or village buffs low-level characters (up to the level you set).' },
 };

@@ -1801,7 +1801,8 @@ function rkWantReports() {
   RKH.report = v; return v;
 }
 function rkWithBuffs(d) {
-  try { d.bl = khBoardLeftSec(); } catch (e) { }   // KEEPHUNT-2026-10-21: seconds left on my board buff batch (-1 = none) for the leader's safe-spot rebuff
+  try { d.bl = khBoardLeftSec(); } catch (e) { }
+  try { d.dp = deathPenaltyLevel(); d.dps = itemCount(recoveryScroll().id); } catch (e) { }   // DPCOV-2026-10-21: Death Penalty level + Recovery scrolls of my grade (the leader's DP trip)   // KEEPHUNT-2026-10-21: seconds left on my board buff batch (-1 = none) for the leader's safe-spot rebuff
   try { if (rkWantReports()) { const a = []; (hostSnap.buffs() || BuffsList).forEach(b => a.push(b)); d.ab = rkBuffReport(a); d.bs = rkSlotReport(a, rkDivineLvl(), { buffMax: bpSettings(buffPlansFile()).buffMax }); d.bufNeed = BUFFUP.mode ? BUFFUP.need : 0; } } catch (e) { }
   // summoners: my servitor (healers heal it, buffers may buff it), 'no servitor out yet' counts as not ready for a pull, the consumable 'low'
   try {
@@ -2659,6 +2660,20 @@ async function soBuffOther(s, reason, quiet) {
   } catch (e) { logError('soBuffOther', e); state.buffFailInCombat = bfInCombat(); intentDone('buff', false, e.message); return false; }
   finally { state.buffing = false; }
 }
+/** STOREADD-2026-10-22 (public tester: "I wanted 2 buffs, each from a different store" — the party's own buffers were 1st in the list, so the
+ *  store was never reached): the party's listed store buffs are bought ON TOP of the other buff sources, wherever 'store' is in the list,
+ *  on every town visit (supply run, rebuff trip). The leader buys each for the whole party (the store's Party button), else for himself. */
+async function soStoreAddOn(out, tag) {
+  let e; try { e = soMine(); } catch (x) { return; }
+  if (!e || !isLeader() || e.buffSources.indexOf('store') < 0 || !e.store.buffs.length || !currentTownKey()) return;
+  const opt = { titleRe: soTitleRe(e.store.titles), maxPrice: e.store.maxPrice, minLeftSec: e.store.minLeftMin * 60, range: 4000 };
+  for (const name of e.store.buffs) {
+    const id = soSkillId(name); if (!id) { out.push(name + ': unknown skill name'); continue; }
+    let r = await storeBuyBuff(id, 'Party', name, opt);
+    if (!r.ok && /no Party button/.test(String(r.why))) r = await storeBuyBuff(id, null, name, opt);
+    out.push(name + ': ' + r.why); note('[' + tag + '] ' + name + ': ' + r.why, true);
+  }
+}
 /** PLAYER BUFF STORES: every wanted buff (by name) from a seller whose title has one of the keywords, at most maxPrice per buff (BUFFSTORE code) */
 async function soStoreBuff() {
   const e = soMine(), st = e.store, want = soStoreWanted(st.buffs, soStoreHave(st.buffs), st.minLeftMin * 60);
@@ -2960,10 +2975,12 @@ const isLeader = () => Me.Name === CONFIG.leader;
 // 'Buffs'. Before every board click the character now WAITS for a clear moment: out of combat AND nothing hit ME for 8 s, held 3 s (max
 // outOfCombatMaxMs); after 15 s still in a fight it walks out of the aggressive monsters' reach (safeSpot), once.
 function bfHitMe(ms) { return !lastAttackerOnMe.for && now() - lastAttackerOnMe.at < (ms || 8000); }
+/** BUFFFIX2-2026-10-21: my buff turn while nothing hits me (healing / attack skills stay quiet; a monster on me lifts it at once) */
+function bfTurnQuiet() { return !!state.buffTurn && now() - (state.buffTurnFight || 0) > 6000 && !bfHitMe(6000); }
 function bfInCombat() { try { return !!(Me.IsInCombat || bfHitMe(8000)); } catch (e) { return false; } }
-async function waitOutOfCombat(maxMs, settleMs) {
+async function waitOutOfCombat(maxMs, settleMs, opt) {
   const t0 = now(), max = maxMs || CONFIG.buffs.outOfCombatMaxMs || 45000, settle = settleMs == null ? 3000 : settleMs;
-  let clearSince = bfInCombat() ? 0 : now(), stepped = false;
+  let clearSince = bfInCombat() ? 0 : now(), stepped = !!(opt && opt.noStep);   // BUFFFIX2-2026-10-21: noStep = I keep following the party, never walk off to a safe spot
   while (now() - t0 < max && !Me.IsDead) {
     if (bfInCombat()) clearSince = 0; else if (!clearSince) clearSince = now();
     if (clearSince && now() - clearSince >= settle) return true;
@@ -2974,6 +2991,15 @@ async function waitOutOfCombat(maxMs, settleMs) {
     await sleep(500);
   }
   return !bfInCombat() && !Me.IsDead;
+}
+/** BUFFFIX2-2026-10-21: server_options.json parties.<leader>.buffHoldPulls / default.buffHoldPulls (missing = false): the leader holds new pulls during a teammate's buff turn */
+const BFHOLD = { v: false, at: 0 };
+function bfHoldPullsOn() {
+  if (now() - BFHOLD.at < 30000) return BFHOLD.v;
+  BFHOLD.at = now(); BFHOLD.v = false;
+  try { const j = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Scripts\\data\\server_options.json`)).replace(/^﻿/, '')) || {}; const P = (j.parties || {})[teamOf(Me.Name)] || {}, D = j.default || {};
+    BFHOLD.v = typeof P.buffHoldPulls === 'boolean' ? P.buffHoldPulls : D.buffHoldPulls === true; } catch (e) { }
+  return BFHOLD.v;
 }
 /** BUFFFIX-2026-10-21: in town (or a turn that was only refused for a fight) the 5/10/20/40/60 min back-off must not hold the rebuff back */
 function buffBackoffReset(why) { if (!state.buffFails && !state.buffBackoffUntil) return; state.buffFails = 0; state.buffBackoffUntil = 0; state.buffRequestedAt = 0; note(`buff back-off cleared (${why})`); }
@@ -2986,28 +3012,35 @@ async function runBuffTurn() {
     note(`already fully buffed (${longBuffCount()} buffs, ${fmtTime(buffSecondsLeft())} left) — skipping`);
     return true;
   }
-  state.buffTurn = true;
+  state.buffTurn = true; state.buffTurnFight = 0;
   const b = CONFIG.buffs;
-  const wasEnabled = IsEnabled, wasCombat = IsInCombat;
-  let ok = false, inCombatFail = false;
+  // BUFFFIX2-2026-10-21 (public tester Vykaax: "the party should keep fighting on, and the buffing follower should just follow without assisting while
+  // trying to buff ... if an OnAttack packet was detected with the buffing bot as the target it enabled itself again so it could rejoin the fight and
+  // then it would attempt to disable itself again to buff afterwards"; "a duo leader + healer ... the healer can't protect the leader, a loop of death"):
+  // the bot stays ON (I keep following), assist (FollowAtk) and my own combat are OFF while I wait for a clear moment; a monster hitting ME is fought at
+  // once (self-defence is NOT paused), then the wait starts again. Such a fight never counts as a failed attempt; max fightCycles fights per turn.
+  const wasCombat = IsInCombat; let wasFa; try { wasFa = Options.FollowAtk; } catch (e) { }
+  const cycles = b.fightCycles || 4, deadline = now() + Math.max(30000, (b.turnTimeoutMs || 150000) - 10000);
+  const calm = () => { try { stopCombatG(); } catch (e) { } try { if (wasFa) Options.FollowAtk = false; } catch (e) { } };
+  let ok = false, inCombatFail = false, tries = 0, fights = 0, fightSeen = 0;
   try {
-    note(`my turn: leaving combat to buff (${longBuffCount()} buffs, ${fmtTime(buffSecondsLeft())} left)`);
-    stopCombatG();
-    if (IsEnabled) DisableBot();                // ingen angreb/follow mens vi buffer
-
-    for (let i = 1; i <= b.attempts && !ok && !Me.IsDead; i++) {
-      // BUFFFIX-2026-10-21: never click while in a fight (the board ignores 'Buffs' then): wait for a clear moment first; none = end the turn as "in combat"
-      if (!await waitOutOfCombat()) { inCombatFail = true; note(`turn: no moment out of combat within ${Math.round((b.outOfCombatMaxMs || 45000) / 1000)} s — trying again in ${Math.round((b.inCombatRetryMs || 60000) / 1000)} s`); break; }
+    note(`my turn: buffing while I follow the party (no assist; I only fight back if a monster hits me) — ${longBuffCount()} buffs, ${fmtTime(buffSecondsLeft())} left`);
+    calm();
+    while (!ok && !Me.IsDead && tries < b.attempts && now() < deadline) {
+      if (!await waitOutOfCombat(Math.min(b.outOfCombatMaxMs || 45000, Math.max(5000, deadline - now())), 3000, { noStep: true })) { inCombatFail = true; note(`turn: no moment out of combat — trying again in ${Math.round((b.inCombatRetryMs || 60000) / 1000)} s`); break; }
+      if (state.buffTurnFight && state.buffTurnFight !== fightSeen) { fightSeen = state.buffTurnFight; if (++fights > cycles) { inCombatFail = true; note(`turn: attacked ${fights - 1} times while buffing — trying again in ${Math.round((b.inCombatRetryMs || 60000) / 1000)} s`); break; } }
+      calm();                                    // self-defence may have started combat / assist: off again before the click
       state.buffFailInCombat = false;
-      ok = await buffSelf(`turn, attempt ${i}`, true);
+      ok = await buffSelf(`turn, attempt ${tries + 1}${fights ? ` (after ${fights} fight${fights > 1 ? 's' : ''})` : ''}`, true);
       if (ok) break;
-      if (state.buffFailInCombat) inCombatFail = true;   // refused for a fight: the next attempt waits out of combat again
+      if (state.buffFailInCombat || bfHitMe(4000)) { inCombatFail = true; continue; }   // hit during the click: fight, then the same attempt again (not counted)
+      tries++;
       await sleep(1000);
     }
   } finally {
-    if (wasEnabled && !IsEnabled) EnableBot();
+    try { if (wasFa) Options.FollowAtk = true; } catch (e) { }
     if (wasCombat) startCombatG();
-    state.buffTurn = false;
+    state.buffTurn = false; state.buffTurnFight = 0;
   }
   if (ok) {
     state.diedSinceBuff = false; state.buffFails = 0;
@@ -3893,7 +3926,7 @@ setInterval(() => {
       const isNew = was !== String(num(Me.ClassId)); if (isNew) { try { File.WriteAllText(hf, String(num(Me.ClassId))); } catch (e) { } }
       note(`class change to ${Me.ClassName} — taking over the healer role`, isNew); }
   }
-  if (!healerMode || healing || Me.IsDead || state.buffTurn || resAfterHold()) return;   // RESURRECTION 2026-10-13: a revived healer rebuffs first
+  if (!healerMode || healing || Me.IsDead || bfTurnQuiet() || resAfterHold()) return;   // BUFFFIX2-2026-10-21: attacked during the buff turn = heal again   // RESURRECTION 2026-10-13: a revived healer rebuffs first
   if (!hiveHealsOn()) return;                                          // HIVESW-2026-10-15: Hive heals OFF = the healer brain is idle
 
   // RAIDHEAL 2026-10-17: checked every 100 ms; normal healing keeps its old pace (>= 200 ms after the last tick), heavy / extreme bosses go on at once
@@ -3915,7 +3948,7 @@ let supportHealing = false;
 // the strongest party heal; the % lines are the scheme's when the player set them (else 50 % as before). A healer CLASS here also gives MP
 // (Recharge) to teammates when nobody needs HP (scheme: MP for teammates).
 setInterval(() => {
-  if (!state.role || healerMode || supportHealing || !IsCharacterReady() || Me.IsDead || state.buffTurn || (typeof DLV !== 'undefined' && DLV.on)) return;
+  if (!state.role || healerMode || supportHealing || !IsCharacterReady() || Me.IsDead || bfTurnQuiet() || (typeof DLV !== 'undefined' && DLV.on)) return;
   if (!hiveHealsOn()) return;                                          // HIVESW-2026-10-15: no support heals / Recharge by the script   // DELEVEL: no self heals (2026-10-12)
   const known = hsKnownNow();
   const canHeal = known.length ? known.some(k => !/recharge/i.test(k.kind)) : SUPPORT_HEAL.single.concat(SUPPORT_HEAL.self).some(id => SkillsList.GetItemByID(id));
@@ -5440,7 +5473,7 @@ async function autoSkillTick() {
 async function castLoopRun() {
   let next = 400;
   try {
-    if (CONFIG.autoSkills.enabled && !skillBusy && state.role && state.running && IsCharacterReady() && !Me.IsDead && !healerMode && !state.buffTurn && !state.escaping
+    if (CONFIG.autoSkills.enabled && !skillBusy && state.role && state.running && IsCharacterReady() && !Me.IsDead && !healerMode && !bfTurnQuiet() && !state.escaping
         && !['raid', 'prep'].includes(state.mode) && !rkBuffBusy()) {                   // raid-rutinerne styrer skills selv
       skillBusy = true;
       try { const r = await autoSkillTick(); if (r && typeof r.next === 'number') next = r.next; }
@@ -9381,10 +9414,11 @@ function mtShow(v) { const L = MTL; if (!L) return; setTask(`route to ${L.label}
 /** PACKSTOP: live monsters within MT.packR of me (the pack that followed the team) */
 function mtPackNear() { let n = 0; try { snapMobs().forEach(m => { if (!m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) <= MT.packR && Math.abs(num(m.Z) - Me.Z) < 300) n++; }); } catch (e) { } return n; }
 /** MTFIX-2026-10-21: true when every online teammate is a healer / pure support (nobody but me kills: a 2-man archer + cleric party) */
-function mtNoDealer() { try { const t = now(), mates = teamNames().filter(n => n !== Me.Name && livePos[n] && t - (livePos[n].at || 0) < MT.freshMs && !livePos[n].IsDead); return !mates.length || mates.every(n => HEALER_ROLES.test(String((CONFIG.roster && CONFIG.roster[n]) || ''))); } catch (e) { return false; } }
+function mtNoDealer() { try { const t = now(), mates = teamNames().filter(n => n !== Me.Name && livePos[n] && t - (livePos[n].at || 0) < MT.freshMs && !livePos[n].IsDead); return !mates.length || mates.every(n => !!livePos[n].healer || HEALER_ROLES.test(String(livePos[n].role || (CONFIG.roster && CONFIG.roster[n]) || ''))); } catch (e) { return false; } }   // ARCHERDUO-2026-10-22: the live healer flag / role count too (a public roster said "a dealer is here" and the archer leader never shot)
 async function mtFight(abort) {
   const L = MTL, t0 = now(); L.fighting = true;
-  try { Send.StopMove(); } catch (e) { }
+  const soloKill = isLeader() && mtNoDealer();                       // ARCHERDUO-2026-10-22: only healers with me = I kill everything that hits us, the pack rule does not apply
+  try { if (!(soloKill && Me.IsAttacking)) Send.StopMove(); } catch (e) { }   // never cancel my own shot
   note(`route to ${L.label}: fighting on the way at point ${L.gate + 1}/${L.pts.length} — the whole team stops, then on from this point`);
   const gp = L.pts[Math.max(0, Math.min(L.pts.length - 1, L.gate))] || { x: Me.X, y: Me.Y, z: Me.Z };   // LEASH-2026-10-14
   while (rcTravelFighting() && now() - t0 < MT.fightMaxMs && !(abort && abort()) && !Me.IsDead) {
@@ -9394,7 +9428,7 @@ async function mtFight(abort) {
     // followed, he moves on once about 5 or fewer are left near him): the leader only holds aggro here (fights back only when very low)
     if (isLeader() && (num(Me.HpPercent) < MT.critHp || mtNoDealer()) && typeof mtLeashFight === 'function') { try { await mtLeashFight(gp, abort); } catch (e) { logError('mt leash fight', e); } }   // MTFIX-2026-10-21: nobody else can kill (only healers / support with me): the leader fights
     else if (isLeader()) { try { if (Me.IsAttacking || IsInCombat) { stopCombatG(); Send.StopMove(); } } catch (e) { } }
-    if (now() - t0 >= MT.fightMinMs && mtPackNear() <= MT.packLeft) break;
+    if (now() - t0 >= MT.fightMinMs && mtPackNear() <= (soloKill ? 0 : MT.packLeft)) break;
     await sleep(1000);
   }
   L.fighting = false;
@@ -15452,7 +15486,9 @@ async function mtLeashFight(gp, abort) {
   if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000) ids.unshift(String(lastAttackerOnMe.id));
   const mobs = ids.map(id => mobById(id)).filter(m => m && !m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - c.x, num(m.Y) - c.y) <= MT_LEASH && Math.abs(num(m.Z) - num(gp.z || Me.Z)) < 500)
     .sort((a, b) => Math.hypot(num(a.X) - Me.X, num(a.Y) - Me.Y) - Math.hypot(num(b.X) - Me.X, num(b.Y) - Me.Y));
-  if (mobs.length) { if (!Target || num(Target.objId) !== num(mobs[0].objId) || !Me.IsAttacking) srvAttack(mobs[0].objId); return; }
+  // ARCHERDUO-2026-10-22: a ranged / casting monster hitting me from outside the leash is still shot (Flash of Splendor, Valley of Saints: the archer stood 30 min)
+  if (!mobs.length && lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000) { const m = mobById(lastAttackerOnMe.id); if (m && !m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) < 1600) mobs.push(m); }
+  if (mobs.length) { if (!Target || num(Target.objId) !== num(mobs[0].objId) || !Me.IsAttacking) srvAttack(mobs[0].objId); try { enableShots(); } catch (e) { } return; }
   if (Math.hypot(Me.X - c.x, Me.Y - c.y) > MT_LEASH) { try { Send.RequestTargetCancel(0); } catch (e) { } await walkDirect(c.x, c.y, gp.z || Me.Z, 300, 15000, abort, 'route'); }
 }
 const huntBlack = {};                            // objId -> til hvornår målet er sortlistet
@@ -24717,7 +24753,7 @@ setInterval(() => {
     if (R.center && Math.hypot(R.center.x - me.X, R.center.y - me.Y) > 5000) { MROOM.outSince = 0; return; }   // far away (travel, regroup): not my job
     let busy = false;
     try { busy = Me.IsAttacking || Me.IsCasting || now() - lastAttackerOnMe.at < 5000 || (Target && Target.objId && !!mobById(Target.objId) && !Target.IsDead); } catch (e) { busy = true; }
-    if (busy || state.gkBusy || state.escaping || tradeState || state.buffTurn || inRaid() || memberRoute.id || now() < (state.followHoldUntil || 0) || resBusy) { MROOM.outSince = 0; return; }
+    if (busy || state.gkBusy || state.escaping || tradeState || inRaid() || memberRoute.id || now() < (state.followHoldUntil || 0) || resBusy) { MROOM.outSince = 0; return; }
     if (!MROOM.outSince) { MROOM.outSince = now(); return; }
     if (now() - MROOM.outSince < 6000) return;
     // to the leader when he stands in the room, else to the room centre (straight moves: no native path search in dungeons)
@@ -28678,12 +28714,27 @@ async function autoLevelLoop(solo) {
       // the leader's !supply / !collect run owns the team: wait for it (2026-10-04: leveling resumed after a reload and dragged the team to Gludin mid-supply)
       if (leadRunBusy) { stopCombatG(); while (leadRunBusy && !autoLvl.stop) await sleep(2000); lastPick = 0; autoLvl.spot = null; continue; }
       // BUFFFIX-2026-10-21: a teammate's buff turn needs it OUT of combat: the leader pulls nothing new meanwhile (max 60 s per turn; a monster on me still gets fought)
-      if (!solo && buffCurrent && buffCurrent.name !== Me.Name && !bfInCombat() && autoLvl.spot && now() - num(buffCurrent.startedAt) < 60000) { if (IsInCombat) stopCombatG(); setTask(`leveling: holding the pulls — ${buffCurrent.name} is buffing`); await sleep(2000); continue; }
+      // BUFFFIX2-2026-10-21 (Vykaax: 'the whole party wastes 60 s while 1 character buffs ... nearly 10 minutes of downtime'): OFF by default, the party fights on;
+      // only a party with server_options.json buffHoldPulls: true still holds the pulls
+      if (!solo && bfHoldPullsOn() && buffCurrent && buffCurrent.name !== Me.Name && !bfInCombat() && autoLvl.spot && now() - num(buffCurrent.startedAt) < 60000) { if (IsInCombat) stopCombatG(); setTask(`leveling: holding the pulls — ${buffCurrent.name} is buffing`); await sleep(2000); continue; }
       // KEEPHUNT-2026-10-21: board buffs below the party's threshold (60 min) while hunting -> rebuff at a safe spot nearby, then straight back
-      if (autoLvl.spot && (solo || isLeader()) && now() - (autoLvl.khRbChkAt || 0) > 60000) { autoLvl.khRbChkAt = now(); try { if (await khSafeRebuffMaybe(solo)) continue; } catch (e) { logError('keephunt rebuff', e); } }
+      if (autoLvl.spot && (solo || isLeader()) && now() - (autoLvl.khRbChkAt || 0) > 60000) { autoLvl.khRbChkAt = now(); try { const rb = await khSafeRebuffMaybe(solo); if (rb === 'giran') { lastPick = 0; autoLvl.spot = null; continue; } if (rb) continue; }   /* DPCOV-2026-10-21 */ catch (e) { logError('keephunt rebuff', e); } }
       if (Me.IsDead) {
         note('autolevel: dead', !solo);
         if (soloChar()) { soloDeathLearn(); autoLvl.spot = null; try { writeClaim(null); } catch (e) { } }   // solo death: this area skipped by every solo character for 24 h (2026-10-09)
+        // DPCOV-2026-10-21 (Spoiler8 + Healer8 died 77 / 87 times on 2026-10-21 in Kamael Village outskirts areas 14/15 - aggressive level 12-14 packs,
+        // a lvl 12 duo, the Death Penalty growing to 11 - and the party kept picking the same area): a party leader dying 3 times within an hour at a spot
+        // the HIVE picked (never your dashboard choice) skips it for 6 h (persisted in Logs/spot_bad_<name>.json) and picks another one
+        else if (autoLvl.spot && !autoLvl.spot.manual) {
+          const k = spotKeyOf(autoLvl.spot), D = autoLvl.spotDeaths || (autoLvl.spotDeaths = {});
+          D[k] = (D[k] || []).filter(t => now() - t < 3600000).concat([now()]);
+          if (spotDeathsTooMany(D[k], now())) {
+            autoLvl.bad[k] = now() + 6 * 3600000; if (autoLvl.spot.name) autoLvl.bad[autoLvl.spot.name] = now() + 6 * 3600000; D[k] = [];
+            const m = `autolevel: ${D[k].length || 3} deaths within an hour at ${autoLvl.spot.name} — too dangerous for this party now: skipped for 6 h, picking an easier spot`;
+            note(m, !solo); try { intent('spot', m.replace(/^autolevel: /, '')); } catch (e) { } dungeonLog(m);
+            autoLvl.spot = null; try { writeClaim(null); } catch (e) { }
+          }
+        }
         await deathWait('autolevel');
         await sleep(20000);                       // rebuff-turen
         lastPick = 0;
@@ -32143,7 +32194,7 @@ function nnFight(force) {
 function nnFollow() {
   if (!NNAV || !NNAV.wantFollow || isLeader() || Me.IsDead || !IsCharacterReady()) return;
   if (now() - NNAV.lastFollow < 1000) return;
-  if (inst.on || now() < (state.followHoldUntil || 0) || memberRoute.id || state.gkBusy || state.escaping || tradeState || state.buffTurn || benched()) return;
+  if (inst.on || now() < (state.followHoldUntil || 0) || memberRoute.id || state.gkBusy || state.escaping || tradeState || benched()) return;   // BUFFFIX2-2026-10-21: a buff turn keeps following
   if (Me.IsAttacking || Me.IsCasting || (stuckFollow && stuckFollow.busy) || comeHere.busy || unstickRun.busy || resBusy) return;   // comeHere: the leader's call walks me (TEAMJOIN)
   try { if (Target && Target.objId && !!mobById(Target.objId) && !Target.IsDead && NNAV.wantCombat) return; } catch (e) { }
   const p = partyMember(CONFIG.leader); if (!p || p.IsDead) return;
@@ -32216,7 +32267,7 @@ setInterval(() => {
   if (!state.role || !IsCharacterReady() || Me.IsDead) return;
   if (now() - lastAttackerOnMe.at > 3000 || lastAttackerOnMe.for) return;     // ingen slår mig lige nu
   if (state.escaping || tradeState || now() - lastDefend < 3000 || now() < (state.disengageUntil || 0)) return;      // midt i SoE-cast / handel / pulling back
-  if (state.buffTurn) return;                     // BUFFFIX-2026-10-21: my buff turn (bot off, waiting out of combat): never fight back (it switched the bot ON again and the flag never dropped, Destroyer3 14:20); the teammates protect me (swarm.buff.state)
+  if (state.buffTurn) { if (now() - (state.buffTurnFight || 0) > 4000) state.buffTurnFight = now(); }   // BUFFFIX2-2026-10-21: attacked during my buff turn = fight back NOW (a duo's healer cannot protect me); the turn waits for the next clear moment and clicks again
   const mob = mobById(lastAttackerOnMe.id);
   if (!mob || mob.IsDead) return;
   if (swarmFightNow()) return;                    // SWARMFIGHT: the L2Swarm profile fights, never a Hive self-defence fight on the side
@@ -32617,8 +32668,18 @@ App.on('swarm.khrebuffdone', (e) => { const d = e.data || {}; if (d.id && d.name
 /** the leader (or a solo character): rebuff the team at a safe spot when the board buffs drop below the threshold. true = done (or tried). */
 async function khSafeRebuffMaybe(solo) {
   if (khRb.busy || !khMeHunting() || inRaid() || state.mode === 'mission' || Me.IsDead || now() - khRb.lastAt < 30 * 60000) return false;
-  const cfg = khRebuffCfg(); if (!cfg.on) return false;
-  const left = khTeamBoardLeft(); if (left < 0 || left >= cfg.minLeftMin * 60) return false;
+  const cfg = khRebuffCfg();
+  const left = khTeamBoardLeft(), buffDue = cfg.on && left >= 0 && left < cfg.minLeftMin * 60;
+  // DPCOV-2026-10-21: Death Penalty due (members at dpTripAt without scrolls) also starts the trip; COV wanted (storeCov) = the trip goes to Giran
+  let dpDue = false; try { dpDue = dpTripDue(dpTeamReports(), dpTripAtCfg(), (solo ? 0 : teamNames().length) + 1); } catch (e) { }
+  if (!buffDue && !dpDue) return false;
+  if (khRebuffMode(buffDue && pautoOn('storeCov'), dpDue) === 'giran') {
+    khRb.lastAt = now();
+    const why = dpDue ? 'Death Penalty on the team and no Recovery scrolls left' : `board buffs run out in ${Math.round(left / 60)} min`;
+    if (await khGiranRebuffTrip(why, solo)) return 'giran';   // the hunting loop picks its spot again = travels straight back
+    if (!buffDue) return true;                         // only DP and Giran failed: nothing to do at a safe spot
+  }
+  if (!buffDue) return false;
   khRb.lastAt = now(); const id = `rb${now()}`, back = { x: Me.X, y: Me.Y, z: Me.Z };
   const say = (m) => { note(m, !solo); try { if (!solo) SayToParty(m.slice(0, 250)); } catch (er) { } };
   say(`[rebuff] board buffs run out in ${Math.round(left / 60)} min — rebuffing at a safe spot, then back to hunting`);
@@ -37136,6 +37197,7 @@ async function leadGoGiranInner(why) {
     try { await leadSupply('automatic at the Giran regroup', { inline: true }); } catch (e) { logError('auto supply', e); }
   }
   const rcHub = rcHolds();                           // CIRCUIT 24/7 (2026-10-13): no other teams' hand-out / Seven Signs / clan warehouse look while the circuit owns the party
+  if (ok && runOK && leadMode() && !rcHub && !leadRunBusy && !regroupRun) { try { await giranServices('at the Giran regroup'); } catch (e) { logError('giran services', e); } }   // DPCOV-2026-10-21: DP scrolls / COV / vitality for no-supply parties too
   if (ok && runOK && leadMode() && !rcHub) { pstStep('regroup', 'fund other teams'); try { await fundRound('after the Giran regroup', true); } catch (e) { logError('fund', e); } }   // other teams' hand-out while we stand here anyway
   // Seven Signs (user 2026-10-08): competition period -> everyone of the team not signed up yet goes to the Priest of Dawn (730 from the start)
   if (ok && runOK && leadMode() && !rcHub && !leadRunBusy && !regroupRun) { pstStep('regroup', 'seven signs'); try { await ssTeamSignup('at the Giran regroup'); } catch (e) { logError('seven signs', e); } }
@@ -37233,6 +37295,107 @@ setInterval(() => {
     UseItem(r.id); note(`death penalty ${dp}: used ${r.name}`);
   } catch (e) { }
 }, 15000);
+// DPCOV-2026-10-21 (owner: "Most of the small chars have death penalty and no COV?" - 14 of the 20 Flyt characters carried Death Penalty, up to
+// level 11, none had Chant of Victory): the Recovery scrolls and the COV store buy only ran INSIDE the supply run, and those parties have supply
+// runs OFF on purpose (they keep hunting). Now, for EVERY party regardless of the supply switch:
+//  1. GIRAN SERVICES whenever the team stands in Giran anyway (Giran regroup, !gearup / plan gear step, the rebuff trip): every member with Death
+//     Penalty or fewer than DPCOV.reserve Recovery scrolls of its grade buys them at Helvetia (team step 'dprun', one after another, standing in
+//     front of her) and reads them at once; Chant of Victory for the party from a player buff store when the party's storeCov switch is on; the
+//     Gift of Vitality when its switch is on. Skipped right after a supply run (it did all of that).
+//  2. In the field the existing 15 s loop reads a carried scroll per penalty level (above).
+//  3. The KEEPHUNT safe-spot rebuff becomes a GIRAN REBUFF TRIP when storeCov is on (COV only exists in Giran's buff stores) or when DP is due
+//     (members at dpTripAt (server_options.json, default 4) without scrolls: 1 in a duo, 2 otherwise): .giran with the team, board buffs for
+//     everyone, the services above, then the hunting loop travels straight back to the spot (we are in Giran already: no extra detour).
+// DPCOV-PURE-BEGIN
+const DPCOV = { reserve: 3, dpTripAt: 4, staggerMs: 9000 };
+/** Recovery scrolls to buy: one per penalty level + the reserve, minus what I carry */
+function dpScrollNeed(dp, have, reserve) { return Math.max(0, (Number(dp) || 0) + (Number(reserve) || 0) - (Number(have) || 0)); }
+/** reports [{ name, dp, scrolls }] -> true when enough members carry Death Penalty >= at with no scroll to read (1 in a duo / solo, 2 otherwise) */
+function dpTripDue(reports, at, teamSize) {
+  const lim = Number(at) > 0 ? Number(at) : DPCOV.dpTripAt;
+  const hurt = (reports || []).filter(r => r && Number(r.dp) >= lim && !(Number(r.scrolls) > 0)).length;
+  return hurt >= ((Number(teamSize) || 1) <= 2 ? 1 : 2);
+}
+/** the rebuff kind: 'giran' (COV wanted, or Death Penalty due) | 'safe' (the KEEPHUNT safe spot) */
+function khRebuffMode(storeCovOn, dpDue) { return storeCovOn || dpDue ? 'giran' : 'safe'; }
+/** the leader's death times at one hive-picked spot -> true at 3 deaths within 60 min */
+function spotDeathsTooMany(times, t) { return (times || []).filter(x => (Number(t) || 0) - Number(x) < 3600000).length >= 3; }
+// DPCOV-PURE-END
+const dpRep = {};                                      // name -> { dp, scrolls, at } from swarm.pos
+App.on('swarm.pos', (event) => { const d = event.data || {}; if (d.name && d.dp !== undefined) dpRep[d.name] = { dp: num(d.dp), scrolls: num(d.dps), at: now() }; });
+/** my team's fresh Death Penalty reports (me included) */
+function dpTeamReports() {
+  const out = []; try { const r = recoveryScroll(); out.push({ name: Me.Name, dp: deathPenaltyLevel(), scrolls: itemCount(r.id) }); } catch (e) { }
+  try { teamNames().forEach(n => { const x = dpRep[n]; if (x && now() - x.at < 60000) out.push({ name: n, dp: x.dp, scrolls: x.scrolls }); }); } catch (e) { }
+  return out;
+}
+/** server_options.json dpTripAt of my party (default DPCOV.dpTripAt) */
+function dpTripAtCfg() {
+  try { const j = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Scripts\\data\\server_options.json`)).replace(/^﻿/, '')) || {};
+    const P = ((j.parties || {})[teamOf(Me.Name)] || {}).dpTripAt, D = (j.default || {}).dpTripAt, v = Number(P !== undefined ? P : D); if (v > 0) return Math.min(15, v); } catch (e) { }
+  return DPCOV.dpTripAt;
+}
+/** member side ('dprun'): buy the missing Recovery scrolls at Helvetia and read them at once. -> { ok, msg } */
+async function dpBuyMine(why) {
+  const dp = deathPenaltyLevel(), r = recoveryScroll(), have = itemCount(r.id), n = dpScrollNeed(dp, have, DPCOV.reserve);
+  if (!n) return { ok: true, msg: dp ? `DP ${dp}, carrying ${have} ${r.name}` : `no penalty, ${have} scrolls` };
+  if (currentTownKey() !== 'Giran') return { ok: false, msg: 'not in Giran' };
+  state.gkBusy = true;
+  try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { }
+  standUp();
+  try {
+    await giranGo('grocer');
+    let npc = null; try { snapNpcs().forEach(x => { if (x.Name === 'Helvetia') npc = x.ref; }); } catch (e) { }
+    if (!npc) return { ok: false, msg: 'Helvetia not found' };
+    const b = await buyAt(npc, [{ id: r.id, name: r.name, count: n }], 'death penalty (' + why + ')', true);
+    try { Send.RequestBuySellUIClose(); } catch (e) { }
+    let read = 0;
+    for (let i = 0; i < 15 && deathPenaltyLevel() > 0 && itemCount(r.id) > 0; i++) { try { UseItem(r.id); read++; } catch (e) { } await sleep(1800); }
+    const left = deathPenaltyLevel();
+    note(`death penalty: bought ${r.name} (${b.msg})${read ? `, read ${read}` : ''} - penalty now ${left}`, true);
+    return { ok: left < dp || (!dp && itemCount(r.id) >= DPCOV.reserve), msg: `${b.msg}${read ? `; read ${read}, DP ${dp} -> ${left}` : ''}` };
+  } finally { try { await giranGo('start'); } catch (e) { } state.gkBusy = false; }
+}
+/** leader: the Giran services (Death Penalty scrolls for everyone, COV for the party, Gift of Vitality) while the team stands in Giran */
+async function giranServices(why, opt) {
+  const O = opt || {};
+  if (!leadMode() || !(isLeader() || soloChar()) || currentTownKey() !== 'Giran') return '';
+  if (!O.force && now() - (lastSupplyAtGet() || 0) < 10 * 60000) return 'the supply run just did it';
+  const out = [], order = [Me.Name].concat(teamNames());
+  try {
+    const runId = `${Date.now()}dp`;
+    const r = await teamStep(runId, 'dprun', DPCOV.staggerMs * order.length + 240000, { order, why: String(why || '').slice(0, 80) });
+    const rows = Object.values(r.got || {}).filter(a => a && /bought|read/.test(String(a.msg || ''))).map(a => `${a.name}: ${a.msg}`);
+    if (rows.length) out.push('death penalty: ' + rows.join(', '));
+  } catch (e) { logError('dprun', e); }
+  if (pautoOn('storeCov')) { try { const c = await storeBuyBuff(STORE_COV.id, 'Party', 'Chant of Victory'); out.push('Chant of Victory: ' + c.why); } catch (e) { logError('dpcov cov', e); } }
+  try { await soStoreAddOn(out, 'rebuff trip'); } catch (e) { logError('store add-on', e); }   // STOREADD-2026-10-22
+  if (pautoOn('vitality')) { try {
+    const runId = `${Date.now()}vt`, vr = await teamStep(runId, 'vitalityrun', VIT.staggerMs * order.length + 180000, { order });
+    const vs = Object.values(vr.got || {}).filter(a => a && a.msg && !/level 4|reuse|wait/i.test(a.msg)).map(a => `${a.name}: ${a.msg}`); if (vs.length) out.push('vitality: ' + vs.join(', '));
+  } catch (e) { logError('dpcov vitality', e); } }
+  const line = out.length ? `[Giran] ${why}: ${out.join('; ')}` : '';
+  if (line) { note(line.slice(0, 900), true); try { SayToParty(line.slice(0, 250)); } catch (e) { } }
+  return line;
+}
+/** leader: the rebuff as a Giran trip (storeCov on, or Death Penalty due): .giran, board buffs for everyone, the services; the hunting loop
+ *  then travels straight back to the spot. true = done (or tried). */
+async function khGiranRebuffTrip(why, solo) {
+  const say = (m) => { note(m, !solo); try { if (!solo) SayToParty(m.slice(0, 250)); } catch (er) { } };
+  say(`[rebuff] ${why} — quick Giran trip (board buffs, Chant of Victory, Death Penalty scrolls), then straight back to hunting`);
+  let ok = currentTownKey() === 'Giran';
+  if (!ok) { try { ok = solo ? !!(await townCommand(`rebuff trip: ${why}`, 'Giran')) : !!(await leadGoGiran(`rebuff trip: ${why}`)); } catch (e) { logError('rebuff trip', e); } }
+  if (!ok || currentTownKey() !== 'Giran') { say('[rebuff] could not get to Giran — the safe-spot rebuff instead'); return false; }
+  const id = `rb${now()}`; khRb.busy = id; khRb.done = {};
+  try { App.emit('swarm.khrebuff', { leader: Me.Name, id, town: true }); } catch (er) { }
+  try { await buffSelf('rebuff trip to Giran', true); } catch (er) { }
+  const mates = solo ? [] : teamNames().filter(n => !(partyMember(n) || {}).IsDead);
+  const t0 = now(); while (now() - t0 < 120000 && mates.some(n => khRb.done[n] === undefined) && !Me.IsDead) await sleep(2000);
+  khRb.busy = false;
+  try { await giranServices('rebuff trip', { force: true }); } catch (e) { logError('rebuff trip services', e); }
+  say('[rebuff] done — back to the hunting spot');
+  return true;
+}
 function supplyNeeds() {
   return supplyWants().map(w => ({ ...w, have: itemCount(w.id) + (w.alt ? itemCount(w.alt) : 0) }))   // PSHOP: + plain spiritshots of my grade (player-shop stand-ins)
     // below = when the supply WATCH starts a run; during a run everyone below 75 % of want is topped up as well
@@ -37390,7 +37553,7 @@ async function storeBuyBuff(skillId, mode, label, opt) {
   if (!sellers.length) return { ok: false, why: 'no buff store selling it near me' };
   const code = (h, re) => { const m = String(h || '').match(re); return m ? m[1] : null; };
   const tried = [];
-  for (const sl of sellers.slice(0, 3)) {
+  for (const sl of sellers.slice(0, 6)) {   // STOREADD-2026-10-22: 6 (one buff per store: CoV in one, Dance of Berserker in another)
     const who = `${sl.Name} ("${sl.title}")`;
     const r = await DLG.open(sl, { base: 8000, tries: 2 });
     if (!r || !r.ok || !r.html) { tried.push(`${who}: no store page`); continue; }
@@ -37666,6 +37829,7 @@ async function leadSupply(why, opts) {
       try { const r = await storeBuyBuff(STORE_COV.id, 'Party', 'Chant of Victory'); res.push('Chant of Victory: ' + r.why); note(`[supply] Chant of Victory: ${r.why}`, true); } catch (e) { logError('store buff', e); }
       T.mark('cov', now());
     }
+    if (!hurry()) { try { const before = res.length; await soStoreAddOn(res, 'supply'); if (res.length > before) pstStep('supply', 'store buffs'); } catch (e) { logError('store add-on', e); } }   // STOREADD-2026-10-22: the party's own store buff list
     // 5e. GIFT OF VITALITY (VITALITY-2026-10-21, party switch 'vitality'): every member below vitality level 4 walks to Eva's High Priest at the
     //     Giran temple in turn (the gift is per character) and takes it; once per reuse time each (Logs/vitality_<name>.json)
     if (pautoOn('vitality') && currentTownKey() === 'Giran' && !hurry()) { try {
@@ -38445,6 +38609,14 @@ async function leadTeamAction(action, data) {
     const w = vitWanted(vitPoints(), vitState(), now(), false); if (!w.go) return { ok: true, msg: w.why };
     if (rank > 0) { if (state.tstep) Object.assign(state.tstep, { wait: "Eva's High Priest (Giran temple)", rank: rank + 1, until: now() + rank * VIT.staggerMs }); await sleep(rank * VIT.staggerMs); if (state.tstep) state.tstep.wait = null; }
     return await vitalityMine('supply run', false);
+  }
+  // DPCOV-2026-10-21: Death Penalty scrolls at Helvetia, one after another (rank x DPCOV.staggerMs); only those with a penalty or < reserve scrolls go
+  if (action === 'dprun') {
+    const rank = ((data && data.order) || []).indexOf(Me.Name);
+    if (rank < 0 && data && Array.isArray(data.order)) return { ok: true, msg: 'not on the list' };
+    if (!dpScrollNeed(deathPenaltyLevel(), itemCount(recoveryScroll().id), DPCOV.reserve)) return { ok: true, msg: 'no penalty, enough scrolls' };
+    if (rank > 0) { if (state.tstep) Object.assign(state.tstep, { wait: 'Helvetia (Recovery scrolls)', rank: rank + 1, until: now() + rank * DPCOV.staggerMs }); await sleep(rank * DPCOV.staggerMs); if (state.tstep) state.tstep.wait = null; }
+    return await dpBuyMine(String((data && data.why) || 'Giran visit'));
   }
   if (action === 'sellrun') {
     if (!pautoOn('sell')) return { ok: true, msg: 'selling switched off (party settings)' };   // PARTYAUTO 2026-10-13 (your !sell still works)
@@ -39448,6 +39620,8 @@ function handleSay(charName, text, messageType) {
       if (names.includes(Me.Name)) { if (buyers.length) await sleep((buyers.length + 1) * 7000); const r = await gearUpgrade('!gearup'); note(`[gear] gearup: ${r.msg}`.slice(0, 400), true); }
       await sleep(Math.max(60000, names.length * 25000));
       if (orderState.seq !== gseq) return;           // ORDERSTICK: a newer order (!park / !town / !stop ...) came in meanwhile — never level over it
+      try { await giranServices('after the gear purchases'); } catch (e) { logError('giran services', e); }   // DPCOV-2026-10-21: in Giran anyway: DP scrolls / COV / vitality
+      if (orderState.seq !== gseq) return;
       try { if (planGearupDone(gseq)) return; } catch (e) { }   // PLAN-2026-10-13: a plan step's !gearup: the plan goes on (no leveling here)
       leadLevel('after !gearup').catch(e => logError('gearup level', e));
     })().catch(e => logError('!gearup', e));
