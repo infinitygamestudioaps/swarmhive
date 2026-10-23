@@ -29,5 +29,9 @@ t('DEFENDSTILL: the "back to the team first" skip only while I really move (stan
 t('FOLLOWSWING: no hallway route walk while the leader fights within 1500 (assist range)', /if \(dd <= 1500 && lp && now\(\) - lp\.at < 6000 && \(lp\.fight \|\| lp\.hit\)\) \{ if \(rgFollow\.pts\.length\) rgFollow\.pts = \[\]; return false; \}/.test(SW));
 t('FOLLOWSWING: a graph detour (> 3x the straight line to a leader < 2500 away) is not walked', /if \(dd < 2500 && len > Math\.max\(3 \* dd, dd \+ 1500\)\) \{ rgFollow\.pts = \[\]; return false; \}/.test(SW));
 t('FOLLOWSWING: a follow route nobody drives is cleared from the card (ISO time parsed)', /const drove = rgFollowTick\(\); if \(!drove && state\.route && state\.route\.kind === 'follow' && !\(Date\.now\(\) - \(Date\.parse\(state\.route\.at\) \|\| 0\) < 3000\)\) state\.route = null;/.test(SW));
+t('ROUTESTALE: 2 min without a word from the leader (idle walk) = the member route walk ends', /setInterval\(\(\) => \{ try \{ if \(!isLeader\(\) && memberRoute\.id && !memberRoute\.busy && now\(\) > \(memberRoute\.until \|\| 0\)\) routeStaleEnd\(/.test(SW));
+t('ROUTESTALE: the leader hunting at its spot (Fight with L2Swarm signal) ends a stale member walk', /SF\.until = d\.on \? now\(\) \+ 12000 : 0; if \(d\.on\) routeStaleEnd\('the leader hunts at the spot'\);/.test(SW));
+t('ROUTESTALE: only a RUNNING walk takes a member back from Fight with L2Swarm', /memberRoute\.id && memberRoute\.busy\)\) return false; \} catch \(e\) \{ \}   \/\/ ROUTESTALE/.test(SW));
+t('ROUTESTALE: a running walk is never ended', /function routeStaleEnd\(why\) \{ try \{ if \(!memberRoute\.id \|\| memberRoute\.busy\) return false;/.test(SW));
 console.log(`${ok} passed, ${bad} failed`);
 process.exit(bad ? 1 : 0);

@@ -9870,6 +9870,13 @@ App.on('swarm.routewalk', (event) => {
   memberRoute.until = now() + 120000;                                 // no word from the leader for 2 min: back to following
   try { Options.ActiveFollow = false; } catch (e) { }
 });
+// ROUTESTALE-2026-10-23 (tester videos: "walking to FindStuff8 (point 1/9, 4.0k left)" for minutes next to the fight; with Fight with L2Swarm on,
+// Hive kept driving the member): memberRoute.until was set ("no word from the leader for 2 min: back to following") but never checked, so ONE lost
+// end message (the agent lagging / reconnecting) left a member in route-walk mode until the next route: no normal follow, no self-defence, no
+// hands-off. Now: 2 min without a word from the leader, or the leader hunting at its spot (its Fight-with-L2Swarm signal), and my walk not
+// running = the walk is over
+function routeStaleEnd(why) { try { if (!memberRoute.id || memberRoute.busy) return false; memberRouteStop(); note(`route walk: ended (${why}) — following ${CONFIG.leader} again`); return true; } catch (e) { return false; } }
+setInterval(() => { try { if (!isLeader() && memberRoute.id && !memberRoute.busy && now() > (memberRoute.until || 0)) routeStaleEnd('no word from the leader for 2 min'); } catch (e) { } }, 5000);
 // MOVETOGETHER: the leader goes on without me (stuck longer than the party's limit): my own way to the team, else .town
 App.on('swarm.mt.leave', (event) => {
   const d = event.data || {}, m = memberRoute;
@@ -20073,6 +20080,54 @@ function attackFirstNow(curId) {
     return h ? h.m : null;
   } catch (e) { return null; }
 }
+// LEVELHEALTH-2026-10-23 (owner: "make a permanent fix this time, I don't want more issues with the public testers. A Lineage 2 bot should be able
+// to level fast"). The leader watches its own kill rate at the spot. Monsters around + hardly any kills for 3 checks in a row (90 s) = it clears
+// the known causes of a stalled hunt by itself, for the whole party, and says why: stale member route walks / follow routes (one lost message
+// left them for hours), a target stuck at 0 % HP, and it names missing shots. At most one repair per 3 min; the card shows the last one.
+// LEVELHEALTH-PURE-BEGIN
+var LEVELHEALTH = { everyMs: 30000, windowMs: 300000, minKills: 3, minMobs: 3, badChecks: 3, gapMs: 180000, settleMs: 180000 };
+/** o = { kills5: kills in the last 5 min, mobs: live monsters in the hunting area, atSpotMs, bad: bad checks so far, lastFixAgo } -> { bad, fix } */
+function levelHealthDecide(o) {
+  const x = o || {}, H = LEVELHEALTH;
+  if (!(x.atSpotMs >= H.settleMs)) return { bad: 0, fix: false };                   // just arrived: give it time
+  const slow = (x.kills5 || 0) < H.minKills && (x.mobs || 0) >= H.minMobs;
+  const bad = slow ? (x.bad || 0) + 1 : 0;
+  return { bad, fix: bad >= H.badChecks && !(x.lastFixAgo < H.gapMs) };
+}
+// LEVELHEALTH-PURE-END
+const LH2 = { bad: 0, fixAt: 0, last: null };
+/** every window: clear what keeps me from fighting (called on the leader's swarm.levelfix and by the leader itself) */
+function levelFixMine(why) {
+  const done = [];
+  try { if (typeof routeStaleEnd === 'function' && memberRoute.id && !memberRoute.busy) { memberRouteStop(); done.push('old route walk ended'); } } catch (e) { }
+  try { if (typeof rgFollow !== 'undefined' && rgFollow.pts && rgFollow.pts.length) { rgFollow.pts = []; done.push('old follow route cleared'); } if (state.route && state.route.kind === 'follow') state.route = null; } catch (e) { }
+  try { if (Target && Target.objId) { const t = mobById(Target.objId); if (t && !t.IsDead && t.HpPercent !== undefined && num(t.HpPercent) <= 0) { huntBlack[num(t.objId)] = now() + 60000; Send.RequestTargetCancel(0); done.push(`target ${t.Name} stuck at 0 % HP dropped`); } } } catch (e) { }
+  try { if (!isLeader() && !Options.ActiveFollow && !memberRoute.id) { Options.ActiveFollow = followOk(true); } } catch (e) { }
+  if (done.length) note(`level health: ${done.join(', ')} (${why})`, true);
+  return done;
+}
+App.on('swarm.levelfix', (e) => { try { if (e.source.characterName !== CONFIG.leader || isLeader()) return; levelFixMine('asked by ' + CONFIG.leader); } catch (er) { } });
+setInterval(() => {
+  try {
+    if (!isLeader() || !autoLvl.active || autoLvl.stop || !autoLvl.spot || currentTownKey() || inRaid() || inst.on) { LH2.bad = 0; return; }
+    const sp = autoLvl.spot, c = sp.center || sp, R = Math.max(1500, num(sp.radius) || 1500);
+    if (!isFinite(num(c.x)) || Math.hypot(num(c.x) - Me.X, num(c.y) - Me.Y) > R + 1500) { LH2.bad = 0; LH2.atSpot = 0; return; }
+    if (!LH2.atSpot) LH2.atSpot = now();
+    let mobs = 0; try { snapMobs().forEach(m => { if (!m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - num(c.x), num(m.Y) - num(c.y)) <= R && Math.abs(num(m.Z) - Me.Z) <= CONFIG.rest.zLimit) mobs++; }); } catch (e) { }
+    const t = now(), kills5 = (autoLvl.killTimes || []).filter(k => t - num(k) < LEVELHEALTH.windowMs).length;
+    const d = levelHealthDecide({ kills5, mobs, atSpotMs: t - LH2.atSpot, bad: LH2.bad, lastFixAgo: LH2.fixAt ? t - LH2.fixAt : undefined });
+    LH2.bad = d.bad;
+    if (!d.fix) return;
+    LH2.fixAt = t; LH2.bad = 0;
+    const done = levelFixMine(`${kills5} kills in 5 min with ${mobs} monsters here`);
+    try { App.emit('swarm.levelfix', { leader: Me.Name }); } catch (e) { }
+    const shots = (() => { try { return state.shotWarn && t - (Date.parse(state.shotWarn.at) || 0) < 3600000; } catch (e) { return false; } })();
+    const why = `${kills5} kills in 5 min with ${mobs} monsters here — reset stale walks / targets on the whole party${done.length ? ' (' + done.join(', ') + ')' : ''}${shots ? '; NO SHOTS: buy shots from player shops (party Settings → Supplies) or the damage stays low' : ''}`;
+    LH2.last = { at: new Date().toISOString(), why };
+    note(`level health: ${why}`, true);
+    try { SayToParty(`[hunt] slow hunting: ${kills5} kills in 5 min — resetting stale walks and targets`); } catch (e) { }
+  } catch (e) { logError('level health', e); }
+}, LEVELHEALTH.everyMs);
 function huntTarget(cx, cy, radius) {
   const L = Me.Level;
   let best = null, bd = radius;
@@ -35170,7 +35225,7 @@ setInterval(() => {
 function smallTeam() { try { return teamNames().length <= 2; } catch (e) { return false; } }
 // SWARMFIGHT-2026-10-16 host side (the switch block itself sits with the Hive switches): the members hear the leader's fight phase
 App.on('swarm.sf', (event) => {
-  try { const d = event.data || {}; if (isLeader() || !d.leader || d.leader !== CONFIG.leader) return; SF.leader = d.leader; SF.until = d.on ? now() + 12000 : 0; } catch (e) { }
+  try { const d = event.data || {}; if (isLeader() || !d.leader || d.leader !== CONFIG.leader) return; SF.leader = d.leader; SF.until = d.on ? now() + 12000 : 0; if (d.on) routeStaleEnd('the leader hunts at the spot'); } catch (e) { }   // ROUTESTALE-2026-10-23
 });
 // member: the fight phase = L2Swarm's own Follow (+ Follow Attack once, never for healers / no-melee roles; the player may switch it off again)
 setInterval(() => {
@@ -36244,7 +36299,7 @@ setInterval(() => {
       shotId: SW.med.shotId, shots: SW.med.shots,
       buffs: SW.med.buffs, buffLeft: SW.med.buffLeft,
       gear: SW.slow.gear || {}, spares: SW.slow.spares || 0,
-      notes: state.notes || [], lastSale: state.lastSale || null, shotWarn: state.shotWarn && Date.now() - (Date.parse(state.shotWarn.at) || 0) < 3600000 ? state.shotWarn : null, routeFixWarn: state.routeFixWarn && Date.now() - (Date.parse(state.routeFixWarn.at) || 0) < 3 * 3600000 ? state.routeFixWarn : null, updated: new Date().toISOString(),
+      notes: state.notes || [], lastSale: state.lastSale || null, levelHealth: (typeof LH2 !== 'undefined' && LH2.last && Date.now() - (Date.parse(LH2.last.at) || 0) < 1800000) ? LH2.last : null, shotWarn: state.shotWarn && Date.now() - (Date.parse(state.shotWarn.at) || 0) < 3600000 ? state.shotWarn : null, routeFixWarn: state.routeFixWarn && Date.now() - (Date.parse(state.routeFixWarn.at) || 0) < 3 * 3600000 ? state.routeFixWarn : null, updated: new Date().toISOString(),
       intent: state.intent || null,
       zone: autoLvl.active && autoLvl.zone ? Object.assign({}, autoLvl.zone, { multi: multiPublic() }) : null,                 // hunting square / room / field area (party map); multi = the rotation (2026-10-08 22:45)
       spotClaim: (isLeader() || soloChar()) ? (() => { try { return { claimed: claimState.had && autoLvl.spot ? autoLvl.spot.name : '', occupied: Object.keys(spotOcc).filter(k => spotOccupied(k)).map(k => ({ name: spotOcc[k].name || k, by: spotOcc[k].by || '', min: Math.round((spotOcc[k].until - now()) / 60000) })) }; } catch (e) { return null; } })() : null,   // dashboard Parties tab (2026-10-08)
@@ -39750,7 +39805,7 @@ function sfExcluded() { try { return inRaid() || inst.on || inKamaInstance() || 
 function swarmFightNow() {
   if (!swarmFightOn() || sfExcluded()) return false;
   if (isLeader()) return now() < SF.until;
-  try { if (state.gkBusy || state.escaping || (typeof memberRoute !== 'undefined' && memberRoute.id)) return false; } catch (e) { }
+  try { if (state.gkBusy || state.escaping || (typeof memberRoute !== 'undefined' && memberRoute.id && memberRoute.busy)) return false; } catch (e) { }   // ROUTESTALE-2026-10-23: only a walk that RUNS takes the member back from L2Swarm (a stale id kept Hive in control)
   return now() < SF.until && SF.leader === CONFIG.leader;
 }
 /** leader, every hunting step with the switch on: L2Swarm combat on, the phase stamped, kills counted from the target L2Swarm picked; returns new kills */

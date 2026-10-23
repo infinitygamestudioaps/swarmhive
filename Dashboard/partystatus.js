@@ -232,6 +232,8 @@
         if (r && t - (Date.parse(r.at) || 0) < 3 * 3600000) out.push(`<div class="psb-warn" role="alert"><b>FIX THIS ROUTE</b> ${esc(r.label || 'route')} — ${esc(c.name)} got stuck before point ${+r.point || '?'}/${+r.n || '?'} at ${+r.x},${+r.y}. Open Raids → the boss → Route and move or record that part.</div>`);
         const w = c && c.shotWarn;
         if (w && t - (Date.parse(w.at) || 0) < 3600000) out.push(`<div class="psb-warn" role="alert"><b>NO SHOTS</b> ${esc(c.name)}: ${esc(w.text)}</div>`);
+        const lh = c && c.levelHealth;   // LEVELHEALTH-2026-10-23: the leader's last self-repair of a slow hunt
+        if (lh && t - (Date.parse(lh.at) || 0) < 1800000) out.push(`<div class="psb-warn" role="status"><b>SLOW HUNTING</b> ${esc(c.name)}: ${esc(lh.why)}</div>`);
       });
       return out.join('');
     } catch (e) { return ''; }

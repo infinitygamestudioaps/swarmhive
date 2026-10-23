@@ -2,6 +2,30 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.20 (2026-10-23)
+
+- Level fast: a slow hunt repairs itself - the leader watches its kill rate and, when monsters are around but hardly any die, clears stale walks and stuck targets on the whole party and says why (SLOW HUNTING on the party card, missing shots named). Members stuck in an old route walk: one lost route-end message used to leave a member walking to an old point forever (no normal follow, no self-defence, and Fight with L2Swarm not hands-off)
+- a quiet walk now ends after 2 min, and when the leader hunts at its spot. Fight with L2Swarm stays hands-off unless a team walk really runs. Hunt-spin test measured from the worker start.
+
+## v1.8.19 (2026-10-23)
+
+- Tester fixes. Your chosen hunting spot always wins: a spot, room or plan step above the party level is used with a warning (new party setting: ask me first)
+- Override works at once
+- Start resumes in the chosen spot instead of going to Giran
+- a spot choice confirms on the card at once. Stop and Park stop the fighting at once (only the monster hitting you is fought back)
+- a ranged attacker is always answered
+- area rotation moves on when an area is empty. Attack first: a monster hitting the healer or you beats the chosen target
+- a member standing still always fights back (it waited for a team walk that had ended)
+- members no longer walk back and forth on hallway detours while the leader fights close by. Buffs: player buff stores are found by their titles (COV, Zerk, Magus), a store buy no longer fails after buying, every role gets Community Board buffs, Buff with own buffers rebuffs at once
+- Forgotten Scroll self buffs can be switched off per character (Counter Critical always on)
+- party switch Recommend each other. Gear: starter gear is replaced, a member paid by the leader buys right away, bought set pieces are worn, a shop is opened once for all pieces, a subclass no longer blocks upgrades, the gear follows the class plan (Hawkeye gets bows), a shirt slot, a note that no NPC sells B/A gear. Selling and errands are not pulled back to the leader
+- trades check the bag first and never hang
+- mark junk on the character page (crossed-out icon)
+- no false Out of Spirit Ore
+- Storage: remove a crafter, grade filter, item names wrap
+- soul crystal abilities up to S84. Plans: gear and supply steps finish, a class change step never stalls, quests continue from each character stage and talk in front of the NPC
+- subclass roles (accounts subRoles). Dashboard restart really restarts. Brain engine: every move to the engine is saved in the account file, and a guard moves a character back when it runs the old script after an L2Swarm restart (new requirement engine.md).
+
 ## v1.8.18 (2026-10-23)
 
 - Casters: Devotion set until 40, then the Demon set for nukers and the Karmian set for healers and buffers

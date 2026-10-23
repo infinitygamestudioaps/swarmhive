@@ -57,7 +57,8 @@ H.file = { parties: { Tank1: { swarmFight: true } } }; H.t += 2500; S.swarmFight
 check(S.swarmFightNow() === false, 'member: no fight phase before the leader hunts (travel / town = Hive)');
 S.SF.leader = 'Tank1'; S.SF.until = H.t + 12000;
 check(S.swarmFightNow() === true, 'member: the leader hunts at the spot (signal < 12 s) = hands off');
-H.route.id = 'r1'; check(S.swarmFightNow() === false, 'member: walking a team route = Hive'); H.route.id = null;
+H.route.id = 'r1'; H.route.busy = true; check(S.swarmFightNow() === false, 'member: walking a team route = Hive'); H.route.busy = false;
+check(S.swarmFightNow() === true, 'member: a STALE route id (walk not running, ROUTESTALE 2026-10-23) stays hands-off'); H.route.id = null;
 H.state.gkBusy = true; check(S.swarmFightNow() === false, 'member: at a gatekeeper = Hive'); H.state.gkBusy = false;
 H.raid = true; check(S.swarmFightNow() === false && S.sfExcluded() === true, 'raid = Hive (raid rules)'); H.raid = false;
 H.inst = true; check(S.swarmFightNow() === false, 'instance = Hive'); H.inst = false;
