@@ -329,7 +329,7 @@ function makeEnv(o) {
   has(/if \(leadPaused\(\)\) return;\s*\/\/ the user said !stop/, 'idle watchdog respects the lead pause (so !town / !park stick)');
   has(/if \(leadRunBusy \|\| state\.levelRetry \|\|/, 'idle watchdog skips while leadLevel is retrying');
   has(/try \{ resumeOrder\(\); \} catch \(e\) \{ logError\('resumeOrder', e\); \}/, 'resumeActivity resumes a town order still on the way');
-  has(/if \(orderState\.seq !== gseq\) return;/, '!gearup does not level over a newer order');
+  has(/if \((?:orderState\.seq !== gseq|orderReplaced\(gseq\))\) return;/, '!gearup does not level over a newer order');
   has(/const opts = arguments\[2\] \|\| \{\};/, 'townCommand takes { noHold }');
   check(!/new Map\(/.test(src), 'source: no new Map() (L2Swarm host type clash)');
 

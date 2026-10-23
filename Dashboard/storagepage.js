@@ -445,13 +445,20 @@
   function renderParties() {
     const el = $id('stgParties'); if (!el) return;
     const R = SP.cur, P = (SP.info && SP.info.parties) || [];
-    el.innerHTML = P.map(p => {
+    let html = P.map(p => {
       const lv = obj(obj(R.parties)[p.leader]), inh = eff(Object.assign({}, R, { parties: {} }), '', p.leader);
       const autoN = p.members.filter(m => eff(R, m.name, p.leader).auto).length;
       return `<div class="fnd-party stg-party"><div class="ph"><b>Party ${h(p.leader)}</b><span class="muted">${p.members.length} char${p.members.length === 1 ? '' : 's'} · ${autoN ? autoN + ' store automatically' : 'nobody stores automatically'}</span></div>
         ${levelEditor('parties|' + p.leader, lv, inh)}
         <details class="fnd-mems" data-stgparty="${h(p.leader)}" ${SP.openParties.has(p.leader) ? 'open' : ''}><summary>Characters (${p.members.length})</summary>${p.members.map(m => charRow(m, p.leader)).join('')}</details></div>`;
     }).join('') || '<div class="muted">No parties in swarm.config.json.</div>';
+    // STGORPHAN-2026-10-23 (public tester 1.8.17: "storage tab - can't delete crafter1 char"): settings of a character that is in no party any
+    // more (deleted / renamed / moved to another PC) were never shown, so they could never be removed. List them with a Delete button.
+    const known = new Set(); P.forEach(p => (p.members || []).forEach(m => known.add(m.name)));
+    const orphans = Object.keys(obj(R.chars)).filter(n => !known.has(n)).sort();
+    if (orphans.length) html += `<div class="fnd-party stg-party stg-orphans"><div class="ph"><b>Characters in no party</b><span class="muted">${orphans.length} saved here but not in any party any more</span></div>
+      ${orphans.map(n => `<div class="stg-orphan"><b>${h(n)}</b> <span class="muted">${h(Object.keys(obj(R.chars[n])).filter(k => !k.startsWith('_')).join(', ') || 'empty')}</span> <button type="button" data-stgact="forget" data-n="${h(n)}">Delete these settings</button></div>`).join('')}</div>`;
+    el.innerHTML = html;
   }
   function renderBar() {
     const el = $id('stgBar'); if (!el) return;
@@ -544,8 +551,19 @@
       SP.openChars.add(n); render(); flash(`${n}: preset applied — press Save.`); return;
     }
     if (act === 'clear') {
-      if (!(await uiConfirm({ title: `${n}: use the party / default settings?`, body: [uiP('Removes ', uiEm(n), '’s own warehouse, mode, automatic, trigger and town settings. Its item rules (keep / store lists) stay.')], confirmText: 'Remove own settings', cancelText: 'Cancel' }))) return;
-      const c = obj(obj(SP.cur.chars)[n]); ['dest', 'mode', 'auto', 'trigger', 'town'].forEach(k => delete c[k]); if (!Object.keys(c).length && SP.cur.chars) delete SP.cur.chars[n]; render(); return;
+      // STGORPHAN-2026-10-23: with item rules left the old button seemed to do nothing ("can't delete") - offer removing everything too
+      const c0 = obj(obj(SP.cur.chars)[n]), rules = ['keepNames', 'depositNames', 'keep', 'deposit'].some(k => Array.isArray(c0[k]) && c0[k].length);
+      const pick = rules ? await uiChoice({ title: `${n}: use the party / default settings?`, body: [uiP('Remove only ', uiEm(n), '’s own warehouse, mode, automatic, trigger and town settings, or everything including its item rules (keep / store lists)?')],
+          buttons: [{ label: 'Own settings only', value: 'own' }, { label: 'Everything (item rules too)', value: 'all', primary: true, danger: true }] })
+        : ((await uiConfirm({ title: `${n}: use the party / default settings?`, body: [uiP('Removes ', uiEm(n), '’s own warehouse, mode, automatic, trigger and town settings.')], confirmText: 'Remove own settings', cancelText: 'Cancel' })) ? 'own' : null);
+      if (!pick) return;
+      const c = obj(obj(SP.cur.chars)[n]); ['dest', 'mode', 'auto', 'trigger', 'town'].forEach(k => delete c[k]);
+      if (SP.cur.chars && (pick === 'all' || !Object.keys(c).filter(k => !k.startsWith('_')).length)) delete SP.cur.chars[n];
+      render(); flash(`${n}: ${pick === 'all' ? 'all its settings removed' : 'own settings removed'} — press Save.`); return;
+    }
+    if (act === 'forget') {
+      if (!(await uiConfirm({ title: `Delete ${n}'s storage settings?`, body: [uiP(uiEm(n), ' is in no party. Its saved storage settings and item rules are removed from the file. Press Save afterwards.')], confirmText: 'Delete', cancelText: 'Cancel', danger: true }))) return;
+      if (SP.cur.chars) delete SP.cur.chars[n]; SP.openChars.delete(n); render(); flash(`${n}: settings removed — press Save.`); return;
     }
     if (act === 'show') return showPlan(n);
     if (dirty() && act !== 'letters') { const go = await uiConfirm({ title: 'Unsaved changes', body: [uiWarn('The bots use the SAVED settings. Your changes on this page are not saved yet.'), uiP('Send the order anyway (with the saved settings)?')], confirmText: 'Send anyway', cancelText: 'Cancel' }); if (!go) return; }

@@ -40,7 +40,7 @@ ok(P.vitPickNpc([{ name: 'Priest of Blessing', title: '', d: 1 }]) === null, 'no
 
 console.log('2) vitalityMine on stubs');
 (async () => {
-  const MINE = block('function vitStateFile()', '// BUFFSTORE-2026-10-19:');
+  const MINE = block('function vitStateFile()', SRC.indexOf('// RECOMMEND-2026-10-23') > SRC.indexOf('function vitStateFile()') ? '// RECOMMEND-2026-10-23' : '// BUFFSTORE-2026-10-19:');   // the recommend block (2026-10-23) sits right after vitality
   const mk = (opt) => {
     const files = {}, notes = [], clicks = [], logs = [];
     const env = {

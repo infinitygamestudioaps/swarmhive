@@ -281,6 +281,7 @@
     let m;
     if (/swarm\.js restarted while it ran/.test(w)) return /^#?!stop\b/i.test(S(c).trim()) ? 'the bot restarted afterwards — it stays stopped' : 'not finished: the bot restarted while it ran — send it again if you still want it';
     if ((m = /^replaced by (.*?) before it ran/.exec(w))) return `replaced by "${cmd(m[1])}" before it started`;
+    if ((m = /^replaced by (.*?) \([^)]*\) before (.*?) picked it up/.exec(w))) return `replaced by "${cmd(m[1])}" before ${m[2]} started it`;   // Dashboard/orderqueue.js (no raw order id)
     if ((m = /^replaced by (.*)$/.exec(w))) return `replaced by "${cmd(m[1])}"`;
     if ((m = /^a newer order(?: \((.*)\))? replaced it/.exec(w))) return 'a newer order replaced it';
     if ((m = /^older than (\d+) min when I could read it/.exec(w))) return `too old (over ${m[1]} min) when the character came online — not run`;

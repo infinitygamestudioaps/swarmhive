@@ -4,6 +4,7 @@
 //                             parties: [{ leader, members, eff: { <kind>: { on, src } }, chars: { <name>: { <kind>: { on, src } } } }] }
 //   POST /api/partyauto     { party, values: { <kind>: true | false | null }, chars: { <name>: { <kind>: true | false | null } }, rev?, by? }
 //                           only that party's entry (+ the named characters) is changed; null = removed (= the setting for all parties);
+//                           + defaultValues: { <kind>: true | false | null } = the all-parties setting (SPOTLVL-2026-10-23);
 //                           rev = the file's sha the caller read (409 + conflict: true when it changed meanwhile); lock + history copy
 //                           (Scripts/data/history/party_auto_<time>.json, last 50) + atomic tmp + rename (manual_guard.js) + one line in
 //                           Logs/dashboard_commands.log.
@@ -45,6 +46,13 @@ const KINDS = [
     help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." },
   { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)',
     help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs and does not walk anyone back there. Skills and heals stay as you set them: with Hive picks my skills / Hive heals on, Hive still casts and heals on the monster L2Swarm picked; switch those off and your L2Swarm profiles (Combat Skills, Auto Skills) cast and heal. Raids, Kamaloka and other instances stay with Hive." },   // SWARMFIGHT-2026-10-16 (player Vykaax), default OFF
+  // RECOMMEND-2026-10-23 (public tester: "just a toggle per party to recommend each other and keep it at 255"): default OFF
+  { key: 'recommend', char: false, group: 'combat', label: 'Party members recommend each other',
+    help: 'On: every character spends its daily recommendations on a teammate standing next to it (the one with the fewest first, never above 255), only when nobody fights. Off (default): nobody recommends.' },
+  // SPOTLVL-2026-10-23 (public testers Raltru / Vykaax: chosen spots and plan places were ignored "due to difficulty"): default OFF = the player's
+  // choice is never refused for level, the party only warns (party chat + party card); ON = the old "needs your OK" + Override button
+  { key: 'spotLevelCheck', char: false, group: 'combat', label: 'Ask me before hunting a chosen spot above our level',
+    help: 'Off (default): a hunting spot you choose (party card, plan step, order) is always used, even when its monsters are above the safe level; the party only warns in party chat and on the party card. On: such a spot waits for your OK (the Override button on the party card) and the party hunts its automatic spot meanwhile.' }
 ];
 const KEYS = KINDS.map(k => k.key), CHAR_KEYS = KINDS.filter(k => k.char).map(k => k.key);
 // = swarm.js TOGGLE-PURE FIGHT_TOGGLES: the toggles Hive switches ON in fights for anyone (the dashboard shows them as 'always on in fights')
@@ -217,6 +225,17 @@ function applyChange(data, b) {
     });
     if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party];
   }
+  // SPOTLVL-2026-10-23: defaultValues { <kind>: true | false | null } = the setting for every party without its own (null = removed: the built-in default)
+  const dvals = obj(b.defaultValues);
+  if (Object.keys(dvals).length) {
+    const Dd = Object.assign({}, J.default);
+    Object.keys(dvals).forEach(k => {
+      if (!KEYS.includes(k)) { errors.push(`all parties: unknown setting "${String(k).slice(0, 30)}"`); return; }
+      if (bad(dvals[k])) { errors.push(`all parties ${k}: true, false or null`); return; }
+      if (dvals[k] === null) delete Dd[k]; else Dd[k] = dvals[k];
+    });
+    J.default = Dd;
+  }
   if (b.amounts !== undefined) {   // SUPPLYAMT: this party's whole table (null = removed: the all-parties / built-in amounts)
     const t = amountsIn(b.amounts, 'amounts', errors);
     if (t !== undefined) { const P = Object.assign({}, obj(J.parties[party])); if (t) P.amounts = t; else delete P.amounts; if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party]; }
@@ -271,7 +290,7 @@ function post(ctx, b) {
       const hist = R.exists ? Gd.saveHistory(F, path.dirname(F), 50) : null;
       const txt = JSON.stringify(out, null, 1) + '\n';
       Gd.atomicWrite(F, txt);
-      const what = JSON.stringify({ party: b.party, values: b.values || {}, chars: b.chars || {}, amounts: b.amounts, defaultAmounts: b.defaultAmounts, pshop: b.pshop }).slice(0, 900);
+      const what = JSON.stringify({ party: b.party, values: b.values || {}, chars: b.chars || {}, amounts: b.amounts, defaultAmounts: b.defaultAmounts, defaultValues: b.defaultValues, pshop: b.pshop }).slice(0, 900);
       try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\tpartyauto\tsave\t${by}: ${what}\r\n`); } catch (e) { }
       result = { code: 200, ok: true, rev: sha(txt), data: pautoNorm(out), history: hist ? path.basename(hist) : null };
     }, { who: 'partyauto save' });

@@ -81,6 +81,17 @@ async function scriptList(name) {
   return { sel, list: Array.isArray(l.scripts) ? l.scripts : null, raw: l };
 }
 const outcome = { moved: [], already: [], skipped: [] };
+// PERSIST-2026-10-23: a live start/stop is NOT written to the account's XML. The 19 Flyt characters were moved live only, so the L2Swarm
+// restart at 09:01 loaded swarm.js from their XML again (in-process, event queue overflow, no progress all day). Every change here (and an
+// "already running" character whose XML may still be old) is saved to the account's own config file: the next L2Swarm start keeps it.
+async function persist(name, sel) {
+  if (!APPLY) return;
+  try {
+    const r = await mcp('manage_account_config', { ...sel, action: 'save' });
+    const t = String((r && (r.text || JSON.stringify(r))) || '');
+    say(`${name}: ${/saved/i.test(t) ? 'saved to its config file (survives an L2Swarm restart)' : 'config save answered: ' + t.slice(0, 160)}`);
+  } catch (e) { say(`${name}: config save FAILED (${e.message}) — it would fall back to its old scripts after an L2Swarm restart`); }
+}
 
 async function attach(name) {
   if (!FORCE && !isBrain(name)) {
@@ -90,7 +101,7 @@ async function attach(name) {
   const { sel, list, raw } = await scriptList(name);
   if (!list) { say(`${name}: script list unreadable (${String(raw.text || JSON.stringify(raw)).slice(0, 160)}) — skipped (not open in L2Swarm? run this again once it is logged in, or switch its config offline with SETUP.cmd -Apply while L2Swarm is stopped)`); outcome.skipped.push(name); return false; }
   const sw = list.find(s => s.name === 'swarm.js'), ag = list.find(s => AGENT_RE.test(s.name));
-  if (ag && ag.enabled && !(sw && sw.enabled)) { say(`${name}: ${ag.name} already attached and running — nothing to do`); outcome.already.push(name); return true; }
+  if (ag && ag.enabled && !(sw && sw.enabled)) { say(`${name}: ${ag.name} already attached and running — nothing to do`); await persist(name, sel); outcome.already.push(name); return true; }
   if (sw && sw.enabled) {
     say(`${name}: stop swarm.js`);
     if (APPLY) {
@@ -100,9 +111,10 @@ async function attach(name) {
     }
   }
   if (ag) {
-    if (ag.enabled) { say(`${name}: ${ag.name} already attached and running — nothing to do`); outcome.already.push(name); return true; }
+    if (ag.enabled) { say(`${name}: ${ag.name} already attached and running — nothing to do`); await persist(name, sel); outcome.already.push(name); return true; }
     say(`${name}: ${ag.name} already attached — start it (no file is written)`);
     if (APPLY) await mcp('manage_account_scripts', { ...sel, action: 'start', script_name: ag.name });
+    await persist(name, sel);
     outcome.moved.push(name); return true;
   }
   const file = `agent2_${name.replace(/[^A-Za-z0-9]/g, '')}.js`;
@@ -120,6 +132,7 @@ async function attach(name) {
   if (cr.text && /error|fail|refus|exists|unreadable|empty|unknown field/i.test(cr.text) && !/created/i.test(cr.text)) { say(`${name}: create answered: ${cr.text.slice(0, 200)} — stopped here (swarm.js stays stopped; start it again by hand if needed)`); outcome.skipped.push(name); return false; }
   await mcp('manage_account_scripts', { ...sel, action: 'start', ...(guid ? { script_guid: guid } : { script_name: file }) });
   say(`${name}: ${file} attached + started — check Logs/brain_host.log for 'agent ${name} connected'`);
+  await persist(name, sel);
   outcome.moved.push(name); return true;
 }
 
@@ -136,6 +149,7 @@ async function back(name) {
     if (!chk.list || chk.list.some(s => AGENT_RE.test(s.name) && s.enabled)) { say(`${name}: the agent did NOT stop — swarm.js is NOT started (never two drivers); try again`); outcome.skipped.push(name); return false; }
   }
   if (!sw.enabled) { say(`${name}: start swarm.js`); if (APPLY) await mcp('manage_account_scripts', { ...sel, action: 'start', script_name: 'swarm.js' }); }
+  await persist(name, sel);
   if (isBrain(name)) say(`${name}: NOTE brain_host.json still puts it in the brain — add it to "except" (allowAll) or take it out of "allow", or the next --all moves it again`);
   outcome.moved.push(name); return true;
 }

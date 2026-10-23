@@ -59,6 +59,8 @@ function cfgFresh(ctx) {
 function parties(ctx) { let K; try { K = require('./kamapage_api'); } catch (e) { K = require(path.join(ctx.ROOT, 'Dashboard', 'kamapage_api')); } return K.partyList(ctx); }   // STAGING: the Dashboard copy
 
 /** the learned buff skills a bot reported (swarm_state.buffPlan.skills) in the rkClassifyBuffs shape { party, target } */
+/** SELFOFF-2026-10-23: self buffs that always stay on (swarm.js SKSANE.alwaysSelf) */
+const SELF_ALWAYS = /^Counter Critical$/i;
 function reportedSkills(rep) {
   const out = { party: [], target: [] };
   ((rep && rep.skills) || []).forEach(s => {
@@ -108,7 +110,7 @@ function info(ctx) {
       const skills = reportedSkills(m.report);
       const known = skills.party.length + skills.target.length;
       const entry = BL.bpEntry(plans, leader, m.name);
-      const buffer = m.kind === 'buffer' || m.kind === 'healer' || known > 0 || !!entry;
+      const buffer = m.kind === 'buffer' || m.kind === 'healer' || known > 0 || !!(entry && (entry.approved || (entry.buffs || []).length || (entry.rotation || []).length || entry.noBuffs || entry.noSongs));   // SELFOFF-2026-10-23: a never-keep / self-buff list alone does not make a buffer
       let eff = BL.bpEffective(entry, skills, names, GR);
       if (!known && !(entry && entry.approved)) { eff.status = 'suggested'; eff.why = 'no skill report yet (log in once with the kit)'; }
       eff = BL.bpApplySwitches(eff, entry, pnode);   // MR.P 2026-10-10: buffing OFF / no songs / dances
@@ -120,7 +122,8 @@ function info(ctx) {
       }
       return Object.assign({}, m, { buffer, skills, known, entry, approved: !!(entry && entry.approved), status: buffer ? eff.status : '', why: eff.why, warnings: eff.warnings || [],
         plan: eff.plan, runs: buffer ? runs : '', suggestion: BL.bpSuggest(skills, GR), remove: BL.bpRemoveList(entry), noBuffs: !!(entry && entry.noBuffs), noSongs: !!(entry && entry.noSongs), attackSkills: entry && typeof entry.attackSkills === 'boolean' ? entry.attackSkills : null, attackDefault: !/^(doomcryer|warcryer|buffer)$/.test(String(m.role || '')),   // SKILLSANE-2026-10-16 (swarm.js SKSANE.casterBuffer)
-        slots: m.report && m.report.slots ? m.report.slots : null, skipped: (m.report && m.report.skipped) || [] });
+        slots: m.report && m.report.slots ? m.report.slots : null, skipped: (m.report && m.report.skipped) || [],
+        self: ((m.report && m.report.self) || []).filter(x => x && x.name).map(x => ({ id: Number(x.id) || 0, name: String(x.name).slice(0, 60), always: SELF_ALWAYS.test(String(x.name)) })), selfOff: (entry && Array.isArray(entry.selfOff)) ? entry.selfOff.slice() : [] });   // SELFOFF-2026-10-23
     });
     // the interleaved song / dance cycle of this party (kind = the majority of the character's rotation skills)
     const casters = members.filter(m => m.buffer && m.runs && (m.plan.rotation || []).length).map(m => { const list = BL.bpRotEntries(m.plan.rotation).map(r => r.name);
@@ -206,7 +209,7 @@ function post(ctx, b) {
       const C = chars(data);
       const old = C[name] || {};
       C[name] = Object.assign(entry, { approved: approve, savedAt: isoNow() });
-      ['remove', 'noSongs', 'noBuffs', 'summon', 'attackSkills'].forEach(k => { if (old[k] !== undefined) C[name][k] = old[k]; });   // the switches + never-keep list stay
+      ['remove', 'noSongs', 'noBuffs', 'summon', 'attackSkills', 'selfOff'].forEach(k => { if (old[k] !== undefined) C[name][k] = old[k]; });   // the switches + never-keep list stay
       if (typeof b.noSongs === 'boolean') { if (b.noSongs) C[name].noSongs = true; else delete C[name].noSongs; }
       if (typeof b.noBuffs === 'boolean') { if (b.noBuffs) C[name].noBuffs = true; else delete C[name].noBuffs; }
       if (typeof b.attackSkills === 'boolean') C[name].attackSkills = b.attackSkills;   // SKILLSANE-2026-10-16
@@ -233,7 +236,7 @@ function post(ctx, b) {
   if (a === 'clear') {
     if (!names.length) return bad(400, 'names missing');
     return write(ctx, b, 'clear', (data) => {
-      const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { const keep = {}; ['remove', 'noSongs', 'noBuffs', 'attackSkills'].forEach(k => { if (C[n][k] !== undefined) keep[k] = C[n][k]; }); if (Object.keys(keep).length) C[n] = keep; else delete C[n]; });   // the never-keep list + switches are not the plan
+      const C = chars(data), done = names.filter(n => C[n]); done.forEach(n => { const keep = {}; ['remove', 'noSongs', 'noBuffs', 'attackSkills', 'selfOff'].forEach(k => { if (C[n][k] !== undefined) keep[k] = C[n][k]; }); if (Object.keys(keep).length) C[n] = keep; else delete C[n]; });   // the never-keep list + switches are not the plan
       if (!Object.keys(C).length && typeof data.parties[leader].boardBuffs !== 'boolean') delete data.parties[leader];
       return { names: done, log: `${leader}: removed ${done.join(',')}` };
     });
@@ -257,6 +260,13 @@ function post(ctx, b) {
     const list = (Array.isArray(b.remove) ? b.remove : []).map(x => String(x || '').trim().slice(0, 60)).filter(Boolean).slice(0, 40);
     return write(ctx, b, 'remove', (data) => { const C = chars(data); C[name] = C[name] || {}; if (list.length) C[name].remove = list; else delete C[name].remove; if (!Object.keys(C[name]).length) delete C[name];
       return { name, remove: list, log: `${leader}/${name} never keep: ${list.join(', ') || '(none)'}` }; });
+  }
+  if (a === 'selfoff') {   // SELFOFF-2026-10-23 (public tester: "Forgotten Scrolls skills are cast on reuse; make them selectable in the buff window. Exception: Counter Critical")
+    const name = names[0]; if (!name) return bad(400, 'name missing');
+    const m = memberCtx(ctx, leader, name); if (m.err) return m.err;
+    const list = (Array.isArray(b.selfOff) ? b.selfOff : []).map(x => String(x || '').trim().slice(0, 60)).filter(x => x && !SELF_ALWAYS.test(x)).filter((x, i, a) => a.indexOf(x) === i).slice(0, 40);
+    return write(ctx, b, 'selfoff', (data) => { const C = chars(data); C[name] = C[name] || {}; if (list.length) C[name].selfOff = list; else delete C[name].selfOff; if (!Object.keys(C[name]).length) delete C[name];
+      return { name, selfOff: list, log: `${leader}/${name} self buffs off: ${list.join(', ') || '(none)'}` }; });
   }
   if (a === 'switches') {   // MR.P 2026-10-10: { name, noBuffs, noSongs } per character, or { noSongs } for the whole party (no name)
     const m = memberCtx(ctx, leader, names[0]); if (m.err) return m.err;
@@ -328,7 +338,7 @@ function post(ctx, b) {
       return { applied: done, assign, log: `template ${id} -> party ${leader}: ${done.join(',')} (not approved)` };
     });
   }
-  return bad(400, 'unknown action (set | approve | unapprove | clear | board | remove | switches | settings | saveTemplate | deleteTemplate | applyTemplate)');
+  return bad(400, 'unknown action (set | approve | unapprove | clear | board | remove | selfoff | switches | settings | saveTemplate | deleteTemplate | applyTemplate)');
 }
 
 async function handle(req, res, url, ctx) {

@@ -53,7 +53,8 @@
         ${BOX('frenzy', 'Frenzy kit (HP swap)', UI.sword)}
         <div class="box cp-box cp-inv" data-cpsec="inv"><h3>${GI(UI.inv, 'sm')}<span>Inventory</span><span class="cp-cnt" id="cpInvN"></span></h3>
           <div class="cp-invbar"><div class="cp-seg" role="tablist">${[['all', 'All'], ['use', 'Use'], ['gear', 'Gear'], ['mats', 'Materials'], ['quest', 'Quest']].map(([k, t]) => `<button data-cpinvf="${k}" class="${k === 'all' ? 'on' : ''}">${t}</button>`).join('')}</div>
-            <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"><button type="button" id="cpCryBtn" class="uk-btn cp-crybtn" data-cpcry="mode" hidden>Crystallize</button></div>
+            <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"><button type="button" id="cpJunkBtn" class="uk-btn cp-junkbtn" data-cpjunk="mode" aria-pressed="false" title="Tap items to mark or unmark them as junk to sell">Mark junk</button><button type="button" id="cpCryBtn" class="uk-btn cp-crybtn" data-cpcry="mode" hidden>Crystallize</button></div>
+          <div class="cp-junkhint muted" id="cpJunkHint" hidden>Tap an item to mark it as junk (crossed out = sold at the next shop visit). Tap again to keep it. Press Done when finished.</div>
           <div id="cp_inv"></div><div id="cp_cry"></div></div>
         ${BOX('skills', 'Skills', UI.skill, '<span class="cp-cnt muted">tap = use now</span>')}
         ${BOX('hive', 'Combat — Hive or my L2Swarm profile', UI.sword)}
@@ -469,7 +470,7 @@
     const sel = (i) => { try { const s = sellState(i.id, CP.name); return s && s !== 'keep' ? (noShopWhy(i.id) ? ' selling nosell' : ' selling') : ''; } catch (e) { return ''; } };
     cryLoad(false); const C = CP.cry, cj = cryMap();   // CRYINV-2026-10-22
     const cryCls = (i) => { if (!C.on) return ''; const j = cj[Number(i.objId)]; if (!j || cryBlockUi(j)) return ' cry-no'; return C.sel.has(Number(i.objId)) ? ' cry-sel' : ' cry-ok'; };
-    patch($id('cp_inv'), L.length ? `<div class="cp-igrid">${L.map(i => `<button class="cp-it c-${cat(i)}${sel(i)}${cryCls(i)}" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' ×' + nf(i.count) + (i.grade && i.grade !== 'None' ? ' · ' + i.grade : ''))}">
+    patch($id('cp_inv'), L.length ? `<div class="cp-igrid${CP.junk ? ' junkmode' : ''}">${L.map(i => `<button class="cp-it c-${cat(i)}${sel(i)}${cryCls(i)}" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' ×' + nf(i.count) + (i.grade && i.grade !== 'None' ? ' · ' + i.grade : ''))}">
       <img src="${itemIcon(i.id)}" alt="">${i.enchant ? `<b class="en">+${i.enchant}</b>` : ''}${Number(i.count) > 1 ? `<b class="n">${short(i.count)}</b>` : ''}${grade(i.grade)}</button>`).join('')}</div>`
       : `<div class="muted">${(d.items || []).length ? 'nothing matches' : d.error ? 'no game data' : 'loading…'}</div>`);
     renderCry();
@@ -768,6 +769,19 @@
       + `<button class="pri" data-cpgo="useslot" data-obj="${esc(it.objId)}" data-slot="${key}2" data-id="${it.id}" title="takes off what is in ${nm.toLowerCase()} slot 2, puts this one there">Put on as ${nm} 2</button>`
       + `<div class="muted cp-pd" style="flex-basis:100%">${wornTxt}. The piece in the chosen slot goes back to the bag.</div>`;
   }
+  // JUNKMARK-2026-10-23 (public tester 1.8.17: "ability to custom mark which item is selected as junk to sell, maybe the item icon but crossed
+  // out"): "Mark junk" mode in the inventory - one tap marks the item for selling for THIS character (sell_list.json, the same list as the
+  // item pop-up's "sell at every restock"), a second tap takes the mark off (also an "all bots" mark). Marked items show crossed out.
+  async function junkPick(btn) {
+    const key = btn.dataset.cpitem, it = ((CP.char && CP.char.items) || []).find(i => String(i.objId || i.id) === key); if (!it) return;
+    if (it.equipped || it.quest || it.id === 57) { toast(`${it.name}: worn and quest items are never sold`, false); return; }
+    const st = sellState(it.id, CP.name), on = !(st === 'char' || st === 'all');
+    const d = await api('/api/sell', { method: 'POST', body: JSON.stringify({ id: it.id, scope: CP.name, on }) });
+    if (!d || d.error) { toast(`not saved: ${(d && d.error) || 'no answer'}`, false); return; }
+    if (d.list) SELL = Object.assign({ noShop: SELL.noShop }, d.list);
+    toast(`${it.name}: ${on ? 'marked as junk — sold at the next shop visit' : 'kept (no longer sold)'}${on && noShopWhy(it.id) ? ' — but no shop buys it' : ''}`, true);
+    renderInv();
+  }
   function itemPop(btn) {
     const key = btn.dataset.cpitem, it = ((CP.char && CP.char.items) || []).find(i => String(i.objId || i.id) === key); if (!it) return;
     const canDrop = !it.equipped && !it.quest && it.id !== 57;
@@ -1027,7 +1041,8 @@
       const q = t.closest('[data-cpq]'); if (q && !q.disabled) { e.stopPropagation(); quick(q.dataset.cpq); return; }
       const sk = t.closest('.cp-sk'); if (sk) { e.stopPropagation(); skillPop(sk); return; }
       const cb = t.closest('[data-cpcry]'); if (cb) { e.stopPropagation(); cryClick(cb).catch(er => toast(er.message, false)); return; }   // CRYINV-2026-10-22
-      const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); if (CP.cry.on) { cryPick(it); return; } itemPop(it); return; }
+      const jb = t.closest('[data-cpjunk]'); if (jb) { e.stopPropagation(); CP.junk = !CP.junk; if (CP.junk && CP.cry && CP.cry.on) { CP.cry.on = false; CP.cry.sel.clear(); } jb.textContent = CP.junk ? 'Done' : 'Mark junk'; jb.classList.toggle('on', CP.junk); jb.setAttribute('aria-pressed', String(!!CP.junk)); const hn = $id('cpJunkHint'); if (hn) hn.hidden = !CP.junk; renderInv(); return; }   // JUNKMARK-2026-10-23
+      const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); if (CP.junk && it.classList.contains('cp-it')) { junkPick(it).catch(er => toast(er.message, false)); return; } if (CP.cry.on) { cryPick(it); return; } itemPop(it); return; }
       const fb = t.closest('[data-fkbuy]'); if (fb) { e.stopPropagation(); frenzyBuy().catch(er => toast(er.message, false)); return; }   // KITBUY 2026-10-15
       const cm = t.closest('[data-cpclient]'); if (cm) { e.stopPropagation(); try { setClientMode(CP.name, cm.dataset.cpclient); } catch (er) { toast(er.message, false); } return; }
       const ov = t.closest('[data-cpovmenu]'); if (ov && window.Override) { e.stopPropagation(); Override.open(CP.name, ov, { context: 'char', title: CP.name }); return; }

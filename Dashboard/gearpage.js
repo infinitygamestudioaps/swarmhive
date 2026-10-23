@@ -29,11 +29,11 @@
   const short = (n) => { n = Number(n) || 0; return n >= 1e9 ? (n / 1e9).toFixed(2) + 'B' : n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 1 : 2) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : nf(n); };
   const store = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('swarm.gp.' + k)); localStorage.setItem('swarm.gp.' + k, JSON.stringify(v)); } catch (e) { return null; } return null; };
   const SLOT_LABEL = { weapon: 'Weapon', shield: 'Shield / off-hand', head: 'Helmet', chest: 'Upper / full armor', legs: 'Lower armor', gloves: 'Gloves', feet: 'Boots',
-    neck: 'Necklace', earring: 'Earring 1', earring2: 'Earring 2', ring: 'Ring 1', ring2: 'Ring 2', belt: 'Belt', bracelet: 'Bracelet', talisman: 'Talisman', cloak: 'Cloak' };
+    neck: 'Necklace', earring: 'Earring 1', earring2: 'Earring 2', ring: 'Ring 1', ring2: 'Ring 2', shirt: 'Shirt', belt: 'Belt', bracelet: 'Bracelet', talisman: 'Talisman', cloak: 'Cloak' };
   const SHORT = { weapon: 'Weapon', shield: 'Shield', head: 'Helmet', chest: 'Chest', legs: 'Legs', gloves: 'Gloves', feet: 'Boots', neck: 'Neck', earring: 'Earring', earring2: 'Earring',
-    ring: 'Ring', ring2: 'Ring', belt: 'Belt', bracelet: 'Bracelet', talisman: 'Talisman', cloak: 'Cloak' };
-  const DOLL = [['earring', 'head', 'weapon'], ['neck', 'chest', 'shield'], ['earring2', 'legs', 'belt'], ['ring', 'gloves', 'bracelet'], ['ring2', 'feet', 'cloak'], [null, 'talisman', null]];
-  const ORDER = ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'earring2', 'ring', 'ring2', 'belt', 'bracelet', 'talisman', 'cloak'];
+    ring: 'Ring', ring2: 'Ring', shirt: 'Shirt', belt: 'Belt', bracelet: 'Bracelet', talisman: 'Talisman', cloak: 'Cloak' };
+  const DOLL = [['earring', 'head', 'weapon'], ['neck', 'chest', 'shield'], ['earring2', 'legs', 'belt'], ['ring', 'gloves', 'bracelet'], ['ring2', 'feet', 'cloak'], ['shirt', 'talisman', null]];   // SHIRTSLOT-2026-10-23
+  const ORDER = ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'earring2', 'ring', 'ring2', 'shirt', 'belt', 'bracelet', 'talisman', 'cloak'];
   const BOT = new Set(['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'earring2', 'ring', 'ring2']);
   const GRADE_LABEL = { NONE: 'No-grade', D: 'D', C: 'C', B: 'B', A: 'A', S: 'S', S80: 'S80', S84: 'S84' };
   const RACE_LABEL = { HUMAN: 'Human', ELF: 'Elf', DARK_ELF: 'Dark Elf', ORC: 'Orc', DWARF: 'Dwarf', KAMAEL: 'Kamael' };
@@ -63,7 +63,7 @@
             <p>Pick a class and a grade, then tap a slot to choose the item they should wear. Every item of that grade is listed, also the ones no shop in Giran sells: the bots buy what Giran sells (the cheap <b>Common</b> twin when there is one, a caster's armor as the real set piece) and report <b>manual</b> for the rest (drop, craft, exchange) in <code>!gearplan</code>.</p>
             <p>A class without a choice for a slot uses its <b>parent class</b> (e.g. Shillien Templar uses Shillien Knight), then the old per-role choice, then the <b>recommended</b> item (teal: the best weapon / set / jewellery for the class's role, preferring what Giran sells; the reason is shown under it), then the bots' automatic pick. <b>Reset … to recommended</b> removes your own choices. Alternatives are tried in order when the first item cannot be bought.</p>
             <p><b>Auto gear upgrades</b> (folded box below "Our characters"): whether the bots buy and put on better gear by themselves in the supply runs. A new install starts with it <b>OFF</b> for everyone. Even when it is on they never change the weapon <b>type</b> (a spear stays a spear, a bow a bow), never take a lower grade, never put a shield next to a two-handed weapon, and (unless you allow it) never swap an item for one of the same grade or another armor type — your own plan here always wins. <b>Lock</b> = nothing is bought, put on or swapped for that character.</p>
-            <p>Colours under "Our characters": <span class="ok">green</span> wears the planned item (or its Common twin), <span class="warn">gold</span> the bots will buy it on the next supply run, grey = manual (not sold in Giran, or a belt / bracelet / talisman / cloak the bots do not buy).</p>
+            <p>Colours under "Our characters": <span class="ok">green</span> wears the planned item (or its Common twin), <span class="warn">gold</span> the bots will buy it on the next supply run, grey = manual (not sold in Giran, or a shirt / belt / bracelet / talisman / cloak the bots do not buy).</p>
           </div></details>
         </div>
       </div>

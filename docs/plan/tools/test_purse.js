@@ -140,7 +140,7 @@ check(P.purseCardRows(R0, { name: 'JadeLeader', adena: 2000000 }, mem).length ==
   const iPlan = sup.indexOf("let gp = await teamStep(runId, 'gearplan'"), iPurse = sup.indexOf("await purseStep(runId, gp.got, 'supply run')"), iOrder = sup.indexOf('const order = needOrder(gp.got, all);'), iRun = sup.indexOf("teamStep(runId, 'gearrun'"), iBuy = sup.indexOf("pstStep('supply', 'buy at Helvetia'");
   check(iPlan > 0 && iPurse > iPlan && iOrder > iPurse && iRun > iOrder && iBuy > iRun, 'supply run: plan -> the leader pays -> plan again -> members shop -> THEN the leader\'s supply buying at Helvetia', { iPlan, iPurse, iOrder, iRun, iBuy });
   check(/const all = members\.map\(a => a\.name\)\.filter\(n => n !== Me\.Name\)\.concat\(\[Me\.Name\]\);/.test(sup), 'supply run: the leader buys his own gear LAST (gear run order)');
-  check(/if \(pr\.paid > 0\) \{ res\.push\('purse: ' \+ pr\.text\); gp = await teamStep\(runId, 'gearplan', 30000\); \}/.test(sup), 'supply run: after paying everyone plans again with the new adena');
+  check(/if \(pr\.paid > 0\) \{ res\.push\('purse: ' \+ pr\.text\); gp = await teamStep\(runId, 'gearplan2', 30000\); \}/.test(sup), 'supply run: after paying everyone plans again with the new adena (own step gearplan2: GEARFUND-2026-10-23)');
   const gu = src.slice(src.indexOf("if (cmd === '!gearup') {"), src.indexOf("if (cmd === '!clanskill')"));
   const gP = gu.indexOf("await purseRun('!gearup'"), gE = gu.indexOf("App.emit('swarm.gearup'"), gL = gu.indexOf("await gearUpgrade('!gearup')");
   check(gP > 0 && gE > gP && gL > gE && /await sleep\(\(buyers\.length \+ 1\) \* 7000\)/.test(gu), '!gearup: the leader pays first, then the members buy, then he buys his own (after them)');

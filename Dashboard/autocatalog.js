@@ -63,6 +63,12 @@
     { key: 'swarmFight', group: 'fight', title: 'Fight with L2Swarm', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['swarmFight'],   // SWARMFIGHT-2026-10-16
       what: 'At the hunting spot your L2Swarm profiles do the fighting (combat zone, Follow and Follow Attack) while Hive only travels, restocks and gears up.',
       switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
+    { key: 'recommend', group: 'fight', title: 'Recommend each other', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['recommend'],   // RECOMMEND-2026-10-23
+      what: 'Once a minute, out of combat, each character recommends the teammate near it with the fewest recommendations, up to 255.',
+      switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
+    { key: 'spotLevelCheck', group: 'level', title: 'Ask before a spot above our level', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['spotLevelCheck'],   // SPOTCHOICE-2026-10-23
+      what: 'When on, the party waits for your OK before hunting a spot you chose above its level; off (the default) it goes there and warns in party chat.',
+      switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
     { key: 'healplan', group: 'fight', title: 'Heal choices', gate: 'always', def: 'always', eval: 'heal',
       what: 'Which heal at which HP, who is healed first and when to use Recharge — automatic until you change it per character.',
       switch: 'party Settings → Healing', where: { label: 'Healing settings', settings: 'heal' } },

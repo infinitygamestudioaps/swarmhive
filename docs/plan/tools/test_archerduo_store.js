@@ -11,7 +11,7 @@ t('mtFight: solo killer fights until nothing is left', /mtPackNear\(\) <= \(solo
 t('mtLeashFight shoots a ranged attacker outside the leash', /ARCHERDUO-2026-10-22: a ranged/.test(S) && /< 1600\) mobs\.push\(m\)/.test(S));
 t('soStoreAddOn exists', /async function soStoreAddOn\(out, tag\)/.test(S));
 t('store add-on ignores the source order', /e\.buffSources\.indexOf\('store'\) < 0/.test(S));
-t('store add-on: Party button, else me', /storeBuyBuff\(id, 'Party', name, opt\)/.test(S) && /no Party button/.test(S));
+t('store add-on: Party button, else me', /storeBuyBuff\(id, 'Party', name, (opt|o1)\)/.test(S) && /no Party button/.test(S));
 t('supply run calls the add-on', /await soStoreAddOn\(res, 'supply'\)/.test(S));
 t('rebuff trip calls the add-on', /await soStoreAddOn\(out, 'rebuff trip'\)/.test(S));
 t('up to 6 stores tried', /sellers\.slice\(0, 6\)/.test(S));

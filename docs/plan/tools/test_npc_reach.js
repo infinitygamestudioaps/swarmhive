@@ -32,7 +32,7 @@ t("board: no 'Buffs' click while in combat", bb.indexOf('if (bfInCombat())') > 0
 // NOHITLOOP-2026-10-22 (Spoiler13 40+ min on one Ant Recruit at 100 % HP): self-defence respects the hunt's "no damage" blacklist
 const sd = src.slice(src.indexOf('let lastDefend = 0'), src.indexOf('let lastDefend = 0') + 3500);
 t('self-defence skips a monster the hunt put aside (HP >= 50 %)', /huntBlacklisted\(mob\.objId\) && num\(Me\.HpPercent\) >= 50/.test(sd));
-t('self-defence steps ~300 away from a stalemate attacker, at most every 20 s', /nohitStepAt > 20000/.test(sd) && /\* 300/.test(sd));
+t('self-defence steps ~300 away from a stalemate attacker, at most every 20 s', /nohitStepAt > 20000/.test(sd) && (/\* 300/.test(sd) || (/nohitStepDist\(/.test(sd) && /nohitNearStep: 300\b/.test(src))));   // STOPCALM-2026-10-23: 300 near, out of reach for a ranged attacker (test_stop_fight_1023.js)
 t('the hunt puts a repeat no-damage target aside for 10 min', /n >= 2 \? 600000 : 120000/.test(src));
 
 // STALESTANCE-2026-10-22 (testers: leader "in combat" in town for 10 min, a client restart fixed it): the stance flag alone needs a fight behind it

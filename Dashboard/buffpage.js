@@ -156,7 +156,7 @@
       </div>
       ${ov.length ? `<div class="bpl-ov"><h4>Overlaps (only one casts)</h4>${ov.map(o => `<div class="bpl-ovr"><b>${h(o.ab)}</b> on <b>${h(o.member)}</b>: ${o.by.map((b, i) => `${h(b)} (${h(o.skills[i] || '')})`).join(' and ')} — <span class="ok">${h(o.winner)} casts it</span></div>`).join('')}</div>` : ''}
       ${(p.cycle || []).length ? `<div class="bpl-cyc"><h4>Song / dance cycle (one full set, interleaved)</h4><div class="bpl-sum">${p.cycle.map((x, i) => `<span class="bpl-b">${i + 1}. ${h(x.skill)}<em>${h(x.by)}</em></span>`).join('')}</div></div>` : ''}
-      ${rest.length ? `<div class="bpl-rest"><span class="muted">Not buffers:</span> ${rest.map(m => `<span class="bpl-restm"><b>${h(m.name)}</b>${(m.remove || []).length ? ` <em class="muted" title="cancels these buffs itself">never keep: ${h(m.remove.join(', '))}</em>` : ''} <button data-bpact="remove" data-bpn="${h(m.name)}" title="Buffs ${h(m.name)} cancels itself (and buffers never cast on it)">Never keep…</button></span>`).join(' ')}</div>` : ''}
+      ${rest.length ? `<div class="bpl-rest"><span class="muted">Not buffers:</span> ${rest.map(m => `<span class="bpl-restm"><b>${h(m.name)}</b>${(m.remove || []).length ? ` <em class="muted" title="cancels these buffs itself">never keep: ${h(m.remove.join(', '))}</em>` : ''} <button data-bpact="remove" data-bpn="${h(m.name)}" title="Buffs ${h(m.name)} cancels itself (and buffers never cast on it)">Never keep…</button>${selfBtn(m)}</span>`).join(' ')}</div>` : ''}
     </div>`;
   }
   function rowHtml(p, m) {
@@ -182,7 +182,37 @@
         ${hasPlan(m.entry) ? `<button data-bpact="clear" data-bpn="${h(m.name)}">Remove</button>` : ''}
         <button data-bpact="noBuffs" data-bpn="${h(m.name)}" aria-pressed="${m.noBuffs ? 'true' : 'false'}" title="Switch all buffing of ${h(m.name)} on / off">${m.noBuffs ? 'Buffing ON…' : 'Buffing OFF…'}</button>
         <button data-bpact="remove" data-bpn="${h(m.name)}" title="Buffs ${h(m.name)} cancels itself">Never keep…</button>
+        ${selfBtn(m)}
       </span></div>`;
+  }
+  // SELFOFF-2026-10-23 (public tester: "Forgotten Scrolls skills are cast on reuse; make them selectable/deselectable in the buff window. Exception:
+  // Counter Critical."): the character's own self buffs (its report: swarm_state.buffPlan.self), each one on / off; Counter Critical always stays on
+  function selfBtn(m) {
+    const n = (m.self || []).length; if (!n && !(m.selfOff || []).length) return '';
+    const off = (m.selfOff || []).length;
+    return `<button data-bpact="self" data-bpn="${h(m.name)}" title="Which of its own self buffs ${h(m.name)} keeps up">Self buffs${off ? ' (' + off + ' off)' : ''}…</button>`;
+  }
+  function openSelf(name) {
+    const p = party(BP.sel), m = p && p.members.find(x => x.name === name); if (!m) return;
+    const offKey = {}; (m.selfOff || []).forEach(v => { offKey[String(v).trim().toLowerCase()] = String(v).trim(); });
+    const opts = (m.self || []).map(s => ({ name: s.name, always: !!s.always, on: s.always || !offKey[s.name.toLowerCase()] }));
+    Object.keys(offKey).forEach(k => { if (!opts.some(o => o.name.toLowerCase() === k)) opts.push({ name: offKey[k], always: false, on: false, gone: true }); });
+    BP.ed = { kind: 'self', name, leader: p.leader, m, opts };
+    renderSelf();
+    $id('bpSheet').hidden = false; document.documentElement.classList.add('cpl-modal');
+  }
+  function renderSelf() {
+    const E = BP.ed, m = E.m, off = E.opts.filter(o => !o.on && !o.always).length;
+    put($id('bpPanel'), `<div class="cpl-ph"><div>${icon(m.classId)}<b>${h(E.name)}</b> <span class="muted">party ${h(E.leader)} · its own self buffs</span></div>
+        <button class="cpl-x" data-bpact="close" aria-label="close">✕</button></div>
+      <div class="muted cpl-suggline">Ticked = ${h(E.name)} casts it again whenever it runs out (Forgotten Scroll skills too). Unticked = it is never cast by itself. Counter Critical always stays on. Nothing is saved until you tap Save.</div>
+      <div class="bpl-list">${E.opts.map((o, i) => `<div class="bpl-row ${o.on ? 'on' : 'off'}"><label class="bpl-k"><input type="checkbox" data-bpself="${i}" ${o.on ? 'checked' : ''} ${o.always ? 'disabled' : ''}> <b>${h(o.name)}</b></label>
+        <span class="muted bpl-meta">${o.always ? 'always on' : o.gone ? 'not learned / not reported now' : ''}</span></div>`).join('') || '<div class="muted">No self buffs reported by this character yet (it logs in once with the kit).</div>'}</div>
+      <div class="cpl-pfoot">
+        <span class="muted">${off ? off + ' switched off' : 'every self buff is kept up'}</span>
+        <button class="cpl-primary" data-bpact="selfSave">Save</button>
+        <button data-bpact="close">Cancel</button>
+      </div>`);
   }
   function tplsHtml() {
     const t = BP.data.templates || [];
@@ -374,7 +404,14 @@
       if (!await uiConfirm({ title: `Buffing ${to ? 'OFF' : 'ON'} for ${n}?`, body: to ? [uiP(`${n} casts no buffs at all: no plan, no suggestion, no songs / dances.`), uiNote('Its saved plan is kept; switch it on again any time.')] : [uiP(`${n} buffs again (its approved plan, or the suggestion as the settings allow).`)], confirmText: to ? 'Buffing OFF' : 'Buffing ON', cancelText: 'Cancel' })) return;
       await post({ action: 'switches', leader: p.leader, name: n, noBuffs: to }, `${n}: buffing ${to ? 'OFF' : 'ON'}`); return;
     }
-    if (act === 'remove' && n) { openRemove(n); return; }   // MR.P 2026-10-10: the buffs this character cancels itself (and buffers never cast on it)
+    if (act === 'remove' && n) { openRemove(n); return; }
+    if (act === 'self' && n) { openSelf(n); return; }   // SELFOFF-2026-10-23
+    if (act === 'selfSave' && E && E.kind === 'self') {
+      const list = E.opts.filter(o => !o.on && !o.always).map(o => o.name);
+      const nm = E.name, r = await post({ action: 'selfoff', leader: E.leader, name: nm, selfOff: list }, list.length ? `${nm} no longer casts: ${list.join(', ')}` : `${nm}: keeps every self buff up`);
+      if (r) closeSheet();
+      return;
+    }   // MR.P 2026-10-10: the buffs this character cancels itself (and buffers never cast on it)
     // D12 2026-10-12 ("cannot choose a buff to 'Never keep'"): a tick list in the bottom sheet instead of a free-text prompt (the prompt had
     // nothing to choose from, a typo silently matched nothing, and an empty field kept Save disabled, so a list could never be cleared)
     if (act === 'rmAdd' && E && E.kind === 'remove') {
@@ -421,6 +458,7 @@
     else if (x.dataset.bpsw) { E[x.dataset.bpsw] = x.checked; }
     else if (x.dataset.bprot !== undefined) { E.rot[+x.dataset.bprot].on = x.checked; renderEditor(); }
     else if (x.dataset.bpka !== undefined) { E.rot[+x.dataset.bpka].keepAlways = x.checked; }
+    else if (x.dataset.bpself !== undefined && E.kind === 'self') { const o = E.opts[+x.dataset.bpself]; if (o && !o.always) o.on = x.checked; renderSelf(); }   // SELFOFF-2026-10-23
     else if (x.dataset.bprm !== undefined && E.kind === 'remove') { const o = E.opts[+x.dataset.bprm]; if (o) { if (x.checked) E.sel[o.key] = o.name; else delete E.sel[o.key]; } renderRemove(); }
   }
 

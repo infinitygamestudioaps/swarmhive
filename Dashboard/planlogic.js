@@ -219,7 +219,7 @@
         // (= the step sits a little early); a change far away = nothing is due here, the step ends at once (= swarm.js planClassDecide)
         const due = (m) => m.cp.needLevel - Math.max(lvl, Number(m.level) || 0);
         const low = withPlan.filter(m => m.cp.status === 'waiting' && m.cp.needLevel && due(m) > 0 && due(m) <= 2);
-        if (low.length) w.push(`${names(low.map(m => `${m.name} (${m.cp.nextName} at ${m.cp.needLevel})`))} — the party is about ${lvl} here: put a level step before it`);
+        if (low.length) w.push(`${names(low.map(m => `${m.name} (${m.cp.nextName} at ${m.cp.needLevel})`))} — the party is about ${lvl} here: this step is skipped there (the automatic class change does it at that level; PLANCLASS-2026-10-23) — put a level step before it if you want it here`);
         const later = withPlan.filter(m => m.cp.status === 'waiting' && m.cp.needLevel && due(m) > 2);
         if (later.length && later.length === withPlan.length) w.push(`nothing to change at level ${lvl} (next: ${names(later.map(m => `${m.name} → ${m.cp.nextName} at ${m.cp.needLevel}`))}) — this step ends at once`);
       } else if (s.kind === 'supply' && plan.steps[i + 1] && plan.steps[i + 1].kind === 'gear') {

@@ -94,7 +94,8 @@ const CASES = [
     const old = fs.readFileSync(BACKUP, 'utf8');
     // one function body (a one-liner ends at its line); the DUNGEON STEPS 2026-10-13 addition to userRouteTrip is ONE guarded branch (CONFIG.routeSwitch.raidFloors)
     const fn = (s, name) => { const i = s.indexOf(name); if (i < 0) return null; const line = s.slice(i, s.indexOf('\n', i)); if ((line.match(/\{/g) || []).length === (line.match(/\}/g) || []).length) return line; const j = s.indexOf('\n}\n', i); return s.slice(i, j); };
-    const strip = (t) => String(t || '').split('\n').filter(l => !/ROUTESWITCH 2026-10-13 \(DUNGEON STEPS\)|CONFIG\.routeSwitch && CONFIG\.routeSwitch\.raidFloors && rsHasSteps\(r\)/.test(l)).join('\n');
+    // ROUTEFIX 2026-10-23 (owner: red FIX THIS ROUTE signs): the stuck point is stored on a failure and cleared on success - nothing else changed
+    const strip = (t) => String(t || '').split('\n').filter(l => !/ROUTESWITCH 2026-10-13 \(DUNGEON STEPS\)|CONFIG\.routeSwitch && CONFIG\.routeSwitch\.raidFloors && rsHasSteps\(r\)|ROUTEFIX|old\.stuck = rs; state\.routeStuck = null;/.test(l)).map(l => l.replace(/ delete old\.stuck;/g, '')).join('\n');
     ['function raidRouteUse(', 'function loadRaidRoute(', 'function saveRaidRoute(', 'function raidRouteFailed(', 'async function userRouteTrip('].forEach(n => { const a = fn(old, n), b = fn(src, n); assert.ok(a && b, n + ' present'); assert.strictEqual(strip(b), strip(a), n + ' changed'); });
     assert.ok(/async function userRouteTrip\(r, boss, runId\) \{\n  \/\/ ROUTESWITCH 2026-10-13 \(DUNGEON STEPS\)[^\n]*\n  if \(CONFIG\.routeSwitch && CONFIG\.routeSwitch\.raidFloors && rsHasSteps\(r\)\)/.test(src), 'userRouteTrip: the dungeon-step branch is guarded by CONFIG.routeSwitch.raidFloors');
   });

@@ -17,6 +17,11 @@ ok(!K.skSelfBuffSkip({ name: 'Dash', abType: 'SPEED_UP' }, {}), 'Dash stays');
 ok(K.skSelfBuffSkip({ name: 'Focus Power', abType: 'PA_UP' }, { noBuffs: true }), 'buffing OFF = no self buffs');
 ok(K.skSelfBuffSkip({ name: 'Focus Power', abType: 'PA_UP' }, { remove: ['focus power'] }), 'never-keep list by name');
 ok(K.skSelfBuffSkip({ name: 'Focus Power', abType: 'PA_UP' }, { remove: ['PA_UP'] }), 'never-keep list by abnormal type');
+// 2b) SELFOFF-2026-10-23 (tester: Forgotten Scroll skills recast on reuse -> selectable; exception Counter Critical)
+ok(K.skSelfBuffSkip({ name: 'Deflect Magic', abType: 'REFLECT_MAGIC_DD' }, { selfOff: ['deflect magic'] }), 'self buff on the off list is not cast');
+ok(!K.skSelfBuffSkip({ name: 'Counter Critical', abType: 'COUNTER_CRITICAL' }, { selfOff: ['Counter Critical'] }), 'Counter Critical stays on even when listed');
+ok(!K.skSelfBuffSkip({ name: 'Final Secret', abType: 'X' }, { selfOff: ['Deflect Magic'] }), 'a self buff not on the list stays');
+ok(src.includes('self, at: now() }') && /currentSkillPlan\(\)\.selfBuffs/.test(src), 'rkStateReport reports the self buffs for the Buffs page');
 // 3) caster buffers: no attack skills unless ticked; others: yes unless unticked
 const atk = [{ name: 'Wind Strike' }, { name: 'Mana Burn' }, { name: 'Steal Essence' }];
 ['buffer', 'warcryer', 'doomcryer'].forEach(r => ok(K.skFilterAttacks(atk, r, null).length === 0, r + ': no attacks by default'));

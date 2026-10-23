@@ -119,7 +119,7 @@
   }
 
   // ------------------------------------------------------------------ team steps (the leader's step as a member runs it) -------------
-  const STEP_LABEL = { supplyneed: 'telling the leader what it needs', enchantrun: 'enchanting its gear', gearplan: 'checking the shops for upgrades', gearrun: 'buying gear upgrades',
+  const STEP_LABEL = { supplyneed: 'telling the leader what it needs', enchantrun: 'enchanting its gear', gearplan: 'checking the shops for upgrades', gearplan2: 'checking the shops again (after the leader paid)', gearrun: 'buying gear upgrades',
     dyeplan: 'checking its dye plan', dyerun: 'drawing symbols', sellrun: 'selling at Helvetia', adenastatus: 'reporting its adena', equip: 'equipping gear', gearlist: 'listing spare gear',
     gearwant: 'checking spare gear', home: 'going to town', restock: 'restocking', gk: 'teleporting with the team', gkif: 'roll call after the teleport', fight: 'back to following',
     shop: 'shopping', shopcheck: 'checking the shop', escortstatus: 'escort status', queststop: 'stopping the quest' };

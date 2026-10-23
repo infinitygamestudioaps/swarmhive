@@ -66,7 +66,8 @@
         <button type="button" class="uk-btn ghost" data-crfact="undo" data-name="${h(c.name)}"${dirty ? '' : ' disabled'}>Undo</button>
         <button type="button" class="uk-btn secondary" data-crfact="craft" data-name="${h(c.name)}">Craft now</button>
         <button type="button" class="uk-btn ghost" data-crfact="book" data-name="${h(c.name)}">Read recipe book</button>
-        <button type="button" class="uk-btn ghost" data-crfact="one" data-name="${h(c.name)}">Craft one batch…</button></div>${itemsHtml(c, I)}</div>`;
+        <button type="button" class="uk-btn ghost" data-crfact="one" data-name="${h(c.name)}">Craft one batch…</button>
+        ${cfg.exists ? `<button type="button" class="uk-btn ghost crf-del" data-crfact="remove" data-name="${h(c.name)}">Remove this crafter</button>` : ''}</div>${itemsHtml(c, I)}</div>`;
   }
   function renderBox(el) {
     const I = CP.info;
@@ -106,10 +107,20 @@
   async function onClick(ev) {
     const b = ev.target.closest && ev.target.closest('[data-crfact]'); if (!b) return;
     if (b.disabled) return;
+    if (b.dataset.crfact === 'grade') { CI.grade[b.dataset.name] = b.dataset.g || ''; reBox(); return; }   // CRFGRADE-2026-10-23
     try { if (await itemsClick(b)) return; } catch (e) { if (typeof uiError === 'function') await uiError(String(e && e.message || e)); return; }   // CRAFTITEMS-2026-10-15
     const n = b.dataset.name, a = b.dataset.crfact, box = document.getElementById('stgCraft');
     if (a === 'setup') { CP.open.add(n); if (box) renderBox(box); return; }
     if (a === 'undo') { delete CP.edits[n]; if (box) renderBox(box); return; }
+    // CRFREMOVE-2026-10-23 (public tester 1.8.17: "storage tab - can't delete crafter1 char"): a crafter entry (also one of a character that is
+    // gone) can be removed; the API already took { remove: true }, the panel had no button for it
+    if (a === 'remove') {
+      if (typeof uiConfirm !== 'function' || !(await uiConfirm({ title: `Remove ${n} as a crafter?`, body: `Its crafter settings (switch, town, parties, stock, limits) are deleted. ${n} itself is not touched; if it is a Dwarf crafter that logs in again it shows up here as "Make this my crafter".`, confirmText: 'Remove', cancelText: 'Cancel', danger: true }))) return;
+      b.disabled = true;
+      const d = await api('/api/crafter', { method: 'POST', body: JSON.stringify({ name: n, remove: true, rev: CP.info ? CP.info.rev : undefined }) });
+      if (!d || d.error) { b.disabled = false; if (typeof uiError === 'function') await uiError(`Not removed: ${(d && d.error) || 'no answer'}`); return; }
+      delete CP.edits[n]; CP.open.delete(n); await load(true); if (box) renderBox(box); msg(`${n} removed as a crafter.`); return;
+    }
     if (a === 'save') { const v = CP.edits[n]; if (!v) return; b.disabled = true; if (await save(n, v)) { delete CP.edits[n]; await load(true); if (box) renderBox(box); msg(`Saved — ${n} reads it within 10 seconds.`); } else b.disabled = false; return; }
     if (a === 'craft') { if (await cmd(`!craft ${n}`, n)) msg(`${n}: crafting one round now (it must stand in its town). The result shows here and in party chat.`); return; }
     if (a === 'book') { if (await cmd(`!craft book ${n}`, n)) msg(`${n} reads its recipe book — refresh in a few seconds.`); return; }
@@ -129,7 +140,7 @@
   // option to disenchant items into crystals ... hand him items he can then disenchant ... send recipes and materials to him")
   // Three folding parts under each crafter card: Turn items into crystals · Recipes in its bag · Give items to the crafter (+ clan warehouse +
   // the hand-in list). Nothing happens without a tick + a confirmation (crystallize = red danger dialog).
-  const CI = { cry: {}, tick: {}, give: {}, cwh: {}, open: new Set(), busy: false };
+  const CI = { cry: {}, tick: {}, give: {}, cwh: {}, open: new Set(), busy: false, grade: {} };
   const GRADES = ['D', 'C', 'B', 'A', 'S'];
   const KIND_LABEL = { recipe: 'recipe', material: 'material', gear: 'gear (can be crystallized)', other: '' };
   const HSTATE = { pending: 'Waiting for the same town', waiting: 'Waiting', starting: 'Starting', travel: 'On the way', trading: 'Trading', done: 'Done', failed: 'Failed', stopped: 'Stopped', expecting: 'Expecting' };
@@ -137,6 +148,31 @@
   const cryBlockUi = (j, t) => { t = t || {}; if (!j) return 'unknown piece'; if (j.hard) return j.hard; if (j.enchant > 0 && !t.enchanted) return `enchanted +${j.enchant} — tick "include enchanted items"`; if ((j.special || []).length && !t.special) return `${j.special.join(', ')} — tick "include special items"`; return ''; };
   const totText = (tot) => GRADES.filter(g => tot[g]).map(g => `${fmt(tot[g])} ${g}`).join(' + ') || 'no';
   const secOpen = (n, s) => CI.open.has(n + ':' + s) ? ' open' : '';
+  // CRFGRADE-2026-10-23 (public tester 1.8.17: "storage crafting part filters (by grade)"): one grade filter per crafter for all its item lists
+  // (crystallize, recipes, give from a bag, clan warehouse). Grade = the row's own grade, else the client item data (GD.items [name, icon, type,
+  // grade index]), a recipe by the item it makes ("Recipe: X (60%)" -> X).
+  const GIDX = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
+  let G_BYNAME = null;
+  function gradeOf(r) {
+    if (!r) return '';
+    if (r.grade) return String(r.grade).toUpperCase() === 'NONE' ? 'NONE' : String(r.grade).toUpperCase();
+    const db = (typeof GD !== 'undefined' && GD && GD.items) || {};
+    const byId = (id) => { const e = db[id]; return e && e[3] !== '' && e[3] != null && GIDX[Number(e[3])] ? GIDX[Number(e[3])] : ''; };
+    const id = Number(r.id || r.itemId || 0); let g = id ? byId(id) : '';
+    const nm = String(r.name || '');
+    if ((!g || g === 'NONE') && /^recipe:/i.test(nm)) {
+      if (!G_BYNAME) { G_BYNAME = {}; Object.keys(db).forEach(k => { const e = db[k]; if (e && e[0] && e[3] !== '' && e[3] != null && !(e[0] in G_BYNAME)) G_BYNAME[e[0]] = GIDX[Number(e[3])] || ''; }); }
+      const prod = nm.replace(/^recipe:\s*/i, '').replace(/\s*\(\d+%\)\s*$/, '').trim(); g = G_BYNAME[prod] || g;
+    }
+    return g;
+  }
+  const gradeShow = (n, r) => { const f = CI.grade[n] || ''; return !f || gradeOf(r) === f; };
+  function gradeBar(n, lists) {
+    const have = new Set(); lists.forEach(L => (L || []).forEach(r => { const g = gradeOf(r); if (g) have.add(g); }));
+    if (!have.size) return '';
+    const f = CI.grade[n] || '';
+    return `<div class="crf-grades" role="group" aria-label="grade filter"><span class="muted">Grade:</span> <button type="button" class="uk-btn ghost${!f ? ' on' : ''}" data-crfact="grade" data-g="" data-name="${h(n)}" aria-pressed="${!f}">All</button>${GIDX.filter(g => have.has(g)).map(g => `<button type="button" class="uk-btn ghost${f === g ? ' on' : ''}" data-crfact="grade" data-g="${g}" data-name="${h(n)}" aria-pressed="${f === g}">${g === 'NONE' ? 'No grade' : g}</button>`).join('')}</div>`;
+  }
   function crySection(c) {
     const b = c.bag, n = c.name, t = CI.tick[n] || {}, sel = setOf(CI.cry, n);
     if (!b) return `<details class="crf-more" data-crfsec="${h(n)}:cry"${secOpen(n, 'cry')}><summary>Turn items into crystals (crystallize)</summary><div class="muted">${h(n)} has not reported its bag yet — this needs the new swarm.js (deploy) and the Crystallize skill (Dwarf, level 20+).</div></details>`;
@@ -144,7 +180,7 @@
     [...sel].forEach(id => { const j = rows.find(r => r.objId === id); if (!j || cryBlockUi(j, t)) sel.delete(id); });
     const free = rows.filter(r => !cryBlockUi(r, t)), tot = {}; rows.filter(r => sel.has(r.objId)).forEach(r => { tot[r.grade] = (tot[r.grade] || 0) + r.crystals; });
     const lvl = b.skill || 0, maxG = lvl ? GRADES[Math.min(lvl, 5) - 1] : '';
-    const list = rows.length ? rows.map(r => { const w = cryBlockUi(r, t); return `<label class="crf-item${w ? ' off' : ''}"><input type="checkbox" data-crysel="${r.objId}" data-name="${h(n)}"${sel.has(r.objId) ? ' checked' : ''}${w ? ' disabled' : ''}>
+    const list = rows.length ? rows.filter(r => gradeShow(n, r)).map(r => { const w = cryBlockUi(r, t); return `<label class="crf-item${w ? ' off' : ''}"><input type="checkbox" data-crysel="${r.objId}" data-name="${h(n)}"${sel.has(r.objId) ? ' checked' : ''}${w ? ' disabled' : ''}>
       <span class="crf-in">${h(r.name)}${r.enchant ? ` <b>+${h(r.enchant)}</b>` : ''}</span><span class="crf-ig">${h(r.grade)} · ${fmt(r.crystals)} crystals</span>${w ? `<span class="crf-iw">${h(w)}</span>` : ''}</label>`; }).join('')
       : '<div class="muted">No crystallizable gear in its bag. Give it some below ("Give items to the crafter").</div>';
     return `<details class="crf-more" data-crfsec="${h(n)}:cry"${secOpen(n, 'cry')}><summary>Turn items into crystals (crystallize) — ${free.length} of ${rows.length} can go</summary>
@@ -163,7 +199,7 @@
     const bk = b.book ? `Its dwarven recipe book holds ${fmt(b.book.dwarven)} recipes.` : 'Its recipe book was not read yet (press "Read recipe book").';
     return `<details class="crf-more" data-crfsec="${h(n)}:rcp"${secOpen(n, 'rcp')}><summary>Recipes in its bag (${rs.length})</summary>
       <div class="muted">${bk} A recipe book holds 50 recipes on a standard server (dwarven and common each). Learning uses the recipe up. Create Item level ${h(b.createLvl || 0)}${b.commonLvl ? `, Create Common Item level ${h(b.commonLvl)}` : ''}.</div>
-      ${rs.length ? `<div class="crf-list">${rs.map(r => `<div class="crf-item${r.ok ? '' : ' off'}"><span class="crf-in">${h(r.name)}${r.count > 1 ? ' ×' + fmt(r.count) : ''}</span>
+      ${rs.length ? `<div class="crf-list">${rs.filter(r => gradeShow(n, r)).map(r => `<div class="crf-item${r.ok ? '' : ' off'}"><span class="crf-in">${h(r.name)}${r.count > 1 ? ' ×' + fmt(r.count) : ''}</span>
         <span class="crf-ig">${r.type === 'c' ? 'common' : 'dwarven'} · level ${h(r.lvl)}</span><span class="crf-iw">${h(r.why)}</span>
         <button type="button" class="uk-btn ghost" data-crfact="learn" data-name="${h(n)}" data-scroll="${h(r.scroll)}" data-rname="${h(r.name)}"${r.ok ? '' : ' disabled'}>Learn</button></div>`).join('')}</div>`
         : '<div class="muted">No recipes in its bag. Send some below.</div>'}
@@ -180,13 +216,13 @@
       const rows = (G.bag.rows || []).filter(r => r.ok && r.kind !== 'other');
       const cnt = (k) => rows.filter(r => r.kind === k).length;
       bagHtml = G.bag.ok === false ? `<div class="muted">${h(G.bag.err || 'no bag known')}</div>` : `<div class="crf-acts">${['recipe', 'material', 'gear'].map(k => `<button type="button" class="uk-btn ghost" data-crfact="givetick" data-kind="${k}" data-name="${h(n)}"${cnt(k) ? '' : ' disabled'}>Tick all ${k === 'gear' ? 'crystallizable gear' : k + 's'} (${cnt(k)})</button>`).join('')}</div>
-        ${rows.length ? `<div class="crf-list">${rows.map(r => `<label class="crf-item"><input type="checkbox" data-givesel="${r.objId}" data-name="${h(n)}"${G.sel.has(r.objId) ? ' checked' : ''}><span class="crf-in">${h(r.name)}${r.enchant ? ' +' + h(r.enchant) : ''}${r.count > 1 ? ' ×' + fmt(r.count) : ''}</span><span class="crf-ig">${h(KIND_LABEL[r.kind] || '')}</span></label>`).join('')}</div>` : `<div class="muted">${h(G.giver)} has no recipes, materials or crystallizable gear to give.</div>`}
+        ${rows.length ? `<div class="crf-list">${rows.filter(r => gradeShow(n, r)).map(r => `<label class="crf-item"><input type="checkbox" data-givesel="${r.objId}" data-name="${h(n)}"${G.sel.has(r.objId) ? ' checked' : ''}><span class="crf-in">${h(r.name)}${r.enchant ? ' +' + h(r.enchant) : ''}${r.count > 1 ? ' ×' + fmt(r.count) : ''}</span><span class="crf-ig">${h(KIND_LABEL[r.kind] || '')}</span></label>`).join('')}</div>` : `<div class="muted">${h(G.giver)} has no recipes, materials or crystallizable gear to give.</div>`}
         <div class="muted">Bag ${G.bag.src === 'live' ? 'read live' : G.bag.src === 'report' ? `from its own report (${ago(G.bag.ageSec)})` : ''}. Worn, quest and untradeable items are not offered.</div>`;
     }
     const cw = I.cwh, cs = setOf(CI.cwh, n), CL = I.clanLeader || '';
     const cwhHtml = !cw ? '<div class="muted">The clan warehouse list is not known yet (the clan leader looks inside on the Clan tab / Storage page).</div>'
       : `<div class="muted">${CL === n ? `${h(n)} is the clan leader: he takes them out himself.` : `Only the clan leader${CL ? ' ' + h(CL) : ''} can take items out: he takes them out and trades them to ${h(n)}.`} List seen ${h(String(cw.seenAt || '').slice(0, 16).replace('T', ' ') || '?')}.</div>
-        ${cw.items.length ? `<div class="crf-list">${cw.items.map(r => `<label class="crf-item"><input type="checkbox" data-cwhsel="${h(r.id)}" data-name="${h(n)}"${cs.has(Number(r.id)) ? ' checked' : ''}><span class="crf-in">${h(r.name)}${r.enchant ? ' +' + h(r.enchant) : ''} ×${fmt(r.count)}</span><span class="crf-ig">${h(KIND_LABEL[r.kind] || r.kind)}</span></label>`).join('')}</div>` : '<div class="muted">No recipes, materials or gear in the clan warehouse.</div>'}
+        ${cw.items.length ? `<div class="crf-list">${cw.items.filter(r => gradeShow(n, r)).map(r => `<label class="crf-item"><input type="checkbox" data-cwhsel="${h(r.id)}" data-name="${h(n)}"${cs.has(Number(r.id)) ? ' checked' : ''}><span class="crf-in">${h(r.name)}${r.enchant ? ' +' + h(r.enchant) : ''} ×${fmt(r.count)}</span><span class="crf-ig">${h(KIND_LABEL[r.kind] || r.kind)}</span></label>`).join('')}</div>` : '<div class="muted">No recipes, materials or gear in the clan warehouse.</div>'}
         <div class="crf-acts"><button type="button" class="uk-btn secondary" data-crfact="cwh" data-name="${h(n)}"${cs.size ? '' : ' disabled'}>Bring ${cs.size} kind${cs.size === 1 ? '' : 's'} from the clan warehouse…</button></div>`;
     const hl = (c.handins || []).map(o => `<li><b>${h(String(o.at || '').slice(5, 16).replace('T', ' '))}</b> ${h(o.what || 'items')}${o.sameTown && !o.goNow ? ' (same town)' : ''}: ${o.givers.map(g => `${h(g.name)} — <i>${h(HSTATE[g.state] || g.state)}</i>${g.msg ? ': ' + h(g.msg) : ''}`).join('; ')}
       ${o.over ? '' : `<span class="crf-acts"><button type="button" class="uk-btn ghost" data-crfact="hgo" data-id="${h(o.id)}" data-name="${h(n)}"${o.givers.some(g => g.state === 'pending') ? '' : ' disabled'}>Go now</button><button type="button" class="uk-btn ghost" data-crfact="hstop" data-id="${h(o.id)}" data-name="${h(n)}">Stop</button></span>`}</li>`).join('');
@@ -208,7 +244,9 @@
   }
   function itemsHtml(c, I) {
     if (!c.cfg.exists && !c.bag) return '';
-    return `<div class="crf-items"><div class="crf-sub">Items</div>${crySection(c)}${rcpSection(c)}${giveSection(c, I)}</div>`;
+    const G = CI.give[c.name], bag = c.bag || {};
+    const bar = gradeBar(c.name, [bag.cryst, bag.recipes, G && G.bag && G.bag.rows, I.cwh && I.cwh.items]);   // CRFGRADE
+    return `<div class="crf-items"><div class="crf-sub">Items</div>${bar}${crySection(c)}${rcpSection(c)}${giveSection(c, I)}</div>`;
   }
   const crafterOf = (n) => ((CP.info || {}).crafters || []).find(x => x.name === n);
   const reBox = () => { const box = document.getElementById('stgCraft'); if (box) renderBox(box); };

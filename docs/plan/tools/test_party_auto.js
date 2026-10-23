@@ -246,7 +246,7 @@ function ltaEnv(cfg, me) {
     const o3 = (H2.supplyNeeds().find(w => w.id === 3031) || {});
     check(o3.want === 40, 'Spirit Ore: the party table wins (40)', JSON.stringify(o3));
     { const hk = src.slice(src.indexOf('function hsKnownNow()'), src.indexOf('function hsKnownNow()') + 1500);
-      check(hk.includes('hasItem = !item || itemCount(item) >= itemN') && hk.includes('ready: !!sk.IsReady && num(Me.MP) >= mp && hasItem'), 'heals: a heal without its Spirit Ore is not ready -> the next best heal is picked'); }
+      check((hk.includes('hasItem = !item || itemCount(item) >= itemN') || hk.includes('hasItem = !item || oreHave(item, itemN)')) && hk.includes('ready: !!sk.IsReady && num(Me.MP) >= mp && hasItem'), 'heals: a heal without its Spirit Ore is not ready -> the next best heal is picked'); }
     // API
     const TMP2 = fs.mkdtempSync(path.join(os.tmpdir(), 'pamt_')), F2 = path.join(TMP2, 'party_auto.json'); process.env.SWARM_PARTYAUTO_FILE = F2;
     const ctx2 = { DATA: TMP2, LOGS: TMP2, ROOT, readJson: () => null, readStates: () => ({}), teamMap: () => ({}), mainLeader: 'Tank1' };

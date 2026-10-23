@@ -127,7 +127,7 @@ check(/ensureTeamForTrip\(`raidhunt: /.test(hunt) && hunt.indexOf('ensureTeamFor
 const lm = src.slice(src.indexOf('async function leaderMission'), src.indexOf('async function leaderMission') + 30000);   // the function grew past 16 KB (2026-10-12)
 check(/ensureTeamForTrip\(`raid \$\{boss\.name\}`/.test(lm), 'leaderMission raid (lead mode): the team gate before setting off');
 check(/!teamMiss\) raidUnreachable/.test(lm), 'a port dropped for a missing teammate does not count the boss as unreachable');
-check(/raidFightNow\(\)(?: \|\| DLV\.on)?\) \{ lb\.since = 0; return; \}/.test(src) && /rejoinPlan\(\{ d, farFor/.test(src), 'left-behind loop: raid/mission state no longer blocks it, rejoinPlan decides');
+check(/raidFightNow\(\)(?: \|\| DLV\.on)?(?: \|\| errandNow\(\))?\) \{ lb\.since = 0; return; \}/.test(src) && /rejoinPlan\(\{ d, farFor/.test(src), 'left-behind loop: raid/mission state no longer blocks it, rejoinPlan decides');
 check(/j\.phase === 'trip'/.test(src) && /raidActiveWrite\(boss\.name, false, 'fight'\)/.test(src), "'raid across a restart' tells a trip target from a fight");
 
 // ---- 8) STUCK MEMBER ESCALATION (user 2026-10-09 13:05: Nuker9 ran uphill 1.4k from the leader before '.giran') ---------------

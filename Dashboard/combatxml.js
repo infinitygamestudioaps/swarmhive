@@ -166,7 +166,9 @@
     const take = (name) => { const i = n.c.findIndex(c => c.n === name); return i >= 0 ? n.c.splice(i, 1)[0] : null; };
     const rd = take('RepeatDelaySeconds'), rp = take('IsRepeat'), ia = take('isAdvanced');
     let at = n.c.findIndex(c => c.n === 'IsEnabled'); if (at < 0) at = n.c.findIndex(c => c.n === 'Skill');
-    const ins = [rp, rd && String(rd.t || '0') !== '0' ? rd : null, ia].filter(Boolean);
+    // 2026-10-23: L2Swarm 3.9.x itself writes RepeatDelaySeconds (also 0) BEFORE IsRepeat: keep one that is there, in L2Swarm's own order
+    // (it accepts the files it writes); a new 0 is still left out (putIfOld never adds a missing default)
+    const ins = [rd, rp, ia].filter(Boolean);
     n.c.splice(at + 1, 0, ...ins);
   }
   function combatSkillNode(m, old) {

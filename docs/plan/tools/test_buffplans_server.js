@@ -255,6 +255,21 @@ const CTX = { DIR: API_DIR, DATA: path.join(ROOT, 'Scripts', 'data'), LOGS: MLOG
     assert.strictEqual(P({ action: 'unapprove', leader: 'Lead', names: ['Pro'] }).code, 200); assert.strictEqual(mem(G(), 'Lead', 'Pro').status, 'suggested');
     assert.strictEqual(P({ action: 'clear', leader: 'Lead', names: ['Pro'] }).code, 200); { const e = mem(G(), 'Lead', 'Pro').entry; assert.ok(!e || (!e.buffs && !e.rotation), 'the plan is gone (the never-keep list stays)'); }
   });
+  await t('SELFOFF-2026-10-23: self buffs per character (Forgotten Scroll skills) on / off; Counter Critical never goes on the off list; a list alone is no buffer', () => {
+    STATES.Dd.buffPlan = { skills: [], self: [{ id: 1542, name: 'Counter Critical' }, { id: 913, name: 'Deflect Magic' }] };
+    let m = mem(G(), 'Lead', 'Dd');
+    assert.deepStrictEqual(m.self.map(s => s.name + (s.always ? '!' : '')), ['Counter Critical!', 'Deflect Magic']);
+    assert.strictEqual(P({ action: 'selfoff', leader: 'Lead', name: 'Dd', selfOff: ['Deflect Magic', 'Counter Critical'] }).code, 200);
+    m = mem(G(), 'Lead', 'Dd'); assert.deepStrictEqual(m.selfOff, ['Deflect Magic']); assert.strictEqual(m.buffer, false, 'Dd stays a non-buffer');
+    assert.strictEqual(P({ action: 'selfoff', leader: 'Lead', name: 'Nobody', selfOff: ['X'] }).code, 400);
+    assert.strictEqual(P({ action: 'set', leader: 'Lead', name: 'Dd', buffs: [], rotation: [] }).code, 200);
+    assert.deepStrictEqual(mem(G(), 'Lead', 'Dd').entry.selfOff, ['Deflect Magic'], 'a plan save keeps the self-buff list');
+    assert.strictEqual(P({ action: 'clear', leader: 'Lead', names: ['Dd'] }).code, 200);
+    assert.deepStrictEqual(mem(G(), 'Lead', 'Dd').entry.selfOff, ['Deflect Magic'], 'removing the plan keeps the self-buff list');
+    assert.strictEqual(P({ action: 'selfoff', leader: 'Lead', name: 'Dd', selfOff: [] }).code, 200);
+    assert.ok(!(mem(G(), 'Lead', 'Dd').selfOff || []).length);
+    delete STATES.Dd.buffPlan;
+  });
   await t('every write logged one dashboard_commands.log line (buffplans)', () => { assert.ok(LOGW.filter(l => /\tbuffplans\t/.test(l)).length >= 8, LOGW.length + ' lines'); });
   await t('example file: every template class exists in class_tree.json and validates', () => {
     const exF = [path.join(ROOT, 'Scripts', 'data', 'buff_plans.example.json'), path.join(API_DIR, 'buff_plans.example.json'), path.join(ROOT, 'docs', 'plan', 'staging', 'buffpage', 'buff_plans.example.json')].find(x => fs.existsSync(x));

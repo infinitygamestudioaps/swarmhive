@@ -224,6 +224,26 @@ function soulTable() { return FSC.memo('soulTable', 30000, soulTableFresh); }   
 function soulTableFresh() {
   const out = [];
   try { fs.readFileSync(path.join(DATA, 'soul_sa.txt'), 'utf8').split(/\r?\n/).forEach(l => { if (!l || l[0] === '#') return; const [grade, type, name, stage, red, green, blue] = l.split('|'); out.push({ grade, type, name, stage: +stage, sa: { red, green, blue } }); }); } catch (e) { }
+  // SOULSA14-2026-10-23 (public tester 1.8.17: "soul crystals tab: 'Working towards' is missing most of lvl14+ special abilities"): the user's
+  // table soul_sa.txt stops at S-grade (one stage-14 row), so every S80 / S84 weapon (crystal stage 14-18) was missing. Every weapon of the
+  // datapack SA recipes (soul_sa_recipes.json, docs/plan/tools/soul_crystals_extend.js) that the user's table does not name is added; the
+  // user's table still wins for the weapons it has.
+  try { soulTableMerge(out, readJson(path.join(DATA, 'soul_sa_recipes.json'), null), readJson(path.join(DATA, 'gear_items.json'), null)); } catch (e) { }
+  return out;
+}
+const SOUL_WTYPE = { BLUNT: 'blunt', BLUNT2: '2h-blunt', SWORD: 'sword', SWORD2: '2h-sword', BOW: 'bow', BOW2: 'bow', CROSSBOW: 'crossbow', CROSSBOW2: 'crossbow', DAGGER: 'dagger', DUAL: 'dual', DUAL2: 'dual', DUALFIST: 'fist', DUALFIST2: 'fist', POLE: 'pole', POLE2: 'pole', RAPIER: 'rapier', ANCIENTSWORD: 'ancient-sword', ANCIENTSWORD2: 'ancient-sword', DUALDAGGER: 'dual-dagger' };
+/** pure: add the datapack SA recipe weapons the user's rows do not name -> rows (in place) */
+function soulTableMerge(out, rec, gear) {
+  const L = rec && Array.isArray(rec.recipes) ? rec.recipes : []; if (!L.length) return out;
+  const G = (gear && gear.items) || {}, have = new Set(out.map(r => String(r.name).toLowerCase())), add = {};
+  L.forEach(x => {
+    if (!x || !x.wn || !x.color || !x.sa || !(Number(x.stage) > 0) || / - /.test(String(x.wn))) return;   // " - X" = a weapon that already has an ability (an SA swap recipe)
+    const k = String(x.wn).toLowerCase(); if (have.has(k)) return;
+    const e = G[x.w] || {}, type = SOUL_WTYPE[String(e.t || '').toUpperCase() + (e.two ? '2' : '')] || SOUL_WTYPE[String(e.t || '').toUpperCase()] || String(e.t || 'weapon').toLowerCase();
+    const r = add[k] = add[k] || { grade: x.g || e.g || '', type, name: x.wn, stage: Number(x.stage), sa: { red: '', green: '', blue: '' } };
+    if (!r.sa[x.color]) r.sa[x.color] = String(x.sa);
+  });
+  Object.values(add).sort((a, b) => a.stage - b.stage || a.name.localeCompare(b.name)).forEach(r => out.push(r));
   return out;
 }
 const CASTER_RE = /^(bishop|shilliensaint|necromancer|doomcryer|nuker|mage|healer|elder|cleric|oracle|summoner|caster)$/;
@@ -254,10 +274,14 @@ function soulPick(want, lvl) {
     const col = w && ['red', 'green', 'blue'].find(k => String(w.sa[k]).toLowerCase() === want.sa.toLowerCase());
     if (col) return { weapon: w.name, grade: w.grade, type: w.type, stage: w.stage, color: col };
   }
-  for (let g = GRADES.indexOf(gradeFor(lvl)); g < GRADES.length; g++) {
-    for (const type of want.types) {
-      const c = T.filter(w => w.grade === GRADES[g] && w.type === type).map(w => { const col = ['red', 'green', 'blue'].find(k => String(w.sa[k]).toLowerCase() === want.sa.toLowerCase()); return col ? { weapon: w.name, grade: w.grade, type, stage: w.stage, color: col } : null; }).filter(Boolean).sort((a, b) => a.stage - b.stage);
-      if (c.length) return c[0];
+  // SOULSA14-2026-10-23: the walk goes on past S into S80 / S84 (crystal stage 14-18); from level 80 / 84 it starts there
+  const GW = GRADES.concat(['S80', 'S84']), g0 = lvl >= 84 ? GW.indexOf('S84') : lvl >= 80 ? GW.indexOf('S80') : GW.indexOf(gradeFor(lvl));
+  for (const s0 of [g0, GW.indexOf(gradeFor(lvl))]) {                // nothing from S80 on: the old S-grade pick as before
+    for (let g = s0; g < GW.length; g++) {
+      for (const type of want.types) {
+        const c = T.filter(w => w.grade === GW[g] && w.type === type).map(w => { const col = ['red', 'green', 'blue'].find(k => String(w.sa[k]).toLowerCase() === want.sa.toLowerCase()); return col ? { weapon: w.name, grade: w.grade, type, stage: w.stage, color: col } : null; }).filter(Boolean).sort((a, b) => a.stage - b.stage);
+        if (c.length) return c[0];
+      }
     }
   }
   return null;
@@ -1722,6 +1746,44 @@ function engineRun(apply) {
   } catch (e) { try { fs.closeSync(fd); } catch (e2) { } return { ok: false, error: e.message }; }
   return { ok: true, out: (apply ? 'Moving the accounts one by one' : 'Checking the accounts (dry run)') + ' — the log below updates every few seconds' };
 }
+// AGENTGUARD-2026-10-23 (owner: "Make the fix permanent now" / "Tired of fixing the same bugs over and over"): after the L2Swarm restart at 09:01
+// the 19 Flyt characters ran swarm.js IN L2Swarm again (their XML still listed it), flooded its event queue and made no progress all day.
+// Every 2 min: a brain character whose agent is NOT connected to the pool (seen twice in a row: a reconnecting agent is not touched) goes to
+// attach_agent.js --names ... --apply, which asks L2Swarm for its live script list: swarm.js running = stop it, start the agent, SAVE the XML;
+// agent already running = only the XML save; not logged in = skipped. (An overloaded in-process swarm.js writes its state file only rarely,
+// Spoiler12's was hours old, so the state file is no signal.) At most once per character per 20 min, never while another engine job runs;
+// attach_agent refuses by itself during a live raid / Kamaloka. Log: Logs/engine_switch.log ("[agent guard]").
+const agentGuard = { seen: {}, tried: {} };
+function agentGuardPick(stats, nowMs) {
+  const allow = Array.isArray(stats && stats.allow) ? stats.allow : [];
+  const conn = {};
+  (Array.isArray(stats && stats.workers) ? stats.workers : []).forEach(w => (Array.isArray(w && w.contexts) ? w.contexts : []).forEach(c => { if (c && c.name) conn[c.name] = conn[c.name] || !!c.connected; }));
+  const out = [];
+  for (const n of allow) {
+    if (conn[n]) { delete agentGuard.seen[n]; continue; }
+    agentGuard.seen[n] = (agentGuard.seen[n] || 0) + 1;
+    if (agentGuard.seen[n] >= 2 && nowMs - (agentGuard.tried[n] || 0) > 20 * 60000) out.push(n);
+  }
+  return out;
+}
+setInterval(() => {
+  try {
+    if (engineJob.running || !bhProc) return;
+    const stats = readJson(path.join(LOGS, 'brain_host_stats.json'), null);
+    if (!stats || Date.now() - Date.parse(stats.at || 0) > 60000) return;               // pool not reporting: nothing to compare with
+    const names = agentGuardPick(stats, Date.now());
+    if (!names.length) return;
+    names.forEach(n => { agentGuard.tried[n] = Date.now(); agentGuard.seen[n] = 0; });
+    const log = path.join(LOGS, 'engine_switch.log');
+    const fd = fs.openSync(log, 'a');
+    fs.writeSync(fd, `\r\n${new Date().toISOString()} [agent guard] running swarm.js in L2Swarm instead of the brain agent: ${names.join(', ')} -> attach_agent.js --names ... --apply\r\n`);
+    const args = [path.join(PLAN, 'tools', 'attach_agent.js'), '--names', names.join(','), '--root', ROOT, '--mcp', SC.mcpUrl, '--apply'];
+    const p = require('child_process').spawn(process.execPath, args, { cwd: ROOT, stdio: ['ignore', fd, fd], windowsHide: true });
+    Object.assign(engineJob, { running: true, apply: true, startedAt: new Date().toISOString(), pid: p.pid, guard: names });
+    const done = (code) => { if (!engineJob.running) return; try { fs.closeSync(fd); } catch (e) { } engineJob.running = false; engineJob.last = { apply: true, code, at: new Date().toISOString(), guard: names }; };
+    p.on('exit', done); p.on('error', () => done(-1));
+  } catch (e) { }
+}, 120000);
 setInterval(() => {
   try {
     const raw = readJson(BH_FILE, null); if (!raw) return;                 // unreadable / being written: keep everything as it is
@@ -1939,6 +2001,28 @@ const ACADEMY_CTX = () => ({ DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_
 // OPTREQ-2026-10-21 (public tester after the v1.8.12 update: every page answered {"error":"Cannot find module './academy_api'"}): a NEW optional
 // module that is missing (half-finished update) switches off its own page only, never the whole dashboard. Logged once per module.
 const OPTREQ_MISS = new Set();
+// DASHRESTART-2026-10-23 (public tester: "restarted dashboard — it didn't actually restart, it just stopped. After I started it manually, back up"):
+// the successor was `cmd /c "ping ... & "<node.exe>" server.js"` — Node quotes that argument with \" escapes, which cmd.exe does not understand, so
+// with node in "C:\Program Files\nodejs" the second command never ran (the owner's PC hid it: its keep-alive task starts the dashboard every 3 min).
+// Now node itself is the successor (no cmd, no quoting): it waits until the old process has let go of the port (max 60 s), then loads server.js.
+// Its output goes to Logs\dashboard_restart.log. Pure text builder + spawn; docs/plan/tools/test_dash_restart.js runs the real launcher.
+// DASHRESTART-BEGIN
+function dashSuccessorSrc(port, script) {
+  return `const net=require('net'),path=require('path'),P=${Number(port) || 8090},S=${JSON.stringify(String(script))};let n=0;` +
+    `(function w(){const s=net.connect(P,'127.0.0.1');s.setTimeout(1500);` +
+    `s.on('connect',()=>{s.destroy();if(++n>120){console.log('port '+P+' still busy after 60 s - not started');process.exit(3);}setTimeout(w,500);});` +
+    `const go=()=>{if(go.d)return;go.d=1;s.destroy();console.log(new Date().toISOString()+' successor: port '+P+' free - starting '+S);process.chdir(path.dirname(S));require(S);};` +
+    `s.on('error',go);s.on('timeout',()=>{s.destroy();if(++n>120)process.exit(3);setTimeout(w,500);});})();`;
+}
+function dashSpawnSuccessor(port, script, logFile) {
+  let out = 'ignore';
+  try { if (logFile) out = fs.openSync(logFile, 'a'); } catch (e) { out = 'ignore'; }
+  const p = require('child_process').spawn(process.execPath, ['-e', dashSuccessorSrc(port, script)], { cwd: path.dirname(script), detached: true, stdio: ['ignore', out, out], windowsHide: true });
+  p.unref();
+  try { if (typeof out === 'number') fs.closeSync(out); } catch (e) { }
+  return p;
+}
+// DASHRESTART-END
 function optRequire(m) {
   try { return require(m); } catch (e) {
     if (e && e.code === 'MODULE_NOT_FOUND' && String(e.message).includes(m.replace(/^\.\//, ''))) {
@@ -2142,7 +2226,9 @@ setInterval(viewersWrite, 5000);
 // RAIDHUNT PER PARTY (2026-10-10, user: "I enable raid hunt for multiple parties, I only see one party's progress"): swarm.js writes
 // Logs/raidhunt_party_<leader>.json per leader; the old shared Logs/raidhunt.json (older scripts) still counts for the leader it names
 const HUNT_SEEN = {};   // leader -> last raidhunt.json copy (older scripts share one file)
-const HUNT_SEEN_POLL = setInterval(() => { try { const d = readJson(path.join(LOGS, 'raidhunt.json'), null); if (d && d.leader) HUNT_SEEN[d.leader] = d; } catch (e) { } }, 700);   // catch every leader's 2 s write
+// PERF-2026-10-23 (public tester: i7-9700T at 91 % CPU): read + parse only when the file changed (it was parsed every 700 ms, also when missing / unchanged)
+const HUNT_SEEN_M = { m: -1 };
+const HUNT_SEEN_POLL = setInterval(() => { try { const f = path.join(LOGS, 'raidhunt.json'); let m = 0; try { m = fs.statSync(f).mtimeMs; } catch (e) { return; } if (m === HUNT_SEEN_M.m) return; HUNT_SEEN_M.m = m; const d = readJson(f, null); if (d && d.leader) HUNT_SEEN[d.leader] = d; } catch (e) { } }, 700);   // catch every leader's 2 s write
 function raidHuntAll() {
   const hunts = {};
   const mark = (d) => Object.assign({}, d, { stale: (Date.now() - Date.parse(d.updatedAt || 0)) / 1000 > 20 });
@@ -2663,10 +2749,8 @@ http.createServer(async (req, res) => {
       if (fights.length && !b.force) return json(res, 409, { error: 'a fight is live: ' + fights.map(f => f.party + ' (' + f.kind + ')').join(', '), fights });
       const line = `${new Date().toISOString()} [dashboard] DASHBOARD RESTART asked (${String(b.by || 'PC tab').slice(0, 40)})${fights.length ? ' (forced during ' + fights.map(f => f.party + ' ' + f.kind).join(', ') + ')' : ''}\r\n`;
       try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), line); fs.appendFileSync(path.join(LOGS, 'brain_host.log'), line); } catch (e) { }
-      try {
-        const succ = require('child_process').spawn(process.env.ComSpec || 'cmd.exe', ['/c', `ping -n 4 127.0.0.1 >nul & "${process.execPath}" server.js`], { cwd: __dirname, detached: true, stdio: 'ignore', windowsHide: true });
-        succ.unref();
-      } catch (e) { return json(res, 500, { error: 'could not start the new dashboard: ' + e.message }); }
+      try { dashSpawnSuccessor(PORT, path.join(__dirname, 'server.js'), path.join(LOGS, 'dashboard_restart.log')); }
+      catch (e) { return json(res, 500, { error: 'could not start the new dashboard: ' + e.message }); }
       json(res, 200, { ok: true, out: 'dashboard restarting: back in about 10 s (the brain host and the characters reconnect within a minute)' });
       setTimeout(() => {
         try { if (bhProc) { bhProc.removeAllListeners('exit'); bhProc.kill(); } } catch (e) { }
@@ -2896,6 +2980,7 @@ http.createServer(async (req, res) => {
         if (b.roomId && kind === 'zone') e.roomId = String(b.roomId);
         // the user's "Yes, override" for a spot above the party's safe level (user 2026-10-08 21:58): swarm.js skips the level / landing-danger
         // refusals for this choice (never the Seven Signs rule)
+        if (b.nonstop === true) e.nonstop = true;   // SPOTLVL-2026-10-23: the Override button re-sends the choice; nonstop must survive it
         if (b.override === true) Object.assign(e, { override: true, overrideBy: String(b.overrideBy || 'dashboard').slice(0, 40), overrideAt: e.at, overrideNote: String(b.overrideNote || '').slice(0, 200) });
         all[party] = e;
       }
@@ -3101,8 +3186,13 @@ http.createServer(async (req, res) => {
         }
         cur[name] = mode;
         fs.writeFileSync(CM, JSON.stringify(cur));
-        try { require('child_process').exec('schtasks /run /tn "L2Swarm MemWatch"'); } catch (e) { }
-        return json(res, 200, { modes: cur, warning });
+        // CLIENTMODE-2026-10-23 (public tester: "I hit open in-game about 4 hours ago, it just opened now"): the switch is applied by the
+        // elevated "L2Swarm MemWatch" task (the dashboard cannot drive L2Swarm's window itself: UIPI). A PC without that task never applied it
+        // until something else ran it, and the page still said "within ~2 min": say so now
+        let ran = false;
+        try { require('child_process').execFileSync('schtasks', ['/run', '/tn', 'L2Swarm MemWatch'], { stdio: 'ignore', windowsHide: true, timeout: 8000 }); ran = true; } catch (e) { ran = false; }
+        if (!ran) warning = (warning ? warning + '; ' : '') + 'the Windows task "L2Swarm MemWatch" is not set up on this PC, so nothing applies it now — run SETUP_PC_ALWAYS_ON.cmd once (as administrator), then press the button again';
+        return json(res, 200, { modes: cur, warning, applied: ran });
       }
       return json(res, 200, { modes: cur });
     }

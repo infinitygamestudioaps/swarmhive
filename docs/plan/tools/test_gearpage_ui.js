@@ -186,7 +186,7 @@ function writeFixtures() {
       await setDev(dev);
       await nav('#/gear/46/C');
       ok('#/gear opens the planner (old Gear tab hidden), tab button marked', await waitFor(`!!window.GearPage && !document.getElementById('tab-gearpage').hidden && document.getElementById('tab-gear').hidden && document.querySelector('#tabs [data-tab="gear"]').classList.contains('on')`, 20000));
-      ok('plan for Destroyer / C rendered: doll + 16 slot rows', await waitFor(`document.querySelectorAll('#gpPlan .gp-cell').length >= 16 && document.querySelectorAll('#gpPlan .gp-rows > *').length === 16`, 15000));
+      ok('plan for Destroyer / C rendered: doll + 17 slot rows (SHIRTSLOT-2026-10-23: + shirt)', await waitFor(`document.querySelectorAll('#gpPlan .gp-cell').length >= 17 && document.querySelectorAll('#gpPlan .gp-rows > *').length === 17`, 15000));
       const s1 = await ev(`(() => ({ title: document.getElementById('gpPlanT').innerText, inh: [...document.querySelectorAll('#gpPlan .gp-row')].map(r => r.innerText).find(t => /Weapon/.test(t)) || '',
         grades: document.querySelectorAll('#gpGrades button').length, chars: document.querySelectorAll('#gpOurs .gp-char').length, strip: document.querySelectorAll('#gpOurs .gp-s').length,
         hscroll: document.documentElement.scrollWidth > window.innerWidth + 1, side: getComputedStyle(document.getElementById('gpSide')).display }))()`);

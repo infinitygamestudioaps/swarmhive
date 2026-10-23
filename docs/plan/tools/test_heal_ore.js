@@ -33,7 +33,7 @@ t('...and it says why (your choice is cooling down / not ready)', pickedSingle &
 const pickedGroup = PURE.hsPick(kNo, 'group', sc({ group: { skill: 1402, below: 80, count: 3 } }));
 t('picked Major Group Heal + no Spirit Ore -> another group heal', pickedGroup && pickedGroup.id !== 1402 && /Group|Benediction|Body of Avatar/.test(pickedGroup.name), name(pickedGroup));
 // host side: the ore check feeds "ready"
-t('swarm.js: a heal without its item is not ready (hsKnownNow)', S.includes('const hasItem = !item || itemCount(item) >= itemN;') && S.includes('ready: !!sk.IsReady && num(Me.MP) >= mp && hasItem'));
+t('swarm.js: a heal without its item is not ready (hsKnownNow)', S.includes('const hasItem = !item || oreHave(item, itemN);') && /function oreHave\(item, need\)[\s\S]{0,400}itemCount\(item\)/.test(S) && S.includes('ready: !!sk.IsReady && num(Me.MP) >= mp && hasItem'));
 // dashboard: icons + the Spirit Ore note
 const HSJ = fs.readFileSync(path.join(R, 'Dashboard', 'healschemes.js'), 'utf8');
 t('Healing panel: icon skill picker', HSJ.includes('data-hspick=') && HSJ.includes("const ICS = (id)"));

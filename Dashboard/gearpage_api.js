@@ -11,7 +11,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 
-const SLOTS = ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'earring2', 'ring', 'ring2', 'belt', 'bracelet', 'talisman', 'cloak'];
+const SLOTS = ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'earring2', 'ring', 'ring2', 'shirt', 'belt', 'bracelet', 'talisman', 'cloak'];   // SHIRTSLOT-2026-10-23: + the shirt (underwear) slot, manual like the belt
 const BASE_SLOT = (s) => s.replace(/2$/, '');
 const GRADES = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
 const GRADE_LVL = { NONE: 1, D: 20, C: 40, B: 52, A: 61, S: 76, S80: 80, S84: 84 };
@@ -40,12 +40,30 @@ function mwLabels(DATA, ids) {
   ids.forEach(i => { const m = M[+i]; if (m) out[+i] = m[0] + (m[1] ? ': ' + m[1] : ''); });
   return out;
 }
+/** SHIRTSLOT-2026-10-23 (tester: "slot for shirt is missing"): the catalog has no underwear items; they are added from the datapack
+ *  (Scripts/data/dp/gear_db.json, bodypart 'underwear') as slot 'shirt' (manual: the bots never buy shirts). No datapack file = no shirts listed. */
+function addShirts(C, DIR) {
+  try {
+    if (Object.values(C.items).some(it => it.s === 'shirt')) return;
+    const f = path.join(DIR, '..', 'Scripts', 'data', 'dp', 'gear_db.json'); if (!fs.existsSync(f)) return;
+    const DB = JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
+    const G = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'];
+    Object.entries(DB.items || {}).forEach(([id, r]) => {
+      if (!r || r.bodypart !== 'underwear' || C.items[id] || /limited period|Event|Shadow Item|(Not In Use)|Test|Monster Only/i.test(String(r.name || ''))) return;
+      const st = r.stats || {}, g = String(r.crystal_type || 'NONE').toUpperCase();
+      const it = { n: String(r.name), s: 'shirt', g: G.includes(g) ? g : 'NONE' };
+      if (st.pDef) it.pd = +st.pDef; if (st.mDef) it.md = +st.mDef; if (st.maxMp) it.mp = +st.maxMp; if (r.price) it.p = +r.price;
+      C.items[id] = it;
+    });
+  } catch (e) { }
+}
 function catalog(DIR) {
   const f = path.join(DIR, 'data', 'gear_catalog.json');
   let m = 0; try { m = fs.statSync(f).mtimeMs; } catch (e) { return null; }
   if (!CAT || m !== CATM) {
     CAT = JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')); CATM = m;
     CAT.byClass = {}; CAT.classes.forEach(c => { CAT.byClass[c.id] = c; });
+    addShirts(CAT, DIR);
   }
   return CAT;
 }
@@ -95,7 +113,7 @@ function gradeMatch(C, slot, it, grade, any) {
   const S = BASE_SLOT(slot);
   if (S === 'talisman') return true;
   if (it.g === grade) return true;
-  if (['belt', 'bracelet', 'cloak'].includes(S) && !any[S]) return GRADES.indexOf(it.g) < GRADES.indexOf(grade);
+  if (['belt', 'bracelet', 'cloak', 'shirt'].includes(S) && !any[S]) return GRADES.indexOf(it.g) < GRADES.indexOf(grade);
   return false;
 }
 const nf = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
@@ -245,7 +263,7 @@ function classPage(C, P, G, classId, grade, states, autoPick, REC, WHK) {
   // candidates per base slot
   const cand = {}, any = {};
   Object.values(C.items).forEach(it => { if (it.g === grade) any[it.s] = true; });
-  ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'ring', 'belt', 'bracelet', 'talisman', 'cloak'].forEach(s => { cand[s] = []; });
+  ['weapon', 'shield', 'head', 'chest', 'legs', 'gloves', 'feet', 'neck', 'earring', 'ring', 'shirt', 'belt', 'bracelet', 'talisman', 'cloak'].forEach(s => { cand[s] = []; });
   Object.entries(C.items).forEach(([id, it]) => {
     if (!cand[it.s] || !gradeMatch(C, it.s, it, grade, any)) return;
     const f = fitOf(C, c, it, it.s); if (!f.ok) return;

@@ -58,7 +58,9 @@
     { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills', help: 'On: Hive chooses and casts attacks, area attacks, debuffs, buffs, songs / dances, toggles and the raid role skills. Off: Hive casts nothing by itself — your L2Swarm profile (Combat Skills tab) fights; Hive still walks, follows, resupplies and shows everything here.' },
     { key: 'heals', char: true, def: true, group: 'combat', label: 'Hive heals', help: 'On: Hive heals the party (heal choice, group heals, cures, Recharge, Chant of Life, self heals). Off: Hive heals nobody — your L2Swarm profile (Auto Skills tab) heals, and Hive gives back any of your Auto Skills it had switched off.' },
     { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions', help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." },
-    { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)', help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs and does not walk anyone back there. Skills and heals stay as you set them: with Hive picks my skills / Hive heals on, Hive still casts and heals on the monster L2Swarm picked; switch those off and your L2Swarm profiles (Combat Skills, Auto Skills) cast and heal. Raids, Kamaloka and other instances stay with Hive." }];
+    { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)', help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs and does not walk anyone back there. Skills and heals stay as you set them: with Hive picks my skills / Hive heals on, Hive still casts and heals on the monster L2Swarm picked; switch those off and your L2Swarm profiles (Combat Skills, Auto Skills) cast and heal. Raids, Kamaloka and other instances stay with Hive." },
+    // SPOTLVL-2026-10-23: chosen spots above the safe level: off (default) = used, only a warning; on = waits for your OK (Override)
+    { key: 'spotLevelCheck', char: false, group: 'combat', label: 'Ask me before hunting a chosen spot above our level', help: 'Off (default): a hunting spot you choose (party card, plan step, order) is always used, even when its monsters are above the safe level; the party only warns in party chat and on the party card. On: such a spot waits for your OK (the Override button on the party card) and the party hunts its automatic spot meanwhile.' }];
   const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions', swarmFight: 'L2Swarm fights' };
   const GMODES = ['auto', 'list', 'none'];
   const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false };
@@ -140,7 +142,7 @@
       const cp = {}, cc = {};
       cbKinds().forEach(k => { cp[k.key] = bool(P[k.key]); });
       M.forEach(n => { const C = obj(obj(d.chars)[n]); cc[n] = {}; cbKinds().forEach(k => { cc[n][k.key] = bool(C[k.key]); }); });
-      W.combat = { party: cp, chars: cc };
+      W.combat = { party: cp, chars: cc, allToo: false };   // SPOTLVL-2026-10-23: allToo = the level-check switch for every party without its own
     }
     if (ok(D.res)) {   // RESURRECTION 2026-10-13: this party's own entry (null = not set: the all-parties / built-in default)
       const P = obj(obj(obj(D.res.data).parties)[L]), b = (v) => (typeof v === 'boolean' ? v : null);
@@ -350,8 +352,8 @@
     const c = PS.W.combat, K = cbKinds();
     const items = K.map(k => {
       const own = c.party[k.key] !== null && c.party[k.key] !== undefined, eff = cbParty(k.key), d = paDef(k.key);
-      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions', swarmFight: 'Off — Hive runs the fights' }[k.key] || 'Off';
-      const onTxt = (k.key === 'swarmFight' ? 'On — L2Swarm picks the monsters at the hunting spot' : 'On — Hive does it') + (own ? '' : ' (the setting for all parties)');   // SWARMFIGHT: on = the profile
+      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions', swarmFight: 'Off — Hive runs the fights', spotLevelCheck: 'Off — your chosen spot is always used (only a warning)' }[k.key] || 'Off';
+      const onTxt = (k.key === 'swarmFight' ? 'On — L2Swarm picks the monsters at the hunting spot' : k.key === 'spotLevelCheck' ? 'On — a spot above our level waits for your OK' : 'On — Hive does it') + (own ? '' : ' (the setting for all parties)');   // SWARMFIGHT: on = the profile
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="combat.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
       return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset);
     }).join('');
@@ -362,8 +364,10 @@
     const KC = K.filter(k => k.char !== false);   // SWARMFIGHT: a party-only switch has no per-character choice
     const offK = KC.filter(k => !cbParty(k.key)).map(k => CB_SHORT[k.key] || k.key).concat(K.some(k => k.key === 'swarmFight') && cbParty('swarmFight') ? [CB_SHORT.swarmFight] : []), ownCh = PS.M.filter(n => KC.some(k => { const v = (c.chars[n] || {})[k.key]; return v !== null && v !== undefined; }));
     const sum = (offK.length ? `Your profile: ${offK.join(', ')}` : 'Hive does skills, heals and potions') + (ownCh.length ? ` · own: ${ownCh.join(', ')}` : '');
+    const lvlAll = K.some(k => k.key === 'spotLevelCheck') ? `<label class="ps-chk"><input type="checkbox" data-pschk="combat.allToo"${c.allToo ? ' checked' : ''}> Also use this party's "Ask me before hunting a chosen spot above our level" choice (${cbParty('spotLevelCheck') ? 'ask' : 'only warn'}) for every party that has none of its own</label>` : '';   // SPOTLVL-2026-10-23
     const body = `
       ${items}
+      ${lvlAll}
       <details class="ps-more"${ownCh.length ? ' open' : ''}><summary>Per character</summary>${rows}<div class="ps-what">A character's own choice wins over the party's switch. The toggles a character keeps on in fights are chosen on its character page (box "Combat").</div></details>
       ${note('Hive keeps walking, following, resupplying, resurrecting and showing everything here whatever you choose. When you switch something off, set it up in your L2Swarm profile first (account options: Combat Skills / Auto Skills), else nobody casts or heals.', 'info')}
       ${adv(note('File: Scripts/data/party_auto.json — parties.' + E(PS.leader) + '.skills / heals / potions, chars.<member>.skills / heals / potions / toggles; missing = default (' + K.map(k => k.key + ' ' + (paDef(k.key) ? 'on' : 'off')).join(', ') + '). swarm.js: hiveSkillsOn / hiveHealsOn / hivePotionsOn (HIVESW-2026-10-15); skills off also gives L2Swarm\'s Combat Skills back (l2sSkillGuard), heals off its Auto Skills (Self Heal).'))}`;
@@ -1024,7 +1028,8 @@
     }
     if (W.combat && J(W.combat) !== J(W0.combat)) {   // HIVESW-2026-10-15
       const who = (v) => (v ? 'Hive' : 'your L2Swarm profile');
-      cbKinds().forEach(k => { const a = W0.combat.party[k.key], b = W.combat.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null || b === undefined ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : b ? 'on — Hive does it' : 'off — ' + who(false) + ' does it'}`); });
+      if (W.combat.allToo && cbKinds().some(k => k.key === 'spotLevelCheck')) out.push(`Hunting spots above the level, every party without its own: ${cbParty('spotLevelCheck') ? 'ask me first' : 'only warn'}`);   // SPOTLVL-2026-10-23
+      cbKinds().forEach(k => { const a = W0.combat.party[k.key], b = W.combat.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null || b === undefined ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : k.key === 'spotLevelCheck' ? (b ? 'on — asks for your OK' : 'off — only a warning') : b ? 'on — Hive does it' : 'off — ' + who(false) + ' does it'}`); });   // SPOTLVL-2026-10-23
       PS.M.forEach(n => cbKinds().forEach(k => { const a = (W0.combat.chars[n] || {})[k.key], b = (W.combat.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key} by ${b === null || b === undefined ? 'like the party' : who(b)}`); }));
     }
     if (W.gear && J(W.gear) !== J(W0.gear)) {
@@ -1110,7 +1115,9 @@
       cbKinds().forEach(k => { if (a.party[k.key] !== b.party[k.key]) values[k.key] = b.party[k.key] === undefined ? null : b.party[k.key]; });
       PS.M.forEach(n => cbKinds().forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
       let rev = fresh.rev; try { const f2 = await fetchSrc('pauto'); if (ok(f2)) rev = f2.rev; } catch (e) { }
-      const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify({ party: PS.leader, values, chars, rev, by: 'party settings' }) });
+      const cbody = { party: PS.leader, values, chars, rev, by: 'party settings' };
+      if (b.allToo && cbKinds().some(k => k.key === 'spotLevelCheck')) cbody.defaultValues = { spotLevelCheck: !!cbParty('spotLevelCheck') };   // SPOTLVL-2026-10-23: the all-parties setting
+      const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify(cbody) });
       return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
     },
     async gear() {

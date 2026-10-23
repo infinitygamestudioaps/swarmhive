@@ -297,3 +297,10 @@ details.stc-party > summary b { color: var(--gold, #e3c27a); }
 /* UPGWPN-2026-10-23: the character's own weapon upgrade (Items page job, party to Giran) */
 .cp-upg { display: inline-block; margin-top: 8px; padding: 6px 14px; border: 1px solid #8a6d12; border-radius: 6px; background: #3a2e08; color: #fff3c4; text-decoration: none; font-weight: 600; }
 .cp-upg:hover { background: #4a3a0c; }
+/* JUNKMARK-2026-10-23: items marked to sell show their icon crossed out (dimmed + a red diagonal); "Mark junk" mode toggles the mark by tapping */
+.cp-it.selling img { opacity: .55; filter: grayscale(.5); }
+.cp-it.selling::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top right, transparent calc(50% - 1.5px), rgba(214, 64, 48, .95) calc(50% - 1.5px), rgba(214, 64, 48, .95) calc(50% + 1.5px), transparent calc(50% + 1.5px)); }
+.cp-igrid.junkmode .cp-it { outline: 1px dashed rgba(233, 185, 73, .55); outline-offset: -3px; cursor: pointer; }
+.cp-junkbtn.on { border-color: #e9b949; color: #f5d68a; }
+.cp-junkhint { font-size: 12px; margin: 4px 0; }

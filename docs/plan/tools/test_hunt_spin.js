@@ -64,7 +64,9 @@ function runShape(shape, ms) {
 }
 (async () => {
   const oldHb = await runShape('old', 900);
-  const lateOld = oldHb.filter(t => t > 200);
+  // 2026-10-23: measured from the worker's FIRST heartbeat (worker boot under load took ~190 ms, so "t > 200 from spawn" failed with a
+  // heartbeat that came before the loop even started); the loop starts 120 ms after boot, so nothing may come later than first + 250
+  const lateOld = oldHb.filter(t => t > (oldHb[0] || 0) + 250);
   check(lateOld.length === 0, `OLD loop shape: the heartbeat starves after the loop starts (${oldHb.length} heartbeats in 900 ms, last at ${oldHb[oldHb.length - 1] || '-'} ms) = the watchdog kill`);
   const newHb = await runShape('new', 900);
   let maxGap = 0; for (let i = 1; i < newHb.length; i++) maxGap = Math.max(maxGap, newHb[i] - newHb[i - 1]);

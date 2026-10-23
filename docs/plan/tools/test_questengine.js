@@ -274,5 +274,34 @@ console.log('5. sweep over every quest record');
   ok(startOk > n * 0.85, `${startOk}/${n} quests have an automatic start talk (others: ${JSON.stringify(why)})`);
   console.log(`    ${steps - manualAt}/${steps} started cond states have an automatic action (the rest: manual — see docs/plan/quests.md)`);
 }
+// ---------------------------------------------------------------- QUESTRESUME / QUESTREACH 2026-10-23 (public tester: Fate's Whisper "Reorin: no change
+// (Are you the one that woman was talking about? ...)" 4 tries, + "restarting it should check the quest stage ... first level the stage for all chars")
+{
+  console.log('6. Fate\'s Whisper start chain + party catch-up + re-click after no page');
+  const q234 = getQ(234);
+  if (q234) {
+    const st = E.qeDecide(q234, { started: false });
+    const L = (h) => { const o = [], re = /<a\b[^>]*action="bypass\s+(?:-h\s+)?([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi; let m; while ((m = re.exec(h))) o.push({ cmd: m[1], text: m[2] }); return o; };
+    // the L2J High Five pages of Maestro Reorin 31002 (01 -> 02 -> 03 -> 04 -> 05 QUEST_ACCEPTED)
+    const pages = ['<a action="bypass -h Quest Q00234_FatesWhisper 1">"I am here to ask you to make a weapon for me."</a><a action="bypass -h Quest Q00234_FatesWhisper 31002-003.html">"Why are you a drunk? "</a>',
+      '<a action="bypass -h Quest Q00234_FatesWhisper 2">"Why were you thrown out of the guild?"</a>', '<a action="bypass -h Quest Q00234_FatesWhisper 3">"I will restore your honor!"</a>',
+      '<a action="bypass -h Quest Q00234_FatesWhisper 4">"I will rescue the soul of your wife!"</a>', '<a action="bypass -h Quest Q00234_FatesWhisper QUEST_ACCEPTED">"I will save the soul of your wife!"</a>'];
+    const w = { links: st.links, events: st.events, questName: q234.name, qkey: 'Q00234', clicked: [], usedMenu: false, allowContinue: true };
+    const picks = pages.map(h => { const p = E.qePickLink(L(h), w); if (p) w.clicked.push(p.link.cmd + '|' + p.link.text); return p ? p.link.cmd : null; });
+    ok(picks.join('|') === 'Quest Q00234_FatesWhisper 1|Quest Q00234_FatesWhisper 2|Quest Q00234_FatesWhisper 3|Quest Q00234_FatesWhisper 4|Quest Q00234_FatesWhisper QUEST_ACCEPTED', '234 start: the link choice walks all 5 Reorin pages to QUEST_ACCEPTED (' + picks.join(' > ') + ')');
+  } else ok(false, 'quest 234 data missing');
+  const CU = new Function(src.slice(a, b) + '\nreturn typeof qeCatchUpPick === "function" ? qeCatchUpPick : null;')();
+  ok(!!CU, 'qeCatchUpPick exists');
+  if (CU) {
+    const mates = [{ name: 'Bishop1', started: true, cond: 3, act: 'hunt' }, { name: 'Necro1', started: false, cond: null, act: 'talk', talkNpc: 31002 }, { name: 'Mei', started: true, cond: 2, act: 'talk', talkNpc: 30178 }];
+    const p1 = CU({ started: true, cond: 3 }, mates, {});
+    ok(p1 && p1.name === 'Necro1' && p1.npcId === 31002 && p1.cond === 0, 'catch-up: the member furthest behind (not started) first, at its NPC');
+    ok(CU({ started: true, cond: 3 }, mates, { [p1.key]: 2 }).name === 'Mei', 'catch-up: at most 2 tries per member + NPC + stage, then the next one');
+    ok(CU({ started: true, cond: 2 }, [mates[2]], {}) === null && CU({ started: false }, mates, {}) === null && CU({ started: true, cond: 5 }, [{ name: 'X', act: 'talk', talkNpc: 1 }], {}) === null, 'catch-up: nobody behind / I have not started / stage unknown = nothing');
+  }
+  const dlg = src.slice(src.indexOf('async function qeDialog('), src.indexOf('async function qeDoTalk('));
+  ok(/await qeStayInFront\(ref\);\s*\/\/ QUESTREACH/.test(dlg) && /lostRetry = 1; await qeStayInFront\(ref, true\);/.test(dlg) && /a\.act !== 'turnin'/.test(dlg), 'qeDialog: in front of the NPC before every quest link; no page = back in front + the same link once more (never a hand-in)');
+  ok(/const cu = qeCatchUpPick\(s, qeMatesFresh\(q\)/.test(src) && /started: !!s\.started, need:/.test(src), 'qeRun (party leader) takes members that are behind to their NPC first; members report started + cond');
+}
 console.log(`\n${fails ? 'FAILED' : 'ALL OK'}: ${oks} ok, ${fails} failed`);
 process.exit(fails ? 1 : 0);

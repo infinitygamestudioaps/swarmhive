@@ -1267,7 +1267,7 @@ async function setClientMode(name, mode) {
   if (!await uiConfirm(mode === 'ingame'
     ? { title: `Switch ${name} to IN-GAME?`, body: [`L2Swarm logs ${name} out, starts l2.exe and logs in through the client (within ~2 min).`, uiNote('The client uses 1-2 GB RAM.')], confirmText: 'Switch to in-game' }
     : { title: `Switch ${name} back to OUT OF GAME?`, body: 'Its l2.exe is closed and it logs in without a client.', confirmText: 'Switch to out of game' })) return;
-  try { const d = await api('/api/clientmode', { method: 'POST', body: JSON.stringify({ name, mode }) }); if (d.error) { $('msg').textContent = `${name}: ${d.error}`; return; } $('msg').textContent = `${name}: ${mode} — applied within ~2 min` + (d.warning ? ` (${d.warning})` : ''); const el = $('cmode'); if (el) el.textContent = 'wanted: ' + d.modes[name]; }
+  try { const d = await api('/api/clientmode', { method: 'POST', body: JSON.stringify({ name, mode }) }); if (d.error) { $('msg').textContent = `${name}: ${d.error}`; return; } $('msg').textContent = `${name}: ${mode} — ${d.applied === false ? 'saved, NOT applied yet' : 'applied within ~2 min'}` + (d.warning ? ` (${d.warning})` : ''); const el = $('cmode'); if (el) el.textContent = 'wanted: ' + d.modes[name]; }
   catch (e) { $('msg').textContent = e.message; }
 }
 
@@ -1734,8 +1734,10 @@ function manualStatusHtml(lead, e) {
   }
   const ch = ms.chosenAt ? `chosen ${hm(ms.chosenAt)} · ` : '';
   if (ms.mode !== 'manual') return chip('', `back to auto · ${ms.detail || 'pending'}`, ms.detail);
-  if (ms.status === 'arrived') return chip('ok', ms.room ? 'in the room ✓' : ms.area ? 'in the area ✓' : 'there ✓', ms.detail);
-  if (ms.status === 'travelling') return chip('', `${ch}travelling${ms.etaAt ? ' · ETA ' + left(ms.etaAt) : ''}`, ms.detail);
+  // SPOTLVL-2026-10-23: a chosen spot above the safe level is used (party setting "ask me" off) — the card says so
+  const lw = ms.levelWarn && ms.mode === 'manual' && ms.status !== 'needs-ok' ? ' ' + chip('warn', 'above our level · your choice', ms.levelWarn) : '';
+  if (ms.status === 'arrived') return lw + chip('ok', ms.room ? 'in the room ✓' : ms.area ? 'in the area ✓' : 'there ✓', ms.detail);
+  if (ms.status === 'travelling') return chip('', `${ch}travelling${ms.etaAt ? ' · ETA ' + left(ms.etaAt) : ''}`, ms.detail) + lw;
   if (ms.status === 'occupied') return chip('bad', `occupied by others → auto${ms.retryAt ? ' · retry in ' + left(ms.retryAt) : ''}`, ms.detail);
   if (ms.status === 'fallback-auto') return chip('bad', `${ch}not reachable now → auto${ms.retryAt ? ' · retry in ' + left(ms.retryAt) : ''}`, ms.detail);
   // Seven Signs closed (2026-10-08 21:55): no trip, the automatic spot until the period changes
@@ -1906,12 +1908,13 @@ function ssgReason(g, cur) {
   if (c === 'tries') return `Not open for ${who(same)} this week: the Dawn sign-up failed 3 times — press Sign up on the 7 Signs tab to try again${plus}.`;
   return `Closed: ${g.why || 'the Seven Signs rule'}${g.until ? ' — until ' + at(g.until) : ''}.`;
 }
-function manualLevelGate(lvMin, lvMax, landing, teamMax, margin, override) {
+function manualLevelGate(lvMin, lvMax, landing, teamMax, margin, override, ask) {
   const lim = teamMax + margin, mon = Number(lvMin) || 0, land = Number(landing) || 0;
   const above = mon > lim || land > lim;
   const txt = `${mon ? 'monsters ' + lvMin + (lvMax && lvMax !== lvMin ? '-' + lvMax : '') : ''}${land ? (mon ? ', ' : '') + 'landing level-' + land : ''}, team max ${teamMax}, safe limit ${lim}`;
   if (!above) return { ok: true, needOk: false, above: false, why: '' };
   if (override) return { ok: true, needOk: false, above: true, why: `hunting above level by user override (${txt})` };
+  if (ask === false) return { ok: true, needOk: false, above: true, warn: true, why: `hunting above the safe level: your choice, only a warning (${txt})` };   // SPOTLVL-2026-10-23: party setting spotLevelCheck off (default)
   return { ok: false, needOk: true, above: true, why: `needs your OK: too high level (${txt})` };
 }
 // SSGATE-UI-END
@@ -1981,6 +1984,14 @@ function askChoice(title, text, buttons) {
   // UIDIALOG 2026-10-10: the shared dialog (was its own overlay #askov); a button with cls 'on' is the primary action, value null = Cancel
   return uiChoice({ title, body: text, buttons: buttons.map(b => ({ label: b.label, value: b.value, primary: /\bon\b/.test(b.cls || '') })) });
 }
+/** SPOTLVL-2026-10-23: the party's "ask me before hunting above our level" switch (/api/partyauto) -> true | false | null (not known) */
+async function spotLevelAskOf(party) {
+  try { const d = await api('/api/partyauto'); const p = d && Array.isArray(d.parties) ? d.parties.find(x => x && x.leader === party) : null;
+    if (p && p.eff && p.eff.spotLevelCheck && typeof p.eff.spotLevelCheck.on === 'boolean') return p.eff.spotLevelCheck.on;
+    if (d && d.data && Array.isArray(d.kinds) && d.kinds.some(k => k && k.key === 'spotLevelCheck')) { const v = ((d.data.parties || {})[party] || {}).spotLevelCheck, dv = (d.data.default || {}).spotLevelCheck; return typeof v === 'boolean' ? v : typeof dv === 'boolean' ? dv : false; }
+  } catch (e) { }
+  return null;
+}
 /** the Seven Signs + level questions before a choice is saved -> body to POST (override fields added) | null = cancelled */
 async function spotChoiceChecks(party, body, label) {
   const n = ((STATE && STATE.chars) || []).filter(c => c.party === party).length;
@@ -1997,7 +2008,11 @@ async function spotChoiceChecks(party, body, label) {
     } else if (g && g.state !== 'enter') parts.push(g.reason || ssGateText(g).t + '.');   // SSREASON: the plain sentence (also in the hunt popup)
   }
   const ml = body.mode === 'manual' ? spotMonsterLevels(body) : null;
-  const mg = ml ? manualLevelGate(+ml[0], +ml[1], 0, lv.max, DANGER_MARGIN, false) : null;
+  // SPOTLVL-2026-10-23: the party setting "Ask me before hunting a chosen spot above our level" (party_auto.json spotLevelCheck; default off =
+  // warn only): off = no question, the choice is saved and used, the warning goes along; unknown (older server) = the old question
+  const askLvl = ml ? await spotLevelAskOf(party) : null;
+  const mg = ml ? manualLevelGate(+ml[0], +ml[1], 0, lv.max, DANGER_MARGIN, false, askLvl === false ? false : undefined) : null;
+  if (mg && mg.warn) parts.push(`Above the safe level: party level ${lv.min}-${lv.max}, monsters here ${ml[0]}-${ml[1]} (safe limit ${lv.max + DANGER_MARGIN}). The party goes anyway (your choice) and warns in party chat.`);
   if (mg && mg.needOk) {
     asked = true;
     const v = await askChoice('Above the safe level', `Party ${party} (${n} characters): ${label}\n\nParty level ${lv.min}-${lv.max}, monsters here ${ml[0]}-${ml[1]} — above the safe limit (${lv.max + DANGER_MARGIN}).${parts.length ? '\n' + parts.join('\n') : ''}\n\nHunt here anyway? With "Yes, override" the party skips the level / landing-danger checks for this choice (survival, escape and rescue stay on; the Seven Signs rule is never skipped). Without it the choice is saved, but the party waits for your OK and hunts its automatic spot meanwhile.`,
@@ -2132,11 +2147,17 @@ async function saveSpot(body, label) {
   try {
     const r = await api('/api/partyspot', { method: 'POST', body: JSON.stringify(Object.assign({ party }, body)) });
     if (!r || r.error) throw new Error((r && r.error) || 'save failed');
-    if (PSPOT.data) PSPOT.data.spots = r.spots;
+    // SPOTSAVE-2026-10-23 (public tester Vykaax: "the one on the right didn't even confirm changing the selected zone, it still shows Abandoned Camp"):
+    // the card is updated + a toast says it AT ONCE after the save; the hunt timer / plan questions come after it and can no longer hide a saved choice
+    if (PSPOT.data) PSPOT.data.spots = r.spots; else PSPOT.data = { spots: r.spots, options: {} };
+    closeSpotPicker(); renderParties();
+    if (window.UIKit) UIKit.toast(`Party ${party}: hunting spot saved — ${body.mode === 'manual' ? label : 'Auto (the leader picks)'}`, { kind: 'ok' });
+  } catch (er) { uiError(er.message, 'Could not save'); return; }
+  try {
     if (window.HuntTimer) await HuntTimer.afterSave(party, hunt, label, body.mode);
     await planStepFollow(party, body, label);   // PLANPICK-2026-10-17   // HUNTTIMER-2026-10-15: the timer (or none) + "Supply run first"
-    closeSpotPicker(); renderParties();
-  } catch (er) { uiError(er.message, 'Could not save'); }
+  } catch (er) { uiError(er.message, 'Spot saved, but the hunt timer / plan step was not changed'); }
+  loadPartySpots(true); renderParties();
 }
 async function openDungeonPick(name) {
   try { const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (!m || m.error) throw new Error((m && m.error) || 'not found');
@@ -2354,8 +2375,8 @@ document.addEventListener('click', (e) => {
       [{ label: 'Yes, override', value: 'override', cls: 'on' }, { label: 'Cancel', value: null }]).then(async (v) => {
       if (v !== 'override') return;
       // OVERRIDEFIX 2026-10-13 (tester: "areaIds required" on every Override): the field / several-rooms fields go along too
-      const body = { party, mode: 'manual', kind: cur.kind, spot: cur.spot, dungeon: cur.dungeon, roomId: cur.roomId, roomIds: cur.roomIds, region: cur.region, areaIds: cur.areaIds, order: cur.order, stay: !!cur.stay, moveOn: !!cur.moveOn, override: true, overrideBy: 'dashboard', overrideNote: String(ovb.title || '').slice(0, 200) };
-      try { const r = await api('/api/partyspot', { method: 'POST', body: JSON.stringify(body) }); if (!r || r.error) throw new Error((r && r.error) || 'save failed'); if (PSPOT.data) PSPOT.data.spots = r.spots; renderParties(); } catch (er) { uiError(er.message, 'Could not save'); }
+      const body = { party, mode: 'manual', kind: cur.kind, spot: cur.spot, dungeon: cur.dungeon, roomId: cur.roomId, roomIds: cur.roomIds, region: cur.region, areaIds: cur.areaIds, order: cur.order, stay: !!cur.stay, moveOn: !!cur.moveOn, nonstop: !!cur.nonstop, override: true, overrideBy: 'dashboard', overrideNote: String(ovb.title || '').slice(0, 200) };   // SPOTLVL-2026-10-23: + nonstop (was dropped by an Override)
+      try { const r = await api('/api/partyspot', { method: 'POST', body: JSON.stringify(body) }); if (!r || r.error) throw new Error((r && r.error) || 'save failed'); if (PSPOT.data) PSPOT.data.spots = r.spots; renderParties(); if (window.UIKit) UIKit.toast(`Party ${party}: override saved — the leader takes it within a few seconds (also for a running plan step)`, { kind: 'ok' }); } catch (er) { uiError(er.message, 'Could not save'); }
     });
     return;
   }

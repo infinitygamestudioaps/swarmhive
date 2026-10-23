@@ -44,7 +44,11 @@ const cd = P.planClassDecide([{ name: 'A', status: 'ready', classId: 0, classId0
 check(cd.act === 'change' && cd.ready.join() === 'A' && cd.skipped.join() === 'B' && /no approved class plan/.test(cd.why), 'class decide: ready -> change, no plan -> skipped (never changed)');
 check(P.planClassDecide([{ name: 'A', status: 'waiting', classId: 1, classId0: 0, needLevel: 40, level: 20 }, { name: 'B', status: 'needs-approval' }]).act === 'done', 'class decide: changed + unapproved = done');
 const bl = P.planClassDecide([{ name: 'A', status: 'waiting', classId: 0, classId0: 0, needLevel: 20, nextName: 'Warrior', level: 18 }]);
-check(bl.act === 'blocked' && /A \(Warrior at level 20, now 18\)/.test(bl.why), 'class decide: below the class level = blocked, says who + why');
+// PLANCLASS-2026-10-23 (Vykaax: "the Class change step ... will stall. They already make the class change automatically"): below the class level = the
+// step is SKIPPED with who + why (the automatic class change does it at that level), never a blocked plan
+check(bl.act === 'skip' && /A \(Warrior at level 20, now 18\)/.test(bl.why) && /automatic class change/.test(bl.why), 'class decide: below the class level = skipped (never blocked), says who + why');
+const bl2 = P.planClassDecide([{ name: 'A', status: 'waiting', classId: 1, classId0: 0, needLevel: 40, level: 20 }, { name: 'B', status: 'waiting', classId: 0, classId0: 0, needLevel: 20, nextName: 'Wizard', level: 19 }]);
+check(bl2.act === 'skip' && /changed: A/.test(bl2.why) && /B \(Wizard at level 20, now 19\)/.test(bl2.why), 'class decide: one changed + one a level short = skipped, both named');
 // TESTERFIX-2026-10-19: Hive already changed them at 20 (classId == classId0 at the step start), next change at 40 -> nothing due = done
 const lt = P.planClassDecide([{ name: 'A', status: 'waiting', classId: 1, classId0: 1, needLevel: 40, nextName: 'Hawkeye', level: 20 }]);
 check(lt.act === 'done' && /next: A: Hawkeye at 40/.test(lt.why), 'class decide: next change 20 levels away = done (not stuck at 20 waiting for 40)');
@@ -208,7 +212,24 @@ const LVL_UP = (W, per) => { W.ev.push({ at: W.t, fn: function up() { if (W.ctx.
     W2.cp = { Tank1: { status: 'waiting', nextName: 'Palus Knight', needLevel: 20 } }; W2.lvl = 18; W2.team = [];
     W2.setPlan([S('f1', 'class')]);
     await W2.run();
-    check(W2.prog().status === 'blocked' && /Tank1 \(Palus Knight at level 20, now 18\)/.test(W2.prog().why) && !W2.sent.includes('!classchange'), 'D: below the class level = blocked (no class change sent)');
+    W2.setPlan([S('f1', 'class'), S('f2', 'wait')]);
+    W2.files['C:\\SW\\Logs\\plan_progress_Tank1.json'] = '{}'; W2.on = true;
+    await W2.run();
+    const f1 = W2.prog().done.f1 || {};
+    check(W2.prog().status === 'waiting' && f1.failed === true && /skipped: .*Tank1 \(Palus Knight at level 20, now 18\)/.test(f1.result || '') && !W2.sent.includes('!classchange'), 'D (PLANCLASS-2026-10-23): below the class level = skipped with the reason (✗), the plan goes on, no class change sent');
+    // a ready member whose class never changes (the board refuses): 4 rounds, then SKIPPED with the reason — the plan never stalls / blocks
+    const W4 = world();
+    W4.cp = { Tank1: { status: 'ready', nextName: 'Palus Knight', needLevel: 20 } }; W4.lvl = 20; W4.team = [];
+    W4.setPlan([S('k1', 'class'), S('k2', 'wait')]);
+    await W4.run();
+    const k1 = W4.prog().done.k1 || {};
+    check(W4.prog().status === 'waiting' && k1.failed === true && /did not happen for Tank1/.test(k1.result || ''), 'D (PLANCLASS-2026-10-23): a class change that never happens = skipped after 4 rounds with who + why, the plan goes on');
+    // the class already changed automatically (Hive) before the step: nothing due here = done at once, no !classchange
+    const W5 = world();
+    W5.cp = { Tank1: { status: 'waiting', nextName: 'Shillien Knight', needLevel: 40 }, Bishop1: { status: 'done' }, Necro1: { status: 'waiting', nextName: 'Sorcerer', needLevel: 40 } }; W5.lvl = 21; W5.cls = { Tank1: 32, Necro1: 11 };
+    W5.setPlan([S('m1', 'class'), S('m2', 'wait')]);
+    await W5.run();
+    check(!!W5.prog().done.m1 && !W5.prog().done.m1.failed && !W5.sent.includes('!classchange') && W5.prog().status === 'waiting', 'D: the class was already changed automatically = the step is done at once (no stall, no !classchange)');
     const W3 = world(); W3.cp = {};
     W3.setPlan([S('g1', 'class'), S('g2', 'wait')]);
     await W3.run();
@@ -233,6 +254,44 @@ const LVL_UP = (W, per) => { W.ev.push({ at: W.t, fn: function up() { if (W.ctx.
     check(W.gearOwned === true && /gear bought/.test(pg.done.h3.result), 'E gear: "!gearup", the plan owns it (no leveling after it), done');
     check(/Discarded Guardian killed/.test(pg.done.h4.result), 'E raid: "!mission raid Discarded Guardian", done by its outcome (dead); the automatic !stop after the raid does not pause the plan');
     check(pg.status === 'waiting', 'E: then the wait step');
+  }
+  // E2 (PLANGEAR-2026-10-23, public tester: "simple plan -> Giran gear up -> supplies -> go Cruma. They stayed in Giran forever"): an item hand-over in
+  // Giran (internal orderBegin('!handover ...')) during the gear step must not orphan the !gearup report; a !supply cut short by one is sent again
+  {
+    const W = world(); let supplies = 0;
+    W.onOrder = (text, ctx) => {
+      if (text === '!gearup') { const seq = ctx.orderState.seq;
+        W.ev.push({ at: W.t + 60000, fn: () => { ctx.orderBegin('!handover 1761000000000'); } });          // the letters hand-over while waiting in Giran
+        W.ev.push({ at: W.t + 300000, fn: () => { W.gearOwned = ctx.planGearupDone(seq); } }); }
+      if (text === '!supply') { supplies++; if (supplies === 1) return;                                      // the 1st one was cut short by a hand-over: never ran
+        W.ev.push({ at: W.t + 20000, fn: () => { ctx.leadRunBusy = true; } }); W.ev.push({ at: W.t + 400000, fn: () => { ctx.leadRunBusy = false; } }); }
+    };
+    W.setPlan([S('g1', 'gear'), S('g2', 'supply'), S('g3', 'wait')]);
+    await W.run();
+    const pg = W.prog();
+    check(W.gearOwned === true && /gear bought/.test((pg.done.g1 || {}).result || ''), 'E2 gear: a hand-over during !gearup — the plan still owns the order and the step is done (not 40 min then blocked)');
+    check(supplies === 2 && /supply run finished/.test((pg.done.g2 || {}).result || '') && pg.status === 'waiting', 'E2 supply: a !supply that never started is sent once more, then the step is done');
+    const swc = blk('// PLANGEAR-2026-10-23 (public tester', 'function orderSave(');
+    const OS = new Function('now', swc.replace(/^\/\/.*$/gm, '') .replace('function orderBegin(text) {', 'const orderState = { seq: 0, text: \'\', at: 0, userSeq: 0 }; function orderBegin(text) {').replace(/try \{ if \(typeof userOrderEnd[\s\S]*?return orderState\.seq;/, 'return orderState.seq;') + '\nreturn { orderBegin, orderReplaced };')(() => 1);
+    const g0 = OS.orderBegin('!gearup'); OS.orderBegin('!handover 17'); const r1 = OS.orderReplaced(g0); OS.orderBegin('!park');
+    check(r1 === false && OS.orderReplaced(g0) === true, 'orderReplaced: an internal hand-over is not a newer order, !park is');
+    check(/if \(orderReplaced\(gseq\)\) return;/.test(src) && !/if \(orderState\.seq !== gseq\) return;/.test(src.slice(src.indexOf("if (cmd === '!gearup') {"), src.indexOf("if (cmd === '!gearup') {") + 6000)), 'source: !gearup only gives up for a REAL newer order (orderReplaced)');
+  }
+  // E3 (QUESTRESUME-2026-10-23): Try again after a failed solo quest of a member: that member starts again (from its current stage), the step finishes
+  {
+    const W = world(); let necronRuns = 0;
+    const fN = 'C:\\SW\\Logs\\quest_state_Necro1.json';
+    W.setPlan([S('q1', 'quest', { quest: 505, mode: 'solo', who: ['Necro1'], onFail: 'stop' }), S('q2', 'wait')]);
+    W.onOrder = (text) => { const m = text.match(/^!quest 505 repeat 1 solo Necro1$/); if (!m) return; necronRuns++;
+      W.files[fN] = JSON.stringify({ quests: { 505: { runs: 0, status: 'running', startedAt: new Date(W.t).toISOString() } } });
+      const ok = necronRuns > 1;
+      W.ev.push({ at: W.t + 600000, fn: () => { W.files[fN] = JSON.stringify({ quests: { 505: ok ? { runs: 1, status: 'done', startedAt: new Date(W.t - 600000).toISOString() } : { runs: 0, status: 'failed', lastMsg: 'no progress after 4 tries of talk', startedAt: new Date(W.t - 600000).toISOString() } } }); } }); };
+    await W.run();
+    check(W.prog().status === 'blocked' && /Necro1: not finished/.test(W.prog().why), 'E3: the first run fails -> blocked');
+    W.ctx.planCommand(['!plan', 'retry']);
+    for (let i = 0; i < 400 && W.ctx.PLAN.running; i++) await W.ctx.sleep(5000);
+    check(necronRuns === 2 && /quest 505 done by Necro1/.test((W.prog().done.q1 || {}).result || '') && W.prog().status === 'waiting', 'E3: Try again relaunches the failed member (not only the leader) and the step finishes (was: failed again within 5 s)');
+    check(W.notes.some(m => /quest 505 again for Necro1 \(it failed\) — going on from its current quest stage/.test(m)), 'E3: says who starts again and that it goes on from its current stage');
   }
   // F: resume after a restart: the same step, the quest not started a second time; goto / restart
   {
