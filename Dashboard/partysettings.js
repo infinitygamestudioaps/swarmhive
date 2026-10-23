@@ -205,6 +205,9 @@
     builtin: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300 }, suggest: {} };
   const amtInfo = () => (ok(PS.D.pauto) && PS.D.pauto.amounts ? PS.D.pauto.amounts : AMT_FALLBACK);
   const amtBands = () => amtInfo().bands, amtKeys = () => amtInfo().keys;
+  // ALLPARTIES-2026-10-23 (tester Vykaax: "where are the all parties settings? I clicked around in circles for 10 minutes"): every switch shows the
+  // all-parties value and one button makes this party's choice the setting for all parties (W.<sec>.defs -> partyauto_api defaultValues)
+  function allLine(sec, key, eff, d) { const dd = PS.W[sec] && PS.W[sec].defs && PS.W[sec].defs[key] !== undefined ? PS.W[sec].defs[key] : d; return `<div class="ps-allp">All parties: <b>${dd ? 'on' : 'off'}</b>${PS.W[sec] && PS.W[sec].defs && PS.W[sec].defs[key] !== undefined ? ' (saved with Save)' : ''}${eff !== dd ? ` <button type="button" class="uk-btn ghost ps-reset" data-psdef="${sec}.${E(key)}.${eff ? 1 : 0}">Make "${eff ? 'on' : 'off'}" the setting for all parties</button>` : ''}</div>`; }
   /** what an empty cell means: the all-parties amount, else the built-in one */
   function amtInherit(band, k) { const d = ok(PS.D.pauto) ? obj(obj(obj(obj(PS.D.pauto.data).default).amounts)[String(band)]) : {}; return isSet(d[k]) ? { v: Number(d[k]), src: 'all parties' } : { v: Number(amtInfo().builtin[k]) || 0, src: 'standard' }; }
   /** the typed table -> { "<band>": { key: number } } | null (nothing typed) */
@@ -355,7 +358,7 @@
       const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions', swarmFight: 'Off — Hive runs the fights', spotLevelCheck: 'Off — your chosen spot is always used (only a warning)' }[k.key] || 'Off';
       const onTxt = (k.key === 'swarmFight' ? 'On — L2Swarm picks the monsters at the hunting spot' : k.key === 'spotLevelCheck' ? 'On — a spot above our level waits for your OK' : 'On — Hive does it') + (own ? '' : ' (the setting for all parties)');   // SWARMFIGHT: on = the profile
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="combat.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
-      return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset);
+      return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('combat', k.key, eff, d));   // ALLPARTIES
     }).join('');
     const rows = PS.M.map(n => { const ch = c.chars[n] || {};
       return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${K.some(k => k.char !== false && ch[k.key] !== null && ch[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${K.filter(k => k.char !== false).map(k => {
@@ -385,7 +388,7 @@
       const onTxt = (own ? 'On' : 'On — the setting for all parties') + (run ? '' : ' (works once you press Start)');
       const offTxt = own ? OFF : 'Off — nothing happens until you switch it on (the setting for all parties).';
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="supplies.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
-      return item(sw('supplies.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset);
+      return item(sw('supplies.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('supplies', k.key, eff, d));   // ALLPARTIES
     }).join('');
     const ck = K.filter(k => k.char);
     const rows = PS.M.map(n => { const c = s.chars[n] || {};
@@ -915,6 +918,7 @@
     if (po) { e.preventDefault(); const p = po.dataset.psorder, v = po.dataset.v, cur = Array.isArray(getP(p)) ? getP(p).filter(x => x !== 'auto') : []; const i = cur.indexOf(v); if (i >= 0) cur.splice(i, 1); else cur.push(v); setP(p, cur.length ? cur : null); render(true); return; }
     const r = t.closest('[data-psreset]');
     if (r) { e.preventDefault(); setP(r.dataset.psreset, null); render(true); return; }
+    { const dv = t.closest('[data-psdef]'); if (dv) { e.preventDefault(); const [sec, key, v] = dv.dataset.psdef.split('.'); if (PS.W[sec]) { PS.W[sec].defs = Object.assign({}, PS.W[sec].defs, { [key]: v === '1' }); render(true); } return; } }   // ALLPARTIES
     const gp = t.closest('[data-psgiverp]');
     if (gp) { e.preventDefault(); const n = gp.dataset.psgiverp, L = PS.W.money.pglist; const i = L.indexOf(n); if (i >= 0) L.splice(i, 1); else L.push(n); render(true); return; }
     const gv = t.closest('[data-psgiver]');
@@ -1003,6 +1007,7 @@
         if (p.on) out.push(`Player shops: at most ${p.budget || fmtN(pshopInfo().defaults.budget)} adena per run, ${PS.leader} always keeps ${p.keep || fmtN(pshopInfo().defaults.keep)}`);
       }
       if (W.supplies.allToo) out.push(`Supply amounts for every party without its own: ${amtTable(W.supplies.amt) ? 'these amounts' : 'the standard amounts'}`);
+      Object.keys(W.supplies.defs || {}).forEach(k => out.push(`ALL parties without their own setting: ${(supKinds().find(x => x.key === k) || { label: k }).label} = ${W.supplies.defs[k] ? 'on' : 'off'}`));   // ALLPARTIES-2026-10-23
       PS.M.forEach(n => supKinds().filter(k => k.char).forEach(k => { const a = (W0.supplies.chars[n] || {})[k.key], b = (W.supplies.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key === 'sell' ? 'selling' : 'symbols'} ${b === null || b === undefined ? 'like the party' : onoff(b)}`); }));
     }
     if (W.server && J(W.server) !== J(W0.server)) {   // SRVOPT-2026-10-21
@@ -1028,6 +1033,7 @@
     }
     if (W.combat && J(W.combat) !== J(W0.combat)) {   // HIVESW-2026-10-15
       const who = (v) => (v ? 'Hive' : 'your L2Swarm profile');
+      Object.keys(W.combat.defs || {}).forEach(k => out.push(`ALL parties without their own setting: ${(cbKinds().find(x => x.key === k) || { label: k }).label} = ${W.combat.defs[k] ? 'on' : 'off'}`));   // ALLPARTIES-2026-10-23
       if (W.combat.allToo && cbKinds().some(k => k.key === 'spotLevelCheck')) out.push(`Hunting spots above the level, every party without its own: ${cbParty('spotLevelCheck') ? 'ask me first' : 'only warn'}`);   // SPOTLVL-2026-10-23
       cbKinds().forEach(k => { const a = W0.combat.party[k.key], b = W.combat.party[k.key]; if (a !== b) out.push(`${k.label} (party ${PS.leader}): ${b === null || b === undefined ? 'the all-parties setting (' + (paDef(k.key) ? 'on' : 'off') + ')' : k.key === 'spotLevelCheck' ? (b ? 'on — asks for your OK' : 'off — only a warning') : b ? 'on — Hive does it' : 'off — ' + who(false) + ' does it'}`); });   // SPOTLVL-2026-10-23
       PS.M.forEach(n => cbKinds().forEach(k => { const a = (W0.combat.chars[n] || {})[k.key], b = (W.combat.chars[n] || {})[k.key]; if (a !== b) out.push(`${n}: ${k.key} by ${b === null || b === undefined ? 'like the party' : who(b)}`); }));
@@ -1106,6 +1112,7 @@
       const body = { party: PS.leader, values, chars, rev: fresh.rev, by: 'party settings' };
       const t = amtTable(b.amt); if (J(t) !== J(amtTable(a.amt))) body.amounts = t;   // SUPPLYAMT 2026-10-14
       if (b.allToo) body.defaultAmounts = t;
+      if (b.defs && Object.keys(b.defs).length) body.defaultValues = Object.assign({}, b.defs);   // ALLPARTIES-2026-10-23
       { const pa = pshopTable(a.pshop), pb = pshopTable(b.pshop); if (J(pa) !== J(pb)) body.pshop = pb; }   // PSHOP-2026-10-15: this party's own table (null = removed)
       const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify(body) });
       return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
@@ -1116,7 +1123,8 @@
       PS.M.forEach(n => cbKinds().forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
       let rev = fresh.rev; try { const f2 = await fetchSrc('pauto'); if (ok(f2)) rev = f2.rev; } catch (e) { }
       const cbody = { party: PS.leader, values, chars, rev, by: 'party settings' };
-      if (b.allToo && cbKinds().some(k => k.key === 'spotLevelCheck')) cbody.defaultValues = { spotLevelCheck: !!cbParty('spotLevelCheck') };   // SPOTLVL-2026-10-23: the all-parties setting
+      if (b.allToo && cbKinds().some(k => k.key === 'spotLevelCheck')) cbody.defaultValues = { spotLevelCheck: !!cbParty('spotLevelCheck') };
+      if (b.defs && Object.keys(b.defs).length) cbody.defaultValues = Object.assign({}, cbody.defaultValues || {}, b.defs);   // ALLPARTIES-2026-10-23   // SPOTLVL-2026-10-23: the all-parties setting
       const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify(cbody) });
       return d && d.ok ? { ok: true } : { ok: false, error: (d && d.error) || 'no answer', conflict: !!(d && d.conflict) };
     },

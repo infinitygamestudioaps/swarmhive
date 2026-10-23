@@ -343,7 +343,7 @@
     const L = el.dataset.crafterParty, I = CP.info; if (!I) { el.innerHTML = ''; return; }
     const p = (I.parties || []).find(x => x.leader === L), cur = p && p.crafter;
     const on = (I.crafters || []).filter(c => c.cfg.on && c.name !== L);
-    if (!on.length) { el.innerHTML = `<div class="crf-pline muted">🔨 Our crafter: none switched on. A Dwarf crafter can make shots for this party — set it up on the <a href="#/storage">Storage page</a> (Our crafter).</div>`; return; }
+    if (!on.length) { el.innerHTML = `<div class="crf-pline muted"><img class="gi" src="/icons/icon/skill0172.png" alt=""> Our crafter: none switched on. A Dwarf crafter can make shots for this party — set it up on the <a href="#/storage">Storage page</a> (Our crafter).</div>`; return; }
     const c = on.find(x => x.name === cur) || on[0], st = c.status || {};
     const has = (c.cfg.parties.includes('*') || c.cfg.parties.includes(L));
     el.innerHTML = `<div class="crf-pline"><label class="crf-sw"><input type="checkbox" data-crfparty="${h(L)}" data-crfname="${h(c.name)}"${has ? ' checked' : ''}${c.cfg.parties.includes('*') ? ' disabled' : ''}>

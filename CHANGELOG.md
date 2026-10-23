@@ -2,6 +2,10 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.21 (2026-10-24)
+
+- Faster hunting: no fixed waits around a monster any more - the next target the moment one dies, an empty room ends its wait when a monster shows up. The kill count now includes kills by L2Swarm combat and the assist (SLOW HUNTING no longer shows for parties that hunt normally). Items: Buy several (a buy list, one trip to Giran), a hive-wide Find an item search (who has it, how many: bag, worn, warehouse, clan warehouse), a compact layout. New Loot page: what every character picked up or spoiled, with filters (time, who, grade, type). Compact, easier Crafting, Dispatch and Quests pages. Party settings: every switch shows the all-parties value and can become the setting for all parties.
+
 ## v1.8.20 (2026-10-23)
 
 - Level fast: a slow hunt repairs itself - the leader watches its kill rate and, when monsters are around but hardly any die, clears stale walks and stuck targets on the whole party and says why (SLOW HUNTING on the party card, missing shots named). Members stuck in an old route walk: one lost route-end message used to leave a member walking to an old point forever (no normal follow, no self-defence, and Fight with L2Swarm not hands-off)

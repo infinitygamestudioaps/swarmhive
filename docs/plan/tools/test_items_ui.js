@@ -53,16 +53,62 @@ const dirList = (d) => { try { return fs.readdirSync(d).sort().join('|'); } catc
     const leader = await ev(`(ItemsPage._state.chars.chars.find(c => c.clanLeader) || ItemsPage._state.chars.chars[0]).name`);
     ok('1: no sideways scroll', await noScroll());
     await shot('1_who', '#tab-items');
-    await click(`[data-itchar="${leader}"]`);
+    // ITEMFIND-2026-10-23: the hive-wide "Find an item" works with no character picked; a result opens that character on that place
+    ok('1: the find box shows with no character picked', await ev(`!!document.getElementById('itpFind') && !ItemsPage._state.name`));
+    await ev(`(() => { const q = document.getElementById('itpFind'); q.value = 'h'; q.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`);
+    ok('1: one letter asks for a second one', await waitFor(`/at least 2 letters/.test(document.getElementById('itpFindRes').textContent)`, 3000));
+    const findQ = 'sword';
+    await ev(`(() => { const q = document.getElementById('itpFind'); q.value = ${JSON.stringify(findQ)}; q.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`);
+    const found = await waitFor(`document.querySelectorAll('#itpFindRes [data-itfgo]').length > 0 || /Nobody has anything|restart/.test(document.getElementById('itpFindRes').textContent)`, 10000);
+    const nFound = await ev(`document.querySelectorAll('#itpFindRes [data-itfgo]').length`);
+    ok('1: find answers (results or "nobody has it")', found, await ev(`document.getElementById('itpFindRes').textContent.slice(0, 200)`));
+    if (nFound) {
+      ok('1: results grouped by item, each holder with where + how old', await ev(`(() => { const g = document.querySelector('.itp-fg'); return !!g && !!g.querySelector('.itp-fgh .itp-fnm') && !!document.querySelector('#itpFindRes .itp-fh .itp-fw') && /ago|just now|yesterday/.test(document.getElementById('itpFindRes').textContent); })()`));
+      ok('1: find results fit the phone', await noScroll());
+      await shot('1b_find', '#itpFindBox');
+      const tgt = await ev(`(() => { const R = ItemsPage._state.fres; for (let gi = 0; gi < R.items.length; gi++) { const hi = R.items[gi].holders.findIndex(H => H.kind === 'char'); if (hi >= 0) return { gi, hi, name: R.items[gi].holders[hi].name, item: R.items[gi].name, wh: !R.items[gi].holders[hi].rows.some(x => x.where !== 'wh') }; } const H = R.items[0].holders[0]; return { gi: 0, hi: 0, name: '', item: R.items[0].name, clan: H.kind === 'clan' }; })()`);
+      await click(`[data-itfgo="${tgt.gi}|${tgt.hi}"]`);
+      if (tgt.name) ok(`1: tapping a holder opens ${tgt.name} on ${tgt.wh ? 'the warehouse' : 'the bag'}, searching for ${tgt.item}`, await waitFor(`(() => { const S = ItemsPage._state; return S.name === ${JSON.stringify(tgt.name)} && S.d && S.d.name === S.name && S.place === ${JSON.stringify(tgt.wh ? 'wh' : 'bag')} && S.q === ${JSON.stringify(tgt.item)} && location.hash === '#/items/' + encodeURIComponent(${JSON.stringify(tgt.name)}); })()`, 20000));
+      else ok('1: tapping the clan warehouse opens the clan warehouse tab', await waitFor(`ItemsPage._state.place === 'clan' && !!ItemsPage._state.name`, 20000));
+      if (tgt.name) ok('1: the found item shows as a tile there', await waitFor(`[...document.querySelectorAll('.itp-tile')].some(t => t.title === ${JSON.stringify(tgt.item)})`, 8000));
+      await click('[data-itfindx]');
+      ok('1: Clear empties the find box', await waitFor(`document.getElementById('itpFind').value === '' && document.getElementById('itpFindRes').textContent.trim() === ''`, 3000));
+      await click('[data-itclear]');
+      await ev(`(ItemsPage._state.place = 'bag', true)`);
+    }
+    // ITEMS-COMPACT: once a character is picked the big list folds into one strip
+    if (!(await ev(`ItemsPage._state.name === ${JSON.stringify(leader)}`))) {
+      if (await ev(`!ItemsPage._state.name`)) await click(`[data-itchar="${leader}"]`);
+      else { await click('[data-itchange]'); await waitFor(`!!document.querySelector('[data-itchar="${leader}"]')`, 5000); await click(`[data-itchar="${leader}"]`); }
+    } else await ev(`(ItemsPage._state.place = 'bag', ItemsPage.open(${JSON.stringify(leader)}), true)`);
     ok(`2: ${leader}'s items load`, await waitFor(`!!(ItemsPage._state.d && ItemsPage._state.d.name === ${JSON.stringify(leader)})`, 20000), await ev(`document.getElementById('itpMsg').textContent`));
-    ok('2: four places', (await ev(`document.querySelectorAll('[data-itplace]').length`)) === 4);
-    ok('2: bag tiles with big icons (56 px)', await waitFor(`(() => { const i = document.querySelector('.itp-tile .itp-ic img'); return !!i && i.getBoundingClientRect().width >= 50; })()`, 8000));
+    ok('2: the character list folds into one strip (tap = switch)', await waitFor(`document.querySelectorAll('#itpChars [data-itchar]').length === 0 && !!document.querySelector('#itpChars .itp-who[data-itchange]')`, 5000));
+    await click('[data-itchange]');
+    ok('2: Switch opens the searchable list again', await waitFor(`document.querySelectorAll('#itpChars [data-itchar]').length > 10 && !!document.getElementById('itpCq')`, 5000));
+    await click('[data-itchange]');
+    ok('2: four places as tabs', (await ev(`document.querySelectorAll('.itp-tabs [data-itplace][role=tab]').length`)) === 4);
+    ok('2: type + grade filters on one row (selects) + "only what it can wear"', await ev(`!!document.querySelector('.itp-filt select[data-itfsel]') && !!document.querySelector('.itp-filt select[data-itgsel]') && !!document.querySelector('.itp-filt [data-itusable]') && !!document.querySelector('.itp-filt #itpQ')`));
+    ok('2: compact tiles: icon >= 40 px, every tile >= 44 px to tap, 4 per row on the phone', await waitFor(`(() => { const t = [...document.querySelectorAll('.itp-tile')]; const i = document.querySelector('.itp-tile .itp-ic img'); if (!i || !t.length) return false; const r0 = t[0].getBoundingClientRect(); return i.getBoundingClientRect().width >= 40 && t.every(x => { const r = x.getBoundingClientRect(); return r.height >= 44 && r.width >= 44; }) && t.filter(x => Math.abs(x.getBoundingClientRect().top - r0.top) < 2).length >= 4; })()`, 8000));
+    ok('2: "Enchant several" is a clear button on the bag', await ev(`!!document.querySelector('.itp-bar2 .itp-mode[data-itmulti="1"]')`));
+    ok('2: recent jobs + "What happened" are folded away', await ev(`[...document.querySelectorAll('#itpBody details.itp-more')].length >= 1 && [...document.querySelectorAll('#itpBody details.itp-more')].every(d => !d.open)`));
+    await ev(`(() => { const s = document.querySelector('select[data-itfsel]'); s.value = 'weapon'; s.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
+    ok('2: the type filter works (weapons only)', await waitFor(`ItemsPage._state.filter === 'weapon' && [...document.querySelectorAll('.itp-grp')].every(g => /Weapons|Worn/.test(g.textContent))`, 3000));
+    await click('[data-itclear]');
+    ok('2: "Show all" clears the filters', await waitFor(`ItemsPage._state.filter === 'all' && !document.querySelector('[data-itclear]')`, 3000));
+    await click('[data-itmulti="1"]');
+    ok('2: Enchant several opens its panel', await waitFor(`!!document.querySelector('.itp-multi [data-itmgo]')`, 3000));
+    await click('.itp-multi [data-itmulti="0"]');
+    ok('2: the bag has no sideways scroll', await noScroll());
     await shot('2_bag', '#itpBody');
     await click('[data-itplace="clan"]');
     ok('2: clan warehouse tiles', await waitFor(`document.querySelectorAll('.itp-tile').length > 5`, 5000));
     await shot('3_clan', '#itpBody');
     await click('[data-itplace="shop"]');
     ok('3: Giran shop tiles load', await waitFor(`document.querySelectorAll('.itp-tile').length > 50`, 15000));
+    ok('3: the shops show "Buy several" (BUYMANY)', await ev(`!!document.querySelector('.itp-bar2 .itp-mode[data-itbuy="1"]')`));
+    await click('[data-itbuy="1"]');
+    ok('3: Buy several opens the buy list', await waitFor(`!!document.querySelector('.itp-multi [data-itcartgo]') && document.querySelector('[data-itcartgo]').disabled`, 3000));
+    await click('.itp-multi [data-itbuy="0"]');
     await ev(`(() => { const q = document.getElementById('itpQ'); q.value = 'Homunkulus'; q.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`);
     await sleep(300);
     const tileIdx = await ev(`(() => { const t = [...document.querySelectorAll('.itp-tile[data-itsel]')].find(x => /^Homunkulus's Sword$/.test(x.title)); return t ? Number(t.dataset.itsel) : -1; })()`);

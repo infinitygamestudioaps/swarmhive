@@ -1,5 +1,5 @@
 /* OUR CRAFTER panel (CRAFTER-2026-10-15): Storage page box "Our crafter" + the party settings line (Dashboard/crafterpanel.js). Phone first. */
-.crf-card { border: 1px solid rgba(200, 170, 110, .25); border-radius: 8px; padding: 10px; margin: 8px 0; display: grid; gap: 8px; min-width: 0; }
+.crf-card { border: 1px solid rgba(200, 170, 110, .25); border-radius: 6px; padding: 8px; margin: 6px 0; display: grid; gap: 6px; min-width: 0; }
 .crf-closed { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .crf-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
 .crf-top b { font-size: 1.05em; }
@@ -60,3 +60,65 @@ div.crf-item .uk-btn { grid-column: 1 / -1; justify-self: start; min-height: 36p
 .crf-grades .uk-btn { min-height: 36px; padding: 4px 10px; }
 .crf-grades .uk-btn.on { outline: 2px solid currentColor; font-weight: 700; }
 .crf-del { margin-left: auto; }
+/* CRAFTING PAGE #/crafting (Dashboard/craftpage.js), COMPACT-2026-10-23: crafter strip, one filter row, compact recipe rows (2 columns on a PC).
+   Scoped to #tab-crafting so the shared items stylesheet cannot change it. Phone first: 390 px, 44 px touch targets, no sideways page scroll. */
+#tab-crafting { min-width: 0; padding-bottom: 40px; }
+#tab-crafting .gim { width: 20px; height: 20px; vertical-align: middle; border-radius: 3px; }
+#tab-crafting .crp-head h2 { display: flex; align-items: center; gap: 6px; margin: 0; }
+#tab-crafting .crp-links { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+#tab-crafting .crp-links a { color: #9fd0ff; display: inline-flex; align-items: center; gap: 4px; min-height: 36px; font-size: var(--fs-cap); }
+#tab-crafting .crp-msg { margin: 6px 0; padding: 6px 10px; border: 1px solid #2f5a3c; background: rgba(23, 58, 34, .55); border-radius: 3px; color: #c9f0d2; font-size: var(--fs-cap); }
+#tab-crafting .crp-msg.bad { border-color: #8f2f24; background: rgba(74, 23, 20, .7); color: #ffc9bf; }
+#tab-crafting .crp-note { margin: 6px 0; padding: 6px 10px; border: 1px solid #6b5a28; background: rgba(70, 58, 20, .4); border-radius: 3px; font-size: var(--fs-cap); color: #f3dfa0; }
+#tab-crafting .crp-who { display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 6px; scrollbar-width: thin; overscroll-behavior-x: contain; }
+#tab-crafting .crp-char { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 4px 10px 4px 6px; text-align: left; }
+#tab-crafting .crp-char img { width: 26px; height: 26px; flex: none; }
+#tab-crafting .crp-char span { display: flex; flex-direction: column; line-height: 1.15; }
+#tab-crafting .crp-char small { color: var(--muted); font-size: var(--fs-mini); }
+#tab-crafting .crp-char.on { outline: 2px solid var(--gold); color: var(--gold); }
+@media (min-width: 900px) { #tab-crafting .crp-who { flex-wrap: wrap; overflow: visible; } }
+#tab-crafting .crp-src { margin: 4px 0; line-height: 1.4; }
+#tab-crafting .crp-filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 6px 0 4px; }
+#tab-crafting .crp-seg { display: flex; flex-wrap: wrap; gap: 4px; }
+#tab-crafting .crp-seg button { min-height: 40px; padding: 2px 12px; }
+#tab-crafting .crp-seg button.on { outline: 2px solid var(--gold); }
+#tab-crafting #crpG { min-height: 40px; }
+#tab-crafting #crpQ { flex: 1 1 160px; min-width: 0; min-height: 40px; box-sizing: border-box; }
+#tab-crafting .crp-count { margin: 2px 2px 4px; }
+#tab-crafting .crp-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+@media (min-width: 1100px) { #tab-crafting .crp-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+#tab-crafting .crp-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; margin: 0; padding: 6px 8px;
+  border: 1px solid var(--line); border-radius: 3px; background: var(--box); }
+#tab-crafting .crp-row.no { opacity: .72; }
+#tab-crafting .crp-ic { position: relative; width: 36px; height: 36px; align-self: start; }
+#tab-crafting .crp-ic img { width: 36px; height: 36px; border-radius: 3px; }
+#tab-crafting .crp-n { position: absolute; right: -2px; bottom: -2px; font: 700 10px Consolas, monospace; background: #000; color: #fff; padding: 0 3px; border-radius: 6px; }
+#tab-crafting .crp-main { min-width: 0; }
+#tab-crafting .crp-nm { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; }
+#tab-crafting .crp-nm b { font-size: var(--fs-body); line-height: 1.25; }
+#tab-crafting .crp-tag { font: 600 var(--fs-mini) Consolas, monospace; padding: 0 5px; border-radius: 8px; border: 1px solid var(--line2); }
+#tab-crafting .crp-tag.bad { color: #ffc9bf; border-color: #8f2f24; }
+#tab-crafting .crp-meta { color: var(--muted); font-size: var(--fs-mini); margin-top: 1px; }
+#tab-crafting .crp-mats { display: flex; flex-wrap: wrap; gap: 3px 4px; margin-top: 3px; }
+#tab-crafting .crp-mat { display: inline-flex; align-items: center; gap: 3px; max-width: 100%; padding: 1px 6px 1px 1px; border-radius: 10px; background: rgba(255, 255, 255, .06); font-size: var(--fs-mini); }
+#tab-crafting .crp-mat img { width: 18px; height: 18px; border-radius: 3px; }
+#tab-crafting .crp-mat b { color: var(--muted); font-weight: 600; }
+#tab-crafting .crp-mat.short { background: rgba(140, 40, 30, .45); }
+#tab-crafting .crp-mat.short b { color: #ffc9bf; }
+#tab-crafting .crp-make { grid-column: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 3px 6px; width: 150px; min-width: 0; text-align: center; }
+#tab-crafting .crp-make small { flex: 1 1 100%; text-align: right; }
+#tab-crafting .crp-make input { width: 76px; min-height: 40px; box-sizing: border-box; text-align: center; }
+#tab-crafting .crp-make button { min-height: 40px; padding: 0 12px; }
+@media (max-width: 560px) {
+  #tab-crafting .crp-row { grid-template-columns: 36px minmax(0, 1fr); }
+  #tab-crafting .crp-make { grid-column: 1 / -1; width: auto; flex-wrap: nowrap; gap: 8px; margin-top: 4px; }
+  #tab-crafting .crp-make small { flex: none; text-align: left; }
+  #tab-crafting .crp-make small { order: -1; margin-right: auto; }
+  #tab-crafting .crp-make input, #tab-crafting .crp-make button { min-height: 44px; }
+  #tab-crafting .crp-seg button, #tab-crafting #crpG, #tab-crafting #crpQ { min-height: 44px; }
+  #tab-crafting .crp-seg { flex: 1 1 100%; flex-wrap: nowrap; }
+  #tab-crafting .crp-seg button { flex: 1 1 0; padding: 2px 6px; }
+  #tab-crafting #crpQ { flex-basis: 120px; }
+}
+#tab-crafting .crp-more { text-align: center; margin: 8px 0; }
+#tab-crafting .crp-more button { min-height: 44px; }

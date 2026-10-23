@@ -27,7 +27,7 @@
     if (!S.name) return;
     let d = null; try { d = await api('/api/items/char?name=' + encodeURIComponent(S.name) + (fresh ? '&fresh=1' : '')); } catch (e) { d = { error: e.message }; }
     if (!d || d.error) { flash((d && d.error) || 'The dashboard server has no items API yet (it needs a restart).', true); S.d = null; render(); return; }
-    S.d = d; render(); loadLog();
+    S.d = d; render(); loadLog(); if (S.toBody) scrollBody();
   }
   async function loadShops() { if (S.shops) return; try { const d = await api('/api/items/shops'); if (d && !d.error) S.shops = d; } catch (e) { } render(); }
 
@@ -35,11 +35,17 @@
   function section() {
     let s = $id(SEC); if (s) return s;
     s = document.createElement('section'); s.id = SEC; s.className = 'win itp'; s.hidden = true;
-    s.innerHTML = `<div class="itp-head"><h2><img class="gi" src="${ico('icon/etc_equip_item_box_i00')}" alt=""> Items</h2><a href="#/crafting" class="itp-link"><img class="gim" src="${ico('icon/skill0172')}" alt=""> Crafting →</a></div>
+    // ITEMS-COMPACT 2026-10-23 (owner: "make /items more compact and user friendly ... structured in an easy to use way"): head with the
+    // hive-wide "Find an item" box (works with no character picked), a compact character strip, place tabs, one filter row, dense tiles
+    s.innerHTML = `<div class="itp-head"><h2><img class="gi" src="${ico('icon/etc_equip_item_box_i00')}" alt=""> Items</h2><span class="itp-hlinks"><a href="#/enchanting" class="itp-link">${gim('icon/etc_scroll_of_enchant_weapon_i02')} Enchanting</a><a href="#/crafting" class="itp-link">${gim('icon/skill0172')} Crafting</a></span></div>
       <div class="itp-msg" id="itpMsg" role="status" hidden></div>
+      <div class="itp-find" id="itpFindBox"><label class="itp-findl" for="itpFind">${gim('BranchSys2/br_s_search_treasure1_i00')} Find an item — who has it, and how many</label>
+        <div class="itp-findrow"><input type="search" id="itpFind" class="itp-search" placeholder="Item name, e.g. Heaven's Divider" autocomplete="off" enterkeyhint="search"><button type="button" class="itp-btn2" data-itfindx="1" hidden>Clear</button></div>
+        <div id="itpFindRes" aria-live="polite"></div></div>
       <div id="itpChars"></div><div id="itpBody"></div><div id="itpSheet"></div>`;
     (document.querySelector('main') || document.body).appendChild(s);
     s.addEventListener('click', onClick); s.addEventListener('input', onInput); s.addEventListener('change', onInput);
+    s.addEventListener('toggle', (e) => { const d = e.target; if (d && d.dataset && d.dataset.itdet) S['open_' + d.dataset.itdet] = d.open; }, true);   // keep a <details> open across re-renders
     return s;
   }
   function route(kind, arg) {
@@ -54,7 +60,7 @@
     try { TAB = 'items'; [...$id('tabs').children].forEach(b => b.classList.toggle('on', b.dataset.tab === 'items')); } catch (e) { }
     document.querySelectorAll('main > section').forEach(x => { if (x.id !== SEC) x.hidden = true; });
     s.hidden = false; S.open = true;
-    if (name !== S.name) { S.name = name; S.d = null; S.sel = null; S.plan = null; }
+    if (name !== S.name) { S.name = name; S.d = null; S.sel = null; S.plan = null; S.multi = false; S.msel = {}; }
     if (/^#\/items\/[^/]+\/shop/.test(location.hash)) { S.place = 'shop'; S.usable = true; loadShops(); }   // the Gear page link: Giran shops, only what this character can wear
     render(); if (!S.chars) loadChars(); if (name) loadChar(false);
     setTimeout(() => { try { if (s.getBoundingClientRect().top > 40) s.scrollIntoView({ block: 'start' }); } catch (e) { } }, 300);
@@ -67,7 +73,7 @@
   function tile(r, i) {
     const g = r.grade && r.grade !== 'NONE' ? `<span class="itp-g" style="background:${GRADE_COLOR[r.grade] || '#777'}">${h(r.grade)}</span>` : '';
     return `<button type="button" class="itp-tile${r.eq ? ' worn' : ''}" data-itsel="${i}" title="${h(r.name)}"><span class="itp-ic"><img src="${ico(r.icon)}" alt="" loading="lazy">${r.enchant ? `<b class="itp-en">+${r.enchant}</b>` : ''}${r.count > 1 ? `<b class="itp-n">${kmb(r.count)}</b>` : ''}</span>
-      <span class="itp-nm">${h(r.name)}</span><span class="itp-sub">${g}${r.eq ? '<span class="itp-worn">worn</span>' : ''}${r.src === 'shop' ? (r.cost ? '<span class="itp-exch">exchange</span>' : `<span class="itp-price">${kmb(r.price)}</span>`) : ''}${r.sa ? `<span class="itp-sa">SA</span>` : ''}${(r.src === 'wh' || r.src === 'clan') && (r.enchant || 0) > 4 ? `<span class="itp-lock">${(r.enchant || 0) >= 10 ? 'rare: only by your pick' : 'above +4: asks first'}</span>` : ''}</span></button>`;
+      <span class="itp-nm">${h(String(r.name).replace(/^Common Item - /, ''))}</span><span class="itp-sub">${g}${/^Common Item - /.test(r.name) ? '<span class="itp-com" title="Common Item: cheap, no set bonus, cannot be enchanted">common</span>' : ''}${r.eq ? '<span class="itp-worn">worn</span>' : ''}${r.src === 'shop' ? (r.cost ? '<span class="itp-exch">exchange</span>' : `<span class="itp-price">${kmb(r.price)}</span>`) : ''}${r.sa ? `<span class="itp-sa">SA</span>` : ''}${(r.src === 'wh' || r.src === 'clan') && (r.enchant || 0) > 4 ? `<span class="itp-lock" title="${(r.enchant || 0) >= 10 ? 'rare: leaves the warehouse only by your own pick' : 'above +4: asks first'}">${(r.enchant || 0) >= 10 ? 'your pick only' : 'asks first'}</span>` : ''}</span></button>`;
   }
   // ENCHMANY-2026-10-18 (owner: "I can select several items to enchant in L2Swarm"): tick bag pieces, one + for all, one job
   // ENCHMANY-WH 2026-10-20 (owner: "Its not under 'Clan Warehouse'"): warehouse + clan warehouse pieces too (the bot takes each one out first);
@@ -109,6 +115,35 @@
     S.multi = false; S.msel = {}; render();
     let k = 0; clearInterval(S.mpoll); S.mpoll = setInterval(() => { if (!S.open || ++k > 40) { clearInterval(S.mpoll); return; } loadChar(true); }, 3000);
   }
+  // BUYMANY-2026-10-23 (owner: "Under /items/ I need to be able to purchase multiple items"): Giran shops -> "Buy several": tap items into a
+  // buy list, set the counts, one button = ONE trip (the bot buys each at its own NPC). Exchanges (they cost other items) stay single jobs.
+  const canBuy = (r) => !!(r && r.src === 'shop' && !r.cost && Number(r.price) > 0);
+  const cartKey = (r) => `${r.id}|${r.npc || ''}|${r.offer && r.offer.path ? r.offer.path.join('>') : ''}`;
+  function cartRows() { if (S.cartFor !== S.name) { S.cart = {}; S.cartFor = S.name; } return Object.values(S.cart || {}); }
+  function cartBar() {
+    if (!S.buy) return '';
+    const rows = cartRows(), total = rows.reduce((n, x) => n + Math.ceil(x.price * x.count * 1.2), 0), have = Number(S.d && S.d.adena) || 0;
+    return `<div class="itp-sec itp-multi"><div class="itp-sec-t">${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Inventory')} Buy several — tap the items (${rows.length} in the list)</div>
+      ${rows.length ? `<div class="itp-cart">${rows.map(x => `<div class="itp-cartrow"><img src="${ico(x.icon)}" alt="" loading="lazy"><span class="itp-cartnm">${h(x.name)} <span class="muted">at ${h(x.npc)}</span></span>
+        <input type="number" min="1" max="100000" value="${x.count}" data-itcartn="${h(x.key)}" aria-label="How many ${h(x.name)}"><span class="itp-price">${kmb(Math.ceil(x.price * x.count * 1.2))}</span>
+        <button type="button" class="itp-btn2" data-itcartx="${h(x.key)}" aria-label="Remove ${h(x.name)}">✕</button></div>`).join('')}</div>` : '<div class="itp-note">Tap the items you want below. Exchanges (they cost other items) are bought one at a time.</div>'}
+      <div class="itp-note" style="margin:6px 0">${rows.length ? `About <b>${kmb(total)}</b> adena with tax · ${h(S.name)} has ${kmb(have)}` : ''}${total > have ? ' — <b class="bad">not enough adena</b>' : ''}</div>
+      <div class="itp-actions"><button type="button" class="itp-go" data-itcartgo="1"${!rows.length || total > have ? ' disabled' : ''}>Buy ${rows.length} item(s) in one trip</button> <button type="button" class="itp-btn2" data-itbuy="0">Cancel</button></div></div>`;
+  }
+  async function cartGo() {
+    const rows = cartRows(); if (!rows.length) return;
+    const total = rows.reduce((n, x) => n + Math.ceil(x.price * x.count * 1.2), 0);
+    const ok = await uiConfirm({ title: `${S.name}: buy ${rows.length} item(s) in Giran`, body: [uiP(rows.map(x => `${x.count.toLocaleString('en-US')}× ${x.name} at ${x.npc}`).join('\n')), uiNote(`About ${kmb(total)} adena with tax. ${S.name} goes to Giran once and buys them one after another.`)], confirmText: 'Buy now' });
+    if (!ok) return;
+    const send = async (extra) => { try { return await api('/api/items/buymany', { method: 'POST', body: JSON.stringify(Object.assign({ name: S.name, items: rows.map(x => ({ id: x.id, count: x.count, npc: x.npc, path: x.path })) }, extra || {})) }); } catch (e) { return { error: e.message }; } };
+    let r = await send();
+    if (r && r.needWarning) { const yes = await uiConfirm({ title: 'Please confirm', body: [uiP(r.error)], confirmText: 'Yes, buy them' }); if (!yes) return; r = await send({ overOk: true }); }
+    if (!r || r.error) { uiError((r && r.error) || 'not started', 'Not started'); return; }
+    if (window.UIKit) UIKit.toast(`${S.name}: buying ${r.job.buyMany.length} item(s)`, { kind: 'ok' });
+    flash(`${S.name} goes to Giran and buys ${r.job.buyMany.length} item(s)${(r.skipped || []).length ? ' — skipped: ' + r.skipped.join('; ') : ''}`);
+    S.cart = {}; S.buy = false; render();
+    let k = 0; clearInterval(S.mpoll); S.mpoll = setInterval(() => { if (!S.open || ++k > 40) { clearInterval(S.mpoll); return; } loadChar(true); }, 3000);
+  }
   function placeRows() {
     const d = S.d; if (!d) return [];
     // SORT (owner 2026-10-17: "under /items/ items should be sorted by grade and type"): worn first (bag), then the type (weapons, armor,
@@ -124,41 +159,101 @@
   const gradeKey = (g) => /^S\d*$/.test(String(g || '')) ? 'S' : String(g || 'NONE');
   const gradeNum = (g) => GRADE_ORD.indexOf(gradeKey(g));
   const LVL = { NONE: 1, D: 20, C: 40, B: 52, A: 61, S: 76 };
+  const ago = (iso) => { const t = Date.parse(iso || ''); if (!t) return ''; const m = Math.round((Date.now() - t) / 60000); if (m < 1) return 'just now'; if (m < 60) return m + ' min ago'; const hh = Math.round(m / 60); if (hh < 24) return hh + ' h ago'; const dd = Math.round(hh / 24); return dd === 1 ? 'yesterday' : dd + ' days ago'; };
+  const cicon = (c) => typeof classIcon === 'function' && c ? classIcon({ name: c.name, classId: c.classId, cls: c.cls }) : '';
+  const PLACE_WORD = { bag: 'the bag', wh: 'the warehouse', clan: 'the clan warehouse', shop: 'the Giran shops' };
   function render() {
     if (!S.open) return; section();
-    // characters
+    // 1) WHO: a compact strip once a character is picked (tap = switch), else a compact searchable list
     const C = (S.chars && S.chars.chars) || [], q = S.cq.toLowerCase();
     const list = C.filter(c => !q || c.name.toLowerCase().includes(q) || String(c.party).toLowerCase().includes(q));
-    $id('itpChars').innerHTML = `<div class="itp-step"><span class="itp-num">1</span> Who? ${S.name ? `<b>${h(S.name)}</b> <button type="button" class="itp-link" data-itchange="1">change</button>` : ''}</div>` +
-      (!S.name || S.pickChar ? `<input type="search" class="itp-search" id="itpCq" placeholder="Search a character or party…" value="${h(S.cq)}"><div class="itp-chars">${list.map(c => `<button type="button" class="itp-char${c.name === S.name ? ' on' : ''}" data-itchar="${h(c.name)}">${typeof classIcon === 'function' ? classIcon({ name: c.name, classId: c.classId, cls: c.cls }) : ''}<b>${h(c.name)}</b><span>${c.level ? 'lvl ' + h(c.level) : ''}${c.clanLeader ? ' · ' + gim('icon/accessory_pledge_cap1_i00') + ' clan leader' : ''}${c.crafter ? ' · ' + gim('icon/skill0172') + ' crafter' : ''}${c.online ? '' : ' · offline'}</span></button>`).join('') || '<div class="muted">Loading…</div>'}</div>` : '');
-    if (!S.name || S.pickChar) { $id('itpBody').innerHTML = ''; $id('itpSheet').innerHTML = ''; return; }
+    const me = C.find(c => c.name === S.name), d0 = S.d && S.d.name === S.name ? S.d : null;
+    const picking = !S.name || S.pickChar;
+    $id('itpChars').innerHTML = (S.name ? `<button type="button" class="itp-who${picking ? ' open' : ''}" data-itchange="1" aria-expanded="${picking}">${cicon(me || { name: S.name })}<span class="itp-whot"><b>${h(S.name)}</b><small>${[d0 && d0.level ? 'lvl ' + h(d0.level) : me && me.level ? 'lvl ' + h(me.level) : '', me && me.party ? 'party ' + h(me.party) : '', d0 ? h(kmb(d0.adena)) + ' adena' : '', me && !me.online ? 'offline' : ''].filter(Boolean).join(' · ')}</small></span><span class="itp-whoc">${picking ? 'Close' : 'Switch'}</span></button>`
+      : `<div class="itp-lbl">Pick a character to see its items</div>`) +
+      (picking ? `<div class="itp-pick"><input type="search" class="itp-search" id="itpCq" placeholder="Search a character or party…" value="${h(S.cq)}" autocomplete="off"><div class="itp-chars">${list.map(c => `<button type="button" class="itp-char${c.name === S.name ? ' on' : ''}" data-itchar="${h(c.name)}">${cicon(c)}<span class="itp-chart"><b>${h(c.name)}</b><small>${c.level ? 'lvl ' + h(c.level) : ''}${c.clanLeader ? ' · clan leader' : ''}${c.crafter ? ' · crafter' : ''}${c.online ? '' : ' · offline'}</small></span>${c.clanLeader ? gim('icon/accessory_pledge_cap1_i00', 'itp-chb') : c.crafter ? gim('icon/skill0172', 'itp-chb') : ''}</button>`).join('') || `<div class="muted">${S.chars ? 'Nobody matches.' : 'Loading…'}</div>`}</div></div>` : '');
+    if (picking) { $id('itpBody').innerHTML = ''; $id('itpSheet').innerHTML = ''; return; }
     const d = S.d;
     if (!d) { $id('itpBody').innerHTML = '<div class="muted">Loading…</div>'; return; }
     const counts = { bag: d.bag.length, wh: d.wh.length, clan: d.clan.length, shop: S.shops ? S.shops.shops.reduce((n, s) => n + s.rows.length, 0) : '…' };
     const lvl = Number(d.level) || 0;
-    const rows = placeRows().map((r, i) => Object.assign({ _i: i }, r)).filter(r => (S.filter === 'all' || cat(r) === S.filter) && (!S.grade || S.grade === 'all' || gradeKey(r.grade) === S.grade)
+    const all = placeRows().map((r, i) => Object.assign({ _i: i }, r));
+    const rows = all.filter(r => (S.filter === 'all' || cat(r) === S.filter) && (!S.grade || S.grade === 'all' || gradeKey(r.grade) === S.grade)
       && (!S.usable || !r.kind || (LVL[gradeKey(r.grade)] || 1) <= lvl) && (!S.q || r.name.toLowerCase().includes(S.q.toLowerCase())));
     // type headings inside the grid (Weapons · Armor · ...) so a long list reads in blocks
-    let lastT = ''; const tilesHtml = rows.slice(0, 400).map(r => { const t = r.eq ? 'worn' : cat(r); const head = t !== lastT ? `<div class="itp-grp">${t === 'worn' ? 'Worn now' : TYPE_NAME[t] || t}</div>` : ''; lastT = t; return head + (S.multi ? (canEnch(r) ? tile(r, r._i).replace('class="itp-tile', `class="itp-tile${S.msel[mkey(r)] ? ' itp-ticked' : ''}`) : tile(r, r._i).replace('class="itp-tile', 'class="itp-tile itp-dim')) : tile(r, r._i)); }).join('');
-    let note = '';
-    if (S.place === 'wh') note = d.whSeen ? `Seen ${h(new Date(d.whSeen).toLocaleString())}.` : `Nobody has looked into ${h(S.name)}'s warehouse yet.`;
-    if (S.place === 'wh') note += ` <button type="button" class="itp-btn2" data-itlook="1">${gim('icon/etc_equip_item_box_i01')} Look now (${h(S.name)} walks to the warehouse)</button> <button type="button" class="itp-btn2${S.multi ? ' on' : ''}" data-itmulti="${S.multi ? 0 : 1}">${gim('icon/etc_scroll_of_enchant_weapon_i02')} Enchant several</button>`;
-    if (S.place === 'clan') note = `${d.clanSeen ? `Seen ${h(new Date(d.clanSeen).toLocaleString())} by ${h(d.clanSeenBy)}.` : 'Not looked at yet.'} ${d.isClanLeader ? '' : `Only the clan leader (${h(d.clanLeader || '?')}) can take things out — he hands them to ${h(S.name)}.`} <button type="button" class="itp-btn2${S.multi ? ' on' : ''}" data-itmulti="${S.multi ? 0 : 1}">${gim('icon/etc_scroll_of_enchant_weapon_i02')} Enchant several</button>`;
-    if (S.place === 'bag') note = `${h(kmb(d.adena))} adena · ${d.bagSrc === 'live' ? 'live' : 'last report'}${d.bagErr ? ' · ' + h(d.bagErr) : ''} <button type="button" class="itp-btn2" data-itfresh="1">Refresh</button> <button type="button" class="itp-btn2${S.multi ? ' on' : ''}" data-itmulti="${S.multi ? 0 : 1}">${gim('icon/etc_scroll_of_enchant_weapon_i02')} Enchant several</button>`;
-    if (S.place === 'shop') note = 'What Giran\'s merchants sell (prices before the castle tax, about +20 %). "Common Item" = cheap, no set bonus, cannot be enchanted.';
-    $id('itpBody').innerHTML = `<div class="itp-step"><span class="itp-num">2</span> Where?</div>
-      <div class="itp-places">${PLACES.map(([k, e, t]) => `<button type="button" class="itp-place${S.place === k ? ' on' : ''}" data-itplace="${k}"><span class="itp-e">${gim(e, 'big')}</span><b>${t}</b><span>${counts[k]}</span></button>`).join('')}</div>
-      <div class="itp-note">${note}</div>
-      <div class="itp-step"><span class="itp-num">3</span> Tap an item</div>
-      <div class="itp-filters">${FILTERS.map(([k, t]) => `<button type="button" class="itp-chip${S.filter === k ? ' on' : ''}" data-itfilter="${k}">${t}</button>`).join('')}</div>
-      <div class="itp-filters">${['all', 'NONE', 'D', 'C', 'B', 'A', 'S'].map(g => `<button type="button" class="itp-chip${(S.grade || 'all') === g ? ' on' : ''}" data-itgrade="${g}">${g === 'all' ? 'Every grade' : g === 'NONE' ? 'No grade' : g + '-grade'}</button>`).join('')}
-        <label class="itp-check" style="margin:0"><input type="checkbox" data-itusable="1"${S.usable ? ' checked' : ''}> only what ${h(S.name)} can wear (lvl ${h(lvl || '?')})</label></div>
-      <input type="search" class="itp-search" id="itpQ" placeholder="Search…" value="${h(S.q)}">
-      ${S.place === 'bag' || S.place === 'wh' || S.place === 'clan' ? multiBar() : ''}<div class="itp-grid">${tilesHtml || '<div class="muted">Nothing here.</div>'}</div>${rows.length > 400 ? `<div class="muted">${rows.length - 400} more — narrow it with the buttons or the search.</div>` : ''}
-      ${(d.jobs || []).length ? `<div class="itp-step">Recent jobs</div>${d.jobs.map(j => jobLine(j)).join('')}` : ''}
-      <div class="itp-step">${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Quest')} What happened <label class="itp-check" style="margin:0 0 0 auto;font-weight:400"><input type="checkbox" data-itlogall="1"${S.logAll ? ' checked' : ''}> every character</label></div><div id="itpLog" class="itp-log">${logHtml()}</div>`;
+    let lastT = ''; const tilesHtml = rows.slice(0, 400).map(r => { const t = r.eq ? 'worn' : cat(r); const head = t !== lastT ? `<div class="itp-grp">${t === 'worn' ? 'Worn now' : TYPE_NAME[t] || t}</div>` : ''; lastT = t; return head + (S.buy && S.place === 'shop' ? (canBuy(r) ? tile(r, r._i).replace('class="itp-tile', `class="itp-tile${(S.cart || {})[cartKey(r)] ? ' itp-ticked' : ''}`) : tile(r, r._i).replace('class="itp-tile', 'class="itp-tile itp-dim')) : S.multi ? (canEnch(r) ? tile(r, r._i).replace('class="itp-tile', `class="itp-tile${S.msel[mkey(r)] ? ' itp-ticked' : ''}`) : tile(r, r._i).replace('class="itp-tile', 'class="itp-tile itp-dim')) : tile(r, r._i)); }).join('');
+    // 2) the place line: what this list is + its own buttons; the two "several" modes stay obvious (accent button)
+    let info = '', acts = '';
+    if (S.place === 'bag') { info = `${h(kmb(d.adena))} adena · ${d.bagSrc === 'live' ? 'live' : 'last report'}${d.bagErr ? ' · ' + h(d.bagErr) : ''}`; acts = `<button type="button" class="itp-btn2" data-itfresh="1">Refresh</button>`; }
+    if (S.place === 'wh') { info = d.whSeen ? `Seen ${h(ago(d.whSeen))}` : `Nobody has looked into ${h(S.name)}'s warehouse yet`; acts = `<button type="button" class="itp-btn2" data-itlook="1" title="${h(S.name)} walks to the warehouse and writes the list down">${gim('icon/etc_equip_item_box_i01')} Look now</button>`; }
+    if (S.place === 'clan') info = `${d.clanSeen ? `Seen ${h(ago(d.clanSeen))} by ${h(d.clanSeenBy)}` : 'Not looked at yet'}${d.isClanLeader ? '' : ` · only the clan leader (${h(d.clanLeader || '?')}) takes things out and hands them to ${h(S.name)}`}`;
+    if (S.place === 'shop') info = 'Prices before the castle tax (about +20 %). "Common Item" = cheap, no set bonus, cannot be enchanted.';
+    const mode = ['bag', 'wh', 'clan'].includes(S.place) ? `<button type="button" class="itp-mode${S.multi ? ' on' : ''}" data-itmulti="${S.multi ? 0 : 1}" aria-pressed="${!!S.multi}">${gim('icon/etc_scroll_of_enchant_weapon_i02')} Enchant several</button>`
+      : S.place === 'shop' ? `<button type="button" class="itp-mode${S.buy ? ' on' : ''}" data-itbuy="${S.buy ? 0 : 1}" aria-pressed="${!!S.buy}">${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Inventory')} Buy several</button>` : '';   // BUYMANY
+    // 3) one filter row: search + type + grade + "only what X can wear" (wraps on phones)
+    const tc = {}; all.forEach(r => { const k = cat(r); tc[k] = (tc[k] || 0) + 1; });
+    const gc = {}; all.forEach(r => { const k = gradeKey(r.grade); gc[k] = (gc[k] || 0) + 1; });
+    const filtered = (S.filter && S.filter !== 'all') || (S.grade && S.grade !== 'all') || S.usable || S.q;
+    const running = (d.jobs || []).filter(j => !j.status || !/done|failed/.test(j.status.state || '')).length;
+    $id('itpBody').innerHTML = `<div class="itp-tabs" role="tablist" aria-label="Where">${PLACES.map(([k, e, t]) => `<button type="button" role="tab" aria-selected="${S.place === k}" class="itp-tab${S.place === k ? ' on' : ''}" data-itplace="${k}">${gim(e)}<span class="itp-tabt">${t}</span><b class="itp-cnt">${counts[k]}</b></button>`).join('')}</div>
+      <div class="itp-bar2"><span class="itp-info">${info}</span><span class="itp-acts">${acts}${mode}</span></div>
+      ${S.place === 'bag' || S.place === 'wh' || S.place === 'clan' ? multiBar() : S.place === 'shop' ? cartBar() : ''}
+      <div class="itp-filt">
+        <input type="search" class="itp-search" id="itpQ" placeholder="Search in ${h(PLACE_WORD[S.place] || 'this list')}…" value="${h(S.q)}" autocomplete="off">
+        <select class="itp-dd" data-itfsel="1" aria-label="Type">${FILTERS.map(([k, t]) => `<option value="${k}"${S.filter === k ? ' selected' : ''}>${k === 'all' ? 'All types' : t}${k === 'all' ? '' : ' (' + (tc[k] || 0) + ')'}</option>`).join('')}</select>
+        <select class="itp-dd" data-itgsel="1" aria-label="Grade">${['all', 'NONE', 'D', 'C', 'B', 'A', 'S'].map(g => `<option value="${g}"${(S.grade || 'all') === g ? ' selected' : ''}>${g === 'all' ? 'Every grade' : (g === 'NONE' ? 'No grade' : g + '-grade') + ' (' + (gc[g] || 0) + ')'}</option>`).join('')}</select>
+        <label class="itp-tog"><input type="checkbox" data-itusable="1"${S.usable ? ' checked' : ''}> Only what ${h(S.name)} can wear</label>
+        ${filtered ? `<button type="button" class="itp-btn2" data-itclear="1">Show all</button>` : ''}
+      </div>
+      <div class="itp-count muted">${rows.length === all.length ? `${all.length} item${all.length === 1 ? '' : 's'}` : `${rows.length} of ${all.length} shown`}${S.multi || S.buy ? ' · tap to tick' : ' · tap one for what you can do with it'}</div>
+      <div class="itp-grid">${tilesHtml || `<div class="muted">${all.length ? 'Nothing matches — tap "Show all".' : 'Nothing here.'}</div>`}</div>${rows.length > 400 ? `<div class="muted">${rows.length - 400} more — narrow it with the filters or the search.</div>` : ''}
+      ${(d.jobs || []).length ? `<details class="itp-more" data-itdet="jobs"${S.open_jobs ? ' open' : ''}><summary>${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Action')} Recent jobs <span class="itp-cnt">${d.jobs.length}</span>${running ? ` <span class="itp-run">${running} running</span>` : ''}</summary>${d.jobs.map(j => jobLine(j)).join('')}</details>` : ''}
+      <details class="itp-more" data-itdet="log"${S.open_log ? ' open' : ''}><summary>${gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Quest')} What happened</summary><label class="itp-check"><input type="checkbox" data-itlogall="1"${S.logAll ? ' checked' : ''}> every character</label><div id="itpLog" class="itp-log">${logHtml()}</div></details>`;
     renderSheet();
   }
+  // ============================================================================================ ITEMFIND-2026-10-23: the hive-wide item search
+  // (public tester: "I knew I had a Heaven's Divider somewhere and couldn't find it"): GET /api/items/find?q= -> item -> who -> bag / worn /
+  // warehouse / clan warehouse with counts, enchant levels and how old each list is; tap = that character's Items page on that place
+  const WHERE = { worn: 'worn', bag: 'bag', wh: 'warehouse', clan: 'clan warehouse' };
+  function findInput(v) {
+    S.fq = v; clearTimeout(S.fT); const x = $id('itpFindBox'); if (x) x.querySelector('[data-itfindx]').hidden = !v;
+    if (String(v).trim().length < 2) { S.fres = null; S.ferr = ''; renderFind(); return; }
+    S.fT = setTimeout(doFind, 250);
+  }
+  async function doFind() {
+    const q = String(S.fq || '').trim(), seq = (S.fseq = (S.fseq || 0) + 1); S.fbusy = true; renderFind();
+    let r = null; try { r = await api('/api/items/find?q=' + encodeURIComponent(q)); } catch (e) { r = { error: e.message }; }
+    if (seq !== S.fseq) return;
+    S.fbusy = false;
+    if (!r || r.error) { S.fres = null; S.ferr = r && /unknown items API/.test(r.error || '') ? 'The item search needs a dashboard restart (the server does not know it yet).' : ((r && r.error) || 'No answer.'); }
+    else { S.fres = r; S.ferr = ''; }
+    renderFind();
+  }
+  function renderFind() {
+    const el = $id('itpFindRes'); if (!el) return;
+    const q = String(S.fq || '').trim();
+    if (!q) { el.innerHTML = ''; return; }
+    if (q.length < 2) { el.innerHTML = '<div class="itp-fnote muted">Type at least 2 letters.</div>'; return; }
+    if (S.ferr) { el.innerHTML = `<div class="itp-fnote itp-bad">${h(S.ferr)}</div>`; return; }
+    const R = S.fres; if (!R) { el.innerHTML = '<div class="itp-fnote muted">Searching…</div>'; return; }
+    const src = R.sources || {}, C = (S.chars && S.chars.chars) || [];
+    const foot = `<div class="itp-fnote muted">Looked in ${src.bags || 0} bag${src.bags === 1 ? '' : 's'}, ${src.wh || 0} private warehouse list${src.wh === 1 ? '' : 's'}${src.clanAt ? ` and the clan warehouse (seen ${h(ago(src.clanAt))})` : ' (the clan warehouse was never looked at)'}. Bags are written by each character while it is online.</div>`;
+    if (!R.items.length) { el.innerHTML = `<div class="itp-fnote">Nobody has anything called "${h(q)}".${S.fbusy ? ' <span class="muted">…</span>' : ''}</div>${foot}`; return; }
+    el.innerHTML = `<div class="itp-fsum">${R.items.length} item${R.items.length === 1 ? '' : 's'} · ${R.results} place${R.results === 1 ? '' : 's'}${R.truncated ? ' (the first 200 — type more letters)' : ''}${S.fbusy ? ' <span class="muted">…</span>' : ''}</div>
+      <div class="itp-fres">${R.items.map((g, gi) => `<div class="itp-fg"><div class="itp-fgh"><span class="itp-fic">${g.icon ? `<img src="${ico(g.icon)}" alt="" loading="lazy">` : ''}</span><b class="itp-fnm">${h(g.name)}</b>${g.grade && g.grade !== 'NONE' ? `<span class="itp-g" style="background:${GRADE_COLOR[g.grade] || '#777'}">${h(g.grade)}</span>` : ''}<span class="itp-ftot">${kmb(g.total)} in all</span></div>
+        ${g.holders.map((H, hi) => { const c = C.find(x => x.name === H.name), when = H.kind === 'clan' ? `seen ${ago(H.clanAt)}${H.seenBy ? ' by ' + H.seenBy : ''}` : [H.rows.some(x => x.where === 'bag' || x.where === 'worn') && H.bagAt ? 'bag ' + ago(H.bagAt) : '', H.rows.some(x => x.where === 'wh') && H.whAt ? 'warehouse seen ' + ago(H.whAt) : ''].filter(Boolean).join(' · ');
+          return `<button type="button" class="itp-fh" data-itfgo="${gi}|${hi}">${H.kind === 'clan' ? gim('icon/accessory_pledge_cap1_i00', 'itp-fhi') : (cicon(c || { name: H.name }) || gim('L2UI_CT1/crop/Icon_DF_MenuWnd_Character', 'itp-fhi'))}<span class="itp-fht"><b>${h(H.name)}</b>${H.kind === 'char' && !H.known ? ' <small class="muted">(not in the account list)</small>' : ''}<span class="itp-fwh">${H.rows.map(x => x.where === 'clan' && !x.enchant && x.count < 2 ? '' : `<span class="itp-fw ${x.where}">${x.where === 'clan' ? '' : WHERE[x.where]}${x.enchant ? ' <b>+' + x.enchant + '</b>' : ''}${x.count > 1 || H.rows.length > 1 ? ' ×' + kmb(x.count) : ''}</span>`).join('')}</span><small class="muted">${h(when)}</small></span><b class="itp-fn">${kmb(H.total)}</b></button>`; }).join('')}
+        ${g.more ? `<div class="itp-fnote muted">${g.more} more holder(s) — type more letters.</div>` : ''}</div>`).join('')}</div>${foot}`;
+  }
+  function findGo(gi, hi) {
+    const g = S.fres && S.fres.items[gi], H = g && g.holders[hi]; if (!H) return;
+    const C = (S.chars && S.chars.chars) || [];
+    const name = H.kind === 'clan' ? (S.name || (S.fres.clanLeader) || (C[0] && C[0].name) || '') : H.name; if (!name) return;
+    S.place = H.kind === 'clan' ? 'clan' : H.rows.some(x => x.where === 'bag' || x.where === 'worn') ? 'bag' : 'wh';
+    S.q = g.name; S.filter = 'all'; S.grade = 'all'; S.usable = false; S.multi = false; S.buy = false; S.msel = {}; S.pickChar = false; S.sel = null; S.toBody = true;
+    if (name === S.name && S.d) { render(); scrollBody(); } else location.hash = '#/items/' + encodeURIComponent(name);
+  }
+  function scrollBody() { S.toBody = false; setTimeout(() => { const b = $id('itpChars'); if (b) try { b.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { } }, 60); }
   function logHtml() { const L2 = S.log; if (!L2) return '<div class="muted">Loading…</div>'; if (!L2.length) return '<div class="muted">Nothing yet.</div>'; return L2.map(l => `<div class="itp-logl"><span class="muted">${h(new Date(l.t).toLocaleString())}</span> <b>${h(l.who)}</b> <span class="itp-logk">${h(l.kind)}</span> ${h(l.text)}</div>`).join(''); }
   async function loadLog() { if (!S.open || !S.name) return; try { const d = await api('/api/items/log?n=150' + (S.logAll ? '' : '&name=' + encodeURIComponent(S.name))); if (d && !d.error) { S.log = d.lines; const el = $id('itpLog'); if (el) el.innerHTML = logHtml(); } } catch (e) { } }
   setInterval(() => { if (S.open && !document.hidden) loadLog(); }, 8000);
@@ -234,15 +329,20 @@
   function onClick(e) {
     const t = e.target, g = (s) => t.closest(s); let b;
     if ((b = g('[data-itchar]'))) { S.pickChar = false; location.hash = '#/items/' + encodeURIComponent(b.dataset.itchar); return; }
-    if (g('[data-itchange]')) { S.pickChar = true; render(); return; }
-    if ((b = g('[data-itplace]'))) { S.place = b.dataset.itplace; S.msel = {}; if (S.place === 'shop') { S.multi = false; loadShops(); } render(); return; }   // ENCHMANY-WH: ticks belong to one place
-    if ((b = g('[data-itgrade]'))) { S.grade = b.dataset.itgrade; render(); return; }
-    if ((b = g('[data-itfilter]'))) { S.filter = b.dataset.itfilter; render(); return; }
+    if (g('[data-itchange]')) { S.pickChar = !S.pickChar || !S.name; render(); if (S.pickChar) { const x = $id('itpCq'); if (x && matchMedia('(pointer: fine)').matches) x.focus(); } return; }
+    if ((b = g('[data-itfgo]'))) { const [gi, hi] = b.dataset.itfgo.split('|').map(Number); findGo(gi, hi); return; }   // ITEMFIND
+    if (g('[data-itfindx]')) { const x = $id('itpFind'); if (x) { x.value = ''; x.focus(); } findInput(''); return; }
+    if (g('[data-itclear]')) { S.q = ''; S.filter = 'all'; S.grade = 'all'; S.usable = false; render(); return; }
+    if ((b = g('[data-itplace]'))) { S.place = b.dataset.itplace; S.msel = {}; if (S.place !== 'shop') S.buy = false; if (S.place === 'shop') { S.multi = false; loadShops(); } render(); return; }   // ENCHMANY-WH: ticks belong to one place
     if (g('[data-itfresh]')) { loadChar(true); return; }
     if (g('[data-itlook]')) { api('/api/items/look', { method: 'POST', body: JSON.stringify({ name: S.name }) }).then(r => flash(r && r.error ? r.error : `${S.name} walks to the warehouse and looks — the list shows here in a few minutes.`, !!(r && r.error))).catch(er => flash(er.message, true)); return; }
     if ((b = g('[data-itmulti]'))) { S.multi = b.dataset.itmulti === '1'; S.msel = {}; S.mto = 0; S.mok = false; if (S.multi && !['bag', 'wh', 'clan'].includes(S.place)) S.place = 'bag'; render(); return; }
     if ((b = g('[data-itmto]'))) { S.mto = Number(b.dataset.itmto); render(); return; }
     if (g('[data-itmgo]')) { multiGo(); return; }
+    if ((b = g('[data-itbuy]'))) { S.buy = b.dataset.itbuy === '1'; S.multi = false; if (S.buy) { S.place = 'shop'; loadShops(); } render(); return; }   // BUYMANY
+    if ((b = g('[data-itcartx]'))) { cartRows(); delete S.cart[b.dataset.itcartx]; render(); return; }
+    if (g('[data-itcartgo]')) { cartGo(); return; }
+    if (S.buy && S.place === 'shop' && (b = g('[data-itsel]'))) { const r = placeRows()[Number(b.dataset.itsel)]; if (canBuy(r)) { cartRows(); const k = cartKey(r); if (S.cart[k]) delete S.cart[k]; else S.cart[k] = { key: k, id: r.id, name: r.name, icon: r.icon, npc: r.npc, path: r.offer && r.offer.path ? r.offer.path : [], price: Number(r.price) || 0, count: 1 }; render(); } else flash(`${r ? r.name : 'This'} is an exchange (it costs other items): buy it on its own`, true); return; }
     if (S.multi && (b = g('[data-itsel]'))) { const r = placeRows()[Number(b.dataset.itsel)]; if (canEnch(r)) { const mk = mkey(r); if (S.msel[mk]) delete S.msel[mk]; else S.msel[mk] = true; render(); } else flash(`${r ? r.name : 'This'} cannot be enchanted here (Common / no grade${r && r.src !== 'bag' && (r.enchant || 0) >= 10 ? ' / +10 and higher only by its own pick' : ''})`, true); return; }
     if ((b = g('[data-itsel]'))) { const r = placeRows()[Number(b.dataset.itsel)]; if (!r) return; S.sel = r; S.want = { to: 0, blessed: false, saId: 0, giveTo: '', count: 1, sources: {}, overSafeOk: false }; S.plan = null; S.job = null; renderSheet(); replan(); return; }
     if (g('[data-itclose]')) { S.sel = null; S.job = null; clearInterval(S.poll); renderSheet(); return; }
@@ -256,12 +356,16 @@
     const t = e.target;
     if (t.id === 'itpCq') { S.cq = t.value; const pos = t.selectionStart; render(); const x = $id('itpCq'); if (x) { x.focus(); try { x.setSelectionRange(pos, pos); } catch (er) { } } return; }
     if (t.id === 'itpQ') { S.q = t.value; const pos = t.selectionStart; render(); const x = $id('itpQ'); if (x) { x.focus(); try { x.setSelectionRange(pos, pos); } catch (er) { } } return; }
-    if (t.dataset.itusable) { S.usable = t.checked; render(); return; }
+    if (t.id === 'itpFind') { findInput(t.value); return; }   // ITEMFIND
+    if (t.dataset.itfsel) { if (e.type === 'change') { S.filter = t.value; render(); } return; }
+    if (t.dataset.itgsel) { if (e.type === 'change') { S.grade = t.value; render(); } return; }
+    if (t.dataset.itusable) { if (e.type === 'change') { S.usable = t.checked; render(); } return; }
     if (t.dataset.itlogall) { S.logAll = t.checked; loadLog(); return; }
     if (t.dataset.itmbl) { S.mbl = t.checked; render(); return; }
     if (t.dataset.itmok) { S.mok = t.checked; render(); return; }
     if (t.dataset.itblessed) { S.want.blessed = t.checked; replan(); return; }
     if (t.dataset.itoversafe) { S.want.overSafeOk = t.checked; replan(); return; }
+    if (t.dataset.itcartn && e.type === 'change') { cartRows(); const x = S.cart[t.dataset.itcartn]; if (x) { x.count = Math.max(1, Math.min(100000, Number(t.value) || 1)); render(); } return; }   // BUYMANY
     if (t.dataset.itcount) { S.want.count = Math.max(1, Math.min(100000, Number(t.value) || 1)); replan(); return; }
     if (t.dataset.itgive && e.type === 'change') { S.want.giveTo = t.value; replan(); return; }
   }

@@ -150,7 +150,8 @@ const T = require('./beginner_gear.js'), BL = require(path.join(ROOT, 'Dashboard
     await waitFor(`!!document.querySelector('#tabs [data-tab="quests"]') && !!window.QuestPage`, 30000); await sleep(1500);
     await ev(`document.querySelector('#tabs [data-tab="quests"]').click()`);
     ok('quests page loads', await waitFor(`!!document.getElementById('qpBgBox') && !document.getElementById('tab-questpage').hidden`, 40000));
-    await ev(`(() => { document.getElementById('qpBgBox').open = true; return true; })()`);
+    // COMPACT 2026-10-23: the quests page shows Beginner gear in its own tab (was a fold on the list page)
+    await ev(`(() => { const t = document.querySelector('[data-qptab="bg"]'); if (t) t.click(); const b = document.getElementById('qpBgBox'); if (b && 'open' in b) b.open = true; return true; })()`);
     ok('Beginner gear box: 4 chain cards + plan cards', await waitFor(`document.querySelectorAll('.qp-bgchain .qp-card').length === 4 && !!document.getElementById('qpBgPlan')`, 15000), await ev(`(document.getElementById('qpBg') || {}).textContent.slice(0, 200)`));
     const btn = await ev(`(() => { const b = document.querySelector('#qpBgPlan [data-qp="bggo"]'); return b ? b.dataset.name : ''; })()`);
     ok('no horizontal page scroll (iPhone, beginner box)', await ev(`document.documentElement.scrollWidth <= innerWidth + 1`));

@@ -80,7 +80,11 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   await ev(`(() => { const i = document.getElementById('qpQ'); i.value = ''; i.dispatchEvent(new Event('input', { bubbles: true })); const t = document.getElementById('qpType'); t.value = 'repeatable'; t.dispatchEvent(new Event('change', { bubbles: true })); const a = document.getElementById('qpAdena'); a.checked = true; a.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
   ok('filters repeatable + gives adena', await waitFor(`(() => { const r = document.querySelectorAll('#qpList .qp-row'); return r.length > 10 && [...r].every(x => /repeat/.test(x.querySelector('.qp-b').textContent) && !!x.querySelector('.qp-ad')); })()`, 5000));
   // farm box
-  await ev(`(() => { const d = document.getElementById('qpFarmBox'); d.open = true; return true; })()`);
+  // COMPACT-2026-10-23: Beginner gear + Adena farm are tabs on the list page (were stacked folding boxes)
+  ok('three tabs: All quests / Beginner gear / Adena farm; All quests is on', await ev(`document.querySelectorAll('#qpListView [data-qptab]').length === 3 && !!document.querySelector('[data-qptab="list"].on') && !document.getElementById('qpPanelList').hidden && document.getElementById('qpFarmBox').hidden`));
+  await click('[data-qptab="bg"]');
+  ok('Beginner gear tab: its panel shows, the quest list hides', await waitFor(`!document.getElementById('qpBgBox').hidden && document.getElementById('qpPanelList').hidden && !/loading/.test(document.getElementById('qpBg').textContent)`, 8000));
+  await click('[data-qptab="farm"]');
   ok('quest farm box: plan row + character checkboxes', await waitFor(`!!document.querySelector('#qpFarmPlan .qp-prow') && document.querySelectorAll('[data-qpf]').length > 0`, 8000));
   const two = await ev(`[...document.querySelectorAll('[data-qpf]')].slice(0, 2).map(i => i.dataset.qpf)`);
   await ev(`(() => { const L = [...document.querySelectorAll('[data-qpf]')]; L.slice(0, 2).forEach(i => { i.checked = true; }); document.getElementById('qpfOn').checked = true; document.getElementById('qpfAbove').value = 123000; return true; })()`);
@@ -90,6 +94,11 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   ok('farm Save asks with the shared dialog and writes the scratch file (plan kept)', dialogs.length === 1 && ff.on === true && ff.tradeAbove === 123000 && JSON.stringify(ff.chars) === JSON.stringify(two) && ff.plan && ff.plan.quests[0].id === 265, JSON.stringify({ d: dialogs.length, on: ff.on, c: ff.chars }));
   ok('no horizontal page scroll (iPhone, farm box)', await noHScroll());
   await shot('02_iphone_farm');
+  await click('[data-qptab="list"]');
+  ok('back on the All quests tab: the list again', await waitFor(`!document.getElementById('qpPanelList').hidden && document.querySelectorAll('#qpList .qp-row').length > 10`, 5000));
+  ok('phone: level / race / sort / adena fold behind "More filters" (adena set = 1)', await ev(`getComputedStyle(document.getElementById('qpRace').closest('.qp-f')).display === 'none' && document.querySelector('[data-qp="fmore"]').textContent.includes('More filters (1)') && true`), await ev(`document.querySelector('[data-qp="fmore"]').textContent`));
+  await click('[data-qp="fmore"]');
+  ok('More filters opens them', await ev(`getComputedStyle(document.getElementById('qpRace').closest('.qp-f')).display !== 'none'`));
   // detail
   await cdp('Page.navigate', { url: BASE + '#/quests/258' });
   ok('#/quests/258 detail: steps, rewards, items, monsters, NPCs', await waitFor(`!!document.querySelector('#qpDetail .qp-steps') && /Bring Wolf Pelts/.test(document.querySelector('#qpDetail h2').textContent) && /Wolf Pelt/.test(document.getElementById('qpDetail').textContent)`, 40000));

@@ -29,5 +29,10 @@ t('ROUTESTALE: a quiet member walk ends after 2 min', /memberRoute\.id && !membe
 t('ATTACKFIRST in the hunting loop', /const af = attackFirstNow\(lastTarget\);/.test(SW));
 t('DEFENDSTILL: standing still = self-defence', /now\(\) - \(MTRUN\.at \|\| 0\) < 3000\) return; \}/.test(SW));
 t('FOLLOWSWING: no hallway walk while the leader fights close by', /if \(dd <= 1500 && lp && now\(\) - lp\.at < 6000 && \(lp\.fight \|\| lp\.hit\)\)/.test(SW));
+t('KILLCOUNT: kills = the larger of the hunt loop count and the experience gains (L2Swarm combat / assist kills counted too)', /function killsIn\(ms\)[^\n]*LIVEP\.hour[^\n]*return Math\.max\(own, xp\);/.test(SW) && /kills5 = killsIn\(LEVELHEALTH\.windowMs\)/.test(SW) && /kills5m: killsIn\(300000\)/.test(SW));
+// FASTHUNT-2026-10-23 (owner: "L2Swarm and Adrenaline attack almost instantly ... boom boom boom"): no fixed waits around a monster
+t('FASTHUNT: engage waits only until the attack starts / the target dies (no fixed 2.5 s)', /await fastWait\(2500, \(\) => !!\(Me\.IsAttacking \|\| Me\.IsCasting\) \|\| targetGone\(t\.objId\), 100\);/.test(SW) && !/Send\.Action\(t\.objId\);                          \/\/ andet klik på en valgt mob = angrib \(serveren går hen\)\n  await sleep\(2500\);/.test(SW));
+t('FASTHUNT: the next monster the moment the current one dies (no fixed 1.5 s per round)', /await fastWait\(1500, \(\) => !!lt && targetGone\(lt\)/.test(SW));
+t('FASTHUNT: an empty room waits only until a monster shows up', /await fastWait\(4000, \(\) => !!huntTarget\(center\.x, center\.y, radius\)/.test(SW));
 console.log(`${ok} passed, ${bad} failed`);
 process.exit(bad ? 1 : 0);

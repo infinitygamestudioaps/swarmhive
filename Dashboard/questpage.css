@@ -105,3 +105,75 @@
 .qp-bgv-done { color: var(--ok); border-color: #3f5e34; }
 .qp-bgv-skip, .qp-bgv-gone { color: #999; }
 #qpBgNpc { max-width: 100%; }
+/* COMPACT-2026-10-23 (owner: "make /quests more compact and user friendly"): tabs on the list page, short filter row, one-line rows on a PC,
+   detail page = summary + "Your characters" first, the rest in folding sections, two columns on a PC */
+.qp-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin: 0 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.qp-tabs button { min-height: 40px; display: inline-flex; align-items: center; gap: 5px; padding: 2px 12px; }
+.qp-tabs button.on { color: var(--gold); outline: 2px solid var(--gold); }
+.qp-farm > h3 { flex-wrap: wrap; }
+.qp-farm > h3 small { font-weight: 400; }
+.qp-filters { padding: 6px 8px; }
+.qp-filters select, .qp-filters input { min-height: 34px; box-sizing: border-box; }
+.qp-fmore { display: none; min-height: 36px; }
+@media (max-width: 899px) {
+  .qp-fmore { display: inline-flex; align-items: center; }
+  .qp-filters:not(.more) .qp-f2 { display: none; }
+  .qp-filters .qp-fq { flex: 1 1 100%; }
+  .qp-filters > .qp-f:not(.qp-fq) { flex: 1 1 120px; }
+  .qp-filters select, .qp-filters input, .qp-fmore, .qp-tabs button { min-height: 44px; }
+}
+.qp-list { gap: 2px; }
+.qp-row { padding: 4px 8px; }
+.qp-npc:empty { display: none; }
+@media (min-width: 900px) {
+  .qp-row { grid-template-columns: 52px minmax(0, 1fr) minmax(0, 200px) minmax(0, 210px); grid-template-areas: "lv nm npc rw"; min-height: 34px; }
+  .qp-npc { font-size: var(--fs-cap); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+@media (max-width: 640px) {
+  .qp-row { grid-template-areas: "lv nm" "lv npc" "lv rw"; min-height: 44px; }
+  .qp-rw:empty { display: none; }
+}
+/* detail */
+.qp-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: -2px 0 8px; font-size: var(--fs-cap); }
+.qp-sep { color: var(--muted); }
+.qp-dgrid { display: flex; flex-direction: column; gap: 0; }
+.qp-dcol { display: contents; }
+.qp-o-chars { order: 1; } .qp-o-live { order: 2; } .qp-o-desc { order: 3; } .qp-o-steps { order: 4; } .qp-o-rewards { order: 5; } .qp-o-map { order: 6; }
+.qp-o-items { order: 7; } .qp-o-mobs { order: 8; } .qp-o-spawns { order: 9; } .qp-o-npcs { order: 10; } .qp-o-route { order: 11; }
+@media (min-width: 1000px) {
+  .qp-dgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 440px); gap: 8px; align-items: start; }
+  .qp-dcol { display: flex; flex-direction: column; min-width: 0; }
+}
+.qp-sec { padding: 0 10px; }
+.qp-sec > summary { cursor: pointer; list-style: none; min-height: 40px; display: flex; align-items: center; }
+.qp-sec > summary::-webkit-details-marker { display: none; }
+.qp-sec > summary h3 { margin: 0; display: flex; align-items: center; gap: 6px; font-size: var(--fs-section); }
+.qp-sec > summary h3::before { content: '▸'; color: var(--gold); font-size: var(--fs-cap); width: 10px; }
+.qp-sec[open] > summary h3::before { content: '▾'; }
+.qp-sec > summary h3 small { font-weight: 400; }
+.qp-sec[open] { padding-bottom: 8px; }
+.qp-sec[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+.qp-mapbtn { display: flex; gap: 4px; flex-wrap: wrap; margin: 0 0 6px; }
+.qp-mapbtn button { min-height: 36px; }
+#qpLive:empty { display: none; }
+/* characters: compact rows, the ones that do not fit folded */
+.qp-ch { padding: 4px 6px; margin: 3px 0; }
+.qp-cha { margin-top: 3px; }
+.qp-cha select, .qp-cha input, .qp-cha button { min-height: 36px; }
+.qp-cha .go { min-width: 72px; }
+.qp-stbtn { margin-left: auto; }
+.qp-chmore > summary { cursor: pointer; min-height: 40px; display: flex; align-items: center; }
+#qpChars { max-height: none; overflow: visible; }
+@media (min-width: 1000px) { #qpChars { max-height: 560px; overflow-y: auto; } }
+@media (max-width: 640px) { .qp-cha select, .qp-cha input, .qp-cha button { min-height: 44px; } }
+@media (max-width: 640px) {
+  .qp-tabs { flex-wrap: nowrap; }
+  .qp-tabs button { flex: 1 1 0; justify-content: center; padding: 2px 4px; font-size: var(--fs-cap); min-width: 0; }
+  .qp-tabs button .gi { width: 16px; height: 16px; }
+  .qp-cha { flex-wrap: nowrap; gap: 4px; }
+  .qp-cha .qp-rl { display: none; }
+  .qp-cha input[type=number] { width: 48px; }
+  .qp-cha select { min-width: 0; width: 82px; }
+  .qp-cha .go { min-width: 0; flex: 1 1 auto; }
+  .qp-stbtn { margin-left: 0; padding: 0 8px; }
+}

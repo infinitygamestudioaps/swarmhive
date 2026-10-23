@@ -2404,6 +2404,7 @@ http.createServer(async (req, res) => {
     // HEAL SCHEMES 2026-10-13 (Dashboard/healschemes_api.js): /healschemes.js|css, /heallogic.js (public) + GET/POST /api/healschemes (key checked inside):
     // per character / class which heal skill at which HP %, who first, Recharge, mana potion line (Scripts/data/heal_schemes.json, read by swarm.js; missing = automatic)
     if (await require('./dispatch_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;   // DISPATCH-2026-10-17
+    if (await require('./lootpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;   // LOOTLOG-2026-10-23: #/loot
     if (await require('./itemspage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, mcpCallChar, commandRun })) return;   // ITEMS-2026-10-17: Items + Crafting pages
     if (await require('./combatprofile_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, allowed, json, send, mcpCall })) return;   // COMBATPROFILE-2026-10-17: L2Swarm combat profile per character
     if (await require('./l2models_api').handle(req, res, url, { DIR: __dirname, ROOT, allowed, json, send, mcpCallChar })) return;   // L2MODELS-2026-10-17: game models for the 3D view (own client, cached in Dashboard/l2cache)

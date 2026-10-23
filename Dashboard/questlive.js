@@ -119,7 +119,7 @@
     if (!d.ok) { put(el, `<h3 class="ql-h3">Live</h3><div class="qp-msg bad">${h(L.err || d.error || 'failed')}</div>`); return; }
     const C = d.chars || [], run = C.filter(c => c.running);
     const head = `<h3 class="ql-h3">${run.length ? '<span class="ql-pulse"></span>' : ''}Live <small class="muted">${run.length} running${C.length > run.length ? ` · ${C.length - run.length} ended in the last 6 h` : ''} · updated ${hm(d.at)}</small></h3>`;
-    if (!C.length) { put(el, head + '<div class="muted">Nobody is doing this quest right now. Start it for a character under “Your characters” below.</div>'); return; }
+    if (!C.length) { put(el, head + '<div class="muted">Nobody is doing this quest right now. Start it for a character under “Your characters”.</div>'); return; }
     put(el, head + `<div class="ql-cards">${C.map(card).join('')}</div>
       <div class="ql-mapbar" id="qlMapBtns">${mapButtons(C)}</div><div class="qp-map ql-map" id="qlMap">${mapSvg(d)}</div>
       <div class="muted qp-legend"><span><i class="qp-dot" style="background:#fff"></i>character</span><span><i class="qp-dot" style="background:#ffd24a"></i>its destination</span><span><i class="qp-dot" style="background:#f0c040"></i>start NPC</span><span><i class="qp-dot" style="background:#5aa9ff"></i>quest NPC</span><span><i class="qp-dot" style="background:#ff4d4d"></i>monsters</span></div>`);

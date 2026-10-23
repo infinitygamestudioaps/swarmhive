@@ -12460,6 +12460,28 @@ async function itemJobOrder(id) {
       ijStatus(id, { state: okN === J.enchantMany.length ? 'done' : 'failed', result: res.join('; ') }, `${okN === J.enchantMany.length ? '✓ done' : 'finished'}: ${res.join('; ')}`);
       return;
     }
+    // BUYMANY-2026-10-23 (owner: "Under /items/ I need to be able to purchase multiple items"): ONE Giran trip, every listed item bought at its
+    // own NPC, one after another (a failed one does not stop the rest); each result is saved, so a cut-off job resumes with what is left
+    if (Array.isArray(J.buyMany) && J.buyMany.length) {
+      const left = J.buyMany.filter(x => x.result !== 'bought');
+      ijStatus(id, { state: 'running', doer: me, interrupted: false }, `${me} buys ${left.length} item(s) in Giran${left.length < J.buyMany.length ? ' (resumed)' : ''}`);
+      trip = await ijToGiran(seq, '!itemjob');
+      if (!trip.ok) { ijStatus(id, { state: 'failed', result: trip.why }, `could not get to Giran: ${trip.why}`); return; }
+      state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+      const res = []; let okN = J.buyMany.length - left.length;
+      left.sort((a, b) => String(a.npc).localeCompare(String(b.npc)));          // one NPC after the other, never back and forth
+      for (const x of left) {
+        if (orderState.seq !== seq && orderReplaced(seq)) { ijStatus(id, { state: 'failed', result: 'replaced by a newer order' }, 'stopped: a newer order came in'); return; }
+        ijStatus(id, null, `buying ${x.count}× ${x.name} at ${x.npc}`);
+        const before = bagCount(num(x.id));
+        const r = x.offer ? await ijBuyAt(x.offer, num(x.id), num(x.count) || 1, id) : await ijBuy(num(x.id), id);
+        const got = bagCount(num(x.id)) - before;
+        x.result = r && r.ok ? 'bought' : 'failed'; x.why = r && !r.ok ? String(r.why || '') : ''; x.got = got; ijSaveJob(J);
+        if (x.result === 'bought') { okN++; res.push(`${x.name} ✓`); } else res.push(`${x.name}: ${x.why || 'not bought'}`);
+      }
+      ijStatus(id, { state: okN === J.buyMany.length ? 'done' : 'failed', result: res.join('; ') }, `${okN === J.buyMany.length ? '✓ done' : 'finished'} (${okN}/${J.buyMany.length} bought): ${res.join('; ')}`);
+      return;
+    }
     ijStatus(id, { state: 'running', doer: me }, `${me} starts: ${J.item.name}`);
     trip = await ijToGiran(seq, '!itemjob');
     if (!trip.ok) { ijStatus(id, { state: 'failed', result: trip.why }, `could not get to Giran: ${trip.why}`); return; }
@@ -15958,6 +15980,11 @@ function autoLvlKilled(lastTarget, cur, engaged) {
   return mine && cur.HpPercent !== undefined && num(cur.HpPercent) <= 0;
 }
 /** Gå hen og angrib: vælg + 'klik igen' (serveren går selv hen og slår), ellers gå selv tættere på. */
+// FASTHUNT-2026-10-23 (owner: "L2Swarm and Adrenaline attack almost instantly, get another one right after, boom boom boom - extreme speeds";
+// the dwarves and mages 5-10x faster): the hunting loop waited fixed times around every monster (2.8 s after each new target, 1.5 s per round,
+// 4 s in an empty room). Now every wait ends the moment something happens: the attack started, the target died, a monster showed up.
+async function fastWait(ms, done, step) { const st = step || 120, t0 = now(); for (let n = Math.ceil(ms / st) + 1; n > 0 && now() - t0 < ms; n--) { try { if (done()) return true; } catch (e) { } await sleep(st); } return false; }   // rounds counted too: a stalled clock never loops forever
+function targetGone(id) { try { if (!id) return true; const m = mobById(id); return !m || m.IsDead || (m.HpPercent !== undefined && num(m.HpPercent) <= 0); } catch (e) { return true; } }
 async function engage(t) {
   if (isHealerRole() || recHold()) return;                    // healers ONLY heal (user 2026-10-04 20:20): never attack, also not in self-defence
   if (!t || t.IsDead) return;                                 // allerede død: intet at angribe
@@ -15966,9 +15993,9 @@ async function engage(t) {
   try { const E = engageState.ids, tn = now(); E[engageState.id] = tn; for (const k in E) if (tn - E[k] > 600000) delete E[k]; } catch (e) { }   // ENGINE DATA #16: every engaged monster (autoLvlKilled)
   intent('attack', `${t.Name}${t.HpPercent !== undefined ? ' (' + Math.round(num(t.HpPercent)) + '% HP)' : ''}`, { x: t.X, y: t.Y, z: t.Z });
   Send.Action(t.objId);
-  await sleep(300);
+  await fastWait(300, () => { try { return !!(Target && num(Target.objId) === num(t.objId)); } catch (e) { return false; } }, 50);   // FASTHUNT: the 2nd click as soon as it is selected
   Send.Action(t.objId);                          // andet klik på en valgt mob = angrib (serveren går hen)
-  await sleep(2500);
+  await fastWait(2500, () => !!(Me.IsAttacking || Me.IsCasting) || targetGone(t.objId), 100);   // FASTHUNT: was a fixed 2.5 s
   const d = Math.hypot(t.X - Me.X, t.Y - Me.Y);
   // in a dungeon / on stacked floors the walk to the monster is left to the SERVER (Attack makes it run there): L2Swarm's own path search
   // (GoToPoint) in Cruma Tower's stacked floors ate GBs (2026-10-07 15:22 / 15:33 explosions; growth stopped the second party Tank1 stopped)
@@ -20096,6 +20123,10 @@ function levelHealthDecide(o) {
 }
 // LEVELHEALTH-PURE-END
 const LH2 = { bad: 0, fixAt: 0, last: null };
+// KILLCOUNT-2026-10-23 (owner: "almost ALL characters have SLOW HUNTING"): autoLvl.killTimes only counts a monster the hunt loop picked itself;
+// kills by L2Swarm's combat, the assist or after an attack-first switch were missing (Spoiler11: 29 kills in 25 min by experience, 0 by the counter).
+// Every kill in reach gives experience (LIVEP.hour): the kill count is the larger of the two
+function killsIn(ms) { const t = now(); let own = 0, xp = 0; try { own = (autoLvl.killTimes || []).filter(k => t - num(k) < ms).length; } catch (e) { } try { xp = (LIVEP.hour || []).filter(x => x && x.amt > 0 && x.why !== 'res' && t - x.at < ms).length; } catch (e) { } return Math.max(own, xp); }
 /** every window: clear what keeps me from fighting (called on the leader's swarm.levelfix and by the leader itself) */
 function levelFixMine(why) {
   const done = [];
@@ -20114,7 +20145,7 @@ setInterval(() => {
     if (!isFinite(num(c.x)) || Math.hypot(num(c.x) - Me.X, num(c.y) - Me.Y) > R + 1500) { LH2.bad = 0; LH2.atSpot = 0; return; }
     if (!LH2.atSpot) LH2.atSpot = now();
     let mobs = 0; try { snapMobs().forEach(m => { if (!m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - num(c.x), num(m.Y) - num(c.y)) <= R && Math.abs(num(m.Z) - Me.Z) <= CONFIG.rest.zLimit) mobs++; }); } catch (e) { }
-    const t = now(), kills5 = (autoLvl.killTimes || []).filter(k => t - num(k) < LEVELHEALTH.windowMs).length;
+    const t = now(), kills5 = killsIn(LEVELHEALTH.windowMs);   // KILLCOUNT-2026-10-23
     const d = levelHealthDecide({ kills5, mobs, atSpotMs: t - LH2.atSpot, bad: LH2.bad, lastFixAgo: LH2.fixAt ? t - LH2.fixAt : undefined });
     LH2.bad = d.bad;
     if (!d.fix) return;
@@ -20125,7 +20156,7 @@ setInterval(() => {
     const why = `${kills5} kills in 5 min with ${mobs} monsters here — reset stale walks / targets on the whole party${done.length ? ' (' + done.join(', ') + ')' : ''}${shots ? '; NO SHOTS: buy shots from player shops (party Settings → Supplies) or the damage stays low' : ''}`;
     LH2.last = { at: new Date().toISOString(), why };
     note(`level health: ${why}`, true);
-    try { SayToParty(`[hunt] slow hunting: ${kills5} kills in 5 min — resetting stale walks and targets`); } catch (e) { }
+    // (no party chat line: the party card shows SLOW HUNTING; a line every 3 min was noise)
   } catch (e) { logError('level health', e); }
 }, LEVELHEALTH.everyMs);
 function huntTarget(cx, cy, radius) {
@@ -29673,7 +29704,7 @@ async function autoLevelLoop(solo) {
           center = autoLvl.spot.center; radius = (autoLvl.spot.radius || 3000) * (autoLvl.spot.noScale ? 1 : zoneScale());   // a room keeps its own size
           await walkTo(center.x, center.y, center.z, 500, 120000, lvlStopNow);   // intet her: gå til stedet (STOPCALM: Stop ends the walk)
         } else if (autoLvl.spot && (autoLvl.spot.room || autoLvl.spot.area || autoLvl.spot.dungeon || autoLvl.spot.floor)) {
-          await sleep(4000);                                              // a room is empty for a moment: wait for the respawn, never wander through walls
+          await fastWait(4000, () => !!huntTarget(center.x, center.y, radius) || now() - lastAttackerOnMe.at < 1500, 400);   // a room is empty for a moment: wait for the respawn (FASTHUNT: ends when one shows up), never wander through walls
         } else {
           // ingen mobs: gå et stykke i en tilfældig retning for at finde nogle
           const a = Math.random() * Math.PI * 2;
@@ -29807,7 +29838,7 @@ async function autoLevelLoop(solo) {
       }
       if (autoLvl.spot && autoLvl.spot.multi && !autoLvl.forceSpot && multiTick(autoLvl.spot, solo) === 'move') { stopCombatG(); writeClaim(null); autoLvl.spot = null; lastPick = 0; continue; }
       setTask(`autolevel: ${autoLvl.spot ? autoLvl.spot.name : 'local'} · lvl ${Me.Level} · ${kills} kills`);
-      await sleep(1500);
+      { const lt = lastTarget; await fastWait(1500, () => !!lt && targetGone(lt) || (!lt && now() - lastAttackerOnMe.at < 1500), 120); }   // FASTHUNT: the next monster the moment this one dies (was a fixed 1.5 s)
     }
   } catch (e) { logError('autolevel', e); }
   finally {
@@ -31065,7 +31096,38 @@ function scanAnnouncement(text, src) {
 }
 let annLeader = false;
 setInterval(() => { annLeader = Me.Name === (CONFIG.mainLeader || CONFIG.leader); }, 10000);   // kun ét vindue logger
+// LOOTLOG-2026-10-23 (public tester Vykaax: "was it selling loot that I hadn't even seen yet? A loot tracking tab with filters would be nice, to
+// see all recently looted items (grade, type, time and date and who looted it)"): every window notes what it picked up ("You have earned X." /
+// "You have earned 3 X(s)." / "... by using Sweeper") into a buffer, written every 20 s to Logs/loot_<yyyy-mm-dd>.log (TSV: time, character,
+// party leader, count, item name, how, place). Adena and experience are left out. The dashboard Loot page (Dashboard/lootpage.js) reads it.
+// LOOTLOG-PURE-BEGIN
+function lootParse(text) {
+  const t = String(text || '').trim();
+  const m = /^You have (?:earned|obtained|acquired) (?:(\d[\d,]*) )?(.+?)(?:\(s\))?( by using [Ss]weeper)?\.$/.exec(t);
+  if (!m) return null;
+  const name = m[2].trim();
+  if (/^(adena|experience\b|\d+ experience)/i.test(name) || /experience and \d* ?SP/i.test(t) || /\bSP$/.test(name)) return null;
+  return { count: m[1] ? Number(m[1].replace(/,/g, '')) : 1, name, how: m[3] ? 'spoil' : 'loot' };
+}
+// LOOTLOG-PURE-END
+const LOOTLOG = { buf: [], at: 0 };
+setInterval(() => {
+  try {
+    if (!LOOTLOG.buf.length) return;
+    const rows = LOOTLOG.buf.splice(0, LOOTLOG.buf.length), day = new Date().toISOString().slice(0, 10);
+    appendShared(`${SWARM_ROOT}\\Logs\\loot_${day}.log`, rows.join(''));   // flat in Logs (the engine has no folder API; the dashboard reads loot_*.log)
+  } catch (e) { }
+}, 20000);
+function lootNote(text) {
+  try {
+    const L = lootParse(text); if (!L) return;
+    let place = ''; try { place = autoLvl.spot && autoLvl.spot.name ? String(autoLvl.spot.name) : (currentTownKey() || ''); } catch (e) { }
+    LOOTLOG.buf.push(`${new Date().toISOString()}\t${Me.Name}\t${CONFIG.leader || ''}\t${L.count}\t${L.name.replace(/[\t\r\n]/g, ' ')}\t${L.how}\t${place.replace(/[\t\r\n]/g, ' ')}\r\n`);
+    if (LOOTLOG.buf.length > 500) LOOTLOG.buf.splice(0, LOOTLOG.buf.length - 500);
+  } catch (e) { }
+}
 globalThis.OnSystemMessage = (id, text) => {
+  try { lootNote(text); } catch (e) { }   // LOOTLOG-2026-10-23
   try { const n = Number(id); if (n >= 974 && n <= 978) soulResult(n); } catch (e) { }
   try { if (Number(id) === 297) {
     // SWIM-2026-10-13: on a PLANNED swim (a route point marked swim: Tillion's beach behind ~5 km of sea) the breath simply ran out: keep swimming
@@ -36330,7 +36392,7 @@ setInterval(() => {
         escort: escort.active ? { owner: escort.owner, shared: !!escort.shared } : null,
         quest: questRun.active ? { id: questRun.quest && questRun.quest.id, name: questRun.quest && questRun.quest.name, leg: questRun.leg, total: questRun.quest && questRun.quest.legs ? questRun.quest.legs.length : 0, step: questRun.stepText || null } : null,
         autolevel: autoLvl.active ? { spot: autoLvl.spot ? autoLvl.spot.name : 'local', levels: autoLvl.spot ? autoLvl.spot.levelMin + '-' + autoLvl.spot.levelMax : '',
-          kills5m: autoLvl.killTimes.filter(t => now() - t < 300000).length,
+          kills5m: killsIn(300000),   // KILLCOUNT-2026-10-23: experience-based too (the hunt loop's own count missed most kills)
           avgMob: autoLvl.mobLevels.length ? Math.round(autoLvl.mobLevels.slice(-10).reduce((a, b) => a + b, 0) / Math.min(10, autoLvl.mobLevels.length) * 10) / 10 : null } : null,
         target: (() => { const T = Target; return T && T.objId && !IsMe(T.objId) ? { name: String(T.Name), hp: Math.round(num(T.HpPercent || 0)), dist: Math.round(Distance(T)) } : null; })(),
         resting: rest.sitting, busy: !!state.gkBusy, escaping: !!state.escaping, trading: !!tradeState,

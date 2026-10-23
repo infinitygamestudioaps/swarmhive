@@ -60,10 +60,17 @@ const dirList = (d) => { try { return fs.readdirSync(d).sort().join('|'); } catc
     ok('3: the tour has 2 stops and Go is on', await waitFor(`DispatchPage._state.stops.length === 2 && !document.querySelector('[data-dspgo]').disabled`, 5000));
     await ev(`(document.querySelector('[data-dspmv="0|1"]').click(), true)`);
     ok('3: reorder works', await ev(`/Iron Giant/.test(DispatchPage._state.stops[0].name)`), await ev(`JSON.stringify(DispatchPage._state.stops.map(x => x.name))`));
+    // COMPACT-2026-10-23: phone = the tour box above the place list + a sticky 'N stops · Go' bar
+    ok('3: phone: the tour box sits above the place list and the sticky bar shows the stops + Go', await ev(`!!document.querySelector('#dspTourSlotPhone .dsp-tourbox') && !document.getElementById('dspBar').hidden && /2 stops/.test(document.getElementById('dspBar').textContent) && !!document.querySelector('#dspBar [data-dspgo]')`));
+    ok('3: the added place shows Added in the list', await ev(`/Added/.test((document.querySelector('.dsp-row .dsp-add.in') || {}).textContent || '')`));
     await ev(`(document.querySelector('[data-dspmode="char"]').click(), true)`);
     ok('4: one character mode with the sneak option', await waitFor(`document.querySelectorAll('[data-dspchar]').length > 10 && !!document.querySelector('[data-dspsneak]')`, 5000));
     ok('4: no sideways scroll', await noScroll());
     await shot('3_tour', '#dspTour');
+    await cdp('Emulation.setDeviceMetricsOverride', { width: 1366, height: 900, deviceScaleFactor: 1, mobile: false }); await sleep(600);
+    ok('6: PC: two columns, the tour box in the right column, no sticky bar', await ev(`!!document.querySelector('#tab-dispatch .dsp-side .dsp-tourbox') && getComputedStyle(document.getElementById('dspBar')).display === 'none' && document.querySelector('.dsp-side').getBoundingClientRect().left > document.querySelector('.dsp-left').getBoundingClientRect().right - 2`));
+    ok('6: PC: no sideways scroll', await noScroll());
+    await shot('4_desktop', '#tab-dispatch');
     ok('5: no browser alert / confirm / prompt', browserDialogs.length === 0, browserDialogs);
     ok('5: no page errors', errors.length === 0, errors.slice(0, 3));
     ok('5: no tour file and no order written', dirList(path.join(LOGS, 'dispatch')) === JOBS0);

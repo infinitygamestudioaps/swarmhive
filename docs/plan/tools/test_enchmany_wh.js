@@ -57,7 +57,8 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
   t(/_active_\$\{me\}\.json/.test(SW) && /interrupted: true/.test(SW) && /never resumed on its own/.test(SW), 'a job cut off by a restart is closed honestly (interrupted), not resumed on its own');
   t(/if \(e\.result\) \{ if \(e\.result === 'reached'\) okN\+\+;/.test(SW) && /ijSaveJob\(J\)/.test(SW) && /onLvl\(lvl\)/.test(SW), 'every piece result + level is saved; a Resume skips finished pieces');
   t(/data-enpresume/.test(UI) && /'!itemjob ' \+ id/.test(UI), 'the Enchanting page offers Resume for a cut-off job');
-  t((UI.match(/data-itmulti="\$\{S\.multi \? 0 : 1\}"/g) || []).length === 3, 'the page shows "Enchant several" on Bag, Warehouse and Clan warehouse');
+  // ITEMS-COMPACT 2026-10-23: one "Enchant several" mode button in the place bar, shown for Bag, Warehouse and Clan warehouse (was 3 copies)
+  t(/\['bag', 'wh', 'clan'\]\.includes\(S\.place\) \? `<button type="button" class="itp-mode[^`]*data-itmulti="\$\{S\.multi \? 0 : 1\}"/.test(UI), 'the page shows "Enchant several" on Bag, Warehouse and Clan warehouse');
   t(/S\.place === 'bag' \|\| S\.place === 'wh' \|\| S\.place === 'clan' \? multiBar\(\)/.test(UI) && /const mkey =/.test(UI), 'the tick box works on warehouse rows (own key)');
   try { if (fs.existsSync(CMDLOG) && fs.statSync(CMDLOG).size > cmdLogSize) { const buf = fs.readFileSync(CMDLOG); const extra = buf.slice(cmdLogSize).toString('utf8'); if (extra.split(/\r?\n/).filter(Boolean).every(l => /\titems\tjob ij_/.test(l))) fs.truncateSync(CMDLOG, cmdLogSize); } } catch (e) { }
   console.log(fails ? `\n${fails} FAILED` : '\nALL OK'); process.exit(fails ? 1 : 0);

@@ -694,6 +694,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
       <button data-tab="dispatch" title="Send a party or a character anywhere: epics, raid bosses, NPCs, areas — one stop or a whole tour"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Dispatch</button>
       <button data-tab="items" title="Any character: bag, warehouse, clan warehouse, Giran shops — buy, enchant, Special Ability, give to someone"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Items</button>
+      <button data-tab="loot" title="What every character picked up or spoiled: grade, type, who, when"><img class="gi" src="/icons/icon/etc_treasure_box_i00.png" alt=""> Loot</button>
       <button data-tab="crafting" title="Crafters: what they can make with the materials in bag, warehouse and clan warehouse"><img class="gi" src="/icons/icon/etc_recipe_blue_i00.png" alt=""> Crafting</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
@@ -1226,6 +1227,7 @@ function route() {
   if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
   if (window.View3D && View3D.route(kind, arg)) return;   // VIEW3D 2026-10-17: #/view3d/<name> live 3D view from the geodata + map art (Dashboard/view3d.js)
+  if (window.LootPage && LootPage.route(kind, arg)) return;   // LOOTLOG 2026-10-23: #/loot what every character picked up / spoiled (Dashboard/lootpage.js)
   if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
   if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
   if (window.CraftPage && CraftPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/crafting[/<name>] crafters: recipes + materials from bag / warehouse / clan (Dashboard/craftpage.js)
@@ -5236,6 +5238,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/itemspage.js"></script>
 <script src="/craftpage.js"></script>
 <script src="/dispatchpage.js"></script>
+<script src="/lootpage.js"></script>
 <link rel="stylesheet" href="/view3d.css">
 <script type="module" src="/view3d.js"></script>
 <script src="/healschemes.js"></script>

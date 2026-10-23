@@ -48,21 +48,38 @@
       <div class="qp-msg" id="qpMsg" role="status" hidden></div>
       <div id="qpListView">
         <div class="box ql-all" id="qpLiveAll" hidden></div>
-        <div class="qp-filters box" id="qpFilters"></div>
-        <details class="box qp-farm qp-bg" id="qpBgBox"><summary><h3>${img('icon/weapon_long_sword_i00', '', 'gi')} Beginner gear (forum guide: shadow weapons, Supply Check, jewelry coupon)</h3></summary><div id="qpBg"><span class="muted">loading…</span></div></details>
-        <details class="box qp-farm" id="qpFarmBox"><summary><h3>${img('icon/etc_adena_i00', '', 'gi')} Quest farm (repeatable adena quests)</h3></summary><div id="qpFarm"><span class="muted">loading…</span></div></details>
-        <div class="muted qp-count" id="qpCount"></div>
-        <div class="qp-list" id="qpList"></div>
-        <div class="qp-more" id="qpMore"></div>
+        <div class="qp-tabs" role="tablist" aria-label="Quest pages">
+          <button type="button" role="tab" data-qptab="list">${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Quest', '', 'gi')} All quests</button>
+          <button type="button" role="tab" data-qptab="bg">${img('icon/weapon_long_sword_i00', '', 'gi')} Beginner gear</button>
+          <button type="button" role="tab" data-qptab="farm">${img('icon/etc_adena_i00', '', 'gi')} Adena farm</button>
+        </div>
+        <div id="qpPanelList" role="tabpanel">
+          <div class="qp-filters box" id="qpFilters"></div>
+          <div class="muted qp-count" id="qpCount"></div>
+          <div class="qp-list" id="qpList"></div>
+          <div class="qp-more" id="qpMore"></div>
+        </div>
+        <div class="box qp-farm qp-bg" id="qpBgBox" role="tabpanel" hidden><h3>${img('icon/weapon_long_sword_i00', '', 'gi')} Beginner gear <small class="muted">forum guide: shadow weapons, Supply Check, jewelry coupon</small></h3><div id="qpBg"><span class="muted">loading…</span></div></div>
+        <div class="box qp-farm" id="qpFarmBox" role="tabpanel" hidden><h3>${img('icon/etc_adena_i00', '', 'gi')} Adena farm <small class="muted">repeatable adena quests</small></h3><div id="qpFarm"><span class="muted">loading…</span></div></div>
       </div>
       <div id="qpDetail" hidden></div>`;
     (document.querySelector('main') || document.body).appendChild(s);
     s.addEventListener('click', onClick);
     s.addEventListener('input', onInput);
     s.addEventListener('change', onInput);
-    s.querySelector('#qpFarmBox').addEventListener('toggle', (e) => { if (e.target.open) { store('farmOpen', true); loadFarm().then(renderFarm); } else store('farmOpen', false); });
-    s.querySelector('#qpBgBox').addEventListener('toggle', (e) => { if (e.target.open) { store('bgOpen', true); loadBg().then(renderBg); } else store('bgOpen', false); });   // BEGINNER GEAR 2026-10-12
+    // COMPACT-2026-10-23: detail sections fold; their open / closed state is remembered (the route view mounts on first open)
+    s.addEventListener('toggle', (e) => { const d = e.target; if (!d || !d.dataset || !d.dataset.qpsec) return; const o = store('sec') || {}; o[d.dataset.qpsec] = d.open; store('sec', o); if (d.open && d.dataset.qpsec === 'route') mountRoute(); }, true);
     return s;
+  }
+  // COMPACT-2026-10-23 (owner: "make /quests more compact and user friendly"): the list page has three tabs instead of stacked boxes:
+  // All quests | Beginner gear | Adena farm (the chosen tab is remembered)
+  function setTab(t) {
+    t = /^(list|bg|farm)$/.test(t) ? t : 'list'; QP.tab = t; store('tab', t);
+    const s = $id(SEC); if (!s) return;
+    s.querySelectorAll('[data-qptab]').forEach(b => { const on = b.dataset.qptab === t; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); });
+    $id('qpPanelList').hidden = t !== 'list'; $id('qpBgBox').hidden = t !== 'bg'; $id('qpFarmBox').hidden = t !== 'farm';
+    if (t === 'farm') loadFarm().then(renderFarm);
+    if (t === 'bg') loadBg().then(renderBg);
   }
   function route(kind, arg) {
     if (kind === 'quests') { open(arg ? decodeURIComponent(arg) : null); return true; }
@@ -80,8 +97,7 @@
     $id('qpListView').hidden = !!QP.sel; $id('qpDetail').hidden = !QP.sel;
     if (!was || QP.sel) window.scrollTo(0, 0);
     if (!QP.timer) QP.timer = setInterval(tick, 15000);
-    if (store('farmOpen') && !$id('qpFarmBox').open) $id('qpFarmBox').open = true;
-    if (store('bgOpen') && !$id('qpBgBox').open) $id('qpBgBox').open = true;
+    if (!was) setTab(store('tab') || 'list');
     render();
     liveHook(QP.sel);   // QUEST LIVE 2026-10-12
     loadList().then(render); loadChars(true).then(() => { if (QP.sel) renderDetailChars(); else { const f = $id('qpFilters'); if (f) f.dataset.done = ''; renderFilters(); renderList(); } });
@@ -108,7 +124,7 @@
     if (!QP.open || document.hidden) return;
     await loadChars(true);
     if (QP.sel) { await loadDetail(QP.sel, true); renderDetailChars(); }
-    else { renderList(); if ($id('qpFarmBox') && $id('qpFarmBox').open) { await loadFarm(); renderFarmStats(); } if ($id('qpBgBox') && $id('qpBgBox').open) { await loadBg(); renderBgPlan(); } }
+    else { renderList(); if (QP.tab === 'farm') { await loadFarm(); renderFarmStats(); } if (QP.tab === 'bg') { await loadBg(); renderBgPlan(); } }
   }
   function flash(t, bad) {
     const m = $id('qpMsg'); if (!m) return;
@@ -127,14 +143,17 @@
     const el = $id('qpFilters'); if (!el || el.dataset.done === '1' && el._chars === QP.chars.length) return;
     const f = QP.f;
     el.dataset.done = '1'; el._chars = QP.chars.length;
-    el.innerHTML = `<label class="qp-f qp-fq"><span>Search</span><input id="qpQ" type="search" placeholder="name, id, NPC, town" value="${h(f.q)}" autocomplete="off"></label>
-      <label class="qp-f"><span>For level</span><input id="qpLvl" type="number" min="1" max="99" inputmode="numeric" value="${h(f.lvl)}" placeholder="any"></label>
+    // COMPACT-2026-10-23: search + "fits character" + type always; level / race / sort / adena behind "More filters" on a phone (one row on a PC)
+    el.innerHTML = `<label class="qp-f qp-fq"><span>Search</span><input id="qpQ" type="search" placeholder="quest, NPC or town" value="${h(f.q)}" autocomplete="off"></label>
       <label class="qp-f"><span>Fits character</span><select id="qpChar"><option value="">anyone</option>${QP.chars.map(c => `<option value="${h(c.name)}"${f.char === c.name ? ' selected' : ''}>${h(c.name)} (${c.level})</option>`).join('')}</select></label>
       <label class="qp-f"><span>Type</span><select id="qpType">${[['', 'all'], ['repeatable', 'repeatable'], ['daily', 'daily'], ['rep+daily', 'repeatable + daily'], ['one-time', 'one-time']].map(([v, t]) => `<option value="${v}"${f.type === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
-      <label class="qp-f"><span>Race</span><select id="qpRace"><option value="">any</option>${RACES.map(r => `<option value="${r}"${f.race === r ? ' selected' : ''}>${r.replace('_', ' ').toLowerCase()}</option>`).join('')}</select></label>
-      <label class="qp-f"><span>Sort</span><select id="qpSort">${[['level', 'level'], ['name', 'name'], ['adena', 'adena reward'], ['exp', 'exp reward'], ['id', 'id']].map(([v, t]) => `<option value="${v}"${f.sort === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
-      <label class="chk qp-chk"><input type="checkbox" id="qpAdena"${f.adena ? ' checked' : ''}> gives adena</label>`;
+      <button type="button" class="qp-fmore" data-qp="fmore" aria-expanded="false">${moreLabel()}</button>
+      <label class="qp-f qp-f2"><span>For level</span><input id="qpLvl" type="number" min="1" max="99" inputmode="numeric" value="${h(f.lvl)}" placeholder="any"></label>
+      <label class="qp-f qp-f2"><span>Race</span><select id="qpRace"><option value="">any</option>${RACES.map(r => `<option value="${r}"${f.race === r ? ' selected' : ''}>${r.replace('_', ' ').toLowerCase()}</option>`).join('')}</select></label>
+      <label class="qp-f qp-f2"><span>Sort by</span><select id="qpSort">${[['level', 'level'], ['name', 'name'], ['adena', 'adena reward'], ['exp', 'exp reward'], ['id', 'quest number']].map(([v, t]) => `<option value="${v}"${f.sort === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+      <label class="chk qp-chk qp-f2"><input type="checkbox" id="qpAdena"${f.adena ? ' checked' : ''}> gives adena</label>`;
   }
+  function moreLabel() { const f = QP.f, n = [f.lvl, f.race, f.sort !== 'level', f.adena].filter(Boolean).length; return `More filters${n ? ` (${n})` : ''}`; }
   function filtered() {
     const f = QP.f, q = f.q.trim().toLowerCase(), L = Number(f.lvl) || 0;
     const ch = f.char ? QP.chars.find(c => c.name === f.char) : null, fits = ch ? new Set(ch.fits || []) : null;
@@ -155,6 +174,12 @@
     const t = TYPE_TXT[type] || TYPE_TXT.unknown;
     return `<span class="qp-b qp-b-${h(type || 'unknown')}" title="${h(t[1])}">${h(t[0])}${endless ? ' ∞' : ''}</span>`;
   }
+  // COMPACT-2026-10-23: plain words instead of the parser's terms ("manual" = the bot cannot run it, "partial" = steps partly known)
+  function parseBadge(p) {
+    if (!p || p === 'full') return '';
+    if (p === 'manual') return '<span class="qp-b qp-b-warn" title="The bot cannot run this quest by itself: do it in the game window">by hand</span>';
+    return `<span class="qp-b qp-b-warn" title="The quest script was only partly understood (${h(p)}): some steps may be missing">!</span>`;
+  }
   function lvlTxt(a, b) { return a == null && b == null ? 'any' : `${a == null ? '1' : a}${b == null ? '+' : '–' + b}`; }
   function myStatus(id) {
     const out = [];
@@ -168,8 +193,8 @@
     put($id('qpCount'), `${rows.length} of ${QP.rows.length} quests`);
     put(el, shown.map(r => `<a class="qp-row" href="#/quests/${r.id}">
         <span class="qp-lv" title="level">${lvlTxt(r.lmin, r.lmax)}</span>
-        <span class="qp-nm"><b>${h(r.name)}</b> <small class="muted">#${r.id}</small> ${badge(r.type, r.endless)}${r.parse && r.parse !== 'full' ? `<span class="qp-b qp-b-warn" title="parsed ${h(r.parse)}">${h(r.parse)}</span>` : ''}${reqChips(r.req)}${myStatus(r.id)}</span>
-        <span class="qp-npc muted">${h(r.npc || '—')}${r.town ? ' · ' + h(r.town) : ''}</span>
+        <span class="qp-nm"><b>${h(r.name)}</b> ${badge(r.type, r.endless)}${parseBadge(r.parse)}${reqChips(r.req)}${myStatus(r.id)}</span>
+        <span class="qp-npc muted">${h(r.npc || '')}${r.npc && r.town ? ' · ' : ''}${h(r.town || '')}</span>
         <span class="qp-rw">${r.adena ? `<span class="qp-ad">${img('icon/etc_adena_i00', 'adena')} ${h(r.adena)}${r.turnIn ? ' <small class="muted">turn-in</small>' : ''}</span>` : ''}${r.exp ? `<span class="muted qp-exp">${fmt(r.exp)} xp</span>` : ''}${(r.rewards || []).map(i => img(i.icon, i.name)).join('')}</span>
       </a>`).join('') || '<div class="muted">No quest matches the filters.</div>');
     put($id('qpMore'), rows.length > QP.shown ? `<button data-qp="more">Show ${Math.min(200, rows.length - QP.shown)} more</button>` : '');
@@ -213,36 +238,53 @@
     if (rq.subclass) reqRows.push('Subclass');
     (rq.other || []).slice(0, 4).forEach(o => reqRows.push(`<small class="muted">script: ${h([].concat(o).join(' && '))}</small>`));
     const ps = q.parse || {};
+    // COMPACT-2026-10-23: the main job first. Header + one summary line (start NPC, level, reward), then "Your characters" (Start) and the live
+    // view; everything else folds (open state remembered). PC: two columns (left = what the quest is, right = characters, live, map, sticky-free);
+    // phone: one column in the order chars > live > description > steps > rewards > map > the rest.
+    const secO = store('sec') || {};
+    const sec = (key, title, body, def, extra) => `<details class="box qp-sec qp-o-${key}" data-qpsec="${key}"${(key in secO ? secO[key] : def) ? ' open' : ''}${extra || ''}><summary><h3>${title}</h3></summary>${body}</details>`;
+    const row = (QP.rows || []).find(r => Number(r.id) === Number(q.id)) || {};
+    const sum = [st ? `${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Character', '', 'gi')} <b>${h(st.name)}</b>${st.town || st.region ? ' · ' + h(st.town || st.region) : ''}` : '',
+      row.adena ? `<span class="qp-ad">${img('icon/etc_adena_i00', 'adena')} ${h(row.adena)}${row.turnIn ? ' <small class="muted">per hand-in</small>' : ''}</span>` : '',
+      row.exp ? `<span>${fmt(row.exp)} xp</span>` : '', (row.rewards || []).length ? `<span>${row.rewards.map(i => img(i.icon, i.name)).join('')}</span>` : ''].filter(Boolean);
+    const partial = ps.status && ps.status !== 'full';
     el.innerHTML = `<div class="qp-dhead"><button data-qp="back">‹ All quests</button>
         <h2>${h(q.name)} <small class="muted">#${q.id}</small></h2>${badge(q.type, q.endless)}
         <span class="qp-b qp-b-lv">level ${lvlTxt(q.level && q.level.min, q.level && q.level.max)}</span>
-        ${ps.status && ps.status !== 'full' ? `<span class="qp-b qp-b-warn" title="${h((ps.reasons || []).join('; '))}">parsed: ${h(ps.status)}</span>` : '<span class="qp-b qp-b-ok">fully parsed</span>'}</div>
-      <div class="box ql-box" id="qpLive"></div>
-      ${ps.status && ps.status !== 'full' ? `<div class="qp-note">The datapack script was only partly understood (${h((ps.reasons || []).join('; ') || ps.status)}). Steps below may be incomplete; the bot falls back to dialog text and quest-state checks.</div>` : ''}
-      <div class="qp-grid">
-        <div class="box"><h3>Description</h3>
-          ${st ? `<div class="qp-start">${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Character', '', 'gi')} Start: <b>${h(st.name)}</b>${st.title ? ` <small class="muted">${h(st.title)}</small>` : ''} · ${h(st.town || st.region || '')}${(st.spawns || [])[0] ? ` <small class="muted">${st.spawns[0].join(', ')}</small>` : st.spawnedByQuest ? ' <small class="muted">(spawned by a quest)</small>' : ''}</div>` : '<div class="muted">No start NPC registered.</div>'}
-          <div class="qp-desc">${h(q.description || '(no offer text found)')}</div>
-          ${q.acceptText ? `<details><summary class="muted">After accepting</summary><div class="qp-desc">${h(q.acceptText)}</div></details>` : ''}
-          <h4>Requirements</h4><ul class="qp-ul">${reqRows.map(r => `<li>${r}</li>`).join('')}</ul></div>
-        <div class="box"><h3>Your characters</h3><div id="qpChars"></div></div>
-      </div>
-      <div class="box qp-mapbox"><h3>Map <span class="qp-mapbtn" id="qpMapBtns"></span></h3><div id="qpMap" class="qp-map"></div>
-        <div class="muted qp-legend"><span><i class="qp-dot" style="background:#f0c040"></i>start NPC</span><span><i class="qp-dot" style="background:#5aa9ff"></i>NPC</span><span><i class="qp-dot" style="background:#ff4d4d"></i>monsters (count)</span><span><i class="qp-dot" style="background:#3ddc84"></i>hunting area</span><span><i class="qp-dot qp-sq" style="background:#d6b3ff"></i>teleport landing</span></div></div>
-      <div class="box"><h3>Steps</h3>${stepsHtml(q, nm, it)}</div>
-      <div class="box"><h3>Route to each step <small class="muted">computed path, doors, needed items</small></h3><div id="qpRoute" class="muted">${window.RouteView ? '…' : 'needs Dashboard/routeview.js (dashboard server restart)'}</div></div>
-      <div class="box"><h3>Rewards</h3>${rewardsHtml(q, nm, it)}</div>
-      <div class="qp-grid">
-        <div class="box"><h3>Items</h3>${itemsHtml(q, nm, it, I)}</div>
-        <div class="box"><h3>Monsters + where to hunt</h3>${monstersHtml(q)}</div>
-      </div>
-      ${(q.spawns || []).length ? `<div class="box"><h3>Quest-spawned monsters / NPCs</h3>${spawnsHtml(q, nm)}</div>` : ''}
-      <div class="box"><h3>NPCs</h3>${npcsHtml(q)}</div>
-      <div class="muted qp-src">Source: ${h(q.file || '')}${q.clientType ? ` · client type ${q.clientType}` : ''}</div>`;
+        ${partial ? `<span class="qp-b qp-b-warn" title="${h((ps.reasons || []).join('; '))}">${ps.status === 'manual' ? 'by hand' : 'steps partly known'}</span>` : ''}</div>
+      ${sum.length ? `<div class="qp-sum">${sum.join('<span class="qp-sep">·</span>')}</div>` : ''}
+      ${partial ? `<div class="qp-note">The quest script was only partly understood (${h((ps.reasons || []).join('; ') || ps.status)}). Steps may be incomplete; the bot falls back to dialog text and quest-state checks.</div>` : ''}
+      <div class="qp-dgrid">
+        <div class="qp-dcol qp-dmain">
+          ${sec('desc', 'Description + requirements', `${st ? `<div class="qp-start">${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Character', '', 'gi')} Start: <b>${h(st.name)}</b>${st.title ? ` <small class="muted">${h(st.title)}</small>` : ''} · ${h(st.town || st.region || '')}${(st.spawns || [])[0] ? ` <small class="muted">${st.spawns[0].join(', ')}</small>` : st.spawnedByQuest ? ' <small class="muted">(spawned by a quest)</small>' : ''}</div>` : '<div class="muted">No start NPC registered.</div>'}
+            <div class="qp-desc">${h(q.description || '(no offer text found)')}</div>
+            ${q.acceptText ? `<details><summary class="muted">After accepting</summary><div class="qp-desc">${h(q.acceptText)}</div></details>` : ''}
+            <h4>Requirements</h4><ul class="qp-ul">${reqRows.map(r => `<li>${r}</li>`).join('')}</ul>
+            <details class="qp-srcd"><summary class="muted">Where this comes from</summary><div class="muted qp-src">Datapack script: ${h(q.file || '')}${q.clientType ? ` · client type ${q.clientType}` : ''}</div></details>`, true)}
+          ${sec('steps', 'Steps', stepsHtml(q, nm, it), true)}
+          ${sec('rewards', 'Rewards', rewardsHtml(q, nm, it), true)}
+          ${sec('items', `Items <small class="muted">${(q.items || []).length}</small>`, itemsHtml(q, nm, it, I), false)}
+          ${sec('mobs', `Monsters + where to hunt <small class="muted">${(q.monsters || []).length}</small>`, monstersHtml(q), false)}
+          ${(q.spawns || []).length ? sec('spawns', 'Quest-spawned monsters / NPCs', spawnsHtml(q, nm), false) : ''}
+          ${sec('npcs', `NPCs <small class="muted">${(q.npcs || []).length}</small>`, npcsHtml(q), false)}
+          ${sec('route', 'Route to each step <small class="muted">path, doors, needed items</small>', `<div id="qpRoute" class="muted">${window.RouteView ? '…' : 'needs Dashboard/routeview.js (dashboard server restart)'}</div>`, false)}
+        </div>
+        <div class="qp-dcol qp-dside">
+          <div class="box qp-o-chars"><h3>${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Character', '', 'gi')} Your characters</h3><div id="qpChars"></div></div>
+          <div class="box ql-box qp-o-live" id="qpLive"></div>
+          ${sec('map', 'Map', `<div class="qp-mapbtn" id="qpMapBtns"></div><div id="qpMap" class="qp-map"></div>
+            <div class="muted qp-legend"><span><i class="qp-dot" style="background:#f0c040"></i>start NPC</span><span><i class="qp-dot" style="background:#5aa9ff"></i>NPC</span><span><i class="qp-dot" style="background:#ff4d4d"></i>monsters (count)</span><span><i class="qp-dot" style="background:#3ddc84"></i>hunting area</span><span><i class="qp-dot qp-sq" style="background:#d6b3ff"></i>teleport landing</span></div>`, true)}
+        </div>
+      </div>`;
+    QP.routeMounted = null;
     renderDetailChars();
     renderMap(d);
-    try { if (window.RouteView) RouteView.mount($id('qpRoute'), 'quest:' + q.id, { map: true }); } catch (e) { }   // ROUTE VIEW 2026-10-12: every step's NPC / hunting area
+    const rd = el.querySelector('[data-qpsec="route"]'); if (rd && rd.open) mountRoute();   // ROUTE VIEW 2026-10-12: every step's NPC / hunting area (mounted when its section is open)
     liveHook('paint');   // QUEST LIVE 2026-10-12: #qpLive was just (re)built
+  }
+  function mountRoute() {
+    const id = QP.sel; if (!id || QP.routeMounted === id) return;
+    try { if (window.RouteView && $id('qpRoute')) { RouteView.mount($id('qpRoute'), 'quest:' + id, { map: true }); QP.routeMounted = id; } } catch (e) { }
   }
   function trigHtml(t, nm) {
     if (!t) return '';
@@ -348,9 +390,12 @@
     const d = QP.det[QP.sel] && QP.det[QP.sel].d; if (!d || !d.ok) return;
     const q = d.quest, rep = /repeatable|daily/.test(q.type) || q.endless;
     const keep = {}; el.querySelectorAll('[data-qpin]').forEach(i => { keep[i.dataset.qpin] = i.value; });
-    const rows = (d.chars || []).slice().sort((a, b) => ({ yes: 0, maybe: 1, no: 2 }[a.elig] - { yes: 0, maybe: 1, no: 2 }[b.elig]) || a.name.localeCompare(b.name));
+    const E = { yes: 0, maybe: 1, no: 2 }, here = (c) => (c.activeHere ? 0 : 1);
+    const rows = (d.chars || []).slice().sort((a, b) => here(a) - here(b) || E[a.elig] - E[b.elig] || (b.online ? 1 : 0) - (a.online ? 1 : 0) || a.name.localeCompare(b.name));
     if (!rows.length) { el.innerHTML = '<div class="muted">No characters report in (Logs/swarm_state_*.json).</div>'; return; }
-    el.innerHTML = rows.map(c => {
+    const isOpen = (k) => !!(el.querySelector('details.qp-chmore[data-k="' + k + '"]') && el.querySelector('details.qp-chmore[data-k="' + k + '"]').open);
+    const openFit = isOpen('fit'), openNo = isOpen('no');
+    const one = (c) => {
       const a = c.activeHere ? c.active : null, s = c.status;
       const status = a ? `<span class="qp-b qp-b-run">${h(PHASE_TXT[a.phase] || a.phase || 'running')}</span>${a.repeat != null && rep ? ` <small>run ${(a.runs || 0) + 1}${a.repeat ? '/' + a.repeat : ' (forever)'}</small>` : ''}${a.msg ? ` <small class="muted">${h(a.msg)}</small>` : ''}
           ${(a.need || []).length ? `<div class="qp-need">${a.need.map(n => `<span class="${n.have >= n.n ? 'ok' : ''}">${h(n.name || '#' + n.id)} ${n.have}/${n.n}</span>`).join('')}</div>` : ''}`
@@ -360,15 +405,22 @@
       const k = c.name;
       return `<div class="qp-ch${c.online ? '' : ' off'}">
         <div class="qp-chh">${c.classId != null && typeof classIcon === 'function' ? classIcon({ classId: c.classId }, 'sm') : ''}<b>${h(c.name)}</b> <small>${c.level || '?'} ${h(c.cls || '')}</small> ${el2} ${c.online ? '' : '<small class="muted">offline</small>'}</div>
-        ${c.why ? `<div class="muted qp-why">${h(c.why)}</div>` : ''}
+        ${c.why && c.elig !== 'yes' ? `<div class="muted qp-why">${h(c.why)}</div>` : ''}
         ${status ? `<div class="qp-chs">${status}</div>` : ''}
         <div class="qp-cha">
-          ${rep ? `<label>repeat <input type="number" min="0" max="999" inputmode="numeric" data-qpin="rep:${h(k)}" value="${h(keep['rep:' + k] != null ? keep['rep:' + k] : '1')}" title="0 = forever"></label>` : ''}
-          <select data-qpin="mode:${h(k)}"><option value="solo"${keep['mode:' + k] !== 'party' ? ' selected' : ''}>solo</option><option value="party"${keep['mode:' + k] === 'party' ? ' selected' : ''}>party</option></select>
+          ${rep ? `<label title="0 = forever"><span class="qp-rl">repeat</span> <input type="number" min="0" max="999" inputmode="numeric" data-qpin="rep:${h(k)}" value="${h(keep['rep:' + k] != null ? keep['rep:' + k] : '1')}" aria-label="How many times (0 = forever)"></label>` : ''}
+          <select data-qpin="mode:${h(k)}" aria-label="Solo or with the party"><option value="solo"${keep['mode:' + k] !== 'party' ? ' selected' : ''}>solo</option><option value="party"${keep['mode:' + k] === 'party' ? ' selected' : ''}>party</option></select>
           <button class="go" data-qp="start" data-name="${h(k)}"${c.elig === 'no' ? ' title="not eligible — you can still try"' : ''}>Start</button>
-          <button data-qp="stop" data-name="${h(k)}"${c.active ? '' : ' disabled'}>Stop</button>
-          <button data-qp="status" data-name="${h(k)}">Status</button></div></div>`;
-    }).join('');
+          ${c.active ? `<button data-qp="stop" data-name="${h(k)}">Stop</button>` : `<button data-qp="stop" data-name="${h(k)}" disabled hidden>Stop</button>`}
+          <button class="qp-stbtn" data-qp="status" data-name="${h(k)}" title="Ask it to report its quest status in party chat">Status</button></div></div>`;
+    };
+    // COMPACT-2026-10-23: who can do it first; the characters that cannot are folded under one line
+    // at most 6 open (the ones on this quest + online fitting first), the other fitting ones and the ones that do not fit fold away
+    const fit = rows.filter(c => c.elig !== 'no' || c.activeHere), rest = rows.filter(c => !(c.elig !== 'no' || c.activeHere));
+    const top = fit.filter((c, i) => c.activeHere || i < 6), more = fit.filter(c => !top.includes(c));
+    el.innerHTML = (top.map(one).join('') || '<div class="muted">None of your characters fits this quest.</div>') +
+      (more.length ? '<details class="qp-chmore" data-k="fit"' + (openFit ? ' open' : '') + '><summary class="muted">Show ' + more.length + ' more that fit</summary>' + more.map(one).join('') + '</details>' : '') +
+      (rest.length ? '<details class="qp-chmore" data-k="no"' + (openNo || !fit.length ? ' open' : '') + '><summary class="muted">' + rest.length + ' that do not fit (you can still try)</summary>' + rest.map(one).join('') + '</details>' : '');
   }
 
   // --------------------------------------------------------------------------- map (the /minitile pieces, same formula as the character page)
@@ -569,10 +621,12 @@
 
   // =========================================================================================== events
   function onClick(e) {
+    const tb = e.target.closest('[data-qptab]'); if (tb) { setTab(tb.dataset.qptab); return; }
     const b = e.target.closest('[data-qp]'); if (!b) return;
     const a = b.dataset.qp;
     if (a === 'back') { e.preventDefault(); if (typeof go === 'function') go('#/quests'); else location.hash = '#/quests'; return; }
     if (a === 'more') { QP.shown += 200; renderList(); return; }
+    if (a === 'fmore') { const f = $id('qpFilters'), on = !f.classList.contains('more'); f.classList.toggle('more', on); b.setAttribute('aria-expanded', String(on)); return; }
     if (a === 'map') { QP.mapFocus = b.dataset.f; const d = QP.det[QP.sel] && QP.det[QP.sel].d; if (d && d.ok) renderMap(d); return; }
     if (a === 'start') { startQuest(b.dataset.name); return; }
     if (a === 'stop') { stopQuest(b.dataset.name); return; }
@@ -590,6 +644,7 @@
     if (id === 'qpQ') f.q = t.value; else if (id === 'qpLvl') f.lvl = t.value; else if (id === 'qpChar') f.char = t.value;
     else if (id === 'qpType') f.type = t.value; else if (id === 'qpRace') f.race = t.value; else if (id === 'qpSort') f.sort = t.value; else if (id === 'qpAdena') f.adena = t.checked;
     store('f', f); QP.shown = 120;
+    const mb = document.querySelector('[data-qp="fmore"]'); if (mb) mb.textContent = moreLabel();
     clearTimeout(inT); inT = setTimeout(renderList, id === 'qpQ' ? 160 : 0);
   }
 

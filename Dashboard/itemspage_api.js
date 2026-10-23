@@ -5,6 +5,7 @@
 //   GET  /api/items/char?name=<N>[&fresh=1]    its bag (live MCP, else Logs/bag_<N>.json), private warehouse (Logs/wh_private_<N>.json), clan
 //                                              warehouse (Logs/clan_state.json; taking out goes through the clan leader), adena, item facts
 //   GET  /api/items/shops                      what Giran's merchants sell (Scripts/data/shopscan_giran.json)
+//   GET  /api/items/find?q=<2+ letters>        hive-wide item search: who has it, how many, bag / worn / warehouse / clan warehouse (ITEMFIND)
 //   POST /api/items/plan  { name, item: { src: bag|wh|clan|shop, id, objId, enchant }, enchantTo, blessed, saId, giveTo }
 //                         -> the steps in plain words, what is needed from where, what is missing, chance, cost
 //   POST /api/items/job   (same body) -> Logs/itemjobs/<id>.json + the order "!itemjob <id>" to the character (swarm.js ITEMJOB block)
@@ -94,6 +95,71 @@ function holdersOf(ctx, tid, except) {
     const rows = j.items.filter(r => Number(r.id) === Number(tid) && !r.eq && !r.equipped && !r.q && !r.quest); const count = rows.reduce((a, r) => a + (Number(r.count) || 1), 0);
     if (count > 0) out.push({ name: m[1], count, rows: rows.map(r => ({ objId: Number(r.objId), id: Number(r.id), name: String(r.name || ''), count: Number(r.count) || 1, stack: !!(r.stackable || Number(r.count) > 1) })) }); }); } catch (e) { }
   return out.sort((a, b) => b.count - a.count);
+}
+// ITEMFIND-2026-10-23 (public tester Vykaax: "Item tab lets you search by bot, but not by item. I knew I had a Heaven's Divider somewhere and
+// couldn't find it ... a Hive-wide item search to see who has something and how many"): GET /api/items/find?q=<2+ letters> -> every character
+// that has it (bag / worn from Logs/bag_<Name>.json, private warehouse from Logs/wh_private_<Name>.json) + the clan warehouse (Logs/clan_state.json),
+// grouped by item then holder, enchant levels kept apart, with how old each source is. Read only; file reads cached by mtime (cached()).
+const FIND_MAX = 200;
+function findItems(ctx, qRaw) {
+  const q = String(qRaw || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (q.length < 2) return { code: 400, error: 'Type at least 2 letters.' };
+  if (q.length > 60) return { code: 400, error: 'That search is too long.' };
+  const known = new Set((cfg(ctx).accounts || []).filter(a => a.character).map(a => a.character));
+  let files = []; try { files = fs.readdirSync(ctx.LOGS); } catch (e) { }
+  const groups = {}, src = { bags: 0, bagNewest: null, wh: 0, clanAt: null, clanSeenBy: '' };
+  const IT = items(ctx), CA = catalog(ctx);
+  const memo = {}, F =(id) => memo[id] || (memo[id] = facts(ctx, id));   // facts() stats two files per call: once per item id per search
+  const add = (r, hk, mk, where) => {
+    const id = Number(r.id) || 0; if (!id) return;
+    const raw = String(r.name || '');
+    if (!raw.toLowerCase().includes(q) && !String((CA[id] && CA[id].n) || (IT[id] && IT[id][0]) || '').toLowerCase().includes(q)) return;   // cheap name test first
+    const f = F(id), nm = /^item \d+$/.test(f.name) && raw ? raw.replace(/^\+\d+\s+/, '') : f.name;
+    if (!nm.toLowerCase().includes(q) && !raw.toLowerCase().includes(q)) return;
+    const g = groups[id] = groups[id] || { id, name: nm, icon: f.icon, grade: f.grade, kind: f.kind, total: 0, holders: {} };
+    const H = g.holders[hk] = g.holders[hk] || Object.assign(mk(), { total: 0, rows: [] });
+    const count = Number(r.count) || 1, enchant = Number(r.enchant) || 0;
+    const row = H.rows.find(x => x.where === where && x.enchant === enchant);
+    if (row) row.count += count; else H.rows.push({ where, count, enchant });
+    H.total += count; g.total += count;
+  };
+  files.forEach(fn => {
+    let m = /^bag_(.+)\.json$/.exec(fn);
+    if (m && NAME_RE.test(m[1])) {
+      const j = cached('find_bag_' + m[1], path.join(ctx.LOGS, fn), null); if (!j || !Array.isArray(j.items)) return;
+      src.bags++; if (j.at && (!src.bagNewest || j.at > src.bagNewest)) src.bagNewest = j.at;
+      const nm = m[1], mk = () => ({ name: nm, kind: 'char', known: known.has(nm), bagAt: j.at || null, whAt: null });
+      j.items.forEach(r => add(r, 'c:' + nm, mk, (r.eq || r.equipped) ? 'worn' : 'bag'));
+      return;
+    }
+    m = /^wh_private_(.+)\.json$/.exec(fn);
+    if (m && NAME_RE.test(m[1])) {
+      const j = cached('find_wh_' + m[1], path.join(ctx.LOGS, fn), null); if (!j || !Array.isArray(j.items)) return;
+      src.wh++;
+      const nm = m[1], mk = () => ({ name: nm, kind: 'char', known: known.has(nm), bagAt: null, whAt: j.seenAt || null });
+      j.items.forEach(r => add(r, 'c:' + nm, mk, 'wh'));
+      // a holder first made from the bag file gets the warehouse age too
+      Object.values(groups).forEach(g => { const H = g.holders['c:' + nm]; if (H && !H.whAt) H.whAt = j.seenAt || null; });
+    }
+  });
+  // the bag file may come after the warehouse file in the folder listing: fill in the bag age where it is missing
+  Object.values(groups).forEach(g => Object.values(g.holders).forEach(H => { if (H.kind === 'char' && !H.bagAt) { const j = cached('find_bag_' + H.name, path.join(ctx.LOGS, `bag_${H.name}.json`), null); if (j && j.at) H.bagAt = j.at; } }));
+  const cs = cached('find_clan', path.join(ctx.LOGS, 'clan_state.json'), {}) || {};
+  if (cs.warehouse && Array.isArray(cs.warehouse.items)) {
+    src.clanAt = cs.warehouse.seenAt || null; src.clanSeenBy = cs.warehouse.seenBy || '';
+    cs.warehouse.items.forEach(r => add(r, 'clan', () => ({ name: 'Clan warehouse', kind: 'clan', clanAt: src.clanAt, seenBy: src.clanSeenBy }), 'clan'));
+  }
+  // best matches first: the exact name, then names that start with it, then the rest by name; holders with the most first
+  const rank = (g) => { const n = g.name.toLowerCase(); return n === q ? 0 : n.startsWith(q) ? 1 : n.split(/[\s'(-]+/).some(w => w.startsWith(q)) ? 2 : 3; };
+  const all = Object.values(groups).sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+  const out = []; let n = 0, truncated = false;
+  for (const g of all) {
+    const hs = Object.values(g.holders).sort((a, b) => (a.kind === 'clan') - (b.kind === 'clan') || b.total - a.total || a.name.localeCompare(b.name));
+    hs.forEach(H => H.rows.sort((a, b) => ['worn', 'bag', 'wh', 'clan'].indexOf(a.where) - ['worn', 'bag', 'wh', 'clan'].indexOf(b.where) || b.enchant - a.enchant));
+    if (n + hs.length > FIND_MAX) { const room = FIND_MAX - n; if (room > 0) { out.push(Object.assign({}, g, { holders: hs.slice(0, room), more: hs.length - room })); n += room; } truncated = true; break; }
+    out.push(Object.assign({}, g, { holders: hs })); n += hs.length;
+  }
+  return { ok: true, q, items: out, results: n, truncated, sources: src, clanLeader: clanLeader(ctx), at: isoNow() };
 }
 // ---- the plan ----
 async function plan(ctx, b) {
@@ -296,6 +362,41 @@ async function enchantMany(ctx, b) {
   const body = r && r.body ? r.body : r; if (body && body.error) return { code: 500, error: body.error };
   return { ok: true, id, job: J, skipped: skip, short };
 }
+/** BUYMANY-2026-10-23 (owner: "Under /items/ I need to be able to purchase multiple items"): several shop items in ONE job = one Giran trip,
+ *  each bought at its own NPC (adena items; an exchange that costs other items keeps its own single job: its materials need a pick).
+ *  b = { name, items: [{ id, count, npc?, path? }], overOk } -> the job; nothing is bought before the owner presses the button (ASK FIRST). */
+async function buyMany(ctx, b) {
+  const name = String(b.name || ''); if (!NAME_RE.test(name)) return { code: 400, error: 'Choose a character.' };
+  const picks = (Array.isArray(b.items) ? b.items : []).map(x => ({ id: Number(x.id) || 0, count: Math.max(1, Math.min(100000, Number(x.count) || 1)), npc: String(x.npc || ''), path: Array.isArray(x.path) ? x.path.join(' > ') : String(x.path || '') })).filter(x => x.id > 0);
+  if (!picks.length) return { code: 400, error: 'Add at least one item to the list.' };
+  if (picks.length > 40) return { code: 400, error: 'At most 40 different items in one list.' };
+  const C = await charInfo(ctx, name, false); if (C.error) return C;
+  const all = [].concat(...shops(ctx).shops.map(x => x.rows)), list = [], skip = [], warn = [];
+  let adena = 0;
+  for (const p of picks) {
+    const rows = all.filter(r => r.id === p.id && !r.cost && r.price > 0);
+    const row = rows.find(r => r.npc === p.npc && (!p.path || !r.offer || (r.offer.path || []).join(' > ') === p.path)) || rows.sort((a, c) => a.price - c.price)[0];
+    if (!row) { const f = facts(ctx, p.id); skip.push(`${f.name || 'item ' + p.id}: no Giran NPC sells it for adena (an exchange: buy it on its own)`); continue; }
+    const cost = Math.ceil(row.price * p.count * 1.2);
+    adena += cost;
+    if (row.kind && !IL.levelOk(row.grade, C.level)) warn.push(`${row.name}: ${row.grade}-grade needs level ${IL.GRADE_LEVEL[row.grade]} (${name} is ${C.level || '?'})`);
+    list.push({ id: row.id, name: row.name, count: p.count, npc: row.npc, price: row.price, cost, offer: row.offer || null });
+  }
+  if (!list.length) return { code: 400, error: skip.join('; ') };
+  if (adena > C.adena) return { code: 409, error: `${name} has ${IL.kmb(C.adena)} adena, this list costs about ${IL.kmb(adena)} with tax — remove items or get adena first.`, adena, haveAdena: C.adena, list, skipped: skip };
+  if ((adena >= 3000000 || warn.length) && !b.overOk) return { code: 409, needWarning: true, error: `Please confirm: about ${IL.kmb(adena)} adena of ${name}'s ${IL.kmb(C.adena)}${warn.length ? '; ' + warn.join('; ') : ''}.`, adena, haveAdena: C.adena, list, skipped: skip, warn };
+  const id = `ij_${name.toLowerCase()}_${Date.now().toString(36)}`;
+  const steps = [`${name} goes to Giran once`].concat(list.map(x => `buy ${x.count.toLocaleString('en-US')}× ${x.name} at ${x.npc} (about ${IL.kmb(x.cost)} adena)`)).concat(skip.map(s => `skipped: ${s}`));
+  const J = { id, doer: name, item: { src: 'shop', id: list[0].id, name: `${list.length} item(s) from the Giran shops`, count: 1 }, buyMany: list.map(x => ({ id: x.id, name: x.name, count: x.count, npc: x.npc, offer: x.offer })),
+    adena, needs: [], steps, created: isoNow(), by: String(b.by || 'dashboard').slice(0, 40) };
+  fs.mkdirSync(JOBDIR(ctx), { recursive: true });
+  fs.writeFileSync(path.join(JOBDIR(ctx), id + '.json'), JSON.stringify(J, null, 1));
+  try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\titems\tjob ${id}: ${steps.join(' / ').slice(0, 400)}\t${J.by}\r\n`); } catch (e) { }
+  if (!ctx.commandRun) return { code: 500, error: 'the dashboard server needs a restart' };
+  const r = await ctx.commandRun({ cmd: `!itemjob ${id}`, targets: ['chars:' + name] });
+  const body = r && r.body ? r.body : r; if (body && body.error) return { code: 500, error: body.error };
+  return { ok: true, id, job: J, skipped: skip, adena };
+}
 /** the doer status + the receiver steps in one time line (the job is done when the receiver wore it / failed when either failed) */
 function mergeStatus(a, b) {
   if (!a && !b) return null; if (!b) return a;
@@ -377,10 +478,12 @@ async function handle(req, res, url, ctx) {
     if (sub === 'chars') return out(chars(ctx)), true;
     if (sub === 'char') return out(Object.assign(await charInfo(ctx, q('name'), q('fresh') === '1'), { jobs: recentJobs(ctx, q('name')) })), true;
     if (sub === 'shops') return out(shops(ctx)), true;
+    if (sub === 'find') return out(findItems(ctx, q('q'))), true;   // ITEMFIND-2026-10-23: hive-wide item search
     if (sub === 'log') return out(activity(ctx, q('name'), q('n'))), true;
     if (sub === 'plan' && req.method === 'POST') return out(await plan(ctx, b)), true;
     if (sub === 'job' && req.method === 'POST') return out(await job(ctx, b)), true;
     if (sub === 'enchantmany' && req.method === 'POST') return out(await enchantMany(ctx, b)), true;
+    if (sub === 'buymany' && req.method === 'POST') return out(await buyMany(ctx, b)), true;   // BUYMANY-2026-10-23
     if (sub === 'job') return out(jobStatus(ctx, q('id'))), true;
     if (sub === 'look' && req.method === 'POST') { const n = String(b.name || ''); if (!NAME_RE.test(n)) return out({ code: 400, error: 'name?' }), true; const r = await ctx.commandRun({ cmd: `!whlook ${n}`, targets: ['chars:' + n] }); const bd = r && r.body ? r.body : r; return out(bd && bd.error ? { code: 500, error: bd.error } : { ok: true }), true; }
     if (sub === 'craft' && req.method === 'POST') return out(await craftOrder(ctx, b)), true;
@@ -388,4 +491,4 @@ async function handle(req, res, url, ctx) {
     out({ code: 404, error: 'unknown items API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { handle, chars, charInfo, shops, plan, job, enchantMany, jobStatus, craftInfo, recipes, facts, activity, STATIC };
+module.exports = { handle, chars, charInfo, shops, findItems, plan, job, enchantMany, buyMany, jobStatus, craftInfo, recipes, facts, activity, STATIC };
