@@ -628,7 +628,7 @@
     const routes = routeById(), loot = lootByBoss(), L = liveObj(), nx = nextFor(p, 1)[0];
     const alive = RP.raids.filter(r => stOf(r, now).k === 'alive').length;
     patch($id('rpSum'), RP.raids.length ? `<b>${RP.raids.length}</b> bosses · <b>${alive}</b> seen alive · <b>${RP.routes.length}</b> saved routes` : 'loading…');
-    patch($id('rpCount'), `${list.length} of ${RP.raids.length} bosses${list.length < RP.raids.length ? ` · <a data-rpall="1">show all</a>` : ''}${t ? ` · fit and distances for party <b style="color:${pcol(p)}">${esc(p)}</b> (lvl ${t.min}-${t.max})` : ''}`);
+    patch($id('rpCount'), (window.RouteFix ? RouteFix.banner(RP.raids) : '') + `${list.length} of ${RP.raids.length} bosses${list.length < RP.raids.length ? ` · <a data-rpall="1">show all</a>` : ''}${t ? ` · fit and distances for party <b style="color:${pcol(p)}">${esc(p)}</b> (lvl ${t.min}-${t.max})` : ''}`);
     const cards = list.map((r, i) => card(r, i, now, p, routes, loot, L, nx));
     patch($id('rpBoard'), cards.join('') || `<div class="rp-empty">No boss matches these filters. <a data-rpall="1">Show all ${RP.raids.length}</a></div>`);
     tick();
@@ -659,7 +659,7 @@
       <div class="rp-ic"><img src="/icons/${UI.raid}.png" alt="" loading="lazy"><i class="ring"></i><b class="lv">${r.level}</b></div>
       <div class="rp-main"><div class="rp-t"><a class="rp-name" href="#/raid/${r.id}">${esc(r.name)}</a>${nx && nx.id === r.id ? '<span class="rp-b route locked" title="what raidhunt takes next for this party">next</span>' : ''}${badges.join('')}</div>
         <div class="rp-sub" title="${esc(r.tp || '')}${r.walk ? ' + ' + km(r.walk) + ' walk' : ''}">${sub}</div>${stat}
-        ${chips ? `<div class="rp-fit">${chips}</div>` : ''}${last}</div>
+        ${chips ? `<div class="rp-fit">${chips}</div>` : ''}${last}${window.RouteFix ? RouteFix.sign(r.id, { small: true }) : ''}</div>
       <div class="rp-go"><button type="button" data-rpraid="${esc(r.name)}" title="send party ${esc(p)} to raid it">Raid</button></div></article>`;
   }
 
@@ -926,7 +926,7 @@
           <a class="v3d-btn" style="text-decoration:none" href="#/view3d/boss:${esc(String(RP.bossId))}" title="the boss in 3D: its room, minions, aggro and attack range, skills">3D view</a>          <button type="button" id="rpbRaid">Raid it</button><button type="button" id="rpbScout" title="send ONE character to a safe look-out to see whether the boss is up (it goes back to town by itself)">Scout: is it up?</button><button type="button" id="rpbExcl" data-excl="${r.excluded ? '0' : '1'}" class="${r.excluded ? 'on' : ''}" title="take this boss out of the raid hunt for every party (a manual Raid it still works)">${r.excluded ? '✓ Excluded — include again' : 'Exclude from raid hunt'}</button>${live ? '<button type="button" data-rpgo="#/live">Watch live</button>' : ''}<button type="button" data-rpgo="#/raids">All bosses</button></div></div>
       <div class="rpb-stat" style="--st:var(--rp-${s.k === 'unknown' ? 'unk' : s.k === 'window' ? 'win' : s.k})"><span class="k">${esc(s.label)}</span><span>${s.to ? `${esc(s.pre)} <span class="cd" data-cdto="${s.to}"></span> · ` : ''}<span class="muted">${esc(s.sub)}</span></span>
         ${s.to ? `<div class="rp-bar2"><i data-bfrom="${s.from}" data-bto="${s.to}" style="width:${pct(s.from, s.to, now)}%"></i></div>` : ''}</div>`;
-    patch($id('rpbHead'), head);
+    patch($id('rpbHead'), head + (window.RouteFix ? RouteFix.sign(b.id, { missing: true }) : ''));   // ROUTEFIX-2026-10-23
     const tp = b.nearestTeleport || {};
     const statusHtml = `<div class="rpb-kv"><span>Status</span><span>${esc(s.label)} — ${esc(s.sub)}</span>
       ${r.earliest ? `<span>Window</span><span>earliest ${when(r.earliest)} – latest ${when(r.latest)}</span>` : ''}
@@ -1242,4 +1242,57 @@
   }
   window.RouteAtlas = { get, cached, svgLayer, legend, infoHtml, prefillRed, bind, fitPts, factsHtml, badMap, version: '2026-10-12',
     _pure: { raSegments, raWalkPts, raMarkers, raSummary, raPrefill } };
+})();
+// ROUTEFIX-2026-10-23 (owner: "It should be extremely clear under raids, circuit and so on that the route should be manually fixed: a red sign.
+// Then I will record all those that are missing"). ONE shared module for every page (raids board, boss page, circuit page): a route that failed
+// twice in a row (GET /api/routes needsFix, swarm.js raidRouteFailed / rsStat) = a big red FIX THIS ROUTE sign with where the leader got stuck
+// (route file .stuck, written by mtLeadRouteWalk), a boss without any saved route = NO ROUTE (record it). Both link to the route editor.
+(function () {
+  'use strict';
+  const RF = { map: {}, at: 0, busy: false, subs: [] };
+  const h = (s) => String(s == null ? '' : s).replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+  function css() {
+    if (document.getElementById('rf-css')) return;
+    const st = document.createElement('style'); st.id = 'rf-css';
+    st.textContent = '.rf-sign{display:flex;gap:8px;align-items:flex-start;margin:6px 0;padding:7px 10px;border:2px solid #e0443a;border-radius:7px;background:#3a1210;color:#ffd9d4;font-size:var(--fs-cap,13px);line-height:1.4;overflow-wrap:anywhere}'
+      + '.rf-sign .rf-k{flex:0 0 auto;padding:1px 7px;border-radius:4px;background:#e0443a;color:#fff;font-weight:700;letter-spacing:.04em;white-space:nowrap}'
+      + '.rf-sign.missing{border-color:#e08a3a;background:#33200c;color:#ffe3c4}.rf-sign.missing .rf-k{background:#e08a3a}'
+      + '.rf-sign a.rf-go{margin-left:auto;flex:0 0 auto;padding:2px 10px;border-radius:4px;border:1px solid currentColor;color:inherit;text-decoration:none;white-space:nowrap}'
+      + '.rf-sign.sm{padding:3px 7px;margin:3px 0;font-size:var(--fs-mini,12px)}'
+      + '.rf-banner{margin:8px 0;padding:9px 12px;border:2px solid #e0443a;border-radius:8px;background:#2c0e0c;color:#ffd9d4}.rf-banner b.t{color:#fff}.rf-banner a{color:#ffb3a6}';
+    document.head.appendChild(st);
+  }
+  async function load(force) {
+    if (RF.busy) return RF.p;                                          // one fetch at a time: wait for the running one
+    if (!force && Date.now() - RF.at < 60000) return RF.map;
+    RF.busy = true;
+    return (RF.p = (async () => { try { const r = await fetch('/api/routes', { cache: 'no-store' }); const d = await r.json(); const m = {}; (d.routes || []).forEach(x => { m[String(x.id)] = x; }); RF.map = m; RF.at = Date.now(); RF.subs.forEach(f => { try { f(); } catch (e) { } }); }
+    catch (e) { } finally { RF.busy = false; }
+    return RF.map; })());
+  }
+  /** 'fix' | 'missing' | 'ok' (+ the route) for a boss id; missing only once the list is loaded */
+  function state(id) { const r = RF.map[String(id)]; if (r) return { k: (r.needsFix || ((+r.fails || 0) >= 2 && !(Date.parse(r.lastOk || '') > Date.parse(r.lastFail || '')))) ? 'fix' : 'ok', r }; return { k: RF.at ? 'missing' : 'ok', r: null }; }   // fails >= 2 also before the server restart
+  function when(iso) { const t = Date.parse(iso || ''); if (!t) return ''; const m = Math.round((Date.now() - t) / 60000); return m < 60 ? m + ' min ago' : m < 2880 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' days ago'; }
+  /** the red sign for one boss ('' when its route is fine). o = { name, small, missing: show NO ROUTE too } */
+  function sign(id, o) {
+    css(); o = o || {}; const s = state(id), href = '#/raid/' + encodeURIComponent(id) + '/route', nm = o.name ? h(o.name) + ': ' : '';
+    if (s.k === 'fix') {
+      const r = s.r, st = r.stuck, where = st ? ` · ${h(st.by || 'the leader')} got stuck before point <b>${+st.point || '?'}/${+st.n || r.points || '?'}</b> at ${+st.x},${+st.y} (${h(when(st.at))})` : '';
+      return `<div class="rf-sign${o.small ? ' sm' : ''}" role="alert"><span class="rf-k">FIX THIS ROUTE</span><span>${nm}the ${r.manual ? 'locked ' : ''}route failed <b>${+r.fails}×</b> in a row${r.lastFail ? ' (last ' + h(when(r.lastFail)) + ')' : ''}${where}. Move or re-record that part of the route.</span><a class="rf-go" href="${href}">Fix it ›</a></div>`;
+    }
+    if (s.k === 'missing' && o.missing) return `<div class="rf-sign missing${o.small ? ' sm' : ''}"><span class="rf-k">NO ROUTE</span><span>${nm}no saved route yet — the bots plan one themselves. Record it so they walk your way.</span><a class="rf-go" href="${href}">Record ›</a></div>`;
+    return '';
+  }
+  /** a summary banner over a list of boss ids [{ id, name }] ('' when every route is fine) */
+  function banner(list, o) {
+    css(); o = o || {};
+    const fix = [], miss = [];
+    (list || []).forEach(b => { const s = state(b.id); if (s.k === 'fix') fix.push(b); else if (s.k === 'missing' && o.missing) miss.push(b); });
+    if (!fix.length && !miss.length) return '';
+    const ln = (arr) => arr.slice(0, 12).map(b => `<a href="#/raid/${encodeURIComponent(b.id)}/route">${h(b.name || '#' + b.id)}</a>`).join(', ') + (arr.length > 12 ? ` and ${arr.length - 12} more` : '');
+    return `<div class="rf-banner" role="alert">${fix.length ? `<div><span class="rf-sign sm" style="display:inline-flex;margin:0 6px 0 0;padding:0;border:0;background:none"><span class="rf-k">FIX</span></span><b class="t">${fix.length} route${fix.length > 1 ? 's' : ''} must be fixed by hand:</b> ${ln(fix)}</div>` : ''}${miss.length ? `<div style="margin-top:4px"><b class="t">${miss.length} without a route</b> (record them): ${ln(miss)}</div>` : ''}</div>`;
+  }
+  function onLoad(f) { RF.subs.push(f); }
+  window.RouteFix = { load, state, sign, banner, onLoad, _rf: RF };
+  load(true);
 })();

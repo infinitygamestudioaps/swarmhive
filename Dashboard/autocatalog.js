@@ -106,6 +106,9 @@
     { key: 'dyes', group: 'supply', title: 'Draw symbols (dyes)', gate: 'start', def: 'off', eval: 'pauto', pauto: ['dyes'],
       what: 'During supply runs each character with a symbol plan buys the dyes and draws its next symbol in Giran.',
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
+    { key: 'storeMagnus', group: 'supply', title: "Magnus' Chant from a buff store", gate: 'start', def: 'off', eval: 'pauto', pauto: ['storeMagnus'],   // MAGNUS-2026-10-23
+      what: "In supply runs and Giran rebuffs the leader buys Magnus' Chant (Chant of Magus: casting speed) for the whole party from a player buff store.",
+      switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },
     { key: 'storeCov', group: 'supply', title: 'Chant of Victory from a buff store', gate: 'start', def: 'off', eval: 'pauto', pauto: ['storeCov'],   // BUFFSTORE-2026-10-19
       what: 'At the end of a supply run in Giran the leader buys Chant of Victory for the whole party from a player buff store, when it is cheap and running out.',
       switch: 'party Settings → Supplies', where: { label: 'Supplies settings', settings: 'supplies' } },

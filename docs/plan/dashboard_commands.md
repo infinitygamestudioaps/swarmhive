@@ -13,10 +13,10 @@ How a command travels (server.js `commandPlan`):
 - **@login / @logout**: MCP open_account (the character's config) / close_account.
 - Passwords are never read or set (any / command naming a password is refused); `/config save` never takes a file name (it would re-point the account).
 
-Counts: 192 catalog entries — 150 swarm (103 distinct !words = every !command swarm.js handles except the internal !ready),
+Counts: 193 catalog entries — 151 swarm (103 distinct !words = every !command swarm.js handles except the internal !ready),
 34 L2Swarm chat-box (32 distinct /words), 8 dashboard actions.
 Hidden (not offered in the command center, still typed by hand): return, clancreate, b_runmacro, farm, camp, go, raidold, career, escort, queststop_old, gear, shop, kamaold.
-Safety: 28 safe, 143 confirm, 18 destructive.
+Safety: 28 safe, 143 confirm, 19 destructive.
 
 ## Move / Travel
 
@@ -65,6 +65,7 @@ Safety: 28 safe, 143 confirm, 18 destructive.
 | `!res {who}[ {how}]` | <who>: char, [how]: select | every window that hears it | party, one character, several characters | needs confirm | palette · party sheet + character sheet | Resurrect a dead member (best one near): Every window of the party decides; the best one near acts: a res skill first, else the nearest one with a Scroll of Resurrection (healers and the tank last). Works also when automatic res is off and in a raid (your order). Runs up to 2 min. |
 | `!resall` | — | every window that hears it | party | needs confirm | palette · party sheet | Res all dead: Every dead member of the party: healers first, then the tank, then the rest; a res skill first, else anyone with a scroll (also in a raid). Each one raised rebuffs first. Runs up to 2 min. |
 | `!ov {name} soe` | <name>: char | each character for itself ([name] = only that one) | one character | needs confirm | palette · character sheet | Override: Scroll of Escape NOW: That character reads a Scroll of Escape at once (an explicit order; the bots themselves only use .townname). Its bot is off during the cast; a hit can still interrupt it — a second toast says teleported / interrupted. |
+| `!ov {name} destroy {obj}[ {count}]` | <name>: char, <obj>: number, [count]: number | each character for itself ([name] = only that one) | one character | **destructive** (confirm + typed YES; server refuses without it) | palette · character sheet | Override: DESTROY an item: That character destroys the item (inventory OBJECT id), e.g. one no shop buys (Sell list: No shop buys this). Never equipped, quest items or adena (it refuses). Destructive: typed YES. |
 | `!ov {name} drop {obj}[ {count}]` | <name>: char, <obj>: number, [count]: number | each character for itself ([name] = only that one) | one character | **destructive** (confirm + typed YES; server refuses without it) | palette · character sheet | Override: DROP an item: That character drops the item (inventory OBJECT id) on the ground. Never equipped or quest items (it refuses). Destructive: typed YES. |
 | `!buff` | — | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Rebuff (board buffs, one at a time): Forced rebuff queue; characters that already have their buffs skip it. |
 | `!buffauto {on}` | <on>: onoff | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Auto-rebuff on/off: Automatic rebuff rotation on or off (until a script reload). |

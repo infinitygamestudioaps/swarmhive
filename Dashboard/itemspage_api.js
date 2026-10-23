@@ -86,6 +86,15 @@ function shops(ctx) {
   return { ok: true, at: S.at || null, market: M ? M.at : null, shops: out };
 }
 
+// CHARSRC-2026-10-23 (owner: "there need to be an option to get crystals from another character or warehouse"): who else carries this item in the
+// bag (Logs/bag_<Name>.json, every window writes its own; max 6 h old) -> [{ name, count, rows: [{ objId, id, name, count, stack }] }], most first
+function holdersOf(ctx, tid, except) {
+  const out = [];
+  try { fs.readdirSync(ctx.LOGS).forEach(f => { const m = /^bag_(.+)\.json$/.exec(f); if (!m || m[1] === except) return; const j = rj(path.join(ctx.LOGS, f), null); if (!j || !Array.isArray(j.items) || Date.now() - (Date.parse(j.at || '') || 0) > 6 * 3600000) return;
+    const rows = j.items.filter(r => Number(r.id) === Number(tid) && !r.eq && !r.equipped && !r.q && !r.quest); const count = rows.reduce((a, r) => a + (Number(r.count) || 1), 0);
+    if (count > 0) out.push({ name: m[1], count, rows: rows.map(r => ({ objId: Number(r.objId), id: Number(r.id), name: String(r.name || ''), count: Number(r.count) || 1, stack: !!(r.stackable || Number(r.count) > 1) })) }); }); } catch (e) { }
+  return out.sort((a, b) => b.count - a.count);
+}
 // ---- the plan ----
 async function plan(ctx, b) {
   const name = String(b.name || ''); if (!NAME_RE.test(name)) return { code: 400, error: 'Choose a character.' };
@@ -104,9 +113,17 @@ async function plan(ctx, b) {
   const takeFrom = (what, tid, n, depth) => {
     const h = IL.have(tid, S), bag = Math.min(n, h.bag), rest = n - bag, choice = rest > 0 ? String(pick[tid] || '') : '';
     const best = offerFor(tid), from = { bag, wh: 0, clan: 0, buy: 0 };
-    const need = { what, id: tid, need: n, have: h, from, missing: 0, choice, options: { wh: h.wh, clan: h.clan, buy: best ? { npc: best.npc, kind: best.kind, price: best.price || 0, cost: best.cost || null } : null }, ask: rest > 0 };
+    const holders = rest > 0 ? holdersOf(ctx, tid, name) : [];   // CHARSRC: another character's bag
+    const need = { what, id: tid, need: n, have: h, from, missing: 0, choice, options: { chars: holders.map(x => ({ name: x.name, count: x.count })), wh: h.wh, clan: h.clan, buy: best ? { npc: best.npc, kind: best.kind, price: best.price || 0, cost: best.cost || null } : null }, ask: rest > 0 };
     if (rest > 0) {
-      if (choice === 'wh') { from.wh = Math.min(rest, h.wh); need.missing = rest - from.wh; }
+      if (/^char:/.test(choice)) {   // CHARSRC: that character hands it over in Giran (hand-over machinery)
+        const H = holders.find(x => 'char:' + x.name === choice);
+        if (H) { let left = rest; const rows = []; H.rows.forEach(r => { if (left <= 0) return; const c = r.stack ? Math.min(left, r.count) : 1; rows.push(Object.assign({}, r, { count: c })); left -= c; });
+          from.char = { name: H.name, count: rest - left, rows }; need.missing = left;
+          steps.splice(1, 0, { k: 'handover', text: `${H.name} hands ${rest - left}× ${what} to ${name} in Giran` }); }
+        else need.missing = rest;
+      }
+      else if (choice === 'wh') { from.wh = Math.min(rest, h.wh); need.missing = rest - from.wh; }
       else if (choice === 'clan') { from.clan = Math.min(rest, h.clan); need.missing = rest - from.clan; }
       else if (choice === 'buy' && best && !depth) {
         const per = Math.max(1, Number(best.count) || 1), times = Math.ceil(rest / per), npcRow = (M.npcs || []).find(x => x.name === best.npc) || {};

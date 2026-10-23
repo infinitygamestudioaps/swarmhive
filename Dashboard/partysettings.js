@@ -52,7 +52,7 @@
     { key: 'supplyWatch', char: false, label: 'Supply runs when someone runs low', help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out.' },
     { key: 'sell', char: true, label: 'Sell junk on town visits', help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
     { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs', help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' }];
-  const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate', storeCov: 'Chant of Victory', vitality: 'Gift of Vitality' };   // UNLOADGATE-2026-10-16
+  const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate', storeCov: 'Chant of Victory', storeMagnus: "Magnus' Chant", vitality: 'Gift of Vitality' };   // UNLOADGATE-2026-10-16
   // HIVESW-2026-10-15: the Combat section's switches (= partyauto_api.js KINDS group 'combat'; default ON when nothing is set)
   const CB_KINDS = [
     { key: 'skills', char: true, def: true, group: 'combat', label: 'Hive picks my skills', help: 'On: Hive chooses and casts attacks, area attacks, debuffs, buffs, songs / dances, toggles and the raid role skills. Off: Hive casts nothing by itself — your L2Swarm profile (Combat Skills tab) fights; Hive still walks, follows, resupplies and shows everything here.' },

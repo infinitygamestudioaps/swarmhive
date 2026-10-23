@@ -2,6 +2,23 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.8.17 (2026-10-23)
+
+- Casters: Devotion set until 40, then the Demon set for nukers and the Karmian set for healers and buffers
+- set pieces are bought together, never half a set
+- Upgrade weapon on the character page (Special Ability crystals can come from another character)
+- Magnus' Chant from Giran buff stores (party switch). Long hunts: every party at a hunting spot now hunts in 12-hour sessions with no automatic town trips (per party setting, 0 = off)
+- supply runs buy enough for the whole session from the measured use
+- shots no NPC sells never cause a trip (the party card says so). Routes: a leader stuck on a route leg plans a way around the blocked step and saves it
+- routes that keep failing get a red FIX THIS ROUTE sign on Raids, Circuit and the party card, bosses without a route a NO ROUTE sign. Parties added through the dashboard while the bots run: the running parties learn the new characters at once
+- an unknown character is never counted as the main party (a stopped, parked party ported to the new parties
+- a party took another party room)
+- rescue calls carry their own leader. Hunting spot map: monsters show inside dungeons at every zoom and load faster
+- zones and hunting grounds no longer vanish when you zoom in
+- dungeon floors without a floor picture show the world map, and the dashboard draws the floor pictures by itself once. Spots drawn on the map without a start teleport now teleport to the nearest landing first instead of refusing
+- the Giant Cave teleport marker is back in the spot editor. Party plans: an automation (hunt timer, watchdog, errands) never interrupts leveling that already runs, only your own orders restart it
+- a plan leveling step never stops as blocked any more: it pauses 10 min, says why in party chat, and tries again (new requirement plan.md). Party card: the last sale after a supply run (sold, adena, kept and why). Character page: items no shop buys are marked, with Untick and Destroy (typed YES). Silent Move: a character with Silent Move travelling alone switches it on near aggressive monsters
+
 ## v1.8.16 (2026-10-22)
 
 - NPCs: a character always walks right in front of an NPC before clicking (learned standing spots shared by all characters, the NPC front, 8 spots around it, L2Swarm walker fallback) and never clicks from out of range

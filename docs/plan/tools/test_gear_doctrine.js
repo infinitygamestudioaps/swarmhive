@@ -15,7 +15,7 @@ let pass = 0, fail = 0; const fails = [];
 const ok = (c, m) => { if (c) pass++; else { fail++; fails.push(m); } };
 const it = (id) => C.items[id] || {};
 const setOf = {}, setsOf = {}; C.sets.forEach(S => Object.values(S.pieces).forEach(ids => ids.forEach(i => { if (!setOf[i]) setOf[i] = S; (setsOf[i] = setsOf[i] || []).push(S); })));   // B+ helmets are shared by the heavy / light / robe sets of a family
-const TYPE = { heavyShield: 'HEAVY', heavy: 'HEAVY', light: 'LIGHT', robe: 'MAGIC' };
+const TYPE = { heavyShield: 'HEAVY', heavy: 'HEAVY', light: 'LIGHT', robe: 'MAGIC', robeHeal: 'MAGIC' };
 const table = process.argv.includes('--table');
 
 // 0) the plan itself

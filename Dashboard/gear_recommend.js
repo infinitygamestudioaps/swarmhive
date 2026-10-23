@@ -185,7 +185,7 @@ function recommendFor(C, G, h, c, grade) {
   const DP = h.doctrine ? DOC.planFor(h.doctrine, C, c.id, grade) : null;
   if (DP) {
     const tag = 'Gear plan';
-    const COLT = { heavyShield: 'HEAVY', heavy: 'HEAVY', light: 'LIGHT', robe: 'MAGIC' }[DP.col] || '';
+    const COLT = { heavyShield: 'HEAVY', heavy: 'HEAVY', light: 'LIGHT', robe: 'MAGIC', robeHeal: 'MAGIC' }[DP.col] || '';   // robeHeal 2026-10-23: healers + buffers (Karmian at C)
     const fullAlt = (e, L) => { const A = (L || []).filter((x, i, a) => x && x !== e.id && a.indexOf(x) === i); e.alt = A; e.altNames = A.map(x => (C.items[x] || {}).n || ''); return e; };
     const names = (L) => L.map(i => (C.items[i] || {}).n).filter(Boolean).join(', ');
     // weapon

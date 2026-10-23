@@ -24,6 +24,9 @@ const KINDS = [
   // BUFFSTORE-2026-10-19 (owner: "maybe even take COV before you enter the catacomb, it's barely any adena"): default OFF
   { key: 'storeCov', char: false, label: 'Chant of Victory from a Giran buff store in supply runs',
     help: 'At the end of every supply run in Giran the leader buys Chant of Victory for the whole party from a player buff store near the landing (a seller whose title says COV; about 1 adena per member, 12 hours). Skipped while more than 1 hour is left, or when the store asks more than 5000 adena. Lost on death until the next supply run.' },
+  // MAGNUS-2026-10-23 (owner: "the nuker parties are not buying 'Chant of Magus' from town ... it gives even more casting speed")
+  { key: 'storeMagnus', char: false, label: "Magnus' Chant (Chant of Magus) from a Giran buff store",
+    help: "In every supply run / Giran rebuff the leader buys Magnus' Chant for the whole party from a player buff store near the Giran landing (a Doomcryer seller, about 1 adena per member, 12 hours): more casting speed and less MP use for casters and healers. Skipped while more than 1 hour is left, or when the store asks more than 5000 adena." },
   // VITALITY-2026-10-21 (public tester Vykaax: "refill vitality when in town during resupply"): default OFF
   { key: 'vitality', char: false, label: 'Gift of Vitality in supply runs',
     help: "In every supply run in Giran each character whose vitality is below level 4 walks to Eva's High Priest (Steve Shyagel, next to the Giran temple) and takes the free Gift of Vitality: vitality level 4 for 2 hours (more experience). Each character at most once every 5 hours; when the priest is gone (event over) it tries again 6 hours later. Your order !vitality [name] takes it at once." },

@@ -3707,7 +3707,7 @@ document.addEventListener('change', async (e) => {
   const id = Number(el.dataset.sellid), v = el.value, name = el.dataset.sellchar;
   const scope = v === 'char' ? name : v === 'keep' ? 'keep' : 'all';
   const d = await api('/api/sell', { method: 'POST', body: JSON.stringify({ id, scope, on: v !== '' }) });
-  if (d.list) SELL = d.list;
+  if (d.list) SELL = Object.assign({ noShop: SELL.noShop }, d.list);   // SELLNOSHOP: keep the no-shop marks
   $('msg').innerHTML = GI(UI.yes, 'sm') + ' sell list saved — the bots use it at their next town visit';
   el.blur(); renderCharWin();
 });
@@ -5469,6 +5469,8 @@ function spmNearPx(x, y, r) { return (ll, pt) => { const p = spmPx(x, y); return
 function spmInside(P) { const Q = P.map(p => ({ x: +p[0], y: +p[1] })); return (ll) => spmInPoly(ll.lng, ll.lat, Q); }
 function spmHitRun(e) {
   const pt = SPM.map.latLngToContainerPoint(e.latlng), L2 = (SPM.hit || []).concat(SPM.hitMobs || []).sort((a, b) => a.prio - b.prio);
+  // TAPONCE 2026-10-23: some browsers / touch layers deliver the same tap twice; a toggle (area / room) then switched on and straight off again
+  { const t = Date.now(), lt = SPM.lastTap; if (lt && t - lt.t < 150 && Math.hypot(lt.x - pt.x, lt.y - pt.y) < 6) return true; SPM.lastTap = { t, x: pt.x, y: pt.y }; }   // 150 ms: a duplicate arrives at once, a deliberate second tap later
   for (const h of L2) { let yes = false; try { yes = h.test(e.latlng, pt); } catch (er) { } if (yes) { h.act(); return true; } }
   return false;
 }
@@ -5489,13 +5491,18 @@ function spmLayers() {
   const d = PSPOT.data || {}, o = d.options || {}, { min, max } = SPK.lvl, z = map.getZoom(), B = map.getBounds().pad(0.35);
   const claims = d.claims || [], occ = d.occupied || [], s = SPM.sel, c = spmCur();
   const inB = (x, y) => B.contains(spmLL(x, y));
+  // ZOOMVIS 2026-10-22 (Vykaax: "zones disappear when you scroll in"): a shape counts as in view when ANY part of it is, not only its centre
+  // (zoomed into the edge of a big hunting ground / zone the centre is off screen). box = [x0, x1, y0, y1]
+  const boxIn = (b) => Array.isArray(b) && b.length === 4 && b.every(isFinite) && B.intersects(L.latLngBounds(spmLL(b[0], b[2]), spmLL(b[1], b[3])));
+  const polyBox = (P) => { if (!P || !P.length) return null; const b = [1e9, -1e9, 1e9, -1e9]; P.forEach(q => { b[0] = Math.min(b[0], q[0]); b[1] = Math.max(b[1], q[0]); b[2] = Math.min(b[2], q[1]); b[3] = Math.max(b[3], q[1]); }); return b; };
   // --- our own zones FIRST = under the hunting-ground areas (an area tap wins over a big zone around it; the zone stays tappable outside them)
   const Z = spmZones(false), zinfo = {}; (o.zones || []).forEach(x => { zinfo[x.name] = x; });
   Z.forEach(zn => {
     if (/^KEEPOUT\b/.test(String(zn.note || ''))) return;                    // keep-out carriers: only their holes are drawn (below)
     const zi = zinfo[zn.name] || zn, lvA = +zi.levelMin || 1, lvB = +zi.levelMax || 99, fit = spmFit(lvA, lvB, min, max);
     const sel = s && s.kind === 'zone' && s.name === zn.name, cur = c.kind === 'zone' && c.spot === zn.name;
-    if (!isFinite(zn.x) || !inB(zn.x, zn.y) || zn.floor) return;             // a dungeon-floor zone shows on its floor
+    if (!isFinite(zn.x) || zn.floor) return;                                 // a dungeon-floor zone shows on its floor
+    { const zr = +zn.radius || 2000, zb = polyBox(spmPolyOf(zn.poly)) || [zn.x - zr, zn.x + zr, zn.y - zr, zn.y + zr]; if (!inB(zn.x, zn.y) && !boxIn(zb)) return; }
     const off = zi.enabled === false, col = sel ? '#fff' : off ? '#777' : '#5aa9ff';
     const opt = { color: col, weight: sel ? 3 : cur ? 2.5 : 1.6, fillColor: off ? '#777' : '#5aa9ff', fillOpacity: sel ? 0.4 : 0.16, dashArray: off ? '6 5' : null, interactive: false };
     const P = spmPolyOf(zn.poly);
@@ -5510,7 +5517,12 @@ function spmLayers() {
     const fit = spmFit(r.levelRange[0], r.levelRange[1], min, max), mine = (s && s.kind === 'field' && s.ids.some(id => String(id).indexOf(r.id + '-') === 0)) || (c.kind === 'field' && (c.areaIds || []).some(id => String(id).indexOf(r.id + '-') === 0));
     const held = claims.some(cl => String(cl.key || '').startsWith('area:' + r.id + '-') && cl.team !== SPK.party), busy = occ.some(oc => String(oc.key || '').startsWith('area:' + r.id + '-'));
     const col = FIT_COL[fit];
-    if (!inB(r.center[0], r.center[1])) return;
+    // zoomed out: the marker at the centre; zoomed in: the region's box (server bbox, else the loaded areas' box, else ~25k around the centre)
+    if (!inB(r.center[0], r.center[1])) {
+      if (z < 0) return;
+      const lm = SPM.fm[r.id] && SPM.fm[r.id].m, cx = r.center[0], cy = r.center[1];
+      if (!boxIn(r.bbox || (lm && lm.bbox) || [cx - 25000, cx + 25000, cy - 25000, cy + 25000])) return;
+    }
     if (z < 0) {
       const m = L.circleMarker(spmLL(r.center[0], r.center[1]), { radius: mine ? 10 : 8, color: mine ? '#fff' : '#000', weight: mine ? 3 : 1.5, fillColor: busy ? '#ff5a45' : col, fillOpacity: 0.9, interactive: false });
       spmHitAdd(HIT, 0, spmNearPx(r.center[0], r.center[1], 13), () => { map.setView(spmLL(r.center[0], r.center[1]), Math.max(0.75, z)); spmShowRegion(r); });
@@ -5585,19 +5597,22 @@ function spmPartyLayer(band) {
 // =========================================================================================== monster spawns (/api/spawnsin)
 function spmMobs() {
   const map = SPM.map, G = SPM.groups; if (!map || !G) return;
+  // MOBFIX-2026-10-22 (owner: "Monsters are not shown inside dungeons ... in the open fields the monsters load in slow"): a dungeon floor shows its
+  // monsters at every zoom (Giant's Cave upper layer fits at zoom 0.75 < the field limit 1 = nothing drawn); one wide box is fetched and reused while
+  // the view stays inside it (was: a new request per 2000-unit pan step); a pan during a running request runs right after it (it was dropped).
   const on = SPM.mobsOn !== false, z = map.getZoom();
-  if (!on || z < 1) { G.mobs.clearLayers(); SPM.spawn.key = ''; return; }
-  const c = map.getCenter(), b = map.getBounds(), half = 29000;
-  const x0 = Math.max(b.getWest(), c.lng - half), x1 = Math.min(b.getEast(), c.lng + half), y0 = Math.max(b.getNorth() < b.getSouth() ? b.getNorth() : b.getSouth(), c.lat - half), y1 = Math.min(Math.max(b.getNorth(), b.getSouth()), c.lat + half);
-  const band = SPM.dun ? spmDunBand() : null, q = (v) => Math.round(v / 2000) * 2000;
-  const key = [q(x0), q(y0), q(x1), q(y1), band ? band.join(':') : ''].join('|');
-  const draw = () => spmMobDraw(band);
-  if (key === SPM.spawn.key) { draw(); return; }
-  if (SPM.spawn.busy) return;
-  SPM.spawn.busy = true; const want = key;
-  const X0 = q(x0) - 2000, Y0 = q(y0) - 2000, X1 = Math.min(q(x1) + 2000, X0 + 60000), Y1 = Math.min(q(y1) + 2000, Y0 + 60000);
-  api(`/api/spawnsin?x0=${X0}&y0=${Y0}&x1=${X1}&y1=${Y1}${band ? `&z0=${band[0] - 300}&z1=${band[1] + 300}` : ''}`).then(r => { if (r && Array.isArray(r.mobs)) { SPM.spawn.list = r.mobs; SPM.spawn.key = want; draw(); } })
-    .catch(() => { }).finally(() => { SPM.spawn.busy = false; });
+  if (!on || (!SPM.dun && z < 1)) { G.mobs.clearLayers(); SPM.spawn.key = ''; SPM.spawn.box = null; return; }
+  const b = map.getBounds(), band = SPM.dun ? spmDunBand() : null, bk = band ? band.join(':') : '';
+  const vx0 = b.getWest(), vx1 = b.getEast(), vy0 = Math.min(b.getNorth(), b.getSouth()), vy1 = Math.max(b.getNorth(), b.getSouth());
+  const draw = () => spmMobDraw(band), B = SPM.spawn.box;
+  if (B && B.bk === bk && vx0 >= B.X0 && vx1 <= B.X1 && vy0 >= B.Y0 && vy1 <= B.Y1) { draw(); return; }   // still inside the fetched box
+  if (SPM.spawn.busy) { SPM.spawn.again = true; return; }
+  SPM.spawn.busy = true; SPM.spawn.again = false;
+  const cx = (vx0 + vx1) / 2, cy = (vy0 + vy1) / 2, half = Math.min(30000, Math.max(12000, Math.max(vx1 - vx0, vy1 - vy0) * 0.9)), q = (v) => Math.round(v / 1000) * 1000;
+  const X0 = q(cx - half), Y0 = q(cy - half), X1 = q(cx + half), Y1 = q(cy + half);
+  api(`/api/spawnsin?x0=${X0}&y0=${Y0}&x1=${X1}&y1=${Y1}${band ? `&z0=${band[0] - 300}&z1=${band[1] + 300}` : ''}`).then(r => {
+    if (r && Array.isArray(r.mobs)) { SPM.spawn.list = r.mobs; SPM.spawn.box = { X0, Y0, X1, Y1, bk }; SPM.spawn.key = [X0, Y0, X1, Y1, bk].join('|'); draw(); }
+  }).catch(() => { }).finally(() => { SPM.spawn.busy = false; if (SPM.spawn.again) setTimeout(spmMobs, 0); });
 }
 /** cluster per 26 screen px: one marker per cell (count, aggressive share, the highest level); tap = names / levels / count */
 function spmMobDraw(band) {
@@ -5613,8 +5628,8 @@ function spmMobDraw(band) {
   Object.values(cells).forEach(c => {
     const x = c.x / c.n, y = c.y / c.n, col = c.boss ? '#ff00d4' : spmMobCol(c.lv), agg = c.ag * 2 >= c.n;
     let mk;
-    if (c.n === 1 || z >= 3.5) mk = L.circleMarker(spmLL(x, y), { pane: 'spmMobs', radius: c.boss ? 7 : 4.5, color: agg ? '#000' : col, weight: agg ? 1 : 2.5, fillColor: col, fillOpacity: agg ? 0.95 : 0.05, interactive: false });
-    else mk = L.marker(spmLL(x, y), { pane: 'spmMobs', interactive: false, keyboard: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-clu${agg ? '' : ' pas'}" style="background:${col};border-color:${agg ? '#000' : col}">${c.n}</span>` }) });
+    if (c.n === 1 || z >= 3.5) mk = L.circleMarker(spmLL(x, y), { pane: 'spmMobs', radius: c.boss ? 7 : 5, color: '#fff', weight: agg ? 1.5 : 2, fillColor: col, fillOpacity: agg ? 0.95 : 0.35, interactive: false }   /* MOBFIX: white outline = visible on red (too high) rooms */);
+    else mk = L.marker(spmLL(x, y), { pane: 'spmMobs', interactive: false, keyboard: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-clu${agg ? '' : ' pas'}" style="background:${col};border-color:#fff;box-shadow:0 0 0 1px #000">${c.n}</span>` }) });
     spmHitAdd(HM, 4, spmNearPx(x, y, c.n === 1 ? 8 : 13), () => spmShowMobs(c));
     G.mobs.addLayer(mk);
   });
@@ -5719,7 +5734,7 @@ async function spmOpenDungeon(name) {
   if (SPM.dunBusy) return; SPM.dunBusy = true;
   try {
     const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (!m || m.error) throw new Error((m && m.error) || 'not found');
-    if (!SPM.fmIdx) { try { SPM.fmIdx = await (await fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' })).json(); } catch (e) { SPM.fmIdx = {}; } }
+    if (!SPM.fmIdx) { try { SPM.fmIdx = await (await fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' })).json(); } catch (e) { SPM.fmIdx = null; } }   // DUNMAPBG: not cached when missing (made in the background)
     const L0 = SPK.lvl.min; let fi = 0, bd = 1e9;
     m.floors.forEach((F, i) => (F.rooms || []).forEach(r => { const s = r.suits || r.levelRange || [0, 99]; const off = L0 < s[0] ? s[0] - L0 : L0 > s[1] ? L0 - s[1] : 0; if (off < bd) { bd = off; fi = i; } }));
     const s = SPM.sel; if (s && s.kind === 'rooms' && s.dungeon === m.name && s.ids.length) m.floors.forEach((F, i) => { if ((F.rooms || []).some(r => r.id === s.ids[0])) fi = i; });
@@ -5759,8 +5774,10 @@ function spmDunFit() {
 function spmDunArt() { const D = SPM.dun; if (!D) return null; const idx = (SPM.fmIdx || {})[D.m.name] || {}; return D.gap ? idx[D.gap.key] || null : idx[D.fi] || null; }
 function spmDunLayers(HIT) {
   const map = SPM.map, G = SPM.groups, D = SPM.dun, s = SPM.sel, c = spmCur(), d = PSPOT.data || {}, claims = d.claims || [], occ = d.occupied || [], z = map.getZoom();
-  SPM.tiles.forEach(t => { if (map.hasLayer(t)) map.removeLayer(t); });
+  // DUNMAPBG 2026-10-22 (Vykaax 1.8.16: "map no longer shows up under dungeon room selection"): the floor pictures are made on the player's own
+  // install (floor_maps.js, server.js starts it once when they are missing); a floor without one keeps the world map under its rooms, never black
   const art = spmDunArt();
+  SPM.tiles.forEach(t => { if (art) { if (map.hasLayer(t)) map.removeLayer(t); } else if (!map.hasLayer(t)) t.addTo(map); });
   if (art) G.floor.addLayer(L.imageOverlay(`/icons/floormaps/${art.f}${art.v ? '?v=' + art.v : ''}`, [spmLL(art.x, art.y), spmLL(art.x + art.w, art.y + art.h)], { interactive: false }));
   const band = spmDunBand();
   if (!D.gap) {
@@ -5994,7 +6011,7 @@ function spmBind(ov) {
     const t = e.target, q = (s) => t.closest(s);
     if (q('[data-spmzoom]')) { SPM.map && SPM.map.setZoom(SPM.map.getZoom() + (+q('[data-spmzoom]').dataset.spmzoom)); return; }
     if (q('[data-spmfit]')) { if (SPM.dun) spmLeaveDungeon(); if (q('[data-spmfit]').dataset.spmfit === 'party') { if (!spmFitParty() && window.UIKit) UIKit.toast('No live position for this party', { kind: 'info' }); } else spmFitSpots(); return; }
-    if (q('[data-spmmobs]')) { SPM.mobsOn = SPM.mobsOn === false; q('[data-spmmobs]').classList.toggle('on', SPM.mobsOn !== false); if (SPM.mobsOn !== false && SPM.map && SPM.map.getZoom() < 1 && window.UIKit) UIKit.toast('Zoom in to see the monsters', { kind: 'info' }); spmMobs(); return; }
+    if (q('[data-spmmobs]')) { SPM.mobsOn = SPM.mobsOn === false; q('[data-spmmobs]').classList.toggle('on', SPM.mobsOn !== false); if (SPM.mobsOn !== false && SPM.map && !SPM.dun && SPM.map.getZoom() < 1 && window.UIKit) UIKit.toast('Zoom in to see the monsters', { kind: 'info' }); spmMobs(); return; }
     if (q('[data-spmdraw]')) { if (SPM.edit && SPM.edit.mode !== 'keep') spmEditStop(); else spmEditStart('zone'); return; }
     if (q('[data-spmkeep]')) { if (SPM.edit && SPM.edit.mode === 'keep') spmEditStop(); else spmEditStart('keep'); return; }
     if (q('[data-spmundo]')) { if (SPM.edit) { SPM.edit.pts.pop(); SPM.edit.sel = -1; spmEditShape(); spmInfoEdit(); } return; }

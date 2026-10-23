@@ -269,7 +269,7 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(D({ name: 'Silent Move', running: true, wanted: false, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 1e6 - 9000, town: false }) === 'off', 'Silent Move left on in the field: switched OFF after the fight-off delay');
   check(D({ name: 'Silent Move', running: true, wanted: false, lastCastAt: 0 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === 'off', 'Silent Move in a town: OFF');
   { const kp3 = src.slice(src.indexOf('function toggleCtx()'), src.indexOf('async function autoSkillTick'));
-    check(/scoutCtl\.on && typeof SCOUT_SPEED !== 'undefined' && \(SCOUT_SPEED\.stealthRe\.test\(name\)/.test(kp3), 'during a scout trip the keeper leaves the stealth toggle to the scout'); }
+    check(/\(scoutCtl\.on \|\| \(typeof SOLOSNEAK !== 'undefined' && SOLOSNEAK\.on\)\) && typeof SCOUT_SPEED !== 'undefined' && \(SCOUT_SPEED\.stealthRe\.test\(name\)/.test(kp3), 'during a scout trip the keeper leaves the stealth toggle to the scout'); }
   check(D({ name: 'Accuracy', running: true, wanted: true, lastCastAt: 1e6 - 5000 }, { now: 1e6, fight: false, lastFightAt: 0, town: true }) === '', `recast gap ${M.TOGGLE_RULE.recastGapMs / 1000} s (IsRunning needs a moment to show)`);
   check(D({ name: 'Accuracy', running: false, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: true, lastFightAt: 1e6, town: false, dead: true }) === '', 'dead: nothing');
   check(D({ name: 'Accuracy', running: false, wanted: true, lastCastAt: 0 }, { now: 1e6, fight: true, lastFightAt: 1e6, town: true }) === '', 'never on in a town, even when hit there');

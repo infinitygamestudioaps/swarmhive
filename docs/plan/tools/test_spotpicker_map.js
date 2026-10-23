@@ -108,10 +108,12 @@ function patchState(j) {
   const a1 = REG.areas.find(a => a.reachable && a.poly && a.poly.length >= 3), a2 = REG2.areas.find(a => a.reachable && a.poly && a.poly.length >= 3);
   await view(a1.center[0], a1.center[1], 1.25); await sleep(500);
   ok('zoomed in: areas drawn (/api/fieldmap)', await waitFor(`SpotMap._state.groups.areas.getLayers().length >= 3`, 15000), await ev(`SpotMap._state.groups.areas.getLayers().length + ' area polygons'`));
+  await waitFor(`(() => { const S = SpotMap._state, m = S.map; return !m._animatingZoom && !(m._panAnim && m._panAnim._inProgress) && (S.hit || []).some(h => h.prio === 2); })()`, 6000); await sleep(600);   // the map redraws its layers after a view change (slow when the PC is busy)
   await clickGame(a1.center[0], a1.center[1]);
   ok('tap an area -> chosen', await waitFor(`/Hunt in this area/.test(document.getElementById('spmBar').textContent)`, 4000));
   await view(a2.center[0], a2.center[1], 1.25);
   await waitFor(`SpotMap._state.groups.areas.getLayers().some(l => l.getBounds && l.getBounds().contains([${a2.center[1]}, ${a2.center[0]}]))`, 12000);
+  await waitFor(`(() => { const S = SpotMap._state, m = S.map; return !m._animatingZoom && !(m._panAnim && m._panAnim._inProgress) && (S.hit || []).some(h => h.prio === 2); })()`, 6000); await sleep(600);   // the map redraws its layers after a view change (slow when the PC is busy)
   await clickGame(a2.center[0], a2.center[1]);
   ok('an area of a SECOND hunting ground joins the choice (bar: Hunt in 2 areas, 2 hunting grounds)', await waitFor(`/Hunt in 2 areas/.test(document.getElementById('spmBar').textContent) && /2 hunting grounds/.test(document.getElementById('spmBar').textContent)`, 5000), await ev(`document.getElementById('spmBar').textContent.slice(0, 160)`));
   // ---- monster spawns ----

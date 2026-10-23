@@ -355,7 +355,8 @@
     patch($id('cp_gear'), `<div class="cp-gearwrap"><div class="cp-doll">${SLOTS.map(cell).join('')}</div>
       <div class="cp-gearinfo">${w ? `<div class="cp-wpn"><b>${esc(w.name)}</b>${w.enchant ? ' <span class="en">+' + w.enchant + '</span>' : ''} ${grade(w.grade)}</div>` : '<div class="muted">no weapon</div>'}
         ${eq.filter(i => i !== w).map(i => `<div class="cp-eqrow" data-cpitem="${esc(i.objId || i.id)}"><img src="${itemIcon(i.id)}" alt=""><span>${esc(i.name)}${i.enchant ? ' <b class="en">+' + i.enchant + '</b>' : ''}</span>${grade(i.grade)}</div>`).join('')}
-        ${shots.length ? `<div class="cp-shots">${shots.slice(0, 3).map(s => `<span class="chip" title="${esc(s.name)}"><img src="${itemIcon(s.id)}" alt="">${short(s.count)}</span>`).join('')}${sc.shots != null && sc.shots <= 100 ? '<span class="chip bad">low shots</span>' : ''}</div>` : ''}</div></div>`);
+        ${shots.length ? `<div class="cp-shots">${shots.slice(0, 3).map(s => `<span class="chip" title="${esc(s.name)}"><img src="${itemIcon(s.id)}" alt="">${short(s.count)}</span>`).join('')}${sc.shots != null && sc.shots <= 100 ? '<span class="chip bad">low shots</span>' : ''}</div>` : ''}
+        <a class="cp-upg" href="#/items/${encodeURIComponent(CP.name)}/shop" title="Pick a weapon (Giran shops, your warehouses), add a Special Ability such as Acumen with a soul crystal from the bag, a warehouse or another character: the party goes to Giran together and it is done there">Upgrade weapon ›</a></div></div>`);   // UPGWPN-2026-10-23 (owner: weapon upgrades only when picked, from the character)
   }
 
   // ---------------------------------------------------------------- FRENZY KIT (owner 2026-10-14: "a full overview for a destroyer, showing what it
@@ -465,7 +466,7 @@
     const L = all.filter(i => (CP.invF === 'all' ? cat(i) !== 'quest' || q : cat(i) === CP.invF) && (!q || i.name.toLowerCase().includes(q)))
       .sort((a, b) => order[cat(a)] - order[cat(b)] || a.name.localeCompare(b.name));
     $id('cpInvN').textContent = `${all.filter(i => !i.quest).length} items${all.some(i => i.quest) ? ' · ' + all.filter(i => i.quest).length + ' quest' : ''}${whLine()}`;
-    const sel = (i) => { try { const s = sellState(i.id, CP.name); return s && s !== 'keep' ? ' selling' : ''; } catch (e) { return ''; } };
+    const sel = (i) => { try { const s = sellState(i.id, CP.name); return s && s !== 'keep' ? (noShopWhy(i.id) ? ' selling nosell' : ' selling') : ''; } catch (e) { return ''; } };
     cryLoad(false); const C = CP.cry, cj = cryMap();   // CRYINV-2026-10-22
     const cryCls = (i) => { if (!C.on) return ''; const j = cj[Number(i.objId)]; if (!j || cryBlockUi(j)) return ' cry-no'; return C.sel.has(Number(i.objId)) ? ' cry-sel' : ' cry-ok'; };
     patch($id('cp_inv'), L.length ? `<div class="cp-igrid">${L.map(i => `<button class="cp-it c-${cat(i)}${sel(i)}${cryCls(i)}" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' ×' + nf(i.count) + (i.grade && i.grade !== 'None' ? ' · ' + i.grade : ''))}">
@@ -688,6 +689,8 @@
 
   // =========================================================================================== DIRECT ORDERS
   /** the only place that sends an override: Dashboard/override.js when loaded, else the same swarm command straight to /api/command */
+  /** SELLNOSHOP: why no shop buys this item id (the /api/sell noShop map), or '' */
+  function noShopWhy(id) { try { return ((typeof SELL !== 'undefined' && SELL && SELL.noShop) || {})[Number(id)] || ''; } catch (e) { return ''; } }
   function sendOv(action, label, opt) {
     const name = CP.name; opt = opt || {};
     if (window.Override && typeof Override.send === 'function') return Override.send(name, action, label, opt);
@@ -771,7 +774,10 @@
     let sell = '';
     try {
       if (!it.equipped && !it.quest) { const st = sellState(it.id, CP.name); const o = (v, t) => `<option value="${v}"${st === v ? ' selected' : ''}>${t}</option>`;
-        sell = `<label class="cp-psell">sell at every restock <select class="sellsel ${st && st !== 'keep' ? 'on' : ''}" data-sellid="${it.id}" data-sellchar="${esc(CP.name)}">${o('', '—')}${o('char', 'sell (' + esc(CP.name) + ')')}${o('all', 'sell (all bots)')}${o('keep', 'never sell')}</select></label>`; }
+        sell = `<label class="cp-psell">sell at every restock <select class="sellsel ${st && st !== 'keep' ? 'on' : ''}" data-sellid="${it.id}" data-sellchar="${esc(CP.name)}">${o('', '—')}${o('char', 'sell (' + esc(CP.name) + ')')}${o('all', 'sell (all bots)')}${o('keep', 'never sell')}</select></label>`;
+        // SELLNOSHOP 2026-10-22 (owner): an item no shop buys says so, with Untick (stop trying to sell it) and Destroy (only after your OK)
+        const ns = noShopWhy(it.id);
+        if (ns) sell += `<div class="cp-nosell"><b>No shop buys this</b> <span class="muted">(${esc(ns)})</span><div class="cp-pb">${st && st !== 'keep' ? `<button data-cpunsell="${it.id}">Untick (stop selling)</button>` : ''}${!it.equipped && !it.quest ? `<button class="danger" data-cpdestroy="${esc(it.objId || it.id)}" data-id="${it.id}" data-n="${it.count}">Destroy…</button>` : ''}</div></div>`; }
     } catch (e) { }
     // CRYINV-2026-10-22 (owner: "I still dont see the crystallize option here" - he tapped an item): the item menu offers it too (dwarves with Crystallize)
     let cry = '';
@@ -1040,6 +1046,20 @@
         if (g.dataset.cpgo === 'useslot') { const it = ((CP.char && CP.char.items) || []).find(i => String(i.objId) === String(g.dataset.obj)); const sl = g.dataset.slot, lab = { ring1: 'ring slot 1', ring2: 'ring slot 2', ear1: 'earring slot 1', ear2: 'earring slot 2' }[sl] || sl;   // EQUIPSLOT-2026-10-22
           sendOv('use ' + g.dataset.obj + ' ' + sl, `put ${it ? it.name : 'the piece'} into ${lab}`); }
         closePop(); return;
+      }
+      // SELLNOSHOP 2026-10-22: Untick = off every sell list for this item; Destroy = the shared typed-YES dialog, then !ov <name> destroy <obj> <n>
+      const un = t.closest('[data-cpunsell]');
+      if (un) {
+        const id = +un.dataset.cpunsell;
+        try { const d = await api('/api/sell', { method: 'POST', body: JSON.stringify({ id, scope: CP.name, on: false }) }); if (d && d.list) SELL = Object.assign({ noShop: SELL.noShop }, d.list); } catch (er) { }
+        toast(`${CP.name}: no longer marked for selling`, true); closePop(); renderInv(); return;
+      }
+      const ds = t.closest('[data-cpdestroy]');
+      if (ds) {
+        const n = +ds.dataset.n || 1, it = ((CP.char && CP.char.items) || []).find(i => String(i.objId || i.id) === ds.dataset.cpdestroy), nm = it ? it.name : 'item';
+        closePop();
+        sendOv(`destroy ${ds.dataset.cpdestroy} ${n}`, `DESTROY ${nm} ×${n} (no shop buys it)`, { danger: true });
+        return;
       }
       const dr = t.closest('[data-cpdrop]');
       if (dr) {

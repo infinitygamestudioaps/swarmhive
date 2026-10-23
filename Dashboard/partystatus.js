@@ -205,11 +205,42 @@
       return `<a class="psb-route${bad ? ' bad' : ok ? ' ok' : ''}" href="${href}" title="${esc((m.name || '') + ': ' + (m.state || '') + ' ' + (m.label || '') + (m.why ? ' — ' + m.why : ''))}">${txt}</a>`;
     } catch (e) { return ''; }
   }
+  // SALESHOW 2026-10-22 (owner: "show the sale result on the party card after each supply run"): the party's last sale = every member's
+  // swarm_state.lastSale within 20 min of the newest one (one supply run), shown for 2 hours: sold N kinds for X adena · kept: names (why)
+  function saleLine(leader, list) {
+    try {
+      const rows = (list || charsOf(leader)).map(c => c && c.lastSale ? Object.assign({ who: c.name }, c.lastSale) : null).filter(r => r && Date.parse(r.at));
+      if (!rows.length) return '';
+      const newest = Math.max(...rows.map(r => Date.parse(r.at))), A = AC();
+      if ((A ? A.srvNow() : Date.now()) - newest > 2 * 3600000) return '';
+      const run = rows.filter(r => newest - Date.parse(r.at) < 20 * 60000);
+      const kinds = run.reduce((a, r) => a + (+r.kinds || 0), 0), got = run.reduce((a, r) => a + (+r.got || 0), 0);
+      const byWhy = {}; run.forEach(r => (r.kept || []).forEach(k => { const w = String(k.why || 'kept'); (byWhy[w] = byWhy[w] || new Set()).add(String(k.name)); }));
+      const kept = Object.keys(byWhy).map(w => `${[...byWhy[w]].slice(0, 6).map(esc).join(', ')}${byWhy[w].size > 6 ? ', …' : ''} (${esc(w === 'no shop buys it' ? 'no shop buys them' : w)})`).join('; ');
+      const when = new Date(newest).toTimeString().slice(0, 5), why = esc(String(run[0].why || 'sale'));
+      const main = kinds ? `sold ${kinds} kind${kinds === 1 ? '' : 's'} for ${got.toLocaleString('en-US')} adena` : 'nothing sold';
+      return `<div class="psb-sub psb-sale" title="${why} · ${run.map(r => esc(r.who)).join(', ')}">Last sale ${when}: ${main}${kept ? ' · kept: ' + kept : ''}</div>`;
+    } catch (e) { return ''; }
+  }
+  // ROUTEFIX / SHOTBUY 2026-10-23 (owner: "it should be extremely clear ... that the route should be fixed by hand: a red sign"): the red warnings
+  // of a party: a route its leader got stuck on (fix it on the dashboard) and shots no shop sells (no trip for them, hunting on)
+  function warnLine(leader, list) {
+    try {
+      const A = AC(), t = A ? A.srvNow() : Date.now(), out = [];
+      (list || charsOf(leader)).forEach(c => {
+        const r = c && c.routeFixWarn;
+        if (r && t - (Date.parse(r.at) || 0) < 3 * 3600000) out.push(`<div class="psb-warn" role="alert"><b>FIX THIS ROUTE</b> ${esc(r.label || 'route')} — ${esc(c.name)} got stuck before point ${+r.point || '?'}/${+r.n || '?'} at ${+r.x},${+r.y}. Open Raids → the boss → Route and move or record that part.</div>`);
+        const w = c && c.shotWarn;
+        if (w && t - (Date.parse(w.at) || 0) < 3600000) out.push(`<div class="psb-warn" role="alert"><b>NO SHOTS</b> ${esc(c.name)}: ${esc(w.text)}</div>`);
+      });
+      return out.join('');
+    } catch (e) { return ''; }
+  }
   function banner(leader, list) {
     try {
       sync();
       if (!AC()) return '';
-      const o = info(leader, list || charsOf(leader)); if (!o) return routeLine(leader);
+      const o = info(leader, list || charsOf(leader)); if (!o) return warnLine(leader, list) + routeLine(leader) + saleLine(leader, list);
       const A = AC();
       const bar = o.steps ? `<div class="psb-bar" role="img" aria-label="step ${o.i + 1} of ${o.of}">${o.steps.map((s, k) => `<i class="${k < o.i ? 'done' : k === o.i ? 'now' : ''}" title="${esc(stepTxt(s))}"></i>`).join('')}</div>` : '';
       const meta = [];
@@ -220,7 +251,7 @@
       return `<div class="psb ${o.cls || ''}${o.warn ? ' warn' : ''}" data-psb="${esc(leader)}">
         <div class="psb-h">${GI(o.ic || UI.party, 'sm')}<div class="psb-t">${o.h}</div><span class="psb-age" title="${o.estimated ? 'seen by the dashboard for at least this long' : 'this step has taken'}">${ageTxt}</span></div>
         ${bar}${meta.length ? `<div class="psb-meta">${meta.join(' · ')}</div>` : ''}${routeLine(leader)}
-        ${o.subs.map(s => `<div class="psb-sub">${s}</div>`).join('')}
+        ${o.subs.map(s => `<div class="psb-sub">${s}</div>`).join('')}${saleLine(leader, list)}${warnLine(leader, list)}
         ${o.warn ? `<div class="psb-why">${GI(UI.warn, 'sm')} <span>${o.why} — for ${A.dur(o.age)}</span></div>` : ''}
       </div>`;
     } catch (e) { return ''; }

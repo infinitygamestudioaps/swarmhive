@@ -1346,6 +1346,8 @@ function routeList() {
     const P = r.points || [], step = Math.max(1, Math.ceil(P.length / 24)), shape = P.filter((p, i) => i % step === 0 || i === P.length - 1).map(p => [Math.round(p.x), Math.round(p.y)]);
     return { id: f.slice(0, -5), boss: r.boss || b.name, level: b.level, landing: r.landing, points: (r.points || []).length, length: r.length, uses: r.uses || 0, fails: r.fails || 0, manual: !!r.manual, savedAt: r.savedAt, editedAt: r.editedAt || null,
       by: r.by || null, lastBy: r.lastBy || null, lastOk: r.lastOk || null, lastFail: r.lastFail || null, lastFailBy: r.lastFailBy || null, start: r.start || null,
+      // ROUTEFIX-2026-10-23: 2 failed trips in a row (no success since) = the owner must fix it by hand (red sign on Raids / Circuit / party card)
+      needsFix: (r.fails || 0) >= 2 && !(Date.parse(r.lastOk || '') > Date.parse(r.lastFail || '')), stuck: r.stuck && typeof r.stuck === 'object' ? { x: r.stuck.x, y: r.stuck.y, z: r.stuck.z, point: r.stuck.point, n: r.stuck.n, by: r.stuck.by, at: r.stuck.at } : null, lastFailWhy: r.lastFailWhy || null,
       autoFixed: Array.isArray(r.autoFixed) ? r.autoFixed.length : 0, zone: b.zoneName || '', boss_xy: b.x != null ? [b.x, b.y] : null, shape };
   }).filter(Boolean).sort((a, b) => (a.level || 0) - (b.level || 0));
 }
@@ -1373,6 +1375,9 @@ function gkStartList() {
 // --- Zone editor data (user 2026-10-07: "define hunting zones with points, exclusion zones, how to get there, and see where every teleport
 // lands") -----------------------------------------------------------------------------------------------------------------------
 const gkKey = (s) => String(s || '').toLowerCase().replace(/&#\d+;/g, '').replace(/\bthe\b|\btown of\b|\bvillage\b|\btownship\b|\(|\)/g, '').replace(/[^a-z0-9>]/g, '');
+// GCLANDING 2026-10-22 (Vykaax: "Giant's Cave teleport location is missing"): the live Aden menu says "Entrance to The Giant's Cave", the datapack
+// only has "The Giants Cave Upper Layer" (castle / clan hall links) -> same landing until the bots learned the real one (gk_landing_live.json)
+const GK_DEST_ALIAS = { entrancetogiantscave: 'giantscaveupperlayer' };
 let LANDINGS = null;
 function landings() {
   if (LANDINGS && Date.now() - LANDINGS.at < 600000) return LANDINGS.v;
@@ -1382,7 +1387,7 @@ function landings() {
   for (const desc of gkStartList()) {                               // only destinations seen on a LIVE gatekeeper menu, with the datapack's coordinates
     const [from, to] = desc.split('->').map(x => x.trim());
     let t = byKey[gkKey(desc)];
-    if (!t) { const tk = gkKey(to); t = list.find(x => gkKey(String(x.desc).split('->')[1]) === tk); }   // same destination from another town
+    if (!t) { const tk = GK_DEST_ALIAS[gkKey(to)] || gkKey(to); t = list.find(x => gkKey(String(x.desc).split('->')[1]) === tk); }   // same destination from another town
     if (t) out.push({ desc, from, to, x: t.x, y: t.y, z: t.z });
   }
   // GKLANDMAP-2026-10-18 (Discord, Vykaax: "This Aden -> ToI marker is still in the wrong spot"): the datapack landing (114649,11115 = the clan
@@ -2854,7 +2859,7 @@ http.createServer(async (req, res) => {
       const occupied = []; Object.entries((cl._occupied && typeof cl._occupied === 'object') ? cl._occupied : {}).forEach(([team, list]) => (Array.isArray(list) ? list : []).forEach(o => { if (o && +o.until > Date.now()) occupied.push({ key: o.key, name: o.name, by: o.by, seenBy: team, min: Math.round((+o.until - Date.now()) / 60000) }); }));
       // FIELD AREAS (user 2026-10-08 22:45): outdoor hunting grounds split into geodata areas (Scripts/data/field_areas.json, docs/plan/tools/field_areas.js)
       const regions = ((fieldAreasData() || {}).regions || []).map(R => ({ id: R.id, name: R.name, kind: R.kind, levelRange: R.levelRange, areas: (R.areas || []).length,
-        reachable: (R.areas || []).filter(a => a.reachable).length, landing: (R.landings && R.landings[0] && R.landings[0].desc) || '', center: R.center }));
+        reachable: (R.areas || []).filter(a => a.reachable).length, landing: (R.landings && R.landings[0] && R.landings[0].desc) || '', center: R.center, bbox: R.bbox || null }));
       return json(res, 200, { spots: readJson(PSFILE, {}), options: { zones, datapack, dungeons, regions }, claims: claims.map(c => Object.assign(c, { area: (cl[c.key] || {}).area || null })), occupied });
     }
     if (url.pathname === '/api/partyspot' && req.method === 'POST') {
@@ -3161,7 +3166,14 @@ http.createServer(async (req, res) => {
     }
     // --- sell list: item ids the bots sell at every town visit (all bots, or one character) ---
     const SFILE = path.join(DATA, 'sell_list.json');
-    if (url.pathname === '/api/sell' && req.method === 'GET') return json(res, 200, readJson(SFILE, { all: [], keep: [] }));
+    if (url.pathname === '/api/sell' && req.method === 'GET') {
+      // SELLNOSHOP 2026-10-22 (owner: mark items no shop buys on the Sell list, so they can be unticked or destroyed): noShop = { id: why } from the
+      // datapack (is_sellable=false, Scripts/data/nosell_items.json) + shop refusals the bots are sure of (Logs/unsellable.json sure / 2+ strikes)
+      const list = readJson(SFILE, { all: [], keep: [] }), noShop = {};
+      try { ((readJson(path.join(DATA, 'nosell_items.json'), {}) || {}).ids || []).forEach(id => { noShop[Number(id)] = 'the game marks it as not sellable'; }); } catch (e) { }
+      try { const u = readJson(path.join(ROOT, 'Logs', 'unsellable.json'), {}) || {}; Object.keys(u).forEach(k => { const e = u[k]; if (e && typeof e === 'object' && (e.sure || (+e.strikes || 0) >= 2) && !noShop[+k]) noShop[+k] = 'the shop refused it'; }); } catch (e) { }
+      return json(res, 200, Object.assign({}, list, { noShop }));
+    }
     if (url.pathname === '/api/sell' && req.method === 'POST') {
       const b = await body(req);
       const id = Number(b.id), scope = String(b.scope || 'all');
@@ -3301,5 +3313,17 @@ http.createServer(async (req, res) => {
   // ORDERQ (2026-10-13): the live Logs\orders queue only in the process that really listens on the dashboard port (a test / sandbox server
   // listens elsewhere and calls this without its server: queue off unless it set SWARM_ORDERS_DIR / SWARM_CMD_DIR)
   try { const a = this && typeof this.address === 'function' ? this.address() : null; if (a && a.port === PORT) { ORDERQ_LIVE.on = true; ORDERQ.ensure(); } } catch (e) { }
+  // DUNMAPBG 2026-10-22 (Vykaax 1.8.16: dungeon floors had no map): the floor pictures are drawn from the player's own Geodata and are not in the
+  // package -> when they are missing, draw them once in the background (low priority, 2 min after start; log Logs/floor_maps.log)
+  if (ORDERQ_LIVE.on) setTimeout(() => {
+    try {
+      const idx = path.join(__dirname, 'icons', 'floormaps', 'index.json'), tool = path.join(PLAN, 'tools', 'floor_maps.js');
+      if (fs.existsSync(idx) || !fs.existsSync(tool) || !fs.existsSync(path.join(ROOT, 'Geodata'))) return;
+      const fd = fs.openSync(path.join(ROOT, 'Logs', 'floor_maps.log'), 'a');
+      const p = require('child_process').spawn(process.execPath, [tool, '--gaps'], { cwd: ROOT, stdio: ['ignore', fd, fd], windowsHide: true });
+      try { require('os').setPriority(p.pid, require('os').constants.priority.PRIORITY_BELOW_NORMAL); } catch (e) { }
+      p.on('exit', () => { try { fs.closeSync(fd); } catch (e) { } });
+    } catch (e) { }
+  }, 120000);
   console.log(`dashboard on http://127.0.0.1:${PORT} (LAN needs ?key=)${ORDERQ_LIVE.on ? ' - order queue: Logs\\orders' : ''}`);
 });
