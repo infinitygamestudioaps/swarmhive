@@ -44,6 +44,7 @@ has(/hunt: khMeHunting\(\) \? khLastKill\(\) : 0/, 'claims carry the hunting fla
 has(/khYield\(\{ meHunting: khMeHunting\(\), themHunting: khClaimHunting\(c, now\(\)\)/, 'rivalClaim decides with khYield');
 has(/if \(occ && khMeHunting\(\)\)[\s\S]{0,400}we keep hunting here/, "the 'occupied' check only notes while the party hunts");
 has(/leftBehind\.size && khMeHunting\(\)\)[\s\S]{0,800}khAskReturn\(who/, 'autolevel: left behind while hunting = they come back on their own (no Giran)');
+has(/leftBehind\.size && !khMeHunting\(\) && autoLvl\.spot && !currentTownKey\(\)\)[\s\S]{0,500}khAskReturn\(who, 'fell behind on the way'\);[\s\S]{0,200}await waitForTeamHere\(/, 'TOGETHER-WAY (owner 2026-10-24): fell behind on the way to the spot = the leader waits there for them (no Giran, never on without them)');
 has(/if \(khMeHunting\(\)\) \{ khAskReturn\(who, 'not with the team'\); leftBehind\.clear\(\); return; \}/, 'the split watchdog never takes a hunting team to Giran');
 has(/khMeHunting\(\) && far\.some\(m => m\.dead \|\| m\.d > 15000\)\)/, "gatherTeam: no 'team split' Giran regroup while hunting");
 has(/App\.on\('swarm\.khreturn'[\s\S]{0,900}memberReturnTrip\(/, 'members answer the return request with their own return trip');

@@ -343,10 +343,10 @@ async function main() {
   }
   section('#16 swarm.js: kill counter / target choice agree with engage');
   {
-    const ht = cutFn('huntTarget'), eg = [cutFn('fastWait'), cutFn('targetGone'), cutFn('engage')].filter(Boolean).join('\n'), kc = cutFn('autoLvlKilled');   // FASTHUNT-2026-10-23: engage's waits use fastWait / targetGone
+    const ht = cutFn('huntTarget'), eg = [cutFn('fastWait'), cutFn('hpZeroKnown'), cutFn('targetGone'), cutFn('engage')].filter(Boolean).join('\n'), kc = cutFn('autoLvlKilled');   // FASTHUNT-2026-10-23: engage's waits use fastWait / targetGone
     ok(!!kc, 'autoLvlKilled() exists (the kill test of the autolevel loop)');
     // a mob that is alive (IsDead false) but shows 0 % HP — engage refuses it; the old loop counted a kill every pass and picked it again
-    const zero = { objId: 1, Name: 'Ghost', IsDead: false, HpPercent: 0, X: 100, Y: 0, Z: 0, Id: 20001, Level: 40 };
+    const zero = { objId: 1, Name: 'Ghost', IsDead: false, HpPercent: 0, MaxHP: 1200, X: 100, Y: 0, Z: 0, Id: 20001, Level: 40 };
     const good = { objId: 2, Name: 'Orc', IsDead: false, HpPercent: 100, X: 300, Y: 0, Z: 0, Id: 20002, Level: 40 };
     if (kc) {
       const sb = { num: (v) => Number(v) || 0 }; vm.createContext(sb); vm.runInContext(kc, sb);

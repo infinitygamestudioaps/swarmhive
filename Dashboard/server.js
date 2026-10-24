@@ -168,6 +168,24 @@ function cursedStatus() {
  *  (docs/plan/tools/l2swarm_ctl.ps1, MemWatch task every 2 min) writes Logs/reconnect_brake.json { active, phase, why, chars, nextTry,
  *  offlineSince, stoppedAt, lastProbe, round, doneAt } + "brake:" lines in Logs/l2swarm_ctl.log. -> { phase, why, chars, nextTry, ..., history }
  *  phase: '' (nothing) | watching | paused | refused | testing | testFailed | serverDown | reopening; done = everyone back (doneAt < 15 min ago) */
+// CLOCKWATCH-2026-10-24 (owner: "Make sure we have source of truth with time and clock", "fix the drift so it never happens"): the Windows
+// Time service was stopped, the PC clock 25 s slow. Every 30 min: the PC clock vs the Date header of google.com -> Logs/clock_offset.json +
+// /api/state clock { offset (s, PC - internet), at }; the page warns above 5 s (fix: SETUP_TIME_SYNC.cmd = docs/plan/tools/time_sync.ps1).
+const clockWatch = { last: null };
+function clockCheck() {
+  try {
+    const t0 = Date.now();
+    const rq = require('https').request({ host: 'www.google.com', method: 'HEAD', path: '/', timeout: 8000 }, (r) => {
+      const d = Date.parse(r.headers.date || ''); const t1 = Date.now(); r.resume();
+      if (!isFinite(d)) return;
+      const offset = Math.round(((t0 + t1) / 2 - d - 500) / 100) / 10;   // the Date header is truncated to whole seconds (+0.5 s on average)
+      clockWatch.last = { offset, at: new Date().toISOString() };
+      try { fs.writeFileSync(path.join(LOGS, 'clock_offset.json'), JSON.stringify(clockWatch.last)); } catch (e) { }
+    });
+    rq.on('error', () => { }); rq.on('timeout', () => rq.destroy()); rq.end();
+  } catch (e) { }
+}
+setTimeout(clockCheck, 15000); setInterval(clockCheck, 30 * 60000);
 function brakeStatus() {
   const b = readJson(path.join(LOGS, 'reconnect_brake.json'), {}) || {};
   const hist = tail(path.join(LOGS, 'l2swarm_ctl.log'), 40).filter(l => / brake/.test(l)).slice(-8)
@@ -2787,6 +2805,7 @@ http.createServer(async (req, res) => {
         plan: planFiles(), now: new Date().toISOString(),
         tactics: readJson(path.join(DATA, 'party_tactics.json'), {}),   // hunting pairs per party (Parties tab)
         mainLeader: MAIN_LEADER, clanLeader: SC.clanLeader || '',        // from swarm.config.json (2026-10-09: no hard-coded names in the page)
+        clock: clockWatch.last,                                            // CLOCKWATCH-2026-10-24: PC clock vs internet time
         brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
         full: fullStatus(chars),                                           // FULLWARN 2026-10-14: bags / warehouses full (banner)
         cursed: cursedStatus(),                                          // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]

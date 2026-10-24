@@ -21,7 +21,7 @@ t('a repair less than 3 min ago: not again', P.levelHealthDecide({ kills5: 0, mo
 t('kills fine: the count resets', P.levelHealthDecide({ kills5: 12, mobs: 20, atSpotMs: 10 * M, bad: 2 }).bad === 0);
 t('no monsters here (a slow respawn, not a stalled hunt): no repair', P.levelHealthDecide({ kills5: 0, mobs: 1, atSpotMs: 10 * M, bad: 2 }).bad === 0);
 t('the leader tells the whole party (swarm.levelfix) and every member clears its own state', /App\.emit\('swarm\.levelfix'/.test(SW) && /App\.on\('swarm\.levelfix', \(e\) => \{ try \{ if \(e\.source\.characterName !== CONFIG\.leader \|\| isLeader\(\)\) return; levelFixMine\(/.test(SW));
-t('the repair ends stale route walks, follow routes and drops a target stuck at 0 % HP', /function levelFixMine\(why\)[\s\S]{0,300}memberRouteStop\(\)[\s\S]{0,300}rgFollow\.pts = \[\][\s\S]{0,400}num\(t\.HpPercent\) <= 0\) \{ huntBlack\[/.test(SW));
+t('the repair ends stale route walks, follow routes and drops a target stuck at 0 % HP', /function levelFixMine\(why\)[\s\S]{0,300}memberRouteStop\(\)[\s\S]{0,300}rgFollow\.pts = \[\][\s\S]{0,400}hpZeroKnown\(t\)\) \{ huntBlack\[/.test(SW) && /function hpZeroKnown\(m\)[^\n]*num\(m\.MaxHP !== undefined \? m\.MaxHP : m\.MaxHp\) > 0/.test(SW));
 t('missing shots are named in the repair note', /NO SHOTS: buy shots from player shops/.test(SW));
 t('the card shows SLOW HUNTING (swarm_state levelHealth)', /levelHealth: \(typeof LH2 !== 'undefined'/.test(SW) && /<b>SLOW HUNTING<\/b>/.test(PS));
 // the related permanent fixes of the same day stay wired
@@ -32,7 +32,11 @@ t('FOLLOWSWING: no hallway walk while the leader fights close by', /if \(dd <= 1
 t('KILLCOUNT: kills = the larger of the hunt loop count and the experience gains (L2Swarm combat / assist kills counted too)', /function killsIn\(ms\)[^\n]*LIVEP\.hour[^\n]*return Math\.max\(own, xp\);/.test(SW) && /kills5 = killsIn\(LEVELHEALTH\.windowMs\)/.test(SW) && /kills5m: killsIn\(300000\)/.test(SW));
 // FASTHUNT-2026-10-23 (owner: "L2Swarm and Adrenaline attack almost instantly ... boom boom boom"): no fixed waits around a monster
 t('FASTHUNT: engage waits only until the attack starts / the target dies (no fixed 2.5 s)', /await fastWait\(2500, \(\) => !!\(Me\.IsAttacking \|\| Me\.IsCasting\) \|\| targetGone\(t\.objId\), 100\);/.test(SW) && !/Send\.Action\(t\.objId\);                          \/\/ andet klik på en valgt mob = angrib \(serveren går hen\)\n  await sleep\(2500\);/.test(SW));
-t('FASTHUNT: the next monster the moment the current one dies (no fixed 1.5 s per round)', /await fastWait\(1500, \(\) => !!lt && targetGone\(lt\)/.test(SW));
+t('FASTHUNT: the next monster the moment the current one dies (no fixed 1.5 s per round)', SW.includes('await sleep(250);') && /\{ const lt = lastTarget; await fastWait\(1250, \(\) => !!lt && targetGone\(lt\)/.test(SW));
 t('FASTHUNT: an empty room waits only until a monster shows up', /await fastWait\(4000, \(\) => !!huntTarget\(center\.x, center\.y, radius\)/.test(SW));
+t('ORDERFLOOD: brain Send proxy drops repeated Action / Attack orders', /ORDERFLOOD-2026-10-24/.test(fs.readFileSync(path.join(R, 'Dashboard', 'brain_host', 'host.js'), 'utf8')) && SW.includes('if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return;'));
+t('UNFREEZE: hit but not fighting back = Appearing resync', SW.includes("sendAppearing('hit but not fighting back for 8 s')"));
+{ const src = (SW.match(/function hpZeroKnown\(m\)[^\n]*/) || [''])[0]; const hz = new Function('num', src + '\nreturn hpZeroKnown;')((v) => Number(v) || 0);
+  t('HPKNOWN: a monster nobody targeted yet (HP 0 / MaxHP 0) is NOT "0 % HP" (it is attacked, never put aside)', hz({ HpPercent: 0, MaxHP: 0 }) === false && hz({ HpPercent: 0, MaxHP: 900 }) === true && hz({ HpPercent: 55, MaxHP: 900 }) === false); }
 console.log(`${ok} passed, ${bad} failed`);
 process.exit(bad ? 1 : 0);

@@ -231,12 +231,25 @@ function createHost(o) {
   }
 
   // ---------------------------------------------------------------- Send: every method forwarded (unknown names logged, still forwarded)
+  const floodLast = {}, floodWin = { at: 0, n: 0 }; let floodKeys = 0, floodDrop = 0;   // ORDERFLOOD-2026-10-24
   const Send = new Proxy({}, {
     get(t, k) {
       if (typeof k === 'symbol' || k === 'then' || k === 'toJSON') return undefined;
       if (!SEND_DOC.has(k)) miss('Send.' + k + ' (undocumented)');
       return function () {
         const args = Array.from(arguments);
+        // ORDERFLOOD-2026-10-24 (owner 07:39 "Team is getting slaughtered and not hitting back"): a hunt loop sent Spoiler9 46,000 Action / Attack
+        // orders in 5 min (Spoiler14 48k, Spoiler6 46k): the agent queue ran 22 MIN behind, so every move / attack / heal arrived far too late and the
+        // parties stood still while monsters hit them. The same click on the same object within 400 ms is dropped; at most 6 a second in all.
+        if ((k === 'Action' || k === 'Attack') && !process.env.NO_FLOOD_LIMIT) {
+          // an NPC / a monster needs TWO clicks (select, then talk / attack): 2 of the same per second pass, the 3rd is dropped
+          const tn = clockNow(), key = k + ':' + args[0], L = floodLast[key];
+          if (L && tn - L.at < 1000 && L.n >= 2) { floodDrop++; return undefined; }
+          if (tn - floodWin.at >= 1000) { floodWin.at = tn; floodWin.n = 0; }
+          if (++floodWin.n > 8) { floodDrop++; return undefined; }
+          if (L && tn - L.at < 1000) L.n++; else floodLast[key] = { at: tn, n: 1 };
+          if (++floodKeys > 200) { floodKeys = 0; for (const x in floodLast) if (tn - floodLast[x].at > 5000) delete floodLast[x]; }
+        }
         if (k === 'StopMove' || k === 'MoveBackwardToLocation') pendingMoveCancel();
         return fwd('Send.' + k, args, false);
       };

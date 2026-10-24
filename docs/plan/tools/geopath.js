@@ -131,6 +131,7 @@ function snap(x, y, z, r = 6, anyZ = false) {
 // every route's avoid list unless the start or the goal lies inside (a bot standing in one must still get out). opts.noLearned skips them.
 const BLOCKED_FILE = process.env.GEO_BLOCKED || path.join(__dirname, '..', '..', '..', 'Scripts', 'data', 'geo_blocked.json');
 const learnedCache = { mtime: -1, points: [], at: 0 };
+const TOWN_INDEX = process.env.GEO_TOWNS || path.join(__dirname, '..', '..', '..', 'Scripts', 'data', 'town_graph', 'index.json');
 function learnedBlocked() {
   if (Date.now() - learnedCache.at < 5000) return learnedCache.points;
   learnedCache.at = Date.now();
@@ -138,7 +139,10 @@ function learnedBlocked() {
     const st = fs.statSync(BLOCKED_FILE);
     if (st.mtimeMs !== learnedCache.mtime) {
       const j = JSON.parse(fs.readFileSync(BLOCKED_FILE, 'utf8').replace(/^﻿/, ''));
-      learnedCache.points = (j.points || []).filter(p => p && isFinite(p.x) && isFinite(p.y) && p.disabled !== true && (p.manual === true || p.active === true || (p.episodes || 0) >= 2));
+      // GEARFIX-2026-10-24: a LEARNED point inside a town (Scripts/data/town_graph/index.json boxes) is no wall (follow / crowd stalls); manual ones stay
+      let boxes = []; try { boxes = (JSON.parse(fs.readFileSync(TOWN_INDEX, 'utf8').replace(/^\uFEFF/, '')).towns || []).map(t => t.box).filter(b => Array.isArray(b) && b.length === 4); } catch (e) { boxes = []; }
+      const inTown = (p) => boxes.some(b => p.x >= b[0] && p.x <= b[1] && p.y >= b[2] && p.y <= b[3]);
+      learnedCache.points = (j.points || []).filter(p => p && isFinite(p.x) && isFinite(p.y) && p.disabled !== true && (p.manual === true || p.active === true || (p.episodes || 0) >= 2) && (p.manual === true || !inTown(p)));
       learnedCache.mtime = st.mtimeMs;
     }
   } catch (e) { learnedCache.points = []; learnedCache.mtime = -1; }

@@ -17,7 +17,7 @@
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..', '..');
 const DATA = path.join(ROOT, 'Scripts', 'data');
-const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
+const src = fs.readFileSync(process.env.SWARM_SRC || path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 const quick = process.argv.includes('--quick');
 let fails = 0, n = 0;
@@ -382,6 +382,23 @@ function grab(name) {
   const floors = m2 ? new Set(X.multiTargets(rs).map(t => t.floor)) : new Set();
   check(m2 && m2.room && m2.multi && floors.size === 2, `manual rooms selection across 2 floors -> ${m2 ? m2.room.id : 'null'} (floors ${[...floors].join(',')})`);
   check(m2 && m2.levelMax >= Math.max(...X.multiTargets(rs).map(t => t.h.r.levelRange[1])), 'the level gate of a selection uses the highest monsters of ALL chosen rooms');
+  // STAYMULTI-2026-10-24 (public tester FindStuff8, Cruma 2nd floor, "stay even if occupied" ON: "they left the room because 2 other players walked
+  // through"): the stay tick must travel with the rotation (spot.multi), so multiTick's multiTargets never blocks a chosen room as "occupied"
+  { const rsS = M.multiSel({ mode: 'manual', kind: 'rooms', dungeon: 'Cruma Tower', roomIds: ['cruma-2-left-a', 'cruma-2-left-b'], order: 'nearest', stay: true });
+    const occS = { 'room:cruma-2-left-a': { until: env.now + 60000, by: 'Thoesh, Leeswil', name: 'x' } };
+    X = mk({ leader: 'FindStuff8', level: 45, occ: occS });
+    const mS = X.multiSpotFor(rsS, 45, []);
+    check(mS && mS.multi && mS.multi.stay === true, 'stay: the rotation (spot.multi) carries the "stay even if occupied" tick');
+    const TS = mS ? X.multiTargets(Object.assign({}, mS.multi)) : [];
+    const cS = TS.find(x => x.key === 'room:cruma-2-left-a');
+    check(cS && !cS.blocked, `stay: a room marked "occupied by Thoesh, Leeswil" is NOT blocked in the rotation (${cS ? cS.blocked || 'free' : 'missing'})`);
+    const dS = M.multiDecide({ now: env.now, cur: 'room:cruma-2-left-a', targets: TS, st: {}, live: 3, fighting: false, order: 'nearest' });
+    check(dS.action === 'stay', `stay: other players in the chosen room never move the party on (${dS.action}: ${dS.why})`);
+    const rsN = Object.assign({}, rsS, { stay: false }), TN = X.multiTargets(rsN), cN = TN.find(x => x.key === 'room:cruma-2-left-a');
+    check(cN && /occupied by Thoesh/.test(cN.blocked), `without stay the occupied room still counts as taken (${cN ? cN.blocked : 'missing'})`);
+    const dE = M.multiDecide({ now: env.now, cur: 'room:cruma-2-left-a', targets: TS, st: { 'room:cruma-2-left-a': { emptySince: env.now - M.MULTI.emptyMs - 1000 } }, live: 0, fighting: false, order: 'nearest' });
+    check(dE.action === 'move' && /no monster/.test(dE.why), `stay: an EMPTY chosen room still rotates to the next chosen room as before (${dE.action}: ${dE.why})`);
+  }
   check(!env.picks.some(p => /ERROR/.test(p)), `no errors in the host code (${env.picks.filter(p => /ERROR/.test(p)).slice(0, 2).join(' | ')})`);
   // REACHABLE ENTRY (BUG 2026-10-09 16:11) replayed in the REAL host pickSpot / multiTargets: Dagger1 lvl 44 solo in Oren, only the OLD Ivory
   // Tower region (areas 4-6: 27.5-29.5k walks from Oren -> Sea of Spores, 'reachable' in the old data)
@@ -427,6 +444,7 @@ function grab(name) {
   hasT('const why = spotLandingWhy(spot, land, CONFIG.travel.maxWalk);', 'travelToSpot checks the walk from the planned landing before any teleport');
   hasT('if (why) { gkFail = why; note(`travel: ${why} — not teleporting`', 'travelToSpot: a refused walk ends the trip before the regroup / teleport');
   hasT('maxWalk: CONFIG.travel.maxWalk, landingBad: (k) => spotBad(k)', 'fieldAreaAutoSpot passes maxWalk + the landing ban to faAutoPick');
+  hasT('const sel = Object.assign({}, spot.multi); if (spot.manualStay) sel.stay = true;', 'multiTick: a stay choice keeps stay for its targets (older saved spots without multi.stay too)');
   hasT('!faEntryWhy(h.a, CONFIG.travel.maxWalk) && !spotBad(faLandingKey(h.R.id, h.a))', 'zoneAreaSpot: only reachable areas with a working landing');
   hasT("try { geoBlockLearn(`route walk gave up stuck (waypoint ${i + 1}/${r.points.length})`, { x, y }); } catch (e) { }", 'geoWalk: a give-up records the stuck spot (learned blocked spots)');
   hasT('if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return no(mb);', 'huntTarget: never a monster standing in a blocked spot');

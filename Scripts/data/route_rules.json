@@ -74,6 +74,12 @@
    "help": "on (recommended, also in the public package: it keeps the team safe) = every member walks the same waypoints; the leader waits at each one until everyone is there (max 60 s for a slow walker; a stuck member gets side-step / re-plan / step back, after 90 s it catches up by itself). Off = the old way: everyone walks the points at its own pace and the team meets at the end"
   },
   {
+   "key": "mtNeverLeave",
+   "label": "Move together: never leave anyone behind",
+   "default": true,
+   "help": "on (owner 2026-10-24: the team runs as one dot) = the leader waits for every member at every waypoint, however long it takes, and helps a stuck one; the two rules below only count when this is off"
+  },
+  {
    "key": "mtMaxWaitSec",
    "label": "Move together: longest wait at one waypoint",
    "type": "number",
@@ -98,10 +104,10 @@
    "label": "Move together: the leader slows down when someone is this far behind",
    "type": "number",
    "unit": "units",
-   "min": 200,
+   "min": 80,
    "max": 3000,
-   "default": 600,
-   "help": "distance along the route; the leader stops until the member is closer (1 metre is about 40 units in game)"
+   "default": 100,
+   "help": "distance along the route; the leader stops until the member is closer. Owner 2026-10-24: close range in Lineage 2 is 80-100 (right on top of the leader), 200 is already a little behind"
   },
   {
    "key": "mtStuckSec",

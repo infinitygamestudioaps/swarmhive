@@ -286,9 +286,9 @@ function view(ctx, q) {
 // ROUTERULES-2026-10-13 (owner: "everything must be configurable manually; nothing automatic unless you ask for it — many people play their own
 // way"): GET /api/routerules -> { rules [{ key, label, default, help }], parties [leader], own { leader: { key: bool } }, values { leader: effective } }
 // POST /api/routerules { party, key, value: true | false | null (= back to the default) } -> Scripts/data/route_rules.json (read live by swarm.js)
-const RR_BUILTIN = { toiVortex: false, openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 600, mtStuckSec: 8 };   // = swarm.js RSM_RULES
+const RR_BUILTIN = { toiVortex: false, openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtNeverLeave: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 100, mtStuckSec: 8 };   // = swarm.js RSM_RULES
 // MOVETOGETHER step 2 (2026-10-13): number rules + their limits (= swarm.js RSM_LIMITS); POST value = a number inside the limits
-const RR_LIMITS = { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [200, 3000], mtStuckSec: [3, 60] };
+const RR_LIMITS = { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [80, 3000], mtStuckSec: [3, 60] };
 const rrOk = (k, v) => typeof v === typeof RR_BUILTIN[k] && (typeof v !== 'number' || (isFinite(v) && (!RR_LIMITS[k] || (v >= RR_LIMITS[k][0] && v <= RR_LIMITS[k][1]))));
 function rrFile(ctx) { return process.env.SWARM_ROUTERULES_FILE || path.join(ctx.DATA, 'route_rules.json'); }   // PARTYSETTINGS 2026-10-13: env = the UI tests' scratch copy
 function rrRead(ctx) { const f = J(rrFile(ctx)) || {}; f.rules = Array.isArray(f.rules) ? f.rules : []; f.parties = f.parties && typeof f.parties === 'object' ? f.parties : {}; return f; }

@@ -68,6 +68,10 @@ Set-ItemProperty 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
 $mt = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Maintenance'
 Set-ItemProperty $mt MaintenanceDisabled 1 -Type DWord
 Set-ItemProperty $mt WakeUp 0 -Type DWord
+# TIME SYNC (2026-10-24): Windows syncs its clock from a MAINTENANCE task (\Microsoft\Windows\Time Synchronization\SynchronizeTime); with
+# maintenance off it never ran again after 2026-10-03 and the clock was 25 s slow three weeks later. Keep the clock synced ourselves:
+# w32time automatic + hourly resync task (time_sync.ps1).
+try { & (Join-Path $PSScriptRoot 'time_sync.ps1') } catch { Write-Host "time sync setup failed: $_" }
 # services
 foreach ($svc in 'wuauserv','UsoSvc','dosvc','WaaSMedicSvc') {
   try { Stop-Service $svc -Force -ErrorAction Stop } catch { "stop ${svc}: $($_.Exception.Message)" }

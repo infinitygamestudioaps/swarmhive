@@ -17,8 +17,11 @@ t('a big stack with a comma', eq(P.lootParse('You have earned 1,250 Soulshot (C-
 t('a sweep = spoiled', eq(P.lootParse('You have obtained Salamander Skin Mail Texture by using Sweeper.'), { count: 1, name: 'Salamander Skin Mail Texture', how: 'spoil' }));
 t('adena is not loot', P.lootParse('You have earned 1,250 adena.') === null);
 t('experience is not loot', P.lootParse('You have earned 4438 experience and 339 SP.') === null);
+t('L2Toggle experience with bonus is not loot', P.lootParse('You have earned 13552 EXP (Bonus: 4835) and 1419 SP (Bonus: 473).') === null);
+t('over-hit bonus experience is not loot', P.lootParse('You have earned 1234 bonus experience from a successful over-hit.') === null);
 t('other messages are ignored', P.lootParse('You use Accuracy.') === null && P.lootParse('') === null);
-t('every window notes its loot from OnSystemMessage', /globalThis\.OnSystemMessage = \(id, text\) => \{\n  try \{ lootNote\(text\); \} catch \(e\) \{ \}/.test(SW));
+t('every window notes its loot from OnSystemMessage, from the FLATTENED text (the message arrives as an object)', SW.includes("try { lootNote(String(lastSysMsg.text).replace(/^#\\d+ /, '')); } catch (e) { }") && !SW.includes('try { lootNote(text); }'));
+t('a sweep item (worded like a pick-up) within 3 s of my own Sweeper counts as spoiled', /spoilState\.sweepPend && now\(\) - \(spoilState\.sweepPend\.at \|\| 0\) < 3000\) L\.how = 'spoil'/.test(SW));
 t('buffered, written every 20 s to Logs/loot_<day>.log', /appendShared\(`\$\{SWARM_ROOT\}\\\\Logs\\\\loot_\$\{day\}\.log`, rows\.join\(''\)\)/.test(SW) && /\}, 20000\);\nfunction lootNote/.test(SW));
 // API on a scratch folder
 const L = require(path.join(R, 'Dashboard', 'lootpage_api.js'));
@@ -28,7 +31,7 @@ fs.writeFileSync(path.join(tmp, `loot_${day}.log`), [
   `${iso(5)}\tAldo\tAldo\t1\tSealed Vorpal Earring\tloot\tGiran\r\n`,
   `${iso(4)}\tBruno\tBruno\t3\tThread\tloot\tAnt Nest\r\n`,
   `${iso(3)}\tBruno\tBruno\t1\tSalamander Skin Mail Texture\tspoil\tAnt Nest\r\n`,
-  `${iso(200)}\tCora\tCora\t1\tCoal\tloot\tToI 5\r\n`, 'broken line\r\n'].join(''));
+  `${iso(200)}\tCora\tCora\t1\tCoal\tloot\tToI 5\r\n`, `${iso(2)}\tBruno\tBruno\t13552\tEXP (Bonus: 4835) and 1419 SP (Bonus: 473)\tloot\tAnt Nest\r\n`, 'broken line\r\n'].join(''));
 const ctx = { DIR: path.join(R, 'Dashboard'), LOGS: tmp };
 const named = fs.existsSync(path.join(R, 'Dashboard', 'data', 'items.json'));
 let q = L.query(ctx, { hours: 1 });
@@ -43,6 +46,14 @@ if (named) {
   t('type filter: jewels only', L.query(ctx, { hours: 24, type: 'jewel' }).rows.length === 1);
 } else console.log('  (no Dashboard/data/items.json on this install: grade / type checks skipped)');
 t('people + parties for the filter', q.people.includes('Bruno') && q.parties.includes('Aldo'));
+// LOOTPAGE2-2026-10-24 (owner: "show total loot"): every item kind once with its totals, per party, and what it is worth at a shop
+{ const a = L.query(ctx, { hours: 24 }), sm = a.summary, th = sm.items.find(i => i.name === 'Thread');
+  t('totals: every item kind once (4 kinds, Thread x3 once)', sm.items.length === 4 && th && th.count === 3 && th.pickups === 1 && th.topWho === 'Bruno', sm.items);
+  t('totals per party (Bruno: 4 items in 2 pick-ups)', sm.byParty.some(p => p.party === 'Bruno' && p.count === 4 && p.pickups === 2), sm.byParty);
+  t('spoiled counted', sm.spoiled === 1 && sm.pickups === 4);
+  const P = fs.existsSync(path.join(R, 'Dashboard', 'data', 'item_prices.json'));
+  if (named && P) t('worth at a shop = price / 2 x count, summed', sm.value > 0 && sm.value === a.rows.reduce((s, r) => s + (r.value || 0), 0), { value: sm.value });
+  t('the page has Totals + Every pick-up views and the four totals', /data-lpview="totals"/.test(fs.readFileSync(path.join(R, 'Dashboard', 'lootpage.js'), 'utf8')) && /worth at a shop/.test(fs.readFileSync(path.join(R, 'Dashboard', 'lootpage.js'), 'utf8'))); }
 fs.rmSync(tmp, { recursive: true, force: true });
 // wiring
 const SV = fs.readFileSync(path.join(R, 'Dashboard', 'server.js'), 'utf8'), IX = fs.readFileSync(path.join(R, 'Dashboard', 'index.html'), 'utf8');

@@ -58,8 +58,11 @@ function runShape(shape, ms) {
   return new Promise((res) => {
     const w = new Worker(code, { eval: true });
     const hbs = []; const t0 = Date.now();
-    w.on('message', () => hbs.push(Date.now() - t0));
-    setTimeout(() => { w.terminate(); res(hbs); }, ms);
+    // 2026-10-24: the window starts at the worker's FIRST heartbeat (the release test run boots workers slowly on a busy PC: 3 / 7 heartbeats
+    // in 900 ms from spawn, although the loop never starved); a worker that never beats ends after 5 s with what it has
+    let done = false; const end = () => { if (done) return; done = true; w.terminate(); res(hbs); };
+    w.on('message', () => { if (!hbs.length) setTimeout(end, ms); hbs.push(Date.now() - t0); });
+    setTimeout(end, ms + 5000);
   });
 }
 (async () => {

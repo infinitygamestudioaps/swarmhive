@@ -4,7 +4,7 @@
 //   node docs/plan/tools/test_gear_testers3.js   (-v prints every plan; exit 1 on a failure)
 'use strict';
 const fs = require('fs'), path = require('path');
-const ROOT = path.join(__dirname, '..', '..', '..');
+const ROOT = process.env.TEST_ROOT || path.join(__dirname, '..', '..', '..');
 const SRC = process.env.SWARM_SRC || path.join(ROOT, 'Scripts_dev', 'swarm.js');
 const src = fs.readFileSync(SRC, 'utf8');
 const VERBOSE = process.argv.includes('-v');
@@ -37,6 +37,7 @@ function plan(o) {
   let oid = 100;
   const inv = (o.worn || []).map(n => ({ Id: idOf(n), objId: ++oid, Count: 1, IsEquiped: true, EnchantLvl: (o.enchant || {})[n] || 0, Name: n }));
   const files = { 'gear_auto.json': JSON.stringify(o.policy || { default: true, sameGradeSwap: false, keepArmorType: true }), 'gear_prefs.json': JSON.stringify(o.prefs || {}) };
+  Object.assign(files, o.files || {});   // GEARFIX-2026-10-24: extra files (gear_upgrades.log)
   const File = {
     Exists: (f) => { const b = path.basename(String(f)); return b in files || fs.existsSync(String(f).replace(/^__S__/, DATA)); },
     ReadAllText: (f) => { const s = String(f), b = path.basename(s.replace(/\\/g, '/')); if (b in files) return files[b]; return fs.readFileSync(s.replace(/^__S__\\data/, DATA).replace(/\\/g, '/'), 'utf8'); },
@@ -153,6 +154,60 @@ for (const m of [{ c: 53, n: 'Dwarven Fighter (spoiler)', role: 'spoiler', worn:
   const GP = fs.readFileSync(path.join(ROOT, 'Dashboard', 'gearpage.js'), 'utf8');
   check(/\['shirt', 'talisman', null\]/.test(GP) && /shirt: 'Shirt'/.test(GP) && /'ring2', 'shirt', 'belt'/.test(GP), 'SHIRTSLOT: the paper doll shows the shirt');
   check(/const GEARPREF_SLOTS = \[[^\]]*'shirt'/.test(src) && !/const GEARPREF_BOT = \[[^\]]*'shirt'/.test(src), 'SHIRTSLOT: swarm.js knows the slot, the bots never buy it (manual)');
+}
+// ---- 6) GEARFIX-2026-10-24: Hawkeye kept "the dagger type you chose", Elder kept Devotion, follow pulled the gear run back, Giran learned walls ----
+{
+  // a) Hawkeye at 41 wearing the Rogue's D dagger: the plan's bow (gear_rec/9.json Eminence Bow), not a Crystal Dagger
+  const { r } = plan({ label: 'Hawkeye 41 in a Mithril Dagger', classId: 9, level: 41, role: 'archer', roleSrc: 'class', worn: ['Mithril Dagger'], budget: 9000000 });
+  const w = slotBuy(r, 'weapon');
+  check(!!w && w.info.t === 'BOW', `GEARFIX: a Hawkeye wearing his Rogue days' dagger buys a BOW (${w ? w.info.n : 'nothing'}; notes: ${(r.notes || []).join('; ').slice(0, 160)})`);
+  check(!(r.notes || []).some(n => /kept the dagger type you chose/.test(n)), 'GEARFIX: no "kept the dagger type you chose" for the previous profession\'s weapon');
+  // b) the hive bought the dagger itself (gear_upgrades.log) on a Sagittarius (parent Hawkeye: daggers are no parent weapon) -> bow; not bought by the hive -> the player's choice stays
+  const log = '2026-10-20T10:00:00.000Z [Tester] lvl 30 dagger (supply run): Common Item - Crystal Dagger 322707: bought | Common Item - Crystal Dagger: equipped\r\n';
+  const { r: hb } = plan({ label: 'Sagittarius, hive-bought dagger', classId: 92, level: 45, role: 'archer', roleSrc: 'class', worn: ['Common Item - Crystal Dagger'], budget: 9000000, files: { 'gear_upgrades.log': log } });
+  check((slotBuy(hb, 'weapon') || { info: {} }).info.t === 'BOW', `GEARFIX: a dagger the HIVE bought is no player choice: bow (${(slotBuy(hb, 'weapon') || { info: { n: 'nothing' } }).info.n})`);
+  const { r: pc } = plan({ label: 'Sagittarius, dagger from the player', classId: 92, level: 45, role: 'archer', roleSrc: 'class', worn: ['Common Item - Crystal Dagger'], budget: 9000000 });
+  const pw = slotBuy(pc, 'weapon');
+  check(!pw || pw.info.t === 'DAGGER', `GEARFIX: a dagger the player put on stays his choice (never overruled): ${pw ? pw.info.n : 'kept'}`);
+  // c) knight with a bow a player gave: OWNTYPE unchanged
+  const { r: kn } = plan({ label: 'Human Knight lvl 30 with a Composite Bow', classId: 4, level: 30, role: 'tank', worn: ['Composite Bow'], budget: 9000000 });
+  const kw = slotBuy(kn, 'weapon');
+  check(!kw || kw.info.t === 'BOW', `OWNTYPE holds: a knight's own bow stays a bow (${kw ? kw.info.n : 'kept'})`);
+  // d) Elven Elder at 40 in the complete Devotion set: Karmian Tunic + Stockings (were "as good as" because of the worn set's +1000)
+  const { r: el } = plan({ label: 'Elven Elder 40 in Devotion', classId: 30, level: 40, role: 'healer', worn: ['Tunic of Devotion', 'Stockings of Devotion', 'Leather Helmet'], budget: 9000000 });
+  check(/Karmian/.test((slotBuy(el, 'chest') || { info: {} }).info.n || '') && /Karmian/.test((slotBuy(el, 'legs') || { info: {} }).info.n || ''), `GEARFIX: an Elder in the whole Devotion set buys Karmian Tunic + Stockings (${el.buys.map(p => p.info.n).join(', ')})`);
+  const { M: MM } = plan({ classId: 30, level: 40, role: 'healer', worn: ['Karmian Tunic', 'Karmian Stockings'], budget: 0 });
+  check(typeof MM.ggCheck === 'function', 'harness exposes ggCheck');
+  // e) ggCheck: hiveWeapon + roleWeapon (pure)
+  const dag = { s: 'weapon', t: 'DAGGER', g: 'D', n: 'Mithril Dagger' }, bowC = { s: 'weapon', t: 'BOW', g: 'C', n: 'Eminence Bow' }, bowNG = { s: 'weapon', t: 'BOW', g: 'NONE', n: 'Composite Bow' };
+  const P0 = { auto: true, sameGradeSwap: false, keepArmorType: true }, isBow = (x) => x.t === 'BOW';
+  check(/different weapon type/.test(MM.ggCheck({ slot: 'weapon', cand: bowC, worn: [dag], policy: P0 })), 'ggCheck: a player\'s dagger is never swapped for a bow');
+  check(MM.ggCheck({ slot: 'weapon', cand: bowC, worn: [dag], policy: P0, hiveWeapon: true, roleWeapon: isBow }) === '', 'ggCheck: the hive\'s dagger -> the role\'s bow is fine');
+  check(/lower grade/.test(MM.ggCheck({ slot: 'weapon', cand: bowNG, worn: [dag], policy: P0, hiveWeapon: true, roleWeapon: isBow })), 'ggCheck: never a lower grade, also then');
+  check(/different weapon type/.test(MM.ggCheck({ slot: 'weapon', cand: { s: 'weapon', t: 'POLE', g: 'C' }, worn: [dag], policy: P0, hiveWeapon: true, roleWeapon: isBow })), 'ggCheck: only toward the ROLE weapon');
+  // f) host parts (source)
+  const gu = cut('async function gearUpgrade(', '// --- FRENZY KIT BUY');
+  check(/const gfErrand = !state\.errand; if \(gfErrand\) \{ try \{ errandStart\('buy'/.test(gu) && /if \(gfErrand\) \{ try \{ errandEnd\('buy'\)/.test(gu), 'GEARFIX: every gear run (also the supply run / plan step) is an errand: follow keepers never pull the buyer back');
+  const eq = cut('async function equipPiece(', '/** Put on what was bought');
+  check(/for \(let w = 0; w < 12 && !on; w\+\+\)/.test(eq) && (eq.match(/Send\.UseItem\(oid\)/g) || []).length === 1, 'GEARFIX: equipPiece waits up to ~6 s for the equip (one UseItem only)');
+  const eb = cut('async function equipBought(', '/** Common pieces already in the bag');
+  check(/GEARFIX-2026-10-24: after a bag sync/.test(eb), 'GEARFIX: equipBought tries a piece once more after a bag sync');
+  const gl = cut('function geoBlockLearn(', '/** NO-EXPERIENCE ZONE');
+  check(/if \(currentTownKey\(\)\) return null;/.test(gl), 'GEARFIX: no learned blocked spots inside a town');
+  // g) geopath: learned (non-manual) points inside a town box are ignored, manual ones and field ones stay
+  const os = require('os'), Mod = require('module');
+  const gpSrc = fs.readFileSync(process.env.GEOPATH_SRC || path.join(ROOT, 'docs', 'plan', 'tools', 'geopath.js'), 'utf8');
+  const tmp = path.join(os.tmpdir(), 'geo_blocked_test_' + process.pid + '.json');
+  fs.writeFileSync(tmp, JSON.stringify({ points: [
+    { id: 'giran-learned', x: 83336, y: 148696, z: -3408, r: 250, learned: true, episodes: 247, active: true },
+    { id: 'giran-manual', x: 81000, y: 148000, z: -3472, r: 250, manual: true },
+    { id: 'camp-learned', x: -53976, y: 146072, z: -2800, r: 250, learned: true, episodes: 3, active: true }] }));
+  const old = process.env.GEO_BLOCKED; process.env.GEO_BLOCKED = tmp;
+  const m = new Mod(path.join(ROOT, 'docs', 'plan', 'tools', 'geopath_under_test.js'), module); m.filename = m.id; m.paths = Mod._nodeModulePaths(path.dirname(m.id));
+  m._compile(gpSrc, m.id);
+  const ids = m.exports.learnedBlocked().map(p => p.id).sort().join(',');
+  if (old === undefined) delete process.env.GEO_BLOCKED; else process.env.GEO_BLOCKED = old; try { fs.unlinkSync(tmp); } catch (e) { }
+  check(ids === 'camp-learned,giran-manual', `GEARFIX: geopath ignores LEARNED points inside a town (Giran start square), keeps manual + field ones (${ids})`);
 }
 console.log(`\n${oks} ok, ${fails} failed`);
 process.exit(fails ? 1 : 0);

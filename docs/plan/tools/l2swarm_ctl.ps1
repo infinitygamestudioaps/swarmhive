@@ -341,6 +341,8 @@ switch ($Action) {
     'stop'    { Log $ctlLog 'stop requested'; Set-Content "$root\Logs\l2swarm_stopped.flag" (Get-Date -Format s); Stop-L2; Log $ctlLog 'stop: done' }
     'restart' { if (OtherStartRunning) { Log $ctlLog 'restart: another start/restart is already running - skipped'; exit 0 }; if (-not (Take-StartLock)) { Log $ctlLog 'restart: another start/restart holds the start lock - skipped'; exit 0 }; Log $ctlLog 'restart requested'; Stop-L2; Start-Sleep 5; Start-L2 }
     'watch' {
+        # TIME SYNC (2026-10-24): keep the PC clock right without anyone clicking (this task runs elevated on every install); max once an hour
+        try { & "$root\docs\plan\tools\time_sync.ps1" -Auto } catch { }
         $p = Proc
         if (-not $p) {
             # crashed (2026-10-05 02:51: ObjectDisposedException in L2Swarm's ThreadManager while logging in): start it again, unless it was

@@ -27,7 +27,8 @@ vm.createContext(pc);
 vm.runInContext(SRC.slice(pa, pb) + '\n;globalThis.__M = { MT, mtCfg, mtCum, mtAt, mtProg, mtSig, mtNearest, mtFlat, mtSideStep, mtLadderNext, mtStuckTick, mtResume, mtCut, mtDecide, mtBreath, mtGateLimit, mtSwimDist, mtPullGate, mtCorners };', pc);
 const M = pc.__M;
 {
-  const c = M.mtCfg({}); ok(c.on && c.maxWaitMs === 60000 && c.leaveMs === 90000 && c.paceGap === 600, 'defaults: ON, 60 s max wait per waypoint, 90 s stuck -> catch-up, pace gap 600');
+  const c = M.mtCfg({}); ok(c.on && c.neverLeave === true && c.maxWaitMs === 60000 && c.leaveMs === 90000 && c.paceGap === 100, 'defaults (owner 2026-10-24 LEADTOGETHER): ON, nobody left behind, pace gap 100 (L2 close range 80-100) (60 s / 90 s only with mtNeverLeave off)');
+  ok(M.mtCfg({ mtNeverLeave: false }).neverLeave === false, 'mtNeverLeave false = the old 60 s / 90 s go-on rule (only when the owner switches it)');
   ok(!M.mtCfg({ moveTogether: false }).on, 'moveTogether false = off');
   const c2 = M.mtCfg({ mtMaxWaitSec: 5, mtLeaveSec: 99999 }); ok(c2.maxWaitMs === 10000 && c2.leaveMs === 1800000, 'numbers clamped (10..600 s, 20..1800 s)');
   const p = { x: 0, y: 0, z: -3000 };
@@ -58,16 +59,23 @@ const M = pc.__M;
   const w = D({ members: [mm({}), mm({ name: 'B', reached: 2, d: 700 })] });
   ok(w.act === 'wait' && /point 4\/10 · waiting for B \(700 away\)/.test(w.line), `gate: one still walking -> wait ("${w.line}")`);
   ok(D({ members: [mm({ name: 'X', alive: false, reached: 0 }), mm({ name: 'Y', online: false, reached: 0 }), mm({ name: 'Z', benched: true, reached: 0 })] }).act === 'go', 'dead / offline / benched members are not waited for');
-  const mw = D({ since: 100000 - 61000, members: [mm({ name: 'B', reached: 2, d: 900 })] });
+  // LEADTOGETHER-2026-10-24 (owner: "they should run as 1 dot ... all at once"): by default nobody trails or is left behind
+  { const nw = D({ since: 100000 - 600000, members: [mm({ name: 'B', reached: 2, d: 900 })] });
+    ok(nw.act === 'wait' && !nw.trail.length, 'default: 10 min waited for a walking member -> still waiting (no trailing)');
+    const ns = D({ members: [mm({ name: 'B', reached: 2, stuck: { stage: 'around', since: 100000 - 600000 } }), mm({ name: 'C' })] });
+    ok(ns.act === 'wait' && !ns.leave.length, 'default: stuck 10 min -> the leader waits, nobody is left behind');
+    ok(D({ phase: 'leg', gate: 4, leaderProg: 3400, members: [mm({ name: 'B', reached: 3, prog: 3000 })] }).act === 'pace', 'default pace: 400 behind the leader -> the leader slows down (one dot)'); }
+  const DO = (o) => D(Object.assign({ cfg: M.mtCfg({ mtNeverLeave: false, mtPaceGap: 600 }) }, o));   // the old rule, switched on by a party
+  const mw = DO({ since: 100000 - 61000, members: [mm({ name: 'B', reached: 2, d: 900 })] });
   ok(mw.act === 'go' && mw.trail.includes('B') && /still walking/.test(mw.line), 'max wait (60 s) ran out for a member that IS walking: go on, it trails on the same points');
   const st = D({ since: 100000 - 61000, members: [mm({ name: 'B', reached: 2, stuck: { stage: 'sidestep', since: 100000 - 30000 } })] });
   ok(st.act === 'wait' && /B \(stuck 30 s: trying a side-step\)/.test(st.line), `stuck member: the leader keeps waiting while the ladder runs ("${st.line}")`);
-  const lv = D({ members: [mm({ name: 'B', reached: 2, stuck: { stage: 'around', since: 100000 - 91000 } }), mm({ name: 'C' })] });
+  const lv = DO({ members: [mm({ name: 'B', reached: 2, stuck: { stage: 'around', since: 100000 - 91000 } }), mm({ name: 'C' })] });
   ok(lv.act === 'go' && lv.leave.join() === 'B' && /going on without B/.test(lv.line), 'stuck longer than 90 s: the team goes on, B gets the catch-up (said in the line)');
   ok(D({ fight: true, members: [mm({})] }).act === 'fight', 'a fight on the way: fight first');
   const pc1 = D({ phase: 'leg', gate: 4, leaderProg: 3700, members: [mm({ name: 'B', reached: 3, prog: 3000 })] });
   ok(pc1.act === 'pace', 'pace: a member 700 behind the leader along the route -> the leader pauses');
-  ok(D({ phase: 'leg', gate: 4, leaderProg: 3500, members: [mm({ name: 'B', reached: 3, prog: 3000 })] }).act === 'go', 'pace: 500 behind is fine');
+  ok(D({ phase: 'leg', gate: 4, leaderProg: 3080, members: [mm({ name: 'B', reached: 3, prog: 3000 })] }).act === 'go', 'pace: 80 behind is fine (right on top)');
   ok(D({ phase: 'leg', gate: 4, leaderProg: 3900, trail: ['B'], members: [mm({ name: 'B', reached: 2, prog: 2500 })] }).act === 'go', 'a trailing member does not stop the pace (it is waited for at the next waypoint)');
   ok(D({ members: [mm({ name: 'B', reached: 2, left: true })] }).act === 'go', 'a member that is catching up by itself is not waited for');
   // SWIM (Tillion 2026-10-13): never left in the water, swimmers always waited for at the shore, no long wait IN the water, back first when stuck
@@ -246,7 +254,7 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
   // C) a member that never gets past: after the limit the team goes on, said in party chat; it catches up (.town)
   {
     const pts = line(6);
-    const { S, win, run } = sim({ leader: 'Lead', pts, rules: { mtLeaveSec: 90 } });
+    const { S, win, run } = sim({ leader: 'Lead', pts, rules: { mtLeaveSec: 90, mtNeverLeave: false } });   // the old rule, switched on by a party
     const L = win('Lead', { pos: { X: 0, Y: 0 } }); win('A', { pos: { X: -100, Y: 0 } });
     win('C', { pos: { X: -100, Y: 80 }, block: (a, b) => b.x > 1500 });
     let t0 = S.t, res = null; L.H.leadRouteWalk(pts, 'Test Boss', () => false, '', null, null).then(r => { res = r; });
@@ -283,7 +291,7 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
   //    for again at the next waypoint
   {
     const pts = line(5).map(p => ({ x: p.x * 3, y: 0, z: -3000 }));
-    const { S, win, run } = sim({ leader: 'Lead', pts, rules: { mtMaxWaitSec: 20 } });
+    const { S, win, run } = sim({ leader: 'Lead', pts, rules: { mtMaxWaitSec: 20, mtNeverLeave: false } });   // the old rule, switched on by a party
     const L = win('Lead', { pos: { X: 0, Y: 0 } }); win('S', { pos: { X: -2000, Y: 0 }, speed: 60 });
     let res = null; L.H.leadRouteWalk(pts, 'Slow', () => false, '', null, null).then(r => { res = r; });
     await run(900000, () => res !== null);
@@ -453,10 +461,10 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
     const rc = { Math, JSON, String, Number, Object, Array, isFinite, console }; vm.createContext(rc);
     vm.runInContext(SRC.slice(ra, rb) + '\n;globalThis.__Q = { RSM_RULES, RSM_LIMITS, rsmRules };', rc);
     const Q = rc.__Q;
-    ok(Q.RSM_RULES.mtMaxWaitSec === 60 && Q.RSM_RULES.mtLeaveSec === 90 && Q.RSM_RULES.mtPaceGap === 600 && Q.RSM_RULES.mtStuckSec === 8, 'RSM_RULES: number defaults 60 s / 90 s / 600 / 8 s');
+    ok(Q.RSM_RULES.mtMaxWaitSec === 60 && Q.RSM_RULES.mtLeaveSec === 90 && Q.RSM_RULES.mtPaceGap === 100 && Q.RSM_RULES.mtStuckSec === 8 && Q.RSM_RULES.mtNeverLeave === true, 'RSM_RULES: number defaults 60 s / 90 s / 100 / 8 s + never leave anyone (owner 2026-10-24)');
     ok(JSON.stringify(Q.RSM_LIMITS) === JSON.stringify(M.MT.limits), 'RSM_LIMITS = MT.limits');
     const eff = Q.rsmRules({ rules: [], parties: { P: { mtMaxWaitSec: 30, mtLeaveSec: 99999, mtPaceGap: 'x', mtStuckSec: true } } }, 'P');
-    ok(eff.mtMaxWaitSec === 30 && eff.mtLeaveSec === 1800 && eff.mtPaceGap === 600 && eff.mtStuckSec === 8, 'rsmRules: a party number is used, clamped to its limits; a wrong type is ignored');
+    ok(eff.mtMaxWaitSec === 30 && eff.mtLeaveSec === 1800 && eff.mtPaceGap === 100 && eff.mtStuckSec === 8, 'rsmRules: a party number is used, clamped to its limits; a wrong type is ignored');
     const c = M.mtCfg(Q.rsmRules({ rules: [], parties: { P: { mtMaxWaitSec: 30, mtLeaveSec: 120, mtPaceGap: 900, mtStuckSec: 15 } } }, 'P'));
     ok(c.maxWaitMs === 30000 && c.leaveMs === 120000 && c.paceGap === 900 && c.stuckMs === 15000, 'mtCfg: the party numbers reach the walk (max wait, leave, pace gap, stuck seconds)');
     const RVA2 = require(path.join(ROOT, 'Dashboard', 'routeview_api.js'));
