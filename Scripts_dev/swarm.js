@@ -3976,6 +3976,33 @@ setInterval(() => {
     if (changed.length) note(`healing: switched off L2Swarm's own auto-skill ${changed.join(', ')} (I know stronger heals; the heal brain picks the skill — dashboard Healing to change)`);
   } catch (e) { }
 }, 15000);
+// HEALONLY-2026-10-25 (tester Vykaax: "my healers are casting wind strike even though they should not be attacking according to these settings" -
+// Follow attack off, Attack what I select off): L2Swarm casts its OWN lists (CombatSkillsList, AutoSkillsList by their conditions) whatever the follow
+// settings say. Rule "healers ONLY heal" (owner 2026-10-04): for a healer role, while the hive picks the skills, every enabled offensive entry of
+// those lists (an enemy-target skill that is no heal / cure / res / recharge) is switched OFF in memory (the profile file is not changed; a re-login
+// reads it again and this switches it off again). Crowd control in the escape is the script's own cast, not these lists.
+const HEALONLY = { said: '' };
+function healOnlyIsAttack(id, name) {
+  if (/heal|cure|purif|cleans|remedy|resurrect|recharge|restore|balance life|vitalize|blessing|chant|hymn|seal/i.test(String(name || ''))) return false;
+  let sk = null; try { sk = SkillsList.GetItemByID(id); } catch (e) { sk = null; }
+  if (!sk) return id === 1177;                                         // Wind Strike, the mystic starter nuke, even when the list holds it unlearned
+  let tt = ''; try { tt = String(sk.TargetType || ''); } catch (e) { }
+  let act = true; try { act = sk.IsActive !== false; } catch (e) { }
+  return act && /ENEMY/i.test(tt);
+}
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !isHealerRole() || !hiveSkillsOn()) return;   // skills OFF = the player's own profile decides
+    const changed = [];
+    let lists = []; try { lists = [Options.CombatSkillsList, Options.AutoSkillsList]; } catch (e) { lists = []; }
+    lists.forEach(L => hsEach(L, (a) => {
+      let id = 0, nm = '', on = false; try { const sk = a.Instrument || a.Skill; id = num(sk && sk.Id); nm = String((sk && sk.Name) || ''); on = !!a.IsEnabled; } catch (e) { return; }
+      if (!id || !on || !healOnlyIsAttack(id, nm)) return;
+      try { a.IsEnabled = false; changed.push(nm || ('skill ' + id)); } catch (e) { }
+    }));
+    if (changed.length) { const msg = `healers only heal: switched off L2Swarm's own attack skill(s) ${changed.join(', ')} (in memory; your profile file is unchanged)`; if (msg !== HEALONLY.said) { HEALONLY.said = msg; note(msg, true); } }
+  } catch (e) { }
+}, 10000);
 function myDebuffs() { const out = []; try { (hostSnap.buffs() || BuffsList).forEach(b => { if (b.IsDebuff) out.push(rkBuffAb(b).ab || String(b.Name || '')); }); } catch (e) { } return out.slice(0, 8); }
 /** The team as the healer sees it: party members (live HP) + their own reports (debuffs, role, MP). */
 function healTargets() {
@@ -10116,7 +10143,12 @@ function mtMemberTick(m) {
   if (p && (m.left || next <= mtGateLimit(m.pts, m.gate)) && now() >= (m.hold || 0)) {
     const fighting = !!(IsInCombat || bfStanceLive()); if (fighting) m.combatSince = m.combatSince || now(); else m.combatSince = 0;
     const longFight = fighting && now() - m.combatSince >= MT.combatStuckMs;   // MTFIX-2026-10-21: held in a fight with no progress (a healer in a hallway full of monsters) = stuck, so the leader can go on
-    const pause = Me.IsDead || (fighting && !longFight) || rest.sitting || Me.IsSitting || (state.geoWaitN || 0) > 0 || !!(m.ladder && m.busy) || !!m.turnBack;
+    // HELDWAIT-2026-10-25 (tester Vykaax, Fields of Massacre: the leader waited at point 1 for its healer "stuck (12 away): trying a side-step" while the
+    // healer stood at point 1 "waiting for the team" - neither moved): a member the leader holds at its waypoint (the next point is past the leader's
+    // gate) measured "no progress" toward that next point, flagged itself stuck and climbed the unstick ladder. Held = waiting, never stuck.
+    const held = !m.left && next > mtGateLimit(m.pts, m.gate);
+    if (held && (m.stuckNow || m.ladder) && !m.busy) { m.stuckNow = false; m.ladder = null; m.stuckSince = 0; m.fails = 0; }
+    const pause = held || Me.IsDead || (fighting && !longFight) || rest.sitting || Me.IsSitting || (state.geoWaitN || 0) > 0 || !!(m.ladder && m.busy) || !!m.turnBack;
     const r = mtStuckTick(m.tr, { now: now(), idx: next, d: Math.hypot(p.x - Me.X, p.y - Me.Y), pause, stuckMs: m.wet ? MT.stuckWetMs : (m.cfg && m.cfg.stuckMs) || 0 });   // in the water: the ladder at once (4 s)
     m.tr = r.tr;
     if (r.stuck && !m.stuckNow) { m.stuckNow = true; if (!m.stuckSince) m.stuckSince = now(); note(`route walk: no progress toward point ${next + 1}/${m.pts.length} for ${Math.round((m.wet ? MT.stuckWetMs : (m.cfg && m.cfg.stuckMs) || MT.stuckMs) / 1000)} s — unstick steps`); }

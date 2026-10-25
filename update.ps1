@@ -154,7 +154,15 @@ if ($useGit) {
         if (-not $ok) { Say "download of $Repo $ref failed - download the SwarmKit zip from its GitHub releases page yourself and run  update.cmd -Zip <file.zip>" Red; exit 1 }
     }
     $tmp = Join-Path $env:TEMP "swarm_package_$stamp"
-    Expand-Archive -LiteralPath $Zip -DestinationPath $tmp -Force
+    # FASTUNZIP-2026-10-25 (tester: "1.10.0 download was fast but unpacking has been 20+ minutes"): PowerShell 5's Expand-Archive is very slow on a
+    # 500 MB / 8000-file zip. First Windows' own tar (Windows 10 1803+, unpacks zips), then .NET ZipFile, Expand-Archive only as the last resort.
+    New-Item -ItemType Directory -Force $tmp | Out-Null
+    Say 'unpacking (a minute or two)...'
+    $unz = $false
+    $tarExe = Join-Path $env:SystemRoot 'System32\tar.exe'
+    if (Test-Path $tarExe) { & $tarExe -xf $Zip -C $tmp 2>$null; $unz = ($LASTEXITCODE -eq 0) -and @(Get-ChildItem $tmp -Force).Count -gt 0 }
+    if (-not $unz) { try { Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory($Zip, $tmp); $unz = $true } catch { $unz = $false } }
+    if (-not $unz) { Expand-Archive -LiteralPath $Zip -DestinationPath $tmp -Force }
     $src = Get-ChildItem $tmp -Recurse -Filter VERSION | Where-Object { Test-Path (Join-Path $_.DirectoryName 'MANIFEST.sha256') } | Select-Object -First 1
     if (-not $src) { Say 'the zip is not a swarm package (no VERSION + MANIFEST.sha256 inside).' Red; exit 1 }
     $src = $src.DirectoryName

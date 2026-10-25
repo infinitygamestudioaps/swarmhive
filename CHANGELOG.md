@@ -2,6 +2,13 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.10.2 (2026-10-25)
+
+- Healers only heal: a healer switches off every attack skill in L2Swarm's own combat and auto-skill lists (in memory, the profile file is unchanged)
+- team walks: a member the leader holds at a waypoint is waiting, never stuck (the Fields of Massacre freeze)
+- Accounts -> Characters & items as compact rows
+- update.cmd unpacks with Windows tar (seconds instead of 20+ minutes)
+
 ## v1.10.1 (2026-10-25)
 
 - The gear plan decides every slot it names (your Gear tab, else the class plan)

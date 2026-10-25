@@ -16,7 +16,9 @@
     const sec = $id('tab-accounts'); if (!sec) return null;
     b = document.createElement('div'); b.id = 'accItems'; b.className = 'box'; b.style.marginBottom = '12px';
     const st = document.createElement('style'); st.textContent = `
-      #accItems .ai-acc{border-top:1px solid rgba(255,255,255,.08);padding:6px 0}#accItems .ai-acc:first-of-type{border-top:0}
+      #accItems .ai-acc{border-top:1px solid rgba(255,255,255,.08);padding:2px 0}#accItems .ai-acc:first-of-type{border-top:0}
+      #accItems .ai-row{display:flex;gap:8px;align-items:baseline;min-height:40px;padding:6px 4px;cursor:pointer;flex-wrap:wrap}#accItems .ai-row:hover{background:rgba(255,255,255,.04)}
+      #accItems .ai-tw{width:14px;flex:none;opacity:.7}#accItems .ai-lg{flex:0 0 auto;min-width:90px}#accItems .ai-cs{flex:1 1 160px;min-width:0;opacity:.85}#accItems .ai-cs i{opacity:.7}#accItems .ai-ct{flex:none;font-size:12px}
       #accItems .ai-ch{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:4px 0}#accItems .ai-n{flex:1 1 160px;min-width:0}
       #accItems button{min-height:42px;font-size:15px}#accItems input[type=search]{width:100%;min-height:42px;font-size:16px}
       #accItems .ai-items{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px}#accItems .ai-it{font-size:13px;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.07)}
@@ -47,8 +49,9 @@
     el.innerHTML = `<h3>Characters & items <span class="muted">${D.accounts.length} accounts · ${D.accounts.reduce((t, a) => t + a.chars.filter(c => c.alt).length, 0)} other characters (alts)</span></h3>
       <input id="aiQ" type="search" placeholder="Find an item or character in every bag and warehouse…" value="${h(S.q)}">
       ${J ? `<div class="box" style="margin:6px 0"><b>${running ? '⏳ Running' : J.ok ? '✓ Done' : '✗ Failed'}:</b> ${h(J.alt)} — ${J.action === 'give' ? 'give everything to ' + h(J.target) : 'read bag + warehouse'}${J.error ? ` <span class="ai-bad">${h(J.error)}</span>` : ''}<pre>${h((J.log || []).slice(-12).map(l => l.replace(/^\S+\s/, '')).join('\n'))}</pre></div>` : ''}
-      ${accs.map(a => { const op = S.open[a.login] || !!q || a.chars.some(c => c.alt);
-        return `<div class="ai-acc"><button data-aiacc="${h(a.login)}" style="width:100%;text-align:left">${op ? '▾' : '▸'} <b>${h(a.login)}</b> <span class="muted">${a.chars.map(c => h(c.name) + (c.alt ? ' (alt)' : '')).join(', ')}</span></button>
+      ${accs.map(a => { const op = S.open[a.login] !== undefined ? S.open[a.login] : (!!q || a.chars.some(c => c.alt));
+        const nb = a.chars.reduce((t, c) => t + ((c.bag && c.bag.items.length) || 0), 0), nw = a.chars.reduce((t, c) => t + ((c.wh && c.wh.items.length) || 0), 0);
+        return `<div class="ai-acc"><div class="ai-row" role="button" tabindex="0" data-aiacc="${h(a.login)}"><span class="ai-tw">${op ? '▾' : '▸'}</span><b class="ai-lg">${h(a.login)}</b><span class="ai-cs">${a.chars.map(c => h(c.name) + (c.alt ? ' <i>(alt)</i>' : '')).join(', ')}</span><span class="muted ai-ct">${nb} bag${nw ? ' · ' + nw + ' wh' : ''}</span></div>
         ${op ? a.chars.filter(hit).map(c => `<div class="ai-ch"><span class="ai-n"><b>${h(c.name)}</b> <span class="muted">${c.alt ? 'other character on this account' : (c.level ? 'lvl ' + c.level + ' ' + h(c.cls || '') : '') + (c.online ? ' · online' : ' · offline')}</span></span>
             ${c.alt ? `<button data-aicensus="${h(c.name)}" ${running ? 'disabled' : ''}>Read bag + warehouse</button><button data-aigive="${h(c.name)}" ${running ? 'disabled' : ''}>Give everything to…</button>` : ''}</div>
           <div class="muted" style="font-size:12px">Bag (${c.bag ? ago(c.bag.at) : 'never read'}):</div>${c.bag ? itemsHtml(c.bag.items, true) : ''}
@@ -62,8 +65,8 @@
     load();
   }
   async function onClick(e) {
+    const row = e.target.closest('[data-aiacc]'); if (row && !e.target.closest('button')) { const a = (S.d.accounts || []).find(x => x.login === row.dataset.aiacc), q = S.q.trim(); const was = S.open[row.dataset.aiacc] !== undefined ? S.open[row.dataset.aiacc] : (!!q || (a && a.chars.some(c => c.alt))); S.open[row.dataset.aiacc] = !was; render(); return; }
     const t = e.target.closest('button'); if (!t) return; const d = t.dataset;
-    if (d.aiacc) { S.open[d.aiacc] = !S.open[d.aiacc]; render(); return; }
     const acc = (n) => (S.d.accounts || []).find(a => a.chars.some(c => c.name === n));
     if (d.aicensus) { const a = acc(d.aicensus), main = a && a.chars.find(c => c.main);
       run({ alt: d.aicensus, action: 'census' }, `Read ${d.aicensus}'s bag + warehouse?`, `Account ${a ? a.login : ''} switches from ${main ? main.name : 'its character'} to ${d.aicensus} for a few minutes: it goes to Giran, reads its warehouse, then the account switches back. Nothing is moved.`); return; }
