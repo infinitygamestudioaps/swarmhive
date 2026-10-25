@@ -280,6 +280,44 @@ function lineClear(a, b) {
   const s = snap(a.x, a.y, a.z, 2), g = snap(b.x, b.y, b.z ?? a.z, 2);
   return !!(s && g && clear([s.gx, s.gy, s.li], [g.gx, g.gy, g.li]));
 }
+/** LINE OF SIGHT (WALLSTOP-2026-10-24, owner: "walls are COMPLETE blockers in lineage 2 ... you can not shoot, interact or do anything through
+ *  a wall"): can someone at a ({x,y,z}) see b? Every cell on the straight line must be passable out of the cell before it (its NSWE wall bits)
+ *  and have a floor near the sight line's height (another floor / a wall of rock blocks). Unlike lineClear a slope or a step does NOT block
+ *  (you can shoot down a ledge you can not walk down). A diagonal step passes when either corner around it is open. null = no geodata (unknown). */
+const SIGHT_DZ = 300;
+function seeStep(gx, gy, li, dx, dy, zl) {
+  const ls = layers(gx, gy); if (!ls || !ls[li]) return -1;
+  const d = DIRS.find(q => q[0] === dx && q[1] === dy);
+  if (!(ls[li].nswe & d[2])) return -1;            // a wall on my side
+  const nl = layers(gx + dx, gy + dy); if (!nl || !nl.length) return -1;
+  let best = -1, bd = 1e9;
+  nl.forEach((l, i) => { const dh = Math.abs(l.h - zl); if (dh < bd) { bd = dh; best = i; } });
+  if (best < 0 || bd > SIGHT_DZ) return -1;       // no floor near the sight line: another floor / solid ground in the way
+  if (nl[best].nswe === 0) return -1;              // a wall cell
+  return best;
+}
+function sight(a, b) {
+  const s = snap(a.x, a.y, a.z, 2), g = snap(b.x, b.y, b.z ?? a.z, 2);
+  if (!s || !g) return null;
+  const z0 = layers(s.gx, s.gy)[s.li].h, z1 = layers(g.gx, g.gy)[g.li].h;
+  let x = s.gx, y = s.gy, li = s.li, k = 0; const x2 = g.gx, y2 = g.gy;
+  const dx = Math.abs(x2 - x), dy = Math.abs(y2 - y), sx = x < x2 ? 1 : -1, sy = y < y2 ? 1 : -1, n = Math.max(dx, dy) || 1;
+  let err = dx - dy;
+  while (x !== x2 || y !== y2) {
+    const e2 = 2 * err; let mx = 0, my = 0;
+    if (e2 > -dy) { err -= dy; mx = sx; }
+    if (e2 < dx) { err += dx; my = sy; }
+    const zl = z0 + (z1 - z0) * Math.min(1, ++k / n);
+    let nl;
+    if (mx && my) {                                // diagonal: either corner around it
+      const ax = seeStep(x, y, li, mx, 0, zl), b1 = ax < 0 ? -1 : seeStep(x + mx, y, ax, 0, my, zl);
+      if (b1 >= 0) nl = b1; else { const ay = seeStep(x, y, li, 0, my, zl); nl = ay < 0 ? -1 : seeStep(x, y + my, ay, mx, 0, zl); }
+    } else nl = seeStep(x, y, li, mx, my, zl);
+    if (nl < 0) return false;
+    x += mx; y += my; li = nl;
+  }
+  return true;
+}
 /** Is the straight move a -> b allowed on the server? A start inside a water zone on a water cell = a swim (every cell between is water,
  *  b in the water or on a shore <= SWIM.climb above it, <= 700 units: the server's water move cap); else lineClear (walls). */
 function legOk(a, b) {
@@ -370,7 +408,7 @@ function fleeSpot(a, dangers, opts = {}) {
   return { ok: true, flee: true, kind, name, spot, clearance: Math.round(Math.min(clearOf(spot.x, spot.y), 99999)), points: pts.length ? pts : [spot],
     lengthUnits: Math.round((gScore.get(pick) || 0) * 16), expanded, ms: Date.now() - t0 };
 }
-module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, layers, layerAt, step, toGeoX, toGeoY, toWorldX, toWorldY, region };
+module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, sight, layers, layerAt, step, toGeoX, toGeoY, toWorldX, toWorldY, region };
 
 if (require.main === module) {
   const ji = process.argv.indexOf('--json');

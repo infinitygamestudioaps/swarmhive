@@ -38,18 +38,66 @@ function prices(ctx) {
   return PRICES;
 }
 const CACHE = {};
+const SRCS = ['raid', 'circuit', 'hunt', 'other'];
+const TOWNISH = /^(Giran|Dion|Gludio|Gludin|Oren|Aden|Heine|Goddard|Rune|Schuttgart|Hunters|Talking Island|Elven Village|Dark Elven Village|Orc Village|Dwarven Village|Kamael Village|Floran)$/i;
+/** LOOTSRC-2026-10-24: only the party LEADER knows a raid circuit runs, and a member's levelling is the leader's; so a member's raid / other line
+ *  takes the source of its leader's nearest line within 10 min (circuit beats raid, hunt fills other). Most drops go to the leader anyway
+ *  (L2Toggle "Forward Drop to Party Leader"). */
+function leaderSource(rows) {
+  const lead = {};
+  for (const r of rows) if (r.party && r.who === r.party) (lead[r.party] = lead[r.party] || []).push({ t: Date.parse(r.at), src: r.src, boss: r.boss });
+  for (const r of rows) {
+    if (!r.party || r.who === r.party || !(r.src === 'other' || r.src === 'raid')) continue;
+    const L = lead[r.party]; if (!L) continue;
+    const t = Date.parse(r.at); let best = null, bd = 600000;
+    for (const x of L) { const d = Math.abs(x.t - t); if (d < bd) { bd = d; best = x; } }
+    if (!best) continue;
+    if (best.src === 'circuit' || (r.src === 'other' && best.src !== 'other')) { r.src = best.src; if (!r.boss && best.boss) r.boss = best.boss; }
+  }
+}
+/** LOOTSRC history for lines without a source column: raid windows from Logs/raid_reports/*.json (start..end, boss, the characters) and circuit
+ *  periods per leader from Logs/raidcircuit.log (one line per boss step; a step covers the 45 min before it). Cached 5 min. */
+let HIST = null, HIST_AT = 0;
+function history(ctx) {
+  if (HIST && Date.now() - HIST_AT < 300000) return HIST;
+  const raids = [], circ = {};
+  try {
+    const dir = path.join(ctx.LOGS, 'raid_reports'), since = Date.now() - 8 * 86400000;
+    for (const f of fs.readdirSync(dir)) {
+      const t0 = Date.parse(f.slice(0, 24).replace(/T(\d\d)-(\d\d)-(\d\d)-(\d{3})Z/, 'T$1:$2:$3.$4Z')); if (!(t0 > since)) continue;
+      try { const j = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); const from = Date.parse(j.start), to = Date.parse(j.end || j.start) + 120000;
+        if (from && to) raids.push({ from, to, boss: String(j.boss || ''), names: new Set(Object.keys(j.levelsBefore || {})) }); } catch (e) { }
+    }
+  } catch (e) { }
+  try {
+    for (const line of fs.readFileSync(path.join(ctx.LOGS, 'raidcircuit.log'), 'utf8').split(/\r?\n/)) {
+      const p = line.split('\t'); const t = Date.parse(p[0]); if (!t || !p[1]) continue;
+      const L = circ[p[1]] || (circ[p[1]] = []), last = L[L.length - 1];
+      if (last && t - 45 * 60000 <= last.to) last.to = t + 60000; else L.push({ from: t - 45 * 60000, to: t + 60000 });
+    }
+  } catch (e) { }
+  HIST = { raids, circ }; HIST_AT = Date.now(); return HIST;
+}
 function readDay(ctx, day) {
   const f = path.join(ctx.LOGS, `loot_${day}.log`);
   let st; try { st = fs.statSync(f); } catch (e) { return []; }
   const c = CACHE[day]; if (c && c.size === st.size && c.mtime === st.mtimeMs) return c.rows;
-  const rows = [];
+  const rows = [], H = history(ctx);
   try {
     for (const line of fs.readFileSync(f, 'utf8').split(/\r?\n/)) {
       const p = line.split('\t'); if (p.length < 6) continue;
       if (/^EXP\b|\bSP \(Bonus:|\bexperience\b/i.test(p[4] || '')) continue;   // LOOTLOG-EXP-2026-10-24: experience lines written before the fix are not loot
-      rows.push({ at: p[0], who: p[1], party: p[2] || '', count: Number(p[3]) || 1, name: p[4], how: p[5] === 'spoil' ? 'spoil' : 'loot', place: p[6] || '' });
+      // LOOTSRC-2026-10-24: column 8 = raid | circuit | hunt | other, 9 = the boss; lines written before it: a hunting spot = hunt, else other
+      let src = SRCS.includes(p[7]) ? p[7] : '', boss = p[8] || '';
+      if (!src) {                                                   // an old line: the raid reports / circuit log tell where it came from
+        const t = Date.parse(p[0]), w = H.raids.find(x => t >= x.from && t <= x.to && x.names.has(p[1]));
+        if (w) { boss = w.boss; src = (H.circ[p[2]] || []).some(c => t >= c.from && t <= c.to) ? 'circuit' : 'raid'; }
+        else src = (H.circ[p[2]] || []).some(c => t >= c.from && t <= c.to) ? 'circuit' : (p[6] && !TOWNISH.test(p[6]) ? 'hunt' : 'other');
+      }
+      rows.push({ at: p[0], who: p[1], party: p[2] || '', count: Number(p[3]) || 1, name: p[4], how: p[5] === 'spoil' ? 'spoil' : 'loot', place: p[6] || '', src, boss });
     }
   } catch (e) { }
+  leaderSource(rows);
   CACHE[day] = { size: st.size, mtime: st.mtimeMs, rows };
   return rows;
 }
@@ -58,6 +106,7 @@ function query(ctx, q) {
   const idx = nameIndex(ctx), PR = prices(ctx), days = [];
   for (let t = from - 86400000; t <= to + 86400000; t += 86400000) { const d = new Date(t).toISOString().slice(0, 10); if (!days.includes(d)) days.push(d); }
   const who = String(q.who || '').toLowerCase(), grade = String(q.grade || '').toUpperCase(), type = String(q.type || ''), how = String(q.how || ''), text = String(q.q || '').toLowerCase();
+  const src = SRCS.includes(String(q.src || '')) ? String(q.src) : '';   // LOOTSRC-2026-10-24
   const all = [];
   for (const d of days) for (const r of readDay(ctx, d)) {
     const t = Date.parse(r.at); if (!(t >= from && t <= to)) continue;
@@ -67,12 +116,15 @@ function query(ctx, q) {
     all.push(row);
   }
   const rows = all.filter(r => (!who || r.who.toLowerCase() === who || r.party.toLowerCase() === who)
-    && (!grade || (grade === 'S' ? /^S/.test(r.grade) : r.grade === grade)) && (!type || r.type === type) && (!how || r.how === how) && (!text || r.name.toLowerCase().includes(text)));
+    && (!grade || (grade === 'S' ? /^S/.test(r.grade) : r.grade === grade)) && (!type || r.type === type) && (!how || r.how === how) && (!text || r.name.toLowerCase().includes(text) || String(r.boss || '').toLowerCase().includes(text)));
+  // LOOTSRC: totals per source over the OTHER filters (the page's source buttons show them), then the source filter itself
+  const bySrc = {}; for (const r of rows) { const B = bySrc[r.src] || (bySrc[r.src] = { count: 0, value: 0, pickups: 0 }); B.count += r.count; B.value += r.value || 0; B.pickups++; }
+  if (src) { const keep = rows.filter(r => r.src === src); rows.length = 0; rows.push(...keep); }
   rows.sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0));
-  const sum = { total: 0, value: 0, pickups: rows.length, spoiled: 0, byGrade: {}, byType: {}, byWho: {}, byParty: {}, top: [], items: [] }, topMap = {};
+  const sum = { total: 0, value: 0, pickups: rows.length, spoiled: 0, byGrade: {}, byType: {}, byWho: {}, valueByWho: {}, byParty: {}, top: [], items: [] }, topMap = {};
   for (const r of rows) {
     sum.total += r.count; sum.byGrade[r.grade] = (sum.byGrade[r.grade] || 0) + r.count; sum.byType[r.type] = (sum.byType[r.type] || 0) + r.count;
-    sum.byWho[r.who] = (sum.byWho[r.who] || 0) + r.count;
+    sum.byWho[r.who] = (sum.byWho[r.who] || 0) + r.count; sum.valueByWho[r.who] = (sum.valueByWho[r.who] || 0) + (r.value || 0);   // OVERVIEW-2026-10-24: worth per character
     sum.value += r.value || 0; if (r.how === 'spoil') sum.spoiled += r.count;
     { const pk = r.party || r.who, P = sum.byParty[pk] || (sum.byParty[pk] = { party: pk, count: 0, value: 0, pickups: 0 }); P.count += r.count; P.value += r.value || 0; P.pickups++; }
     const k = r.name, T = (topMap[k] = topMap[k] || { name: r.name, id: r.id, icon: r.icon, grade: r.grade, type: r.type, count: 0, value: 0, pickups: 0, spoiled: 0, last: r.at, who: {} });
@@ -86,7 +138,8 @@ function query(ctx, q) {
   sum.byParty = Object.values(sum.byParty).sort((a, b) => b.value - a.value || b.count - a.count);
   // who + parties seen, for the filter
   const people = [...new Set(all.map(r => r.who))].sort(), parties = [...new Set(all.map(r => r.party).filter(Boolean))].sort();
-  return { ok: true, hours, from: new Date(from).toISOString(), to: new Date(to).toISOString(), rows: rows.slice(0, 1500), more: Math.max(0, rows.length - 1500), summary: sum, people, parties, recording: days.some(d => fs.existsSync(path.join(ctx.LOGS, `loot_${d}.log`))) };
+  sum.bySrc = bySrc;   // LOOTSRC-2026-10-24
+  return { ok: true, hours, from: new Date(from).toISOString(), to: new Date(to).toISOString(), rows: rows.slice(0, 1500), more: Math.max(0, rows.length - 1500), summary: sum, people, parties, src, recording: days.some(d => fs.existsSync(path.join(ctx.LOGS, `loot_${d}.log`))) };
 }
 async function handle(req, res, url, ctx) {
   const p = url.pathname;

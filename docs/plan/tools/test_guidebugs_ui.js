@@ -63,7 +63,7 @@ if (process.argv[2] === '--server') {
 
 // ===================================================================== fixtures ====================================================
 const OUT = path.join(ROOT, 'docs', 'plan', 'mobile_check');
-const EDGE = ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));
+const EDGE = ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));   // NEVER Microsoft Edge (owner 2026-10-24): Chrome only
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 let fails = 0; const ok = (name, cond, info) => { if (!cond) fails++; console.log(`  ${cond ? 'ok  ' : 'FAIL'} ${name}${info ? ' - ' + info : ''}`); };
 const SB = fs.mkdtempSync(path.join(os.tmpdir(), 'guidebugs-sb-'));
@@ -140,7 +140,7 @@ fs.writeFileSync(path.join(SB, 'Logs', 'memwatch.log'), '2026-10-09 12:00:00 ok 
   const clan = await (await fetch(U('/api/clan'))).json();
   ok('#4 clan roster filled although clan_state.clan.name is blank', (clan.roster || []).length === 7, `${(clan.roster || []).length} members`);
   const sys = await (await fetch(U('/api/system'))).json();
-  ok('#11 PC limits are read from the scripts (15 min gap, no deploy restart, commit rule)', sys.limits && sys.limits.source === 'scripts' && sys.limits.deployGapMin === 15 && sys.limits.deployRestarts === false && sys.limits.minCommitMB === 3000 && sys.limits.warnMB === 4500, JSON.stringify(sys.limits));
+  ok('#11 PC limits are read from the scripts (15 min gap, no deploy restart, commit rule; warn 10 GB on RAINBOW 2026-10-24)', sys.limits && sys.limits.source === 'scripts' && sys.limits.deployGapMin === 15 && sys.limits.deployRestarts === false && sys.limits.minCommitMB === 3000 && sys.limits.warnMB === 10000, JSON.stringify(sys.limits));
   const gc = await (await fetch(U('/api/gearcatalog?role=dagger&grade=C&all=1'))).json();
   ok('#12 gear roles include nuker + dagger', (gc.roles || []).some(r => r.key === 'nuker') && (gc.roles || []).some(r => r.key === 'dagger'), (gc.roles || []).map(r => r.key).join(','));
   ok('#12 dagger catalog lists daggers only as weapons', !gc.error && (gc.slots.weapon || []).length > 0 && gc.slots.weapon.every(w => w.type === 'DAGGER'), gc.error || `${(gc.slots.weapon || []).length} weapons`);
@@ -162,7 +162,7 @@ fs.writeFileSync(path.join(SB, 'Logs', 'memwatch.log'), '2026-10-09 12:00:00 ok 
   // ---- browser ----
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'gb-edge-'));
   const DBG = 9300 + Math.floor(Math.random() * 500);
-  const br = cp.spawn(EDGE, ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
   let ws = null;
   for (let i = 0; i < 60 && !ws; i++) { await sleep(250); try { const l = await (await fetch(`http://127.0.0.1:${DBG}/json/list`)).json(); const p = l.find(x => x.type === 'page'); if (p) ws = p.webSocketDebuggerUrl; } catch (e) { } }
   if (!ws) throw new Error('no browser');

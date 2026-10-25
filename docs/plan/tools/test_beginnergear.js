@@ -117,7 +117,7 @@ const T = require('./beginner_gear.js'), BL = require(path.join(ROOT, 'Dashboard
   ok('box + orders: !quest 174 solo, !goto npc #<guide>, /clicklink', /qpBgBox/.test(pg) && /!quest 174 solo \$\{name\}/.test(pg) && /!goto npc #\$\{id\} \$\{name\}/.test(pg) && /\/clicklink \$\{text\}/.test(pg));
 
   // ---------------------------------------------------------------- UI (sandbox server + headless Edge), optional
-  const EDGE = ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));
+  const EDGE = ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));   // NEVER Microsoft Edge (owner 2026-10-24): Chrome only
   if (!EDGE || process.env.NO_UI) { console.log('--- UI skipped (no Edge / Chrome or NO_UI)'); return finish(); }
   console.log('--- UI (sandbox server, headless browser, iPhone 390x844)');
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -127,7 +127,7 @@ const T = require('./beginner_gear.js'), BL = require(path.join(ROOT, 'Dashboard
   srv.stderr.on('data', () => { });
   for (let i = 0; i < 100 && !PORT; i++) await sleep(100);
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'bg-edge-')), DBG = 9800 + Math.floor(Math.random() * 150);
-  const br = cp.spawn(EDGE, ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
   const cleanup = () => { try { br.kill(); srv.kill(); } catch (e) { } try { fs.rmSync(prof, { recursive: true, force: true }); } catch (e) { } };
   try {
     if (!PORT) throw new Error('sandbox server did not start');

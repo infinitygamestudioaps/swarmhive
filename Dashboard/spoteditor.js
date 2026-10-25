@@ -14,7 +14,7 @@
 (function () {
   'use strict';
   const MT = 8192, REG = 32768;
-  const COL = { area: '#3ddc84', hole: '#ff4d4d', way: '#5ad1ff', start: '#ffffff', circle: '#ff4d4d' };
+  const COL = { area: '#3ddc84', hole: '#ff4d4d', way: '#5ad1ff', start: '#ffffff', circle: '#ff4d4d', safe: '#ffd34d' };
   const TOOLS = [
     ['pan', '✋ Move map', 'Drag to move the map, pinch / wheel to zoom. Tap a point to select it.'],
     ['start', '⚑ Start', 'Tap a <b>blue square</b> (gatekeeper landing) or a <b>gold square</b> (.town) — that is where the team starts.'],
@@ -22,6 +22,8 @@
     ['area', '▱ Hunt area', 'Tap around the hunting area (tap on an edge to insert). Drag the corners. The team only fights inside it.'],
     ['hole', '⛔ Exclude area', 'Tap around an area the team must never fight in. <b>+ New</b> starts another one.'],
     ['circle', '⭘ Exclude circle', 'Tap to drop a no-fight circle; drag its centre to move it, the small handle to resize.'],
+    // SAFEROUTE-2026-10-24 (public tester Vykaax): the 2nd, optional route to a safe spot — walked when .town is refused in combat or the server goes down
+    ['safe', '🛡 Safe spot route', 'Optional: tap the walk from the hunting area to a <b>safe spot</b>, in order. Used when <b>.town is refused in combat</b> or the <b>server goes down</b>: the team walks it, then only defends (no new pulls). Drag a point to move it.'],
     ['mob', '☠ Avoid monster', 'Tap a monster dot: that monster kind is never fought in this spot (tap again to allow it).'],
   ];
   const S = {
@@ -131,7 +133,7 @@
       teams: Array.isArray(z.teams) ? z.teams.slice() : [z.team || 'all'], enabled: z.enabled !== false, kind: z.kind || 'any',
       travel: z.travel || (z.gkDesc ? { kind: 'gk', desc: z.gkDesc } : null), x: z.x, y: z.y, z: z.z || 0, radius: z.radius || 2500,
       poly: P(z.poly), holes: (z.holes || []).map(P), circles: (z.circles || []).map(c => ({ x: r0(c.x), y: r0(c.y), r: r0(c.r), ...(isFinite(c.z) ? { z: r0(c.z) } : {}) })),
-      waypoints: P(z.waypoints), floor: z.floor || null, avoidMobs: (z.avoidMobs || []).slice(), pulls: z.pulls || [], note: z.note || '',
+      waypoints: P(z.waypoints), safeWaypoints: P(z.safeWaypoints), floor: z.floor || null, avoidMobs: (z.avoidMobs || []).slice(), pulls: z.pulls || [], note: z.note || '',
       rooms: z.rooms || null, dungeon: z.dungeon || null,
     };
   }
@@ -264,6 +266,9 @@
       if (bad) h += text((a.x + c.x) / 2, (a.y + c.y) / 2, '⚠ wall?', 10, '#ff8080');
     }
     if (st) h += `<circle cx="${st.x}" cy="${st.y}" r="${9 * s}" fill="none" stroke="#fff" stroke-width="${2.5 * s}"/>` + text(st.x + 11 * s, st.y - 9 * s, 'START ' + (M.travel.kind === 'town' ? '.' + String(M.travel.town).toLowerCase() : M.travel.desc), 11, '#fff');
+    { const SW = M.safeWaypoints || [];                                // SAFEROUTE: the safe-spot route, gold and dashed
+      for (let i = 0; i + 1 < SW.length; i++) h += `<line x1="${SW[i].x}" y1="${SW[i].y}" x2="${SW[i + 1].x}" y2="${SW[i + 1].y}" stroke="${COL.safe}" stroke-width="${2.4 * s}" stroke-dasharray="${6 * s} ${4 * s}"/>`;
+      if (SW.length) { const e = SW[SW.length - 1]; h += text(e.x + 11 * s, e.y + 14 * s, 'SAFE SPOT', 11, COL.safe); } }
     if (M.floor) { const c = center(); if (c) h += text(c.x, c.y, `hunting floor: ${M.floor.name} (z ${M.floor.zMin}..${M.floor.zMax})`, 11, '#c8ffd8'); }
     g.innerHTML = h;
     // handles
@@ -275,6 +280,7 @@
       if (label) hh += text(p.x + R + 2 * s, p.y - R * 0.6, label, 10, sel ? '#fff' : col);
     };
     M.waypoints.forEach((p, i) => handle('w:' + i, p, COL.way, S.tool === 'way', String(i + 1)));
+    (M.safeWaypoints || []).forEach((p, i) => handle('s:' + i, p, COL.safe, S.tool === 'safe', '🛡' + (i + 1)));   // SAFEROUTE
     M.poly.forEach((p, i) => handle('a:' + i, p, COL.area, S.tool === 'area', S.sel === 'a:' + i ? String(i + 1) : ''));
     M.holes.forEach((H, hi) => H.forEach((p, i) => handle(`h:${hi}:${i}`, p, COL.hole, S.tool === 'hole' && hi === S.holeI, '')));
     M.circles.forEach((c, i) => { handle('c:' + i, c, COL.circle, S.tool === 'circle', ''); handle('r:' + i, { x: c.x + c.r, y: c.y, z: c.z }, '#ffb0b0', S.tool === 'circle', S.sel === 'c:' + i || S.sel === 'r:' + i ? 'r ' + c.r : ''); });
@@ -318,12 +324,13 @@
   }
   function selName() {
     const [k, a, b] = String(S.sel).split(':');
-    return k === 'w' ? `Waypoint ${+a + 1}` : k === 'a' ? `Area corner ${+a + 1}` : k === 'h' ? `Exclusion ${+a + 1}, corner ${+b + 1}` : `Exclusion circle ${+a + 1}`;
+    return k === 'w' ? `Waypoint ${+a + 1}` : k === 's' ? `Safe spot route point ${+a + 1}` : k === 'a' ? `Area corner ${+a + 1}` : k === 'h' ? `Exclusion ${+a + 1}, corner ${+b + 1}` : `Exclusion circle ${+a + 1}`;
   }
   function selPoint() {
     if (!S.sel || !S.M) return null;
     const [k, a, b] = S.sel.split(':'), M = S.M;
     if (k === 'w') return M.waypoints[+a] || null;
+    if (k === 's') return (M.safeWaypoints || [])[+a] || null;
     if (k === 'a') return M.poly[+a] || null;
     if (k === 'h') return (M.holes[+a] || [])[+b] || null;
     if (k === 'c' || k === 'r') return M.circles[+a] || null;
@@ -334,6 +341,7 @@
     snap();
     const [k, a, b] = S.sel.split(':'), M = S.M;
     if (k === 'w') M.waypoints.splice(+a, 1);
+    else if (k === 's') M.safeWaypoints.splice(+a, 1);
     else if (k === 'a') M.poly.splice(+a, 1);
     else if (k === 'h') { M.holes[+a].splice(+b, 1); if (!M.holes[+a].length) { M.holes.splice(+a, 1); S.holeI = M.holes.length - 1; } }
     else M.circles.splice(+a, 1);
@@ -482,6 +490,10 @@
       for (let i = 0; i + 1 < W.length; i++) { const d = segDist(w, W[i], W[i + 1]); if (d < bd) { bd = d; at = st ? i : i + 1; } }
       M.waypoints.splice(at, 0, w); S.sel = 'w:' + at;
       fillZ(w, hintZ(at > 0 ? M.waypoints.slice(0, at) : (st ? [st] : [])));
+    } else if (S.tool === 'safe') {                                    // SAFEROUTE: appended in order
+      if (!M.safeWaypoints) M.safeWaypoints = [];
+      M.safeWaypoints.push(w); S.sel = 's:' + (M.safeWaypoints.length - 1);
+      fillZ(w, hintZ(M.safeWaypoints.length > 1 ? M.safeWaypoints.slice(0, -1) : (M.poly.length ? M.poly : M.waypoints)));
     } else if (S.tool === 'area') {
       if (!M.poly.length && !M.floor && S.floor) { M.floor = { ...S.floor }; toast(`Hunting floor set to "${S.floor.name}" (the floor the map shows) — change it in ☰`); }
       const at = insertPoly(M.poly, w); S.sel = 'a:' + at; fillZ(w, hintZ(M.poly));
@@ -497,6 +509,7 @@
   function movePoint(key, w) {
     const [k, a, b] = key.split(':'), M = S.M;
     if (k === 'w') Object.assign(M.waypoints[+a], w);
+    else if (k === 's') Object.assign(M.safeWaypoints[+a], w);
     else if (k === 'a') Object.assign(M.poly[+a], w);
     else if (k === 'h') Object.assign(M.holes[+a][+b], w);
     else if (k === 'c') Object.assign(M.circles[+a], w);
@@ -711,7 +724,7 @@
       name, oldName: M.oldName || undefined, levelMin: M.levelMin, levelMax: M.levelMax, teams: M.teams, team: M.teams.length === 1 ? M.teams[0] : 'all',
       kind: M.kind, enabled: M.enabled, travel: M.travel, note: M.note,
       z: M.floor ? Math.round((M.floor.zMin + M.floor.zMax) / 2) : (zs.length ? Math.round(zs.reduce((a, b) => a + b, 0) / zs.length) : M.z),
-      poly: M.poly, holes: M.holes.filter(h => h.length >= 3), pulls: M.pulls || [], circles: M.circles, waypoints: M.waypoints, floor: M.floor || null, avoidMobs: M.avoidMobs,
+      poly: M.poly, holes: M.holes.filter(h => h.length >= 3), pulls: M.pulls || [], circles: M.circles, waypoints: M.waypoints, safeWaypoints: M.safeWaypoints || [], floor: M.floor || null, avoidMobs: M.avoidMobs,
     };
     if (body.oldName && body.oldName !== name && S.zones.some(z => z.name === name) && !await ask({ title: 'Replace the spot?', body: `A spot called "${name}" exists already — replace it?`, confirmText: 'Replace', danger: true })) return;
     if (!body.oldName && S.zones.some(z => z.name === name) && !await ask({ title: 'Replace the spot?', body: `A spot called "${name}" exists already — replace it?`, confirmText: 'Replace', danger: true })) return;

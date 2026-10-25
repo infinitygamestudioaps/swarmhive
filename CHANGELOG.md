@@ -2,6 +2,24 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.9.0 (2026-10-25)
+
+- New Overview start page (the party cards moved to #/parties): profit, experience, adena, loot worth, costs, kills and deaths per hour for all parties, every party and every character, next level-ups with a live countdown, just levelled, sortable characters table, last hour / 24 h
+- Walls block everything: no attack, heal, buff, assist or NPC talk through a wall (geodata line of sight everywhere), a member whose target is behind a wall or hill walks round to it instead of standing still, routes stop by the walking distance left
+- /live raid view shows the floor the raid is on
+- Hunting near a raid boss skips only the boss and its own minions
+- Loot page totals for Raid bosses, Raid circuit, Hunting and Other
+- Safe spot route (spot editor): walked when .town is refused in combat or the server shuts down
+- Start near the spot hunts right away
+- Hunt here 24/7 hunts the room or field area the leader stands in
+- Mark single items to keep, store or give to the collector
+- Sell list on Storage
+- Look in the clan warehouse now, Give everything and Bag + warehouses links
+- A character that lost its connection after a quarantine reconnects by itself
+- In-game (l2.exe) reacts within 10 s
+- No false PC clock warning while the dashboard is busy
+- Faster pages right after a dashboard restart
+
 ## v1.8.22 (2026-10-24)
 
 - Bots no longer stand still while monsters hit them: a hunting round without a pause flooded the bots with attack orders, so every move arrived minutes late - every round now pauses briefly, the same attack is never sent twice within 0.6 s and the brain host caps repeated clicks. A monster nobody targeted yet is no longer treated as dead (bots stepped away from monsters hitting them). A frozen character re-syncs by itself when hit but not fighting back. Raids: once the tank has the boss the damage dealers keep attacking, the tank keeps using Aggression to win it back. Moving together: the party runs as one group close behind the leader (100 units), he waits at every point until everyone is there, nobody is left behind, and falling behind on the way to the spot no longer sends the party back to Giran. In dungeons the regroup before a town trip no longer walks into the next room

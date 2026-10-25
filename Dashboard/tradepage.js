@@ -31,7 +31,8 @@
     TP.loadingBags = true; renderItems();
     try {
       const d = await api('/api/trade/bags?names=' + encodeURIComponent(names.join(',')) + (fresh ? '&fresh=1' : ''));
-      if (d && d.bags) { TP.bags = d.bags; Object.keys(TP.sel).forEach(n => { if (!names.includes(n)) delete TP.sel[n]; }); }
+      if (d && d.bags) { TP.bags = d.bags; Object.keys(TP.sel).forEach(n => { if (!names.includes(n)) delete TP.sel[n]; });
+        if (TP.preAll) { TP.preAll = false; TP.quick.all = true; TP.sel = L().trQuick(TP.sel, TP.bags, 'all', true); } }   // GIVEALL-2026-10-24: "Give everything…" from the character page
       else if (d && d.error) flash(d.error, true);
     } catch (e) { flash('Could not load the bags: ' + e.message, true); }
     TP.loadingBags = false; renderItems(); renderBar();
@@ -93,7 +94,10 @@
     const s = $id(SEC); if (s) s.hidden = true;
   }
   function applyPre(pre) {
-    const m = String(pre).match(/^(party|char|chars):(.+)$/); if (!m || !TP.info) return;
+    // GIVEALL-2026-10-24 (public tester Mr.P: "then another 10min to find where trade all items was"): "<target>!all" = also tick "Everything tradeable"
+    let all = false; pre = String(pre); if (/!all$/.test(pre)) { all = true; pre = pre.replace(/!all$/, ''); }
+    const m = pre.match(/^(party|char|chars):(.+)$/); if (!m || !TP.info) return;
+    TP.preAll = all;
     if (m[1] === 'party') { const p = TP.info.parties.find(x => x.leader === m[2]); if (p) TP.givers = p.members.map(x => x.name).filter(n => n !== receiverName()); }
     else TP.givers = m[2].split(',').filter(n => allChars().some(c => c.name === n) && n !== receiverName());
     TP.sel = {}; TP.adena = {}; TP.quick = {};

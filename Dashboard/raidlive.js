@@ -172,7 +172,10 @@
     let tiles = '';
     try {
       const LAY = window.MAP_LAYERS || {}, z = b.z;
-      const layer = (rx, ry) => (z != null && z < -4500 && LAY[rx + '_' + ry]) ? '_L1' : '';
+      // RAIDFLOOR-2026-10-24 (owner: "/live shows the 1st floor view" — Archon Suscepter on Cruma's 2nd floor was drawn on the 1st floor's art):
+      // the stacked-floor table (index.html ugLayer: /api/maplayersz, Cruma floors 1/2/3 = layers 1/2/3) like every other map; the old
+      // "below -4500 = layer 1" rule only when ugLayer is missing
+      const layer = (rx, ry) => typeof ugLayer === 'function' ? (ugLayer(rx, ry, z, cx, cy) || '') : ((z != null && z < -4500 && LAY[rx + '_' + ry]) ? '_L1' : '');
       for (let gx = Math.floor((cx - R) / MT); gx * MT < cx + R; gx++) for (let gy = Math.floor((cy - R) / MT); gy * MT < cy + R; gy++) {
         const RX = Math.floor(gx / 4) + 20, RY = Math.floor(gy / 4) + 18, cc = gx - Math.floor(gx / 4) * 4, rr = gy - Math.floor(gy / 4) * 4;
         tiles += `<image href="/minitile/${RX}_${RY}${layer(RX, RY)}_${cc}_${rr}.jpg" x="${gx * MT - cx}" y="${gy * MT - cy}" width="${MT}" height="${MT}" preserveAspectRatio="none"/>`;

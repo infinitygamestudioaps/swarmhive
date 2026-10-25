@@ -93,6 +93,30 @@ async function persist(name, sel) {
   } catch (e) { say(`${name}: config save FAILED (${e.message}) — it would fall back to its old scripts after an L2Swarm restart`); }
 }
 
+// AGENTREJOIN-2026-10-24 (owner: "I clicked log in on Crafter1 a while ago and he is still not logged in... This happens over and over again"):
+// after a pool quarantine the agent was told "bye" (potion reflex only) and never says hello again; the agent guard then found "agent2.js already
+// attached and running — nothing to do" every 20 min and the character stayed without a brain for good. Running but NOT connected to the pool
+// (fresh brain_host_stats.json) = restart the agent: stop it, start it -> a fresh hello (a quarantine still running refuses it again).
+function poolConnected(name) {
+  try {
+    const s = JSON.parse(fs.readFileSync(path.join(ROOT, 'Logs', 'brain_host_stats.json'), 'utf8'));
+    if (!s || Date.now() - Date.parse(s.at || 0) > 60000) return null;                     // pool not reporting: unknown
+    if ((s.quarantined || []).includes(name)) return 'quarantined';
+    return (s.workers || []).some(w => (w.contexts || []).some(c => c && c.name === name && c.connected));
+  } catch (e) { return null; }
+}
+async function runningAgent(name, sel, ag) {
+  const pc = poolConnected(name);
+  if (pc !== false) { say(`${name}: ${ag.name} already attached and running${pc === 'quarantined' ? ' (quarantined in the pool — it may say hello again when that ends)' : ''} — nothing to do`); await persist(name, sel); outcome.already.push(name); return true; }
+  say(`${name}: ${ag.name} is running but NOT connected to the brain pool — restarting it (a fresh hello)`);
+  if (APPLY) {
+    await mcp('manage_account_scripts', { ...sel, action: 'stop', script_name: ag.name });
+    await new Promise(r => setTimeout(r, 1500));
+    await mcp('manage_account_scripts', { ...sel, action: 'start', script_name: ag.name });
+  }
+  await persist(name, sel);
+  outcome.moved.push(name); return true;
+}
 async function attach(name) {
   if (!FORCE && !isBrain(name)) {
     say(`${name}: NOT a brain character in Scripts/data/brain_host.json — skipped (its agent would be turned away by the pool and nothing would drive it; add it there first, or --force)`);
@@ -101,7 +125,7 @@ async function attach(name) {
   const { sel, list, raw } = await scriptList(name);
   if (!list) { say(`${name}: script list unreadable (${String(raw.text || JSON.stringify(raw)).slice(0, 160)}) — skipped (not open in L2Swarm? run this again once it is logged in, or switch its config offline with SETUP.cmd -Apply while L2Swarm is stopped)`); outcome.skipped.push(name); return false; }
   const sw = list.find(s => s.name === 'swarm.js'), ag = list.find(s => AGENT_RE.test(s.name));
-  if (ag && ag.enabled && !(sw && sw.enabled)) { say(`${name}: ${ag.name} already attached and running — nothing to do`); await persist(name, sel); outcome.already.push(name); return true; }
+  if (ag && ag.enabled && !(sw && sw.enabled)) return await runningAgent(name, sel, ag);   // AGENTREJOIN-2026-10-24
   if (sw && sw.enabled) {
     say(`${name}: stop swarm.js`);
     if (APPLY) {
@@ -111,7 +135,7 @@ async function attach(name) {
     }
   }
   if (ag) {
-    if (ag.enabled) { say(`${name}: ${ag.name} already attached and running — nothing to do`); await persist(name, sel); outcome.already.push(name); return true; }
+    if (ag.enabled) return await runningAgent(name, sel, ag);   // AGENTREJOIN-2026-10-24
     say(`${name}: ${ag.name} already attached — start it (no file is written)`);
     if (APPLY) await mcp('manage_account_scripts', { ...sel, action: 'start', script_name: ag.name });
     await persist(name, sel);

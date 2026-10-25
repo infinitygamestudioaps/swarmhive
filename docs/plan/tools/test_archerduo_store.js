@@ -8,7 +8,7 @@ t('mtNoDealer reads the live healer flag', /function mtNoDealer\(\)[^\n]*livePos
 t('mtNoDealer reads the live role', /function mtNoDealer\(\)[^\n]*livePos\[n\]\.role/.test(S));
 t('mtFight: solo killer never cancels its own shot', /soloKill && Me\.IsAttacking\)\) Send\.StopMove/.test(S));
 t('mtFight: solo killer fights until nothing is left', /mtPackNear\(\) <= \(soloKill \? 0 : MT\.packLeft\)/.test(S));
-t('mtLeashFight shoots a ranged attacker outside the leash', /ARCHERDUO-2026-10-22: a ranged/.test(S) && /< 1600\) mobs\.push\(m\)/.test(S));
+t('mtLeashFight shoots a ranged attacker outside the leash', /ARCHERDUO-2026-10-22: a ranged/.test(S) && /< 1600( && canSee\(m\))?\) mobs\.push\(m\)/.test(S));   // WALLSIGHT-2026-10-24: and never through a wall
 t('soStoreAddOn exists', /async function soStoreAddOn\(out, tag\)/.test(S));
 t('store add-on ignores the source order', /e\.buffSources\.indexOf\('store'\) < 0/.test(S));
 t('store add-on: Party button, else me', /storeBuyBuff\(id, 'Party', name, (opt|o1)\)/.test(S) && /no Party button/.test(S));

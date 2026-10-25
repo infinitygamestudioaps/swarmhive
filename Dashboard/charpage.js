@@ -51,7 +51,7 @@
           <div class="cp-legend">${legend()}</div></div>
         ${BOX('gear', 'Equipment', UI.shield)}
         ${BOX('frenzy', 'Frenzy kit (HP swap)', UI.sword)}
-        <div class="box cp-box cp-inv" data-cpsec="inv"><h3>${GI(UI.inv, 'sm')}<span>Inventory</span><span class="cp-cnt" id="cpInvN"></span></h3>
+        <div class="box cp-box cp-inv" data-cpsec="inv"><h3>${GI(UI.inv, 'sm')}<span>Inventory</span><span class="cp-cnt" id="cpInvN"></span><a class="cp-allwh" href="#/items/${encodeURIComponent(CP.name)}" title="Bag, private warehouse and clan warehouse side by side (Items tab)" style="margin-left:auto;font-size:12px;font-weight:normal">Bag + warehouses →</a></h3><!-- ONETAB-2026-10-24 (public tester Mr.P: inventory / private / clan warehouse from one tab) -->
           <div class="cp-invbar"><div class="cp-seg" role="tablist">${[['all', 'All'], ['use', 'Use'], ['gear', 'Gear'], ['mats', 'Materials'], ['quest', 'Quest']].map(([k, t]) => `<button data-cpinvf="${k}" class="${k === 'all' ? 'on' : ''}">${t}</button>`).join('')}</div>
             <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"><button type="button" id="cpJunkBtn" class="uk-btn cp-junkbtn" data-cpjunk="mode" aria-pressed="false" title="Tap items to mark or unmark them as junk to sell">Mark junk</button><button type="button" id="cpCryBtn" class="uk-btn cp-crybtn" data-cpcry="mode" hidden>Crystallize</button></div>
           <div class="cp-junkhint muted" id="cpJunkHint" hidden>Tap an item to mark it as junk (crossed out = sold at the next shop visit). Tap again to keep it. Press Done when finished.</div>
@@ -162,6 +162,8 @@
       const d = await api('/api/char?name=' + encodeURIComponent(name));
       if (!CP.open || CP.name !== name) return;
       CP.char = d; CP.charAt = Date.now();
+      // ITEMRULE-2026-10-24: the item menu's "otherwise" choices (keep / store / collector), refreshed at most every 60 s
+      if (!CP.itemRule || CP.itemRule.name !== name || Date.now() - (CP.itemRuleAt || 0) > 60000) { CP.itemRuleAt = Date.now(); api('/api/itemrule?name=' + encodeURIComponent(name)).then(r => { if (r && !r.error && CP.name === name) CP.itemRule = r; }).catch(() => { }); }
       renderAll();
     });
   }
@@ -191,7 +193,8 @@
   const matesHere = () => mates().filter(m => onMyLevel(m));
 
   // =========================================================================================== render
-  function renderAll() { renderHead(); renderLive(true); renderGear(); renderFrenzy(); renderInv(); renderSkills(); renderBuffs(); renderStats(); renderOrders(); renderPrio(); }
+  function renderAll() { try { const a = document.querySelector('.cp-allwh'); if (a) a.href = '#/items/' + encodeURIComponent(CP.name); } catch (e) { }   // ONETAB: this character's bag + warehouses
+    renderHead(); renderLive(true); renderGear(); renderFrenzy(); renderInv(); renderSkills(); renderBuffs(); renderStats(); renderOrders(); renderPrio(); }
   function renderLive(fromAll) {
     if (!CP.open) return;
     if (!fromAll) renderHead();
@@ -235,7 +238,7 @@
         <div class="cp-id"><h2>${esc(CP.name)}${isLeader ? ' ' + GI(UI.star, 'sm', 'party leader') : ''}</h2>
           <div class="cp-sub">${esc(gc.class_name || x.cls || '')}${x.role ? ' · ' + esc(x.role) : ''}${party ? ` · party <a href="#/live/${encodeURIComponent(party)}">${esc(party)}</a>` : ''}${d.account ? '<span data-adv> · ' + esc(d.account) + '</span>' : ''}${window.ClassPlans ? ' ' + ClassPlans.charBadge(CP.name) : ''}</div></div>
         <div class="cp-chips">${chips}</div>
-        <div class="cp-acts">${window.ResPanel ? ResPanel.button(CP.name, true) : ''}${window.RunSwitch ? RunSwitch.charBlock(CP.name) : ''}${party && window.PartySettings ? PartySettings.button(party, true) : ''}${window.HealSchemes && HealSchemes.canHeal(CP.name, x) ? HealSchemes.button(CP.name, true) : ''}${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) : ''}<button type="button" data-cp3d="1" onclick="location.hash='#/view3d/'+encodeURIComponent(${esc(JSON.stringify(CP.name))})" title="Live 3D view around ${esc(CP.name)}: tap the ground to send it there">${GI(UI.map, 'sm')}3D view</button><button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
+        <div class="cp-acts">${window.ResPanel ? ResPanel.button(CP.name, true) : ''}${window.RunSwitch ? RunSwitch.charBlock(CP.name) : ''}${party && window.PartySettings ? PartySettings.button(party, true) : ''}${window.HealSchemes && HealSchemes.canHeal(CP.name, x) ? HealSchemes.button(CP.name, true) : ''}${party && window.LiveParty ? LiveParty.button(party) : ''}${window.TradePage ? TradePage.button('char:' + CP.name) + TradePage.button('char:' + CP.name + '!all', 'Give everything…') : ''}<button type="button" data-cp3d="1" onclick="location.hash='#/view3d/'+encodeURIComponent(${esc(JSON.stringify(CP.name))})" title="Live 3D view around ${esc(CP.name)}: tap the ground to send it there">${GI(UI.map, 'sm')}3D view</button><button class="ccsheetbtn" data-cmdsheet="char:${esc(CP.name)}" title="Every command for ${esc(CP.name)} (command center)">${GI(UI.menuAction, 'sm')}Commands</button>${window.Override ? `<button data-cpovmenu="1" title="Override menu: skills, potions, scrolls, drop">${GI(UI.sword, 'sm')}Override…</button>` : ''}</div>
       </div>
       <div class="cp-bars">
         ${g('CP', cpp, gc.max_cp ? nf(gc.cp) + ' / ' + nf(gc.max_cp) : (cpp != null ? cpp + '%' : 'CP ?'))}
@@ -789,6 +792,10 @@
     try {
       if (!it.equipped && !it.quest) { const st = sellState(it.id, CP.name); const o = (v, t) => `<option value="${v}"${st === v ? ' selected' : ''}>${t}</option>`;
         sell = `<label class="cp-psell">sell at every restock <select class="sellsel ${st && st !== 'keep' ? 'on' : ''}" data-sellid="${it.id}" data-sellchar="${esc(CP.name)}">${o('', '—')}${o('char', 'sell (' + esc(CP.name) + ')')}${o('all', 'sell (all bots)')}${o('keep', 'never sell')}</select></label>`;
+        // ITEMRULE-2026-10-24 (public tester Mr.P): where this item goes when it is not sold — keep in the bag / store in the warehouse / give to the collector
+        { const R = CP.itemRule || {}, cur = (R.keep || []).includes(it.id) ? 'keep' : (R.deposit || []).includes(it.id) ? 'store' : (R.collector || []).includes(it.id) ? 'collector' : '';
+          const q = (v, t) => `<option value="${v}"${cur === v ? ' selected' : ''}>${t}</option>`;
+          sell += `<label class="cp-psell">otherwise <select class="sellsel ${cur ? 'on' : ''}" data-cprule="${it.id}" title="What ${esc(CP.name)} does with it when it is not sold">${q('', 'automatic')}${q('keep', 'keep in the bag')}${q('store', 'store in the warehouse')}${q('collector', 'give to the collector')}</select></label>`; }
         // SELLNOSHOP 2026-10-22 (owner): an item no shop buys says so, with Untick (stop trying to sell it) and Destroy (only after your OK)
         const ns = noShopWhy(it.id);
         if (ns) sell += `<div class="cp-nosell"><b>No shop buys this</b> <span class="muted">(${esc(ns)})</span><div class="cp-pb">${st && st !== 'keep' ? `<button data-cpunsell="${it.id}">Untick (stop selling)</button>` : ''}${!it.equipped && !it.quest ? `<button class="danger" data-cpdestroy="${esc(it.objId || it.id)}" data-id="${it.id}" data-n="${it.count}">Destroy…</button>` : ''}</div></div>`; }
@@ -1088,6 +1095,16 @@
     });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && CP.pop) { e.stopPropagation(); closePop(); } }, true);
     document.addEventListener('change', (e) => { if (CP.open && e.target && e.target.dataset && (e.target.dataset.tl || e.target.dataset.sellid)) setTimeout(() => { renderTimeline(); renderInv(); }, 50); });
+    // ITEMRULE-2026-10-24: the "otherwise" choice of an item -> /api/itemrule (stash_rules / loot_rules, read live by the bots)
+    document.addEventListener('change', async (e) => {
+      const sel = e.target && e.target.dataset && e.target.dataset.cprule; if (!CP.open || !sel) return;
+      const id = Number(sel), rule = e.target.value;
+      try { const d = await api('/api/itemrule', { method: 'POST', body: JSON.stringify({ name: CP.name, id, rule }) });
+        if (!d || d.error) { toast(`not saved: ${(d && d.error) || 'no answer'}`, false); return; }
+        CP.itemRule = d; e.target.classList.toggle('on', !!rule);
+        toast(rule === 'keep' ? 'Kept in the bag (never stored)' : rule === 'store' ? 'Stored in the warehouse at the next stash' : rule === 'collector' ? `Given to the collector of party ${d.party} at the next hand-over` : 'Back to automatic', true);
+      } catch (er) { toast(String(er.message || er), false); }
+    });
     window.addEventListener('resize', () => { if (!CP.open) return; layout(); if (CP.follow) fit(); schedule(); });
   }
 

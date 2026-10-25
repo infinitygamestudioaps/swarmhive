@@ -13,8 +13,8 @@ $root      = if ($SwarmRoot) { $SwarmRoot } else { (Resolve-Path "$PSScriptRoot\
 $exe       = "$root\L2Swarm.exe"
 $ctlLog    = "$root\Logs\l2swarm_ctl.log"
 $memLog    = "$root\Logs\memwatch.log"
-$warnMB    = 4500   # 16 GB RAM since 2026-10-05 (was 3000)
-$restartMB = 6500   # 16 GB RAM since 2026-10-05 (was 4500); the pcFree < 300 MB emergency rule stays
+$warnMB    = 10000  # 32 GB PC (RAINBOW) since 2026-10-24 (was 4500 on the 16 GB laptop)
+$restartMB = 14000  # 32 GB PC (RAINBOW) since 2026-10-24 (was 6500 on the 16 GB laptop); the pcFree < 300 MB emergency rule stays
 $minCommitMB = 3000; $emergencyCommitMB = 1500   # user 2026-10-07 19:55: "never restart if we are not utterly out of memory - we have 50-100 GB virtual RAM": restart ONLY when free COMMIT (RAM + 49 GB pagefile, limit 64.6 GB) is below 3 GB; below 1.5 GB also during a live raid / inside the cooldown. Physical RAM running low only means paging.
 $minFreeMB = 800   # user 2026-10-07 19:50: "don't restart L2Swarm all the time" -> restart ONLY when the PC itself is about to run out of RAM (was 600)
 $cooldown  = 30
@@ -423,8 +423,12 @@ switch ($Action) {
         $commitMB = [int]((Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory / 1KB); $need = ($commitMB -lt $minCommitMB); $line = "L2Swarm private=${mb}MB threads=$($p.Threads.Count) handles=$($p.HandleCount) pcFree=${freeMB}MB commitFree=${commitMB}MB"
         # 2026-10-04 17:44: L2Swarm went 2 -> 8.8 GB in < 3 min (PC 30 MB free) between two 2-min checks. Keep watching every 10 s
         # for ~100 s inside this run (the task runs every 2 min, so the watch is practically continuous).
+        # CLIENTNOW-2026-10-24 (owner: 'when clicking "In-game (l2.exe)" NOTHING happens'): the dashboard's schtasks /run is ignored while this
+        # ~100 s watch round runs (IgnoreNew), so a click waited up to 2 min. A client_mode.json written during the round is applied within 10 s.
+        $cmStamp = try { (Get-Item "$root\Settings\client_mode.json").LastWriteTime } catch { $null }
         for ($k = 0; $k -lt 10 -and -not $need; $k++) {
             Start-Sleep 10
+            try { $cmNow = (Get-Item "$root\Settings\client_mode.json").LastWriteTime; if ($cmStamp -and $cmNow -gt $cmStamp) { $cmStamp = $cmNow; if ($headless) { & "$root\docs\plan\tools\client_mode.ps1" -NoUi } else { & "$root\docs\plan\tools\client_mode.ps1" } } } catch { Log $ctlLog "client_mode error: $_" }
             $p = Proc; if (-not $p) { exit 0 }
             $mb     = [int]($p.PrivateMemorySize64 / 1MB)
             $freeMB = [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)

@@ -178,6 +178,9 @@ function clockCheck() {
     const rq = require('https').request({ host: 'www.google.com', method: 'HEAD', path: '/', timeout: 8000 }, (r) => {
       const d = Date.parse(r.headers.date || ''); const t1 = Date.now(); r.resume();
       if (!isFinite(d)) return;
+      // CLOCKSLOW-2026-10-24 (owner: the bar said "18 s slow" while the clock was 1.1 s off): at 20:13 the PC was overloaded, the answer was read
+      // ~36 s late and the delay counted as clock error. A round trip over 2 s is no measurement: dropped, tried again in a minute.
+      if (t1 - t0 > 2000) { setTimeout(clockCheck, 60000); return; }
       const offset = Math.round(((t0 + t1) / 2 - d - 500) / 100) / 10;   // the Date header is truncated to whole seconds (+0.5 s on average)
       clockWatch.last = { offset, at: new Date().toISOString() };
       try { fs.writeFileSync(path.join(LOGS, 'clock_offset.json'), JSON.stringify(clockWatch.last)); } catch (e) { }
@@ -364,6 +367,7 @@ async function clanDispatch() {
   } catch (e) { }
 }
 setInterval(clanDispatch, 10 * 60000);
+setTimeout(() => { try { require('./overview_api').start({ DIR: __dirname, DATA, LOGS, readStates, json }); } catch (e) { } }, 20000);   // OVERVIEW-2026-10-24: the 60 s statistics recorder (Logs/overview_<day>.tsv)
 // CLANAUTO 2026-10-12: the clan level quest dispatcher (clan.auto.levelQuests, default OFF) — Dashboard/clanauto_api.js start()
 setTimeout(() => { try { require('./clanauto_api').start({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, commandRun }); } catch (e) { console.error('clanauto', e.message); } }, 5000);
 
@@ -673,6 +677,13 @@ function gearCatalog(role, grade, all) {
 let GEAR = null;
 const gearDb = () => GEAR || (GEAR = readJson(path.join(DATA, 'gear_items.json'), { items: {} }).items || {});
 const MATERIAL_RE = /Recipe|Fragment|Blade|Part|Pattern|Stem|Gemstone|Crystal|Mold|Braided|Leather|Thread|Cord|Oriharukon|Mithril|Animal|Varnish|Steel|Adamantite|Silver Nugget|Enria|Asofe|Synthetic|Compound|Stone of Purity|Durable Metal|Metallic|Coarse Bone|Iron Ore|Coal|Charcoal|Suede|Lining|Hinge|Head|Shaft|Handle|Edge|Piece|Design|Gemstone|Template/i;
+// CRAFTERNAME-2026-10-24 (public tester Mr.P: "crafter1 as example is still in configuration files, cant remove it even when i have own crafter"):
+// the material destination was a hard-coded character name (the public package's "Crafter1"). Now: the crafter switched on in
+// Scripts/data/crafter_rules.json (the Storage page's "Our crafter"), else the first one set up there, else none.
+function ourCrafter() {
+  try { const c = (readJson(path.join(DATA, 'crafter_rules.json'), {}) || {}).crafters || {}; const names = Object.keys(c).filter(n => c[n] && typeof c[n] === 'object');
+    return names.find(n => c[n].on) || names[0] || ''; } catch (e) { return ''; }
+}
 /** Who in party `team` can use item `id` now / soon, or what to do with it. */
 function usefulFor(id, name, team) {
   const g = gearDb()[id];
@@ -682,7 +693,7 @@ function usefulFor(id, name, team) {
     const who = team.members.filter(m => m.level >= lvl - 5).map(m => m.name);
     return who.length ? `upgrade gear (${ench[2]}-grade ${ench[1].toLowerCase()} enchant)` : `sell / keep for later (${ench[2]}-grade)`;
   }
-  if (!g) return MATERIAL_RE.test(name || '') ? 'Crafter1 (crafter material/recipe)' : (/Life Stone|Soul Crystal|Dye|Spellbook|Book|Codex|Giant/i.test(name || '') ? 'check (special)' : 'sell');
+  if (!g) return MATERIAL_RE.test(name || '') ? `${ourCrafter() || 'your crafter'} (crafter material/recipe)` : (/Life Stone|Soul Crystal|Dye|Spellbook|Book|Codex|Giant/i.test(name || '') ? 'check (special)' : 'sell');
   const lvl = GRADE_LVL[g.g] ?? 0;
   const fits = (m) => {
     const r = (m.role || '') + ' ' + (m.gearRole || '') + ' ' + (m.cls || '');
@@ -2423,6 +2434,7 @@ http.createServer(async (req, res) => {
     // per character / class which heal skill at which HP %, who first, Recharge, mana potion line (Scripts/data/heal_schemes.json, read by swarm.js; missing = automatic)
     if (await require('./dispatch_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;   // DISPATCH-2026-10-17
     if (await require('./lootpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;   // LOOTLOG-2026-10-23: #/loot
+    if (await require('./overview_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, readStates, json, send, allowed })) return;   // OVERVIEW-2026-10-24: #/overview statistics
     if (await require('./itemspage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, mcpCallChar, commandRun })) return;   // ITEMS-2026-10-17: Items + Crafting pages
     if (await require('./combatprofile_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, allowed, json, send, mcpCall })) return;   // COMBATPROFILE-2026-10-17: L2Swarm combat profile per character
     if (await require('./l2models_api').handle(req, res, url, { DIR: __dirname, ROOT, allowed, json, send, mcpCallChar })) return;   // L2MODELS-2026-10-17: game models for the 3D view (own client, cached in Dashboard/l2cache)
@@ -3241,6 +3253,8 @@ http.createServer(async (req, res) => {
       // parties may use it (as on the Spots tab), avoidMobs = monster names never fought in this spot. Old editors leave them untouched.
       const ext = {};
       if (Array.isArray(z.waypoints)) { const w = P(z.waypoints).slice(0, 300); ext.waypoints = w.length ? w : undefined; }
+      // SAFEROUTE-2026-10-24 (public tester Vykaax): safeWaypoints = the 2nd, optional walk to a safe spot (a failed .town in combat / a server shutdown)
+      if (Array.isArray(z.safeWaypoints)) { const w = P(z.safeWaypoints).slice(0, 100); ext.safeWaypoints = w.length ? w : undefined; }
       if (Array.isArray(z.circles)) { const c = z.circles.filter(o => o && isFinite(o.x) && isFinite(o.y) && +o.r > 0).map(o => ({ x: Math.round(+o.x), y: Math.round(+o.y), ...(isFinite(o.z) && o.z !== null && o.z !== '' ? { z: Math.round(+o.z) } : {}), r: Math.min(20000, Math.round(+o.r)) })); ext.circles = c.length ? c : undefined; }
       if ('floor' in z) ext.floor = z.floor && isFinite(z.floor.zMin) && isFinite(z.floor.zMax) && +z.floor.zMax > +z.floor.zMin ? { name: String(z.floor.name || 'floor').slice(0, 60), zMin: Math.round(+z.floor.zMin), zMax: Math.round(+z.floor.zMax) } : undefined;
       if (Array.isArray(z.teams)) { const t = [...new Set(z.teams.map(String).filter(Boolean))]; ext.teams = t.length ? t : ['all']; ext.team = ext.teams.length === 1 ? ext.teams[0] : undefined; }
@@ -3294,6 +3308,31 @@ http.createServer(async (req, res) => {
       if (b.on) list[key].push(id);
       fs.writeFileSync(SFILE, JSON.stringify(list, null, 1));
       return json(res, 200, { ok: true, list });
+    }
+    // ITEMRULE-2026-10-24 (public tester Mr.P: "option to select item from inventory and mark it as sell/keep/store private/store clan wh/trade to
+    // collector"): one item, one choice for a character, written where the bots already read it — keep / store = Scripts/data/stash_rules.json
+    // chars.<Name>.keep / .deposit (stashClassify), collector = Scripts/data/loot_rules.json parties.<leader>.always / .never (the loot hand-over).
+    // GET ?name=N -> { keep, deposit, collector, never, party }; POST { name, id, rule: '' | 'keep' | 'store' | 'collector' }
+    if (url.pathname === '/api/itemrule') {
+      const SR = path.join(DATA, 'stash_rules.json'), LR = path.join(DATA, 'loot_rules.json');
+      const who = String((req.method === 'POST' ? (await body(req).then(b => { req._b = b; return b.name; })) : url.searchParams.get('name')) || '');
+      if (!/^[A-Za-z0-9]+$/.test(who)) return json(res, 400, { error: 'name required' });
+      const ch = readStates().find(c => c.name === who), party = ch ? partyOf(ch) : who;
+      const sr = readJson(SR, null), lr = readJson(LR, { parties: {} }) || { parties: {} };
+      if (!sr) return json(res, 500, { error: 'stash_rules.json does not parse — fix it on the Storage page first' });
+      const me = ((sr.chars = sr.chars || {})[who] = sr.chars[who] || {}); me.keep = me.keep || []; me.deposit = me.deposit || [];
+      const P = ((lr.parties = lr.parties || {})[party] = lr.parties[party] || {}); P.always = P.always || []; P.never = P.never || [];
+      if (req.method === 'POST') {
+        const b = req._b || {}, id = Number(b.id), rule = String(b.rule || '');
+        if (!id || id === 57) return json(res, 400, { error: 'bad item id' });
+        if (!['', 'keep', 'store', 'collector'].includes(rule)) return json(res, 400, { error: 'rule: keep | store | collector | (empty = automatic)' });
+        const off = (arr) => { for (let i = arr.length - 1; i >= 0; i--) if (Number(arr[i]) === id) arr.splice(i, 1); };
+        off(me.keep); off(me.deposit); off(P.always);
+        if (rule === 'keep') me.keep.push(id); else if (rule === 'store') me.deposit.push(id); else if (rule === 'collector') P.always.push(id);
+        sr._updated = new Date().toISOString(); lr._updated = sr._updated;
+        fs.writeFileSync(SR, JSON.stringify(sr, null, 1)); fs.writeFileSync(LR, JSON.stringify(lr, null, 1));
+      }
+      return json(res, 200, { ok: true, name: who, party, keep: me.keep.map(Number), deposit: me.deposit.map(Number), collector: P.always.map(Number).filter(Boolean), never: P.never.map(Number).filter(Boolean) });
     }
     // --- full character view: live status, stats, buffs/debuffs, inventory, skills + what the script is doing ---
     // monsters around a party leader (party map on the Parties tab). Hooked characters are not found by name: retry by config file.

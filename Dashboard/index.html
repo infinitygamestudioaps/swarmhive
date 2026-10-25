@@ -675,7 +675,8 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
     <div id="msg"></div>
     <div id="liveBanner"></div>
     <nav id="tabs">
-      <button data-tab="parties" class="on"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Clan.png" alt=""> Parties</button>
+      <button data-tab="overview" class="on" title="Statistics for every party and character: profit, experience, loot, costs per hour, next level-ups"><img class="gi" src="/icons/L2UI_CT1/ICON_DF_premiumItem.png" alt=""> Overview</button><!-- OVERVIEW-2026-10-24 start page -->
+      <button data-tab="parties"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Clan.png" alt=""> Parties</button>
       <button data-tab="auto" title="What runs by itself: every automation per party, on or off and why"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_SystemMenu.png" alt=""> Automations</button><!-- AUTOMATIONS 2026-10-15 -->
       <button data-tab="map"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Map</button>
       <button data-tab="logs"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Action.png" alt=""> What they do</button>
@@ -1205,6 +1206,7 @@ $('tabs').addEventListener('wheel', (e) => { const t = $('tabs'); if (t.scrollWi
 function go(hash) { if (location.hash !== hash) { navDepth++; location.hash = hash; } else route(); }
 function route() {
   const [kind, arg] = location.hash.replace(/^#\/?/, '').split('/');
+  if (window.OverviewPage && kind && kind !== 'overview') OverviewPage.close();   // OVERVIEW: off when any other page opens
   if (window.CharPage && CharPage.route(kind, arg)) return;     // CHARPAGE 2026-10-09: #/char/<name> v2 (Dashboard/charpage.js); closes itself on other pages
   if (window.LiveParty && LiveParty.route(kind, arg)) return;   // LIVEPARTY 2026-10-09: #/live/<leader> (Dashboard/liveparty.js); #/live alone = raid live view
   // full-screen hunting-spot editor (Dashboard/spoteditor.js): #/spot/<name>, #/spot/new, #/spot
@@ -1234,6 +1236,7 @@ function route() {
   if (window.CombatProfilePage && CombatProfilePage.route(kind, arg)) return;   // COMBATPROFILE 2026-10-17: #/combat/<name> the character's L2Swarm combat profile (Dashboard/combatprofile.js)
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
   if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
+  if (window.OverviewPage && OverviewPage.route(kind, arg)) return;   // OVERVIEW-2026-10-24: #/overview (and an empty hash) = the start page (Dashboard/overview.js); #/parties = the party cards
   if (kind === 'char' && arg) { showCharPage(decodeURIComponent(arg)); return; }
   if (kind === 'raid' && arg) { showRaidPage(decodeURIComponent(arg)); return; }
   if (kind === 'live') { showLivePage(); return; }
@@ -2443,7 +2446,7 @@ function renderParties() {
           <button data-quick="${tgt}|!buff|Rebuff" title="Rebuff">Buff</button>
           <button data-quick="${tgt}|!park start|Back to town (everyone to Giran, waits there for the next order)" title="Everyone stops, goes to Giran (.giran), walks to the start and waits for orders">Town</button>
           <button data-quick="${tgt}|!formation rows|Formation in front of the landing (rows; wedge / line from the Commands sheet)" title="Line up in front of the town landing, side by side, each party its own lane">Formation</button>
-          <button data-quick="${tgt}|!hunthere|Hunt here 24/7 (around the leader, no town trips; !hunthere off ends it)" title="Hunt around the spot where the leader stands now, around the clock: no supply runs, no Giran trips; after a death it comes back here">Hunt here 24/7</button>
+          <button data-quick="${tgt}|!hunthere|Hunt here 24/7 (around the leader, no town trips; !hunthere off ends it)" title="Hunt the predefined place the leader stands in now (a dungeon room or a field area; outside every one: a circle around him), around the clock: no supply runs, no Giran trips; after a death it comes back here">Hunt here 24/7</button>
           <div class="pdo"><select id="${sid}">${taskOptions()}</select><input id="${aid}" placeholder="boss / town…"><button data-run="${tgt}" data-sel="${sid}" data-arg="${aid}">Do</button></div>
         </div></div>
       <div class="pbanners">${window.RunSwitch ? RunSwitch.partyLine(leader) : ''}<!-- RUNSTATE: fixed-height running / stopped line -->${window.PartyPlan ? PartyPlan.partyLine(leader) : ''}<!-- PARTY PLAN 2026-10-13: fixed-height 'Plan step 3/9: ...' line (only when the party has a plan) -->${window.OrdersView ? OrdersView.partyBanner(leader) : ''}
@@ -5241,6 +5244,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/craftpage.js"></script>
 <script src="/dispatchpage.js"></script>
 <script src="/lootpage.js"></script>
+<script src="/overview.js"></script>
+<script>if (window.OverviewPage && /^(#\/?(overview)?)?$/.test(location.hash)) route();</script>
 <link rel="stylesheet" href="/view3d.css">
 <script type="module" src="/view3d.js"></script>
 <script src="/healschemes.js"></script>

@@ -4,7 +4,7 @@
 const path = require('path'), fs = require('fs'), cp = require('child_process'), os = require('os');
 const ROOT = path.resolve(__dirname, '..', '..', '..');
 const OUT = process.argv[2] || path.join(os.tmpdir(), 'l2model_shots');
-const EDGE = ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));
+const EDGE = ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));   // NEVER Microsoft Edge (owner 2026-10-24): Chrome only
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 const results = []; const ok = (name, cond, info) => { results.push({ name, ok: !!cond }); console.log(`  ${cond ? 'ok  ' : 'FAIL'} ${name}${info !== undefined && !cond ? ' — ' + (typeof info === 'string' ? info : JSON.stringify(info)) : ''}`); };
 const LOGS = path.join(ROOT, 'Logs');

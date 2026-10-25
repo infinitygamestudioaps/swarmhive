@@ -59,7 +59,7 @@ if (process.argv[2] === '--server') {
 
 // ===================================================================== fixtures ===================================================
 const OUT = path.join(ROOT, 'docs', 'plan', 'mobile_check');
-const EDGE = ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'].find(f => fs.existsSync(f));
+const EDGE = ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));   // NEVER Microsoft Edge (owner 2026-10-24): Chrome only
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 let fails = 0; const ok = (name, cond, info) => { if (!cond) fails++; console.log(`  ${cond ? 'ok  ' : 'FAIL'} ${name}${info !== undefined && info !== '' ? ' - ' + info : ''}`); };
 const readT = (f) => { try { return fs.readFileSync(f, 'utf8').replace(/^\uFEFF/, ''); } catch (e) { return null; } };
@@ -176,7 +176,7 @@ let BR = null, SRV = null;   // killed on any error too (one Edge at a time, nev
   console.log(`--- browser (${freeGB.toFixed(1)} GB free)`);
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'kp-edge-'));
   const DBG = 9300 + Math.floor(Math.random() * 500);
-  const br = BR = cp.spawn(EDGE, ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--disable-extensions', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  const br = BR = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', '--disable-extensions', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
   let ws = null, bws = null;
   for (let i = 0; i < 60 && !ws; i++) { await sleep(250); try { const l = await (await fetch(`http://127.0.0.1:${DBG}/json/list`)).json(); const p = l.find(x => x.type === 'page'); if (p) ws = p.webSocketDebuggerUrl; } catch (e) { } }
   try { bws = (await (await fetch(`http://127.0.0.1:${DBG}/json/version`)).json()).webSocketDebuggerUrl; } catch (e) { }

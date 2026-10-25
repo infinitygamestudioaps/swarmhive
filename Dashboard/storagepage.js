@@ -48,6 +48,7 @@
     SP.info = d;
     api('/api/whauto').then(x => { SP.wa = x && !x.error ? x : null; renderCwhAuto(); renderCwhList(); }).catch(() => { SP.wa = null; renderCwhAuto(); });   // WHAUTO-2026-10-16
     api('/api/lootrules').then(x => { SP.loot = x && !x.error ? x : null; renderLoot(); }).catch(() => { SP.loot = null; renderLoot(); });   // LOOT RULES 2026-10-13: the per-party loot line
+    loadSell();   // SELLLIST-2026-10-24
     if (!keepEdits || !dirty()) { SP.orig = clone(d.rules); SP.cur = clone(SP.orig); SP.rev = d.rev; SP.err = {}; }
     else if (d.rev !== SP.rev) flash('Someone else saved the storage settings meanwhile. Undo your changes to see theirs, or save to overwrite (you will be asked).', true);
     render();
@@ -58,11 +59,12 @@
     let s = $id(SEC); if (s) return s;
     s = document.createElement('section'); s.id = SEC; s.className = 'win cpl fnd stg'; s.hidden = true;
     s.innerHTML = `<div class="cpl-headrow fnd-head"><h2><img class="gi" src="${ico('icon/etc_equip_item_box_i00')}" alt=""> Storage</h2>
-        <span class="muted cpl-intro">What each character puts into a warehouse, which warehouse, and when. Settings are read live by every bot.</span></div>
+        <span class="muted cpl-intro">What each character puts into a warehouse, which warehouse, and when. Settings are read live by every bot. <a href="#/items">See a character's bag, private warehouse and clan warehouse side by side → Items</a></span></div><!-- ONETAB-2026-10-24 -->
       <div class="cpl-msg" id="stgMsg" role="status" hidden></div>
       <div class="box"><h3>Defaults (every character)</h3><div class="fnd-hint">A party's own setting beats these; a character's own setting beats its party's. Blank = the next level decides.</div><div id="stgDef"></div></div>
       <div class="box"><h3>Collector</h3><div id="stgColl"></div></div>
       <div class="box"><h3>Never store</h3><div id="stgNever"></div></div>
+      <div class="box" id="stgSellBox"><h3>Sell list</h3><div id="stgSell"></div></div><!-- SELLLIST-2026-10-24 -->
       <div class="box" id="stgCwhBox"><h3>Clan warehouse</h3><div id="stgCwh"></div></div>
       <div class="box" id="stgCraftBox"><h3>Our crafter</h3><div id="stgCraft"></div></div><!-- CRAFTER-2026-10-15: filled by Dashboard/crafterpanel.js -->
       <div class="box"><h3>Event letters</h3><div id="stgLet"></div></div>
@@ -81,7 +83,8 @@
     s.addEventListener('click', onClick);
     s.addEventListener('change', onChange);
     s.addEventListener('change', (e) => { const w = e.target && e.target.closest && e.target.closest('[data-wa]'); if (w) waField(w); });   // WHAUTO-2026-10-16
-    s.addEventListener('input', (e) => { const t = e.target; if (t && t.dataset && t.dataset.cwhq !== undefined) { SP.cwhQ = t.value; renderCwhList(); } });
+    s.addEventListener('input', (e) => { const t = e.target; if (t && t.dataset && t.dataset.cwhq !== undefined) { SP.cwhQ = t.value; renderCwhList(); }
+      if (t && t.dataset && t.dataset.sellq !== undefined) { SP.sellQ = t.value; const pos = t.selectionStart; renderSell(); const n = document.querySelector('[data-sellq]'); if (n) { n.focus(); try { n.setSelectionRange(pos, pos); } catch (er) { } } } });   // SELLLIST
     s.addEventListener('toggle', (e) => { const d = e.target; if (!d || !d.dataset) return; const set = d.dataset.stgparty ? SP.openParties : d.dataset.stgchar ? SP.openChars : null; if (!set) return; const k = d.dataset.stgparty || d.dataset.stgchar; if (d.open) set.add(k); else set.delete(k); }, true);
     return s;
   }
@@ -166,6 +169,23 @@
   }
   // ---- WHSELL 2026-10-14 (owner: "select clan warehouse and select what should be taken out and sold, like common items should never be stored")
   /** Never store: Common items / own names; sell them instead (stash_rules.json neverStore, = swarm.js stashNever) */
+  // SELLLIST-2026-10-24 (public tester Mr.P: "ability to see what is set to sold and to remove some items if i change my mind"): every item on the
+  // sell list (Scripts/data/sell_list.json: "all" = every bot, "<Name>" = one character, "keep" = never sold) with a ✕ to take it off again.
+  // The bots also sell unused D / no-grade gear by themselves (CONFIG.sell.junkGrades); a mark here or "Never sell" in a bag beats that.
+  async function loadSell() { try { const x = await api('/api/sell'); SP.sell = x && !x.error ? x : null; } catch (e) { SP.sell = null; } renderSell(); }
+  function renderSell() {
+    const el = $id('stgSell'); if (!el) return;
+    const L = SP.sell; if (!L) { el.innerHTML = '<div class="muted">Loading…</div>'; return; }
+    const GDI = (typeof GD !== 'undefined' && GD.items) || {}, nm = (id) => { const v = GDI[id]; return Array.isArray(v) && v[0] ? String(v[0]) : '#' + id; };
+    const icon = (id) => { const v = GDI[id]; return Array.isArray(v) && v[1] ? `<img class="gi sm" src="${ico(String(v[1]))}" alt="">` : ''; };
+    const groups = [['all', 'Sold by every bot']].concat(Object.keys(L).filter(k => !['all', 'keep', 'noShop'].includes(k) && Array.isArray(L[k]) && L[k].length).sort().map(k => [k, `Sold by ${k} only`])).concat([['keep', 'Never sold (keep)']]);
+    const q = String(SP.sellQ || '').toLowerCase();
+    el.innerHTML = `<div class="fnd-hint">What the bots sell at a shop on every town visit. ✕ takes an item off the list (it is then kept, unless it is unused D / no-grade gear the bots sell by themselves — mark that one <i>Never sold</i> in the character's bag).</div>
+      <input type="search" data-sellq="" value="${h(SP.sellQ || '')}" placeholder="Find an item on the list…" aria-label="find an item on the sell list" style="margin:4px 0;width:100%;max-width:340px">
+      ${groups.map(([k, t]) => { const ids = (L[k] || []).filter(id => !q || nm(id).toLowerCase().includes(q));
+        return ids.length || k === 'all' ? `<details class="stg-sellgrp"${k === 'all' || q ? ' open' : ''}><summary><b>${h(t)}</b> <span class="muted">${ids.length}</span></summary>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin:4px 0">${ids.map(id => `<span class="trd-chip" style="display:inline-flex;align-items:center;gap:4px">${icon(id)}${h(nm(id))}${L.noShop && L.noShop[id] ? ' <span class="muted" title="' + h(L.noShop[id]) + '">(no shop buys it)</span>' : ''}<button type="button" data-sellrm="${id}" data-sellscope="${h(k)}" title="Take ${h(nm(id))} off this list" aria-label="remove ${h(nm(id))}" style="min-width:32px;min-height:32px">✕</button></span>`).join('') || '<span class="muted">nothing</span>'}</div></details>` : ''; }).join('')}`;
+  }
   function renderNever() {
     const el = $id('stgNever'); if (!el) return;
     const N = obj(SP.cur.neverStore), names = (Array.isArray(N.names) ? N.names : []).join('\n');
@@ -253,9 +273,11 @@
     const el = $id('stgCwh'); if (!el) return;
     const W = SP.info && SP.info.clanWh, CL = (SP.info && SP.info.clanLeader) || 'the clan leader';
     SP.cwhSel = SP.cwhSel || new Set();
-    if (!W) { el.innerHTML = `<div class="muted">The clan warehouse list is not known yet. It appears once ${h(CL)} opens the clan warehouse (he looks after every deposit).</div>`; return; }
+    // CLANWHLOOK-2026-10-24 (public tester Mr.P: "i was looking for !clanwh button for 30min"): the "Look now" (!clanwh) button right here
+    const look = `<button type="button" data-cwhact="look" title="${h(CL)} walks to the warehouse keeper and reads the clan warehouse (!clanwh)">🔍 Look in the clan warehouse now</button>`;
+    if (!W) { el.innerHTML = `<div class="muted">The clan warehouse list is not known yet. It appears once ${h(CL)} opens the clan warehouse (he looks after every deposit).</div><div style="margin-top:6px">${look}</div>`; return; }
     if (el.querySelector('[data-cwhlist]')) { renderCwhList(); return; }   // keep the filter box (and the phone keyboard) as it is
-    el.innerHTML = `<div class="fnd-hint">As ${h(W.seenBy || CL)} last saw it: ${h(String(W.seenAt || '').slice(0, 16).replace('T', ' '))} UTC · ${W.items.length} kinds. Only the clan leader (${h(CL)}) can take items out (L2Toggle).</div>
+    el.innerHTML = `<div class="fnd-hint">As ${h(W.seenBy || CL)} last saw it: ${h(String(W.seenAt || '').slice(0, 16).replace('T', ' '))} UTC · ${W.items.length} kinds. Only the clan leader (${h(CL)}) can take items out (L2Toggle). ${look}</div>
       <div class="stg-cwhtools"><input type="search" data-cwhq="" value="${h(SP.cwhQ || '')}" placeholder="Search a name…" aria-label="search the clan warehouse">
         <button type="button" class="trd-chip fnd-chip ${SP.cwhCommon ? 'on' : ''}" data-cwhact="common" aria-pressed="${!!SP.cwhCommon}">Only Common items</button>
         <button type="button" data-cwhact="all">Tick all shown</button><button type="button" data-cwhact="none">Untick all</button>
@@ -519,9 +541,12 @@
       SP.cwhSel = tmp; cwhRun(true).then(() => { if (SP.cwhSel === tmp) { SP.cwhSel = prev; renderCwhList(); } }); return; }
     const wr = e.target.closest('button[data-waact]'); if (wr) { waRun(); return; }   // WHAUTO-2026-10-16
     const cg = e.target.closest('button[data-cwhcat]'); if (cg) { SP.cwhCat = cg.dataset.cwhcat || ''; renderCwhList(); return; }   // CWHGROUPS
+    const sr = e.target.closest('button[data-sellrm]');   // SELLLIST-2026-10-24: take an item off the sell list
+    if (sr) { sr.disabled = true; try { const d = await api('/api/sell', { method: 'POST', body: JSON.stringify({ id: Number(sr.dataset.sellrm), scope: sr.dataset.sellscope || 'all', on: false }) }); if (!d || d.error) { await uiError(`Not removed: ${(d && d.error) || 'no answer'}`); sr.disabled = false; return; } flash('Taken off the sell list — the bots read it at their next town visit.'); await loadSell(); } catch (er) { await uiError(String(er.message || er)); sr.disabled = false; } return; }
     const ca = e.target.closest('button[data-cwhact]');   // WHSELL
     if (ca) {
       const a = ca.dataset.cwhact; SP.cwhSel = SP.cwhSel || new Set();
+      if (a === 'look') { const CL = SP.info && SP.info.clanLeader; if (!CL) { await uiError('No clan leader is known yet (Clan tab).'); return; } ca.disabled = true; if (await send('!clanwh', CL)) flash(`${CL}: looking in the clan warehouse now — the list updates here within about a minute.`); ca.disabled = false; return; }   // CLANWHLOOK-2026-10-24
       if (a === 'common') { SP.cwhCommon = !SP.cwhCommon; ca.classList.toggle('on', SP.cwhCommon); ca.setAttribute('aria-pressed', String(SP.cwhCommon)); renderCwhList(); return; }
       if (a === 'all') { cwhRows().forEach(r => SP.cwhSel.add(cwhKey(r))); renderCwhList(); return; }
       if (a === 'none') { SP.cwhSel.clear(); renderCwhList(); return; }

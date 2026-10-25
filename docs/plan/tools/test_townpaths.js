@@ -136,7 +136,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
   }
 
   // ------------------------------------------------------------------ B: browser at 390 px
-  const EDGE = ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'].find(f => fs.existsSync(f));
+  const EDGE = ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));   // NEVER Microsoft Edge (owner 2026-10-24): Chrome only
   const freeGB = os.freemem() / 1073741824;
   if (process.argv.includes('--no-browser') || !EDGE || freeGB < 3) {
     console.log(`--- B: browser SKIPPED (${process.argv.includes('--no-browser') ? '--no-browser' : !EDGE ? 'no Edge' : freeGB.toFixed(1) + ' GB free RAM, needs 3'})`);
@@ -144,7 +144,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
   }
   console.log(`--- B: browser 390x844 (${freeGB.toFixed(1)} GB free)`);
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'tp-edge-')), DBG = 9300 + Math.floor(Math.random() * 500);
-  const br = cp.spawn(EDGE, ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--disable-extensions', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', '--disable-extensions', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
   const done = async () => { try { cp.execSync('taskkill /PID ' + br.pid + ' /T /F', { stdio: 'ignore' }); } catch (e) { } srv.close(); await sleep(600); try { fs.rmSync(prof, { recursive: true, force: true }); } catch (e) { } };
   try {
     let ws = null;

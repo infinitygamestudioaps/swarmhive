@@ -2425,6 +2425,7 @@ async function cast(skillId, delayAfterMs = 800) {
 async function castOn(creature, skillId, delayAfterMs = 800) {
   if (!creature || !skillId) return;
   if (!hiveSkillsOn()) { await sleep(Math.min(delayAfterMs, 1000)); return; }   // HIVESW-2026-10-15
+  { const m = mobById(creature.objId); if (m && !canSee(m)) { wallRefused('casting at', m); await sleep(200); return; } }   // WALLSIGHT-2026-10-24: never cast at a monster through a wall
   Send.Action(creature.objId);
   await sleep(350);
   await cast(skillId, delayAfterMs);
@@ -2434,13 +2435,46 @@ function findItem(itemId) {
   try { return Inventory.GetItemByID(itemId); } catch (e) { return null; }
 }
 
+// WALLSIGHT-2026-10-24 (owner: "you HAVE to see the monsters and never through a wall ... walls are COMPLETE blockers in Lineage 2 — you can not
+// shoot, interact or do anything through a wall", memory walls-block-everything): line of sight from me on the L2J geodata (brain host GeoSight =
+// docs/plan/tools/geopath.js sight: wall bits + other floors block, a slope / step does not). Cached 1.5 s per (my cell, its cell). No GeoSight
+// (the old in-process engine) = the old behaviour (seen); no geodata there (null) = seen only when close (<= 250).
+// SEECOST-2026-10-24 (19:07-20:00 after the deploy: brain workers 80-100 % ELU, watchdog kills): one GeoSight costs 80-250 µs on multi-floor
+// geodata (Cruma), and huntTarget / nearestMonster asked it for EVERY monster in view several times a second. Now: nothing beyond SEE_FAR
+// (no action reaches that far; the check runs again when we are close), a coarse 2 s cache and at most SEE_BUDGET geodata checks per second.
+const SEE_FAR = 3000, SEE_BUDGET = 40;   // 40 x ~200 µs = 8 ms a second per character at worst (9 per worker: ~7 % of a worker)
+const SEE = { c: {}, cn: 0, refused: 0, saidAt: 0, sec: 0, n: 0, over: 0 };   // c: plain object, no Map (L2Swarm host: Map = the world map type)
+function canSee(c) {
+  try {
+    if (!c) return false;
+    const x = num(c.X !== undefined ? c.X : c.x), y = num(c.Y !== undefined ? c.Y : c.y), zr = c.Z !== undefined ? c.Z : c.z, z = (zr === undefined || zr === null || !isFinite(Number(zr))) ? Me.Z : num(zr);
+    const d = Math.hypot(x - Me.X, y - Me.Y);
+    if (d <= 100 && Math.abs(z - Me.Z) < 250) return true;
+    if (typeof GeoSight !== 'function' || d > SEE_FAR) return true;
+    const key = `${Math.round(Me.X / 128)},${Math.round(Me.Y / 128)},${Math.round(Me.Z / 128)}>${Math.round(x / 128)},${Math.round(y / 128)},${Math.round(z / 128)}`;
+    const hit = SEE.c[key]; if (hit && now() - hit.at < 2000) return hit.v;
+    const sec = Math.floor(now() / 1000); if (sec !== SEE.sec) { SEE.sec = sec; SEE.n = 0; }
+    if (++SEE.n > SEE_BUDGET) { SEE.over++; return d <= 600; }      // over budget this second: only what is close counts as seen
+    let v = null; try { v = GeoSight(Me.X, Me.Y, Me.Z, x, y, z); } catch (e) { v = null; }
+    const r = v === null || v === undefined ? true : !!v;   // no geodata here (an install without Geodata, a point off the grid): unknown is not a wall - the server still refuses a real one (#181)
+    if (SEE.cn > 3000) { SEE.c = {}; SEE.cn = 0; }
+    if (!SEE.c[key]) SEE.cn++; SEE.c[key] = { v: r, at: now() };
+    return r;
+  } catch (e) { return true; }
+}
+/** WALLWALK-2026-10-25: a monster behind a wall/hill is never hit through it, but we select it and walk to it (the server paths round),
+ *  at most once a second - members used to stand still and join the fight seconds late (test_member_assist) */
+const WALLWALK = { id: 0, at: 0 };
+function wallApproach(o, m) { if (WALLWALK.id === o && now() - WALLWALK.at < 1000) return; WALLWALK.id = o; WALLWALK.at = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.MoveBackwardToLocation(Math.round(num(m.X)), Math.round(num(m.Y)), Math.round(num(m.Z))); } catch (e) { } }
+/** a refused action through a wall: counted, told at most once a minute */
+function wallRefused(what, c) { SEE.refused++; if (now() - SEE.saidAt > 60000) { SEE.saidAt = now(); note(`wall: not ${what} ${c && c.Name ? c.Name : 'that'} — a wall is between us (${SEE.refused} refused so far)`); } }
 function nearestMonster(cx, cy, range) {
   let best = null, bestDist = range;
   try {
     snapMobs().forEach(crt => {
       if (crt.IsDead) return;
       const d = Math.hypot(crt.X - cx, crt.Y - cy);
-      if (d < bestDist) { bestDist = d; best = crt; }
+      if (d < bestDist && canSee(crt)) { bestDist = d; best = crt; }   // SEECOST: the sight check only for a nearer candidate
     });
   } catch (e) { /* ignore */ }
   return best ? best.ref : null;                      // HOSTTOUCH: .ref (a live lookup) only for the winner
@@ -3942,7 +3976,8 @@ function healTargets() {
     out.push({ name: m.Name, objId: m.objId || mateObjId(m.Name), hp: num(m.HpPercent) > 0 ? num(m.HpPercent) : (lp.hp !== undefined ? lp.hp : 100), mp: lp.mp !== undefined ? lp.mp : num(m.MpPercent), deb: lp.deb || [], role: lp.role || '', x: m.X, y: m.Y, frenzy: !!lp.frenzy, draining: drainingNow(m.Name) });
   });
   if (DLV.on) return [];                                               // DELEVEL (2026-10-12): I am dying on purpose, I heal nobody
-  return out.filter(t => (t.me || Math.hypot(t.x - Me.X, t.y - Me.Y) < HEAL.range) && !(livePos[t.name] && livePos[t.name].dlv && now() - livePos[t.name].at < 10000));
+  // WALLSIGHT-2026-10-24: a teammate behind a wall is not healed through it (the follow brings us together)
+  return out.filter(t => (t.me || (Math.hypot(t.x - Me.X, t.y - Me.Y) < HEAL.range && canSee({ x: t.x, y: t.y, z: (livePos[t.name] && livePos[t.name].Z !== undefined) ? livePos[t.name].Z : Me.Z }))) && !(livePos[t.name] && livePos[t.name].dlv && now() - livePos[t.name].at < 10000));
 }
 let lastHealPot = 0;
 const cureTried = {};
@@ -4183,7 +4218,7 @@ function findPathNow(pt) { return null; }
 // packet: the SERVER walks the character to the monster (same fix as Cruma Tower). Every former Attack( call uses it.
 let ownAtkAt = 0;                                                  // BOARDCOMBAT-2026-10-22: my own last attack (the server keeps the combat stance ~15 s after it)
 const srvAtkLast = { id: 0, at: 0 };   // ORDERFLOOD-2026-10-24: the same attack within 600 ms is dropped (46k orders in 5 min ran the agent 22 min behind)
-function srvAttack(id) { const o = num(id); if (!o) return; if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
+function srvAttack(id) { const o = num(id); if (!o) return; { const m = mobById(o); if (m && !canSee(m)) { wallRefused('attacking', m); wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
 
 function num(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
 
@@ -5050,7 +5085,7 @@ function leaderFightTarget() {
   try { snapChars().forEach(c => { if (tid || String(c.Name) !== L) return; tid = num(c.TargetObjId) || (c.targetCrt ? num(c.targetCrt.objId) : 0); fighting = !!c.IsInCombat; }); } catch (e) { }
   if (!fighting) { const lp = livePos[L]; if (lp && now() - lp.at < 4000 && lp.fight) fighting = true; }
   if (!tid) return null;
-  const m = mobById(tid); if (!m || m.IsDead || ignoredMob(m)) return null;
+  const m = mobById(tid); if (!m || m.IsDead || ignoredMob(m)) return null;   // WALLSIGHT: choosing the leader's target is fine behind a corner (we move to it); hitting / casting through a wall is refused in srvAttack / castOn
   let us = false; try { const t = num(m.TargetObjId); us = !!t && (t === num(Me.objId) || !!livePosByObj(t)); } catch (e) { }
   return { id: num(m.objId), alive: true, fighting, hpPct: num(m.HpPercent), targetsUs: us, dist: Math.hypot(m.X - Me.X, m.Y - Me.Y), dz: (m.Z || Me.Z) - Me.Z };
 }
@@ -6256,6 +6291,9 @@ async function openNpcInner(npc) {
   // through the south-west of Giran): in Giran an NPC is reached along the recorded routes first (the user's rule), then the last steps
   if (currentTownKey() === 'Giran' && Distance(npc) > 600) { const pl = giranPlaceNear(npc.X, npc.Y); if (pl && pl.d < 1500) { note(`npc: ${npc.Name} via the Giran route '${pl.pl}'`); await giranGo(pl.pl); } }
   if (Distance(npc) > g.reachDist) await walkTo(npc.X, npc.Y, npc.Z, g.reachDist - 20, g.walkTimeoutMs * 2);
+  // WALLSIGHT-2026-10-24 (owner: no interaction through a wall): close but behind a wall/counter wall -> walk round to it over the wall-aware path first
+  // (> 250: a shop counter right in front of the NPC is a wall cell in the geodata, and talking over it is what the game does)
+  if (Distance(npc) > 250 && !canSee(npc)) { note(`npc: ${npc.Name} is behind a wall (${Math.round(Distance(npc))} away) — walking round to it`); await walkTo(npc.X, npc.Y, npc.Z, 120, g.walkTimeoutMs * 2); }
   // Helt hen til NPC'en med L2Swarms pathfinding (GoToPoint går gennem døre, ind i bygninger) — et klik udefra går ikke altid ind
   // Gå hen FORAN NPC'en (ikke oven i den — den står tit bag en disk) med L2Swarms pathfinding, og klik først derefter
   if (Distance(npc) > CONFIG.nav.npcReach) {
@@ -8823,6 +8861,8 @@ async function townCommand(why, wantTown) {
     }
     if (tcMode() === 'gatekeeper') { if (isLeader()) flushJoinTown('', false); return await townByGatekeeper(why, wantTown, opts); }   // TOWNMODE: just learned the server has no .townname
     if (isLeader()) flushJoinTown('', false);                          // TOWNFIRST: my port failed - nobody leaves
+    // SAFEROUTE-2026-10-24: refused in combat + the spot has a safe-spot route -> walk it, defend only, then .town once more
+    try { if ((Me.IsInCombat || now() - lastAttackerOnMe.at < 8000) && !townCmdBad.has(TOWN_CMD[cands[0].k]) && !/safe spot/.test(String(why || '')) && safeRetreatStart('town')) return false; } catch (e) { }
     trapCheck(`.${TOWN_CMD[cands[0].k]} refused (${why})`);            // TRAPPED: same spot + .town refused for minutes -> the escape procedure
     return false;
   } finally { if (wasEnabled && !IsEnabled) EnableBot(); }
@@ -8833,6 +8873,52 @@ async function townCommand(why, wantTown) {
 // team could not climb up to him: 1.5 h without moving): a character whose .town is refused while it has not moved from one spot (within
 // 200) for TRAP.minMs and TRAP.fails refusals runs the escape procedure (escapeFight: crowd control, run out, .townname, and when that is
 // refused the Scroll of Escape - the same exception the owner allowed for 'alone in a fight', 2026-10-08). Never in a raid. Once per 15 min.
+// SAFEROUTE-2026-10-24 (public tester Vykaax: "a 2nd optional 'Safe Spot' waypoint list for each custom room/zone/spot ... used if the bot fails
+// its first '.town' attempt from being stuck in combat, it should run the Safe Spot waypoint list and then defend itself only, pulling no new mobs.
+// It should also be triggered if the bot receives a system message notifying the server will be going down"): the spot editor's second route
+// (custom_zones.json safeWaypoints). Walked as a team (leadRouteWalk) by a leader, point by point alone; then STOPCALM = defend only (no new
+// pulls, healers heal); after a refused .town it tries .town once more when nothing hit us for 10 s. A shutdown keeps the hold. Never in a raid,
+// an instance or the escape procedure; once per 5 min.
+const SAFER = { on: false, since: 0, why: '', lastAt: 0, shutdownAt: 0 };
+function safeRoutePts() {
+  try {
+    const s = autoLvl.spot || {}; let w = Array.isArray(s.safeWaypoints) && s.safeWaypoints.length ? s.safeWaypoints : null;
+    if (!w && (s.zoneName || s.name)) { const z = customZones().find(q => q && (q.name === s.zoneName || q.name === s.name)); if (z && Array.isArray(z.safeWaypoints) && z.safeWaypoints.length) w = z.safeWaypoints; }
+    return w ? w.filter(p => p && isFinite(p.x) && isFinite(p.y)).map(p => ({ x: num(p.x), y: num(p.y), z: isFinite(p.z) && p.z !== null ? num(p.z) : Me.Z })) : null;
+  } catch (e) { return null; }
+}
+/** SAFEROUTE-PURE: start the safe-spot walk? o = { why: 'town'|'shutdown', hasRoute, on, sinceLast, raid, inst, esc } */
+function safeRetreatDecide(o) {
+  const x = o || {};
+  if (!x.hasRoute || x.on || x.raid || x.inst || x.esc) return false;
+  return x.why === 'shutdown' || !(x.sinceLast < 300000);
+}
+/** the server's own shutdown warning: system message #1 "The server will be coming down in $s1 second(s)...", or an announcement saying so */
+const SHUTDOWN_RE = /server will (be )?(coming down|shut ?down|go(ing)? down|restart)|server (shutdown|restart) in|shut ?down in \d|restart(ing)? in \d+ ?(sec|min)/i;
+function safeRetreatStart(why) {
+  try {
+    const pts = safeRoutePts(), shut = why === 'shutdown';
+    if (!safeRetreatDecide({ why: shut ? 'shutdown' : 'town', hasRoute: !!(pts && pts.length), on: SAFER.on, sinceLast: now() - SAFER.lastAt, raid: inRaid(), inst: inst.on || kamaLive.on, esc: ESC.on || state.escaping })) return false;
+    Object.assign(SAFER, { on: true, since: now(), why: String(why), lastAt: now() });
+    if (shut) SAFER.shutdownAt = now();
+    note(`safe spot: ${shut ? 'the server is going down' : '.town refused in combat'} — walking the spot's safe-spot route (${pts.length} points), then defending only (no new pulls)`, true);
+    if (isLeader()) { try { SayToParty(`[safe spot] ${shut ? 'server shutdown' : '.town refused in combat'}: everyone to the safe spot with me, defend only`); } catch (e) { } try { setLeadPaused(true, 'auto:saferoute'); } catch (e) { } }
+    try { autoLvl.stop = true; } catch (e) { }
+    (async () => {
+      const abort = () => Me.IsDead || !SAFER.on;
+      try {
+        if (isLeader() && teamNames().length && typeof leadRouteWalk === 'function') await leadRouteWalk(pts.slice(Math.max(0, nearestRouteIdx(pts))), 'safe spot', abort, '', null, null);
+        else for (const p of pts.slice(Math.max(0, nearestRouteIdx(pts)))) { if (abort()) break; await routeHop(p, abort); }
+        const t0 = now();                                                // defend only (STOPCALM sees SAFER.on) until nothing hits us for 10 s
+        while (!abort() && now() - t0 < 180000 && now() - lastAttackerOnMe.at < 10000) await sleep(1000);
+        if (!shut && !abort()) { note('safe spot: quiet for 10 s — trying .town again', true); try { await townCommand('safe spot after a refused .town'); } catch (e) { logError('saferoute town', e); } }
+      } catch (e) { logError('saferoute', e); }
+      finally { if (!shut) SAFER.on = false; }                          // a shutdown keeps the hold (defend only) until Start or the restart
+    })();
+    return true;
+  } catch (e) { logError('saferoute start', e); return false; }
+}
+App.on('swarm.saferoute', (e) => { try { if (e.source.characterName !== CONFIG.leader || isLeader()) return; const d = e.data || {}; if (d.why === 'shutdown') { SAFER.on = true; SAFER.why = 'shutdown'; SAFER.since = now(); } } catch (er) { } });
 const TRAP = { minMs: 480000, fails: 3, near: 200, gapMs: 900000 };
 const trapState = { x: 0, y: 0, since: 0, fails: 0, lastAt: 0 };
 function trapCheck(why) {
@@ -9528,13 +9614,16 @@ function mtResume(saved, sig, me, now, pts) {
   return near(pts[g]) || near(pts[g - 1]) ? g - 1 : -2;
 }
 /** cut a planned route where its last leg enters the stop circle (a raid stage: never walk onto the boss) */
+// WALLSTOP-2026-10-24 (owner: walls are COMPLETE blockers): the cut is where the WALK LEFT along the route (+ its end to the stop point) is inside
+// the circle too — a straight-line circle alone cut a route that passes the target on the other side of a wall (same fix as navAtlasPts)
 function mtCut(pts, stop) {
   if (!stop || !(stop.dist > 0) || !pts || !pts.length) return (pts || []).slice();
-  const j = pts.findIndex(p => Math.hypot(p.x - stop.x, p.y - stop.y) <= stop.dist);
+  const rem = new Array(pts.length); for (let k = pts.length - 1; k >= 0; k--) rem[k] = k === pts.length - 1 ? Math.hypot(pts[k].x - stop.x, pts[k].y - stop.y) : rem[k + 1] + Math.hypot(pts[k + 1].x - pts[k].x, pts[k + 1].y - pts[k].y);
+  const j = pts.findIndex((p, k) => Math.hypot(p.x - stop.x, p.y - stop.y) <= stop.dist && rem[k] <= stop.dist);
   if (j < 0) return pts.slice();
   if (j === 0) return pts.slice(0, 1);
-  const A = pts[j - 1], B = pts[j]; let lo = 0, hi = 1;
-  for (let k = 0; k < 20; k++) { const m = (lo + hi) / 2; if (Math.hypot(A.x + (B.x - A.x) * m - stop.x, A.y + (B.y - A.y) * m - stop.y) > stop.dist) lo = m; else hi = m; }
+  const A = pts[j - 1], B = pts[j], ab = Math.hypot(B.x - A.x, B.y - A.y);
+  const hi = ab > 0 ? Math.max(0, Math.min(1, 1 - (stop.dist - rem[j]) / ab)) : 1;
   const z = isFinite(A.z) && isFinite(B.z) ? Math.round(A.z + (B.z - A.z) * hi) : B.z;
   return pts.slice(0, j).concat([Object.assign({}, B, { x: Math.round(A.x + (B.x - A.x) * hi), y: Math.round(A.y + (B.y - A.y) * hi), z })]);
 }
@@ -16040,7 +16129,7 @@ function mtHelpTarget(fid) {
     if (!fid || isHealerRole() || Me.IsDead) return null;
     if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 6000 && num(lastAttackerOnMe.id) !== num(fid)) return null;   // my own attacker first (self-defence)
     const m = mobById(fid); if (!m || m.IsDead || ignoredMob(m)) return null;
-    if (Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) > MTHELP_RANGE || Math.abs(num(m.Z) - Me.Z) > 500) return null;
+    if (Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) > MTHELP_RANGE || Math.abs(num(m.Z) - Me.Z) > 500 || !canSee(m)) return null;   // WALLSIGHT
     return m;
   } catch (e) { return null; }
 }
@@ -16049,10 +16138,10 @@ async function mtLeashFight(gp, abort) {
   const c = mtHoldCentre(gp);
   const ids = Object.keys(inst.attackers || {}).filter(id => now() - inst.attackers[id].at < 8000);
   if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000) ids.unshift(String(lastAttackerOnMe.id));
-  const mobs = ids.map(id => mobById(id)).filter(m => m && !m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - c.x, num(m.Y) - c.y) <= MT_LEASH && Math.abs(num(m.Z) - num(gp.z || Me.Z)) < 500)
+  const mobs = ids.map(id => mobById(id)).filter(m => m && !m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - c.x, num(m.Y) - c.y) <= MT_LEASH && Math.abs(num(m.Z) - num(gp.z || Me.Z)) < 500 && canSee(m))   // WALLSIGHT
     .sort((a, b) => Math.hypot(num(a.X) - Me.X, num(a.Y) - Me.Y) - Math.hypot(num(b.X) - Me.X, num(b.Y) - Me.Y));
   // ARCHERDUO-2026-10-22: a ranged / casting monster hitting me from outside the leash is still shot (Flash of Splendor, Valley of Saints: the archer stood 30 min)
-  if (!mobs.length && lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000) { const m = mobById(lastAttackerOnMe.id); if (m && !m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) < 1600) mobs.push(m); }
+  if (!mobs.length && lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000) { const m = mobById(lastAttackerOnMe.id); if (m && !m.IsDead && !ignoredMob(m) && Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) < 1600 && canSee(m)) mobs.push(m); }
   if (mobs.length) { if (!Target || num(Target.objId) !== num(mobs[0].objId) || !Me.IsAttacking) srvAttack(mobs[0].objId); try { enableShots(); } catch (e) { } return; }
   if (Math.hypot(Me.X - c.x, Me.Y - c.y) > MT_LEASH) { try { Send.RequestTargetCancel(0); } catch (e) { } await walkDirect(c.x, c.y, gp.z || Me.Z, 300, 15000, abort, 'route'); }
 }
@@ -16107,6 +16196,7 @@ async function engage(t) {
   if (isHealerRole() || recHold()) return;                    // healers ONLY heal (user 2026-10-04 20:20): never attack, also not in self-defence
   if (!t || t.IsDead) return;                                 // allerede død: intet at angribe
   if (hpZeroKnown(t)) { try { huntBlack[num(t.objId)] = now() + 15000; } catch (e) { } return; }   // ENGINE DATA #16: alive at 0 % HP -> aside 15 s (no re-pick loop)
+  if (!canSee(t)) { try { huntBlack[num(t.objId)] = now() + 10000; } catch (e) { } return wallRefused('attacking', t); }   // WALLSIGHT-2026-10-24: never through a wall
   engageState.id = num(t.objId); engageState.at = now();
   try { const E = engageState.ids, tn = now(); E[engageState.id] = tn; for (const k in E) if (tn - E[k] > 600000) delete E[k]; } catch (e) { }   // ENGINE DATA #16: every engaged monster (autoLvlKilled)
   intent('attack', `${t.Name}${t.HpPercent !== undefined ? ' (' + Math.round(num(t.HpPercent)) + '% HP)' : ''}`, { x: t.X, y: t.Y, z: t.Z });
@@ -19961,7 +20051,8 @@ function zoneSpot(z, level, why) {
   }
   const base = { name: z.name, levelMin: z.levelMin, levelMax: z.levelMax, center: { x: z.x, y: z.y, z: z.z }, radius: z.radius,
     gk: z.gkFrom || z.gkDesc ? { from: z.gkFrom, desc: z.gkDesc } : null, dungeon: z.dungeon || null, soloScore: 0, partyScore: 0, custom: true, zmap: z.zmap || null, poly: z.poly || null, holes: z.holes || null, pulls: z.pulls || null, travel: z.travel || null,
-    waypoints: Array.isArray(z.waypoints) && z.waypoints.length ? z.waypoints : null, circles: z.circles || null, floor: z.floor || null, avoidMobs: z.avoidMobs || null };   // spot editor 2026-10-07
+    waypoints: Array.isArray(z.waypoints) && z.waypoints.length ? z.waypoints : null, circles: z.circles || null, floor: z.floor || null, avoidMobs: z.avoidMobs || null,   // spot editor 2026-10-07
+    safeWaypoints: Array.isArray(z.safeWaypoints) && z.safeWaypoints.length ? z.safeWaypoints : null };   // SAFEROUTE-2026-10-24
   // ZONEPOLY (2026-10-13): a DRAWN zone is hunted as exactly its polygon: never scaled by zoneScale / party tactics (radius = its farthest
   // corner, the circle only pre-filters), never split into square sub-areas
   const drawn = !!(z.poly && z.poly.length >= 3);
@@ -20278,6 +20369,7 @@ setInterval(() => {
     // (no party chat line: the party card shows SLOW HUNTING; a line every 3 min was noise)
   } catch (e) { logError('level health', e); }
 }, LEVELHEALTH.everyMs);
+const RAIDKEEP_R = 3000;   // RAIDKEEP-2026-10-24: a living raid boss's minions (by name) within this of it are no hunting target (outside a raid)
 function huntTarget(cx, cy, radius) {
   const L = Me.Level;
   let best = null, bd = radius;
@@ -20289,6 +20381,12 @@ function huntTarget(cx, cy, radius) {
   // areas, every monster 27-29 refused by the solo +1 level rule): a spot the USER chose only WARNS (warn-never-refuse) — up to my level + 6 there
   const userSpot = !!(autoLvl.spot && autoLvl.spot.manual), lvlAbove = userSpot ? 6 : SOLOSAFE.levelAbove, uFall = [];
   const skip = {}, okIds = {}, no = (mb) => { skip[num(mb.objId)] = 1; }, cands = [];   // cands: ENGINE DATA #16
+  // RAIDKEEP-2026-10-24 (owner: "Spoiler6 is taking on a raid boss alone??? He had minions??" — the lvl 47 duo auto-levelled in Cruma's Ossiud room
+  // and killed Archon Suscepter's minions 80 from the boss): outside a raid, no target that is a living raid boss's minion (within RAIDKEEP_R of
+  // it). Other monsters near the boss are fine. A spot the USER chose only warns (warn-never-refuse).
+  const rkBosses = []; if (!inRaid()) { try { snapMobs().forEach(b => { if (!b.IsDead && isRaidBossMob(b)) rkBosses.push({ x: num(b.X), y: num(b.Y), z: num(b.Z), name: String(b.Name), mins: minionNames(b.Name) || [] }); }); } catch (e) { } }
+  // (owner 2026-10-24: "You DONT have to skip targets 1200 around raid boss JUST the raid boss and raid minions") — the boss itself is ignoredMob already
+  const rkNear = (mb) => rkBosses.find(b => Math.abs(num(mb.Z) - b.z) < 600 && b.mins.includes(String(mb.Name)) && Math.hypot(num(mb.X) - b.x, num(mb.Y) - b.y) < RAIDKEEP_R);
   snapMobs().forEach(mb => {
     if (mb.IsDead || ignoredMob(mb)) return;
     if (huntBlacklisted(mb.objId)) return no(mb);
@@ -20301,6 +20399,8 @@ function huntTarget(cx, cy, radius) {
     if (Math.hypot(mb.X - cx, mb.Y - cy) > radius) return;
     if (autoLvl.spot && autoLvl.spot.poly && autoLvl.spot.poly.length >= 3 && !((autoLvl.spot.room || autoLvl.spot.area) ? nearPolygon(mb.X, mb.Y, autoLvl.spot.poly, 100) : inPolygon(mb.X, mb.Y, autoLvl.spot.poly))) return;   // outside the drawn area / the room (ROOM POLYS PATCH: +100 for rooms)
     if (foreignTagged(mb)) return no(mb);                                   // another player's monster: never ours (ROOM POLYS PATCH 2026-10-08)
+    { const rb = rkBosses.length ? rkNear(mb) : null;                       // RAIDKEEP-2026-10-24
+      if (rb) { if (!userSpot) return no(mb); if (now() - (soloSafe.raidKeepNoteAt || 0) > 300000) { soloSafe.raidKeepNoteAt = now(); note(`hunt: WARNING — ${mb.Name} is a minion of the raid boss ${rb.name}; attacking it anyway because you chose this spot`, true); } } }
     if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return no(mb);                 // stands in a learned BLOCKED spot (we got stuck there, 2026-10-09)
     if (autoLvl.spot && autoLvl.spot.floor && isFinite(mb.Z) && (mb.Z < autoLvl.spot.floor.zMin - 150 || mb.Z > autoLvl.spot.floor.zMax + 150)) return;   // another floor (spot editor)
     if (solo) {   // 2026-10-10: every solo monster is checked (was: only ones nearer than the best so far) so huntSkip knows them all
@@ -20316,7 +20416,8 @@ function huntTarget(cx, cy, radius) {
   });
   // ENGINE DATA #16: the nearest one engage() accepts (its live object: not dead, HP > 0) — engage refused a 0 % HP one silently before
   cands.sort((a, b) => a.d - b.d);
-  for (const c of cands) { let r = null; try { r = c.mb.ref; } catch (e) { r = null; } if (!r || r.IsDead || (r.HpPercent !== undefined && num(r.HpPercent) <= 0)) { delete okIds[num(c.mb.objId)]; continue; } best = r; break; }
+  // WALLSIGHT-2026-10-24 + SEECOST: behind a wall = not a target (not blacklisted: it can walk into view); checked nearest first, only until one is in sight
+  for (const c of cands) { if (!canSee(c.mb)) { delete okIds[num(c.mb.objId)]; continue; } let r = null; try { r = c.mb.ref; } catch (e) { r = null; } if (!r || r.IsDead || (r.HpPercent !== undefined && num(r.HpPercent) <= 0)) { delete okIds[num(c.mb.objId)]; continue; } best = r; break; }
   // SOLOUSER: on the user's spot a refused pull only WARNS when nothing else is left — the one that pulls the fewest others (then the nearest)
   if (!best && userSpot && uFall.length) {
     uFall.sort((x, y) => x.n - y.n || x.d - y.d);
@@ -26405,13 +26506,30 @@ function hereSpotOf(e) {
     soloScore: 0, partyScore: 0, custom: true, here: true };
 }
 /** !hunthere [radius] | !hunthere off — the leader saves his own position as the party's 24/7 spot and hunts there at once (no Giran trip) */
+/** HEREPLACE-2026-10-24: the predefined place I stand in -> { name, entry (a party_spots entry: kind rooms | field) } or null.
+ *  Rooms first (dungeon_rooms.json: the floor by my height, then the room polygon), then field areas (field_areas.json, polygon + zRange). */
+function herePlace(x, y, z) {
+  const inP = (P) => { if (!Array.isArray(P) || P.length < 3) return false; let ins = false; for (let i = 0, k = P.length - 1; i < P.length; k = i++) { const a = P[i], b = P[k]; if (((a[1] > y) !== (b[1] > y)) && (x < (b[0] - a[0]) * (y - a[1]) / ((b[1] - a[1]) || 1e-9) + a[0])) ins = !ins; } return ins; };
+  const inZ = (zr) => !Array.isArray(zr) || zr.length < 2 || (z >= zr[0] - 300 && z <= zr[1] + 300);
+  try {
+    const w = dzFloor(dungeonRooms(), x, y, z);
+    if (w && w.d && w.f) { const room = (w.f.rooms || []).find(rm => inP(rm.poly) && inZ(rm.zRange));
+      if (room) return { name: `${w.d.name}: ${room.name}`, entry: { kind: 'rooms', dungeon: w.d.name, spot: w.d.name, roomId: room.id, roomIds: [room.id], order: 'nearest' } }; }
+  } catch (e) { }
+  try {
+    for (const R of (fieldAreas().regions || [])) { const b = R.bbox; if (Array.isArray(b) && b.length >= 4 && (x < b[0] || x > b[1] || y < b[2] || y > b[3])) continue;   // bbox = [minX, maxX, minY, maxY]
+      const a = (R.areas || []).find(ar => inP(ar.poly) && inZ(ar.zRange));
+      if (a) return { name: `${R.name}: ${a.name}`, entry: { kind: 'field', region: R.id, spot: R.name, areaIds: [a.id], order: 'nearest' } }; }
+  } catch (e) { }
+  return null;
+}
 async function huntHereOrder(arg) {
   if (!isLeader()) return;
   const j = partySpots(), key = j[CONFIG.leader] ? CONFIG.leader : claimTeam();
   if (/^(off|stop|auto)$/i.test(String(arg || ''))) {
     const cur = j[key];
     // CMDFIX-2026-10-12: only a hunt-here entry is ended — any other dashboard choice (spot, rooms, areas, stages, nonstop) stays as it is
-    if (!cur || cur.kind !== 'here') { const m = '[hunt here] was not on for this party — nothing changed (the dashboard spot choice stays)'; note(m); SayToParty(m); return; }
+    if (!cur || (cur.kind !== 'here' && cur.hereKind !== 'place')) { const m = '[hunt here] was not on for this party — nothing changed (the dashboard spot choice stays)'; note(m); SayToParty(m); return; }
     const prev = cur.previous && typeof cur.previous === 'object' && cur.previous.mode ? cur.previous : null;
     j[key] = prev ? Object.assign({}, prev, { at: new Date().toISOString(), by: 'bot' }) : { mode: 'auto', at: new Date().toISOString(), by: 'bot' };
     j._updated = new Date().toISOString();
@@ -26424,17 +26542,23 @@ async function huntHereOrder(arg) {
   if (town) { const m = `[hunt here] we are in ${town} — no fighting in towns; walk / teleport to the place first, then press it again`; note(m); SayToParty(m); return; }   // CMDFIX: + note
   const old = j[key];
   let previous = null;                              // CMDFIX-2026-10-12: the choice before hunt here, restored by "!hunthere off"
-  if (old && typeof old === 'object') { if (old.kind === 'here') previous = old.previous || null; else { previous = Object.assign({}, old); delete previous.previous; } }
+  if (old && typeof old === 'object') { if (old.kind === 'here' || old.hereKind === 'place') previous = old.previous || null; else { previous = Object.assign({}, old); delete previous.previous; } }
   const r = Math.max(800, Math.min(6000, num(arg) || 2500));
   let where = ''; try { where = String(CurrentZone && CurrentZone.Name || ''); } catch (e) { }
-  j[key] = { mode: 'manual', kind: 'here', spot: `Here${where ? ': ' + where : ''} (24/7)`, x: Math.round(num(Me.X)), y: Math.round(num(Me.Y)), z: Math.round(num(Me.Z)),
+  // HEREPLACE-2026-10-24 (public tester Mr.P: "Selecting farm here 24/7 ... always sets same default zone, if we could change it to predefined
+  // zones would be great"): standing in one of the predefined places (a dungeon room / a field area) = hunt exactly that place 24/7; only
+  // outside every one (or "!hunthere <radius>") the old circle around me
+  const place = num(arg) ? null : herePlace(Me.X, Me.Y, Me.Z);
+  if (place) j[key] = Object.assign({ mode: 'manual', stay: true, nonstop: true, moveOn: false, at: new Date().toISOString(), by: 'bot', previous, hereKind: 'place' }, place.entry);
+  else j[key] = { mode: 'manual', kind: 'here', spot: `Here${where ? ': ' + where : ''} (24/7)`, x: Math.round(num(Me.X)), y: Math.round(num(Me.Y)), z: Math.round(num(Me.Z)),
     radius: r, stay: true, nonstop: true, moveOn: false, at: new Date().toISOString(), by: 'bot', previous };
   j._updated = new Date().toISOString();
   try { File.WriteAllText(`${__DIR__}\\Scripts\\data\\party_spots.json`, JSON.stringify(j, null, 1)); } catch (e) { logError('hunthere', e); return; }
   manualState.at = 0;
   runSetMine(true, 'your order !hunthere');           // RUNSTATE
-  SayToParty(`[hunt here] hunting here (radius ${r}) around the clock — no supply / Giran trips; after a death we come back here. "!hunthere off" ends it`);
-  note(`hunt here 24/7: ${j[key].spot} at ${j[key].x},${j[key].y} r ${r}`, true);
+  if (place) { SayToParty(`[hunt here] hunting ${place.name} around the clock (the predefined place we stand in) — no supply / Giran trips; after a death we come back here. "!hunthere off" ends it, "!hunthere 2500" = a circle around me instead`); note(`hunt here 24/7: ${place.name} (${j[key].kind})`, true); }
+  else { SayToParty(`[hunt here] hunting here (radius ${r}) around the clock — no supply / Giran trips; after a death we come back here. "!hunthere off" ends it`);
+    note(`hunt here 24/7: ${j[key].spot} at ${j[key].x},${j[key].y} r ${r}`, true); }
   setLeadPaused(false);
   if (autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 30000) await sleep(500); }
   autoLvl.spot = null;
@@ -27358,10 +27482,14 @@ function navAtlasPts(flat, me, stop, swimIdx, drops) {
   let i0 = 0, bd = 1e12; pts.forEach((p, i) => { const d = Math.hypot(p.x - me.x, p.y - me.y) + (Math.abs(p.z - me.z) > 600 ? 5000 : 0); if (d < bd) { bd = d; i0 = i; } });
   let out = pts.slice(i0);
   if (stop && stop.dist > 0) {
-    const j = out.findIndex(p => Math.hypot(p.x - stop.x, p.y - stop.y) <= stop.dist);
-    if (j > 0) {                                                       // cut the last leg where it enters the stop circle
-      const A = out[j - 1], B = out[j]; let lo = 0, hi = 1;
-      for (let k = 0; k < 20; k++) { const m = (lo + hi) / 2; if (Math.hypot(A.x + (B.x - A.x) * m - stop.x, A.y + (B.y - A.y) * m - stop.y) > stop.dist) lo = m; else hi = m; }
+    // WALLSTOP-2026-10-24 (owner, Archon Suscepter, Cruma 2nd floor: "fighting through a HUGE wall"): the stop circle is straight-line, so a route that
+    // passes the boss on the other side of a wall was cut there (1428 away through the wall, 26 points of the way around skipped). Cut only where the
+    // WALK LEFT along the route (+ the end to the stop point) is inside the circle too.
+    const rem = new Array(out.length); for (let k = out.length - 1; k >= 0; k--) rem[k] = k === out.length - 1 ? Math.hypot(out[k].x - stop.x, out[k].y - stop.y) : rem[k + 1] + Math.hypot(out[k + 1].x - out[k].x, out[k + 1].y - out[k].y);
+    const j = out.findIndex((p, k) => Math.hypot(p.x - stop.x, p.y - stop.y) <= stop.dist && rem[k] <= stop.dist);
+    if (j > 0) {                                                       // cut the last leg where the walk left reaches stop.dist
+      const A = out[j - 1], B = out[j], ab = Math.hypot(B.x - A.x, B.y - A.y);
+      const hi = ab > 0 ? Math.max(0, Math.min(1, 1 - (stop.dist - rem[j]) / ab)) : 1;
       out = out.slice(0, j).concat([Object.assign({ x: Math.round(A.x + (B.x - A.x) * hi), y: Math.round(A.y + (B.y - A.y) * hi), z: Math.round(A.z + (B.z - A.z) * hi) }, B.swim ? { swim: true } : {})]);
     } else if (j === 0) out = out.slice(0, 1);
   }
@@ -31263,7 +31391,12 @@ function lootNote(text) {
     // my own Sweeper / Sweeper Festival cast counts as spoiled (the Loot page showed 0 spoiled while the dwarves swept all day)
     try { if (L.how !== 'spoil' && typeof spoilState !== 'undefined' && spoilState.sweepPend && now() - (spoilState.sweepPend.at || 0) < 3000) L.how = 'spoil'; } catch (e) { }
     let place = ''; try { place = autoLvl.spot && autoLvl.spot.name ? String(autoLvl.spot.name) : (currentTownKey() || ''); } catch (e) { }
-    LOOTLOG.buf.push(`${new Date().toISOString()}\t${Me.Name}\t${CONFIG.leader || ''}\t${L.count}\t${L.name.replace(/[\t\r\n]/g, ' ')}\t${L.how}\t${place.replace(/[\t\r\n]/g, ' ')}\r\n`);
+    // LOOTSRC-2026-10-24 (owner: "Extend the /loot with separate raidboss loot and normal hunting loot and circuit loot"): column 8 = where it came
+    // from (circuit = a raid circuit run, its boss fights included; raid = a raid fight outside a circuit; hunt = levelling; other), column 9 = the boss
+    let src = 'other', boss = '';
+    try { const raid = inRaid() || state.mode === 'raid'; boss = raid ? String(state.bossName || '') : '';
+      src = (typeof rcOn === 'function' && rcOn()) ? 'circuit' : raid ? 'raid' : (autoLvl.active && !autoLvl.stop) ? 'hunt' : 'other'; } catch (e) { }
+    LOOTLOG.buf.push(`${new Date().toISOString()}\t${Me.Name}\t${CONFIG.leader || ''}\t${L.count}\t${L.name.replace(/[\t\r\n]/g, ' ')}\t${L.how}\t${place.replace(/[\t\r\n]/g, ' ')}\t${src}\t${boss.replace(/[\t\r\n]/g, ' ')}\r\n`);
     if (LOOTLOG.buf.length > 500) LOOTLOG.buf.splice(0, LOOTLOG.buf.length - 500);
   } catch (e) { }
 }
@@ -31283,6 +31416,7 @@ globalThis.OnSystemMessage = (id, text) => {
     try { if (Number(id) === 2100) kamaChars2100(flat(text, 0)); } catch (e) { }   // KAMALOKA CHARS: per-character lock
     lastSysMsg = { at: now(), id: Number(id), text: `#${id} ` + flat(text && typeof text === 'object' && text.text !== undefined ? text.text : text, 0) };
     try { lootNote(String(lastSysMsg.text).replace(/^#\d+ /, '')); } catch (e) { }   // LOOTLOG-2026-10-23: the FLATTENED text (the server message arrives as an object)
+    try { if (Number(id) === 1 || SHUTDOWN_RE.test(lastSysMsg.text)) safeRetreatStart('shutdown'); } catch (e) { }   // SAFEROUTE-2026-10-24: #1 "The server will be coming down in ..."
     try { sysMsgRing.push(lastSysMsg); if (sysMsgRing.length > 40) sysMsgRing.shift(); } catch (e) { }   // QSYS-2026-10-13
     try { fullSys(Number(id), lastSysMsg.text); } catch (e) { }   // FULLWARN 2026-10-14: bag / warehouse full refusals
     try { DLG.ev('sys', { id: Number(id), text: lastSysMsg.text }); } catch (e) { }   // DIALOG-2026-10-13: a refusal ends the dialog wait at once
@@ -31304,7 +31438,7 @@ globalThis.OnSystemMessage = (id, text) => {
   } catch (e) { }   // { messageType, text } object; fx "not enough adena" -> teleport-fejlens grund
   if (annLeader) try { scanAnnouncement(text || id, 'system'); } catch (e) { }
 };
-globalThis.OnAnnouncement = (text) => { if (annLeader) try { scanAnnouncement(text, 'announce'); } catch (e) { } };
+globalThis.OnAnnouncement = (text) => { if (annLeader) try { scanAnnouncement(text, 'announce'); } catch (e) { } try { if (SHUTDOWN_RE.test(String(text && text.text !== undefined ? text.text : text))) safeRetreatStart('shutdown'); } catch (e) { } };   // SAFEROUTE: every window
 
 // Raid bosser vi selv ser (alle vinduer): synlig og levende -> alive; død -> dead.
 setInterval(() => {
@@ -33151,6 +33285,7 @@ function nohitStepDist(n, dist) { return (Number(n) >= STOPCALM.nohitFarAfter ||
 /** STOPCALM host: nothing of ours hunts / fights on purpose right now (the run switch OFF, my own switch, a user stop / park pause) */
 function stopCalmStopped() {
   try {
+    if (SAFER.on) return true;                                          // SAFEROUTE-2026-10-24: at the safe spot = defend only
     if (autoLvl.active && !autoLvl.stop) return false;
     if (runHeld()) return true;
     if (!runMine().on) return true;
@@ -33161,6 +33296,7 @@ function stopCalmStopped() {
 /** STOPCALM host: something that is allowed to fight runs (raid, instance, quest, mission, escort, a teleport hold, delevel, the recorder ...) */
 function stopCalmBusy() {
   try {
+    if (SAFER.on && !inRaid() && !inst.on) return false;                // SAFEROUTE-2026-10-24: the defend-only guard runs at the safe spot
     return !!(inRaid() || inst.on || kamaLive.on || questRun.active || escort.active || (raidHunt.active && !raidHunt.stop) || DLV.on || ESC.on || state.escaping
       || state.portPrep || recHold() || /^(raid|raidclear|prep|mission|farm|autolevel)$/.test(String(state.mode || '')) || (typeof pullHold !== 'undefined' && pullHold.on)
       || (userOrder.name && /hunt|fight|kill|raid|mission|assist|quest|siege|epic|kama|delevel|spoil/i.test(String(userOrder.name))) || swarmFightNow());
@@ -35599,7 +35735,7 @@ function assistZl() { return (typeof zState !== 'undefined' && zState.layered) ?
 function assistView(m) {
   if (!m) return null;
   const dead = !!m.IsDead || (hpZeroKnown(m));
-  let area = true; try { area = !ignoredMob(m) && inHuntRoom(m) && !foreignTagged(m) && !isMarkedForOther(m); } catch (e) { }
+  let area = true; try { area = !ignoredMob(m) && inHuntRoom(m) && !foreignTagged(m) && !isMarkedForOther(m); } catch (e) { }   // WALLSIGHT: no sight check here - members pick the target and move; srvAttack / castOn never fire through a wall
   return { id: num(m.objId), alive: !dead, d: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), dz: num(m.Z || Me.Z) - num(Me.Z), inArea: area };
 }
 /** the leader's announced target as a view (null = none / stale / dead) */
@@ -38378,6 +38514,13 @@ App.on('swarm.lead.hub', (event) => {
 
 /** ONEOWNER-LEVEL: is this leadLevel your own order (restarts leveling) or an automation (never interrupts a running one)? */
 function levelByUser(why) { return /^(!|level to |your order|clan quest)/i.test(String(why || '').trim()); }
+/** NEARSTART-2026-10-24: every teammate alive, fresh and within 9000 of me (the huntOnDecide spread rule), and no supply run due */
+function nearStartOk() {
+  try {
+    if (supplyDue(lastSupplyAtGet(), now()) && pautoOn('supplyWatch')) return false;
+    return teamNames().every(n => { const lp = livePos[n]; return lp && now() - (lp.at || 0) < 60000 && !lp.IsDead && Math.hypot(num(lp.X) - Me.X, num(lp.Y) - Me.Y) < 9000; });
+  } catch (e) { return false; }
+}
 async function leadLevel(why) {
   if (!isLeader()) return;
   if (!runAuto('leveling')) { note(`leveling (${why}): not started — the party is switched OFF (dashboard Start / !start / !level switch it on)`); return; }   // RUNSTATE
@@ -38401,6 +38544,14 @@ async function leadLevel(why) {
   }
   if (noTownTrip() && !currentTownKey()) {                            // NONSTOP (2026-10-12, Discord D15) / HUNTTIMER-2026-10-15: straight to the hunting, no Giran regroup
     if (autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 30000) await sleep(500); }
+    autoLvl.spot = null; autoLevelLoop(false).catch(e => logError('autolevel', e)); return;
+  }
+  // NEARSTART-2026-10-24 (public tester Mr.P: "when im near the spot and want party to farm they always want to travel back to town"; hunting.md
+  // R1 / R3): Start in the field with the team together and no supply run due = no forced Giran regroup — autoLevelLoop picks the spot and
+  // travelToSpot walks there (it goes via Giran by itself only when a supply run IS due: KEEPHUNT khHub)
+  if (!currentTownKey() && nearStartOk()) {
+    if (autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 30000) await sleep(500); }
+    note(`leveling (${why}): the team is together out here and no supply run is due — no ${CONFIG.lead.hub} regroup, straight to the hunting`, true);
     autoLvl.spot = null; autoLevelLoop(false).catch(e => logError('autolevel', e)); return;
   }
   if (autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 30000) await sleep(500); }
@@ -42943,6 +43094,11 @@ async function raidDealer(boss) {
       if (tank && !tank.IsDead && !Me.IsCasting && !epicOwnsMove()) { const s = followSpot(tank); if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 250) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } } }
       setTask('raid: holding — the tank does not have full aggro'); await sleep(400); continue;
     }
+    // WALLSIGHT-2026-10-24: the focus behind a wall -> no attack through it; back to the tank (who has to get into its room) until it is in view
+    if (!canSee(tgt)) {
+      if (tank && !tank.IsDead && !Me.IsCasting && !epicOwnsMove()) { const s = followSpot(tank); if (Math.hypot(s.x - Me.X, s.y - Me.Y) > 250) { try { Send.MoveBackwardToLocation(Math.round(s.x), Math.round(s.y), Math.round(Me.Z)); } catch (e) { } } }
+      setTask(`raid: ${tgt.Name} is behind a wall — not attacking through it`); wallRefused('attacking', tgt); await sleep(500); continue;
+    }
     // STAY INSIDE (2026-10-14): a target I could only reach by leaving the area is left alone (it comes in, or the casters get it); I stay inside
     { const RA = myRaidArea(); if (RA && RA.stay && !raidLeashOk(RA, num(tgt.X), num(tgt.Y), CASTER_ROLES.test(state.role || '') ? 'caster' : 'melee', 0)) { const bk = raidLeashBack(RA, num(Me.X), num(Me.Y)); if (bk) { try { Send.MoveBackwardToLocation(Math.round(bk.x), Math.round(bk.y), Math.round(Me.Z)); } catch (e) { } } setTask(`raid: staying inside the area — ${tgt.Name} is outside it`); await sleep(400); continue; } }
     if (state.role === 'destroyer' && !ddStartSent && tgt.objId === bossId && Distance(tgt) < 200) { ddStartSent = true; App.emit('swarm.ddstart', {}); if (!raidPrep.ddStartAt) raidPrep.ddStartAt = now(); }
@@ -43047,7 +43203,7 @@ async function raidSK(boss) {
   const isLoose = (m) => { const id = num(m.objId), h = inst.attackers[m.objId] || inst.attackers[id], a = raidLive.act[id];
     return !!((h && now() - h.at < 4000 && h.on !== Me.Name) || (a && now() - a.at < 4000 && num(a.target) && num(a.target) !== myId)); };
   while ((state.mode === 'raid') && !boss.IsDead && state.running && !Me.IsDead) {
-    const allMins = bossMinions(boss, 2500);
+    const allMins = bossMinions(boss, 2500).filter(m => canSee(m));   // WALLSIGHT-2026-10-24 (Archon Suscepter: "going for Kusion Suscepter (loose, 998 away)" through a wall for minutes)
     const loose = allMins.filter(isLoose).sort((a, b) => dMe(a) - dMe(b));
     // AREA AGGRO (user 2026-10-11: "minions spawned but the tank kept focusing the boss — Hate Aura and Aggression to get ALL monsters to him"):
     // Aura of Hate whenever a loose minion is next to me or 2+ minions (1 with a minion-tank template) are around me

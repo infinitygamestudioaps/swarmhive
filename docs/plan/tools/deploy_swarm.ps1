@@ -9,7 +9,7 @@ $src    = "$root\Scripts_dev\swarm.js"
 $dst    = "$root\Scripts\swarm.js"
 $log    = "$root\Logs\deploy_swarm.log"
 $minGap = 15    # minutes between deploys (L2Swarm 3.8.6 fixed the reload memory leak, 2026-10-05: was 20)
-$maxMB  = 4000 # refuse deploy if L2Swarm private memory is above this (restart L2Swarm first). 4000 since the 16 GB RAM upgrade (2026-10-05), was 3000
+$maxMB  = 8000 # refuse deploy if L2Swarm private memory is above this (restart L2Swarm first). 8000 on the 32 GB PC since 2026-10-24 (4000 on the 16 GB laptop, 3000 before)
 
 function Log($m) { $l = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $m"; Add-Content -Path $log -Value $l; Write-Output $l }
 

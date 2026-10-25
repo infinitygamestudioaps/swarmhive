@@ -14,7 +14,10 @@ function createVfs(opts) {
   // PERF-2026-10-15: cacheMax 64 -> 16 MB per worker (13 workers) and LRU: the old cache only ever grew (every version of every file >= 4 KB
   // ever read stayed until the 64 MB were full, then nothing new was cached); files over cacheFileMax (2 MB) are not cached (the big datasets
   // are shared PARSED by the runner, the text itself is garbage right after the parse).
-  const o = Object.assign({ root: 'C:\\L2Swarm', overlay: null, isolate: [], cacheMax: 16 * 1024 * 1024, cacheFileMax: 2 * 1024 * 1024, log: null, onWrite: null }, opts || {});
+  // CACHE32-2026-10-24 (owner yes; 32 GB PC RAINBOW, 8 workers): cacheMax 16 -> 96 MB per worker, cacheFileMax 2 -> 8 MB. 6 of 8 workers sat at
+// the 16 MB cap and re-read the big data files (quests_h5 5.8 MB, gear_db 5.4, field_areas 4.5, geo_blocked 2.8 were never cached) from the
+// QLC SSD; after a reload the brain host read 44 MB/s and the dashboard took 9-30 s per page. Worst case 8 x 96 MB = 0.8 GB.
+const o = Object.assign({ root: 'C:\\L2Swarm', overlay: null, isolate: [], cacheMax: 96 * 1024 * 1024, cacheFileMax: 8 * 1024 * 1024, log: null, onWrite: null }, opts || {});
   const rootN = path.win32.normalize(o.root).replace(/[\\/]+$/, '').toLowerCase();
   const st = { reads: 0, hits: 0, writes: 0, bytesCached: 0, files: 0, errors: 0 };
   const cache = new Map();                    // realPath(lower) -> { mtimeMs, size, text }

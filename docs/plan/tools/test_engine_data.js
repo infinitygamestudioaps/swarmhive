@@ -364,6 +364,7 @@ async function main() {
         num: (v) => Number(v) || 0, now: () => T.t, Me: { Level: 40, X: 0, Y: 0, Z: 0 }, CONFIG: { rest: { zLimit: 500 } }, autoLvl: { spot: null }, pairs: { on: false, taken: new Set() },
         soloChar: () => false, soloMobList: () => [], soloRaidSpots: () => [], ignoredMob: () => false, huntBlacklisted: (id) => black[id] && black[id] > T.t, huntBlack: black,
         npcLevel: () => 40, meSnap: () => ({ X: 0, Y: 0, Z: 0 }), foreignTagged: () => false, geoBlockedAt: () => false, inPolygon: () => true, nearPolygon: () => true,
+  canSee: () => true, wallRefused: () => { }, inRaid: () => false, isRaidBossMob: () => false, minionNames: () => null,   // WALLSIGHT / RAIDKEEP 2026-10-24 (open field: everything in sight, no raid boss)
         huntSkip: {}, soloSafe: {}, SOLOSAFE: {}, note: () => { }, intents, isHealerRole: () => false, recHold: () => false,
         intent: (a, d) => { intents.push(a + ': ' + d); }, Send: { Action: () => { } }, sleep: () => Promise.resolve(), inst: { on: false }, srvAttack: () => { },
         walkDirect: () => Promise.resolve(), engageState: { id: 0, at: 0, ids: {} },

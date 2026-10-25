@@ -8,7 +8,9 @@
 (function () {
   'use strict';
   const SEC = 'tab-loot';
-  const S = { open: false, hours: 24, who: '', grade: '', type: '', how: '', q: '', view: 'totals', d: null, poll: 0, seq: 0 };
+  const S = { open: false, hours: 24, who: '', grade: '', type: '', how: '', q: '', src: '', view: 'totals', d: null, poll: 0, seq: 0 };
+  // LOOTSRC-2026-10-24 (owner: "separate raidboss loot and normal hunting loot and circuit loot"): one button per source, with its totals
+  const SOURCES = [['', 'All loot', 'icon/etc_treasure_box_i00'], ['raid', 'Raid bosses', 'icon/skill1363'], ['circuit', 'Raid circuit', 'icon/etc_scroll_of_return_i00'], ['hunt', 'Hunting', 'icon/weapon_long_sword_i00'], ['other', 'Other', 'icon/etc_pouch_gray_i00']];
   try { const v = localStorage.getItem('lootView'); if (v === 'totals' || v === 'list') S.view = v; } catch (e) { }
   const $id = (i) => document.getElementById(i);
   const h = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -87,7 +89,7 @@
   function close() { if (!S.open) return; S.open = false; clearInterval(S.poll); const s = $id(SEC); if (s) s.hidden = true; }
   async function load() {
     const my = ++S.seq;
-    const qs = `hours=${S.hours}&who=${encodeURIComponent(S.who)}&grade=${S.grade}&type=${S.type}&how=${S.how}&q=${encodeURIComponent(S.q)}`;
+    const qs = `hours=${S.hours}&who=${encodeURIComponent(S.who)}&grade=${S.grade}&type=${S.type}&how=${S.how}&q=${encodeURIComponent(S.q)}&src=${S.src}`;
     try { const d = await api('/api/loot?' + qs); if (my !== S.seq) return; if (d && !d.error) { S.d = d; renderFilters(); render(); } } catch (e) { }
   }
   const sel = (key, list, cur, label) => `<select data-lp="${key}" aria-label="${label}">${list.map(([v, t]) => `<option value="${h(v)}"${String(cur) === String(v) ? ' selected' : ''}>${h(t)}</option>`).join('')}</select>`;
@@ -112,11 +114,17 @@
   const gradeTag = (g) => g && g !== 'NONE' ? `<span class="lp-g" style="background:${GRADE_COLOR[g] || '#777'}">${h(g)}</span>` : '';
   const when = (iso) => { const t = new Date(iso), today = new Date().toDateString() === t.toDateString(); return `${t.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}${today ? '' : '<br>' + t.toLocaleDateString([], { day: 'numeric', month: 'short' })}`; };
   const tLabel = () => (TIMES.find(t => t[0] === S.hours) || [0, ''])[1].toLowerCase();
+  /** LOOTSRC-2026-10-24: All / Raid bosses / Raid circuit / Hunting / Other, each with what it is worth at a shop (the other filters applied) */
+  function srcBar(sm) {
+    const BS = (sm && sm.bySrc) || {}, allN = Object.values(BS).reduce((a, x) => a + x.count, 0), allV = Object.values(BS).reduce((a, x) => a + x.value, 0);
+    return `<div class="lp-views lp-src" role="tablist" aria-label="Where the loot came from">${SOURCES.map(([v, t]) => { const x = v ? BS[v] : { count: allN, value: allV };
+      return `<button type="button" role="tab" data-lpsrc="${v}" class="${S.src === v ? 'on' : ''}" title="${h(t)}: ${x ? n0(x.count) + ' items, ' + adena(x.value) + ' adena at a shop' : 'nothing yet'}">${h(t)}<br><small>${x ? adena(x.value) : '—'}</small></button>`; }).join('')}</div>`;
+  }
   function render() {
     const d = S.d; if (!d) { $id('lpList').innerHTML = '<div class="muted">Loading…</div>'; return; }
     const sm = d.summary || {}, items = sm.items || [];
     if (!d.rows.length) {
-      $id('lpSum').innerHTML = '';
+      $id('lpSum').innerHTML = srcBar(sm);   // LOOTSRC: the source buttons stay (a source without loot must not trap the page)
       $id('lpList').innerHTML = `<div class="itp-note lp-empty">${d.recording ? `Nothing found ${h(tLabel())}${S.who || S.grade || S.type || S.how || S.q ? ' with these filters' : ''}.` : 'No loot recorded yet. Every character writes down what it picks up or spoils as soon as it runs the new version.'}</div>`;
       return;
     }
@@ -131,7 +139,7 @@
     const parties = (sm.byParty || []).slice(0, 12), maxV = Math.max(1, ...parties.map(p => p.value || p.count));
     const partyHtml = parties.length > 1 || S.who ? `<div class="lp-h3">Who got it</div><div class="lp-parties">${parties.map(p => `<button type="button" class="lp-pt${S.who && S.who.toLowerCase() === String(p.party).toLowerCase() ? ' on' : ''}" data-lpwho="${h(p.party)}" title="Show only party ${h(p.party)}">
         <span class="lp-ptn">Party ${h(p.party)}</span><span class="lp-bar"><i style="width:${Math.max(3, Math.round(100 * (p.value || p.count) / maxV))}%"></i></span><span class="lp-ptv">${adena(p.value)} · ${n0(p.count)}</span></button>`).join('')}</div>` : '';
-    $id('lpSum').innerHTML = `<div class="lp-tiles">${tiles.map(([ic, v, t]) => `<div class="lp-tile">${gim(ic)}<div style="min-width:0"><b>${v}</b><span>${t}</span></div></div>`).join('')}</div>
+    $id('lpSum').innerHTML = srcBar(sm) + `<div class="lp-tiles">${tiles.map(([ic, v, t]) => `<div class="lp-tile">${gim(ic)}<div style="min-width:0"><b>${v}</b><span>${t}</span></div></div>`).join('')}</div>
       ${gradeChips ? `<div class="lp-chips">${gradeChips}${S.grade ? '<button type="button" class="lp-chip" data-lpgrade="">every grade</button>' : ''}</div>` : ''}${partyHtml}`;
     if (S.view === 'totals') {
       $id('lpList').innerHTML = `<div class="lp-grid">${items.map(it => {
@@ -150,7 +158,8 @@
       <a class="lp-r" href="#/items/${encodeURIComponent(r.who)}" title="Open ${h(r.who)}'s items">${gim('icon/etc_equip_item_box_i00')}</a></div>`).join('')}</div>${d.more ? `<div class="muted">${n0(d.more)} more — narrow it down with the filters.</div>` : ''}`;
   }
   function onClick(e) {
-    const b = e.target.closest('[data-lphours],[data-lpview],[data-lpgrade],[data-lpwho],[data-lpclear]'); if (!b) return;
+    const b = e.target.closest('[data-lphours],[data-lpview],[data-lpgrade],[data-lpwho],[data-lpclear],[data-lpsrc]'); if (!b) return;
+    if (b.dataset.lpsrc !== undefined) { S.src = b.dataset.lpsrc; load(); return; }   // LOOTSRC-2026-10-24
     if (b.dataset.lphours) { S.hours = Number(b.dataset.lphours) || 24; renderTimes(); load(); return; }
     if (b.dataset.lpview) { S.view = b.dataset.lpview; try { localStorage.setItem('lootView', S.view); } catch (er) { } renderFilters(); render(); return; }
     if (b.dataset.lpgrade !== undefined) { S.grade = S.grade === b.dataset.lpgrade ? '' : b.dataset.lpgrade; load(); return; }

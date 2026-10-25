@@ -84,7 +84,8 @@ const autoLvl = { spot: Object.assign({}, sp) };
 const envH = { now: () => T, num: Number, Me: { Level: 22 }, soloChar: () => false, soloMobList: () => [], soloRaidSpots: () => [], snapMobs: () => mobs,
   ignoredMob: () => false, huntBlacklisted: () => false, pairs: { on: false, taken: new Set() }, meSnap: () => ({ X: C.x, Y: C.y, Z: -3100 }), CONFIG: { rest: { zLimit: 500 } },
   npcLevel: () => 22, autoLvl, nearPolygon: (x, y, P, m) => Z.zpNear(x, y, P, m), inPolygon: (x, y, P) => Z.zpIn(x, y, Z.zpPts(P)), foreignTagged: () => false, geoBlockedAt: () => false,
-  soloPullOk: () => ({ ok: true }), SOLOSAFE: {}, soloSafe: {}, note: () => { } };
+  soloPullOk: () => ({ ok: true }), SOLOSAFE: {}, soloSafe: {}, note: () => { },
+  inRaid: () => false, isRaidBossMob: () => false, minionNames: () => [], canSee: () => true };   // RAIDKEEP / WALLSIGHT 2026-10-24
 const H = new Function(...Object.keys(envH), ht + '\nreturn { huntTarget, huntSkip };')(...Object.values(envH));
 mobs.push(mk(1, C.x + 1500, C.y), mk(2, C.x, C.y + 1200));      // outside the polygon, inside the old x3 circle (2100)
 ok(H.huntTarget(C.x, C.y, 700 * 3) === null, 'empty polygon: monsters OUTSIDE it (even inside the old x3 circle) are never targets');

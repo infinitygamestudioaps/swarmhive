@@ -24,6 +24,7 @@ function ctx(extra) {
   const c = Object.assign({ console, Math, JSON, Number, String, Array, Object, Date, Set, isNaN }, extra);
   c.num = (v) => typeof v === 'bigint' ? Number(v) : (Number(v) || 0);
   c.now = () => 1000000;
+  if (!c.canSee) c.canSee = () => true;   // WALLSIGHT-2026-10-24: open field (the wall rule has its own test, test_walls.js)
   return vm.createContext(c);
 }
 const load = (c, names, more) => { vm.runInContext(names.map(fnSrc).join('\n') + '\n' + (more || ''), c); return c; };

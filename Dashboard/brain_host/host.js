@@ -343,6 +343,9 @@ function createHost(o) {
     SetCombatRange: (r, p) => fwd('SetCombatRange', p === undefined ? [r] : [r, p], false),
     FindPath: (pt) => promiseCall('FindPath', [pt], 20000),
     FindPathSync: (pt) => { miss('FindPathSync (no sync path search in the brain; use the geopath service)'); return null; },
+    // WALLSTOP-2026-10-24 (owner: walls are COMPLETE blockers): line of sight on the L2J geodata (docs/plan/tools/geopath.js sight), synchronous
+    // and cheap (~6 µs, the region stays loaded): true = visible, false = a wall / another floor in between, null = no geodata (unknown)
+    GeoSight: (ax, ay, az, bx, by, bz) => { try { if (!H.geo) H.geo = require(require('path').resolve(__dirname, '..', '..', 'docs', 'plan', 'tools', 'geopath.js')); return H.geo.sight({ x: +ax, y: +ay, z: +az }, { x: +bx, y: +by, z: +bz }); } catch (e) { count('GeoSight error: ' + e.message); return null; } },
     GetBlockCoordinates: (x, y) => [Math.floor((Number(x) + 327680) / 32768) + 10, Math.floor((Number(y) + 262144) / 32768) + 10],
     UseItem: (id, ok, fail) => { if (typeof ok === 'function' || typeof fail === 'function') return fwd('UseItem', [id, ok || null, fail || null], false); return fwd('UseItem', [id], false); },
     MoveToPoint: function () { return fwd('MoveToPoint', Array.from(arguments), false); },

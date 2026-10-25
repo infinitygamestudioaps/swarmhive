@@ -9,7 +9,7 @@
 const path = require('path'), fs = require('fs'), cp = require('child_process'), os = require('os');
 const ROOT = path.resolve(__dirname, '..', '..', '..');
 const OUT = path.join(ROOT, 'docs', 'plan', 'mobile_check');
-const EDGE = ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));
+const EDGE = ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'].find(f => fs.existsSync(f));   // NEVER Microsoft Edge (owner 2026-10-24): Chrome only
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 let fails = 0; const ok = (name, cond, info) => { if (!cond) fails++; console.log(`  ${cond ? 'ok  ' : 'FAIL'} ${name}${info ? ' - ' + info : ''}`); };
 if (!EDGE) { console.log('no Edge / Chrome — skipped'); process.exit(0); }
@@ -42,7 +42,7 @@ function writeStates() {
   if (!PORT) { console.log(serr.join('')); throw new Error('sandbox server did not start'); }
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'scout-edge-'));
   const DBG = 9800 + Math.floor(Math.random() * 150);
-  const br = cp.spawn(EDGE, ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
   let ws = null;
   for (let i = 0; i < 60 && !ws; i++) { await sleep(250); try { const l = await (await fetch(`http://127.0.0.1:${DBG}/json/list`)).json(); const p = l.find(x => x.type === 'page'); if (p) ws = p.webSocketDebuggerUrl; } catch (e) { } }
   if (!ws) throw new Error('no browser');
