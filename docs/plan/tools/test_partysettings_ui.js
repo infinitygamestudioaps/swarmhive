@@ -223,7 +223,7 @@ async function startServer(env) {
   { const SUG = require(path.join(ROOT, 'Dashboard', 'partyauto_api.js')).SUGGEST;
     await openSec('supplies'); await sleep(100);
     await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);
-    ok('A2b: the amounts table has 6 level rows x 7 items (+ Spirit Ore), the standard amounts in grey', await ev(`document.querySelectorAll('#psBody .ps-amtband').length === 6 && document.querySelectorAll('#psBody [data-psin^="supplies.amt."]').length === 42 && document.querySelector('#psBody [data-psin="supplies.amt.76.soulshots"]').placeholder !== ''`));
+    ok('A2b: the amounts table has 6 level rows x 8 items (+ Spirit Ore, + Arrows ARROWS-2026-10-25), the standard amounts in grey', await ev(`document.querySelectorAll('#psBody .ps-amtband').length === 6 && document.querySelectorAll('#psBody [data-psin^="supplies.amt."]').length === 48 && document.querySelector('#psBody [data-psin="supplies.amt.76.soulshots"]').placeholder !== ''`));
     await click('#psBody [data-psact="amtSuggest"]'); await sleep(100);
     ok('A2b: "Fill in suggested amounts" fills the table', await ev(`document.querySelector('#psBody [data-psin="supplies.amt.1.soulshots"]').value === '${SUG[1].soulshots}' && document.querySelector('#psBody [data-psin="supplies.amt.40.mana"]').value === '${SUG[40].mana}'`));
     await ev(`(() => { document.querySelectorAll('#psBody [data-pssec="supplies"] details.ps-more').forEach(d => d.open = true); return true; })()`);

@@ -89,17 +89,18 @@ const TOGGLE_NAME_RE = /^[A-Za-z0-9][A-Za-z0-9 '\-:.]{0,39}$/;   // a skill name
 // parties.<leader>.amounts / default.amounts = { "<band start>": { soulshots, spiritshots, mana, healing, soe, sor } }. Same as swarm.js pautoAmounts.
 const BANDS = [1, 20, 40, 52, 61, 76];
 const BAND_LABEL = { 1: 'Level 1–19 (no grade)', 20: 'Level 20–39 (D grade)', 40: 'Level 40–51 (C grade)', 52: 'Level 52–60 (B grade)', 61: 'Level 61–75 (A grade)', 76: 'Level 76+ (S grade)' };
-const AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore'];   // = swarm.js PAUTO_AMT_KEYS (ORE 2026-10-14: + Spirit Ore)
+const AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore', 'arrows'];   // ARROWS-2026-10-25: + arrows / bolts (bow / crossbow users only)   // = swarm.js PAUTO_AMT_KEYS (ORE 2026-10-14: + Spirit Ore)
 const AMT_INFO = { soulshots: { label: 'Soulshots', short: 'Soulshots', max: null }, spiritshots: { label: 'Spiritshots', short: 'Spiritshots', max: null },
   mana: { label: 'Mana Potions', short: 'Mana pots', max: 100000 }, healing: { label: 'Healing Potions', short: 'Heal pots', max: 50000 },
   soe: { label: 'Scrolls of Escape', short: 'Escape', max: 2000 }, sor: { label: 'Scrolls of Resurrection', short: 'Res scrolls', max: 2000 },
-  ore: { label: 'Spirit Ore (only characters whose skills eat it: Major Heal, cubics, summons)', short: 'Spirit Ore', max: 500000 } };   // LIMITS-2026-10-22 (public tester: 25k Spirit Ore was refused): all limits x5-x25
+  ore: { label: 'Spirit Ore (only characters whose skills eat it: Major Heal, cubics, summons)', short: 'Spirit Ore', max: 500000 },
+  arrows: { label: 'Arrows / bolts (only bow and crossbow users, of their weapon grade)', short: 'Arrows', max: 500000 } };   // LIMITS-2026-10-22 (public tester: 25k Spirit Ore was refused): all limits x5-x25
 // = swarm.js CONFIG.lead.supply (shotsFighter, shotsMage, manaPotions, healingPotions || 30, soe, sor): what a character carries when nothing is set
-const BUILTIN = { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300 };   // ore = CONFIG.lead.supply.oreUsers
+const BUILTIN = { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300, arrows: 5000 };   // ore = CONFIG.lead.supply.oreUsers
 // "Fill in suggested amounts" on the dashboard: cheap at low levels, more as the grade (and the shot use) grows
-const SUGGEST = { 1: { soulshots: 1000, spiritshots: 500, mana: 50, healing: 20, soe: 3, sor: 1, ore: 20 }, 20: { soulshots: 3000, spiritshots: 1500, mana: 300, healing: 30, soe: 5, sor: 2, ore: 50 },
-  40: { soulshots: 5000, spiritshots: 2500, mana: 1000, healing: 30, soe: 5, sor: 3, ore: 100 }, 52: { soulshots: 8000, spiritshots: 4000, mana: 1500, healing: 30, soe: 5, sor: 3, ore: 200 },
-  61: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300 }, 76: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 500 } };
+const SUGGEST = { 1: { soulshots: 1000, spiritshots: 500, mana: 50, healing: 20, soe: 3, sor: 1, ore: 20, arrows: 2000 }, 20: { soulshots: 3000, spiritshots: 1500, mana: 300, healing: 30, soe: 5, sor: 2, ore: 50, arrows: 5000 },
+  40: { soulshots: 5000, spiritshots: 2500, mana: 1000, healing: 30, soe: 5, sor: 3, ore: 100, arrows: 10000 }, 52: { soulshots: 8000, spiritshots: 4000, mana: 1500, healing: 30, soe: 5, sor: 3, ore: 200, arrows: 15000 },
+  61: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300, arrows: 20000 }, 76: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 500, arrows: 20000 } };
 function pautoAmounts(j, leader, level, builtin) {
   const J = pautoNorm(j), lv = Math.max(1, Number(level) || 1), band = BANDS.filter(b => b <= lv).pop() || 1;
   const pick = (src) => { const a = src && typeof src === 'object' ? src.amounts : null, r = a && typeof a === 'object' ? a[String(band)] : null; return r && typeof r === 'object' ? r : {}; };

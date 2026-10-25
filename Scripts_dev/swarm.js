@@ -11891,6 +11891,7 @@ function planUpgrades(budget) {
       Object.keys(set.pieces).forEach(slot => {
         const pc = set.pieces[slot], info = items[pc.id];
         if (info && (g.eq[slot] || []).some(e => e.info && GEAR_GRADES.indexOf(e.info.g) > GEAR_GRADES.indexOf(info.g))) return;   // SETGRADE: never a set piece in place of a higher-grade worn one
+        if (prefs[slot]) return;   // PLANFIRST-2026-10-25 (tester Vykaax: "every bot should follow the gear plan ... not be assigned by a hidden rule"): the plan (your Gear tab, else the class plan) names this slot = it decides; the set rule only fills slots the plan leaves open
         if (locked[slot] && locked[slot] !== 'set') return;                         // a preferred piece wins over the set (not the set's own legs lock: 2026-10-06 the stockings were skipped)
         locked[slot] = 'set';
         if (slot === 'chest') locked.legs = locked.legs || 'set';
@@ -39096,7 +39097,7 @@ function supplyWants() {
   const sid = shotId(), k = shotKind();
   if (sid) out.push({ id: sid, name: `${k === 'mage' ? 'Spiritshot' : 'Soulshot'} (${weaponGrade()})`, want: k === 'mage' ? A.spiritshots : A.soulshots, below: Math.min(S.shotsBelow, k === 'mage' ? A.spiritshots : A.soulshots), alt: PSHOP_ALT[sid] || 0 });   // PSHOP: plain spiritshots of my grade count too
   // OWNTYPE (tester 2026-10-13): a worn bow needs arrows, a crossbow bolts, of the weapon's grade (Helvetia sells Wooden..Mithril)
-  { const am = myAmmo(); if (am && OWNTYPE.helvetia.includes(am.id)) out.push({ id: am.id, name: am.name, want: S.arrows || 5000, below: S.arrowsBelow || 1500 }); }
+  { const am = myAmmo(); if (am && OWNTYPE.helvetia.includes(am.id)) { const w = A.arrows; out.push({ id: am.id, name: am.name, want: w, below: Math.min(w, Math.max(S.arrowsBelow || 1500, Math.round(w * 0.3))) }); } }   // ARROWS: the party settings amount (0 = none); a refill below 30 % of it
   // solo (user 2026-10-07: "when you hunt alone you need healing potions and mana potions"): 100 Healing Potions, nobody heals him
   const solo = !teamNames().length;
   out.push({ id: 1061, name: 'Healing Potion', want: solo && A.src.healing === 'builtin' ? 100 : A.healing, below: Math.min(solo ? 30 : 10, A.healing) });   /* SUPPLYAMT: your amount wins, also solo */   // everyone, for the HP < 30 % emergency (Tank1 died alone with none)
@@ -40602,7 +40603,7 @@ function pautoToggles(j, me) {
 // party_auto.json parties.<leader>.amounts / default.amounts = { "<band start>": { soulshots, spiritshots, mana, healing, soe, sor } };
 // a missing / empty value = the next source. 0 = buy none. Same rules as Dashboard/partyauto_api.js pautoAmounts.
 const PAUTO_BANDS = [1, 20, 40, 52, 61, 76];
-const PAUTO_AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore'];   // ORE 2026-10-14: + Spirit Ore (only characters with a skill that eats it)
+const PAUTO_AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore', 'arrows'];   // ARROWS-2026-10-25 (tester Vykaax: "we need more arrows in supplies, 5k is not enough and can't be configured"): + arrows / bolts   // ORE 2026-10-14: + Spirit Ore (only characters with a skill that eats it)
 function pautoAmounts(j, leader, level, builtin) {
   const J = pautoNorm(j), lv = Math.max(1, Number(level) || 1), band = PAUTO_BANDS.filter(b => b <= lv).pop() || 1;
   const pick = (src) => { const a = src && typeof src === 'object' ? src.amounts : null, r = a && typeof a === 'object' ? a[String(band)] : null; return r && typeof r === 'object' ? r : {}; };
@@ -40720,7 +40721,7 @@ function oreSkillUsed(name, healer, summoner) { const n = String(name || ''); if
 function oreSkills() { const out = []; let healer = false, summoner = false; try { healer = !!isHealerRole(); summoner = state.role === 'summoner'; } catch (e) { } try { SkillsList.forEach(sk => { if (num(sk.ItemConsumeId) === 3031 && sk.IsActive !== false && oreSkillUsed(sk.Name, healer, summoner)) out.push(String(sk.Name || sk.Id)); }); } catch (e) { } return out; }
 function supplyAmounts() {
   const S = CONFIG.lead.supply;
-  const builtin = { soulshots: S.shotsFighter, spiritshots: S.shotsMage, mana: S.manaPotions || 2000, healing: S.healingPotions || 30, soe: S.soe, sor: S.sor, ore: S.oreUsers || 300 };
+  const builtin = { soulshots: S.shotsFighter, spiritshots: S.shotsMage, mana: S.manaPotions || 2000, healing: S.healingPotions || 30, soe: S.soe, sor: S.sor, ore: S.oreUsers || 300, arrows: S.arrows || 5000 };
   try { return pautoAmounts(pautoData(), CONFIG.leader, num(Me.Level), builtin); } catch (e) { return Object.assign({ band: 1, src: {} }, builtin); }
 }
 // PARTYAUTO-HOST-END

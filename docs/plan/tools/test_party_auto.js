@@ -265,13 +265,13 @@ function ltaEnv(cfg, me) {
     const g1 = JSON.parse(fs.readFileSync(F2, 'utf8'));
     check(p1.ok && g1.parties.Tank1.sell === true && JSON.stringify(g1.parties.Tank1.amounts) === '{"1":{"soulshots":800,"mana":0}}', 'API: the party table is saved (empty cells dropped), its switches kept');
     check(API.post(ctx2, { party: 'Tank1', amounts: { 1: { soulshots: -5 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 7: { soe: 1 } } }).code === 400
-      && API.post(ctx2, { party: 'Tank1', amounts: { 1: { arrows: 1 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soe: 2.5 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soe: 1e9 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soulshots: 1e9 } } }).code !== 400, 'API: negative / unknown band / unknown item / not whole / too big = 400; shots have no limit (owner 2026-10-22)');
+      && API.post(ctx2, { party: 'Tank1', amounts: { 1: { unicorns: 1 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soe: 2.5 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soe: 1e9 } } }).code === 400 && API.post(ctx2, { party: 'Tank1', amounts: { 1: { soulshots: 1e9 } } }).code !== 400, 'API: negative / unknown band / unknown item / not whole / too big = 400; shots have no limit (owner 2026-10-22)');
     const p2 = API.post(ctx2, { party: 'Tank1', defaultAmounts: { 40: { mana: 1000 } } }), g2 = JSON.parse(fs.readFileSync(F2, 'utf8'));
     check(p2.ok && g2.default.amounts['40'].mana === 1000 && g2.default.sell === false && g2.parties.Tank1.amounts, 'API: "also for every party" writes default.amounts, keeps the rest');
     const p3 = API.post(ctx2, { party: 'Tank1', amounts: null }), g3 = JSON.parse(fs.readFileSync(F2, 'utf8'));
     check(p3.ok && !g3.parties.Tank1.amounts && g3.parties.Tank1.sell === true, 'API: null removes the party table (back to all parties / standard)');
     const inf = API.info(ctx2);
-    check(inf.amounts && inf.amounts.bands.length === 6 && inf.amounts.keys.length === 7 && inf.amounts.builtin.soulshots === 10000 && inf.amounts.builtin.ore === 300 && inf.amounts.suggest[1].soulshots < inf.amounts.suggest[76].soulshots, 'API GET: bands, items, standard + suggested amounts for the page');
+    check(inf.amounts && inf.amounts.bands.length === 6 && inf.amounts.keys.length === 8 && inf.amounts.builtin.soulshots === 10000 && inf.amounts.builtin.ore === 300 && inf.amounts.builtin.arrows === 5000   /* ARROWS-2026-10-25 */ && inf.amounts.suggest[1].soulshots < inf.amounts.suggest[76].soulshots, 'API GET: bands, items, standard + suggested amounts for the page');
     delete process.env.SWARM_PARTYAUTO_FILE; try { fs.rmSync(TMP2, { recursive: true, force: true }); } catch (e) { }
   }
 

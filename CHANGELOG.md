@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.10.1 (2026-10-25)
+
+- The gear plan decides every slot it names (your Gear tab, else the class plan)
+- the caster set rule only fills slots the plan leaves open
+- arrows / bolts are a configurable supply row (party Settings -> Supplies, per level band, default 5000)
+
 ## v1.10.0 (2026-10-25)
 
 - World map layers (zones, field areas, dungeons, raid bosses, spots) with monsters + drops per place and your own combined zones

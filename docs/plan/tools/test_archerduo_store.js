@@ -16,7 +16,8 @@ t('supply run calls the add-on', /await soStoreAddOn\(res, 'supply'\)/.test(S));
 t('rebuff trip calls the add-on', /await soStoreAddOn\(out, 'rebuff trip'\)/.test(S));
 t('up to 6 stores tried', /sellers\.slice\(0, 6\)/.test(S));
 t('dashboard Spirit Ore limit 500k', /\['ore', 'Spirit Ore', 500000\]/.test(PS));
-t('API Spirit Ore limit 500k', /short: 'Spirit Ore', max: 500000 \} \};/.test(PA));
+t('API Spirit Ore limit 500k', /short: 'Spirit Ore', max: 500000 \}/.test(PA));   // ARROWS-2026-10-25: no longer the last row
+t('API arrows limit 500k (ARROWS-2026-10-25)', /short: 'Arrows', max: 500000 \}/.test(PA));
 t('API soulshots: no limit', /short: 'Soulshots', max: null/.test(PA) && /short: 'Spiritshots', max: null/.test(PA));
 t('dashboard shots: no limit', PS.includes("['soulshots', 'Soulshots', null], ['spiritshots', 'Spiritshots', null]"));
 { const e1 = [], o1 = api.amountsIn({ '76': { soulshots: 5000000, spiritshots: 2500000, ore: 25000 } }, 'test', e1); t('API accepts 5M soulshots + 25k ore', !e1.length && o1 && o1['76'] && o1['76'].soulshots === 5000000);

@@ -24,6 +24,7 @@ t('set pieces bought as real pieces (bonus)', rec(12).C.chest.buy === 'real' && 
 t('SETWHOLE: missing set pieces bought together or not at all', /SETWHOLE-2026-10-23[\s\S]{0,600}const sp = picks\.filter\(p => p\.set\), cost = sp\.reduce[\s\S]{0,200}if \(sp\.length && cost > budget\)/.test(SW));
 // SETGRADE-2026-10-25 (tester: a lvl 80+ mage took off its A-grade Dark Crystal robe for the C Demon's set): R1 is the C range only
 t('the caster set only while its grade is my gear grade (no C set at B / A / S)', SW.includes('if (setGrade && GEAR_GRADES.indexOf(setGrade) < GEAR_GRADES.indexOf(myGearGrade())) return null;'));
+t('the gear plan decides every slot it names; the set rule only fills open slots (PLANFIRST)', SW.includes('        if (prefs[slot]) return;   // PLANFIRST-2026-10-25'));
 t('a set piece never replaces a higher-grade worn piece', SW.includes('GEAR_GRADES.indexOf(e.info.g) > GEAR_GRADES.indexOf(info.g))) return;   // SETGRADE'));
 t('casterSets config Devotion / Karmian / Demon', /casterSets: \[\{ from: 1, healer: 'Devotion', caster: 'Devotion' \}, \{ from: 40, healer: 'Karmian', caster: "Demon's" \}\]/.test(SW));
 // weapon by choice, crystal from another character
