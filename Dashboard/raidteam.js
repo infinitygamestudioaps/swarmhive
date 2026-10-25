@@ -7,13 +7,17 @@
 const weakOf = (w) => Array.isArray(w) ? (w.length === 1 ? w[0] : null) : (w || null);   // a list = a tie = no real weak element
 const EPICS = ['Queen Ant', 'Core', 'Orfen', 'Zaken', 'Baium', 'Antharas', 'Valakas', 'Frintezza'];
 
-function clansFrom(chars, cq) {
+function clansFrom(chars, cq, last) {
   const by = {};
+  // CLANSQUADS 2026-10-25: one entry per clan ID; a "(clan 123)" name (L2Swarm knows only the id) takes the real name from another
+  // character's copy, and after the loop characters the server's member list does not hold are dropped from ours (graduated academy members)
+  const ph = (n) => /^\(clan \d+\)$/.test(String(n || ''));
   chars.forEach(c => {
     const ci = c.clanInfo || null, name = (ci && ci.name) || c.clan || '';
     if (!name) return;
-    const k = name.toLowerCase();
+    const k = ci && +ci.id ? 'id:' + ci.id : name.toLowerCase();
     const e = by[k] = by[k] || { name, id: 0, level: 0, leader: '', leaderSeenAt: '', rep: null, ally: '', ours: [], server: [], serverAt: '' };
+    if (ph(e.name) && !ph(name)) e.name = name;
     e.ours.push({ name: c.name, level: +c.level || 0, cls: c.cls, role: c.role, party: c.party, online: (c.ageSec || 0) < 600, isLeader: ci ? ci.isLeader : null, ccRight: c.ccRight || '' });
     if (ci) {
       if (ci.id) e.id = ci.id;
@@ -24,6 +28,9 @@ function clansFrom(chars, cq) {
     }
   });
   const list = Object.values(by).map(e => {
+    const L = last && e.id && last[e.id];   // CLANSQUADS: the last good server list while a reload left every copy empty
+    if (!e.server.length && L && (L.members || []).length) { e.server = L.members; e.serverAt = String(L.seenAt || ''); if (!e.leader) { e.leader = L.leader || ''; e.leaderSeenAt = String(L.seenAt || ''); } if (e.rep == null && L.rep != null) e.rep = L.rep; if (ph(e.name) && L.name && !ph(L.name)) e.name = L.name; }
+    if (e.server.length) { const inSrv = new Set(e.server.map(m => m.name)); e.ours = e.ours.filter(o => inSrv.has(o.name)); }
     const lc = chars.find(c => c.name === e.leader) || null;
     return Object.assign(e, { leaderOurs: !!lc, leaderParty: lc ? lc.party : null, leaderLevel: lc ? +lc.level || 0 : null, detected: !!e.leader });
   }).sort((a, b) => (b.leaderOurs - a.leaderOurs) || b.ours.length - a.ours.length);

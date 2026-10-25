@@ -62,7 +62,7 @@
     // SPOTLVL-2026-10-23: chosen spots above the safe level: off (default) = used, only a warning; on = waits for your OK (Override)
     { key: 'spotLevelCheck', char: false, group: 'combat', label: 'Ask me before hunting a chosen spot above our level', help: 'Off (default): a hunting spot you choose (party card, plan step, order) is always used, even when its monsters are above the safe level; the party only warns in party chat and on the party card. On: such a spot waits for your OK (the Override button on the party card) and the party hunts its automatic spot meanwhile.' }];
   const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions', swarmFight: 'L2Swarm fights' };
-  const GMODES = ['auto', 'list', 'none'];
+  const GMODES = ['collector', 'auto', 'list', 'none'];   // FUNDCOLLECTOR-2026-10-25: the collector is the default giver
   const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false };
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
   const MODES = [['rules', 'Smart: materials, old gear, letters…'], ['all', 'Everything except what it uses'], ['off', 'Nothing']];
@@ -119,7 +119,7 @@
       W.money = { on: r.on === undefined ? true : !!r.on, receive: p ? p.receive !== false : null,
         lt: p && isSet(p.leaderTarget) ? fmtN(p.leaderTarget) : '', mt: p && isSet(p.memberTarget) ? fmtN(p.memberTarget) : '',
         chars: Object.fromEntries(M.map(n => { const c = obj(r.chars)[n]; return [n, c && isSet(c.target) ? fmtN(c.target) : '']; })),
-        gmode: ['auto', 'list', 'none'].includes(g.mode) ? g.mode : 'auto', glist: Array.isArray(g.list) ? g.list.slice() : [], keep: isSet(g.keepAtLeast) ? fmtN(g.keepAtLeast) : '' };
+        gmode: GMODES.includes(g.mode) ? g.mode : 'collector', glist: Array.isArray(g.list) ? g.list.slice() : [], keep: isSet(g.keepAtLeast) ? fmtN(g.keepAtLeast) : '' };
       // FUNDGIVERS 2026-10-13: who may give to THIS party ('all' = the shared rule below)
       const pg = p && p.givers && GMODES.includes(p.givers.mode) ? p.givers : null;
       W.money.pg = pg ? pg.mode : 'all'; W.money.pglist = pg && pg.mode === 'list' && Array.isArray(pg.list) ? pg.list.slice() : [];
@@ -215,7 +215,7 @@
   const paParty = (k) => (PS.W.supplies.party[k] === null ? paDef(k) : PS.W.supplies.party[k]);
   const cbParty = (k) => (PS.W.combat.party[k] === null || PS.W.combat.party[k] === undefined ? paDef(k) : PS.W.combat.party[k]);   // HIVESW
   /** who may give to this party, in words */
-  function giversText(mode, list, none) { return mode === 'none' ? 'nobody gives' : mode === 'list' ? (list.length ? `only ${list.join(', ')}` : none || 'nobody chosen yet — nobody gives') : 'any rich party leader'; }
+  function giversText(mode, list, none) { return mode === 'collector' ? 'only the collector' : mode === 'none' ? 'nobody gives' : mode === 'list' ? (list.length ? `only ${list.join(', ')}` : none || 'nobody chosen yet — nobody gives') : 'any rich party leader'; }
   const gearPartyEff = () => (PS.W.gear.party === null ? gearDef() : PS.W.gear.party);
   function stoBase() {
     const r = ok(PS.D.storage) ? obj(PS.D.storage.rules) : {}, B = Object.assign({ dest: 'private', auto: false, above: 120 }, ok(PS.D.storage) ? obj(PS.D.storage.base) : {}), Df = obj(r.defaults), Dt = obj(Df.trigger);
@@ -291,7 +291,7 @@
     if (!PS.W.money) return section('money', '💰', 'Money', 'not available', unavailable('fund'));
     const m = PS.W.money, d = fundDefaults(), rec = m.receive !== false, town = ok(PS.D.fund) ? obj(PS.D.fund.rules).town || 'Giran' : 'Giran';
     const all = ok(PS.D.fund) ? PS.D.fund.parties || [] : [];
-    const gText = m.gmode === 'none' ? 'nobody gives' : m.gmode === 'list' ? (m.glist.length ? `givers: ${m.glist.join(', ')}` : 'no giver chosen yet') : 'any rich party leader gives';
+    const gText = m.gmode === 'collector' ? 'only the collector gives' : m.gmode === 'none' ? 'nobody gives' : m.gmode === 'list' ? (m.glist.length ? `givers: ${m.glist.join(', ')}` : 'no giver chosen yet') : 'any rich party leader gives';
     const pgText = m.pg === 'all' ? gText : m.pg === 'none' ? 'nobody gives (own choice)' : m.pg === 'list' ? (m.pglist.length ? `own givers: ${m.pglist.join(', ')}` : 'own givers: none chosen yet') : 'any rich party leader gives (own choice)';
     const pu = m.purse || { on: false, lk: '', mc: '', bu: '' }, PD = window.PurseCard ? PurseCard.DEF : { leaderKeep: 2000000, memberCap: 5000000 };
     const sum = `Leader pays: ${pu.on ? 'on' : 'off'} · ` + (!m.on ? 'between parties: off' : rec ? `receives · ${pgText}` : 'receives nothing from other parties');
@@ -340,7 +340,7 @@
       <div class="ps-what ps-pgstate">${E(pgState)}</div>
       ${ownPick}
       <div class="ps-sub"><b>Who gives — all other parties</b> <span class="ps-shared">shared by all parties without their own choice</span></div>
-      ${seg('money.gmode', m.gmode, [['auto', 'Any rich leader'], ['list', 'Only chosen'], ['none', 'Nobody']], 'Givers')}
+      ${seg('money.gmode', m.gmode, [['collector', 'Collector'], ['list', 'Only chosen'], ['none', 'Nobody']].concat(m.gmode === 'auto' ? [['auto', 'Any rich leader (old)']] : []), 'Givers')}
       ${giverPick}
       <div class="ps-grid">${inp('money.keep', m.keep, 'A giver always keeps at least', { ph: fmtN(d.keep) + ' (default)' })}</div>
       <details class="ps-more"><summary>Per character</summary><div class="ps-grid">${PS.M.map(n => inp('money.chars.' + n, m.chars[n] || '', n + (n === PS.leader ? ' (leader)' : ''), { ph: 'party amount', hint: '0 = never receives', small: true })).join('')}</div></details>
@@ -994,7 +994,7 @@
       if (a.lt !== b.lt) out.push(`Leader top-up: ${b.lt || 'the default'}`);
       if (a.mt !== b.mt) out.push(`Member top-up: ${b.mt || 'the default'}`);
       if (a.pg !== b.pg || J(a.pglist) !== J(b.pglist)) out.push(`Who gives to party ${PS.leader}: ${b.pg === 'all' ? 'like all parties' : giversText(b.pg, b.pglist)}`);
-      if (a.gmode !== b.gmode || J(a.glist) !== J(b.glist)) out.push(`Who gives (ALL parties): ${b.gmode === 'auto' ? 'any rich party leader' : b.gmode === 'none' ? 'nobody' : (b.glist.join(', ') || 'nobody chosen yet')}`);
+      if (a.gmode !== b.gmode || J(a.glist) !== J(b.glist)) out.push(`Who gives (ALL parties): ${b.gmode === 'collector' ? 'only the collector' : b.gmode === 'auto' ? 'any rich party leader' : b.gmode === 'none' ? 'nobody' : (b.glist.join(', ') || 'nobody chosen yet')}`);
       if (a.keep !== b.keep) out.push(`A giver keeps at least (ALL parties): ${b.keep || 'the default'}`);
       PS.M.forEach(n => { if (a.chars[n] !== b.chars[n]) out.push(`${n}: own top-up ${b.chars[n] === '' ? 'removed (party amount)' : b.chars[n]}`); });
     }

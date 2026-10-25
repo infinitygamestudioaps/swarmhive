@@ -44,7 +44,7 @@
   function section() {
     let s = $id(SEC); if (s) return s;
     s = document.createElement('section'); s.id = SEC; s.className = 'win qp'; s.hidden = true;
-    s.innerHTML = `<div class="whead"><h2>${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Quest', '', 'gi')} Quests</h2><span class="muted" id="qpMeta"></span></div>
+    s.innerHTML = `<div class="whead"><h2>${img('L2UI_CT1/crop/Icon_DF_MenuWnd_Quest', '', 'gi')} Quests</h2><span class="muted" id="qpMeta"></span><a class="btn" href="#/qcircuit" style="margin-left:auto" title="A party repeats a list of quests forever (like the raid circuit)">↻ Quest circuit</a></div>
       <div class="qp-msg" id="qpMsg" role="status" hidden></div>
       <div id="qpListView">
         <div class="box ql-all" id="qpLiveAll" hidden></div>

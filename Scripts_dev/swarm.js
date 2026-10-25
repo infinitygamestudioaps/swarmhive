@@ -820,6 +820,17 @@ if (SWARM_CFG) {
       if (party !== CONFIG.leader) CONFIG.teams[a.character] = party; else delete CONFIG.teams[a.character];
       // accounts[].classPlan: a SUGGESTION for the dashboard Classes page only (CLASS PLANS 2026-10-10) — never read here
     });
+    // ALTS-2026-10-25 (Mr.P: "lookup on chars that are on the same account ... log each, and map its wh" + owner: "check their inventory, see it
+    // all under an account" + "transfer all items from other characters on same account to another character. Build it into the hive"):
+    // the other characters of our accounts (Scripts/data/alts.json, kept by the dashboard from Logs/chars_<login>.json) are in the roster with the
+    // role 'auto' (by class), each its own party, OFF in the run switch = nothing on their own. While the dashboard has an account switched to one
+    // of them (Accounts -> Characters & items) it obeys only orders: !whlook <alt> (its warehouse list) and !altgive <alt> <target> (everything to
+    // <target> in Giran). The bag report (Logs/bag_<name>.json) runs as for everyone.
+    try {
+      const AJ = JSON.parse(File.ReadAllText(SWARM_ROOT + '\\Scripts\\data\\alts.json').replace(/^\uFEFF/, '')) || {};
+      CONFIG.alts = {};
+      (AJ.alts || []).forEach(x => { const n = String((x && x.name) || ''); if (!/^[A-Za-z0-9_]{2,32}$/.test(n) || CONFIG.roster[n]) return; CONFIG.roster[n] = 'auto'; CONFIG.teams[n] = n; CONFIG.alts[n] = { login: String(x.login || ''), main: String(x.main || '') }; });
+    } catch (e) { CONFIG.alts = CONFIG.alts || {}; }
     // daily Kamaloka Hall team (max 6) and per-party level routes (party leader -> file in Scripts\data)
     if (Array.isArray(SWARM_CFG.dailyHallTeam)) CONFIG.daily.hallTeam = SWARM_CFG.dailyHallTeam.map(String);
     if (SWARM_CFG.teamRoutes && typeof SWARM_CFG.teamRoutes === 'object') Object.assign(CONFIG.teamRoutes, SWARM_CFG.teamRoutes);
@@ -7616,7 +7627,8 @@ const rp3 = (p) => p ? (Array.isArray(p) ? { x: +p[0], y: +p[1], z: +p[2] } : { 
 /** the floor (index) whose z band (+-300) holds z; -1 none */
 function zFloorIdx(d, z) {
   let best = -1, bd = 1e9;
-  ((d && d.floors) || []).forEach((f, i) => { if (!f.z) return; if (z >= f.z[0] - 300 && z <= f.z[1] + 300) { const c = Math.abs(z - (f.z[0] + f.z[1]) / 2); if (c < bd) { bd = c; best = i; } } });
+  // INBAND-2026-10-25 (as Dashboard/mapfloors.js): inside a floor's own band = that floor; the nearest band middle only decides in the margins
+  ((d && d.floors) || []).forEach((f, i) => { if (!f.z) return; if (z >= f.z[0] - 300 && z <= f.z[1] + 300) { const c = (z >= f.z[0] && z <= f.z[1] ? 0 : 1e6) + Math.abs(z - (f.z[0] + f.z[1]) / 2); if (c < bd) { bd = c; best = i; } } });
   return best;
 }
 /** where a point is: { di, d, fi, f } (fi -1 = inside the dungeon's box but on no floor) | null (no dungeon). A floor match wins over a box-only match. */
@@ -11236,8 +11248,25 @@ function giranShopIndex() {
         (idx[i.id] = idx[i.id] || []).push({ npc: s.npc, alt: Array.isArray(s.alt) ? s.alt : [], route: s.route, path: l.path, price: num(i.price), common: /^Common Item/.test(String(i.name)), est: i.est ? 1 : 0 });
       }));
     });
-    Object.keys(idx).forEach(k => idx[k].sort((a, b) => a.price - b.price || a.est - b.est));   // same price: the live-scanned merchant first
   } catch (e) { logError('shopscan_giran.json', e); }
+  // LUXURY-2026-10-25 (testers Mr.P / Vykaax: "party leader reports no better items are sold in Giran ... they don't consider Alexandra and Graham
+  // luxury shops a usable shop"): the ordinary lists above stop at C grade; the luxury shop sells B / A for adena through EXCHANGE lists
+  // (Alexandria "Purchase Armor." list 5001, Galladucci "Purchase weapon." 5004, ...), read by !giranscan into Scripts/data/giran_market.json.
+  // Every exchange offer whose ONLY cost is adena (and every census shop row of a merchant the shop scan above does not have) joins the index;
+  // it is bought with ijBuyAt (street graph to the NPC, the live list read again, MultiSellChoose) - see buyGearPicks.
+  try {
+    const M = JSON.parse(File.ReadAllText(`${__SCRIPTS__}\\data\\giran_market.json`).replace(/^\uFEFF/, ''));
+    const scanned = new Set(); Object.keys(idx).forEach(k => idx[k].forEach(o => scanned.add(o.npc)));
+    const pos = {}; (M.npcs || []).forEach(n => { if (n && n.name && !pos[n.name]) pos[n.name] = { x: num(n.x), y: num(n.y) }; });
+    (M.offers || []).forEach(o => {
+      const cost = Array.isArray(o.cost) ? o.cost : [];
+      const adena = o.kind === 'exchange' ? (cost.length === 1 && num(cost[0].id) === 57 ? num(cost[0].count) : 0) : (!scanned.has(o.npc) ? num(o.price) : 0);
+      if (!(adena > 0) || !num(o.id) || num(o.count || 1) !== 1 || num(o.enchant) > 0) return;
+      (idx[o.id] = idx[o.id] || []).push({ npc: o.npc, alt: [], route: 'market', path: o.path || [], price: adena, common: /^Common Item/.test(String(o.name)), est: 0,
+        market: { npc: o.npc, x: num(o.x) || (pos[o.npc] || {}).x || 0, y: num(o.y) || (pos[o.npc] || {}).y || 0, path: o.path || [], kind: o.kind, listId: o.listId, entry: o.entry, shopId: o.shopId } });
+    });
+  } catch (e) { logError('giran_market.json (luxury shop)', e); }
+  Object.keys(idx).forEach(k => idx[k].sort((a, b) => a.price - b.price || a.est - b.est));   // same price: the live-scanned merchant first
   shopIdxAt = now();
   return (shopIdxCache = idx);
 }
@@ -11708,6 +11737,10 @@ function casterSetForMe() {
   const word = isHealerRole() ? rule.healer : rule.caster;
   const set = (gearDb().sets || []).find(t => t.name.indexOf(word) >= 0);
   if (!set) return null;
+  // SETGRADE-2026-10-25 (tester Vykaax: "my lvl 80+ mage party unequipped their DC robe to buy demon"): requirement gear.md R1 is the
+  // C-grade range ("Level 40+ (C)"); above it (my gear grade B / A / S ...) the class gear plan decides, never the C set
+  const setGrade = (() => { for (const sl of Object.keys(set.pieces)) { const it = gearDb().items[num((set.pieces[sl] || [])[0])]; if (it && it.g) return it.g; } return ''; })();
+  if (setGrade && GEAR_GRADES.indexOf(setGrade) < GEAR_GRADES.indexOf(myGearGrade())) return null;
   const pieces = {};
   Object.keys(set.pieces).forEach(slot => {
     const id = (set.pieces[slot] || []).find(i => (idx[i] || []).some(o => !o.common));
@@ -11857,6 +11890,7 @@ function planUpgrades(budget) {
     if (set) {
       Object.keys(set.pieces).forEach(slot => {
         const pc = set.pieces[slot], info = items[pc.id];
+        if (info && (g.eq[slot] || []).some(e => e.info && GEAR_GRADES.indexOf(e.info.g) > GEAR_GRADES.indexOf(info.g))) return;   // SETGRADE: never a set piece in place of a higher-grade worn one
         if (locked[slot] && locked[slot] !== 'set') return;                         // a preferred piece wins over the set (not the set's own legs lock: 2026-10-06 the stockings were skipped)
         locked[slot] = 'set';
         if (slot === 'chest') locked.legs = locked.legs || 'set';
@@ -11979,11 +12013,143 @@ function planUpgrades(budget) {
 }
 
 /** Buy the picks: one route walk per merchant, the shop list opened by its link path, one buy packet per piece. */
+// ===== GEARDIST (2026-10-25; testers Mr.P / Vykaax + owner "Do all 4", AskUserQuestion: the gear-up may use "Own bag + own warehouse, Clan
+// warehouse, Distributors' bags" without asking; memory gearup-owned-sources): BEFORE a gear-up buys a planned piece it is looked for in
+//   1) my own private warehouse (one visit at the keeper takes every planned id that is there; whTake also records the list),
+//   2) the givers: every DISTRIBUTOR (Scripts/data/gear_sources.json distributors.names: gear mules that wait in Giran) and the CLAN LEADER
+//      (clan warehouse, clan_state.json). The asker sends 'swarm.gearask' { rid, from, ids }; a giver that stands in Giran, is not fighting and
+//      has the piece answers 'swarm.gearoffer' AND RESERVES it (its stock minus open reservations: four destroyers never all count on the one
+//      Sword of Ipos). The asker takes the best offer (a distributor before the clan warehouse, the unsealed piece before a sealed one),
+//      sends 'swarm.gearaccept'; the other offers lapse after 20 s. The giver hands it over (the hand-over machinery: a distributor from its bag,
+//      the clan leader whClanFor = take out + hand over). A SEALED piece comes with the adena / Ancient Adena its unsealing costs
+//      (Scripts/data/unseal_h5.json, docs/plan/tools/unseal_table.js) and the RECEIVER unseals it itself at Pushkin (Giran blacksmith: "Release the
+//      A-grade / S-grade armor / accessory seal", an exchange like the luxury shop) - the giver never queues unsealing work.
+//   3) whatever is still missing is bought (the shops + the luxury shop).
+// Switches (read live): ownWh, clan, distributors { on, names }, unseal. Nothing of this runs outside the gear-up (item jobs keep "ask first").
+let GSRC = { at: 0, v: null };
+function gearSources() {
+  if (GSRC.v && now() - GSRC.at < 60000) return GSRC.v;
+  let j = {}; try { j = JSON.parse(File.ReadAllText(`${__SCRIPTS__}\\data\\gear_sources.json`).replace(/^\uFEFF/, '')) || {}; } catch (e) { }
+  const d = j.distributors || {}, has = Object.keys(j).length > 0;   // no file (a new install) = every source OFF: the gear-up only buys
+  GSRC = { at: now(), v: { ownWh: has && j.ownWh !== false, clan: has && j.clan !== false, dist: has && d.on !== false, names: Array.isArray(d.names) ? d.names.map(String) : [], unseal: has && j.unseal !== false,
+    bags: has && j.bags !== false,   // GEARBAGS-2026-10-25 (owner: "both warehouse and clan warehouse and each character's inventory"): every character's spare bag pieces
+    askMs: num(j.askMs) || 5000, waitMs: Math.min(num(j.waitMs) || 360000, 480000), reserveMs: num(j.reserveMs) || 900000 } };
+  return GSRC.v;
+}
+let USEAL = null;
+function unsealData() { if (USEAL) return USEAL; try { USEAL = JSON.parse(File.ReadAllText(`${__SCRIPTS__}\\data\\unseal_h5.json`).replace(/^\uFEFF/, '')) || {}; } catch (e) { USEAL = {}; } return USEAL; }
+const GD = { res: {}, offers: {} };
+function gdReserved(id) { const t = now(); let n = 0; Object.keys(GD.res).forEach(k => { const r = GD.res[k]; if (r.until < t) { delete GD.res[k]; return; } if (r.id === id) n += r.n; }); return n; }
+function gdIsDistributor(n) { const S = gearSources(); return S.dist && S.names.includes(n || Me.Name); }
+function gdBagFree(id) { let n = 0; try { Inventory.forEach(i => { if (num(i.Id) === id && !i.IsEquiped) n += Math.max(1, num(i.Count) || 1); }); } catch (e) { } return n; }
+function gdClanCount(id) { try { const c = JSON.parse(File.ReadAllText(SWARM_ROOT + '\\Logs\\clan_state.json')); return ((c.warehouse && c.warehouse.items) || []).filter(r => num(r.id) === id && !num(r.enchant)).reduce((t, r) => t + (num(r.count) || 1), 0); } catch (e) { return 0; } }
+/** the unseal cost of a sealed piece: { id (the piece), pay (57 adena | 5575 Ancient Adena), count, label (Pushkin's menu link) } | null */
+function gdUnsealCost(sealedId) {
+  const u = unsealData(), r = (u.bySealed || {})[sealedId]; if (!r) return null;
+  const sgrade = r.list === 311262504 || r.list === 311262505, acc = r.list === 311262505 || r.list === 311262507;
+  return { id: r.id, pay: num(r.pay) || (sgrade ? 5575 : 57), count: num(r.aa), label: `Release the ${sgrade ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal` };
+}
+// giver side: answer an ask with a reserved offer
+App.on('swarm.gearask', (e) => {
+  try {
+    const d = e.data || {}, S = gearSources();
+    if (!state.role || !d.rid || !d.from || d.from === Me.Name || !CONFIG.roster[d.from]) return;
+    const dist = gdIsDistributor(), bags = S.bags, clan = S.clan && Me.Name === clanLeaderName();
+    if (!dist && !bags && !clan) return;
+    if (currentTownKey() !== 'Giran' || Me.IsDead || IsInCombat) return;
+    for (const it of (d.ids || [])) {
+      const id = num(it.id); if (!id) continue;
+      const src = (dist || bags) && gdBagFree(id) - gdReserved(id) > 0 ? (dist ? 'dist' : 'bag') : clan && gdClanCount(id) - gdReserved(id) > 0 ? 'clan' : '';
+      if (!src) continue;
+      GD.res[d.rid] = { id, n: 1, for: d.from, src, until: now() + 20000, sealed: !!it.sealed, pay: num(it.pay), payN: num(it.payN) };
+      App.emit('swarm.gearoffer', { rid: d.rid, by: Me.Name, src, id, sealed: !!it.sealed });
+      return;
+    }
+  } catch (er) { logError('gearask', er); }
+});
+App.on('swarm.gearoffer', (e) => { try { const d = e.data || {}; if (GD.offers[d.rid]) GD.offers[d.rid].push(d); } catch (er) { } });
+App.on('swarm.gearaccept', (e) => {
+  try {
+    const d = e.data || {}, r = GD.res[d.rid]; if (!r) return;
+    if (d.by !== Me.Name) { delete GD.res[d.rid]; return; }
+    r.until = now() + gearSources().reserveMs;
+    gdDeliver(d.rid, r).catch(er => logError('gear deliver', er));
+  } catch (er) { logError('gearaccept', er); }
+});
+async function gdDeliver(rid, r) {
+  const items = [{ id: r.id, count: 1 }].concat(r.sealed && r.pay === 5575 && r.payN > 0 ? [{ id: 5575, count: r.payN }] : []);   // a sealed S piece: its Ancient Adena too
+  const adena = r.sealed && r.pay === 57 ? r.payN : 0;
+  note(`[gear] giving ${r.for} item ${r.id}${r.sealed ? ' (sealed, with what unsealing costs)' : ''} from my ${r.src === 'clan' ? 'clan warehouse' : 'bag'} (reservation ${rid})`, true);
+  if (r.src === 'clan') {
+    await whClanFor(r.for, items.filter(i => i.id !== 5575 || gdClanCount(5575) >= i.count), 'gear-up ' + rid);
+  } else {
+    const bag = hovBag(), rows = [];
+    items.forEach(it => { const row = bag.find(b => num(b.id) === it.id && !b.equipped); if (row) rows.push({ objId: num(row.objId), id: it.id, name: String(row.name || ''), count: it.id === 5575 ? it.count : 1, stack: it.id === 5575 }); });
+    if (!rows.length) { note(`[gear] reservation ${rid}: item ${r.id} is not in my bag any more`, true); delete GD.res[rid]; return; }
+    const hid = 'gd_' + String(r.for).toLowerCase() + '_' + Date.now().toString(36);
+    try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: r.for, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: rows, adena } }, by: Me.Name, why: 'gear-up distributor (' + rid + ')', at: new Date().toISOString() })); } catch (e) { logError('gear hand-over order', e); }
+    try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+    hovCommand(['!handover', hid]);
+  }
+  setTimeout(() => { delete GD.res[rid]; }, 10 * 60000);
+}
+/** asker side, in Giran, before buying: fill the planned picks from my warehouse, then from the givers. -> report lines */
+async function gearOwnedFirst(picks, why) {
+  const S = gearSources(), out = [], open = () => picks.filter(p => !p.bought && !p.owned);
+  if (!open().length) return out;
+  // 1) my own warehouse: one visit takes every planned id that is there (a fresh list that holds none of them = no walk)
+  if (S.ownWh && open().length) {
+    let skip = false; try { const w = JSON.parse(File.ReadAllText(SWARM_ROOT + '\\Logs\\wh_private_' + Me.Name + '.json')); const fresh = now() - (Date.parse(w.at || '') || 0) < 6 * 3600000; if (fresh && !(w.items || []).some(r => open().some(p => num(r.id) === p.id))) skip = true; } catch (e) { }
+    if (!skip) {
+      const want = open().map(p => ({ id: p.id, count: 1 }));
+      try { const r = await whTake('private', want, 'gear-up ' + why, { holdCtl: true });
+        (r.got || []).forEach(g => { const p = open().find(x => x.id === num(g.id)); if (p && num(g.got) > 0) { p.bought = true; p.owned = 'own warehouse'; out.push(`${p.info.n}: from my warehouse`); } }); } catch (e) { logError('gear own warehouse', e); }
+    }
+  }
+  // 2) the givers (distributors, the clan leader): one piece at a time, reserved by the giver
+  if ((S.dist && S.names.length) || S.bags || S.clan) {
+    for (const p of open()) {
+      const rid = String(Me.Name).toLowerCase() + '_' + p.id + '_' + Date.now().toString(36);
+      const ids = [{ id: p.id }];
+      if (S.unseal) { const u = unsealData(), rr = (u.byUnsealed || {})[p.id]; if (rr) { const c = gdUnsealCost(rr.sealed); if (c && (c.pay !== 57 || itemCount(57) >= c.count)) ids.push({ id: rr.sealed, sealed: true, pay: c.pay, payN: c.count }); } }
+      GD.offers[rid] = [];
+      try { App.emit('swarm.gearask', { rid, from: Me.Name, ids }); } catch (e) { }
+      const t0 = now(); while (now() - t0 < S.askMs && GD.offers[rid].length < 3) await sleep(400);
+      const offers = GD.offers[rid].slice(); delete GD.offers[rid];
+      if (!offers.length) continue;
+      const rank = { dist: 0, bag: 1, clan: 2 };   // a distributor, then another character's spare piece, then the clan warehouse
+      offers.sort((a, b) => (a.sealed - b.sealed) || ((rank[a.src] || 0) - (rank[b.src] || 0)));
+      const o = offers[0], getId = num(o.id), c0 = bagCount(getId);
+      try { App.emit('swarm.gearaccept', { rid, by: o.by, to: Me.Name }); } catch (e) { }
+      note(`[gear] ${p.info.n}: ${o.by} gives it (${o.src === 'clan' ? 'clan warehouse' : o.src === 'dist' ? 'distributor' : 'spare piece in its bag'}${o.sealed ? ', sealed' : ''}) instead of buying`);
+      const tw = now(); while (bagCount(getId) <= c0 && now() - tw < S.waitMs) await sleep(3000);
+      if (bagCount(getId) <= c0) { out.push(`${p.info.n}: ${o.by} did not hand it over in ${Math.round(S.waitMs / 60000)} min - buying it`); continue; }
+      if (!o.sealed) { p.bought = true; p.owned = o.by; out.push(`${p.info.n}: from ${o.by}`); continue; }
+      // a sealed piece: I unseal it myself at Pushkin
+      const c = gdUnsealCost(getId);
+      let r = { ok: false, why: 'no unseal data' };
+      if (c) { try { r = await ijBuyAt({ npc: 'Pushkin', x: 77458, y: 148169, path: [c.label], kind: 'exchange' }, c.id, 1, `gearup_${String(Me.Name).toLowerCase()}`); } catch (e) { r = { ok: false, why: String(e.message || e) }; } }
+      if (r.ok) { p.bought = true; p.owned = o.by + ' (unsealed)'; out.push(`${p.info.n}: from ${o.by}, unsealed at Pushkin`); }
+      else out.push(`${p.info.n}: got the sealed piece from ${o.by}, unsealing at Pushkin failed (${r.why}) - it is in my bag`);
+    }
+  }
+  return out;
+}
 async function buyGearPicks(picks) {
   const groups = {}, res = [];
   picks.forEach(p => { const k = `${p.offer.npc}|${p.offer.path.join('>')}`; (groups[k] = groups[k] || { offer: p.offer, picks: [] }).picks.push(p); });
   for (const k of Object.keys(groups)) {
     const G = groups[k];
+    // LUXURY-2026-10-25: a luxury-shop (giran_market) offer = ijBuyAt walks to that NPC on the street graph and buys / exchanges one piece
+    if (G.offer.market) {
+      for (const p of G.picks) {
+        if (p.bought) continue;
+        let r = { ok: false, why: '?' }; try { r = await ijBuyAt(G.offer.market, p.id, 1, `gearup_${String(Me.Name).toLowerCase()}`); } catch (e) { r = { ok: false, why: String(e.message || e) }; }
+        if (r.ok) { p.bought = true; res.push(`${p.info.n} ${p.offer.price}: bought`); } else res.push(`${p.info.n} at ${G.offer.npc}: ${r.why}`);
+      }
+      try { Send.RequestBuySellUIClose(); } catch (e) { }
+      continue;
+    }
     if (!(await giranGo(G.offer.route))) { res.push(`${G.offer.npc}: could not walk the '${G.offer.route}' route`); continue; }
     let npc = null; const names = [G.offer.npc].concat(G.offer.alt || []); try { snapNpcs().forEach(n => { if (!npc && names.includes(n.Name)) npc = n.ref; }); } catch (e) { }   // GIRANSHOPS: Sandra or Ellie
     if (!npc) { res.push(`${names.join(' / ')} not found`); continue; }
@@ -12149,7 +12315,8 @@ async function gearUpgrade(why) {
   try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { }
   standUp();
   try {
-    const bought = await buyGearPicks(plan.buys);
+    const ownedRes = await gearOwnedFirst(plan.buys, why);   // GEARDIST-2026-10-25: own warehouse, distributors, clan warehouse first
+    const bought = ownedRes.concat(await buyGearPicks(plan.buys.filter(p => !p.bought)));
     const worn = await equipBought(plan.buys);
     { await sleep(800); const ww = weaponWatch('after the gear buy', true); if (ww) worn.push(ww); }   // WEAPONWATCH: a failed buy / equip never leaves me bare-handed
     try { const sc = await starterCleanup(sgPrev, why, false); if (sc) worn.push(sc); } catch (e) { logError('starterCleanup', e); }   // STARTERGEAR: sell / destroy the replaced starter pieces
@@ -12393,13 +12560,27 @@ function ijStatus(id, patch, msg, file) {
   if (msg) { note(`[item] ${msg}`.slice(0, 300), true); try { appendShared(`${SWARM_ROOT}\\Logs\\itemjobs.log`, `${new Date().toISOString()} [${Me.Name}] ${id}: ${msg} | adena ${itemCount(57)} | at ${Math.round(Me.X)},${Math.round(Me.Y)} ${currentTownKey() || ''}\r\n`); } catch (e) { } }
 }
 /** get me (and my party) to Giran the way !kitbuy does. -> { ok, why, member, ctl, wasLvl } */
-async function ijToGiran(seq, label) {
+async function ijToGiran(seq, label, opt) {
   const stale = () => orderState.seq !== seq || !state.running;
   const o = { ok: false, why: '', member: false, ctl: false, wasLvl: false };
   const t0 = now(); let said = false;
   while ((inRaid() || state.mode === 'mission') && !stale() && now() - t0 < 45 * 60000) { if (!said) { said = true; note(`${label}: waiting, the party is in a raid / mission`, true); } await sleep(5000); }
   if (stale()) { o.why = 'a newer order replaced it'; return o; }
   let team = teamNames().length > 0; try { team = team && !soloChar(); } catch (e) { }
+  // UPGSOLO-2026-10-25 (owner: "if you click overwrite you can either send 1 person OR the entire team to town to upgrade"): a job sent with
+  // solo = only this member goes. It is AWAY like a scout (benched: no split watchdog / left-behind regroup / stuck follow / L2Swarm follow) and
+  // never holds its party in Giran; the job's end clears the away flag and the normal rejoin (rejoinPlan 'return') takes it back to its team.
+  // A party leader never goes alone (the dashboard sends his jobs as party jobs).
+  if (opt && opt.solo && team && !isLeader()) {
+    o.solo = true; scoutAway(true); followHold(SCOUTP.maxMs); stopCombatG();
+    try { SayToParty(`[upgrade] ${Me.Name}: going to Giran alone for my upgrade, back to the party afterwards`); } catch (e) { }
+    if (currentTownKey() === 'Giran') { o.ok = true; return o; }
+    if (!(await orderWaitControl(label, seq))) { o.why = 'another task held control'; return o; }
+    o.ctl = true;
+    const tr = await orderTownTrip(label + ' ' + Me.Name, 'Giran', { regroup: false, solo: true, control: label });
+    o.ok = !!tr.ok; if (!o.ok) o.why = tr.superseded ? 'a newer order replaced it' : `could not get to Giran alone (${tr.why || '?'})`;
+    return o;
+  }
   // IJHOLD-2026-10-17 (owner: "the team should stop what they are doing and return to get new gear, otherwise the person stands in town waiting
   // for ever"): Nuker18 was in Giran only because his party was passing through, so no trip was asked, and the leader ported back to Cruma
   // with him. A party member now ALWAYS asks its leader to hold the party in Giran until the item job reports done (swarm.kitbuy.done).
@@ -12570,6 +12751,182 @@ async function ijEnchant(objId, to, scroll, jid, name, overSafeOk, onLvl) {
   }
   return { ok: true, lvl };
 }
+// AUGMENT-2026-10-25 (owner: "Let me select the life stone augmentation I want to aim for!"; choice: retry until a chosen bonus, max stones):
+// Send.RequestRefine(item, lifeStone, gemstone, count) -> server ExVariationResult FE:56 (option 1, option 2, result); not wanted ->
+// Send.RequestRefineCancel(item) -> ExVariationCancelResult FE:58 (result; costs adena) -> the next stone. One request at a time, a missing
+// reply STOPS (a spending request is never resent). The item is augmented before it is put on.
+const AUG = { on: false, res: null, cres: null, hook: false };
+function augHook() {
+  if (AUG.hook) return; AUG.hook = true;
+  const prev = globalThis.OnIncomingPacket;
+  globalThis.OnIncomingPacket = (p) => { try { if (prev) prev(p); } catch (e) { } try { if (AUG.on) augParse(p); } catch (e) { } };
+}
+function augParse(p) {
+  const n = num(p.length || p.Length), B = (i) => Number(p[i]) & 255; if (n < 7) return;
+  let o; if (B(2) === 0xFE) o = 3; else if (B(0) === 0xFE) o = 1; else return;
+  const sub = B(o) | (B(o + 1) << 8); o += 2;
+  const D = () => { const v = (B(o) | (B(o + 1) << 8) | (B(o + 2) << 16) | (B(o + 3) << 24)) >>> 0; o += 4; return v; };
+  if (sub === 0x56 && o + 12 <= n) { const a = D(), b = D(), r = D(); AUG.res = { o1: a, o2: b, ok: r !== 0 }; }
+  else if (sub === 0x58 && o + 4 <= n) { AUG.cres = { ok: D() !== 0 }; }
+}
+/** augment objId with aug = { stone, gem, gemCount, wanted: [option ids], max, names: { id: text } } -> { ok, tries, o1, o2, found, why } */
+async function ijAugment(objId, aug, jid, iname) {
+  const wanted = new Set((aug.wanted || []).map(num)), max = Math.max(1, Math.min(200, num(aug.max) || 1));
+  const nm = (id) => (aug.names && aug.names[id]) || ('option ' + id);
+  const firstObj = (id) => { let o = 0; try { Inventory.forEach(i => { if (!o && num(i.Id) === num(id) && !i.IsEquiped) o = num(i.objId); }); } catch (e) { } return o; };
+  augHook(); try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  AUG.on = true; let tries = 0, last = null;
+  try {
+    if (ijWornNow().has(objId)) { Send.UseItem(objId); await sleep(1200); }
+    for (;;) {
+      if (bagCount(num(aug.stone)) < 1) return { ok: !!last, tries, last, why: `no ${aug.stoneName || 'life stone'} left after ${tries} tries` };
+      if (bagCount(num(aug.gem)) < num(aug.gemCount)) return { ok: !!last, tries, last, why: `not enough gemstones (${num(aug.gemCount)} per try) after ${tries} tries` };
+      const ls = firstObj(aug.stone), gm = firstObj(aug.gem);
+      AUG.res = null; Send.RequestRefine(objId, ls, gm, num(aug.gemCount));
+      { const t0 = now(); while (!AUG.res && now() - t0 < 8000) await sleep(150); }
+      if (!AUG.res) return { ok: !!last, tries, last, why: 'the server did not answer the augment request (stopped, nothing resent)' };
+      if (!AUG.res.ok) return { ok: false, tries, last, why: 'the server refused the augmentation (item / level / stone)' };
+      tries++; last = AUG.res;
+      const hit = wanted.has(last.o1) || wanted.has(last.o2);
+      ijStatus(jid, null, `augment try ${tries}/${max} on ${iname}: ${nm(last.o1)} / ${nm(last.o2)}${hit ? ' ✓ WANTED' : ''}`);
+      appendShared(SWARM_ROOT + '\\Logs\\augment.log', `${new Date().toISOString()} [${Me.Name}] ${iname} try ${tries}: ${last.o1} ${nm(last.o1)} | ${last.o2} ${nm(last.o2)}${hit ? ' WANTED' : ''} (job ${jid})\r\n`);
+      if (hit) return { ok: true, found: true, tries, last };
+      if (tries >= max) return { ok: true, found: false, tries, last, why: `none of the wanted bonuses in ${tries} tries — it keeps the last one` };
+      AUG.cres = null; Send.RequestRefineCancel(objId);
+      { const t0 = now(); while (!AUG.cres && now() - t0 < 8000) await sleep(150); }
+      if (!AUG.cres) return { ok: true, found: false, tries, last, why: 'the server did not answer the remove request (stopped)' };
+      if (!AUG.cres.ok) return { ok: true, found: false, tries, last, why: 'the server could not remove the bonus (adena?) — it keeps the last one' };
+      await sleep(600);
+    }
+  } finally { AUG.on = false; try { Options.EnableJSOnIncomingPacket = false; } catch (e) { } }
+}
+/** MAKEX-2026-10-25 (owner: "ask a toon to buy x amount of like homunkulus swords in giran OR craft them and then enchant them afterwards to +x"):
+ *  J.make = { id, name, src: shop|craft, offer, recipe, count, enchantTo, scroll, use, give: [names], objIds: [], res: { objId: result } } */
+async function makeRun(J, id, seq) {
+  const M = J.make, me = Me.Name, own = () => { const s = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === num(M.id) && !i.IsEquiped) s.add(num(i.objId)); }); } catch (e) { } return s; };
+  M.objIds = M.objIds || []; M.res = M.res || {};
+  ijStatus(id, { state: 'running', doer: me, interrupted: false }, `${me} makes ${M.count}× ${M.name}${M.enchantTo ? ' and enchants them to +' + M.enchantTo : ''}${M.objIds.length ? ' (resumed: ' + M.objIds.length + ' made before)' : ''}`);
+  const trip = await ijToGiran(seq, '!itemjob');
+  if (!trip.ok) { ijStatus(id, { state: 'failed', result: trip.why }, `could not get to Giran: ${trip.why}`); return trip; }
+  state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+  const nd = await ijNeeds(J.needs, id); if (!nd.ok) ijStatus(id, null, `${nd.why} — going on with what I have`);
+  const left = Math.max(0, num(M.count) - M.objIds.length), before = own();
+  if (left > 0) {
+    if (M.src === 'craft') { ijStatus(id, null, `crafting ${left}× ${M.name}`); await craftMakeOrder(num(M.recipe), left, M.use || {}); }
+    else for (let k = 0; k < left; k++) {
+      if (orderState.seq !== seq && orderReplaced(seq)) break;
+      const b = M.offer ? await ijBuyAt(M.offer, num(M.id), 1, id) : await ijBuy(num(M.id), id);
+      if (!b.ok) { ijStatus(id, null, `buying piece ${M.objIds.length + k + 1} failed: ${b.why} — stopping the buying`); break; }
+    }
+    own().forEach(o => { if (!before.has(o) && !M.objIds.includes(o)) M.objIds.push(o); }); ijSaveJob(J);
+    ijStatus(id, null, `${M.objIds.length} of ${M.count} ${M.name} made`);
+  }
+  if (num(M.enchantTo) > 0) for (const o of M.objIds) {
+    if (M.res[o]) continue; if (enchLevelOf(o) < 0) { M.res[o] = 'gone'; continue; }
+    const e = await ijEnchant(o, num(M.enchantTo), num(M.scroll), id, M.name, !!J.overSafeOk);
+    M.res[o] = e.ok ? 'reached' : e.gone ? 'broke' : (/no .*left/.test(String(e.why)) ? '' : 'dropped:+' + e.lvl); if (!M.res[o]) { delete M.res[o]; ijStatus(id, null, `stopped enchanting: ${e.why}`); ijSaveJob(J); break; }
+    ijSaveJob(J);
+  }
+  const alive = M.objIds.filter(o => enchLevelOf(o) >= 0), res = [`${alive.length} ${M.name} (${alive.map(o => '+' + enchLevelOf(o)).join(', ')})`];
+  const broke = Object.values(M.res).filter(v => v === 'broke').length; if (broke) res.push(`${broke} broke while enchanting`);
+  const to = (M.give || []).filter(n => n && n !== me);
+  if (to.length && alive.length) {
+    const pieces = alive.slice().sort((a, b) => enchLevelOf(b) - enchLevelOf(a));
+    for (const r of to) {
+      const o = pieces.shift(); if (!o) break;
+      const row = hovBag().find(b => num(b.objId) === o); if (!row) continue;
+      const hid = 'ijm_' + String(r).toLowerCase() + '_' + Date.now().toString(36);
+      try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: r, batch: HOV_CFG.batch, givers: { [me]: { items: [{ objId: o, id: num(row.id), name: String(row.name), count: 1, stack: false }], adena: 0 } }, by: me, why: 'make ' + id, created: new Date().toISOString() }, null, 1)); } catch (e) { logError('make handover', e); }
+      ijStatus(id, null, `handing ${M.name} +${enchLevelOf(o)} to ${r}`);
+      try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+      hovCommand(['!handover', hid]);
+      const t1 = now(); while (now() - t1 < 15 * 60000 && hovBag().some(b => num(b.objId) === o)) await sleep(3000);
+      res.push(hovBag().some(b => num(b.objId) === o) ? `${r}: hand-over did not finish` : `given to ${r}`);
+    }
+  }
+  const okAll = alive.length >= num(M.count) && Object.values(M.res).every(v => v === 'reached' || !num(M.enchantTo));
+  ijStatus(id, { state: okAll ? 'done' : 'failed', result: res.join('; ') }, `${okAll ? '✓ done' : 'finished'}: ${res.join('; ')}`);
+  return trip;
+}
+/** UPGRADE-2026-10-25: my worn pieces now -> Set of objIds */
+function ijWornNow() { const s = new Set(); try { Inventory.forEach(i => { if (i.IsEquiped) s.add(num(i.objId)); }); } catch (e) { } return s; }
+/** UPGRADE-2026-10-25: one line's materials (the same rules as a single item job: the owner's picks only) -> { ok, why } */
+async function ijNeeds(needs, id) {
+  for (const n of (needs || [])) {
+    if (n.buy && n.buy.offer) {
+      const have0 = bagCount(num(n.id)), fromStores = num((n.from || {}).bag) + num((n.from || {}).wh) + num((n.from || {}).clan) + num(((n.from || {}).char || {}).count);
+      if (fromStores > 0) { const f0 = await ijFetch(num(n.id), Math.min(num(n.need), have0 + fromStores), n.what, n.from, id); if (!f0.ok) ijStatus(id, null, `${n.what}: ${f0.why} — buying the rest`); }
+      if (bagCount(num(n.id)) < num(n.need)) { const b = await ijBuyAt(n.buy.offer, num(n.id), num(n.buy.count) || 1, id); if (!b.ok) return { ok: false, why: `could not buy ${n.what}: ${b.why}` }; ijStatus(id, null, `got ${b.got}× ${n.what} at ${b.npc}`); }
+      continue;
+    }
+    const f = await ijFetch(num(n.id), num(n.need), n.what, n.from, id); if (!f.ok) return { ok: false, why: `missing ${n.what}: ${f.why}` };
+  }
+  return { ok: true };
+}
+/** UPGRADE-2026-10-25: run J.upgrade = { lines: [{ item, enchant, sa, finalId, needs, result, why, objId }], collector } in one Giran trip */
+async function upgradeRun(J, id, seq) {
+  const me = Me.Name, U = J.upgrade, L = U.lines;
+  const left = L.filter(l => l.result !== 'done');
+  ijStatus(id, { state: 'running', doer: me, interrupted: false }, `${me} upgrades ${left.length} piece(s)${left.length < L.length ? ' (resumed)' : ''}: ${left.map(l => l.item.name).join(', ').slice(0, 200)}`);
+  const trip = await ijToGiran(seq, '!itemjob', { solo: !!J.solo });   // UPGSOLO
+  if (!trip.ok) { ijStatus(id, { state: 'failed', result: trip.why }, `could not get to Giran: ${trip.why}`); return trip; }
+  state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+  const worn0 = U.worn0 && U.worn0.length ? new Set(U.worn0.map(num)) : ijWornNow();
+  if (!U.worn0 || !U.worn0.length) { U.worn0 = [...worn0]; ijSaveJob(J); }
+  const keep = new Set(), res = [];
+  for (const l of L) {
+    if (l.result === 'done') { res.push(`${l.item.name}: done before`); if (l.objId) keep.add(num(l.objId)); continue; }
+    if (orderState.seq !== seq && orderReplaced(seq)) { ijStatus(id, { state: 'failed', result: 'replaced by a newer order' }, 'stopped: a newer order came in'); return trip; }
+    const fail = (why) => { l.result = 'failed'; l.why = String(why || '?'); ijSaveJob(J); res.push(`${l.item.name}: ${l.why}`); ijStatus(id, null, `✗ ${l.item.name}: ${l.why} — going on with the next piece`); };
+    ijStatus(id, null, `— ${l.item.name}${l.enchant ? ' → +' + l.enchant.to : ''}${l.sa ? ' + ' + l.sa.sa : ''}`);
+    const nd = await ijNeeds(l.needs, id); if (!nd.ok) { fail(nd.why); continue; }
+    let objId = 0; const it = l.item;
+    if (it.src === 'shop') { const b = it.offer ? await ijBuyAt(it.offer, num(it.id), 1, id) : await ijBuy(num(it.id), id); if (!b.ok) { fail(`buying failed: ${b.why}`); continue; } objId = num(b.objId) || ijFind(it.id, 0, keep); }
+    else if (it.src === 'bag') { objId = num(it.objId); if (enchLevelOf(objId) < 0) objId = ijFind(it.id, num(it.enchant), keep); }
+    else if (it.src === 'char') objId = ijFind(it.id, null, keep);       // the other character handed it over in the needs step (CHARSRC)
+    else {
+      if (num(it.enchant) > WH_SAFE_ENCH && !J.overSafeOk) { fail(`+${it.enchant} is above the safe +4 and the warning was not confirmed`); continue; }
+      const before = new Set(); try { Inventory.forEach(i => before.add(num(i.objId))); } catch (e) { }
+      const f = await ijFetch(num(it.id), bagCount(num(it.id)) + 1, it.name, it.src === 'wh' ? { wh: 1 } : { clan: 1 }, id, num(it.enchant), { stay: true });
+      if (!f.ok) { fail(`could not get it: ${f.why}`); continue; }
+      try { Inventory.forEach(i => { if (num(i.Id) === num(it.id) && !before.has(num(i.objId))) objId = num(i.objId); }); } catch (e) { }
+    }
+    if (!objId || enchLevelOf(objId) < 0) { fail('it is not in my bag'); continue; }
+    if (ijWornNow().has(objId) && (l.enchant || l.sa)) { Send.UseItem(objId); await sleep(1200); }
+    if (l.enchant && num(l.enchant.to) > enchLevelOf(objId)) {
+      const e = await ijEnchant(objId, num(l.enchant.to), num(l.enchant.scroll), id, it.name, !!J.overSafeOk);
+      if (!e.ok) { if (e.gone) { fail(e.why); continue; } ijStatus(id, null, `${it.name}: ${e.why} — putting it on as it is`); }
+    }
+    if (l.sa) { const s = await ijSA(l.sa, objId, id); if (!s.ok) ijStatus(id, null, `${it.name}: Special Ability not added (${s.why}) — putting it on without`); else objId = s.objId; }
+    if (l.augment && l.augment.stone && !l.augDone) {
+      const a = await ijAugment(objId, l.augment, id, it.name);
+      l.augDone = true; l.augTries = a.tries; l.augFound = !!a.found; l.augLast = a.last ? [a.last.o1, a.last.o2] : null; ijSaveJob(J);
+      ijStatus(id, null, a.found ? `✓ ${it.name}: wanted bonus after ${a.tries} tries` : `${it.name}: ${a.why || 'augment done'}`);
+    }
+    let info = null; try { Inventory.forEach(i => { if (num(i.objId) === objId) info = gearDb().items[num(i.Id)]; }); } catch (e) { }
+    const on = l.wear === false ? false : await equipPiece(objId, info ? info.s : '', keep);
+    keep.add(objId); l.objId = objId; l.result = 'done'; l.worn = !!on; ijSaveJob(J);
+    res.push(`${it.name} +${enchLevelOf(objId)}${on ? ' worn' : l.wear === false ? ' in the bag' : ' (could not put it on)'}`);
+    ijStatus(id, null, `✓ ${it.name} +${enchLevelOf(objId)}${on ? ' put on' : l.wear === false ? ' kept in the bag' : ' — could not put it on (level / class?)'}`);
+  }
+  // only the pieces the new ones replaced (worn before the trip, not worn now, still in my bag) -> the collector
+  const nowWorn = ijWornNow(), replaced = [];
+  try { Inventory.forEach(i => { const o = num(i.objId); if (worn0.has(o) && !nowWorn.has(o) && !keep.has(o)) replaced.push({ objId: o, id: num(i.Id), name: String(i.Name || ''), count: 1, stack: false }); }); } catch (e) { }
+  const col = String(U.collector || '');
+  if (replaced.length && col && col !== me) {
+    const hid = 'ijr_' + String(col).toLowerCase() + '_' + Date.now().toString(36);
+    try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: col, batch: HOV_CFG.batch, givers: { [me]: { items: replaced, adena: 0 } }, by: me, why: 'upgrade ' + id + ': replaced pieces', created: new Date().toISOString() }, null, 1)); } catch (e) { logError('upgrade collector', e); }
+    ijStatus(id, null, `handing the ${replaced.length} replaced piece(s) to the collector ${col}: ${replaced.map(r => r.name).join(', ').slice(0, 200)}`);
+    try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+    hovCommand(['!handover', hid]);
+    const t1 = now(); while (now() - t1 < 15 * 60000 && replaced.some(r => hovBag().some(b => num(b.objId) === r.objId))) await sleep(3000);
+    const stay = replaced.filter(r => hovBag().some(b => num(b.objId) === r.objId));
+    res.push(stay.length ? `${stay.length} replaced piece(s) still with me (the hand-over to ${col} did not finish)` : `${replaced.length} replaced piece(s) given to ${col}`);
+  } else if (replaced.length) res.push(`${replaced.length} replaced piece(s) stay in my bag (${col ? 'I am the collector' : 'no collector set on the Storage page'})`);
+  const okN = L.filter(l => l.result === 'done').length;
+  ijStatus(id, { state: okN === L.length ? 'done' : 'failed', result: res.join('; ') }, `${okN === L.length ? '✓ done' : 'finished'} (${okN}/${L.length}): ${res.join('; ')}`);
+  return trip;
+}
 async function itemJobOrder(id) {
   const J = ijRead(id); if (!J) return;
   const me = Me.Name, isDoer = J.doer === me, isRx = J.give && J.give.to === me && !isDoer;
@@ -12604,6 +12961,12 @@ async function itemJobOrder(id) {
       return;
     }
     // ---- DOER ----
+    // UPGRADE-2026-10-25 (owner: "select a character then ask it to go get upgrades in town ... MORE than just a weapon ... armor pieces and
+    // equip them, then give your other spare items to the collector ... an entire raid waiting to get upgrades"): ONE Giran trip for a list
+    // of lines (each: get it from the bag / warehouse / clan warehouse / another character / a Giran shop, enchant, Special Ability, put it on);
+    // afterwards ONLY the pieces the new ones replaced go to the collector (owner choice 2026-10-25). Every line result is saved (Resume skips it).
+    if (J.upgrade && Array.isArray(J.upgrade.lines)) { try { trip = await upgradeRun(J, id, seq); } finally { if (J.solo) { try { scoutAway(false); state.followHoldUntil = 0; } catch (e) { } } } return; }   // UPGSOLO: back to the team (rejoin)
+    if (J.make && num(J.make.id)) { trip = await makeRun(J, id, seq); return; }   // MAKEX-2026-10-25
     // ENCHMANY-2026-10-18 (owner: "I can select several items to enchant in L2Swarm"): one job enchants several bag pieces, one after another,
     // each to its +N (one scroll at a time, a fail stops only that piece); no town trip (enchanting works anywhere out of combat)
     if (Array.isArray(J.enchantMany) && J.enchantMany.length) {
@@ -12743,6 +13106,49 @@ async function itemJobOrder(id) {
     if (trip && trip.member) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
     if (trip && trip.wasLvl && isLeader() && orderState.seq === seq && !leadPaused() && !autoLvl.active) leadLevel('after !itemjob').catch(e => logError('itemjob level', e));
   }
+}
+/** ALTS-2026-10-25: an alt gives EVERYTHING to <target>: to Giran (alone), its private warehouse emptied (never a piece at +10 or higher:
+ *  owner "Dont take +16 NEVER!"), then every bag item that is not worn / a quest item / at +10 or higher + all adena go to <target> by the
+ *  hand-over machinery (wall-checked meeting, trade rounds). Progress: Logs/alt_<name>.json (the dashboard Accounts page shows it). */
+async function altGive(target) {
+  const me = Me.Name, F = SWARM_ROOT + '\\Logs\\alt_' + liveFileName() + '.json';
+  const put = (o) => { try { let old = {}; try { old = JSON.parse(File.ReadAllText(F)) || {}; } catch (e) { } File.WriteAllText(F, JSON.stringify(Object.assign(old, o, { name: me, at: new Date().toISOString() }))); } catch (e) { } };
+  if (!CONFIG.alts || !CONFIG.alts[me]) { note('!altgive: ' + me + ' is not an alt (Scripts/data/alts.json)', true); return; }
+  if (!target || !CONFIG.roster[target] || CONFIG.alts[target]) { put({ state: 'failed', step: 'no such receiver: ' + target }); note('!altgive: ' + target + ' is not one of our playing characters', true); return; }
+  put({ state: 'running', step: 'going to Giran', target, started: new Date().toISOString() });
+  const seq = orderState.seq, trip = await ijToGiran(seq, '!altgive', { solo: true });
+  if (!trip.ok) { put({ state: 'failed', step: 'could not get to Giran: ' + trip.why }); return; }
+  let wh = { taken: 0, left: 0 };
+  try {
+    if (!WH.busy) {
+      put({ step: 'emptying my warehouse' });
+      try { await townWalkToNpc(atlasNpc('Taurin'), { solo: true, atlasFirst: true }); } catch (e) { }
+      const npc = stashKeeper() || whKeeper();
+      if (npc) {
+        const ol = await whOpenWithdraw(npc, 'private');
+        try { Send.RequestBuySellUIClose(); } catch (e) { }
+        if (ol.ok) {
+          whWriteList('private', ol.rows);
+          const want = ol.rows.filter(r => num(r.enchant) < 10).map(r => ({ id: num(r.id), count: Math.max(1, num(r.count)) }));
+          wh.left = ol.rows.length - want.length;
+          if (want.length) { const r = await whTake('private', want, '!altgive ' + target, { holdCtl: true }); wh.taken = (r.got || []).reduce((t, g) => t + (num(g.got) > 0 ? 1 : 0), 0); }
+        } else put({ step: 'warehouse: ' + ol.msg });
+      }
+    }
+  } catch (e) { logError('altgive warehouse', e); }
+  const rows = hovBag().filter(b => !b.equipped && !b.quest && b.id !== 57 && enchantOf(b.objId) < 10)
+    .map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count, stack: !!b.stackable || b.count > 1 }));
+  const adena = itemCount(57), kept = hovBag().filter(b => !b.equipped && !b.quest && enchantOf(b.objId) >= 10).length;
+  if (!rows.length && adena <= 0) { put({ state: 'done', step: 'nothing to give', wh }); note('!altgive: ' + me + ' has nothing to give', true); return; }
+  const hid = 'alt_' + String(me).toLowerCase() + '_' + Date.now().toString(36);
+  try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: target, batch: HOV_CFG.batch, givers: { [me]: { items: rows, adena } }, by: me, why: 'alt transfer (Accounts page)', at: new Date().toISOString() })); } catch (e) { put({ state: 'failed', step: 'hand-over order: ' + e.message }); return; }
+  put({ step: `giving ${rows.length} item kinds + ${adena} adena to ${target} (hand-over ${hid})`, hov: hid, wh, kept });
+  note(`[alt] ${me}: giving ${rows.length} item kinds + ${adena} adena to ${target}${kept ? ' (' + kept + ' pieces at +10 or higher stay: owner rule)' : ''}`, true);
+  try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+  try { await hovCommand(['!handover', hid]); } catch (e) { logError('altgive handover', e); }
+  const t0 = now(); while ((typeof HOV !== 'undefined' && HOV.busy) && now() - t0 < 30 * 60000) await sleep(3000);
+  const left = hovBag().filter(b => !b.equipped && !b.quest && enchantOf(b.objId) < 10 && (b.id !== 57 || b.count > 0)).length;
+  put({ state: left ? 'partly' : 'done', step: left ? left + ' item kinds still in my bag (not tradeable / refused?)' : 'everything handed to ' + target, ended: new Date().toISOString(), wh, kept });
 }
 /** !whlook <name>: look into my private warehouse (Giran keeper), write the list, take nothing */
 async function whLookOrder() {
@@ -14857,21 +15263,28 @@ function fundRules() {
 /** the givers rule for a receiving party -> { mode, list, src: 'party' | 'all' } */
 function fundGiversFor(r, party) {
   const R = r && typeof r === 'object' ? r : {}, P = R.parties && typeof R.parties === 'object' ? R.parties[party] : null;
-  const own = P && P.givers && typeof P.givers === 'object' && ['auto', 'list', 'none'].includes(P.givers.mode) ? P.givers : null;
+  const own = P && P.givers && typeof P.givers === 'object' && ['auto', 'list', 'none', 'collector'].includes(P.givers.mode) ? P.givers : null;
   const g = own || (R.givers && typeof R.givers === 'object' ? R.givers : {});
-  return { mode: ['auto', 'list', 'none'].includes(g.mode) ? g.mode : 'auto', list: Array.isArray(g.list) ? g.list.map(String) : [], src: own ? 'party' : 'all' };
+  return { mode: ['auto', 'list', 'none', 'collector'].includes(g.mode) ? g.mode : 'collector', list: Array.isArray(g.list) ? g.list.map(String) : [], src: own ? 'party' : 'all' };
 }
 /** may giver hand adena to a character of the party led by party? */
-function fundGiverAllowed(r, giver, party) { const g = fundGiversFor(r, party); return g.mode === 'none' ? false : g.mode === 'list' ? g.list.includes(giver) : true; }
+// FUNDCOLLECTOR-2026-10-25 (owner: "Adena-giving should be configurable. Not auto selected ... I don't want any to go back to town and deliver adena. Only the
+// collector role should hand them out ... or should be selectable"): mode 'collector' (the DEFAULT) = only the collector (Storage page; r._collector,
+// set by the caller); 'list' = the picked characters; 'none' = nobody; 'auto' (any rich character) only when a file still says so
+function fundGiverAllowed(r, giver, party) { const g = fundGiversFor(r, party); return g.mode === 'none' ? false : g.mode === 'list' ? g.list.includes(giver) : g.mode === 'collector' ? !!(r && r._collector) && giver === r._collector : true; }
 /** may giver hand out to anybody at all (the shared rule, or some party's own rule, lets it)? */
 function fundGiverAny(r, giver) {
   const R = r && typeof r === 'object' ? r : {};
-  if (fundGiverAllowed({ givers: R.givers }, giver, '')) return true;
+  if (fundGiverAllowed({ givers: R.givers, _collector: R._collector }, giver, '')) return true;
   return Object.keys(R.parties && typeof R.parties === 'object' ? R.parties : {}).some(p => fundGiversFor(R, p).src === 'party' && fundGiverAllowed(R, giver, p));
 }
 // FUNDGIVERS-PURE-END
 /** may this character hand out adena to other parties? (to = a receiver: that receiver's party rule; none = to anybody at all) */
-function fundMayGive(name, to) { const r = fundRules(); return to ? fundGiverAllowed(r, name, teamOf(to)) : fundGiverAny(r, name); }
+// CPUFIX-2026-10-25: cached 15 s - uncached, every fund check parsed stash_rules.json once per roster character (79x per call) and the brain
+// workers went from ~22 % to 60-99 % ELU after the 10:06 deploy
+const FUNDCOL = { at: 0, v: '' };
+function fundCollectorName() { if (now() - FUNDCOL.at < 15000) return FUNDCOL.v; FUNDCOL.at = now(); try { const c = (stashRules() || {}).collector; FUNDCOL.v = c && c.on === true ? String(c.name || clanLeaderName() || '') : ''; } catch (e) { FUNDCOL.v = ''; } return FUNDCOL.v; }
+function fundMayGive(name, to) { const r = Object.assign({}, fundRules(), { _collector: fundCollectorName() }); return to ? fundGiverAllowed(r, name, teamOf(to)) : fundGiverAny(r, name); }
 /** may this character receive? (its party switched on, its own target not 0) */
 function fundMayReceive(name) { const r = fundRules(), p = (r.parties || {})[teamOf(name)], c = (r.chars || {})[name]; if (p && p.receive === false) return false; if (c && Number(c.target) === 0 && c.target !== null && c.target !== '') return false; return true; }
 const fundInTown = (n) => { const lp = livePos[n]; if (!lp || now() - lp.at > 20000 || lp.IsDead) return false; try { return townKeyAt(lp.X, lp.Y) === FUND.town; } catch (e) { return false; } };
@@ -24533,10 +24946,28 @@ setInterval(() => { try { if (cqHunt.id && cqHunt.item && itemCount(cqHunt.item)
 // and then every 10 min (the packet hook is on for 4 s only), keeps it in clanIntel and reports it in swarm_state_<name>.json as clanInfo
 // { id, name, level, leader, isLeader, rep, ally, members[], seenAt }, plus ccRight (why I may open a Command Channel, '' = I may not).
 // The dashboard Clan tab makes one sub-tab per clan it sees (and one for the configured clan before it exists).
-const clanIntel = { id: 0, name: '', leader: '', level: 0, rep: 0, ally: '', members: [], at: 0, asked: 0, waiting: false, batch: 0 };
+// CLANSQUADS-2026-10-25 (owner: "impossible to see academy characters and clan permissions and who is in what squad"): every sub-unit's
+// name / leader from the same 0x5A answers (units), and the CLAN LEADER also asks, at most every 30 min, every member's squad / rank / title /
+// academy sponsor (D0:16 RequestPledgeMemberInfo -> FE:3E) and rank privileges (D0:14 ReqPledgeMemberPowerInfo -> FE:3D) plus the rank list
+// (D0:13 -> FE:3C). Read-only packets; 5 a second (the brain host Send cap is 8). noAnswer = asked but the server sent no member list (a
+// graduated academy member: L2Swarm keeps the old Me.Clan id although the server says "no clan").
+const clanIntel = { id: 0, name: '', leader: '', level: 0, rep: 0, ally: '', members: [], units: {}, info: {}, power: {}, grades: [], rankAt: 0, noAnswer: 0, at: 0, asked: 0, waiting: false, batch: 0 };
 let clanHookOn = false;
+const clanStrHex = (s) => { let h = ''; for (const ch of String(s)) { const c = ch.charCodeAt(0); h += ((c & 255) < 16 ? '0' : '') + (c & 255).toString(16) + ((c >> 8) < 16 ? '0' : '') + (c >> 8).toString(16); } return (h + '0000').toUpperCase(); };
+function clanExParse(p) {
+  const n = num(p.length || p.Length); if (n < 6) return;
+  const B = (i) => Number(p[i]) & 255;
+  let o; if (B(2) === 0xFE) o = 3; else if (B(0) === 0xFE) o = 1; else return;
+  const sub = B(o) | (B(o + 1) << 8); o += 2;
+  const D = () => { const v = B(o) | (B(o + 1) << 8) | (B(o + 2) << 16) | (B(o + 3) << 24); o += 4; return v; };
+  const S = () => { let s = ''; while (o + 1 < n) { const c = B(o) | (B(o + 1) << 8); o += 2; if (!c) break; s += String.fromCharCode(c); } return s; };
+  if (sub === 0x3E) { const pt = D(), name = S(), title = S(), grade = D(), unit = S(), sponsor = S(); if (name) clanIntel.info[name] = { unit: pt, title, grade, unitName: unit, sponsor }; }
+  else if (sub === 0x3D) { const grade = D(), name = S(), privs = D(); if (name) clanIntel.power[name] = { grade, privs }; }
+  else if (sub === 0x3C) { const cnt = D(), g = []; for (let i = 0; i < cnt && i < 20 && o + 8 <= n; i++) g.push({ rank: D(), members: D() }); clanIntel.grades = g; }
+}
 function clanPacketParse(p) {
   const n = num(p.length || p.Length); if (n < 12) return;
+  if ((Number(p[2]) & 255) === 0xFE || (Number(p[0]) & 255) === 0xFE) return clanExParse(p);
   let o; if ((Number(p[2]) & 255) === 0x5A) o = 3; else if ((Number(p[0]) & 255) === 0x5A) o = 1; else return;
   const B = (i) => Number(p[i]) & 255;
   const D = () => { const v = B(o) | (B(o + 1) << 8) | (B(o + 2) << 16) | (B(o + 3) << 24); o += 4; return v; };
@@ -24547,6 +24978,8 @@ function clanPacketParse(p) {
   for (let i = 0; i < cnt && o < n; i++) { const mn = S(), ml = D(), mc = D(); D(); D(); const on = D(); D(); if (mn) mem.push({ name: mn, level: ml, classId: mc, online: on !== 0, unit: ptype }); }
   if (clanIntel.batch && clanIntel.batchSeen !== clanIntel.batch) { clanIntel.members = []; clanIntel.batchSeen = clanIntel.batch; }
   if (ptype === 0 || !clanIntel.name) Object.assign(clanIntel, { id, name, leader, level, rep, ally });
+  if (clanIntel.unitsBatch !== clanIntel.batch) { clanIntel.units = {}; clanIntel.unitsBatch = clanIntel.batch; }
+  clanIntel.units[ptype] = { type: ptype, name, leader, n: mem.length };
   clanIntel.members = clanIntel.members.filter(m => m.unit !== ptype).concat(mem);
   clanIntel.at = now();
 }
@@ -24562,10 +24995,32 @@ async function clanIntelRequest(why) {
   try { Options.EnableJSOnIncomingPacket = true; } catch (e) { clanIntel.waiting = false; return; }
   try { Send.SendHex('4D'); } catch (e) { }
   await sleep(4000);
+  if (clanIntel.at < clanIntel.asked) clanIntel.noAnswer++; else clanIntel.noAnswer = 0;
+  // CLANSQUADS: the clan leader's ranks / squads / sponsors / privileges, at most every 30 min (the hook stays on while they come in)
+  if (clanIntel.at >= clanIntel.asked && clanIntel.leader === Me.Name && now() - clanIntel.rankAt > 1800000) {
+    clanIntel.rankAt = now();
+    const names = clanIntel.members.map(m => m.name).filter(Boolean).slice(0, 120);
+    try { Send.SendHex('D01300'); } catch (e) { }
+    for (const nm of names) {
+      await sleep(200); try { Send.SendHex('D0160000000000' + clanStrHex(nm)); } catch (e) { }
+      await sleep(200); try { Send.SendHex('D0140000000000' + clanStrHex(nm)); } catch (e) { }
+    }
+    await sleep(2500);
+    clanLog(`clan ranks: ${Object.keys(clanIntel.info).length}/${names.length} member infos, ${Object.keys(clanIntel.power).length} privileges, ${clanIntel.grades.length} ranks`);
+  }
   clanIntel.waiting = false;
   try { Options.EnableJSOnIncomingPacket = false; } catch (e) { }
   if (clanIntel.at >= clanIntel.asked) clanLog(`clan intel (${why}): ${clanIntel.name} lvl ${clanIntel.level}, leader ${clanIntel.leader}${clanIntel.leader === Me.Name ? ' (ME)' : ''}, ${clanIntel.members.length} members, ${clanIntel.rep} reputation`);
+  if (clanIntel.at >= clanIntel.asked) { try { const o = {}; ['id', 'name', 'leader', 'level', 'rep', 'ally', 'members', 'units', 'info', 'power', 'grades', 'rankAt', 'at'].forEach(k => { o[k] = clanIntel[k]; }); File.WriteAllText(`${SWARM_ROOT}\\Logs\\clan_intel_${Me.Name}.json`, JSON.stringify(o)); } catch (e) { } }
 }
+// CLANSQUADS 2026-10-25: a script reload used to empty the clan list for 4-14 min (the Clan page fell back to "(clan 123)"): the last list
+// (< 30 min old, the same clan id) is read back at the start; the 10-min request refreshes it as before (ranks keep their 30-min rhythm)
+setTimeout(() => { try {
+  const f = `${SWARM_ROOT}\\Logs\\clan_intel_${Me.Name}.json`; if (!File.Exists(f) || clanIntel.at) return;
+  const o = JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, ''));
+  if (!o || !o.at || now() - num(o.at) > 1800000 || !myClanId() || num(o.id) !== myClanId()) return;
+  Object.assign(clanIntel, o, { asked: num(o.at), waiting: false, batch: 0 });
+} catch (e) { } }, 8000);
 function myClanId() { try { const C = Me.Clan; return C ? num(C.Id || C.objId || 0) : 0; } catch (e) { return 0; } }
 /** My clan as the dashboard sees it (null = no clan). isLeader: true / false from the server's member list, null = not known yet. */
 function clanInfo() {
@@ -24575,8 +25030,10 @@ function clanInfo() {
   return { id, name: (nm && !nm.startsWith('(') ? nm : '') || (known ? clanIntel.name : nm), level: clanLevelNow(),   // CLANHAND-2026-10-13: one clan level
     ally: (() => { try { return String((Me.Clan && Me.Clan.AllyName) || '') || (known ? clanIntel.ally : ''); } catch (e) { return ''; } })(),
     leader: known ? clanIntel.leader : '', isLeader: known ? clanIntel.leader === Me.Name : null, rep: known ? clanIntel.rep : null,
-    members: known ? clanIntel.members.map(m => ({ name: m.name, level: m.level, classId: m.classId, online: m.online, unit: m.unit })) : [],
-    seenAt: known ? new Date(clanIntel.at).toISOString() : null };
+    members: known ? clanIntel.members.map(m => { const i = clanIntel.info[m.name] || {}, pw = clanIntel.power[m.name] || {};
+      return { name: m.name, level: m.level, classId: m.classId, online: m.online, unit: m.unit, grade: pw.grade != null ? pw.grade : i.grade, privs: pw.privs, title: i.title, sponsor: i.sponsor }; }) : [],
+    units: known ? Object.values(clanIntel.units) : [], grades: known ? clanIntel.grades : [], ranksAt: clanIntel.rankAt ? new Date(clanIntel.rankAt).toISOString() : null,
+    noAnswer: clanIntel.noAnswer, seenAt: known ? new Date(clanIntel.at).toISOString() : null };
 }
 /** Why I may open a Command Channel (L2J RequestExAskJoinMPCC.askJoinMPCC): clan leader of a level-5+ clan, OR Strategy Guide (8871) in the
  *  bag, OR rank Baron+ with Clan Imperium (391). '' = I may not (and I must be a PARTY leader as well). */
@@ -35447,6 +35904,66 @@ setInterval(() => {
     qeStart({ id, repeat: 0, mode: 'solo', farm: true, batch: num(pq.batch) || null });
   } catch (e) { logError('quest farm', e); }
 }, QE_CFG.farmTickMs);
+// ---- QUEST CIRCUIT (owner 2026-10-25: "make it possible to repeat quest infinite times like circuit page but with quests") ----
+// Scripts/data/quest_circuits.json { parties: { <leader>: { on, mode party | solo, quests: [{ id, times }] } } } (dashboard Quests -> Quest circuit,
+// Dashboard/qcircuit_api.js). The party leader (a character without a party is its own leader) starts the next quest of the list whenever no
+// quest runs, each one "times" runs in a row (the quest engine's repeat), then the next one; after the last one the list starts again, forever.
+// A quest the engine cannot take (a one-time quest already done, wrong level / race / class) is skipped from then on and said once; progress
+// survives reloads (Logs/qcircuit_<leader>.json). Like every automation it needs the party's Start (RUNSTATE) and never runs during a raid /
+// mission / trade / instance or right after one of your own orders.
+const QC = { at: 0, cfg: null, cur: null };
+function qcFile() { return SWARM_ROOT + '\\Logs\\qcircuit_' + liveFileName() + '.json'; }
+function qcCfg() { if (!QC.cfg || now() - QC.at > 30000) { QC.cfg = qeReadJson(qeDataFile('quest_circuits.json')) || {}; QC.at = now(); } return QC.cfg; }
+function qcMine() { const p = ((qcCfg().parties) || {})[Me.Name]; return p && p.on && Array.isArray(p.quests) && p.quests.length ? p : null; }
+function qcLoad() { try { return JSON.parse(File.ReadAllText(qcFile())) || {}; } catch (e) { return {}; } }
+function qcSave(o) { try { File.WriteAllText(qcFile(), JSON.stringify(Object.assign(o, { at: new Date().toISOString(), leader: Me.Name }))); } catch (e) { } }
+// ==== QCIRCUIT-PURE begin (no host calls: docs/plan/tools/test_qcircuit.js runs this block in node)
+/** the next quest of the list from position st.idx on, skipping the ones marked cannot -> { i, id, times } | null */
+function qcNext(list, st) {
+  const L = Array.isArray(list) ? list : [], skip = (st && st.skip) || {};
+  for (let k = 0; k < L.length; k++) { const i = ((Number(st && st.idx) || 0) + k) % L.length, q = L[i]; if (q && Number(q.id) && !skip[q.id]) return { i, id: Number(q.id), times: Math.max(1, Number(q.times) || 1) }; }
+  return null;
+}
+/** a circuit quest ended with the engine's record rec ({ status, lastMsg }) -> the new state (idx moves on, round counts, cannot = skipped) */
+function qcAfter(st, cur, rec, n) {
+  const o = Object.assign({ skip: {}, runs: 0, round: 0 }, st || {}); o.skip = Object.assign({}, o.skip);
+  if (rec && rec.status === 'cannot') o.skip[cur.id] = String(rec.lastMsg || 'cannot take it').slice(0, 160);
+  o.runs = (Number(o.runs) || 0) + 1;
+  o.last = { id: cur.id, status: rec ? rec.status : 'unknown', msg: rec ? String(rec.lastMsg || '').slice(0, 160) : '' };
+  o.idx = (Number(cur.i) + 1) % Math.max(1, n);
+  if (o.idx === 0) o.round = (Number(o.round) || 0) + 1;
+  o.cur = null;
+  return o;
+}
+// ==== QCIRCUIT-PURE end
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !Me.Name || Me.IsDead) return;
+    const P = qcMine(), Q = qeS();
+    if (!P) { if (QC.cur && Q.running && Q.spec && Q.spec.qcircuit) qeStopReq('quest circuit switched off'); QC.cur = null; return; }
+    if (teamNames().length && !isLeader()) return;                        // the party leader drives the circuit
+    if (Q.running) return;                                                // a quest runs (the circuit's or one of yours): wait
+    let st = qcLoad();
+    if (!QC.cur && st.cur) QC.cur = st.cur;                               // after a reload: the quest that was running
+    if (QC.cur) {                                                         // the circuit quest ended
+      const rec = (qeSt().quests || {})[QC.cur.id] || null;
+      st = qcAfter(st, QC.cur, rec, P.quests.length);
+      if (rec && rec.status === 'cannot') note(`[quest circuit] ${Me.Name}: quest ${QC.cur.id} skipped from now on — ${st.skip[QC.cur.id]}`, true);
+      QC.cur = null; qcSave(st);
+    }
+    if (inRaid() || state.mode === 'mission' || tradeState || (typeof HOV !== 'undefined' && HOV.busy) || inKamaInstance()) return;
+    if (!runOn()) return;                                                 // RUNSTATE: only while the party is started
+    if (htHolds('quest farm')) return;
+    if (orderState.at && now() - orderState.at < QE_CFG.farmAfterOrderMs) return;   // one of your orders came in lately: it wins
+    const n = qcNext(P.quests, st);
+    if (!n) { if (!st.allSkipped) { st.allSkipped = true; qcSave(st); note(`[quest circuit] ${Me.Name}: every quest of the list is skipped (${Object.keys(st.skip || {}).join(', ')}) — change the list on the Quests page`, true); } return; }
+    const mode = P.mode === 'solo' || !teamNames().length ? 'solo' : 'party';
+    st.allSkipped = false; st.cur = { i: n.i, id: n.id, times: n.times, startedAt: new Date().toISOString(), mode }; qcSave(st);
+    QC.cur = st.cur;
+    qeLog(n.id, `quest circuit: quest ${n.i + 1}/${P.quests.length} (round ${(num(st.round) || 0) + 1}), ${n.times} run(s), ${mode}`, true);
+    qeStart({ id: n.id, repeat: n.times, mode, qcircuit: true });
+  } catch (e) { logError('quest circuit', e); }
+}, 30000);
 /** !questfarm [status] */
 function qfCommand(parts) {
   const cfg = qfCfg(), Q = qeS(); qeS().farmAt = 0;
@@ -41755,6 +42272,10 @@ function handleSay(charName, text, messageType) {
     }
     case '!itemjob': {                           // !itemjob <id>: an Items page job (ITEMJOB block): the doer, the receiver and the clan leader read the job file
       const jid = String(parts[1] || ''); if (/^ij_[a-z0-9_-]+$/i.test(jid)) itemJobOrder(jid).catch(e => logError('!itemjob', e));
+      break;
+    }
+    case '!altgive': {                           // ALTS-2026-10-25: !altgive <alt> <target>: the alt gives everything to <target> (Giran)
+      if (String(parts[1] || '').toLowerCase() === String(Me.Name).toLowerCase()) altGive(String(parts[2] || '')).catch(e => logError('!altgive', e));
       break;
     }
     case '!whlook': {                            // !whlook <name>: look into my private warehouse (Giran), write the list (ITEMJOB block)

@@ -121,6 +121,10 @@ function build(ctx, hours) {
   const states = ctx.readStates(), names = states.map(c => c.name);
   let lootWho = {}; try { lootWho = require('./lootpage_api').query(ctx, { hours }).summary.valueByWho || {}; } catch (e) { }
   const cost = costs(ctx, names, from, now);
+  // OVLOCK 2026-10-25 (owner: "a lot of teams show 'no estimate yet' even though they are clearly farming"): the EWC spoil pairs / epic team hunt with
+  // "Block experience" ON (Scripts/data/level_control.json lockOn + level >= lock) = no exp to measure; the card says so instead of "no estimate yet"
+  let LC = {}; try { LC = (JSON.parse(require('fs').readFileSync(require('path').join(ctx.DATA, 'level_control.json'), 'utf8').replace(/^﻿/, '')) || {}).chars || {}; } catch (e) { }
+  const lockOf = (c) => { const l = LC[c.name]; return l && l.lockOn && num(l.lock) && num(c.level) >= num(l.lock) ? num(l.lock) : null; };
   const chars = states.map(c => {
     const a = R.ring.get(c.name), r = rate(a, from), e = (() => { try { return LE.calc(c, { now }); } catch (er) { return null; } })();
     const k = cost[c.name] || { use: 0, gear: 0, shop: 0, huntMs: 0 }, hrs = hours;   // loot + costs come from logs over the whole window (the recorder rates use their own span)
@@ -131,7 +135,7 @@ function build(ctx, hours) {
       name: c.name, party: String(c.party || c.name), leader: !!c.leader, role: c.role || '', cls: c.cls || '', classId: num(c.classId),
       level: num(c.level), exp: num(c.exp), adena: num(c.adena), hp: num(c.hp), mp: num(c.mp), dead: !!c.dead, online: num(c.ageSec) != null && c.ageSec < 30,
       activity: (c.doing && c.doing.activity) || c.mode || '', task: String(c.task || '').slice(0, 140), where: (c.doing && c.doing.autolevel && c.doing.autolevel.spot) || (c.doing && c.doing.zone) || '',
-      eta: e ? { status: e.status, at: e.at, etaMs: e.etaMs, pctH: e.pctH, days: e.days } : null,
+      eta: e ? { status: e.status, at: e.at, etaMs: e.etaMs, pctH: e.pctH, days: e.days, why: e.why || '' } : null, locked: lockOf(c),
       lastUp: (() => { const l = (c.expLog || []).filter(x => x.up).pop(); return l ? l.at : null; })(),
       expH: r && r.expH != null ? Math.round(r.expH) : live ? Math.round(num(live.amt) / live.mins * 60) : null,
       pctH: e && e.pctH != null ? +e.pctH.toFixed(2) : null,

@@ -165,7 +165,7 @@ function findItems(ctx, qRaw) {
 async function plan(ctx, b) {
   const name = String(b.name || ''); if (!NAME_RE.test(name)) return { code: 400, error: 'Choose a character.' };
   const it = b.item || {}; const id = Number(it.id); if (!(id > 0)) return { code: 400, error: 'Choose an item.' };
-  const src = ['bag', 'wh', 'clan', 'shop'].includes(it.src) ? it.src : 'bag';
+  const src = ['bag', 'wh', 'clan', 'shop', 'char'].includes(it.src) ? it.src : 'bag';   // UPGRADE-2026-10-25: 'char' = another character's bag (picked by the owner)
   const C = await charInfo(ctx, name, false); if (C.error) return C;
   const S = { bag: C.bag.map(r => ({ id: r.id, count: r.count, eq: r.eq })), wh: C.wh, clan: C.clan };
   const F = facts(ctx, id), steps = [], needs = [], warn = [], R = rates(ctx);
@@ -173,7 +173,7 @@ async function plan(ctx, b) {
   // ASK FIRST (owner 2026-10-17: "Dont take ANYTHING automatically! Always ask. And let the user select!"): for every material the page shows
   // where it could come from (the bag, the private warehouse, the clan warehouse, buying it in Giran) and the OWNER picks; b.sources = { <item id>:
   // 'wh' | 'clan' | 'buy' }. Without a pick only the character's own bag counts — nothing leaves a warehouse and nothing is bought on its own.
-  const pick = (b.sources && typeof b.sources === 'object') ? b.sources : {};
+  const pick = Object.assign({}, (b.sources && typeof b.sources === 'object') ? b.sources : {});
   const M = cached('market', path.join(ctx.DATA, 'giran_market.json'), null);
   const offerFor = (tid) => { if (!M || !Array.isArray(M.offers)) return null; const offs = M.offers.filter(o => Number(o.id) === Number(tid)); return offs.filter(o => o.kind === 'shop').sort((a, b2) => a.price - b2.price)[0] || offs.find(o => o.kind === 'exchange' && !(o.cost || []).some(c => Number(c.id) === Number(tid))) || null; };
   const takeFrom = (what, tid, n, depth) => {
@@ -224,6 +224,13 @@ async function plan(ctx, b) {
     alsoHave = [].concat(C.bag.filter(x => x.id === id).map(x => ({ src: 'bag', enchant: x.enchant, eq: x.eq, objId: x.objId })), C.wh.filter(x => x.id === id).map(x => ({ src: 'wh', enchant: x.enchant })), C.clan.filter(x => x.id === id).map(x => ({ src: 'clan', enchant: x.enchant }))).map(x => Object.assign(x, { overSafe: (x.enchant || 0) > (R.safe || 4), rare: (x.enchant || 0) >= PROTECT_ENCH })).sort((a, b) => a.enchant - b.enchant);   // above +4: shown with a warning, picked only by the owner
     if (alsoHave.length) warn.unshift(`You already have ${alsoHave.length} of these: ${alsoHave.map(x => '+' + x.enchant + ' ' + ({ bag: 'in the bag', wh: 'in the warehouse', clan: 'in the clan warehouse' }[x.src])).join(', ')} — tap one below to use it instead of buying.`);
     if (F.common && (b.enchantTo || b.saId)) warn.push('Common items cannot be enchanted or get a Special Ability (no set bonus either).');
+  } else if (src === 'char') {   // UPGRADE-2026-10-25: the owner picked another character's piece -> that character hands it over in Giran
+    const giver = String(it.char || '');
+    if (!NAME_RE.test(giver) || giver === name) return { code: 400, error: 'Pick the character that holds it.' };
+    pick[id] = 'char:' + giver;
+    const nd = takeFrom(F.name, id, 1);
+    if (nd.missing) return { code: 409, error: `${giver} has no ${F.name} in the bag (worn pieces are not handed over).` };
+    if (Number(it.objId) && nd.from.char) { const H = holdersOf(ctx, id, name).find(x => x.name === giver), r = H && H.rows.find(x => x.objId === Number(it.objId)); if (r) nd.from.char.rows = [Object.assign({}, r, { count: 1 })]; }   // exactly the piece the owner tapped
   } else if (src === 'wh') steps.push({ k: 'take', text: `${name} takes ${F.name}${cur ? ' +' + cur : ''} out of its private warehouse (Giran)` });
   else if (src === 'clan') steps.push({ k: 'clan', text: name === C.clanLeader ? `${name} takes ${F.name}${cur ? ' +' + cur : ''} out of the clan warehouse` : `the clan leader ${C.clanLeader || '?'} takes ${F.name}${cur ? ' +' + cur : ''} out of the clan warehouse and hands it to ${name}` });
   // 2. enchant (first: a destroyed item never wasted the SA materials)
@@ -250,6 +257,27 @@ async function plan(ctx, b) {
     steps.push({ k: 'sa', text: `at the Giran blacksmith (Pushkin): ${F.name} + ${o.color} Soul Crystal stage ${o.stage} + ${o.gem ? o.gem.count + ' ' + o.gem.name : ''} + about ${IL.kmb(Math.ceil(o.adena * 1.2))} adena → ${F.name} - ${o.sa}` });
     finalId = Number(o.saId);
   }
+  // 3b. AUGMENT-2026-10-25 (owner: "retry until a chosen bonus", "let me select the life stone augmentation I want to aim for"): b.augment =
+  // { stone, wanted: [option ids], max } -> Life Stones + gemstones as materials (the owner's sources), the remove fee per failed try as adena
+  let augment = null;
+  if (b.augment && Number(b.augment.stone)) {
+    const T = cached('augtab', path.join(ctx.DATA, 'augment_table.json'), null), st = T && (T.stones || []).find(s => s.id === Number(b.augment.stone));
+    if (!st) return { code: 400, error: 'Unknown life stone.' };
+    const jewel = /earring|ring|neck/.test(String(F.slot || '')), g = String(F.grade || '').toUpperCase();
+    if (jewel !== (st.kind === 'accessory')) return { code: 400, error: `${st.name} is for ${st.kind === 'accessory' ? 'jewelry' : 'weapons'}, ${F.name} is ${jewel ? 'jewelry' : 'a weapon'}.` };
+    if (!jewel && F.kind !== 'weapon') return { code: 400, error: 'Only weapons and jewelry can be augmented.' };
+    if (!['C', 'B', 'A', 'S', 'S80', 'S84'].includes(g) || F.common) return { code: 400, error: 'Only C-grade or higher (not Common items) can be augmented.' };
+    if (C.level && st.level > C.level) return { code: 400, error: `${st.name} needs level ${st.level}; ${name} is level ${C.level}.` };
+    const gem = { C: 2130, B: 2130, A: 2131, S: 2131, S80: 2132, S84: 2132 }[g], per = (jewel ? { C: 200, B: 300, A: 200, S: 250, S80: 360, S84: 480 } : { C: 20, B: 30, A: 20, S: 25, S80: 36, S84: 36 })[g];
+    const max = Math.max(1, Math.min(200, Number(b.augment.max) || 1)), wanted = (Array.isArray(b.augment.wanted) ? b.augment.wanted : []).map(Number).filter(x => x > 0).slice(0, 200);
+    if (!wanted.length) return { code: 400, error: 'Choose at least one wanted bonus for the augment.' };
+    const fee = { C: 95000, B: 150000, A: 210000, S: 300000, S80: 300000, S84: 300000 }[g] || 95000;
+    takeFrom(st.name, st.id, max); takeFrom({ 2130: 'Gemstone D', 2131: 'Gemstone C', 2132: 'Gemstone B' }[gem], gem, per * max);
+    adena += fee * (max - 1);
+    const names = {}; wanted.forEach(id => { names[id] = (T.text && T.text[id]) || ('option ' + id); });
+    augment = { stone: st.id, stoneName: st.name, gem, gemCount: per, wanted, max, names, fee };
+    steps.push({ k: 'augment', text: `augment with ${st.name}: up to ${max} tr${max === 1 ? 'y' : 'ies'} (${per} ${gem === 2130 ? 'Gemstone D' : gem === 2131 ? 'Gemstone C' : 'Gemstone B'} each, about ${IL.kmb(fee)} adena to remove each unwanted result) until one of ${wanted.length} wanted bonus${wanted.length === 1 ? '' : 'es'}` });
+  }
   // 4. give + wear
   const giveTo = String(b.giveTo || '');
   if (giveTo) {
@@ -272,7 +300,7 @@ async function plan(ctx, b) {
   if (adena > C.adena) warn.push(`${name} has ${IL.kmb(C.adena)} adena, this needs about ${IL.kmb(adena)} — get adena first (Adena page / Trade).`);
   if (C.clan.length && needs.some(n => n.from.clan > 0) && !C.clanLeader) warn.push('No clan leader known for the clan warehouse.');
   const saOpts = F.kind === 'weapon' && !F.sa && !F.common ? IL.saOptions(F.base || id, saRecipes(ctx)) : [];
-  return { ok: !missing.length && adena <= C.adena + 1 && (!overSafe.length || overSafeOk), overSafe, overSafeOk, saOptions: saOpts, offer, count, alsoHave, name, item: Object.assign(F, { src, enchant: Number(it.enchant) || 0, objId: Number(it.objId) || 0 }), finalId, enchantTo: to, blessed: !!b.blessed, saId: Number(b.saId) || 0, giveTo,
+  return { ok: !missing.length && adena <= C.adena + 1 && (!overSafe.length || overSafeOk), overSafe, overSafeOk, saOptions: saOpts, offer, count, alsoHave, name, item: Object.assign(F, { src, enchant: Number(it.enchant) || 0, objId: Number(it.objId) || 0 }), finalId, enchantTo: to, blessed: !!b.blessed, saId: Number(b.saId) || 0, giveTo, augment,
     steps, needs, missing, adena, haveAdena: C.adena, chance, ladder: to > cur ? IL.ladder(cur, to, F.kind, F.full, R) : [], gain: IL.gainOf({ s: F.slot, g: F.grade, t: F.wtype }, cur, to), rates: R, warn };
 }
 const JOBDIR = (ctx) => path.join(ctx.LOGS, 'itemjobs');
@@ -491,4 +519,4 @@ async function handle(req, res, url, ctx) {
     out({ code: 404, error: 'unknown items API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { handle, chars, charInfo, shops, findItems, plan, job, enchantMany, buyMany, jobStatus, craftInfo, recipes, facts, activity, STATIC };
+module.exports = { handle, chars, charInfo, shops, findItems, plan, job, enchantMany, buyMany, jobStatus, craftInfo, recipes, facts, activity, clanLeader, saRecipes, STATIC };

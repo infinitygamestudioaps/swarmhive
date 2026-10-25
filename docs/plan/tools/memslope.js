@@ -26,7 +26,7 @@ try {
 } catch (e) { }
 try {
   for (const l of fs.readFileSync(path.join(LOGS, 'l2swarm_mem.log'), 'utf8').split('\n')) {
-    const m = l.match(/^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+ census (#\d+): private (\d+) MB, managed (\d+) MB.*timers (\d+)/); if (!m) continue;
+    const m = l.match(/^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+(?:[+-]\d\d:\d\d)? census (#\d+): private (\d+) MB, managed (\d+) MB.*timers (\d+)/); if (!m) continue;
     const t = Date.parse(m[1].replace(' ', 'T')); if (t < since || t > until) continue;
     b(t).notes.push(`census${m[2]} priv ${m[3]} man ${m[4]} timers ${m[5]}`);
   }

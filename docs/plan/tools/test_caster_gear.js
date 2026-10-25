@@ -22,10 +22,15 @@ t('Bishop C = Karmian set', rec(16).C.chest.name === 'Karmian Tunic' && rec(16).
 t('set pieces bought as real pieces (bonus)', rec(12).C.chest.buy === 'real' && rec(16).C.chest.buy === 'real');
 // never half a set
 t('SETWHOLE: missing set pieces bought together or not at all', /SETWHOLE-2026-10-23[\s\S]{0,600}const sp = picks\.filter\(p => p\.set\), cost = sp\.reduce[\s\S]{0,200}if \(sp\.length && cost > budget\)/.test(SW));
+// SETGRADE-2026-10-25 (tester: a lvl 80+ mage took off its A-grade Dark Crystal robe for the C Demon's set): R1 is the C range only
+t('the caster set only while its grade is my gear grade (no C set at B / A / S)', SW.includes('if (setGrade && GEAR_GRADES.indexOf(setGrade) < GEAR_GRADES.indexOf(myGearGrade())) return null;'));
+t('a set piece never replaces a higher-grade worn piece', SW.includes('GEAR_GRADES.indexOf(e.info.g) > GEAR_GRADES.indexOf(info.g))) return;   // SETGRADE'));
 t('casterSets config Devotion / Karmian / Demon', /casterSets: \[\{ from: 1, healer: 'Devotion', caster: 'Devotion' \}, \{ from: 40, healer: 'Karmian', caster: "Demon's" \}\]/.test(SW));
 // weapon by choice, crystal from another character
 const API = rd('Dashboard/itemspage_api.js'), PG = rd('Dashboard/itemspage.js'), CP = rd('Dashboard/charpage.js');
-t('character page: Upgrade weapon -> Items job for that character', CP.includes('href="#/items/${encodeURIComponent(CP.name)}/shop"') && CP.includes('Upgrade weapon'));
+t('character page: Upgrade -> the upgrade page for that character (R3, owner 2026-10-25)', CP.includes('href="#/upgrade/${encodeURIComponent(CP.name)}"') && CP.includes('>Upgrade ›<'));
+{ const UA = rd('Dashboard/upgrade_api.js');
+  t('an upgrade order waits for the next Giran visit unless "now" is picked (R3)', UA.includes("? String(b.when) : 'town';") && UA.includes("queued: when === 'town' ?")); }
 t('API: other characters as a source (bag files)', API.includes('function holdersOf(ctx, tid, except)') && API.includes("if (/^char:/.test(choice))") && API.includes('options: { chars: holders.map('));
 t('page: From <character> buttons', PG.includes("['char:' + c.name, `From ${c.name} (${kmb(c.count)})`]"));
 t('doer: hand-over order from the holder', /CHARSRC-2026-10-23[\s\S]{0,900}givers: \{ \[f\.char\.name\]: \{ items: f\.char\.rows, adena: 0 \} \}[\s\S]{0,400}hovCommand\(\['!handover', hid\]\)/.test(SW));

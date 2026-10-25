@@ -79,12 +79,12 @@ function fundSanitize(input, prev) {
   out.slack = amt(r.slack, 'top-up slack');
   out.brokeBelow = amt(r.brokeBelow, 'broke below');
   const g = r.givers && typeof r.givers === 'object' ? r.givers : {};
-  const mode = String(g.mode || 'auto');
-  if (!['auto', 'list', 'none'].includes(mode)) errors.push(`givers mode: "${mode.slice(0, 20)}" (auto | list | none)`);
+  const mode = String(g.mode || 'collector');   // FUNDCOLLECTOR-2026-10-25: the collector is the default giver (owner: not auto selected)
+  if (!['auto', 'list', 'none', 'collector'].includes(mode)) errors.push(`givers mode: "${mode.slice(0, 20)}" (collector | list | none | auto)`);
   const list = [];
   (Array.isArray(g.list) ? g.list : []).forEach(n => { n = String(n || '').trim(); if (!n) return; if (!NAME_RE.test(n)) { errors.push(`givers: "${n.slice(0, 40)}" is not a character name`); return; } if (!list.includes(n)) list.push(n); });
   if (list.length > 300) errors.push('givers: at most 300 names');
-  out.givers = { mode: ['auto', 'list', 'none'].includes(mode) ? mode : 'auto', list, keepAtLeast: amt(g.keepAtLeast, 'always keeps at least') };
+  out.givers = { mode: ['auto', 'list', 'none', 'collector'].includes(mode) ? mode : 'collector', list, keepAtLeast: amt(g.keepAtLeast, 'always keeps at least') };
   const d = r.defaults && typeof r.defaults === 'object' ? r.defaults : {};
   out.defaults = { leaderTarget: amt(d.leaderTarget, 'default leader target'), memberTarget: amt(d.memberTarget, 'default member target'), clanLeaderTarget: amt(d.clanLeaderTarget, 'default clan leader target') };
   out.parties = {};
@@ -98,7 +98,7 @@ function fundSanitize(input, prev) {
     // FUNDGIVERS 2026-10-13: the party's OWN givers (who may give to THIS party); missing = the shared givers rule (old files unchanged)
     if (p.givers !== undefined && p.givers !== null) {
       const pg = p.givers && typeof p.givers === 'object' ? p.givers : {}, pm = String(pg.mode || '');
-      if (!['auto', 'list', 'none'].includes(pm)) errors.push(`party ${k} givers mode: "${pm.slice(0, 20)}" (auto | list | none)`);
+      if (!['auto', 'list', 'none', 'collector'].includes(pm)) errors.push(`party ${k} givers mode: "${pm.slice(0, 20)}" (collector | list | none | auto)`);
       else {
         const pl = []; (Array.isArray(pg.list) ? pg.list : []).forEach(n => { n = String(n || '').trim(); if (!n) return; if (!NAME_RE.test(n)) { errors.push(`party ${k} givers: "${n.slice(0, 40)}" is not a character name`); return; } if (!pl.includes(n)) pl.push(n); });
         if (pl.length > 300) errors.push(`party ${k} givers: at most 300 names`);
@@ -117,8 +117,12 @@ function fundSanitize(input, prev) {
         o.purse = pu;
       }
     }
+    // FUNDCOLLECTOR-2026-10-25: the party's own surplus rule for the collector { above, keep } (blank = the shared deposit values)
+    if (p.deposit && typeof p.deposit === 'object') { const da = amt(p.deposit.above, `party ${k} surplus above`, { blank: true }), dk = amt(p.deposit.keep, `party ${k} surplus keeps`, { blank: true }); const od = {}; if (da !== null) od.above = da; if (dk !== null) od.keep = dk; if (Object.keys(od).length) o.deposit = od; }
     out.parties[k] = o;
   });
+  // FUNDCOLLECTOR-2026-10-25: surplus to the collector { on, above, keep, againMin }
+  if (r.deposit !== undefined && r.deposit !== null) { const D = r.deposit && typeof r.deposit === 'object' ? r.deposit : {}; out.deposit = { on: D.on === true, above: amt(D.above, 'surplus above'), keep: amt(D.keep, 'surplus keeps'), againMin: amt(D.againMin === undefined ? 120 : D.againMin, 'surplus again after (min)', { max: 100000 }) }; if (out.deposit.keep > out.deposit.above) errors.push('surplus: keeps must not be more than the limit'); }
   // PURSE 2026-10-13: the pocket money each character keeps when it buys gear, by level: [[below level, keep], ...] (missing = the bots' default
   // 5k <20, 50k <40, 150k <60, 300k after). Rows sorted by level; the last row covers every higher level.
   if (r.memberKeep !== undefined && r.memberKeep !== null) {
@@ -164,7 +168,8 @@ function info(ctx) {
   const partyOf = {}; P.forEach(p => p.members.forEach(m => { partyOf[m.name] = p.leader; }));
   const raw = ctx.readJson(logFile(ctx), {}) || {};
   const log = Object.keys(raw).filter(n => isFinite(Number(raw[n])) && Number(raw[n]) > 0).map(n => ({ name: n, at: Number(raw[n]), party: partyOf[n] || '' })).sort((a, b) => b.at - a.at).slice(0, 40);
-  return { file: path.basename(rulesFile(ctx)), exists: !!R.exists, rev: R.rev, broken: R.broken || null, rules: R.data || {}, towns: TOWN_KEYS, clanLeader: CL, parties: P, log };
+  const SC = (ctx.readJson(path.join(ctx.DATA, 'stash_rules.json'), {}) || {}).collector, collector = SC && SC.on === true ? String(SC.name || CL || '') : '';   // FUNDCOLLECTOR
+  return { file: path.basename(rulesFile(ctx)), exists: !!R.exists, rev: R.rev, broken: R.broken || null, rules: R.data || {}, towns: TOWN_KEYS, clanLeader: CL, collector, parties: P, log };
 }
 
 // ------------------------------------------------------------------------------------------------------------------- write
@@ -172,7 +177,7 @@ function bad(code, error, extra) { return Object.assign({ code, error }, extra |
 function summary(a, b) {
   const ch = [], f = (v) => v === undefined ? '-' : JSON.stringify(v);
   ['on', 'town', 'everyMin', 'minGive', 'slack', 'brokeBelow'].forEach(k => { if (f(a[k]) !== f(b[k])) ch.push(`${k} ${f(a[k])}->${f(b[k])}`); });
-  ['givers', 'defaults', 'memberKeep'].forEach(k => { if (f(a[k]) !== f(b[k])) ch.push(`${k} ${f(b[k])}`); });
+  ['givers', 'defaults', 'memberKeep', 'deposit'].forEach(k => { if (f(a[k]) !== f(b[k])) ch.push(`${k} ${f(b[k])}`); });
   const keys = (o) => Object.keys(o || {});
   new Set(keys(a.parties).concat(keys(b.parties))).forEach(k => { if (f((a.parties || {})[k]) !== f((b.parties || {})[k])) ch.push(`party ${k} ${f((b.parties || {})[k])}`); });
   new Set(keys(a.chars).concat(keys(b.chars))).forEach(k => { if (f((a.chars || {})[k]) !== f((b.chars || {})[k])) ch.push(`${k} ${f(((b.chars || {})[k] || {}).target)}`); });

@@ -36,7 +36,9 @@ function McpPortBusy { $port = [int]([uri]$SwarmMcpUrl).Port; return [bool](Get-
 function IsHeadless($proc) { try { return ((Get-CimInstance Win32_Process -Filter "ProcessId=$($proc.Id)").CommandLine -match '(?i)\s/NoUi\b') } catch { return $false } }
 
 function Log($file, $m) { Add-Content -Path $file -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $m" }
-function Proc { Get-Process L2Swarm -ErrorAction SilentlyContinue | Select-Object -First 1 }
+# 2026-10-25: only THIS install's L2Swarm (an update test copy in another folder runs beside it and must never be watched / restarted here)
+function IsMineL2($p) { try { $d = Split-Path $p.Path -Parent; return ($d -ieq $root) -or ($d -ieq 'C:\L2Swarm') -or ($d -ieq 'C:\RainbowControl\l2\L2Swarm') } catch { return $true } }
+function Proc { Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { IsMineL2 $_ } | Select-Object -First 1 }
 
 # START LOCK (2026-10-06): one login run at a time, whoever started it (start / restart / a watch crash-restart / the reconnect brake).
 # The lock file holds the PID of the PowerShell that runs the login loop; a lock whose PID is gone is stale.
@@ -184,7 +186,7 @@ function Stop-L2 {
     # sits at the PC, and a clean close also re-saves settings.xml from memory (that once overwrote AutoStart).
     # Configs live in Settings\*.xml, so nothing is lost.
     # EVERY L2Swarm process (2026-10-07 05:48: two were running after a double start; Proc returned only the first, one survived the Stop)
-    $all = @(Get-Process L2Swarm -ErrorAction SilentlyContinue); if (-not $all.Count) { return }
+    $all = @(Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { IsMineL2 $_ }); if (-not $all.Count) { return }
     $l2Pids = @($all | ForEach-Object { $_.Id })
     foreach ($p in $all) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue }
     foreach ($p in $all) { $null = $p.WaitForExit(15000) }; Start-Sleep 3

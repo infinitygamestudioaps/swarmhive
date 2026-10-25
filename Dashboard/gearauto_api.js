@@ -31,9 +31,14 @@ function cfgParties(ctx) {
   Object.keys(out).forEach(p => { if (out[p].includes(p)) out[p] = [p].concat(out[p].filter(n => n !== p)); });
   return order.map(l => ({ leader: l, names: out[l] }));
 }
+// GEARDIST-2026-10-25 (owner: the gear-up may use own bag / warehouse, clan warehouse and distributors before buying): Scripts/data/gear_sources.json
+const srcFile = (ctx) => path.join(path.dirname(fileOf(ctx)), 'gear_sources.json');
+function sources(ctx) { let j = {}; try { j = JSON.parse(fs.readFileSync(srcFile(ctx), 'utf8').replace(/^\uFEFF/, '')) || {}; } catch (e) { }
+  const d = j.distributors || {}, has = Object.keys(j).length > 0;   // no file = OFF (a new install: the gear-up only buys)
+  return { ownWh: has && j.ownWh !== false, clan: has && j.clan !== false, bags: has && j.bags !== false, dist: has && d.on !== false, names: Array.isArray(d.names) ? d.names : [], unseal: has && j.unseal !== false }; }
 function info(ctx) {
   const R = read(ctx), F = R.data;
-  return { exists: R.exists, default: typeof F.default === 'boolean' ? F.default : DEF.auto, sameGradeSwap: typeof F.sameGradeSwap === 'boolean' ? F.sameGradeSwap : DEF.sameGradeSwap,
+  return { sources: sources(ctx), exists: R.exists, default: typeof F.default === 'boolean' ? F.default : DEF.auto, sameGradeSwap: typeof F.sameGradeSwap === 'boolean' ? F.sameGradeSwap : DEF.sameGradeSwap,
     keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : DEF.keepArmorType, starterGear: starterOf(F), skipGrades: skipOf(F),
     parties: cfgParties(ctx).map(p => ({ leader: p.leader, auto: typeof ((F.parties || {})[p.leader] || {}).auto === 'boolean' ? F.parties[p.leader].auto : null,
       members: p.names.map(n => { const c = (F.chars || {})[n] || {}, e = policy(F, n, p.leader); return { name: n, auto: typeof c.auto === 'boolean' ? c.auto : null, lock: c.lock === true, eff: e.auto, from: e.from }; }) })) };
@@ -70,7 +75,17 @@ function post(ctx, b) {
     if (b.skipGrades !== undefined) { if (!Array.isArray(b.skipGrades)) return { code: 400, error: 'skipGrades must be a list like ["B"]' }; F.skipGrades = skipOf({ skipGrades: b.skipGrades }); n++; }
     if (b.starterGear !== undefined) { if (!STARTER_MODES.includes(String(b.starterGear))) return { code: 400, error: 'starterGear: sell | destroy | keep' }; F.starterGear = String(b.starterGear); n++; }
     if (!n) return { code: 400, error: 'sameGradeSwap / keepArmorType must be true or false, starterGear sell | destroy | keep' };
-  } else return { code: 400, error: 'scope: default | party | char | policy' };
+  } else if (scope === 'sources') {
+    let j = {}; try { j = JSON.parse(fs.readFileSync(srcFile(ctx), 'utf8').replace(/^\uFEFF/, '')) || {}; } catch (e) { }
+    ['ownWh', 'clan', 'unseal', 'bags'].forEach(k => { if (typeof b[k] === 'boolean') j[k] = b[k]; });
+    j.distributors = j.distributors || { on: true, names: [] };
+    if (typeof b.dist === 'boolean') j.distributors.on = b.dist;
+    if (Array.isArray(b.names)) { const all = new Set([].concat(...parties.map(p => p.names))); const bad = b.names.filter(n => !all.has(String(n))); if (bad.length) return { code: 400, error: 'not our characters: ' + bad.join(', ') }; j.distributors.names = [...new Set(b.names.map(String))]; }
+    j.at = new Date().toISOString(); j.by = 'dashboard';
+    fs.writeFileSync(srcFile(ctx) + '.tmp', JSON.stringify(j, null, 1) + '\n'); fs.renameSync(srcFile(ctx) + '.tmp', srcFile(ctx));
+    try { if (ctx.LOGS) fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\tgearsources\t${JSON.stringify(j.distributors)} ownWh=${j.ownWh} clan=${j.clan} unseal=${j.unseal}\r\n`); } catch (e) { }
+    return Object.assign({ code: 200, ok: true }, info(ctx));
+  } else return { code: 400, error: 'scope: default | party | char | policy | sources' };
   write(ctx, F, `${scope} ${name} ${JSON.stringify({ auto: v, lock: b.lock, sameGradeSwap: b.sameGradeSwap, keepArmorType: b.keepArmorType, starterGear: b.starterGear, skipGrades: b.skipGrades })}`);
   return Object.assign({ code: 200, ok: true }, info(ctx));
 }
@@ -82,4 +97,4 @@ async function handle(req, res, url, ctx) {
   try { const r = post(ctx, b || {}); const c = r.code || 200; delete r.code; ctx.json(res, c, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { GRADES, skipOf, handle, info, post, policy, DEF, fileOf, STARTER_MODES, starterOf };
+module.exports = { sources, GRADES, skipOf, handle, info, post, policy, DEF, fileOf, STARTER_MODES, starterOf };

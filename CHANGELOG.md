@@ -2,6 +2,20 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.10.0 (2026-10-25)
+
+- World map layers (zones, field areas, dungeons, raid bosses, spots) with monsters + drops per place and your own combined zones
+- quest circuit (repeat a quest list forever)
+- gear-up buys B/A at the Giran luxury shop and uses owned gear first (own warehouse, distributors, spare bags, clan warehouse) with reservations, sealed pieces unsealed at Pushkin
+- the caster set (Demon / Karmian) only in its own grade and never in place of a better worn piece
+- Upgrade from the character page with recommendations, orders wait for the next Giran visit or send now (one character / whole party)
+- Make several visual picker
+- other characters on your accounts: bags + warehouses on the Accounts page, give everything to another character
+- single party page
+- Overview shows why there is no level estimate and updates in place
+- Devil's Isle Caves rooms from the geodata
+- fixes
+
 ## v1.9.0 (2026-10-25)
 
 - New Overview start page (the party cards moved to #/parties): profit, experience, adena, loot worth, costs, kills and deaths per hour for all parties, every party and every character, next level-ups with a live countdown, just levelled, sortable characters table, last hour / 24 h

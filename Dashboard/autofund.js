@@ -19,13 +19,16 @@ function scopeNames(cfg, swarmCfg) {
   return new Set(acc.filter(a => a && a.character && (cfg.scope === 'all' || a.clanAcademy || a.academy || a.academyMage)).map(a => String(a.character)));
 }
 /** pure: states [{ name, adena, ageSec, dead, party }], busy Set (names in an open order), raidParties Set, memory { recv: { name: ms } } -> { give: { giver, receiver, amount } | null, why } */
-function decide(cfg, scope, states, busy, raidParties, mem, nowMs) {
+function decide(cfg, scope, states, busy, raidParties, mem, nowMs, mayGive) {
   // never in the middle of a supply run / regroup / trade / hand-over (2026-10-22: a hand-over interrupted Spoiler10's supply run - no gear bought)
   const live = states.filter(s => s && scope.has(s.name) && Number(s.ageSec) <= 60 && !s.dead && !/supply|regroup|trade|handover|gear|order/i.test(s.task || ''));
   const recv = live.filter(s => Number(s.adena) < cfg.below && !busy.has(s.name) && nowMs - ((mem.recv || {})[s.name] || 0) > cfg.againMin * 60000)
     .sort((a, b) => Number(a.adena) - Number(b.adena));
   if (!recv.length) return { give: null, why: 'nobody below ' + cfg.below + ' adena (or all were helped lately)' };
-  const givers = live.filter(s => !busy.has(s.name) && !raidParties.has(s.party || s.name) && Number(s.adena) - cfg.give >= cfg.keep)
+  // FUNDCOLLECTOR-2026-10-25 (owner: "not auto selected ... only the collector role should hand them out, or selectable"): with a giver rule
+  // (mayGive) the giver comes from ALL characters the rule allows (the collector is not in the academy scope); without one: the old richest-in-scope
+  const pool = mayGive ? states.filter(s => s && Number(s.ageSec) <= 60 && !s.dead && !/supply|regroup|trade|handover|gear|order/i.test(s.task || '') && mayGive(s.name)) : live;
+  const givers = pool.filter(s => !busy.has(s.name) && !raidParties.has(s.party || s.name) && Number(s.adena) - cfg.give >= cfg.keep)
     .sort((a, b) => Number(b.adena) - Number(a.adena));
   for (const r of recv) { const g = givers.find(x => x.name !== r.name); if (g) return { give: { giver: g.name, receiver: r.name, amount: cfg.give }, why: `${r.name} has ${r.adena}, ${g.name} has ${g.adena}` }; }
   return { give: null, why: 'nobody rich enough is free (keeps ' + cfg.keep + ' after giving)' };
@@ -34,6 +37,7 @@ const RUN = { busy: false };
 async function tick(ctx) {
   if (RUN.busy) return; RUN.busy = true;
   try {
+    try { await depositTick(ctx); } catch (e) { }   // FUNDCOLLECTOR: surplus to the collector (own switch)
     const cfg = shareCfg(ctx.DATA); if (!cfg.on) return;
     const scope = scopeNames(cfg, ctx.swarmCfg ? ctx.swarmCfg() : null); if (!scope.size) return;
     const states = (ctx.readStates ? ctx.readStates() : []).map(s => ({ name: s.name, adena: Number(s.adena) || 0, ageSec: Number(s.ageSec), dead: !!s.dead, party: s.party || s.leader || s.name, task: String(s.task || '') }));
@@ -44,13 +48,55 @@ async function tick(ctx) {
     const raidParties = new Set();
     try { fs.readdirSync(ctx.LOGS).filter(f => /^(raid|kamaloka|epic)_live_.+\.json$/.test(f)).forEach(f => { const st = fs.statSync(path.join(ctx.LOGS, f)); if (Date.now() - st.mtimeMs < 120000) raidParties.add(f.replace(/^(raid|kamaloka|epic)_live_/, '').replace(/\.json$/, '')); }); } catch (e) { }
     const memF = path.join(ctx.LOGS, 'autofund.json'), mem = readJson(memF, {}) || {}; mem.recv = mem.recv || {};
-    const d = decide(cfg, scope, states, busy, raidParties, mem, Date.now());
+    const d = decide(cfg, scope, states, busy, raidParties, mem, Date.now(), giverRule(ctx));
     if (!d.give) return;
     const g = d.give;
-    const r = await ctx.post('/api/trade/order', { receiver: g.receiver, sel: {}, adena: { [g.giver]: g.amount }, confirm: true, note: `adena share (automatic): ${d.why}` });
+    // FUNDCOLLECTOR-2026-10-25: with a giver rule (the collector / picked characters) the hand-over waits until both stand in the same town
+    // (sameTown: the giver parks it) - nobody travels to deliver adena (owner: "I don't want any to go back to town and deliver adena")
+    const r = await ctx.post('/api/trade/order', { receiver: g.receiver, sel: {}, adena: { [g.giver]: g.amount }, confirm: true, sameTown: !!giverRule(ctx), note: `adena share (automatic): ${d.why}` });
     const line = `${new Date().toISOString()} ${g.giver} -> ${g.receiver} ${g.amount} adena: ${r && r.ok ? 'order ' + r.id + ' sent' : 'NOT sent - ' + ((r && r.error) || 'no answer')} (${d.why})`;
     try { fs.appendFileSync(path.join(ctx.LOGS, 'autofund.log'), line + '\r\n'); } catch (e) { }
     if (r && r.ok) { mem.recv[g.receiver] = Date.now(); try { fs.writeFileSync(memF, JSON.stringify(mem, null, 1)); } catch (e) { } }
   } catch (e) { } finally { RUN.busy = false; }
 }
-module.exports = { tick, decide, shareCfg, scopeNames, DEF };
+// DEPOSIT (FUNDCOLLECTOR-2026-10-25, owner: "the teams hand over adena to the collector if they have over 10-20 million or depending on how much
+// adena they need to hunt for a while"): fund_rules.json deposit = { on, above, keep, againMin } (+ parties.<leader>.deposit { above, keep }):
+// a character (never the collector) with more than `above` gets ONE same-town hand-over order of everything above `keep` to the collector; it
+// hands it over the next time it stands idle in the collector's town (no trip for it). One new order per tick; the same character again after againMin.
+const DEP_DEF = { on: false, above: 20000000, keep: 10000000, againMin: 120 };
+function depositDecide(dep, states, collector, busy, partyDep, mem, nowMs) {
+  if (!dep.on || !collector) return null;
+  for (const s of states.slice().sort((a, b) => Number(b.adena) - Number(a.adena))) {
+    if (!s || s.name === collector || s.dead || Number(s.ageSec) > 60 || busy.has(s.name)) continue;
+    const pd = (partyDep && partyDep[s.party || s.name]) || {}, above = Number(pd.above != null ? pd.above : dep.above), keep = Number(pd.keep != null ? pd.keep : dep.keep);
+    if (!(above > 0) || Number(s.adena) <= above || nowMs - ((mem.dep || {})[s.name] || 0) < dep.againMin * 60000) continue;
+    const amount = Math.floor(Number(s.adena) - Math.max(0, keep)); if (amount < 1000000) continue;
+    return { giver: s.name, amount, why: `${s.name} has ${s.adena}, keeps ${keep} (above ${above})` };
+  }
+  return null;
+}
+async function depositTick(ctx) {
+  const r = readJson(path.join(ctx.DATA, 'fund_rules.json'), {}) || {}, dep = Object.assign({}, DEP_DEF, r.deposit || {});
+  if (!dep.on) return;
+  const c = (readJson(path.join(ctx.DATA, 'stash_rules.json'), {}) || {}).collector, cq = readJson(path.join(ctx.DATA, 'clan_quests.json'), {}) || {};
+  const col = c && c.on === true ? String(c.name || (cq.clan && cq.clan.leader) || '') : ''; if (!col) return;
+  const states = (ctx.readStates ? ctx.readStates() : []).map(s => ({ name: s.name, adena: Number(s.adena) || 0, ageSec: Number(s.ageSec), dead: !!s.dead, party: s.party || s.leader || s.name }));
+  const busy = new Set(); try { (ctx.recentOrders ? ctx.recentOrders() : []).forEach(o => { if (!o.over) { busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); } }); } catch (e) { }
+  const partyDep = {}; Object.entries(r.parties || {}).forEach(([k, v]) => { if (v && v.deposit) partyDep[k] = v.deposit; });
+  const memF = path.join(ctx.LOGS, 'autofund.json'), mem = readJson(memF, {}) || {}; mem.dep = mem.dep || {};
+  const d = depositDecide(dep, states, col, busy, partyDep, mem, Date.now()); if (!d) return;
+  const o = await ctx.post('/api/trade/order', { receiver: col, sel: {}, adena: { [d.giver]: d.amount }, confirm: true, sameTown: true, note: `adena to the collector (automatic): ${d.why}` });
+  try { fs.appendFileSync(path.join(ctx.LOGS, 'autofund.log'), `${new Date().toISOString()} DEPOSIT ${d.giver} -> ${col} ${d.amount} adena: ${o && o.ok ? 'order ' + o.id + ' sent (same town)' : 'NOT sent - ' + ((o && o.error) || 'no answer')} (${d.why})\r\n`); } catch (e) { }
+  if (o && o.ok) { mem.dep[d.giver] = Date.now(); try { fs.writeFileSync(memF, JSON.stringify(mem, null, 1)); } catch (e) { } }
+}
+/** the giver rule of fund_rules.json givers (Adena page): collector (default) | list | none | auto (old: null = richest in scope) */
+function giverRule(ctx) {
+  const r = readJson(path.join(ctx.DATA, 'fund_rules.json'), {}) || {}, g = r.givers || {}, mode = ['auto', 'list', 'none', 'collector'].includes(g.mode) ? g.mode : 'collector';
+  if (mode === 'auto') return null;
+  if (mode === 'none') return () => false;
+  if (mode === 'list') { const L = new Set((g.list || []).map(String)); return (n) => L.has(n); }
+  const c = (readJson(path.join(ctx.DATA, 'stash_rules.json'), {}) || {}).collector, cq = readJson(path.join(ctx.DATA, 'clan_quests.json'), {}) || {};
+  const col = c && c.on === true ? String(c.name || (cq.clan && cq.clan.leader) || '') : '';
+  return (n) => !!col && n === col;
+}
+module.exports = { tick, decide, shareCfg, scopeNames, giverRule, depositDecide, DEP_DEF, DEF };

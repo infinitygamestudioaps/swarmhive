@@ -130,6 +130,12 @@
         <label class="gp-autoopt"><input type="checkbox" data-gpautopol="keepArmorType" ${A.keepArmorType ? 'checked' : ''}> keep the armor type (heavy / light / robe)</label>
         <label class="gp-autoopt" title="Squire's Sword / Shirt / Pants, Apprentice's Wand / Tunic / Stockings, Training Gloves, Guild Member's Club: what happens to the starter piece an upgrade replaced. Never quest, enchanted or S.A. items.">replaced starter gear <select data-gpautostarter="1" aria-label="replaced starter gear">${[['sell', 'sell it (destroy if the shop refuses)'], ['destroy', 'destroy it'], ['keep', 'keep it in the bag']].map(([v, t]) => `<option value="${v}" ${(A.starterGear || 'sell') === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
         ${A.exists ? '' : '<span class="muted">no gear_auto.json yet: OFF for everyone</span>'}</div>
+      ${(() => { const S = A.sources || {}, all = [].concat(...A.parties.map(p => p.members.map(m => m.name)));   // GEARDIST-2026-10-25
+        return `<div class="gp-autotop" title="Before buying, the gear-up takes a planned piece from these, without asking (your choice 2026-10-25). A giver reserves the piece, so two characters never wait for the same one."><b>Before buying, use:</b>
+          ${sw(S.ownWh, 'data-gpsrc="ownWh"', 'own bag + warehouse')}${sw(S.clan, 'data-gpsrc="clan"', 'clan warehouse')}${sw(S.bags, 'data-gpsrc="bags"', 'spare pieces of every character (in Giran)')}${sw(S.dist, 'data-gpsrc="dist"', 'distributors')}${sw(S.unseal, 'data-gpsrc="unseal"', 'sealed pieces (unseal at Pushkin)')}</div>
+        <div class="gp-autotop" title="Gear mules: they wait in Giran (near a warehouse keeper) and hand out pieces from their bags to whoever's gear-up needs them."><b>Distributors:</b>
+          ${(S.names || []).map(n => `<button class="gp-sw on" data-gpdist="${esc(n)}" title="remove">${esc(n)} ✕</button>`).join('') || '<span class="muted">none yet</span>'}
+          <select data-gpdistadd aria-label="add a distributor"><option value="">+ add…</option>${all.filter(n => !(S.names || []).includes(n)).sort().map(n => `<option>${esc(n)}</option>`).join('')}</select></div>`; })()}
       <div class="gp-autotop" title="Nobody buys gear of these grades: weapons, armor and jewels, every class, also pieces named in a gear plan. What they already wear stays on."><b>Never buy these grades:</b> ${['D', 'C', 'B', 'A', 'S'].map(gr => `<label class="gp-autoopt"><input type="checkbox" data-gpskipgrade="${gr}" ${(A.skipGrades || []).includes(gr) ? 'checked' : ''}> ${gr}</label>`).join('')}<span class="muted">everyone skips them (weapons, armor, jewels)</span></div>
       ${A.parties.map(p => `<div class="gp-autop"><div class="gp-autoph"><b>Party ${esc(p.leader)}</b>
           <select data-gpautoparty="${esc(p.leader)}" aria-label="party ${esc(p.leader)} auto upgrades"><option value="" ${p.auto === null ? 'selected' : ''}>as everyone</option><option value="on" ${p.auto === true ? 'selected' : ''}>ON</option><option value="off" ${p.auto === false ? 'selected' : ''}>OFF</option></select></div>
@@ -531,6 +537,9 @@
   // =========================================================================================== events
   async function onClick(e) {   // async: the dialogs (UIDIALOG 2026-10-10) return Promises
     const t = e.target;
+    // GEARDIST-2026-10-25: the gear-up sources (own warehouse / clan warehouse / distributors / sealed) + removing a distributor
+    const gs = t.closest('[data-gpsrc]'); if (gs) { const k = gs.dataset.gpsrc, S = (GP.auto && GP.auto.sources) || {}, to = !S[k]; await saveAuto({ scope: 'sources', [k]: to }, { ownWh: 'Own bag + warehouse', clan: 'Clan warehouse', bags: 'Spare pieces of every character', dist: 'Distributors', unseal: 'Sealed pieces' }[k] + ' before buying: ' + (to ? 'ON' : 'OFF'), ''); return; }
+    const gdel = t.closest('[data-gpdist]'); if (gdel) { const S = (GP.auto && GP.auto.sources) || {}, n = gdel.dataset.gpdist; await saveAuto({ scope: 'sources', names: (S.names || []).filter(x => x !== n) }, n + ' is no distributor any more', ''); return; }
     const ga = t.closest('[data-gpauto]'); if (ga) { const to = !(GP.auto && GP.auto.default); await saveAuto({ scope: 'default', auto: to }, 'Auto gear upgrades for everyone: ' + (to ? 'ON' : 'OFF'), to ? 'Every character without its own choice buys gear upgrades by itself.' : ''); return; }
     if (t.closest('#gpClsBtn')) { GP.drawer = !GP.drawer; renderHead(); if (GP.drawer) { const q = $id('gpClsQ'); if (q && window.matchMedia('(pointer: fine)').matches) q.focus({ preventScroll: true }); } return; }
     const cl = t.closest('[data-gpcls]'); if (cl) { GP.cls = +cl.dataset.gpcls; GP.drawer = false; GP.data = null; GP.copySel = null; GP.setSel = null; closePick(); load(true); return; }
@@ -629,6 +638,7 @@
     if (d.gpautolock !== undefined) { saveAuto({ scope: 'char', name: d.gpautolock, lock: e.target.checked }, d.gpautolock + ': ' + (e.target.checked ? 'equipment LOCKED (nothing is bought or swapped)' : 'lock removed'), ''); return; }
     if (d.gpskipgrade) { const L = [...document.querySelectorAll('[data-gpskipgrade]')].filter(x => x.checked).map(x => x.dataset.gpskipgrade); saveAuto({ scope: 'policy', skipGrades: L }, L.length ? 'saved: never buys ' + L.join(', ') + '-grade' : 'saved: every grade may be bought', ''); return; }   // SKIPGRADE-2026-10-14
     if (d.gpautopol) { saveAuto({ scope: 'policy', [d.gpautopol]: e.target.checked }, 'saved', ''); return; }
+    if (d.gpdistadd !== undefined && e.target.value) { const S = (GP.auto && GP.auto.sources) || {}; saveAuto({ scope: 'sources', names: (S.names || []).concat(e.target.value) }, e.target.value + ' is a distributor now: it hands out gear from its bag in Giran', ''); return; }   // GEARDIST
     if (d.gpautostarter !== undefined) {                                          // TESTERS-2026-10-12: replaced starter gear sell | destroy | keep
       const v = e.target.value, txt = { sell: 'sold at Helvetia (destroyed when the shop refuses it)', destroy: 'destroyed', keep: 'kept in the bag' }[v] || v;
       (async () => {

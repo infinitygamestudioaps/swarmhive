@@ -73,7 +73,9 @@
       d.floors.forEach((f, i) => {
         if (!f.z || z < f.z[0] - BAND || z > f.z[1] + BAND) return;
         if (f.box && (x < f.box[0] || x > f.box[2] || y < f.box[1] || y > f.box[3])) return;
-        const c = Math.abs(z - (f.z[0] + f.z[1]) / 2); if (c < bd) { bd = c; best = i; }
+        // INBAND-2026-10-25 (Devil's Isle Caves: lower band -4696..-3300 is tall, rooms at -3344 sat nearer the UPPER band's middle): a point inside a
+        // floor's own band belongs to it; only in the margins (or two overlapping bands) the nearest band middle decides
+        const inside = z >= f.z[0] && z <= f.z[1], c = (inside ? 0 : 1e6) + Math.abs(z - (f.z[0] + f.z[1]) / 2); if (c < bd) { bd = c; best = i; }
       });
       if (best >= 0) return { k: d.key + '#' + best, d: d.key, dn: d.name, fi: best, n: d.floors[best].n };
       if (!door) door = { k: null, d: d.key, dn: d.name, fi: -1, n: '' };

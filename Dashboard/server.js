@@ -1116,6 +1116,89 @@ async function scripts(sel, action) {   // 'stop' every enabled script / 'start'
   }
 }
 
+// --- ALTS (2026-10-25; Mr.P: "lookup on chars that are on the same account ... log each, and map its wh"; owner: "also check their inventory, and
+// make it possible to see it all somewhere under an account" + "transfer all items from other characters on same account to another character.
+// Build it into the hive and make it easy to do with mobile and pc") ---------------------------------------------------------------------------
+// Scripts/data/alts.json = every character of our accounts that is not one of the playing characters (the character index Logs/chars_<login>.json,
+// swarm.js writes it at every login); swarm.js puts them into its roster as 'alt' (own party, OFF). GET /api/alts = every account with every
+// character: bag (Logs/bag_<name>.json), private warehouse (Logs/wh_private_<name>.json), last alt job (Logs/alt_<name>.json).
+// POST /api/alts/run { alt, action: 'census' | 'give', target } = ONE job at a time: the alt's account switches to the alt IN the running session
+// (switchCharacter, the 2026-10-07 transfer way: no account close / open, the XML untouched), the brain agent picks the alt up, the order goes to
+// its queue (census: !whlook = to Giran, its warehouse list; the bag report comes by itself / give: !altgive = warehouse out (never +10 and up),
+// everything to <target> in Giran by the hand-over machinery), then the account switches back to its main character. Log Logs/alts.log.
+const ALTJOB = { running: false, job: null };
+function cfgChars() { try { return (JSON.parse(fs.readFileSync(path.join(ROOT, 'swarm.config.json'), 'utf8').replace(/^\uFEFF/, '')).accounts || []); } catch (e) { return []; } }
+function altsSync() {
+  const acc = cfgChars(), mine = new Set(acc.map(a => String(a.character || '').toLowerCase())), mainOf = {};
+  acc.forEach(a => { if (a.login) mainOf[String(a.login).toLowerCase()] = a.character; });
+  const alts = Object.values(charIndex()).filter(c => !mine.has(c.name.toLowerCase()) && mainOf[c.login]).map(c => ({ name: c.name, login: c.login, main: mainOf[c.login] }))
+    .sort((a, b) => a.login.localeCompare(b.login) || a.name.localeCompare(b.name));
+  const f = path.join(DATA, 'alts.json'), old = readJson(f, null), body = { _readme: 'ALTS (2026-10-25): the other characters of our accounts (from Logs/chars_<login>.json), written by the dashboard; swarm.js puts them in its roster as alts (own party, OFF). Accounts page -> Characters & items.', alts };
+  if (!old || JSON.stringify(old.alts) !== JSON.stringify(alts)) { try { fs.writeFileSync(f + '.tmp', JSON.stringify(Object.assign(body, { at: new Date().toISOString() }), null, 1)); fs.renameSync(f + '.tmp', f); } catch (e) { } }
+  return alts;
+}
+setTimeout(() => { try { altsSync(); } catch (e) { } }, 15000); setInterval(() => { try { altsSync(); } catch (e) { } }, 300000);
+function altsOverview() {
+  const acc = cfgChars().filter(a => a && a.character && a.enabled !== false), alts = altsSync(), states = (() => { try { return readStates(); } catch (e) { return []; } })();
+  const st = (n) => states.find(c => c.name === n) || null;
+  const items = (n) => { const b = readJson(path.join(LOGS, `bag_${n}.json`), null), w = readJson(path.join(LOGS, `wh_private_${n}.json`), null);
+    return { bag: b && Array.isArray(b.items) ? { at: b.at, items: b.items } : null, wh: w && Array.isArray(w.items) ? { at: w.at, items: w.items } : null, job: readJson(path.join(LOGS, `alt_${n}.json`), null) }; };
+  const logins = {};
+  acc.forEach(a => { const L = logins[String(a.login).toLowerCase()] = logins[String(a.login).toLowerCase()] || { login: String(a.login).toLowerCase(), chars: [] };
+    const c = st(a.character); L.chars.push(Object.assign({ name: a.character, main: true, party: a.party || a.character, online: !!c && c.ageSec < 60, level: c ? c.level : null, cls: c ? c.cls : '' }, items(a.character))); });
+  alts.forEach(x => { const L = logins[x.login]; if (L) L.chars.push(Object.assign({ name: x.name, main: false, alt: true, online: false }, items(x.name))); });
+  return { at: new Date().toISOString(), job: ALTJOB.job, accounts: Object.values(logins).sort((a, b) => (b.chars.length - a.chars.length) || a.login.localeCompare(b.login)) };
+}
+function altLog(t) { const l = `${new Date().toISOString()} ${t}`; if (ALTJOB.job) ALTJOB.job.log.push(l); try { fs.appendFileSync(path.join(LOGS, 'alts.log'), l + '\r\n'); } catch (e) { } }
+function altOrder(name, cmd) {   // straight into the character's order queue (from = itself: an alt is its own leader)
+  const id = OQM.newId(Date.now());
+  return ORDERQ.add({ id, cmd, at: Date.now(), label: 'char:' + name, targets: ['char:' + name], ttlMs: 30 * 60000, sends: [{ from: name, text: cmd, via: 'queue', recipients: [name] }] }, [name]);
+}
+const mtimeOf = (f) => { try { return fs.statSync(f).mtimeMs; } catch (e) { return 0; } };
+async function altRun({ alt, action, target }) {
+  const job = ALTJOB.job, log = altLog;
+  let sel = null, login = null, main = null, switched = false;
+  try {
+    const x = altsSync().find(a => a.name.toLowerCase() === String(alt).toLowerCase()); if (!x) throw new Error(`${alt} is not an alt of our accounts (Scripts/data/alts.json)`);
+    alt = x.name; login = x.login; main = x.main;
+    if (action === 'give') { const t = await onlineByChar(target); if (!t) throw new Error(`${target} is not online`); const ta = await accountByLogin(login); if (ta && t.account_id === ta.account_id) throw new Error(`${target} is on the same account as ${alt} — two characters of one account are never online together`); }
+    const acc = await accountByLogin(login);
+    if (!acc || !acc.is_logged_in || !acc.character) throw new Error(`account ${login} is not logged in in L2Swarm`);
+    if (String(acc.character.name).toLowerCase() !== String(main).toLowerCase() && String(acc.character.name).toLowerCase() !== alt.toLowerCase()) throw new Error(`account ${login} plays ${acc.character.name}, not ${main}`);
+    if (acc.character.in_combat || acc.is_in_combat) throw new Error(`${main} is fighting — try again in a moment`);
+    for (const fn of fs.readdirSync(LOGS)) if (/^(raid_live|kamaloka_live)/.test(fn) && Date.now() - mtimeOf(path.join(LOGS, fn)) < 120000) { const j = readJson(path.join(LOGS, fn), {}); if (JSON.stringify(j).includes(main)) throw new Error(`${main} is in a live raid / Kamaloka`); }
+    sel = selOf(acc);
+    const idx = charIndex(), known = [...new Set(Object.values(idx).filter(c => c.login === login).map(c => c.name).concat([main, alt]))];
+    log(`${alt} (${login}): ${action}${target ? ' -> ' + target : ''}; switching ${main} out`);
+    const r = await switchCharacter(sel, login, alt, 'to', known, log); switched = true;
+    if (!r.ok) throw new Error(`could not switch ${login} to ${alt}: ${r.error}`);
+    await tsleep(1500); await mcpJ('send_game_action', { ...sel, action: 'raw_packet', params: { hex: '3A' } });
+    const s0 = await mcpJ('get_account_status', sel).catch(() => null);
+    if (s0 && s0.character && s0.character.is_dead) { log(`${alt} is dead — respawning in the nearest village`); await mcpJ('send_game_action', { ...sel, action: 'raw_packet', params: { hex: '7D00000000' } }); await tsleep(8000); await mcpJ('send_game_action', { ...sel, action: 'raw_packet', params: { hex: '3A' } }); }
+    // the brain agent takes the alt: wait until its context is connected
+    let ok = false; for (const t0 = Date.now(); Date.now() - t0 < 180000 && !ok; await tsleep(5000)) { const st = readJson(path.join(LOGS, 'brain_host_stats.json'), {}) || {}; ok = (st.workers || []).some(w => (w.contexts || []).some(c => c.name === alt && c.connected)); }
+    if (!ok) throw new Error(`the brain host did not pick ${alt} up within 3 min`);
+    log(`${alt} is in game and connected to the brain host`);
+    if (action === 'census') {
+      const whF = path.join(LOGS, `wh_private_${alt}.json`), bagF = path.join(LOGS, `bag_${alt}.json`), w0 = mtimeOf(whF), t0 = Date.now();
+      altOrder(alt, `!whlook ${alt}`); log(`order: !whlook ${alt} (to Giran, read the warehouse)`);
+      while (Date.now() - t0 < 12 * 60000 && mtimeOf(whF) <= w0) await tsleep(5000);
+      log(mtimeOf(whF) > w0 ? `${alt}: warehouse list saved` : `${alt}: no warehouse list within 12 min`);
+      while (Date.now() - t0 < 15 * 60000 && mtimeOf(bagF) < t0) await tsleep(5000);
+      log(mtimeOf(bagF) >= t0 ? `${alt}: bag saved` : `${alt}: no new bag report`);
+    } else if (action === 'give') {
+      const jf = path.join(LOGS, `alt_${alt}.json`), j0 = mtimeOf(jf), t0 = Date.now();
+      altOrder(alt, `!altgive ${alt} ${target}`); log(`order: !altgive ${alt} ${target}`);
+      let st = null; while (Date.now() - t0 < 40 * 60000) { await tsleep(5000); if (mtimeOf(jf) > j0) { st = readJson(jf, null); if (st && /^(done|partly|failed)$/.test(st.state)) break; } }
+      log(st ? `${alt}: ${st.state} — ${st.step}` : `${alt}: no result within 40 min`);
+    }
+    job.ok = true;
+  } catch (e) { job.ok = false; job.error = e.message; log('FAILED: ' + e.message); }
+  finally {
+    if (switched && sel) { try { const r = await switchCharacter(sel, login, main, 'back', [main, alt], log); log(r.ok ? `account ${login} is back on ${main}` : `switch back to ${main} FAILED: ${r.error} — log ${main} in by hand`); } catch (e) { log('switch back error: ' + e.message); } }
+    job.done = new Date().toISOString(); ALTJOB.running = false;
+  }
+}
 // --- Character switch INSIDE the running session (2026-10-07) ---------------------------------------------------------------------
 // close_account/open_account while an account reconnects made L2Swarm grow 4 -> 9 GB within a minute (twice on 2026-10-07), so the
 // transfer never closes or opens accounts and never touches the config XML. Instead a one-shot script (Scripts/xfer_<login>_<time>_<to|back>.js)
@@ -1544,7 +1627,7 @@ function ps(cmd) {
 async function pollSystem() {
   const os = require('os');
   SYS.freeMB = Math.round(os.freemem() / 1048576); SYS.totalMB = Math.round(os.totalmem() / 1048576);
-  const out = await ps("Get-Process L2Swarm -ErrorAction SilentlyContinue | Select-Object -First 1 Id, StartTime, " +
+  const out = await ps("Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { $_.Path -notmatch 'L2Swarm_update' } | Select-Object -First 1 Id, StartTime, " +
     "@{n='mb';e={[int]($_.PrivateMemorySize64/1MB)}}, @{n='threads';e={$_.Threads.Count}}, HandleCount | ConvertTo-Json -Compress");
   let p = null; try { p = out ? JSON.parse(out) : null; } catch (e) { }
   SYS.l2 = p ? { pid: p.Id, mb: p.mb, threads: p.threads, handles: p.HandleCount, started: p.StartTime } : null;
@@ -1797,7 +1880,7 @@ function agentGuardPick(stats, nowMs) {
 }
 setInterval(() => {
   try {
-    if (engineJob.running || !bhProc) return;
+    if (engineJob.running || ALTJOB.running || !bhProc) return;   // ALTS: an account switched to an alt is no agent problem
     const stats = readJson(path.join(LOGS, 'brain_host_stats.json'), null);
     if (!stats || Date.now() - Date.parse(stats.at || 0) > 60000) return;               // pool not reporting: nothing to compare with
     const names = agentGuardPick(stats, Date.now());
@@ -1842,10 +1925,10 @@ function tailText(file, bytes) {
 async function perfSample() {
   try {
     let mb = null, free = null;
-    try { const o = (await ps("$p=Get-Process L2Swarm -ErrorAction SilentlyContinue; if($p){[int]($p.PrivateMemorySize64/1MB)}else{0}; [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)")).split(/\s+/); if (o.length >= 2) { mb = +o[0]; free = +o[1]; } } catch (e) { }
+    try { const o = (await ps("$p=Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { $_.Path -notmatch 'L2Swarm_update' } | Select-Object -First 1; if($p){[int]($p.PrivateMemorySize64/1MB)}else{0}; [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)")).split(/\s+/); if (o.length >= 2) { mb = +o[0]; free = +o[1]; } } catch (e) { }
     const st = readStates(), rep = st.filter(s => s.ageSec < 60), lags = rep.map(s => Number(s.tickLate) || 0).sort((a, b) => a - b);
     const q = (p) => lags.length ? lags[Math.min(lags.length - 1, Math.floor(lags.length * p))] : null;
-    let wd = 0; try { const t = tailText(path.join(LOGS, 'LOG.log'), 400000).split(/\r?\n/), lim = Date.now() - 120000; for (const l of t) { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+ .*ran JS for/.exec(l); if (m && new Date(m[1].replace(' ', 'T')).getTime() > lim) wd++; } } catch (e) { }
+    let wd = 0; try { const t = tailText(path.join(LOGS, 'LOG.log'), 400000).split(/\r?\n/), lim = Date.now() - 120000; for (const l of t) { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+(?:[+-]\d\d:\d\d)? .*ran JS for/.exec(l); if (m && new Date(m[1].replace(' ', 'T')).getTime() > lim) wd++; } } catch (e) { }
     let parsed = 0, files = 0; try { for (const f of await fs.promises.readdir(LOGS)) { if (!/^dataload_.+\.json$/.test(f)) continue; const j = readJson(path.join(LOGS, f), null); if (!j || Date.now() - Date.parse(j.at) > 330000) continue; files++; (j.loads || []).forEach(x => { parsed += (x.kb || 0) * (x.n || 0); }); } } catch (e) { }
     // brain characters run swarm.js in the brain pool, not in L2Swarm: L2Swarm MB per character counts only the others; the pool's own RSS
     // (Logs/brain_host_stats.json) is logged next to it (engine audit #38, 2026-10-12)
@@ -2390,7 +2473,7 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/liveparty.js' || url.pathname === '/liveparty.css' ||
         url.pathname === '/activity.js' || url.pathname === '/partystatus.js' || url.pathname === '/partystatus.css' ||   // PARTY STATUS 2026-10-09: shared activity line + Parties tab banner
         url.pathname === '/levelEta.js' ||
-        url.pathname === '/mapfloors.js' ||
+        url.pathname === '/mapfloors.js' || url.pathname === '/clansquads.js' ||   // CLANSQUADS 2026-10-25: Clan tab squads / ranks / academy (public, no secrets)
         url.pathname === '/charfind.js' || url.pathname === '/charfind.css' ||   // CHARACTER FINDER 2026-10-14: header search for a character (public, no secrets)   // MAP FLOORS 2026-10-13: shared same-floor rule of every map (public, no secrets)
         url.pathname === '/uidialog.js' || url.pathname === '/uidialog.css' ||   // UIDIALOG 2026-10-10: the one shared dialog (confirm / alert / prompt), public, BEFORE the key check (phones over the LAN)
         false) {   // LEVEL ETA 2026-10-09: shared "next level in ~1h 25m" helper (Dashboard/levelEta.js, public, no secrets)
@@ -2414,6 +2497,9 @@ http.createServer(async (req, res) => {
     if (await require('./routeview_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;
     // TOWN PATHS 2026-10-12 (Dashboard/townpaths_api.js): /townpaths.js (public) + GET /api/townpaths (key checked inside): every town's street graph + Giran's recorded routes for the map layers
     if (await require('./townpaths_api').handle(req, res, url, { DIR: __dirname, DATA, allowed, json, send })) return;
+    if (await require('./worldlayers_api').handle(req, res, url, { DIR: __dirname, DATA, ROOT, allowed, json })) return;
+    if (await require('./qcircuit_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json })) return;
+    if (url.pathname === '/altspage.js') { res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-cache' }); res.end(fs.readFileSync(path.join(__dirname, 'altspage.js'))); return; }   // ALTS-2026-10-25: the Accounts page box (public script, the data needs the key)   // QUEST CIRCUIT 2026-10-25: /qcircuitpage.js, /api/qcircuit   // MAP LAYERS 2026-10-25: /maplayers.js, /api/worldlayers, /api/zoneinfo, /api/huntsets
     // CLASS PLANS 2026-10-10 (Dashboard/classpage_api.js): /classpage.js|css, /classlogic.js (public) + GET /api/classtree, GET/POST /api/classplans   (before the key check, like gearpage/kamapage: the page files are public, the API checks the key itself; 2026-10-10 the tab failed on phones = 401 on classpage.js)
     // (key checked inside): per party + character the class plan (Scripts/data/class_plans.json), its status, approval, templates
     if (await require('./classpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
@@ -2491,6 +2577,10 @@ http.createServer(async (req, res) => {
     if (await require('./clanauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;
     // CLAN NOBILITY RANKS 2026-10-12 (Dashboard/clanranks_api.js, READ-ONLY): /clanranks.js|css|_logic.js (public) + GET /api/clanranks (key checked inside)
     if (await require('./clanranks_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, allowed, json, send })) return;
+    // AUGTABLE 2026-10-25 (Dashboard/augment_api.js, READ-ONLY): /augmentpage.js (public) + GET /api/augments[/stone] (key checked inside)
+    if (await require('./augment_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send })) return;
+    // UPGRADE 2026-10-25 (Dashboard/upgrade_api.js): /upgradepage.js (public) + POST /api/upgrade/plan|start, GET /api/upgrade/status (key checked inside)
+    if (await require('./upgrade_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, mcpCallChar, commandRun })) return;
     // QUESTS 2026-10-12 (Dashboard/questpage_api.js): /questpage.js|css (public) + GET /api/quests, /api/quests/detail?id=, /api/quests/chars,
     // GET/POST /api/quests/farm (key checked inside): every H5 quest (Scripts/data/quests_h5.json), per character eligibility + Logs/quest_state_<Name>.json, quest farm config
     if (await require('./questpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, body })) return;
@@ -2705,10 +2795,19 @@ http.createServer(async (req, res) => {
         .map(c => ({ name: c.name, level: c.level, role: c.role, cls: c.cls, team: (typeof c.party === 'string' && c.party) || c.name })) : [];
       // detected clans (one Clan sub-tab each), the clan event (epic bosses + party level check), CC leaders (user 2026-10-07) — Dashboard/raidteam.js
       let clans = [], events = [], ccLeaders = [];
+      // CLANSQUADS 2026-10-25: the last good server member list per clan id (a script reload empties every character's list for 4-14 min)
+      const lastF = path.join(LOGS, 'clan_intel_last.json'), lastSrv = readJson(lastF, {}) || {};
+      try { let ch = false; chars.forEach(c => { const ci = c.clanInfo; if (!ci || !+ci.id || !(ci.members || []).length || /^\(clan \d+\)$/.test(String(ci.name || ''))) return;
+          const o = lastSrv[ci.id]; if (!o || String(ci.seenAt || '') > String(o.seenAt || '') || (!(o.grades || []).length && (ci.grades || []).length)) { lastSrv[ci.id] = ci; ch = true; } });
+        if (ch) fs.writeFileSync(lastF, JSON.stringify(lastSrv)); } catch (e) { }
       try { const RT = require('./raidteam'); const tpls = readJson(path.join(DATA, 'raid_templates.json'), null);
-        clans = RT.clansFrom(chars, cq); events = RT.eventBosses(Object.values(teams), rb, tpls);
+        clans = RT.clansFrom(chars, cq, lastSrv); events = RT.eventBosses(Object.values(teams), rb, tpls);
         ccLeaders = Object.values(teams).map(t => { const c = chars.find(x => x.name === t.leader) || {}; return { name: t.leader, size: t.size, min: t.min, max: t.max, ccRight: c.ccRight || '', clan: (c.clanInfo && c.clanInfo.name) || c.clan || '', isClanLeader: !!(c.clanInfo && c.clanInfo.isLeader) }; });
       } catch (e) { console.error('raidteam', e.message); }
+      // CLANSQUADS 2026-10-25: squads (main / academy / royal guards / knights) with limits, ranks + privileges, who left / graduated
+      let squads = null;
+      try { const grad = chars.filter(c => { const a = readJson(path.join(LOGS, `academy_${c.name}.json`), null); return a && a.status === 'graduated'; }).map(c => c.name);
+        squads = require('./clansquads').build(chars, (cd && cd.levels) || [], { academyGraduated: grad, lastServer: lastSrv }); } catch (e) { console.error('clansquads', e.message); }
       // clan level quests: progress per step (Logs/clanquest_<id>.json, written by swarm.js) (user 2026-10-07 19:20)
       // before the clan leader runs the new swarm.js (no nextLevel in clan_state yet): the same checklist from his SP/adena; items unknown (null)
       if (st && !st.nextLevel && cd && Array.isArray(cd.levels)) { const ck = (clans || []).find(k => k.leader === leaderName) || null; const cur = Math.max(+(st.clan && st.clan.level) || 0, +(ck && ck.level) || 0); const L = cd.levels.find(l => +l.level === cur + 1);
@@ -2735,7 +2834,11 @@ http.createServer(async (req, res) => {
           cycle: r.cycle || '', status: r.status || '', registered: v.registered !== undefined ? v.registered : (/^(signed|member)$/.test(r.status || '') ? 'dawn' : ''), signedAt: r.signedAt || 0, at: r.at || 0,
           denied: r.denied || null, allowed: v.ok === undefined ? null : !!v.ok, why: v.why || '', viewAt: v.at || 0, period: v.period || '', winner: v.winner || '', viewCycle: v.cycle || '', nextChange: v.nextChange || '' };
       }) };
-      return json(res, 200, { state: st, quests: cq, leader: leaderName, leaderChar: lc, teams: Object.values(teams), bosses, roster, data: cd, clans, events, ccLeaders, cqProgress, sevenSigns });
+      // CLANSQUADS: the roster is the server's member list (a graduated academy member keeps the clan id in its own L2Swarm data)
+      let rosterOut = roster;
+      try { const sq = squads && squads.clans.find(k => !k.unknown && ((rClanId && k.id === rClanId) || (rClanName && k.name.toLowerCase() === rClanName)));
+        if (sq) { const inSrv = new Set([].concat(...sq.squads.map(s => s.members.map(m => m.name)))); rosterOut = roster.filter(r => inSrv.has(r.name)); } } catch (e) { }
+      return json(res, 200, { state: st, quests: cq, leader: leaderName, leaderChar: lc, teams: Object.values(teams), bosses, roster: rosterOut, data: cd, clans, events, ccLeaders, cqProgress, sevenSigns, squads });
     }
     // RAID TEAM TEMPLATES (user 2026-10-07): GET /api/raidteam -> list; ?id=<npc id> -> the template + a proposed team from ALL our characters
     if (url.pathname === '/api/raidteam') {
@@ -3438,6 +3541,15 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/api/chars') {
       const idx = charIndex();
       return json(res, 200, { chars: Object.values(idx).sort((a, b) => a.login.localeCompare(b.login) || a.name.localeCompare(b.name)) });
+    }
+    if (url.pathname === '/api/alts' && req.method === 'GET') return json(res, 200, altsOverview());   // ALTS-2026-10-25: every account, every character, bag + warehouse
+    if (url.pathname === '/api/alts/run' && req.method === 'POST') {
+      const b = await body(req), alt = String(b.alt || ''), action = String(b.action || ''), target = String(b.target || '');
+      if (!/^[A-Za-z0-9_]{2,32}$/.test(alt) || !/^(census|give)$/.test(action) || (action === 'give' && !/^[A-Za-z0-9_]{2,32}$/.test(target))) return json(res, 400, { error: 'alt, action census | give (+ target)' });
+      if (ALTJOB.running || (TRANSFER.job && !TRANSFER.job.done)) return json(res, 409, { error: 'another account switch is running — wait until it ends', job: ALTJOB.job });
+      ALTJOB.running = true; ALTJOB.job = { alt, action, target, started: new Date().toISOString(), log: [] };
+      altRun({ alt, action, target }).catch(e => { ALTJOB.running = false; altLog('error: ' + e.message); });
+      return json(res, 200, { ok: true, job: ALTJOB.job });
     }
     if (url.pathname === '/api/transfer' && req.method === 'POST') {
       const b = await body(req);

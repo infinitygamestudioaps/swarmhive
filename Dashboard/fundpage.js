@@ -13,7 +13,7 @@
   const clone = (o) => JSON.parse(JSON.stringify(o == null ? {} : o));
   const fmt = (n) => n == null || n === '' || !isFinite(Number(n)) ? '' : Number(n).toLocaleString('en-US');
   const short = (n) => { n = Number(n); if (!isFinite(n)) return ''; const a = Math.abs(n); return a >= 1e9 ? +(n / 1e9).toFixed(2) + 'b' : a >= 1e6 ? +(n / 1e6).toFixed(2) + 'm' : a >= 1e3 ? +(n / 1e3).toFixed(1) + 'k' : String(n); };
-  const DEF = { on: true, town: 'Giran', everyMin: 30, minGive: 200000, slack: 500000, brokeBelow: 500000, givers: { mode: 'auto', list: [], keepAtLeast: 30000000 },
+  const DEF = { on: true, town: 'Giran', everyMin: 30, minGive: 200000, slack: 500000, brokeBelow: 500000, givers: { mode: 'collector', list: [], keepAtLeast: 30000000 }, deposit: { on: false, above: 20000000, keep: 10000000, againMin: 120 },
     defaults: { leaderTarget: 8000000, memberTarget: 3000000, clanLeaderTarget: 12000000 }, parties: {}, chars: {} };
 
   /** "8m" | "300k" | "8,000,000" -> number; '' -> null; bad -> NaN (same rules as fundpage_api.js parseAmount) */
@@ -30,6 +30,7 @@
     const o = Object.assign(clone(DEF), clone(r || {}));
     o.givers = Object.assign(clone(DEF.givers), (r && r.givers) || {}); if (!Array.isArray(o.givers.list)) o.givers.list = [];
     o.defaults = Object.assign(clone(DEF.defaults), (r && r.defaults) || {});
+    o.deposit = Object.assign(clone(DEF.deposit), (r && r.deposit) || {});   // FUNDCOLLECTOR-2026-10-25
     if (!o.parties || typeof o.parties !== 'object') o.parties = {};
     if (!o.chars || typeof o.chars !== 'object') o.chars = {};
     return o;
@@ -213,14 +214,20 @@
     const leaders = P.map(p => Object.assign({ party: p.leader }, p.members.find(m => m.name === p.leader) || { name: p.leader }));
     const others = allMembers().filter(m => m.name !== m.party);
     const known = new Set(allMembers().map(m => m.name)), stray = g.list.filter(n => !known.has(n));
-    el.innerHTML = `<div class="fnd-modes" role="radiogroup" aria-label="who gives">${radio('auto', 'Any rich party leader', 'every party leader that has more than the amount below')}${radio('list', 'Only these characters', 'tick them below')}${radio('none', 'Nobody', 'no hand-outs at all')}</div>
+    // FUNDCOLLECTOR-2026-10-25 (owner: "not auto selected ... only the collector role should hand them out, or selectable"): the collector is the
+    // default; "any rich party leader" only shows while an old setting still uses it. Hand-outs wait for the same town (nobody travels for them).
+    const D = FP.cur.deposit || { on: false, above: 20000000, keep: 10000000, againMin: 120 };
+    el.innerHTML = `<div class="fnd-modes" role="radiogroup" aria-label="who gives">${radio('collector', 'Only the collector', `the collector from the Storage page${FP.info && FP.info.collector ? ' (' + FP.info.collector + ')' : ''} — it stays in town; a hand-out waits until the receiver is in town anyway`)}${radio('list', 'Only these characters', 'tick them below')}${radio('none', 'Nobody', 'no hand-outs at all')}${g.mode === 'auto' ? radio('auto', 'Any rich party leader (old setting)', 'pulls leveling leaders into town to hand out — not recommended') : ''}</div>
       <div class="fnd-givers ${g.mode === 'list' ? '' : 'dim'}">
         <div class="fnd-sub">Party leaders</div><div class="trd-row">${leaders.map(m => chip(m, true)).join('')}</div>
         <details class="fnd-more" ${others.some(m => L.has(m.name)) ? 'open' : ''}><summary>Other characters (${others.length})</summary><div class="trd-row">${others.map(m => chip(m, false)).join('')}</div></details>
         ${stray.length ? `<div class="fnd-sub">Not in any party now</div><div class="trd-row">${stray.map(n => chip({ name: n, party: '?' }, false)).join('')}</div>` : ''}
         <div class="muted fnd-cnt">${g.list.length} ticked</div>
       </div>
-      <div class="fnd-grid">${field('Always keeps at least', amountInput('givers|keepAtLeast', g.keepAtLeast, { label: 'giver always keeps at least' }), 'a giver never goes below this')}</div>`;
+      <div class="fnd-grid">${field('Always keeps at least', amountInput('givers|keepAtLeast', g.keepAtLeast, { label: 'giver always keeps at least' }), 'a giver never goes below this')}</div>
+      <div class="fnd-sub" style="margin-top:12px">Surplus to the collector</div>
+      <label class="fnd-radio ${D.on ? 'on' : ''}"><input type="checkbox" data-fnddep="on" ${D.on ? 'checked' : ''}><span><b>Characters hand their surplus adena to the collector</b><span class="fh">only when they stand in the collector's town anyway (supply run, regroup) — never an extra trip</span></span></label>
+      <div class="fnd-grid">${field('When a character has more than', amountInput('deposit|above', D.above, { label: 'surplus above' }), 'e.g. 20m')}${field('it keeps', amountInput('deposit|keep', D.keep, { label: 'surplus keeps' }), 'enough to hunt for a while, e.g. 10m — the rest goes to the collector')}</div>`;
   }
   function renderDef() {
     const el = $id('fndDef'); if (!el) return;
@@ -313,6 +320,7 @@
       if (/^(chars|parties|defaults|slack|memberKeep)/.test(t.dataset.fndpath)) softRender();
       renderBar(); return;
     }
+    if (t.dataset.fnddep === 'on') { FP.cur.deposit.on = !!t.checked; renderGive(); renderBar(); return; }   // FUNDCOLLECTOR
     const f = t.dataset.fnd;
     if (f === 'on') { FP.cur.on = !!t.checked; renderHead(); renderBar(); return; }
     if (f === 'town') { FP.cur.town = t.value; renderHead(); renderBar(); return; }
@@ -338,7 +346,7 @@
     if (a.on !== b.on) out.push(`Adena hand-outs between parties: ${b.on ? 'ON' : 'OFF'}`);
     if (a.town !== b.town) out.push(`Town: ${a.town} → ${b.town}`);
     [['everyMin', 'Every (min)'], ['minGive', 'Minimum hand-out'], ['slack', 'Top-up slack'], ['brokeBelow', 'Broke below']].forEach(([k, l]) => { if (String(a[k]) !== String(b[k])) out.push(`${l}: ${amt(a[k])} → ${amt(b[k])}`); });
-    const MODE = { auto: 'any rich party leader', list: 'only the ticked characters', none: 'nobody' };
+    const MODE = { collector: 'only the collector', auto: 'any rich party leader (old)', list: 'only the ticked characters', none: 'nobody' };
     if (a.givers.mode !== b.givers.mode) out.push(`Who gives: ${MODE[b.givers.mode] || b.givers.mode}`);
     if (JSON.stringify(a.givers.list) !== JSON.stringify(b.givers.list)) out.push(`Ticked givers: ${b.givers.list.join(', ') || '(none)'}`);
     if (String(a.givers.keepAtLeast) !== String(b.givers.keepAtLeast)) out.push(`Giver keeps at least: ${amt(a.givers.keepAtLeast)} → ${amt(b.givers.keepAtLeast)}`);

@@ -140,7 +140,7 @@
     try { stopChar(); } catch (e) { }
     try { TAB = 'overview'; [...$id('tabs').children].forEach(b => b.classList.toggle('on', b.dataset.tab === 'overview')); } catch (e) { }
     document.querySelectorAll('main > section').forEach(x => { if (x.id !== SEC) x.hidden = true; });
-    s.hidden = false; S.open = true; window.scrollTo(0, 0);
+    s.hidden = false; S.open = true; S.order = null; window.scrollTo(0, 0);   // OVORDER: a fresh visit sorts again
     renderSeg(); load();
     clearInterval(S.poll); S.poll = setInterval(() => { if (S.open && !document.hidden) load(); }, 30000);
     clearInterval(S.tick); S.tick = setInterval(() => { if (S.open && !document.hidden) tickClocks(); }, 1000);
@@ -148,7 +148,9 @@
   function close() { if (!S.open) return; S.open = false; clearInterval(S.poll); clearInterval(S.tick); const s = $id(SEC); if (s) s.hidden = true; }
   async function load() {
     const my = ++S.seq;
-    try { const d = await api('/api/overview?hours=' + S.hours); if (my !== S.seq || !d || d.error) return; S.skew = d.at - Date.now(); const prev = S.d; S.d = d; render(prev); } catch (e) { }
+    // OVLOCK: exp locks from the Levels page data (/api/circuit members[].lc), refreshed every 5 min; /api/overview chars[].locked wins once the server has it
+    if (!S.lkAt || Date.now() - S.lkAt > 300000) { S.lkAt = Date.now(); try { const c = await api('/api/circuit'); const L = {}; (c && c.parties ? Object.values(c.parties) : []).forEach(p => (p.members || []).forEach(m => { const l = m.lc || {}; if (l.lockOn && Number(l.lock) && Number(m.level) >= Number(l.lock)) L[m.name] = Number(l.lock); })); S.locks = L; } catch (e) { } }
+    try { const d = await api('/api/overview?hours=' + S.hours); if (my !== S.seq || !d || d.error) return; S.skew = d.at - Date.now(); (d.parties || []).forEach(p => p.members.forEach(m => { if (!m.locked && S.locks && S.locks[m.name]) m.locked = S.locks[m.name]; })); const prev = S.d; S.d = d; render(prev); } catch (e) { }
   }
   function renderSeg() {
     $id('ovHours').innerHTML = [[1, 'Last hour'], [24, '24 h']].map(([v, t]) => `<button data-ovh="${v}" class="${S.hours === v ? 'on' : ''}">${t}</button>`).join('');
@@ -156,6 +158,29 @@
     $id('ovSort').innerHTML = SORTS.map(([v, t]) => `<option value="${v}"${S.sort === v ? ' selected' : ''}>Sort: ${t}</option>`).join('');
   }
 
+  // OVMORPH 2026-10-25 (owner: "it's annoying the page keeps refreshing and reloading all the time, it should just update the numbers"): a refresh
+  // patches the shown cards in place (only changed text / attributes; nodes are kept, so nothing re-animates or jumps); a running clock
+  // ([data-at] with the same value) keeps its text until tickClocks
+  function morph(el, html) {
+    const t = document.createElement('template'); t.innerHTML = html;
+    if (!el.firstChild || el.dataset.ovm !== '1') { el.replaceChildren(t.content); el.dataset.ovm = '1'; return; }
+    syncKids(el, t.content);
+  }
+  function syncKids(a, b) {
+    const A = [...a.childNodes], B = [...b.childNodes];
+    B.forEach((nb, i) => {
+      const na = A[i];
+      if (!na) { a.appendChild(nb); return; }
+      if (na.nodeType !== nb.nodeType || na.nodeName !== nb.nodeName) { a.replaceChild(nb, na); return; }
+      if (nb.nodeType === 3 || nb.nodeType === 8) { if (na.nodeValue !== nb.nodeValue) na.nodeValue = nb.nodeValue; return; }
+      if (nb.nodeType !== 1) return;
+      for (const at of [...na.attributes]) if (!nb.hasAttribute(at.name) && at.name !== 'style') na.removeAttribute(at.name);
+      for (const at of [...nb.attributes]) if (at.name !== 'style' && na.getAttribute(at.name) !== at.value) na.setAttribute(at.name, at.value);   // style = the entry animation delay only
+      if (na.hasAttribute('data-at') && na.getAttribute('data-at') === nb.getAttribute('data-at') && !nb.firstChild) return;
+      syncKids(na, nb);
+    });
+    for (let i = A.length - 1; i >= B.length; i--) A[i].remove();
+  }
   // numbers count up from what was shown before
   function countUp(el, to, fmt) {
     const from = Number(el.dataset.v || 0); el.dataset.v = to;
@@ -181,11 +206,11 @@
     const box = $id('ovKpis');
     if (box.children.length !== K.length) box.innerHTML = K.map(([k], i) => `<div class="ov-k" data-k="${k}" style="animation-delay:${i * 60}ms"><div class="l"></div><div class="v"></div><div class="s"></div></div>`).join('');
     K.forEach(([k, l, ic, v, fmt, c, s], i) => { const el = box.children[i]; el.className = 'ov-k ' + c; el.querySelector('.l').innerHTML = IC(ic) + h(l); countUp(el.querySelector('.v'), Number(v) || 0, fmt); el.querySelector('.s').textContent = s; });
-    $id('ovSoon').innerHTML = d.soon.length ? d.soon.map(c => `<div class="ov-chip" data-ovc="${h(c.name)}" title="${h(c.party)}">${cls(c)}<b>${h(c.name)}</b> → ${c.level + 1} <span class="t" data-at="${c.at}"></span></div>`).join('') : '<span class="ov-note">No estimate yet — needs a few minutes of hunting.</span>';
-    $id('ovUps').innerHTML = d.ups.length ? d.ups.map(c => `<div class="ov-chip ${d.at - c.at < 15 * 60000 ? 'up' : ''}" data-ovc="${h(c.name)}">${cls(c)}<b>${h(c.name)}</b> reached ${c.level} <span class="t">${ago(c.at)}</span></div>`).join('') : '<span class="ov-note">No level-up in the last 6 hours.</span>';
+    morph($id('ovSoon'), d.soon.length ? d.soon.map(c => `<div class="ov-chip" data-ovc="${h(c.name)}" title="${h(c.party)}">${cls(c)}<b>${h(c.name)}</b> → ${c.level + 1} <span class="t" data-at="${c.at}"></span></div>`).join('') : '<span class="ov-note">No estimate yet — needs a few minutes of hunting.</span>');
+    morph($id('ovUps'), d.ups.length ? d.ups.map(c => `<div class="ov-chip ${d.at - c.at < 15 * 60000 ? 'up' : ''}" data-ovc="${h(c.name)}">${cls(c)}<b>${h(c.name)}</b> reached ${c.level} <span class="t">${ago(c.at)}</span></div>`).join('') : '<span class="ov-note">No level-up in the last 6 hours.</span>');
     // confetti for a level-up that appeared since the last refresh
     if (prev && !reduce()) for (const c of d.ups) if (!prev.ups.some(p => p.name === c.name && p.at === c.at) && d.at - c.at < 10 * 60000) confetti($id('ovUps'));
-    renderBody(); tickClocks();
+    renderBody(true); tickClocks();
     const t = new Date(d.at);
     $id('ovNote').innerHTML = `Updated ${t.toLocaleTimeString()} · every 30 s. Profit = wallet change + loot worth (items count at shop price until sold; shots, potions and gear are already paid from the wallet, shown under Costs). Adena handed between characters cancels out inside a party. <a href="#/parties">Party controls → Parties</a>`;
   }
@@ -205,23 +230,32 @@
 
   const val = (x, k) => k === 'eta' ? (x.eta && x.eta.at) || (x.next && x.next.at) || 9e15 : k === 'name' ? (x.name || x.leader || '').toLowerCase() : k === 'level' ? (x.level != null ? x.level : x.avgLevel) : Number(x[k]) || 0;
   const sorter = (a, b) => { const A = val(a, S.sort), B = val(b, S.sort); return (A < B ? -1 : A > B ? 1 : 0) * S.dir; };
-  function renderBody() {
+  // OVORDER 2026-10-25: an automatic refresh keeps the order on screen (cards no longer swap places every 30 s as profit moves);
+  // the sort is applied again only when you change it, search, switch view or open the page
+  const keepOrder = (list, keyOf, auto) => {
+    const ord = S.order && S.order.view === S.view ? S.order.keys : null;
+    if (auto && ord) { const ix = new Map(ord.map((k, i) => [k, i])); list.sort((a, b) => (ix.has(keyOf(a)) ? ix.get(keyOf(a)) : 1e6) - (ix.has(keyOf(b)) ? ix.get(keyOf(b)) : 1e6)); }
+    else list.sort(sorter);
+    S.order = { view: S.view, keys: list.map(keyOf) };
+    return list;
+  };
+  function renderBody(auto) {
     const d = S.d; if (!d) return;
     const q = S.q, body = $id('ovBody');
     if (S.view === 'chars') {
-      const list = d.chars.filter(c => !q || c.name.toLowerCase().includes(q) || c.party.toLowerCase().includes(q) || String(c.cls).toLowerCase().includes(q)).sort(sorter);
+      const list = keepOrder(d.chars.filter(c => !q || c.name.toLowerCase().includes(q) || c.party.toLowerCase().includes(q) || String(c.cls).toLowerCase().includes(q)), c => c.name, auto);
       const cols = [['name', 'Character'], ['level', 'Level'], ['eta', 'Next level'], ['expH', 'Exp / h'], ['profitH', 'Profit / h'], ['lootH', 'Loot / h'], ['costH', 'Costs / h'], ['adena', 'Adena'], ['killsH', 'Kills / h'], ['deaths', 'Deaths']];
-      body.innerHTML = `<div class="ov-twrap"><table class="ov-t"><thead><tr>${cols.map(([k, t]) => `<th data-ovs="${k}" class="${S.sort === k ? 'on' : ''}">${t}${S.sort === k ? (S.dir < 0 ? ' ▾' : ' ▴') : ''}</th>`).join('')}</tr></thead><tbody>${list.map((c, i) => {
+      morph(body, `<div class="ov-twrap"><table class="ov-t"><thead><tr>${cols.map(([k, t]) => `<th data-ovs="${k}" class="${S.sort === k ? 'on' : ''}">${t}${S.sort === k ? (S.dir < 0 ? ' ▾' : ' ▴') : ''}</th>`).join('')}</tr></thead><tbody>${list.map((c, i) => {
         const a = actOf(c.activity, c.task);
         return `<tr data-ovc="${h(c.name)}" style="animation-delay:${Math.min(i, 30) * 15}ms"><td><span class="ov-dot ${c.dead ? 'dead' : c.online ? '' : 'off'}"></span> ${cls(c)} <b>${h(c.name)}</b> ${IC(a.ic, '', a.n)} <span class="ov-badge">${h(c.party)}</span></td>
           <td data-l="Level">${c.level || '—'} <span class="ov-badge">${c.exp != null ? c.exp.toFixed(1) + '%' : ''}</span></td><td data-l="Next level"><span data-at="${c.eta && c.eta.status === 'ok' && c.eta.at ? c.eta.at : ''}"></span></td>
           <td data-l="Exp / h">${c.expH != null ? short(c.expH) : '—'}${c.pctH != null ? ` <span class="ov-badge">${c.pctH}%</span>` : ''}</td><td data-l="Profit / h"><span class="${c.profitH >= 0 ? 'good' : 'bad'}">${sign(c.profitH)}</span></td>
           <td data-l="Loot / h">${short(c.lootH)}</td><td data-l="Costs / h"><span class="bad">${short(c.costH)}</span></td><td data-l="Adena">${short(c.adena)}</td><td data-l="Kills / h">${c.killsH != null ? c.killsH : '—'}</td><td data-l="Deaths">${c.deaths ? `<span class="bad">${c.deaths}</span>` : 0}</td></tr>`;
-      }).join('')}</tbody></table></div>`;
+      }).join('')}</tbody></table></div>`);
       return;
     }
-    const parties = d.parties.filter(p => !q || p.leader.toLowerCase().includes(q) || p.members.some(m => m.name.toLowerCase().includes(q))).sort(sorter);
-    body.innerHTML = `<div class="ov-grid">${parties.map((p, i) => partyCard(p, i)).join('')}</div>`;
+    const parties = keepOrder(d.parties.filter(p => !q || p.leader.toLowerCase().includes(q) || p.members.some(m => m.name.toLowerCase().includes(q))), p => p.leader, auto);
+    morph(body, `<div class="ov-grid">${parties.map((p, i) => partyCard(p, i)).join('')}</div>`);
   }
   function sparkSvg(p) {
     const ms = p.members.filter(m => m.spark && m.spark.length > 1 && m.spark.every(v => v != null)); if (!ms.length) return '';
@@ -235,18 +269,29 @@
     const p = Math.max(0, Math.min(100, Number(c.exp) || 0)), R = 13.5, L = 2 * Math.PI * R;
     return `<div class="ov-ring" title="${c.exp != null ? c.exp.toFixed(1) + '% into level ' + c.level : ''}"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="${R}" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2.5"/><circle cx="15" cy="15" r="${R}" fill="none" stroke="${c.dead ? '#ec6a55' : '#e3c27a'}" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="${L.toFixed(1)}" stroke-dashoffset="${(L * (1 - p / 100)).toFixed(1)}"/></svg>${cls(c)}</div>`;
   }
+  // OVLOCK 2026-10-25: why there is no level-up time (exp locked on purpose / raid / waiting / travelling / no exp yet) instead of "no estimate yet"
+  function noEta(p) {
+    const ms = p.members, lk = ms.map(m => m.locked).filter(Boolean);
+    if (lk.length && lk.length === ms.length) return 'exp locked at ' + Math.min(...lk) + ' (farming)';
+    if (p.activity === 'raidcircuit' || /raid/.test(p.activity || '')) return 'raid circuit (no exp)';
+    if (/^waiting for orders/i.test(p.task || '')) return 'waiting for orders';
+    if (/^(route to|travel|walking|dungeon: |teleport)/i.test(p.task || '')) return 'travelling';
+    if (ms.some(m => m.eta && m.eta.status === 'warmup')) return 'measuring…';
+    if (ms.some(m => m.eta && m.eta.status === 'idle')) return 'no exp for a while';
+    return 'no exp in the last minutes';
+  }
   function partyCard(p, i) {
     const a = actOf(p.activity, p.task), lvlUp = p.members.some(m => m.lastUp && S.d.at - m.lastUp < 15 * 60000);
-    const nx = p.next && p.next.status === 'ok' && p.next.at ? `<span>Party level ${p.next.next} in <b data-at="${p.next.at}"></b>${p.next.who ? ' (' + h(p.next.who) + ')' : ''}</span>` : `<span>Lowest level ${p.minLevel}${p.next && p.next.status === 'max' ? ' · max' : ' · no estimate yet'}</span>`;
+    const nx = p.next && p.next.status === 'ok' && p.next.at ? `<span>Party level ${p.next.next} in <b data-at="${p.next.at}"></b>${p.next.who ? ' (' + h(p.next.who) + ')' : ''}</span>` : `<span>Lowest level ${p.minLevel} · ${p.next && p.next.status === 'max' ? 'max' : noEta(p)}</span>`;
     const N = (l, v, c) => `<div class="ov-n"><div class="l">${l}</div><div class="v ${c || ''}">${v}</div></div>`;
     return `<div class="ov-p ${lvlUp ? 'lvl' : ''}" style="animation-delay:${Math.min(i, 20) * 35}ms">
-      <div class="ov-ph" data-ovp="${h(p.leader)}" title="Open the party on the Parties page">${IC(a.ic, '', a.n)}<div style="min-width:0"><div class="n">${h(p.leader)}</div><div class="w">${h(a.n)}${p.where && p.where !== 'GENERALZONE' ? ' · ' + h(p.where) : ''}</div></div><span class="gap"></span>
+      <div class="ov-ph" data-ovp="${h(p.leader)}" title="Open this party's page">${IC(a.ic, '', a.n)}<div style="min-width:0"><div class="n">${h(p.leader)}</div><div class="w">${h(a.n)}${p.where && p.where !== 'GENERALZONE' ? ' · ' + h(p.where) : ''}</div></div><span class="gap"></span>
         <span class="ov-badge ${p.online === p.n ? 'ok' : 'bad'}">${p.online}/${p.n}</span>${p.dead ? `<span class="ov-badge bad">${p.dead} dead</span>` : ''}<span class="ov-badge">lvl ${p.minLevel === Math.round(p.avgLevel) ? p.minLevel : p.minLevel + '–' + Math.max(...p.members.map(m => m.level || 0))}</span></div>
       <div class="ov-nums">${N('Profit/h', sign(p.profitH), p.profitH >= 0 ? 'good' : 'bad')}${N('Exp/h', short(p.expH))}${N('Loot/h', short(p.lootH))}${N('Costs/h', short(p.costH), 'bad')}</div>
       ${sparkSvg(p)}
       <div class="ov-next">${nx}<span>${p.killsH ? p.killsH + ' kills/h' : ''}${p.deaths ? ` · <span style="color:var(--bad)">${p.deaths} deaths</span>` : ''}</span></div>
       <div class="ov-ms">${p.members.map(m => `<div class="ov-m" data-ovc="${h(m.name)}" title="${h(m.cls)} · ${h(m.task)}">${ring(m)}<div class="mi"><div class="mn">${m.leader ? '<i>★</i> ' : ''}${h(m.name)} <i>${m.level || ''}</i></div>
-        <div class="me">${m.eta && m.eta.status === 'ok' && m.eta.at ? '↑ <span data-at="' + m.eta.at + '"></span>' : m.dead ? 'dead' : !m.online ? 'offline' : m.activity === 'raidcircuit' || /raid/.test(m.activity) ? 'raid' : 'no estimate'}${m.pctH ? ' · ' + m.pctH + '%/h' : m.profitH ? ' · ' + sign(m.profitH) + '/h' : ''}</div></div></div>`).join('')}</div>
+        <div class="me">${m.eta && m.eta.status === 'ok' && m.eta.at ? '↑ <span data-at="' + m.eta.at + '"></span>' : m.dead ? 'dead' : !m.online ? 'offline' : m.locked ? 'exp locked ' + m.locked : m.activity === 'raidcircuit' || /raid/.test(m.activity) ? 'raid' : 'no exp now'}${m.pctH ? ' · ' + m.pctH + '%/h' : m.profitH ? ' · ' + sign(m.profitH) + '/h' : ''}</div></div></div>`).join('')}</div>
       <div class="ov-more">${IC(ICO.adena)} ${short(p.adena)} adena · wallet ${sign(p.adenaH)}/h${p.levels > 0 ? ` · <span style="color:var(--gold)">+${p.levels} level${p.levels > 1 ? 's' : ''}</span>` : ''}</div></div>`;
   }
   function onClick(e) {
@@ -255,7 +300,7 @@
     if ((b = g('[data-ovv]'))) { S.view = b.dataset.ovv; save(); renderSeg(); renderBody(); tickClocks(); return; }
     if ((b = g('[data-ovs]'))) { const k = b.dataset.ovs; if (S.sort === k) S.dir = -S.dir; else { S.sort = k; S.dir = k === 'name' || k === 'eta' ? 1 : -1; } save(); renderSeg(); renderBody(); tickClocks(); return; }
     if ((b = g('[data-ovc]'))) { location.hash = '#/char/' + encodeURIComponent(b.dataset.ovc); return; }
-    if ((b = g('[data-ovp]'))) { location.hash = '#/parties'; return; }
+    if ((b = g('[data-ovp]'))) { location.hash = '#/party/' + encodeURIComponent(b.dataset.ovp); return; }   // PARTYPAGE 2026-10-25: that party's own page
   }
   window.OverviewPage = { route, open, close };
 })();

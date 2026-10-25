@@ -24,7 +24,7 @@ t('after 20 min: tried again', G.agentGuardPick(stats({ Spoiler12: false, Spoile
 G.agentGuardPick(stats({ Spoiler12: true, Spoiler13: true, Tank1: true }), T0 + 50 * 60000);
 t('connected again: its count is cleared', !G.agentGuard.seen.Spoiler12);
 t('the guard runs every 2 min and spawns attach_agent --names ... --apply', /agentGuardPick\(stats, Date\.now\(\)\)[\s\S]{0,900}'attach_agent\.js'\), '--names', names\.join\(','\)[\s\S]{0,120}'--apply'\][\s\S]{0,1200}\}, 120000\);/.test(SV));
-t('the guard never runs next to another engine job or without the pool', /if \(engineJob\.running \|\| !bhProc\) return;/.test(SV));
+t('the guard never runs next to another engine job, an alt account switch (ALTS-2026-10-25) or without the pool', /if \(engineJob\.running \|\| ALTJOB\.running \|\| !bhProc\) return;/.test(SV));
 t('attach_agent saves the XML (manage_account_config save)', /async function persist\(name, sel\)[\s\S]{0,200}mcp\('manage_account_config', \{ \.\.\.sel, action: 'save' \}\)/.test(AT));
 const persists = (AT.match(/await persist\(name, sel\);/g) || []).length;
 t('persist after: already running (2x), started, created, back (= 5 calls)', persists >= 5);

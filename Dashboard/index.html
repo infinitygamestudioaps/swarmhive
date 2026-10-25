@@ -433,6 +433,7 @@ main { grid-template-columns: minmax(0, 1fr); } main > section { min-width: 0; }
 #tab-parties { display: grid; gap: 10px; align-items: stretch; grid-template-columns: repeat(auto-fill, minmax(min(100%, 700px), 1fr)); }
 #tab-parties > :not(.win) { grid-column: 1 / -1; min-width: 0; }
 #tab-parties .win.pcard { container: pcard / inline-size; }
+.partybar { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding: 4px 2px; } .partybar a { color: var(--gold, #d8b45a); text-decoration: none; padding: 2px 6px; border-radius: 4px; } .partybar a.on { background: rgba(216,180,90,.18); font-weight: bold; } .phead a.plink { color: inherit; text-decoration: none; } .phead a.plink:hover { text-decoration: underline; }
 .pwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; align-items: start; }
 .pwrap .pmap svg { max-height: 360px; }
 @container pcard (min-width: 680px) { .pwrap { grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); } .pwrap .pmap svg { max-height: 340px; } }
@@ -695,6 +696,8 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
       <button data-tab="dispatch" title="Send a party or a character anywhere: epics, raid bosses, NPCs, areas — one stop or a whole tour"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Dispatch</button>
       <button data-tab="items" title="Any character: bag, warehouse, clan warehouse, Giran shops — buy, enchant, Special Ability, give to someone"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Items</button>
+      <button data-tab="upgrade" title="Upgrade gear for several characters at once: items from wherever we have them, enchant, SA, put on, replaced pieces to the collector"><img class="gi" src="/icons/icon/weapon_homunkuluss_sword_i00.png" alt=""> Upgrade</button>
+      <button data-tab="augments" title="Every Life Stone (level and grade), everything each can give with its chance, and how many we have"><img class="gi" src="/icons/icon/etc_mineral_unique_i00.png" alt=""> Life Stones</button>
       <button data-tab="loot" title="What every character picked up or spoiled: grade, type, who, when"><img class="gi" src="/icons/icon/etc_treasure_box_i00.png" alt=""> Loot</button>
       <button data-tab="crafting" title="Crafters: what they can make with the materials in bag, warehouse and clan warehouse"><img class="gi" src="/icons/icon/etc_recipe_blue_i00.png" alt=""> Crafting</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
@@ -1207,6 +1210,10 @@ function go(hash) { if (location.hash !== hash) { navDepth++; location.hash = ha
 function route() {
   const [kind, arg] = location.hash.replace(/^#\/?/, '').split('/');
   if (window.OverviewPage && kind && kind !== 'overview') OverviewPage.close();   // OVERVIEW: off when any other page opens
+  if (window.AugmentPage && kind !== 'augments') AugmentPage.close();             // AUGTABLE 2026-10-25: Life Stones page off on any other page
+  if (window.AugmentPage && AugmentPage.route(kind, arg)) return;                 // #/augments[/<stone id>] (Dashboard/augmentpage.js)
+  if (window.UpgradePage && kind !== 'upgrade') UpgradePage.close();              // UPGRADE 2026-10-25: gear upgrade orders, off on any other page
+  if (window.UpgradePage && UpgradePage.route(kind, arg)) return;                 // #/upgrade (Dashboard/upgradepage.js)
   if (window.CharPage && CharPage.route(kind, arg)) return;     // CHARPAGE 2026-10-09: #/char/<name> v2 (Dashboard/charpage.js); closes itself on other pages
   if (window.LiveParty && LiveParty.route(kind, arg)) return;   // LIVEPARTY 2026-10-09: #/live/<leader> (Dashboard/liveparty.js); #/live alone = raid live view
   // full-screen hunting-spot editor (Dashboard/spoteditor.js): #/spot/<name>, #/spot/new, #/spot
@@ -1229,6 +1236,7 @@ function route() {
   if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
   if (window.View3D && View3D.route(kind, arg)) return;   // VIEW3D 2026-10-17: #/view3d/<name> live 3D view from the geodata + map art (Dashboard/view3d.js)
+  if (window.QCircuitPage && QCircuitPage.route(kind, arg)) return;   // QUEST CIRCUIT 2026-10-25: #/qcircuit[/<leader>] a party repeats its quest list forever (Dashboard/qcircuitpage.js)
   if (window.LootPage && LootPage.route(kind, arg)) return;   // LOOTLOG 2026-10-23: #/loot what every character picked up / spoiled (Dashboard/lootpage.js)
   if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
   if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
@@ -1237,6 +1245,9 @@ function route() {
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
   if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
   if (window.OverviewPage && OverviewPage.route(kind, arg)) return;   // OVERVIEW-2026-10-24: #/overview (and an empty hash) = the start page (Dashboard/overview.js); #/parties = the party cards
+  // PARTYPAGE 2026-10-25 (owner: "When i click a party under /overview i'm taken to /parties which just lists every party"): #/party/<leader> = that one party
+  PARTY_ONE = kind === 'party' && arg ? decodeURIComponent(arg) : '';
+  if (PARTY_ONE) { showTab('parties'); return; }
   if (kind === 'char' && arg) { showCharPage(decodeURIComponent(arg)); return; }
   if (kind === 'raid' && arg) { showRaidPage(decodeURIComponent(arg)); return; }
   if (kind === 'live') { showLivePage(); return; }
@@ -2421,10 +2432,23 @@ function ghostRows(leader, list) {
   const free = Math.max(0, size - list.length), a = { length: free };
   return Array.from({ length: free }, (_, i) => `<div class="mem2 ghost${i ? '' : ' gfirst'}" aria-hidden="true" title="free party slot ${list.length + i + 1}/${size}"><span class="gh">empty slot</span>${i ? '' : `<span class="ghn">${a.length} free slot${a.length === 1 ? '' : 's'} of ${size}</span>`}</div>`).join('');
 }
+let PARTY_ONE = '';   // PARTYPAGE: leader of the one party shown on #/party/<leader> ('' = every party, #/parties)
+function partyPageBar(parties) {
+  const names = Object.keys(parties).sort((a, b) => a.localeCompare(b));
+  return `<div class="partybar"><a href="#/parties">← All parties</a><span class="muted">Party:</span>${names.map(n => `<a href="#/party/${encodeURIComponent(n)}" class="${n === PARTY_ONE ? 'on' : ''}">${esc(n)}</a>`).join('')}</div>`;
+}
 function renderParties() {
   const parties = {};
   STATE.chars.forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
-  patch($('tab-parties'), (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip() + /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).sort((a, b) => (b[0] === mainLeader()) - (a[0] === mainLeader()) || a[0].localeCompare(b[0])).map(([leader, list]) => {   /* NOJUMP: fixed order */
+  if (PARTY_ONE) {
+    if (!parties[PARTY_ONE]) { patch($('tab-parties'), partyPageBar(parties) + `<div class="win muted">No party led by ${esc(PARTY_ONE)} is reporting right now.</div>`); return; }
+    const one = { [PARTY_ONE]: parties[PARTY_ONE] };
+    return renderPartyCards(one, partyPageBar(parties));
+  }
+  return renderPartyCards(parties, '');
+}
+function renderPartyCards(parties, bar) {
+  patch($('tab-parties'), bar + (window.ClassPlans ? ClassPlans.topBanner() : '') + (bar ? '' : huntStrip()) + /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).sort((a, b) => (b[0] === mainLeader()) - (a[0] === mainLeader()) || a[0].localeCompare(b[0])).map(([leader, list]) => {   /* NOJUMP: fixed order */
     list.sort((a, b) => (b.name === leader) - (a.name === leader) || a.name.localeCompare(b.name));
     const lv = list.map(c => c.level);
     const live = list.filter(c => c.ageSec <= 30).length;
@@ -2435,7 +2459,7 @@ function renderParties() {
       eq.order.map(n => n === eq.current ? '<b class="cur">▶ ' + esc(n) + '</b>' : esc(n)).join(' → ') + '</div>' : '';
     const alerts = list.flatMap(problems);
     return `<div class="win pcard">
-      <div class="whead phead"><h2>${GI(UI.clan, 'sm')} Party ${esc(leader)} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
+      <div class="whead phead"><h2>${GI(UI.clan, 'sm')} ${PARTY_ONE ? `Party ${esc(leader)}` : `<a class="plink" href="#/party/${encodeURIComponent(leader)}" title="Open this party's own page">Party ${esc(leader)}</a>`} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
           ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
@@ -2489,6 +2513,7 @@ function initMap() {
   }).addTo(MAP);
   MAP.on('dragstart', () => { $('mapFollow').checked = false; });
   if (window.TownPaths) TownPaths.attach(MAP, { onPick: () => { $('mapFollow').checked = false; } });   // TOWN PATHS 2026-10-12: layer + town picker + legend
+  if (window.MapLayers) MapLayers.attach(MAP);   // MAP LAYERS 2026-10-25: zones / field areas / dungeons / raid bosses / spots, tap = monsters + drops, my zones (Dashboard/maplayers.js)
   MAP.on('zoomend', () => { $('map').classList.toggle('lowzoom', MAP.getZoom() < -1); });
   $('map').classList.toggle('lowzoom', MAP.getZoom() < -1);
   $('mapFocus').onchange = () => { mapFocus = $('mapFocus').value; $('mapFollow').checked = true; renderMap(true); };
@@ -4660,7 +4685,9 @@ function clanHtml(d) {
   const S = (k, t, x, b) => window.ClanAuto ? ClanAuto.sec(k, t, x, b) : x;
   return (window.ClanAuto ? ClanAuto.html() : '')
     + S('leader', 'Clan leader, level & warehouse', `<div class="cgrid" style="margin-top:0">${card}${clan}${cl ? clanNextBox(d, clvl, name) : ''}${whBox}</div>`, cl ? `${cl.name} · level ${clvl}` : 'no clan yet')
-    + S('invite', 'Members & invites', rosterH + inviteH, `${roster.length}${lim != null ? ' / ' + lim : ''} members · ${allow.size} ticked${ptick.size ? ' · ' + ptick.size + ' parties' : ''}`)
+    // CLANSQUADS 2026-10-25: squads (main / academy / royal guards / knights) with limits, ranks + permissions, academy progress, who left
+    + (window.ClanSquads && d.squads ? S('squads', 'Members, squads & ranks', ClanSquads.html(d.squads), (() => { const k = (d.squads.clans || [])[0]; return k && !k.unknown ? `${k.total.members} / ${k.total.limit} members · ${k.squads.filter(s => s.created && s.members.length).length} squads${k.left.length ? ' · ' + k.left.length + ' left' : ''}` : 'no server list yet'; })()) : '')
+    + S('invite', window.ClanSquads && d.squads ? 'Invites' : 'Members & invites', (window.ClanSquads && d.squads ? '' : rosterH) + inviteH, `${roster.length}${lim != null ? ' / ' + lim : ''} members · ${allow.size} ticked${ptick.size ? ' · ' + ptick.size + ' parties' : ''}`)
     + (cl ? S('lq', 'Clan level quests (levels 3–5)', clanLevelQuestsHtml(d, name, clvl), 'step by step, manual steps marked') : '')
     + S('rq', 'Clan raid quests & helping the clan leader', questsH + bossH + `<div class="cgrid">${help}</div>`, `${act.length} active`)
     + S('skills', 'Clan skills', skillsH, fs ? `saving for ${fs.name} ${fs.level}` : 'auto-pick')
@@ -5184,6 +5211,9 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script>if (window.NavAtlasPage && /^#\/navatlas(\/|$)/.test(location.hash)) route();</script>
 <!-- TOWN PATHS 2026-10-12: every town's street graph (+ Giran's recorded routes) as a toggleable layer on the Parties maps, the character mini-map and the Map tab (town picker there). Data: /api/townpaths (Dashboard/townpaths_api.js; served once server.js is restarted). -->
 <script src="/townpaths.js"></script>
+<script src="/maplayers.js"></script>
+<script src="/qcircuitpage.js"></script>
+<script src="/altspage.js"></script>
 <script>window.addEventListener('townpaths:change', () => { if (TAB === 'parties' && STATE) renderParties(); }); if (MAP && window.TownPaths) TownPaths.attach(MAP, { onPick: () => { $('mapFollow').checked = false; } });</script>
 <!-- CLASS PLANS 2026-10-10: #/classes (every party: class plan per character, approval, group templates) + the "No class plan" badges / banner
      on the Parties tab and the character page. Data: /api/classplans + /api/classtree (Dashboard/classpage_api.js). -->
@@ -5241,6 +5271,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/combatprofile.js"></script>
 <script src="/itemslogic.js"></script>
 <script src="/itemspage.js"></script>
+<script src="/augmentpage.js"></script>
+<script src="/upgradepage.js"></script>
 <script src="/craftpage.js"></script>
 <script src="/dispatchpage.js"></script>
 <script src="/lootpage.js"></script>
@@ -5276,6 +5308,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/clanranks.css">
 <script src="/clanranks_logic.js"></script>
 <script src="/clanranks.js"></script>
+<script src="/clansquads.js"></script>
 <!-- QUESTS 2026-10-12: #/quests (every H5 quest: search + filters, steps, NPCs, monsters + drop chances, quest spawns, hunting areas, map, rewards,
      requirements, per character eligible / in progress / done, start / stop buttons) + the quest farm section. Data: /api/quests* (Dashboard/questpage_api.js). -->
 <link rel="stylesheet" href="/questpage.css">

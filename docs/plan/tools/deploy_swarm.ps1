@@ -56,7 +56,10 @@ if (-not $Force) {
             $s = Get-Content $sf.FullName -Raw -ErrorAction Stop | ConvertFrom-Json
             $why = ''
             if ("$($s.task)" -match '^(supply|regroup|handover|hand-over|trade|hand-out|sell|gear)') { $why = "$($s.task)".Trim() }
-            elseif ($s.partyStatus -and $s.partyStatus.what) { $why = "party $($s.partyStatus.what)" }
+            # TRAVELOK 2026-10-25 (owner: "Yes make sure it works"): with 23 parties one is nearly always travelling, so a deploy waited for
+            # hours; a party only on its way (teleport / walk to the spot) picks the trip up again after the reload. Its Giran regroup and
+            # gather steps still block, like every other party status (regroup / supply / collect / fund).
+            elseif ($s.partyStatus -and $s.partyStatus.what -and -not ("$($s.partyStatus.what)" -eq 'travel' -and "$($s.partyStatus.step)" -notmatch '^(regroup|gather)')) { $why = "party $($s.partyStatus.what) $($s.partyStatus.step)".Trim() }
             elseif ($s.trade -and $s.trade.stage -and "$($s.trade.stage)" -notmatch 'done|failed') { $why = "trade $($s.trade.stage)" }
             if ($why) { $busy += "$($s.name): $why" }
         } catch { }
@@ -73,7 +76,9 @@ if (-not $Force -and (Test-Path "$root\Logs\l2swarm_starting.lock")) {
     if ($lockPid -and (Get-Process -Id $lockPid -ErrorAction SilentlyContinue)) { Log "ABORT: accounts are still logging in (login loop PID $lockPid) - deploy after the logins."; exit 5 }
 }
 
-$p = Get-Process L2Swarm -ErrorAction SilentlyContinue
+# 2026-10-25: a second L2Swarm (the update test copy in another folder) made $p a list and the memory check failed -> only THIS install's one
+$p = Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { $_.Path -and ((Split-Path $_.Path -Parent) -eq (Resolve-Path $root).Path -or (Split-Path $_.Path -Parent) -eq 'C:\L2Swarm') } | Select-Object -First 1
+if (-not $p) { $p = Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { $_.Path -notmatch 'L2Swarm_update' } | Select-Object -First 1 }
 if ($p) {
     $mb = [int]($p.PrivateMemorySize64 / 1MB)
     # (2026-10-07 05:08: the old "ABORT above $maxMB" made the restart deploy below unreachable — both limits were 4000 since the RAM
@@ -94,7 +99,7 @@ if ($p -and $mb -gt $reloadMB) {
     }
     Log "restart deploy: L2Swarm uses $mb MB (> $reloadMB) - stopping it, copying, starting it again"
     schtasks /run /tn 'L2Swarm Stop' | Out-Null
-    for ($i = 0; $i -lt 30 -and (Get-Process L2Swarm -ErrorAction SilentlyContinue); $i++) { Start-Sleep 2 }
+    for ($i = 0; $i -lt 30 -and (Get-Process L2Swarm -ErrorAction SilentlyContinue | Where-Object { $_.Path -notmatch '\\L2Swarm_update\\' }); $i++) { Start-Sleep 2 }
     Start-Sleep 8   # let the Stop task finish (it also closes l2.exe) before the Start task runs
     Copy-Item $src $dst -Force
     schtasks /run /tn 'L2Swarm Start' | Out-Null

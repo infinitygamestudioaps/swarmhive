@@ -166,7 +166,17 @@ function ltaEnv(cfg, me) {
   const FG = new Function(blk('// FUNDGIVERS-PURE-BEGIN', '// FUNDGIVERS-PURE-END') + '\nreturn { fundGiversFor, fundGiverAllowed, fundGiverAny };')();
   const R0 = { givers: { mode: 'list', list: ['Tank1'] }, parties: { Destroyer3: { receive: true } } };
   check(FG.fundGiverAllowed(R0, 'Tank1', 'Destroyer3') && !FG.fundGiverAllowed(R0, 'Dagger1', 'Destroyer3') && FG.fundGiversFor(R0, 'Destroyer3').src === 'all', 'old file (no party givers): the shared list decides, as before');
-  check(FG.fundGiverAllowed({}, 'Anyone', 'X') && FG.fundGiverAllowed({ givers: { mode: 'auto' } }, 'Anyone', 'X'), 'no givers at all / auto: any rich leader');
+  // FUNDCOLLECTOR-2026-10-25 (owner: "not auto selected ... only the collector role should hand them out, or selectable"): no setting = the collector
+  check(!FG.fundGiverAllowed({}, 'Anyone', 'X') && FG.fundGiverAllowed({ _collector: 'Dagger1' }, 'Dagger1', 'X') && !FG.fundGiverAllowed({ _collector: 'Dagger1' }, 'Tank1', 'X'), 'no givers setting: ONLY the collector gives (nobody when no collector is set)');
+  check(FG.fundGiverAllowed({ givers: { mode: 'collector' }, _collector: 'Dagger1' }, 'Dagger1', 'X') && !FG.fundGiverAllowed({ givers: { mode: 'collector' }, _collector: 'Dagger1' }, 'Destroyer3', 'X'), 'mode collector: the collector only');
+  check(FG.fundGiverAllowed({ givers: { mode: 'auto' } }, 'Anyone', 'X'), 'an old file with mode auto: any rich leader (unchanged until the owner picks)');
+  { const AF = require(path.join(ROOT, 'Dashboard', 'autofund.js'));
+    const st = [{ name: 'Tank1', adena: 63e6, ageSec: 5, party: 'Tank1' }, { name: 'Dagger1', adena: 30e6, ageSec: 5, party: 'Dagger1' }, { name: 'Bishop1', adena: 5e6, ageSec: 5, party: 'Tank1' }];
+    const d1 = AF.depositDecide({ on: true, above: 20e6, keep: 10e6, againMin: 120 }, st, 'Dagger1', new Set(), {}, { dep: {} }, Date.now());
+    check(d1 && d1.giver === 'Tank1' && d1.amount === 53e6, 'surplus: above the limit -> everything above "keep" to the collector', d1);
+    check(!AF.depositDecide({ on: false, above: 1, keep: 0, againMin: 1 }, st, 'Dagger1', new Set(), {}, { dep: {} }, Date.now()) && !AF.depositDecide({ on: true, above: 20e6, keep: 10e6, againMin: 120 }, st, '', new Set(), {}, { dep: {} }, Date.now()), 'surplus: off / no collector = nothing');
+    check(!AF.depositDecide({ on: true, above: 20e6, keep: 10e6, againMin: 120 }, st, 'Dagger1', new Set(), { Tank1: { above: 70e6 } }, { dep: {} }, Date.now()), 'surplus: a party\'s own higher limit wins');
+    check(/sameTown: true, note: `adena to the collector/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'autofund.js'), 'utf8')) && /sameTown: !!giverRule\(ctx\)/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'autofund.js'), 'utf8')), 'surplus + share orders wait for the same town (nobody travels for adena)'); }
   const R1 = { givers: { mode: 'list', list: ['Tank1'] }, parties: { Destroyer3: { receive: true, givers: { mode: 'list', list: ['Dagger1'] } }, Crafter1: { givers: { mode: 'none', list: [] } }, Tank2: { givers: { mode: 'auto' } } } };
   check(FG.fundGiverAllowed(R1, 'Dagger1', 'Destroyer3') && !FG.fundGiverAllowed(R1, 'Tank1', 'Destroyer3'), 'party Destroyer3\'s own list: only Dagger1 gives to it (not the shared Tank1)');
   check(!FG.fundGiverAllowed(R1, 'Tank1', 'Crafter1') && !FG.fundGiverAllowed(R1, 'Dagger1', 'Crafter1'), 'party Crafter1 "nobody": nobody gives to it');

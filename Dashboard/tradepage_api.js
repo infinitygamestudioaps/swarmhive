@@ -169,7 +169,7 @@ async function handle(req, res, url, ctx) {
       if (pv.error) { ctx.json(res, 400, pv); return true; }
       if (!pv.givers.length) { ctx.json(res, 400, { error: 'nothing to hand over' + (pv.problems.length ? ': ' + pv.problems.join('; ') : ''), plan: pv }); return true; }
       const id = TL.trNewId();
-      const order = TL.trOrder(id, pv.receiver, pv, { by: 'dashboard', preset: String(b.preset || '').slice(0, 60), note: String(b.note || '').slice(0, 200) });
+      const order = TL.trOrder(id, pv.receiver, pv, { by: 'dashboard', preset: String(b.preset || '').slice(0, 60), note: String(b.note || '').slice(0, 200), sameTown: b.sameTown === true });
       fs.mkdirSync(DIR_OF(ctx), { recursive: true });
       const F = ordFile(ctx, id), tmp = F + '.' + process.pid + '.tmp';
       fs.writeFileSync(tmp, JSON.stringify(order, null, 1)); fs.renameSync(tmp, F);

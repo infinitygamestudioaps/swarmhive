@@ -360,7 +360,7 @@
       <div class="cp-gearinfo">${w ? `<div class="cp-wpn"><b>${esc(w.name)}</b>${w.enchant ? ' <span class="en">+' + w.enchant + '</span>' : ''} ${grade(w.grade)}</div>` : '<div class="muted">no weapon</div>'}
         ${eq.filter(i => i !== w).map(i => `<div class="cp-eqrow" data-cpitem="${esc(i.objId || i.id)}"><img src="${itemIcon(i.id)}" alt=""><span>${esc(i.name)}${i.enchant ? ' <b class="en">+' + i.enchant + '</b>' : ''}</span>${grade(i.grade)}</div>`).join('')}
         ${shots.length ? `<div class="cp-shots">${shots.slice(0, 3).map(s => `<span class="chip" title="${esc(s.name)}"><img src="${itemIcon(s.id)}" alt="">${short(s.count)}</span>`).join('')}${sc.shots != null && sc.shots <= 100 ? '<span class="chip bad">low shots</span>' : ''}</div>` : ''}
-        <a class="cp-upg" href="#/items/${encodeURIComponent(CP.name)}/shop" title="Pick a weapon (Giran shops, your warehouses), add a Special Ability such as Acumen with a soul crystal from the bag, a warehouse or another character: the party goes to Giran together and it is done there">Upgrade weapon ›</a></div></div>`);   // UPGWPN-2026-10-23 (owner: weapon upgrades only when picked, from the character)
+        <a class="cp-upg" href="#/upgrade/${encodeURIComponent(CP.name)}" title="Recommended upgrades for every slot from every bag, warehouse, the clan warehouse, other characters (trade), Giran shops (with the cost) and our crafters; the order waits for the next Giran visit, or Send now (alone / whole party)">Upgrade ›</a></div></div>`);   // UPGWPN-2026-10-23 (owner: weapon upgrades only when picked, from the character)
   }
 
   // ---------------------------------------------------------------- FRENZY KIT (owner 2026-10-14: "a full overview for a destroyer, showing what it

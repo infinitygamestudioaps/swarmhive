@@ -11,7 +11,7 @@ const span = Number(process.argv.slice(2).find(a => /^\d+$/.test(a))) || 60;
 if (starts.length < 1) { console.log('usage: perf_compare.js "<start 1>" "<start 2>" ... [minutes]'); process.exit(1); }
 const lines = (f) => { try { return fs.readFileSync(path.join(ROOT, 'Logs', f), 'utf8').split(/\r?\n/); } catch (e) { return []; } };
 const mem = lines('memwatch.log').map(l => { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) \w+\s+L2Swarm private=(\d+)MB.*pcFree=(\d+)MB/.exec(l); return m ? { t: new Date(m[1].replace(' ', 'T')).getTime(), mb: +m[2], free: +m[3] } : null; }).filter(Boolean);
-const wd = lines('LOG.log').map(l => { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+ .*ran JS for (\d+) ms/.exec(l); return m ? { t: new Date(m[1].replace(' ', 'T')).getTime(), ms: +m[2] } : null; }).filter(Boolean);
+const wd = lines('LOG.log').map(l => { const m = /^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d)\.\d+(?:[+-]\d\d:\d\d)? .*ran JS for (\d+) ms/.exec(l); return m ? { t: new Date(m[1].replace(' ', 'T')).getTime(), ms: +m[2] } : null; }).filter(Boolean);
 const smp = lines('perf_samples.jsonl').map(l => { try { return JSON.parse(l); } catch (e) { return null; } }).filter(Boolean).map(s => Object.assign(s, { t: Date.parse(s.at) }));
 const buckets = [5, 10, 15, 20, 30, 45, 60, 90, 120].filter(m => m <= span);
 const near = (arr, t) => { let b = null, bd = 6 * 60000; for (const x of arr) { const d = Math.abs(x.t - t); if (d < bd) { bd = d; b = x; } } return b; };

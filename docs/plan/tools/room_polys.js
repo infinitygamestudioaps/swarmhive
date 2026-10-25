@@ -552,7 +552,7 @@ function overlay(res, scale) {
 }
 
 const nbOpen = (F, i, k) => nb(F, i, k);
-module.exports = { nbOpen, buildFloor, clearance, components, floorPolys, outline, simplifyLoop, inPoly, polyArea, convexHull, overlay, png, CELL, makeRoom };   // makeRoom: room_refine.js
+module.exports = { nbOpen, buildFloor, clearance, components, grow, floorPolys, outline, simplifyLoop, inPoly, polyArea, convexHull, overlay, png, CELL, makeRoom };   // makeRoom: room_refine.js
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 // main
