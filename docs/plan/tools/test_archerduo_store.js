@@ -9,6 +9,11 @@ t('mtNoDealer reads the live role', /function mtNoDealer\(\)[^\n]*livePos\[n\]\.
 t('mtFight: solo killer never cancels its own shot', /soloKill && Me\.IsAttacking\)\) Send\.StopMove/.test(S));
 t('mtFight: solo killer fights until nothing is left', /mtPackNear\(\) <= \(soloKill \? 0 : MT\.packLeft\)/.test(S));
 t('mtLeashFight shoots a ranged attacker outside the leash', /ARCHERDUO-2026-10-22: a ranged/.test(S) && /< 1600( && canSee\(m\))?\) mobs\.push\(m\)/.test(S));   // WALLSIGHT-2026-10-24: and never through a wall
+t('ARCHERSLOW-2026-10-25: a monster on a HEALER teammate is shot like one on me (no step back)', S.includes("on = w.who === 'me' || healerMate ? 'me' : w.who === 'mate' ? 'mate' : 'none';"));
+t('ARCHERSLOW: the shot after a step back comes after 0.7 s', S.includes('}, 700);   // shoot again from the new spot'));
+t('SHOTWATCH-2026-10-25: my own hit is recorded', S.includes('SHOTW.dealtAt = now(); } catch (e) { }   // SHOTWATCH'));
+t('SHOTWATCH: 3 s re-attack, 6 s Appearing, 9 s next target', S.includes("if (idle < 3000) { SHOTW.step = 0; return; }") && S.includes("sendAppearing('archer: no hit for 6 s')") && S.includes('if (idle >= 9000 && SHOTW.step === 2)') && S.includes('huntBlack[t.objId] = now() + 60000;'));
+t('archer spacing stays ON (owner: "Dont switch off step back!!")', /archer: { tooClose: 220, want: 520, gapMs: 2500, space: true }/.test(S));
 t('soStoreAddOn exists', /async function soStoreAddOn\(out, tag\)/.test(S));
 t('store add-on ignores the source order', /e\.buffSources\.indexOf\('store'\) < 0/.test(S));
 t('store add-on: Party button, else me', /storeBuyBuff\(id, 'Party', name, (opt|o1)\)/.test(S) && /no Party button/.test(S));

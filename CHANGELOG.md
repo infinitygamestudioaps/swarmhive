@@ -2,6 +2,12 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.10.3 (2026-10-25)
+
+- Archers: a shot that hangs (no hit for 3 s) is fired again, after 6 s the character unfreezes, after 9 s the next target is taken (no more 40 s standing still)
+- a monster attacking the healer is shot right away instead of stepping back
+- the next shot after a step back comes after 0.7 s
+
 ## v1.10.2 (2026-10-25)
 
 - Healers only heal: a healer switches off every attack skill in L2Swarm's own combat and auto-skill lists (in memory, the profile file is unchanged)

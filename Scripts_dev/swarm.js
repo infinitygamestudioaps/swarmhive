@@ -868,7 +868,7 @@ const ROLEKIND = {
           // that member (logged once, never a cast loop); buffMax = the server's normal buff slots (L2Toggle 24; L2J default 20; Divine
           // Inspiration skill divineId adds its level), 0 = no slot check
           skipMs: 600000, buffMax: 24, divineId: 1405 },
-  archer: { tooClose: 220, want: 520, gapMs: 2500 },
+  archer: { tooClose: 220, want: 520, gapMs: 2500, space: true },   // owner 2026-10-25: "Dont switch off step back!!" (space: false would stop the archer spacing)
   // summoner: resummon gap, min MP, servitor attack resend gap, consumable stock (resummons summons + upkeep margin, low below lowSummons),
   // servitor care thresholds, own nukes only as filler above fillerMinMpPct (fillerNukes false = never)
   summon: { gapMs: 20000, minMpPct: 30, attackGapMs: 3000, resummons: 10, upkeepMargin: 20, lowSummons: 3, petHealBelow: 70, petMpBelow: 40, selfDangerHp: 35,
@@ -2169,16 +2169,43 @@ function rkPetToHeal(team) {
   return null;
 }
 
+// --- archer: SHOTWATCH-2026-10-25 (tester Vykaax video "slow combat", read frame by frame: BowShooter stood 44 s with a Doom Trooper targeted next to
+// him - "You carefully nock an arrow", then no hit, no message, HP/MP unchanged; the hunt's no-damage watch only gives a target up after 40 s).
+// Owner: "keep shooting as fast as possible with archer, new target boom boom boom". An archer with a live target in range that lands no hit:
+// 3 s -> attack it again, 6 s -> Appearing (the client/server state is stuck) + attack, 9 s -> this target aside 60 s and the next one is taken.
+const SHOTW = { dealtAt: 0, tid: 0, since: 0, step: 0 };
+setInterval(() => {
+  try {
+    if (state.role !== 'archer' || !IsCharacterReady() || Me.IsDead || state.escaping || state.gkBusy || tradeState || Me.IsSitting || ESC.on || currentTownKey()) { SHOTW.tid = 0; return; }
+    let t = null; try { t = Target && mobById(num(Target.objId)); } catch (e) { t = null; }
+    if (!t || t.IsDead || num(t.HpPercent) <= 0 || Math.hypot(t.X - Me.X, t.Y - Me.Y) > 1000) { SHOTW.tid = 0; return; }
+    if (SHOTW.tid !== t.objId) { Object.assign(SHOTW, { tid: t.objId, since: now(), step: 0 }); return; }
+    const idle = now() - Math.max(SHOTW.dealtAt, SHOTW.since);
+    if (idle < 3000) { SHOTW.step = 0; return; }
+    if (SHOTW.step === 0) { SHOTW.step = 1; try { Send.Attack(t.objId); } catch (e) { } return; }
+    if (idle >= 6000 && SHOTW.step === 1) { SHOTW.step = 2; try { sendAppearing('archer: no hit for 6 s'); } catch (e) { } setTimeout(() => { try { Send.Attack(t.objId); } catch (e) { } }, 400); return; }
+    if (idle >= 9000 && SHOTW.step === 2) {
+      SHOTW.step = 3; huntBlack[t.objId] = now() + 60000;
+      try { Send.RequestTargetCancel(); } catch (e) { }
+      rkSay('archer', `archer: no hit on ${t.Name} for 9 s — next target`, 20000);
+    }
+  } catch (e) { logError('archer shot watch', e); }
+}, 1000);
+
 // --- archer: keep range — step back from a monster a teammate holds ----------------------------------------------------------------
 const ARCH = { at: 0 };
 setInterval(() => {
   try {
+    if (!ROLEKIND.archer.space) return;
     if (state.role !== 'archer' || !IsCharacterReady() || Me.IsDead || state.escaping || state.gkBusy || tradeState || Me.IsSitting || ESC.on) return;
     if (now() - ARCH.at < ROLEKIND.archer.gapMs || currentTownKey()) return;
     const me = meSnap(), mx = num(me.X), my = num(me.Y), mz = num(me.Z), mobs = [];
     snapMobs().forEach(m => {
       if (m.IsDead || Math.abs((m.Z || mz) - mz) > 300 || Math.hypot(m.X - mx, m.Y - my) > ROLEKIND.archer.tooClose) return;
-      let on = 'none'; try { const w = posMobTarget(m.ref || m); on = w.who === 'me' ? 'me' : w.who === 'mate' ? 'mate' : 'none'; } catch (e) { }
+      // ARCHERSLOW-2026-10-25 (tester Vykaax: "Archers extreme slow attacking", archer + bishop duo, the healer follows at 100): a monster hitting the
+      // HEALER stood within 220 of the archer too, counted as 'a teammate holds it' -> a ~300 step back every 2.5 s + 1.3 s before the next shot: the
+      // archer walked more than it shot. A monster on a healer is shot like one on me (the archer is its damage); only a tank / melee mate's monster is spaced
+      let on = 'none'; try { const w = posMobTarget(m.ref || m); const lp = w.name ? livePos[w.name] : null; const healerMate = w.who === 'mate' && !!(lp && (lp.healer || HEALER_ROLES.test(String(lp.role || (CONFIG.roster || {})[w.name] || '')))); on = w.who === 'me' || healerMate ? 'me' : w.who === 'mate' ? 'mate' : 'none'; } catch (e) { }
       mobs.push({ x: num(m.X), y: num(m.Y), on });
     });
     const st = rkArcherStep({ me: { x: mx, y: my }, mobs });
@@ -2187,7 +2214,7 @@ setInterval(() => {
     try { Send.MoveBackwardToLocation(st.x, st.y, Math.round(mz)); } catch (e) { }
     rkSay('archer', `archer: stepping back to keep range — ${st.why}`, 30000);
     let tid = 0; try { tid = Target ? num(Target.objId) : 0; } catch (e) { }
-    if (tid) setTimeout(() => { try { if (mobById(tid)) Send.Attack(tid); } catch (e) { } }, 1300);   // shoot again from the new spot
+    if (tid) setTimeout(() => { try { if (mobById(tid)) Send.Attack(tid); } catch (e) { } }, 700);   // shoot again from the new spot (ARCHERSLOW: 1.3 s -> 0.7 s)
   } catch (e) { logError('archer spacing', e); }
 }, 700);
 // ROLEKIND-HOST-END
@@ -5523,7 +5550,9 @@ function posMobTarget(m) {
   let c = null; try { c = charById(tid); } catch (e) { c = null; }
   let mate = false; try { const p = PartyList.GetItemByObjectID(tid); if (p) { mate = true; if (!c) c = p; } } catch (e) { }
   if (!mate) mate = livePosByObj(tid);
-  return { who: mate ? 'mate' : 'other', x: c ? num(c.X) : null, y: c ? num(c.Y) : null };
+  let name = ''; try { name = c ? String(c.Name || c.name || '') : ''; } catch (e) { }
+  if (!name && mate) { try { for (const n in livePos) { if (num(livePos[n].oid || livePos[n].objId) === tid) { name = n; break; } } } catch (e) { } }
+  return { who: mate ? 'mate' : 'other', x: c ? num(c.X) : null, y: c ? num(c.Y) : null, name };   // ARCHERSLOW: + the teammate's name
 }
 function posMobInfo(m) { return { id: num(m.objId), name: String(m.Name || ''), x: num(m.X), y: num(m.Y), dx: m.dX, dy: m.dY, heading: m.Heading, r: num(m.CollisionRadius) }; }
 function posNote(mob, d) {
@@ -31919,6 +31948,7 @@ globalThis.OnSystemMessage = (id, text) => {
       if (res) { try { debuffResisted(); } catch (e) { } }
       if (res || intr) { bossDebuffPending = 0; try { surrenderMissed(); } catch (e) { } const d = { resisted: res, interrupted: !res && intr }; if (isLeader()) bossDebuffAdd({ ...d, by: Me.Name }); else App.emit('swarm.bossdebuff', d); }
     }
+    try { const mid = Number(id); if (mid === 35 || (mid === 2261 && String(flat(text, 0)).replace(/^#d+s*/, '').indexOf(String(Me.Name)) === 0)) SHOTW.dealtAt = now(); } catch (e) { }   // SHOTWATCH: my own hit landed
     // damage messages: the WHOLE params object (its .text field only holds the first parameter: '#2261 Destroyer2' without the number)
     if (state.mode === 'raid' || inst.on || kamaLive.on) { let keys = ''; try { keys = text && typeof text === 'object' ? Object.keys(text).join('/') : typeof text; } catch (e) { } raidDamageMsg(Number(id), flat(text, 0), keys); }
     // 149 = "cannot use items while trading", 142 = "already trading": a hanging trade — cancel it (not while one of our own trades runs)
