@@ -2518,6 +2518,14 @@ function nearestMonster(cx, cy, range) {
   return best ? best.ref : null;                      // HOSTTOUCH: .ref (a live lookup) only for the winner
 }
 
+// AOEFIGHT-2026-10-26 (tester Raltru: "destroyer using wild sweep"): an area skill counts only monsters in the fight (the one at the centre, any monster
+// with a target, aggressive ones) — idle passive bystanders were counted and the sweep pulled them in
+function countFightMobsNear(x, y, radius) {
+  let n = 0;
+  try { snapMobs().forEach(m => { if (m.IsDead || Math.hypot(m.X - x, m.Y - y) > radius) return; let t = 0; try { t = num(m.TargetObjId) || (m.targetCrt ? num(m.targetCrt.objId) : 0); } catch (e) { }
+    if (t || Math.hypot(m.X - x, m.Y - y) < 1 || aggroRange(m.Name) > 0) n++; }); } catch (e) { }
+  return n;
+}
 function countMobsNear(x, y, radius) {
   let n = 0;
   try { snapMobs().forEach(m => { if (!m.IsDead && Math.hypot(m.X - x, m.Y - y) <= radius) n++; }); } catch (e) { }
@@ -4315,6 +4323,243 @@ function skillWeapons(desc) {
 }
 function myWeaponType() { try { const w = (myGear().eq.weapon || [])[0]; return w ? String(w.info.t || '') : ''; } catch (e) { return ''; } }
 function myWeaponId() { try { const w = (myGear().eq.weapon || [])[0]; return w ? num(w.id) : 0; } catch (e) { return 0; } }
+// CLASSROT-2026-10-26 (owner: "Implement this https://claude.ai/artifact/NCs3ydVAgaUJjmUTejW46A line for line its what we need to make the perfect
+// bot ... under /Combat"): the class guide is the skill plan. Scripts/data/class_rotation/<my class id>.json (compiled by the dashboard /
+// docs/plan/tools/class_rotation_compile.js from Scripts/data/class_rotations/*.json + the owner's ticks) = every row of the guide for my class
+// and its parent classes: aspect, skill, weapon, rule (when), auto on/off. With such a file:
+//  - attacks = the guide's rows in the guide's order (debuff > opener > burst > area > single), only learned skills usable with MY weapon
+//    (from the datapack, not the client text; weapon unknown = only weapon-free rows), area attacks around ME (Whirlwind, Earthquake,
+//    Blazing Circle, Slashing Blade ...) count the monsters around me; older-class rows give way to the new class's row of the same kind
+//    (Wild Sweep -> Whirlwind, Power Smash -> Fatal Strike); each row's rule is checked before the cast (distance, bleed / Death Mark on the
+//    target, HP / MP, monsters, big targets, board buff missing ...)
+//  - never / obsolete rows are never cast by any automatic path (castNow guard); toggles / self buffs / emergency skills from the rows
+//  - no file for my class = the old plan (buildSkillPlan) unchanged
+const CR = { cid: -1, txt: '', d: null, at: 0, mark: {}, last: [], lastId: 0, lastAt: 0, buffAt: {} };
+const CR_BAND_START = [1, 20, 40, 76];
+const CR_OWNER_NEVER = /^Defense Aura$/i;                             // owner rules that beat the guide
+const CR_RANK = { debuff: 1, opener: 2, burst: 3, aoe: 4, 'aoe-self': 4, single: 5 };
+function crData() {
+  const cid = num(Me.ClassId);
+  if (CR.cid === cid && now() - CR.at < 30000) return CR.d;
+  CR.at = now(); CR.cid = cid;
+  let txt = ''; try { txt = String(File.ReadAllText(`${__SCRIPTS__}\\data\\class_rotation\\${cid}.json`)); } catch (e) { txt = ''; }
+  if (txt !== CR.txt) { CR.txt = txt; try { CR.d = txt ? JSON.parse(txt.replace(/^﻿/, '')) : null; } catch (e) { CR.d = null; logError('class rotation file', e); } skillPlan.key = ''; }   // a changed file rebuilds the plan
+  return CR.d;
+}
+function crHasBuffNamed(name) { const n = String(name || '').toLowerCase(); let up = false; try { (hostSnap.buffs() || BuffsList).forEach(b => { if (!up && String(b.Name || '').toLowerCase() === n && !b.IsDebuff) up = true; }); } catch (e) { } return up; }
+/** my weapon as guide weapon codes: Set, or null = no weapon / unknown weapon (then only weapon-free rows) */
+function crWeaponCodes() {
+  try {
+    const g = myGear(), w = (g.eq.weapon || [])[0];
+    if (!w) return null;
+    const t = String(w.info.t || '').toUpperCase(), two = !!num(w.info.two);
+    const M = { SWORD: two ? ['2H_SWORD', 'SWORD'] : ['SWORD'], BLUNT: two ? ['2H_BLUNT', 'BLUNT'] : ['BLUNT'], DAGGER: ['DAGGER'], DUALDAGGER: ['DUALDAGGER'], DUAL: ['DUAL'], POLE: ['POLE'],
+      BOW: ['BOW'], CROSSBOW: ['CROSSBOW'], FIST: ['FIST'], DUALFIST: ['FIST'], RAPIER: ['RAPIER'], ANCIENTSWORD: ['ANCIENT'] };
+    const set = new Set(M[t] || []);
+    if ((g.eq.shield || []).length) set.add('SHIELD');
+    return set;
+  } catch (e) { return null; }
+}
+function crWeaponOk(r, codes) {
+  const w = r.w || []; if (!w.length) return true;
+  if (!codes) return false;
+  return w.some(c => c === 'NOT_BOW' ? !(codes.has('BOW') || codes.has('CROSSBOW')) : codes.has(c));
+}
+/** the old plan -> the guide's plan (no file for my class: the old plan unchanged) */
+function crApplyPlan(plan) {
+  const d = crData(); if (CR.txt) plan.key += '|cr' + CR.txt.length;   // the same key currentSkillPlan builds (no rebuild every 3 s)
+  if (!d || !Array.isArray(d.rows) || !d.rows.length) return plan;
+  const learned = {}; try { (hostSnap.skills() || SkillsList).forEach(s => { learned[num(s.Id)] = s; }); } catch (e) { return plan; }
+  const codes = crWeaponCodes(), meta = d.skills || {};
+  const never = new Set();
+  // never = an unconditional never row; a never row WITH a rule blocks only while the rule holds (condNever, checked live); an obsolete row blocks
+  // only when a replacement is learned (or none is named) and the same / a newer class has no auto row of that skill (the guide still uses it)
+  const condNever = [];
+  const hasAuto = (id, tier) => d.rows.some(x => x.id === id && x.auto && x.a !== 'never' && x.a !== 'obsolete' && x.tier >= tier);
+  // the owner's own never rules stay above the guide (user 2026-10-02: 'Never Defense Aura')
+  try { (hostSnap.skills() || SkillsList).forEach(s => { if (CR_OWNER_NEVER.test(String(s.Name || ''))) never.add(num(s.Id)); }); } catch (e) { }
+  d.rows.forEach(r => {
+    const cond = r.when && Object.keys(r.when).filter(k => k !== 'text').length;
+    if (r.a === 'never') { if (cond) condNever.push({ id: r.id, when: r.when }); else never.add(r.id); }
+    else if (r.a === 'obsolete' && cond) condNever.push({ id: r.id, when: r.when });   // obsolete only while its rule holds (Sonic Focus: obsolete in fights)
+    else if (r.a === 'obsolete' && (!(r.rb || []).length || r.rb.some(x => learned[x])) && !hasAuto(r.id, r.tier)) never.add(r.id);
+  });
+  let rows = d.rows.filter(r => r.auto && !never.has(r.id) && learned[r.id] && crWeaponOk(r, codes));
+  // OLD SKILLS GIVE WAY: a base / 1st-class row of a skill that stopped levelling before the newer class began goes when that newer class (up to
+  // the 2nd: 3rd-class rows never retire 2nd-class skills, those level to 74) has a usable row of the same kind
+  const grp = (a) => a === 'aoe-self' ? 'aoe' : a;
+  rows = rows.filter(r => !(['single', 'aoe', 'aoe-self', 'opener'].includes(r.a) && rows.some(q => grp(q.a) === grp(r.a) && q.tier > r.tier && q.tier <= 2 && num(r.max) > 0 && num(r.max) < CR_BAND_START[q.tier])));
+  const old = {}; (plan.attacks || []).forEach(x => { old[x.id] = x; });
+  const mk = (r) => {
+    const s = learned[r.id], m = meta[r.id] || {};
+    const b = old[r.id] ? Object.assign({}, old[r.id]) : { id: r.id, name: String(s.Name || r.n), mp: num(s.MP), range: num(s.CastRange), lvl: num(s.Level), hit: num(s.HitTime),
+      power: num(m.power), magic: !!m.magic, el: cpNormEl(s.AttributeType) || skillElementByName(String(s.Name || '')), abType: String(s.AbnormalType || m.ab || '').toUpperCase() };
+    b.cr = { a: r.a, when: r.when || {}, tier: r.tier, o: r.o, radius: num(m.radius) || 150, ab: String(m.ab || ''), dur: num(m.dur), trig: r.trig || '' };
+    if (r.a === 'aoe-self') { b.scope = 'POINT_BLANK'; b.range = Math.max(num(b.range), b.cr.radius); }
+    else if (r.a === 'aoe') b.scope = m.scope && !/^SINGLE$/i.test(m.scope) ? m.scope : 'RANGE';
+    else b.scope = 'SINGLE';
+    if (!(num(b.range) > 0)) b.range = num(m.range) > 0 ? num(m.range) : 150;
+    if (!(num(b.power) > 0) && num(m.power) > 0) b.power = num(m.power);
+    return b;
+  };
+  // a burst row that is a buff on me (Zealot, Frenzy, Over the Body: no cast range, no area) goes with the buffs, not the attacks
+  const selfBurst = (r) => r.a === 'burst' && !(num(learned[r.id].CastRange) > 0) && !/POINT_BLANK|RANGE|FAN|SQUARE/i.test(String((meta[r.id] || {}).scope || ''));
+  const att = rows.filter(r => CR_RANK[r.a] && !selfBurst(r)).sort((x, y) => CR_RANK[x.a] - CR_RANK[y.a] || y.tier - x.tier || x.o - y.o);
+  const seen = new Set(), attacks = [];
+  att.forEach(r => { const k = r.a + ':' + r.id; if (seen.has(k)) return; seen.add(k); attacks.push(mk(r)); });
+  const buffRows = rows.filter(r => ['selfbuff', 'partybuff', 'mp'].includes(r.a) || selfBurst(r));
+  const emerg = rows.filter(r => r.a === 'emergency');
+  // the owner's agreed switches still hold: caster buffers attack only when ticked on the Buffs page, Mana Burn only when ticked (SKILLSANE)
+  let attacks2 = attacks; try { attacks2 = skFilterAttacks(attacks, state.role || '', myBuffEntry()); } catch (e) { }
+  plan.attacks = attacks2;
+  plan.selfBuffs = [];                                                 // the guide's buff rows replace the old self-buff list
+  plan.cr = { cid: d.cid, name: d.name, band: d.band, never, condNever, toggles: new Set(rows.filter(r => r.a === 'toggle').map(r => r.id)),
+    toggleOff: new Set(d.rows.filter(r => r.a === 'toggle' && (!r.auto || never.has(r.id))).map(r => r.id)),
+    buffs: buffRows.map(r => ({ id: r.id, name: String(learned[r.id].Name || r.n), a: r.a, when: r.when || {}, mp: num(learned[r.id].MP), hit: num(learned[r.id].HitTime) })),
+    emergency: emerg.map(r => Object.assign(mk(r), { emergency: true })), weapon: codes ? [...codes].join('+') : 'none / unknown', rows: d.rows.length, used: rows.length };
+  plan.toggles = rows.filter(r => r.a === 'toggle').map(r => ({ id: r.id, name: String(learned[r.id].Name || r.n) }));
+  return plan;
+}
+/** is this skill blocked by my class guide (never / obsolete / switched off by the owner)? */
+function crBlocked(id) { try { const p = skillPlan; return !!(p && p.cr && p.cr.never && p.cr.never.has(num(id))); } catch (e) { return false; } }
+/** the effect marks I put on a target (own casts: Blade Rush -> bleeding, Death Mark ...) for when.targetHas / targetLacks */
+function crMarkCast(info, tid) {
+  try {
+    if (!tid || !info || !info.cr) return;
+    const m = CR.mark[tid] = CR.mark[tid] || {}, until = now() + (info.cr.a === 'opener' ? 600 : Math.max(5, num(info.cr.dur) || 20)) * 1000;   // an opener: once per target
+    if (info.cr.ab) m[String(info.cr.ab).toLowerCase()] = until;
+    m['skill:' + num(info.id)] = until;
+    m[String(info.name || '').toLowerCase().replace(/\s+/g, '_')] = until;
+    const ks = Object.keys(CR.mark); if (ks.length > 60) ks.slice(0, ks.length - 60).forEach(k => { delete CR.mark[k]; });
+  } catch (e) { }
+}
+function crTargetHas(tid, what) {
+  const m = CR.mark[tid]; if (!m) return false;
+  const w = String(what || '').toLowerCase().replace(/\s+/g, '_');
+  return Object.keys(m).some(k => m[k] > now() && (k === w || k.includes(w) || (w.length > 3 && w.includes(k))));
+}
+function crPartyHp() {
+  const out = [];
+  try { PartyList.forEach(p => { const mx = num(p.MaxHP); if (mx > 0 && !p.IsDead) out.push({ name: String(p.Name || ''), pct: 100 * num(p.HP) / mx }); }); } catch (e) { }
+  out.push({ name: Me.Name, pct: num(Me.HpPercent) });
+  return out;
+}
+/** one row's rule, live (true = may cast now). x: { T, tid, dist, worth, fight } */
+function crWhenOk(w, s, x) {
+  if (!w) return true;
+  const keys = Object.keys(w); if (keys.length === 1 && keys[0] === 'text') return false;   // a rule Hive cannot check = not by itself
+  const hp = num(Me.HpPercent), mp = num(Me.MpPercent), T = x.T;
+  if (w.hpBelow != null && !(hp < num(w.hpBelow))) return false;
+  if (w.hpAbove != null && !(hp > num(w.hpAbove))) return false;
+  if (w.mpBelow != null && !(mp < num(w.mpBelow))) return false;
+  if (w.mpAbove != null && !(mp > num(w.mpAbove))) return false;
+  if (w.cpAbove != null) { const cp = num(Me.MaxCP) > 0 ? 100 * num(Me.CP) / num(Me.MaxCP) : 100; if (!(cp > num(w.cpAbove))) return false; }
+  if (w.targetHpAbove != null || w.targetHpBelow != null) {
+    const th = T && num(T.MaxHP) > 0 ? 100 * num(T.HP) / num(T.MaxHP) : null;
+    if (th == null) { if (w.targetHpBelow != null) return false; }
+    else { if (w.targetHpAbove != null && !(th > num(w.targetHpAbove))) return false; if (w.targetHpBelow != null && !(th < num(w.targetHpBelow))) return false; }
+  }
+  if (w.distMin != null && !(num(x.dist) >= num(w.distMin))) return false;
+  if (w.distMax != null && !(num(x.dist) <= num(w.distMax))) return false;
+  if (w.targetHas && !crTargetHas(x.tid, w.targetHas)) return false;
+  if (w.targetLacks != null && crTargetHas(x.tid, 'skill:' + num(w.targetLacks))) return false;
+  if (w.bigTarget && !x.worth) return false;
+  if (w.raidOnly && !inRaid()) return false;
+  if (w.notRaid && inRaid()) return false;
+  const team = (() => { try { return teamNames().length; } catch (e) { return 1; } })();
+  if (w.soloOnly && team > 1) return false;
+  if (w.partyOnly && team <= 1) return false;
+  if (w.fightOnly && !x.fight) return false;
+  if (w.outOfCombat && x.fight) return false;
+  if (w.alliesBelow || w.allyBelow != null) {
+    const ph = crPartyHp();
+    if (w.alliesBelow && ph.filter(p => p.pct < num(w.alliesBelow.pct)).length < num(w.alliesBelow.n)) return false;
+    if (w.allyBelow != null && !ph.some(p => p.pct < num(w.allyBelow))) return false;
+  }
+  if (w.mobsOnMe != null) { let n = 0; const me = num(Me.objId); try { snapMobs().forEach(m => { if (!m.IsDead && num(m.TargetObjId) === me) n++; }); } catch (e) { } if (n < num(w.mobsOnMe)) return false; }
+  if (w.boardMissing && crHasBuffNamed(w.boardMissing)) return false;
+  if (w.item != null && !(itemCount(num(w.item)) > 0)) return false;
+  if (w.corpse) { let c = false; try { snapMobs().forEach(m => { if (!c && m.IsDead && T && Math.hypot(m.X - T.X, m.Y - T.Y) < 300) c = true; }); } catch (e) { } if (!c) return false; }
+  if (w.summonOut) { let n = 0; try { n = num(PetList.Count); } catch (e) { } if (!n) return false; }
+  if (w.noFrenzyWindow) { try { if (Object.keys(livePos).some(n => livePos[n] && livePos[n].draining && now() - livePos[n].at < 15000)) return false; } catch (e) { } }
+  if (w.afterSkill != null && !(num(CR.lastId) === num(w.afterSkill) && now() - CR.lastAt < 6000)) return false;
+  if (w.mobType) return false;                                         // the monster's kind (undead, caster ...) is not visible to Hive: such a row is not cast by itself (Nuker19 spammed Solar Flare 'vs undead')
+  return true;
+}
+/** castCands -> the live rule fields per candidate: crOk, crMobs (monsters at the target / around me), crMobsMin */
+function crLive(cands, T, dist, worth) {
+  if (!skillPlan || !skillPlan.cr || !T) return cands;
+  const tid = num(T.objId), fight = !!(IsAttacking || Me.IsInCombat || now() - lastAttackerOnMe.at < 6000);
+  const x = { T, tid, dist, worth, fight };
+  cands.forEach(s => {
+    if (!s.cr) return;
+    const w = s.cr.when || {};
+    if (s.cr.a === 'aoe' || s.cr.a === 'aoe-self') {
+      s.crMobs = s.cr.a === 'aoe-self' ? countFightMobsNear(Me.X, Me.Y, s.cr.radius) : countFightMobsNear(T.X, T.Y, Math.max(150, s.cr.radius));
+      s.crMobsMin = w.mobsMin != null ? Math.max(num(w.mobsMin), aoeMinNow() >= 999 ? 999 : 1) : aoeMinNow();
+    } else if (w.mobsMin != null) { s.crMobs = countFightMobsNear(T.X, T.Y, 250); s.crMobsMin = num(w.mobsMin); }
+    s.crOk = crWhenOk(w, s, x) && !(s.crMobsMin != null && !(s.crMobs >= s.crMobsMin)) && !(w.mobsMax != null && num(s.crMobs) > num(w.mobsMax));
+    s.crSpecific = Object.keys(w).some(k => !['onCooldown', 'fightOnly', 'text', 'always', 'partyOnly', 'notRaid'].includes(k)) && s.cr.a !== 'aoe' && s.cr.a !== 'aoe-self';
+    if (s.crOk && (s.cr.a === 'opener' || s.cr.a === 'debuff') && crTargetHas(tid, 'skill:' + num(s.id))) s.crOk = false;   // an opener once per target, a debuff only after it wore off
+    if (s.crOk && skillPlan.cr.condNever.some(c => c.id === num(s.id) && crWhenOk(c.when, s, x))) s.crOk = false;   // a never row whose rule holds now
+  });
+  return cands;
+}
+/** the guide's emergency rows (Body Reconstruction < 25 %, Ultimate Defense, Painkiller ...): first, before anything else */
+async function crEmergencyStep() {
+  const p = skillPlan; if (!p || !p.cr || !p.cr.emergency.length) return false;
+  let T = null; try { T = Target && !Target.IsDead ? Target : null; } catch (e) { }
+  const x = { T, tid: T ? num(T.objId) : 0, dist: T ? Distance(T) : 0, worth: false, fight: !!(IsAttacking || Me.IsInCombat || now() - lastAttackerOnMe.at < 6000) };
+  if (!x.fight) return false;
+  for (const e of p.cr.emergency) {
+    const k = SkillsList.GetItemByID(e.id); if (!k || !k.IsReady || num(Me.MP) < num(k.MP)) continue;
+    if (now() - (CR.buffAt[e.id] || 0) < 3000 || !crWhenOk(e.cr.when, e, x)) continue;
+    CR.buffAt[e.id] = now();
+    const r = await castNow(e, { cr: 'emergency' });
+    if (r && r.started) { crNoteCast(e, 'emergency: ' + (crWhenText(e.cr.when) || e.cr.trig).slice(0, 80), x.tid); return true; }
+  }
+  return false;
+}
+/** the guide's self / party buffs and MP rows (Rage, Lionheart, Combat Aura, Prayer, Seed of Fire, Dark Weapon, Body to Mind ...) */
+async function crBuffStep(town) {
+  const p = skillPlan; if (!p || !p.cr || !p.cr.buffs.length || town) return false;
+  const fight = !!(IsAttacking || Me.IsInCombat || now() - lastAttackerOnMe.at < 6000);
+  const x = { T: null, tid: 0, dist: 0, worth: false, fight };
+  for (const b of p.cr.buffs) {
+    const w = b.when || {};
+    if (now() - (CR.buffAt[b.id] || 0) < 60000 && b.a !== 'mp') continue;
+    if (b.a === 'mp' ? now() - (CR.buffAt[b.id] || 0) < 4000 : !BuffLow(b.id, 15)) continue;
+    const k = SkillsList.GetItemByID(b.id); if (!k || !k.IsReady || num(Me.MP) < num(k.MP)) continue;
+    if (!crWhenOk(w, b, x)) continue;
+    CR.buffAt[b.id] = now();
+    const r = await castNow(b, { cr: 'buff' });
+    if (r && r.started) { crNoteCast(b, b.a + (crWhenText(w) ? ': ' + crWhenText(w) : ''), 0); return true; }
+  }
+  return false;
+}
+function crWhenText(w) { try { return Object.keys(w || {}).filter(k => k !== 'text').map(k => k + (w[k] === true ? '' : ' ' + JSON.stringify(w[k]))).join(', '); } catch (e) { return ''; } }
+/** the last casts (what the /Combat page shows per character): skill, why, when */
+function crNoteCast(info, why, tid) {
+  try {
+    CR.lastId = num(info.id); CR.lastAt = now();
+    crMarkCast(info, tid);
+    CR.last.unshift({ id: num(info.id), n: String(info.name || ''), why: String(why || '').slice(0, 90), at: now(), t: num(tid) || 0 });   // t: the monster (proves an opener landed once per monster)
+    if (CR.last.length > 12) CR.last.length = 12;
+  } catch (e) { }
+}
+/** swarm_state.combatPlan: my class guide plan + the last casts (dashboard #/combat) */
+function crPublic() {
+  try {
+    const p = skillPlan;
+    if (!p || !p.key) return null;
+    return { cls: p.cr ? p.cr.name : '', cid: num(Me.ClassId), band: p.cr ? p.cr.band : '', guide: !!p.cr, weapon: p.cr ? p.cr.weapon : '', used: p.cr ? p.cr.used : 0,
+      attacks: (p.attacks || []).map(a => ({ id: a.id, n: a.name, a: a.cr ? a.cr.a : (a.scope && a.scope !== 'SINGLE' ? 'aoe' : 'single') })),
+      buffs: p.cr ? p.cr.buffs.map(b => ({ id: b.id, n: b.name, a: b.a })) : (p.selfBuffs || []).map(b => ({ id: b.id, n: b.name, a: 'selfbuff' })),
+      toggles: (p.toggles || []).map(t => ({ id: t.id, n: t.name })), emergency: p.cr ? p.cr.emergency.map(e => ({ id: e.id, n: e.name })) : [],
+      never: p.cr ? [...p.cr.never] : [], last: CR.last.slice(0, 8), hive: hiveSkillsOn() };
+  } catch (e) { return null; }
+}
+// CLASSROT-END
 function buildSkillPlan() {
   const a = CONFIG.autoSkills;
   const plan = { key: '', attacks: [], selfBuffs: [], toggles: [], lock: null };
@@ -4358,7 +4603,7 @@ function buildSkillPlan() {
   // Spellhowler: Hurricane), then its older primaries, its AoE, its fallbacks — from caster_primary.json; other classes: power, then MP.
   plan.attacks = casterOrder(skFilterAttacks(plan.attacks, state.role || '', myBuffEntry()), cpRows, MELEE_ONLY.test(state.role || '') || state.role === 'inspector');   // SKILLSANE: caster buffers no nukes unless ticked
   plan.key = keys.sort().join(',');
-  return plan;
+  return crApplyPlan(plan);                                            // CLASSROT-2026-10-26: the class guide's plan (no file = this plan)
 }
 
 // AUTOSKILL COST (sched_top.log 2026-10-08: the 400 ms autoSkills job was the most expensive job, 5-7 ms per run): every tick rebuilt the plan
@@ -4599,7 +4844,8 @@ function currentSkillPlan() {
   planKeyChk.at = now(); planKeyChk.cnt = cnt;
   const keys = ['w' + myWeaponId(), skPlanKeyTok()];   // SKILLSANE: the Buffs page attack switch rebuilds the plan
   (hostSnap.skills() || SkillsList).forEach(s => keys.push(`${s.Id}.${s.Level}`));
-  const key = keys.sort().join(',');
+  try { crData(); } catch (e) { }                                     // CLASSROT: a changed class file rebuilds the plan
+  const key = keys.sort().join(',') + (CR.txt ? '|cr' + CR.txt.length : '');
   if (key !== skillPlan.key) {
     skillPlan = buildSkillPlan();
     note(`skills updated (lvl ${Me.Level} ${Me.ClassName}): attacks [${skillPlan.attacks.map(s => s.name).join(', ')}]` +
@@ -4685,11 +4931,22 @@ function castValue(s, mobs, c) {
  *  Returns { skill, why } or { skill: null, wait (ms, when something becomes ready soon), approach (out of range), why }. */
 function castPick(cands, ctx) {
   const c = ctx || {}, t = Number(c.now) || 0, mobs = Math.max(1, Number(c.mobs) || 1), list = (cands || []).filter(Boolean);
-  const aoeOk = (s) => !castIsAoe(s) || mobs >= (Number(c.aoeMinMobs) || 3);
+  const aoeOk = (s) => !castIsAoe(s) || (s.crMobs !== undefined ? s.crMobs >= (Number(s.crMobsMin) || 1) : mobs >= (Number(c.aoeMinMobs) || 3));   // CLASSROT: a guide row counts its own monsters (around me / the target)
   const blocked = (s) => !!(c.blocked && Number(c.blocked[s.id]) > t);
   const inRange = (s) => !(Number(c.dist) > (Number(s.range) || 0) + 60);
   const afford = (s) => !(Number(c.mp) < (Number(s.mp) || 0));
   const usable = (s) => !!s.ready && afford(s) && aoeOk(s) && !blocked(s) && inRange(s);
+  // CLASSROT-2026-10-26: the class guide's order = the first usable row whose rule holds (debuff > opener > burst > area > single)
+  if (c.crOrder) {
+    // a situational row whose special rule holds right now (Aura Flare with the monster on me, a burst on a boss, Contagion on a bleeding target)
+    // beats the plain spam row listed before it; then the guide's order
+    const first = list.find(s => s.crOk !== false && s.crSpecific && usable(s)) || list.find(s => s.crOk !== false && usable(s));
+    if (first) return { skill: first, why: 'class guide: ' + ((first.cr && first.cr.a) || 'row') };
+    if (c.chase) { const ap = list.find(s => s.crOk !== false && s.ready && afford(s) && !blocked(s) && aoeOk(s) && !inRange(s) && !castIsAoe(s)); if (ap) return { skill: null, approach: true, approachRange: Number(ap.range) || 600, approachFor: ap.name, wait: CASTLOOP.approachGapMs, why: `out of range (${Math.round(Number(c.dist))} > ${ap.range})` }; }
+    let soon = Infinity; list.forEach(s => { if (s.crOk !== false && afford(s) && inRange(s) && aoeOk(s)) soon = Math.min(soon, s.ready ? (blocked(s) ? Number(c.blocked[s.id]) - t : 0) : (Number(s.reuseLeftMs) > 0 ? Number(s.reuseLeftMs) : Infinity)); });
+    if (isFinite(soon) && soon > 0) return { skill: null, wait: Math.min(500, Math.max(20, soon)), why: 'nothing ready (class guide)' };
+    return { skill: null, wait: 300, why: list.length ? 'no guide row usable now' : 'no attack skills' };
+  }
   const hp = Number(c.hpPct), lowHp = isFinite(hp) && hp > 0 && hp < (Number(c.drainBelow) || 60);
   if (lowHp) { const d = list.find(s => s.cpKind === 'drain' && usable(s)); if (d) return { skill: d, why: 'drain (low HP)' }; }
   if (c.worth) { const b = list.find(s => s.cpKind === 'burst' && usable(s)); if (b) return { skill: b, why: 'burst (long fight)' }; }
@@ -4994,6 +5251,7 @@ function castCands(order) {
 async function castNow(info, opts) {
   if (!hiveSkillsOn()) return { started: false, off: true };          // HIVESW-2026-10-15: skills OFF = the script casts nothing (the player's L2Swarm profile does)
   if (castGate.busy) return { started: false, busy: true };
+  if (crBlocked(info && info.id) && !(opts && opts.user)) return { started: false, never: true };   // CLASSROT: the class guide says never (or obsolete / switched off)
   castGate.busy = true;
   const id = num(info.id); let t0 = now(), ev0 = castEvt.at;
   try {
@@ -5358,7 +5616,7 @@ setInterval(() => {
       if (k.IsToggle && typeof scoutCtl !== 'undefined' && (scoutCtl.on || (typeof SOLOSNEAK !== 'undefined' && SOLOSNEAK.on)) && typeof SCOUT_SPEED !== 'undefined' && (SCOUT_SPEED.stealthRe.test(name) || SCOUT_SPEED.stealthType.test(String(k.AbnormalType || '')))) return;   // the scout trip owns its stealth toggle (2026-10-10)
       if (k.IsToggle) {
         // ON only in a fight outside towns (the wanted ones), OFF in towns / ~12 s after the fight (every running toggle)
-        const act = toggleDecide({ name, running: toggleActive(id, name, () => { try { const o = SkillsList.GetItemByID(id); return !!(o && o.IsRunning); } catch (e) { return false; } }), wanted: KEEP_TOGGLES.includes(name) || toggleWanted({ name, role: state.role || '' }, { tankRe: ROLEKIND.tankStances, picked: picked, notInFight: TOGGLE_NOT_IN_FIGHT })   /* HIVESW-2026-10-15: the fight whitelist + the player's ticks (was: ALL toggles, user 2026-10-09 — burnt the MP of Berserkers / Destroyers) */, lastCastAt: keeper.last[id] || 0 }, tc);
+        const act = toggleDecide({ name, running: toggleActive(id, name, () => { try { const o = SkillsList.GetItemByID(id); return !!(o && o.IsRunning); } catch (e) { return false; } }), wanted: (skillPlan && skillPlan.cr) ? ((skillPlan.cr.toggles.has(id) && !skillPlan.cr.toggleOff.has(id)) || !!(picked && (picked.includes ? picked.includes(name) : picked[name]))) /* CLASSROT: the guide's toggles + the player's ticks */ : KEEP_TOGGLES.includes(name) || toggleWanted({ name, role: state.role || '' }, { tankRe: ROLEKIND.tankStances, picked: picked, notInFight: TOGGLE_NOT_IN_FIGHT })   /* HIVESW-2026-10-15: the fight whitelist + the player's ticks (was: ALL toggles, user 2026-10-09 — burnt the MP of Berserkers / Destroyers) */, lastCastAt: keeper.last[id] || 0 }, tc);
         // MP GUARD (owner 2026-10-17: "they drain MP constantly ... only use them while needed"; Destroyer3's party ran Vicious Stance through a whole
         // catacomb session at 29-36 % MP): a fight toggle goes ON only with MP >= 50 % and OFF below 35 % even mid-fight (back on once MP recovered)
         const mpPct = num(Me.MpPercent);
@@ -5603,6 +5861,7 @@ async function autoSkillTick() {
   if (!hiveSkillsOn()) return { next: 2000 };                          // HIVESW-2026-10-15: no attacks / self buffs / class party buffs by the script
   const a = CONFIG.autoSkills;
   const plan = currentSkillPlan();
+  if (plan.cr && await crEmergencyStep()) return { next: 0 };          // CLASSROT: the guide's emergency rows first
 
   // 1) Toggles og selv-buffs — KUN når vi ikke har serverens buffs
   //    (Community Board-buffs er bedre og må ikke overskrives).
@@ -5622,6 +5881,7 @@ async function autoSkillTick() {
     }
   }
 
+  if (plan.cr && !isHealerRole() && await crBuffStep(sbCtx.town)) return;   // CLASSROT: the guide's self / party buffs + MP rows (board duplicates only when that board buff is missing)
   // 1b) Party buffs from the class itself that the board does not give (always allowed, CONFIG.autoSkills.partyBuffs)
   for (const pb of sbCtx.town ? [] : ((a.partyBuffs && a.partyBuffs[state.role]) || [])) {   // D7 (2026-10-12): no class party buffs in a town
     const k = typeof pb === 'number' ? SkillsList.GetItemByID(pb) : skillNamed(String(pb));   // by name (ROLE KINDS 2026-10-10)
@@ -5676,10 +5936,11 @@ async function autoSkillTick() {
   if (Me.MpPercent < reserve) { castStats.why['MP reserve'] = (castStats.why['MP reserve'] || 0) + 1; castStats.fightMs += now() - fightT0 + 500; return { next: 500 }; }   // keep MP for heals (Saint1 died at 3 % MP)
   const worth = teamTargetWorth(T);                                     // CASTPRIO: raid boss / long-lived monster
   if (await teamSurrenderStep(T, worth)) return { next: 0 };            // TEAM SURRENDER (only the window the team element chose)
-  const mobsAtTarget = countMobsNear(T.X, T.Y, a.aoeRadius);
+  const mobsAtTarget = countFightMobsNear(T.X, T.Y, a.aoeRadius);   // AOEFIGHT
   const hpNow = num(Me.HpPercent);
   // CAST LOOP pick: drains (low HP) > bursts (worth) > primary when ready (AoE when it does more) > best READY fallback; never idle while one is ready
-  let cands = castCands(castOrder(plan.attacks, { hpPct: hpNow, worth }));
+  let cands = castCands(plan.cr ? plan.attacks : castOrder(plan.attacks, { hpPct: hpNow, worth }));   // CLASSROT: the guide's order as it is
+  if (plan.cr) crLive(cands, T, dist, worth);
   // POSBEHIND (user 2026-10-09 13:50): Backstab / blows from behind — step behind a target a teammate holds, Bluff / Shadow Step when it faces me
   const pz = await posbehindTick(T, cands, dist, !!inst.on || pairT || inRaid() || state.mode === 'raidclear');
   if (pz && pz.next !== undefined) { castStats.fightMs += now() - fightT0 + pz.next; return { next: pz.next }; }
@@ -5693,12 +5954,13 @@ async function autoSkillTick() {
     castReach.losTid = 0;
   }
   const pick = castPick(cands, { mp: num(Me.MP), hpPct: hpNow, dist, mobs: mobsAtTarget,
-    aoeMinMobs: aoeMinNow(), worth, blocked: castBlocked, now: now(), chase });   // pairs: memberPairTick moves
+    aoeMinMobs: aoeMinNow(), worth, blocked: castBlocked, now: now(), chase, crOrder: !!plan.cr });   // pairs: memberPairTick moves
   if (pick.skill) {
     if (/^fallback/.test(pick.why)) { const fk = `${pick.skill.name}: ${pick.why.replace(/^fallback \(?|\)$/g, '') || 'no primary'}`; castStats.fb[fk] = (castStats.fb[fk] || 0) + 1; }   // CASTPRIO 2026-10-13: WHY a fallback (caster_stats.log)
     if (castReach.st.approached && castReach.st.tid === tid) { castStats.steps++; Object.assign(castReach.st, { approached: false, since: 0, step: null, stuck: 0 }); }   // stepped into range
     castFollowRelease();
     const r = await castNow(pick.skill);
+    if (r && r.started) crNoteCast(pick.skill, pick.why, tid);          // CLASSROT: the last casts for the /Combat page + target marks (bleed, Death Mark ...)
     castStats.fightMs += now() - fightT0;
     if (!r.started && r.refuse) {
       if (r.refuse.key === 'los') { castReach.losTid = tid; castReach.losAt = now(); }                               // closer / sideways next tick ('out of range': castRangeCut)
@@ -12384,7 +12646,10 @@ async function gearUpgrade(why) {
     try { const sc = await starterCleanup(sgPrev, why, false); if (sc) worn.push(sc); } catch (e) { logError('starterCleanup', e); }   // STARTERGEAR: sell / destroy the replaced starter pieces
     // OWNTYPE 2026-10-13 (tester: "0/10 bought; nothing put on" without a reason): the buy problems go into the message too
     const buyBad = bought.filter(t => !/: bought$/.test(String(t)));
-    const msg = `${plan.buys.filter(p => p.bought).length}/${plan.buys.length} bought; ${worn.join(', ') || 'nothing put on'}${buyBad.length ? ` [not bought: ${buyBad.join('; ')}]`.slice(0, 400) : ''}${tail}`;
+    // GEARSHORT-2026-10-25 (tester Mr.P: "party member didn't receive needed adena to make an upgrade, yet he reports he bought and equipped everything"):
+    // pieces the adena did not cover were left out of the plan, so '2/2 bought' read like everything - they count now and are said FIRST
+    const shortN = plan.short && plan.short.missing > 0 ? (plan.short.items || []).length : 0;
+    const msg = `${shortN ? `NOT everything: ${shortN} piece(s) skipped — needs ${plan.short.missing} more adena; ` : ''}${plan.buys.filter(p => p.bought).length}/${plan.buys.length + shortN} bought; ${worn.join(', ') || 'nothing put on'}${buyBad.length ? ` [not bought: ${buyBad.join('; ')}]`.slice(0, 400) : ''}${tail}`;
     note(`[gear] ${why}: ${bought.join('; ')} | ${worn.join('; ')}`, true);
     appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] lvl ${Me.Level} ${gearRole()} (${why}): ${bought.join('; ')} | ${worn.join('; ')}${tail}\r\n`);
     return { ok: true, msg };
@@ -12799,6 +13064,7 @@ async function ijSA(sa, weaponObjId, jid) {
 }
 /** enchant this one piece to +to (one scroll per level; stops at the first fail). -> { ok, lvl, gone, why } */
 async function ijEnchant(objId, to, scroll, jid, name, overSafeOk, onLvl) {
+  jobKeepAdd([objId]);                                                   // JOBKEEP: an enchanted piece stays in the bag (never stored by the collector chore)
   if (to > num(CONFIG.gear.enchant.safe || 4) && !overSafeOk) return { ok: false, why: `+${to} is above the safe +${CONFIG.gear.enchant.safe || 4} and the job has no confirmed warning` };   // owner 2026-10-17
   let lvl = enchLevelOf(objId);
   if (lvl < 0) return { ok: false, gone: true, why: 'the item is not in my bag' };
@@ -12862,6 +13128,67 @@ async function ijAugment(objId, aug, jid, iname) {
     }
   } finally { AUG.on = false; try { Options.EnableJSOnIncomingPacket = false; } catch (e) { } }
 }
+/** ENCHSTORE-2026-10-25 (owner: "things that we enchant should be put back in clan warehouse"): the pieces (objIds) still in my bag and not worn go into
+ *  the clan warehouse (private when I am in no clan or the clan warehouse refuses) at Taurin; the job status says what went where. -> line for the result */
+async function ijStoreClan(objIds, id) {
+  const want = new Set((objIds || []).map(num).filter(Boolean)), rows = [];
+  try { Inventory.forEach(it => { const o = num(it.objId); if (!want.has(o) || it.IsEquiped) return; rows.push({ objId: o, id: num(it.Id), name: String(it.Name || ''), count: Math.max(1, num(it.Count)), stackable: false, cat: 'enchanted' }); }); } catch (e) { }
+  if (!rows.length) return '';
+  if (currentTownKey() !== 'Giran') { ijStatus(id, null, `not in Giran — ${rows.length} piece(s) stay in my bag`); return `${rows.length} piece(s) stay in my bag (not in Giran)`; }
+  if (STASH.busy) { const t0 = now(); while (STASH.busy && now() - t0 < 120000) await sleep(1000); }
+  let kind = myClanName() ? 'clan' : 'private';
+  ijStatus(id, null, `putting ${rows.length} piece(s) into the ${kind} warehouse: ${rows.map(r => r.name).join(', ').slice(0, 160)}`);
+  STASH.busy = true;
+  try {
+    if (!(await giranGo('warehouse'))) ijStatus(id, null, 'did not quite reach the warehouse (trying anyway)');
+    try { const k = stashKeeper(); if (k && Distance(k) > 250) await walkTo(num(k.X), num(k.Y), num(k.Z), 100, 60000); } catch (e) { }
+    const npc = stashKeeper(); if (!npc) { ijStatus(id, null, 'no warehouse keeper in sight — the pieces stay in my bag'); return 'pieces stay in my bag (no warehouse keeper)'; }
+    let r = await stashDepositAt(npc, rows, kind);
+    const left = () => { const L = []; try { Inventory.forEach(it => { if (want.has(num(it.objId)) && !it.IsEquiped) L.push(num(it.objId)); }); } catch (e) { } return L; };
+    if (left().length && kind === 'clan') { ijStatus(id, null, `clan warehouse took ${rows.length - left().length} of ${rows.length}${r && r.why ? ' (' + r.why + ')' : ''} — the rest into my private warehouse`); kind = 'private'; r = await stashDepositAt(npc, rows.filter(x => left().includes(x.objId)), 'private'); }
+    const n = rows.length - left().length;
+    ijStatus(id, null, n ? `${n} piece(s) put into the ${kind} warehouse${left().length ? ', ' + left().length + ' still in my bag' : ''}` : `could not store them${r && r.why ? ': ' + r.why : ''} — they stay in my bag`);
+    try { appendShared(`${SWARM_ROOT}\\Logs\\itemjobs.log`, `${new Date().toISOString()} [${Me.Name}] ${id}: stored ${n} piece(s) in the ${kind} warehouse\r\n`); } catch (e) { }
+    return n ? `${n} put into the ${kind === 'clan' ? 'clan ' : ''}warehouse` : 'they stay in my bag';
+  } finally { STASH.busy = false; }
+}
+/** UNSEALPICK-2026-10-25 (owner: "why cant i select items in clan warehouse and unseal them????"): J.unseal.pieces = the owner's picks
+ *  [{ src: bag|wh|clan, id (sealed), name, enchant, objId (bag), toId, toName, label, pay, price, plus10, result }] -> to Giran, every warehouse piece out
+ *  first (one fetch per kind), each unsealed at Pushkin, the unsealed pieces of warehouse picks back into the clan warehouse */
+async function unsealRun(J, id, seq) {
+  const me = Me.Name, P = J.unseal.pieces;
+  ijStatus(id, { state: 'running', doer: me, interrupted: false }, `${me} unseals ${P.filter(x => !x.result).length} piece(s)`);
+  const trip = await ijToGiran(seq, '!itemjob');
+  if (!trip.ok) { ijStatus(id, { state: 'failed', result: trip.why }, `could not get to Giran: ${trip.why}`); return trip; }
+  state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
+  { const groups = {};
+    P.forEach((x, i) => { if (x.result || x.src === 'bag') return; if (num(x.enchant) >= WH_PROTECT_ENCH && x.plus10 !== true) { x.result = 'skipped'; x.why = '+10 and higher only with the owner\'s +10 tick'; return; }
+      const k = x.src + ':' + num(x.id) + ':' + num(x.enchant); (groups[k] = groups[k] || []).push(i); });
+    for (const k of Object.keys(groups)) {
+      const idx = groups[k], x0 = P[idx[0]];
+      const f = await ijFetch(num(x0.id), bagCount(num(x0.id)) + idx.length, x0.name + (num(x0.enchant) ? ' +' + num(x0.enchant) : ''), x0.src === 'wh' ? { wh: 1 } : { clan: 1 }, id, num(x0.enchant), { stay: true });
+      if (!f.ok) ijStatus(id, null, `${x0.name}: ${f.why}`);
+    }
+    ijSaveJob(J); }
+  const res = [], made = [], back = [];
+  for (const x of P) {
+    if (x.result) { res.push(`${x.name}: ${x.result}${x.why ? ' (' + x.why + ')' : ''}`); continue; }
+    if (orderState.seq !== seq && orderReplaced(seq)) { res.push(`${x.name}: stopped (a new order)`); break; }
+    if (bagCount(num(x.id)) < 1) { x.result = 'not in my bag'; res.push(`${x.name}: not in my bag`); ijSaveJob(J); continue; }
+    if (x.sealed === false) { x.result = 'taken out'; res.push(`${x.name}: in my bag`); ijSaveJob(J); continue; }   // KITGET: a kit piece that only had to come out of the clan warehouse
+    const before = new Set(); try { Inventory.forEach(it => { if (num(it.Id) === num(x.toId)) before.add(num(it.objId)); }); } catch (e) { }
+    ijStatus(id, null, `unsealing ${x.name} -> ${x.toName} at Pushkin (${x.price} ${num(x.pay) === 57 ? 'adena' : 'Ancient Adena'})`);
+    let r = { ok: false, why: '?' }; try { r = await ijBuyAt({ npc: 'Pushkin', x: 77458, y: 148169, path: [x.label], kind: 'exchange' }, num(x.toId), 1, id); } catch (e) { r = { ok: false, why: String(e.message || e) }; }
+    let o = 0; try { Inventory.forEach(it => { if (num(it.Id) === num(x.toId) && !before.has(num(it.objId))) o = num(it.objId); }); } catch (e) { }
+    if (r.ok && o) { x.result = 'unsealed'; made.push(o); if (x.src !== 'bag') back.push(o); res.push(`${x.toName}: unsealed`); }
+    else { x.result = 'failed'; x.why = r.why; res.push(`${x.name}: unsealing failed (${r.why})`); }
+    ijSaveJob(J);
+  }
+  if (back.length && !J.unseal.keep) { const st = await ijStoreClan(back, id); if (st) res.push(st); }   // ENCHSTORE: warehouse picks go back (not the Frenzy kit: KITGET keep)
+  const okAll = P.every(x => x.result === 'unsealed' || x.result === 'taken out');
+  ijStatus(id, { state: okAll ? 'done' : 'failed', result: res.join('; ') }, `${okAll ? '✓ done' : 'finished'}: ${res.join('; ')}`);
+  return trip;
+}
 /** MAKEX-2026-10-25 (owner: "ask a toon to buy x amount of like homunkulus swords in giran OR craft them and then enchant them afterwards to +x"):
  *  J.make = { id, name, src: shop|craft, offer, recipe, count, enchantTo, scroll, use, give: [names], objIds: [], res: { objId: result } } */
 async function makeRun(J, id, seq) {
@@ -12881,6 +13208,7 @@ async function makeRun(J, id, seq) {
       if (!b.ok) { ijStatus(id, null, `buying piece ${M.objIds.length + k + 1} failed: ${b.why} — stopping the buying`); break; }
     }
     own().forEach(o => { if (!before.has(o) && !M.objIds.includes(o)) M.objIds.push(o); }); ijSaveJob(J);
+    jobKeepAdd(M.objIds);                                                // JOBKEEP: "they stay in my bag" - the collector's store never takes them
     ijStatus(id, null, `${M.objIds.length} of ${M.count} ${M.name} made`);
   }
   if (num(M.enchantTo) > 0) for (const o of M.objIds) {
@@ -12906,6 +13234,7 @@ async function makeRun(J, id, seq) {
       res.push(hovBag().some(b => num(b.objId) === o) ? `${r}: hand-over did not finish` : `given to ${r}`);
     }
   }
+  { const kept = M.objIds.filter(o => enchLevelOf(o) >= 0); if (kept.length && !to.length) { const st = await ijStoreClan(kept, id); if (st) res.push(st); } }   // ENCHSTORE
   const okAll = alive.length >= num(M.count) && Object.values(M.res).every(v => v === 'reached' || !num(M.enchantTo));
   ijStatus(id, { state: okAll ? 'done' : 'failed', result: res.join('; ') }, `${okAll ? '✓ done' : 'finished'}: ${res.join('; ')}`);
   return trip;
@@ -13029,6 +13358,7 @@ async function itemJobOrder(id) {
     // afterwards ONLY the pieces the new ones replaced go to the collector (owner choice 2026-10-25). Every line result is saved (Resume skips it).
     if (J.upgrade && Array.isArray(J.upgrade.lines)) { try { trip = await upgradeRun(J, id, seq); } finally { if (J.solo) { try { scoutAway(false); state.followHoldUntil = 0; } catch (e) { } } } return; }   // UPGSOLO: back to the team (rejoin)
     if (J.make && num(J.make.id)) { trip = await makeRun(J, id, seq); return; }   // MAKEX-2026-10-25
+    if (J.unseal && Array.isArray(J.unseal.pieces) && J.unseal.pieces.length) { trip = await unsealRun(J, id, seq); return; }   // UNSEALPICK-2026-10-25
     // ENCHMANY-2026-10-18 (owner: "I can select several items to enchant in L2Swarm"): one job enchants several bag pieces, one after another,
     // each to its +N (one scroll at a time, a fail stops only that piece); no town trip (enchanting works anywhere out of combat)
     if (Array.isArray(J.enchantMany) && J.enchantMany.length) {
@@ -13052,7 +13382,7 @@ async function itemJobOrder(id) {
       { const groups = {};
         J.enchantMany.forEach((e, i) => { if (e.src !== 'wh' && e.src !== 'clan') return; if (e.result || (e.objId && enchLevelOf(num(e.objId)) >= 0)) return; if (e.objId) { e.from = num(e.lvl != null ? e.lvl : e.from); e.objId = 0; }   // IJRESUME: stored back meanwhile -> take it out again at its level
           if (num(e.from) > WH_SAFE_ENCH && !J.overSafeOk) { e.skipWhy = `above the safe +${WH_SAFE_ENCH} and the warning was not confirmed — left in the warehouse`; return; }
-          if (num(e.from) >= WH_PROTECT_ENCH) { e.skipWhy = `+${WH_PROTECT_ENCH} and higher only by its own single pick — left in the warehouse`; return; }
+          if (num(e.from) >= WH_PROTECT_ENCH && e.plus10 !== true) { e.skipWhy = `+${WH_PROTECT_ENCH} and higher only when the owner picks it and ticks the +${WH_PROTECT_ENCH} warning — left in the warehouse`; return; }   // PLUS10PICK-2026-10-25: never automatically
           const k = e.src + ':' + num(e.id) + ':' + num(e.from); (groups[k] = groups[k] || []).push(i); });
         for (const k of Object.keys(groups)) {
           const idxs = groups[k], e0 = J.enchantMany[idxs[0]];
@@ -13076,6 +13406,8 @@ async function itemJobOrder(id) {
         e.lvl = r.lvl; e.result = r.ok ? 'reached' : r.gone ? 'broke' : /no .*left|could not be used/.test(String(r.why)) ? '' : 'dropped'; if (!e.result) delete e.result; ijSaveJob(J);   // IJRESUME: no scroll left = not finished, a Resume goes on
         if (r.ok) { okN++; res.push(`${e.name} +${r.lvl}`); } else res.push(`${e.name}: ${r.why}`);
       }
+      { const back = J.enchantMany.filter(e => (e.src === 'wh' || e.src === 'clan') && num(e.objId) && enchLevelOf(num(e.objId)) >= 0 && J.give == null).map(e => num(e.objId));   // ENCHSTORE
+        if (back.length) { const st = await ijStoreClan(back, id); if (st) res.push(st); } }
       ijStatus(id, { state: okN === J.enchantMany.length ? 'done' : 'failed', result: res.join('; ') }, `${okN === J.enchantMany.length ? '✓ done' : 'finished'}: ${res.join('; ')}`);
       return;
     }
@@ -15785,6 +16117,7 @@ function spPick(rows, ctx) {
       const info = c.info ? c.info(id) : null, nm = String(row.name || '');
       if (info && info.g && info.s && grades.includes(String(info.g).toLowerCase()) && !(Number(row.enchant) > 0)
         && !(/ - /.test(nm) && !/^Common Item - /i.test(nm))                    // enchanted / special-ability pieces are never junk
+        && !(info.n && / - /.test(String(info.n)) && !/^Common Item - |limited period/i.test(String(info.n)))   // SAJUNK-2026-10-25 (tester Mr.P: "new gearup is selling SA weapon in grocery shop"): the client drops the SA from the NAME, the item id still is the SA one
         && !(c.gain && c.gain(id, info) > 0) && !(c.wanted && c.wanted(id, info))) why = 'junk';
     }
     if (!why) continue;
@@ -15900,6 +16233,7 @@ function sellCandidatesEx(grades) {
         if (b.eq || b.quest || NT.has(b.id) || (r.list || []).some(x => x.id === b.id) || !stashNever(b.name, R)) return;
         try { if (qeProtected(b.id)) return; } catch (e) { return; }
         try { if (db[b.id] && upgradeGain(b.id, db[b.id], g) > 0) return; } catch (e) { }
+        const gi = db[b.id]; if (Number(b.enchant) > 0 || (gi && / - /.test(String(gi.n || '')) && !/^Common Item - |limited period/i.test(String(gi.n)))) return;   // SAJUNK-2: never sell an enchanted / SA piece as never-store (tester Raltru: Homunkulus's Sword - Acumen gone in a !supply)
         const e = by[b.id] = by[b.id] || { id: b.id, name: b.name, count: 0, why: 'never-store', objIds: [] };
         e.count += Math.max(1, b.count); e.objIds.push(b.objId);
       });
@@ -21582,6 +21916,7 @@ function stashClassify(it, ctx) {
   if (it.equipped) return K('equipped', 'equipped');
   if (it.quest) return K('quest item', 'quest');
   if (id === 57) return K('adena', 'adena');
+  // (JOBKEEP-2026-10-25 removed the same evening - owner: "things that we enchant should be put back in clan warehouse": ENCHSTORE stores them)
   if (Array.isArray(ctx && ctx.sellHold) && ctx.sellHold.some(x => Number(x) === id)) return K('taken out of the clan warehouse to be sold (!whsell) — never stored again', 'whsell');   // WHSELL-HOLD 2026-10-14 (17:58: a supply-run stash put 96 such kinds back)
   if (/(^|[^A-Za-z])Soul Crystal([^A-Za-z]|$)/i.test(name) && !/^Recipe/i.test(name)) return K('soul crystal (finished ones go to the warehouse with !soul store)', 'soul');   // before every rule (2026-10-12)
   // STORAGE-2026-10-13: mode 'off' = nothing of mine goes into a warehouse; 'all' = everything except my consumables (stashSettings)
@@ -21838,7 +22173,20 @@ function stashCtx() {
   let team = false; try { team = teamNames().length > 0; } catch (e) { }
   const R = stashRules(), set = stashSettingsMine(R); let lk = null; try { lk = stashLetterKeep(stashLettersCfg(R), name, stashLetterTo(R)); } catch (e) { }
   return { name, crafter: (S.crafters || []).includes(name) || state.role === 'crafter' || (() => { try { const c = craftMineCfg(); return !!(c && c.on); } catch (e) { return false; } })(),   /* CRAFTER-2026-10-15: our crafter keeps its crystals / ore */ createLvl: stashSkillLvl(172), commonLvl: stashSkillLvl(1320),
-    keepIds: keep, stonesToPriest: stones, hasTeam: team, rules: R, data: stashData(), mode: set.mode, settings: set, letterKeep: lk, sellHold: whsHoldIds() };   // STORAGE-2026-10-13: mode + letters
+    keepIds: keep, stonesToPriest: stones, hasTeam: team, rules: R, data: stashData(), mode: set.mode, settings: set, letterKeep: lk, sellHold: whsHoldIds(), jobKeep: stashJobKeep(name) };   // STORAGE-2026-10-13: mode + letters
+}
+/** JOBKEEP: object ids my item jobs made (buy / craft) or enchanted in the last 7 days: Logs/jobkeep_<me>.json { objId: until ms }, cached 60 s */
+const STASHJK = { at: 0, ids: new Set() };
+function jobKeepFile(name) { return `${SWARM_ROOT}\\Logs\\jobkeep_${name || Me.Name}.json`; }
+function jobKeepRead(name) { try { const f = jobKeepFile(name); return File.Exists(f) ? (JSON.parse(String(File.ReadAllText(f))) || {}) : {}; } catch (e) { return {}; } }
+function jobKeepAdd(objIds) {
+  try { const m = jobKeepRead(), t = Date.now(); Object.keys(m).forEach(k => { if (!(m[k] > t)) delete m[k]; }); (objIds || []).forEach(o => { if (num(o)) m[num(o)] = t + 7 * 86400000; });
+    File.WriteAllText(jobKeepFile(), JSON.stringify(m)); STASHJK.at = 0; } catch (e) { }
+}
+function stashJobKeep(name) {
+  if (now() - STASHJK.at < 60000) return STASHJK.ids;
+  const m = jobKeepRead(name), t = Date.now(), ids = new Set(); Object.keys(m).forEach(k => { if (m[k] > t) ids.add(Number(k)); });
+  STASHJK.at = now(); STASHJK.ids = ids; return ids;
 }
 /** My bag as classifier input. */
 function stashItems() {
@@ -21856,7 +22204,7 @@ function stashItems() {
       if (gear && info && g) { try { upgrade = upgradeGain(id, info, g) > 0; } catch (e) { } try { team = teammateWants(id); } catch (e) { } }
       let stack = false; try { stack = !!it.IsStackable; } catch (e) { }
       out.push({ objId: num(it.objId), id, name, count: Math.max(1, num(it.Count)), equipped: !!it.IsEquiped, quest: !!(it.IsQuest || it.IsQuestItem || qeProtected(id)), stackable: stack,
-        gear, upgrade, teamWants: team, spare: gear && (spare.some(r => r.test(name)) || kitIds.has(id)), sell: !!sell[id] });
+        gear, upgrade, teamWants: team, spare: gear && (spare.some(r => r.test(name)) || kitIds.has(id)), sell: !!sell[id], enchant: (() => { try { return num(it.EnchantLvl); } catch (e) { return 0; } })() });
     });
   } catch (e) { logError('stashItems', e); }
   return out;
@@ -29771,6 +30119,7 @@ async function travelToSpot(spot) {
   }
   // PARTY STATUS 2026-10-09: the trip as a step bar on the Parties tab (try ... finally around the whole body, so every return ends it)
   if (spot && !leadRunBusy && (isLeader() || soloChar())) pstRun('travel', spot.name, ['regroup in Giran', 'gather', 'teleport', 'walk']);
+  globalThis.__spotTripAt = now();                                    // STOPTRIP: the supply watch waits while a trip runs
   try {
   if (!spot || leadRunBusy) return false;
   if (!autoLvl.solo && !(await waitWholeTeam('travel to ' + spot.name))) return false;
@@ -29784,7 +30133,8 @@ async function travelToSpot(spot) {
   // A NEWER DASHBOARD CHOICE STOPS THIS TRIP (user 2026-10-08 21:25): checked after every long wait (Giran regroup + supply run, gather)
   // and before every teleport; the autolevel loop then picks the chosen spot at once (manualSw.pending)
   // QUESTWALK-2026-10-12: a quest took the character during the trip -> stop at the next step (it went on to .oren + the Clarissa click before)
-  const stale = (where) => { if (questwalkPending()) { gkFail = 'a more important task (your quest) owns the character — trip stopped ' + where; note('travel: ' + gkFail, true); return true; } return manualTripCheck(where); };
+  // STOPTRIP-2026-10-26 (tester Hero: "after i press stop the character is still moving here and there"): your Stop ends the trip at the next step
+  const stale = (where) => { if (autoLvl.stop || leadPaused() || !runOnOrCollector()) { gkFail = 'stopped (your Stop) ' + where; note('travel: ' + gkFail, true); return true; } if (questwalkPending()) { gkFail = 'a more important task (your quest) owns the character — trip stopped ' + where; note('travel: ' + gkFail, true); return true; } return manualTripCheck(where); };
   if (stale('before leaving')) return false;
   // REACHABLE ENTRY (BUG 2026-10-09 16:11): the walk from the PLANNED landing to the spot is checked BEFORE the Giran regroup and the gatekeeper
   // click — walkTo refuses anything > travel.maxWalk after the teleport (Dagger1 paid three teleports in 45 s for Ivory Tower areas 6, 5, 4)
@@ -29844,6 +30194,7 @@ async function travelToSpot(spot) {
       if (stale('after the ' + (rr && rr.via === 'custom' ? 'own route' : 'computed path'))) return false;
     }
   }
+  if (stale('before the way in')) return false;                         // STOPTRIP
   if (spot.room) return await enterRoom(spot);                         // dungeon floors + rooms (dungeon_rooms.json)
   if (spot.dungeon === true) {
     // datapack spots (hunting_spots_h5.json) carry dungeon: TRUE = "underground", not a name (2026-10-07 Dagger1 every hour: "no dungeon called
@@ -29932,7 +30283,7 @@ async function travelToSpot(spot) {
   const left = Math.hypot(spot.center.x - Me.X, spot.center.y - Me.Y);
   if (left < 6000) { note(`autolevel: could not reach the centre of ${spot.name}, but I am ${Math.round(left)} from it — hunting here`, !autoLvl.solo); return true; }
   return false;
-  } finally { pstEnd('travel'); }
+  } finally { pstEnd('travel'); globalThis.__spotTripAt = 0; }
 }
 
 // SPOTREPICK-PURE-BEGIN (no host calls: docs/plan/tools/test_spot_repick.js runs this block in node)
@@ -30456,6 +30807,12 @@ async function autoLevelLoop(solo) {
       // SWARMFIGHT-2026-10-16: the switch on = L2Swarm's combat hunts in the zone set above; Hive only counts kills and keeps the spot checks below
       const sfMode = (() => { try { return swarmFightOn() && !sfExcluded() && !solo; } catch (e) { return false; } })();
       if (sfMode) { const sk = sfLeaderTick(); if (sk) { kills += sk; for (let i = 0; i < sk; i++) autoLvl.killTimes.push(now()); multiKill(autoLvl.spot); } lastTarget = 0; }
+      // OWNFIGHT-2026-10-26 (tester Hero: "hive combat turned off ... character runs to mob, hits it 2-3 times, then runs away for some distance and then goes
+      // back"): with "Hive picks my skills" OFF, L2Swarm's own combat fights; while it is on a monster Hive never picks another one or walks to the centre /
+      // a random point (those walks pulled him off L2Swarm's target and L2Swarm dragged him back)
+      if (!sfMode && hiveOwnCombat() && IsInCombat && ((Me.IsAttacking || Me.IsCasting) || now() - lastAttackerOnMe.at < 5000 || !!(Target && Target.objId && mobById(Target.objId) && !Target.IsDead))) {
+        lastTarget = 0; autoLvl.mobSeenAt = now(); await sleep(1000); continue;
+      }
       // ATTACKFIRST-2026-10-23: a monster hitting one of us (healer first) beats the chosen target when that one hits nobody
       if (!sfMode) { const af = attackFirstNow(lastTarget); if (af && num(af.objId) !== num(lastTarget)) { lastTarget = af.objId; autoLvl.mobSeenAt = now(); await engage(af); await sleep(200); continue; } }   // ORDERFLOOD: a pause even when engage returns at once
       const cur = !sfMode && lastTarget && mobById(lastTarget);
@@ -30987,7 +31344,7 @@ async function memberPairTick() {
   }
   if (caster) {
     if (Me.IsCasting) return;
-    const plan = currentSkillPlan(), A = CONFIG.autoSkills, n = countMobsNear(t.X, t.Y, A.aoeRadius);
+    const plan = currentSkillPlan(), A = CONFIG.autoSkills, n = countFightMobsNear(t.X, t.Y, A.aoeRadius);
     const usable = plan.attacks.filter(s => !(s.scope && s.scope !== 'SINGLE' && n < aoeMinNow()));
     const range = usable.length ? Math.max(...usable.map(s => s.range)) : 0;
     if (!usable.length) { if (!noMelee() && !Me.IsAttacking && now() - myPair.lastAct > 2500) { myPair.lastAct = now(); Send.Action(t.objId); } return; }   // nothing to cast: hit it
@@ -31500,7 +31857,7 @@ async function instanceFight(bossName, ms) {
         let cast = false, reach = 0;
         // CAST LOOP (2026-10-09): same pick + cast-end wait as autoSkillTick (was: first ready skill, then raw HitTime + 450 ms of sleeps)
         { const ord = plan.attacks.filter(sk => { reach = Math.max(reach, sk.range || 0); let k = null; try { k = SkillsList.GetItemByID(sk.id); } catch (e) { } return !k || raidAttackOk(k); });
-          const pk = castPick(castCands(posFilterOrder(t, ord)), { mp: num(Me.MP), hpPct: num(Me.HpPercent), dist: Distance(t), mobs: countMobsNear(t.X, t.Y, CONFIG.autoSkills.aoeRadius),
+          const pk = castPick(castCands(posFilterOrder(t, ord)), { mp: num(Me.MP), hpPct: num(Me.HpPercent), dist: Distance(t), mobs: countFightMobsNear(t.X, t.Y, CONFIG.autoSkills.aoeRadius),
             aoeMinMobs: aoeMinNow(), worth: false, blocked: castBlocked, now: now() });
           if (pk.skill) { const r = await castNow(pk.skill); cast = !!r.started; } }
         if (!cast && reach && Distance(t) > reach + 40) {
@@ -37241,7 +37598,8 @@ setInterval(() => {
       run: (() => { try { const r = runMine(); return { on: !!r.on, held: !!r.held, src: r.src }; } catch (e) { return null; } })(),   // RUNSTATE: the run switch as this window sees it
       trade: tradePublic(), teamStep: tstepPublic(), partyStatus: partyStatusPublic(),   // PARTY STATUS 2026-10-09 (tiny, null most of the time): Parties tab banner + rows
       escape: (() => { try { return escPublic(); } catch (e) { return null; } })(),   // escape from a fight, live (Parties tab mini-map, 2026-10-08)
-      cast: (() => { try { return castPublic(); } catch (e) { return null; } })(),    // my long cast right now (SoE / .town / Resurrection ...): live bar
+      cast: (() => { try { return castPublic(); } catch (e) { return null; } })(),
+      combatPlan: (() => { try { return crPublic(); } catch (e) { return null; } })(),   // CLASSROT: the class guide plan + last casts (dashboard #/combat)    // my long cast right now (SoE / .town / Resurrection ...): live bar
       rescue: (() => { try { return rescuePublic(); } catch (e) { return null; } })(),
       stateCtl: (() => { try { return statePublic(); } catch (e) { return null; } })(),   // STATECTL-2026-10-22: everything that holds me now (dashboard State box)   // leader: cross-floor rescue trip (route, step, ETA), 2026-10-08
       spotWatch: (isLeader() || soloChar()) ? (() => { try { return spotWatchPublic(); } catch (e) { return null; } })() : null,   // other players near the hunting spot, 2026-10-08
@@ -38192,6 +38550,10 @@ async function drainAndFrenzy(reengageBoss, opts) {
   let swapBack = null;
   try {
     log(`Drain start — HP ${Math.round(Me.HpPercent)}% -> below ${below}%`);
+    // CLASSROT-2026-10-26 (class guide, Destroyer raid sequence): Rage BEFORE the drain; Battle Roar only when the board's Bless the Body is missing
+    // (it heals + replaces that 12 h buff) and never inside the low-HP window
+    await cast(s.rage, 1000);
+    { const k = skillNamed('Battle Roar'); if (k && k.IsReady && !crHasBuffNamed('Bless the Body')) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(900); } }
     // HP swap first (user 2026-10-04): low-max-HP gear on, then high-max-HP gear on -> current HP stays, % drops
     if (Me.HpPercent >= below) swapBack = await hpSwap();
 
@@ -38233,11 +38595,13 @@ async function drainAndFrenzy(reengageBoss, opts) {
     // Er vi i vinduet? Så fyr buff-kæden af med det samme. (Frenzy <= 60 %; Guts / Zealot only take below 30 % — cast() skips the rest)
     if (Me.HpPercent < CONFIG.frenzyMaxHp) {
       // owner's H5 order (2026-10-14): Zealot -> Frenzy -> Guts, Rage, Battle Roar LAST (it heals: HP back to a safe level once the limits tick)
+      // CLASSROT-2026-10-26 (class guide): Zealot -> Frenzy -> Lionheart. NO Guts (Frenzy and Guts share one buff slot: Guts would replace Frenzy),
+      // NO Battle Roar (it heals me out of the window); Rage went on before the drain
       await cast(s.zealot, 1000);
       await cast(s.frenzy, 1000);
-      { const k = skillNamed('Guts'); if (k && k.IsReady) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(900); } }
-      await cast(s.rage, 1000);
-      { const k = skillNamed('Battle Roar'); if (k && k.IsReady) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(900); } }
+      if (!crHasBuffNamed('Frenzy')) { const k = skillNamed('Guts'); if (k && k.IsReady) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(900); } }   // Frenzy did not land: Guts as the panic button
+      { const k = skillNamed('Lionheart'); if (k && k.IsReady) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(900); } }
+      if (!crHasBuffNamed('Rage')) await cast(s.rage, 1000);
       state.frenzyLastCast = now();
       if (!reengageBoss) SayToParty(`!ready ${Me.Name}`);   // the pre-pull report only — in the fight it was chat spam every cycle (user 2026-10-11)
       log(`FRENZY ACTIVE — HP ${Math.round(Me.HpPercent)}%`);
@@ -39571,6 +39935,9 @@ async function leadSupply(why, opts) {
     if (!inline && autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 30000) await sleep(500); }
     stopCombatG();
     if (!inline && !(await leadGoGiran(`supplies (${why})`))) { intentDone('supply', false, 'could not get to Giran'); noGiran = true; return 'no-giran'; }
+    // STOPTRIP-2026-10-26 (tester Hero): your Stop (abortRegroup) ends the run at the next step, not only in the hand-out
+    const supStopped = (where) => { if (regroupAlive(runId)) return false; intentDone('supply', false, 'stopped (your Stop) ' + where); return true; };
+    if (supStopped('after the Giran regroup')) return 'stopped';
     pstStep('supply', 'collect needs');
     lastSupplyAtSet(now());
     // THE SUPPLY RUN HOLDS THE TEAM IN GIRAN (2026-10-08 18:35: gatherTeam's "walking over to Doombringer1 myself" ran at the same time, used .dion in
@@ -39660,6 +40027,7 @@ async function leadSupply(why, opts) {
     // the tank was near a full inventory; D-grade stays — the trio can use it — and goes to a teammate in the unload below)
     const junkGrades = supplyJunkGrades(), junk = pautoOn('sell') ? sellCandidates(junkGrades) : [];   // PARTYAUTO 2026-10-13: selling switched off = the leader sells nothing in the run   // SELLPICK 2026-10-13: no-grade + grades below the team's lowest band
     pstStep('supply', 'buy at Helvetia', { info: buys.length ? buys.map(b => `${b.name} x${b.count}`).join(', ').slice(0, 120) : 'nothing to buy' });
+    if (supStopped('before the grocer')) return 'stopped';
     if (buys.length || junk.length) {
       await giranGo('grocer');
       let npc = null; try { snapNpcs().forEach(n => { if (n.Name === 'Helvetia') npc = n.ref; }); } catch (e) { }
@@ -39691,6 +40059,7 @@ async function leadSupply(why, opts) {
     } catch (e) { logError('pshop', e); }
     // 3. hand out: one trade per member with everything it needs (as much as I have)
     pstStep('supply', 'hand out', { n: 0, m: members.length, pending: members.map(a => a.name), cur: '', info: '' });
+    if (supStopped('before the hand-out')) return 'stopped';
     await gatherTeam('supply hand-out');
     let i = 0;   // TESTERS2: res is declared before the gear step
     for (const a of members) {
@@ -40801,7 +41170,7 @@ setInterval(() => {
   if (nonstopOn()) return;                                             // NONSTOP / HUNT HERE 24/7: never an automatic supply run (2026-10-12)
   const rcH = rcHolds();                                               // CIRCUIT 24/7 (2026-10-13): low supplies = the circuit's own resupply step between bosses
   if (rcH && !supplyDue(lastSupplyAtGet(), now())) return;
-  if (!rcH && (leadRunBusy || regroupRun || inRaid() || state.mode === 'mission' || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || outranked(PRIO.ORDER) || !supplyDue(lastSupplyAtGet(), now()))) return;   // never during a scout trip (2026-10-10)
+  if (!rcH && (leadRunBusy || regroupRun || (globalThis.__spotTripAt && now() - globalThis.__spotTripAt < 1800000) || inRaid() || state.mode === 'mission' || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || outranked(PRIO.ORDER) || !supplyDue(lastSupplyAtGet(), now()))) return;   // never during a scout trip (2026-10-10)
   let low = [];
   if (supplyLow.what) low.push(`${Me.Name}: ${supplyLow.what}`);
   teamNames().forEach(n => { const lp = livePos[n]; if (lp && lp.low && now() - lp.at < 10000) low.push(`${n}: ${lp.low}`); });
@@ -43642,6 +44011,21 @@ async function raidDealer(boss) {
     App.emit('swarm.dready', { hp: Math.round(Me.HpPercent) });
     note(`raid: ready for the boss (HP ${Math.round(Me.HpPercent)}%) — waiting for the tank's aggro`, true);
   }
+  // LEADPULL-2026-10-25 (tester Raltru: "When i send them to a raid. Leader pull the raid before the frenzy is ready"): only a TANK leader waited for the
+  // destroyers' drain + Frenzy (raidSK); a dealer leader passed fullAggro() at once (isLeader) and opened the fight. Now a non-tank leader waits the
+  // same way (every other living destroyer ready, max 2 min; any hit on us / a death ends the wait)
+  if (isLeader() && !raidCtl.engaged && state.mode === 'raid') {
+    const dds = teamDestroyers(), w0 = now(), ddDead = (n) => { const lp = livePos[n]; return !!(lp && lp.IsDead); };
+    if (dds.some(n => !raidPrep.ready[n] && !ddDead(n))) {
+      SayToParty(`[raid] waiting for ${dds.join(', ')} to drain + Frenzy before I pull`);
+      while (dds.some(n => !raidPrep.ready[n] && !ddDead(n)) && now() - w0 < 120000 && state.mode === 'raid' && !Me.IsDead) {
+        if (raidTeamEngaged()) { SayToParty('[raid] we are attacked / someone died — no more waiting, pulling NOW'); break; }
+        setTask('raid: waiting for the destroyers (drain + Frenzy) before the pull'); await sleep(500);
+      }
+      const late = dds.filter(n => !raidPrep.ready[n]);
+      SayToParty(late.length ? `[raid] pulling now — ${late.join(', ')} not ready after 2 min` : '[raid] destroyers ready — pulling');
+    }
+  }
   const t0 = now();
   const waitMs = state.role === 'destroyer' ? 150000 : 6000;
   // FULL AGGRO first (user 2026-10-05 22:20: "no one attacks ANYTHING until Tank1 has full aggro"): wait for it (destroyers 150 s, others 90 s)
@@ -43733,7 +44117,7 @@ async function raidDealer(boss) {
     // re-drain only when Frenzy is READY again (reuse 216 s > its 90 s): the old timer re-drained every 108 s while Frenzy was still on
     // cooldown = HP down to 30 % for nothing, then healed back up (2026-10-11 Verfa)
     { const fz = skillNamed('Frenzy'); if (state.role === 'destroyer' && fz && fz.IsReady && now() - state.frenzyLastCast > 20000 && now() - (state.drainFailAt || 0) > 60000 && !state.draining) await drainAndFrenzy(true); }
-    if (Me.HpPercent < 30 && hiveSkillsOn()) for (const n of ['Frenzy', 'Zealot', 'Rage', 'Guts']) { const k = skillNamed(n); if (k && k.IsReady) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(800); } }
+    if (Me.HpPercent < 30 && hiveSkillsOn()) for (const n of ['Zealot', 'Frenzy', 'Guts', 'Rage']) { if (n === 'Guts' && crHasBuffNamed('Frenzy')) continue; const k = skillNamed(n); if (k && k.IsReady) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(800); } }   // CLASSROT: Zealot -> Frenzy; Guts only without Frenzy (same slot)
     if (castOne) { castStats.fightMs += now() - itT0; await sleep(20); }      // CAST LOOP: next cast right away
     else { await sleep(400); castStats.fightMs += now() - itT0; }
   }

@@ -1,0 +1,6231 @@
+{
+ "group": "elves",
+ "source": "docs/plan/class_skills/research/elves.md",
+ "rules": [
+  {
+   "text": "H5 additions (highFiveNewClassSkillTree.xml) are core skills; make sure the bot knows them.",
+   "skills": [],
+   "src": "DP"
+  },
+  {
+   "text": "Temple Knight / Eva's Templar: Shield Strike 984 (40-85) needs a shield; damage plus GetAgro, 6 s reuse; the main tank attack.",
+   "skills": [
+    984
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Eva's Templar: Challenge for Fate 985 (83) is a frontal-fan taunt plus target lock, 45 s reuse.",
+   "skills": [
+    985
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Swordsinger / Sword Muse: Deadly Strike 986 (40-85) is the main SWS damage skill; works with sword, blunt, dagger, pole and dual; 5 s reuse.",
+   "skills": [
+    986
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Swordsinger: Battle Whisper 988 (46/52/60) is a 2 min self buff: P.Atk x1.05-1.15, crit damage and attack speed x1.05-1.10.",
+   "skills": [
+    988
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Wind Rider: Throwing Dagger 991 (80) is damage plus a 10 s slow (speed x0.2), 45 s reuse.",
+   "skills": [
+    991
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Wind Rider: Dual Blow 928 (83) is a blow skill with Lethal and needs a DUALDAGGER.",
+   "skills": [
+    928
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Moonlight Sentinel: Multiple Shot 987 (82) is a bow fan AoE (900 range, 60 deg cone, up to 8 targets), 12 s reuse.",
+   "skills": [
+    987
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Moonlight Sentinel: Death Shot 990 (83) is a big single-target bow shot, 12 s reuse.",
+   "skills": [
+    990
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Mystic Muse: Aura Blast 1554 (81) target AoE 15 s reuse; Aura Cannon 1555 (82) short-range (150) nuke 10 s reuse; Arcane Shield 1556 (83) takes 70 % of damage from MP for 10 s, 5 min reuse.",
+   "skills": [
+    1554,
+    1555,
+    1556
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Elemental Summoner / Elemental Master: Dimension Spiral 1558 (40-85) is the summoner's own nuke, 900 range, 15 s reuse.",
+   "skills": [
+    1558
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Elemental Master: Servitor Share 1557 (83) is a 20 min self buff that shares the owner's stats with the servitor.",
+   "skills": [
+    1557
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Eva's Saint: Mass Vitalize 1552 (76) party heal plus poison/bleed cleanse (3 s cast, 9 s reuse); Mass Cure Poison 1550 (76) party poison cure.",
+   "skills": [
+    1552,
+    1550
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Eva's Saint: Chain Heal 1553 (83) heals the lowest-HP members near the target for 30 % max HP; costs 4 Spirit Ore, 5 s reuse.",
+   "skills": [
+    1553
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Bot logic built from the old .md files or classSkillTree.xml alone misses Shield Strike 984, Deadly Strike 986 and Dimension Spiral 1558.",
+   "skills": [
+    984,
+    986,
+    1558
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "81+ skills from guides (Hide, Wind Riding, Arrow Rain, Seven Arrow, Silent Mind, Star Fall, Enlightenment, Blessing of Eva, Turn to Stone, Song of Purification, Spirit of the Unicorn, Servitor Barrier, Touch of Eva, Anti Magic Armor and others) are not in this datapack: ignore them.",
+   "skills": [],
+   "src": "DP"
+  },
+  {
+   "text": "L2J replaces a buff with the same abnormalType when the new abnormalLvl is >= the old one, so a class buff can replace a 12 h board buff with a short copy or fail and waste MP [engine rule, verify].",
+   "skills": [],
+   "src": "?"
+  },
+  {
+   "text": "Defense Aura 91 (PD_UP) collides with the board Shield: skip while board buffs are on.",
+   "skills": [
+    91
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Attack Aura 77 (PA_UP) collides with the board Might: skip while board buffs are on.",
+   "skills": [
+    77
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Spirit Barrier 123 (MD_UP) replaces the board Magic Barrier (same abnormalLvl 3): skip while board buffs are on.",
+   "skills": [
+    123
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Sprint 230 (SPEED_UP) collides with the board Wind Walk: skip while board buffs are on.",
+   "skills": [
+    230
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "All SWS songs (2 min) collide with the 12 h board songs: never cast songs that the board gives.",
+   "skills": [
+    264,
+    265,
+    266,
+    267,
+    268,
+    269,
+    270,
+    304,
+    305,
+    306,
+    308,
+    349,
+    363,
+    364,
+    529
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Prophecy of Water 1355, Wizard Servitor 1347 and Final Servitor 1349 are MULTI_BUFF lvl 1 like Chant of Victory: never on a target that has Chant of Victory.",
+   "skills": [
+    1355,
+    1347,
+    1349
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Elder/Oracle target buffs (Might, Shield, Wind Walk, Agility, Concentration, Mental Shield, Clarity, Wild Magic, ...) duplicate the board: never while board buffs are on.",
+   "skills": [
+    1068,
+    1040,
+    1204,
+    1087,
+    1078,
+    1035,
+    1397,
+    1303
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Only self buffs with their own abnormalType need upkeep, e.g. Rapid Shot 99, Soul/Spirit/Blessing of Sagittarius 303/415/416, Combat Aura 982, Battle Whisper 988, Seed of Water 1286, Spirit Sharing 1547, Iron Shield 527, Mortal Strike 410, Focus Death 355.",
+   "skills": [
+    99,
+    303,
+    415,
+    416,
+    982,
+    988,
+    1286,
+    1547,
+    527,
+    410,
+    355
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Never auto-use (any Elf class): symbols / ground fields that consume a Battle Symbol 8875 or Magic Symbol 8876 with a 30 min reuse: Symbol of Defense 454, Symbol of Noise 455, Symbol of the Assassin 460, Symbol of the Sniper 459, Raging Waves 1421, Anti-Summoning Field 1424, Mass Recharge 1428.",
+   "skills": [
+    454,
+    455,
+    460,
+    459,
+    1421,
+    1424,
+    1428
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Never auto-use: utility skills that cost items: Unlock 27, Summon Treasure Key 419, Quiver of Arrow A/S Grade 323/324 (only when out of arrows), Find Trap 623, Remove Trap 624.",
+   "skills": [
+    27,
+    419,
+    323,
+    324,
+    623,
+    624
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Never auto-use: escape or travel: Return 1050, Party Recall 1255, Silent Move 221, Chameleon Rest 296, Fake Death 60 (emergency only, see Wind Rider).",
+   "skills": [
+    1050,
+    1255,
+    221,
+    296,
+    60
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Never auto-use: PvP-only: Cancellation 1056, Warrior Bane 1350, Betray 1380, Erase 1395, Block Wind Walk 1359, Detection 933, Mana Burn 1398.",
+   "skills": [
+    1056,
+    1350,
+    1380,
+    1395,
+    1359,
+    933,
+    1398
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Skills that root the caster are emergencies only: Ultimate Defense 110, Vengeance 368, Servitor Empowerment 1299 (roots the pet), Invocation 1430 (stuns self).",
+   "skills": [
+    110,
+    368,
+    1299,
+    1430
+   ],
+   "src": "DP"
+  }
+ ],
+ "classes": {
+  "18": {
+   "name": "Elven Fighter",
+   "band": "1-19",
+   "line": "Eva's Templar",
+   "lines": [
+    "Eva's Templar",
+    "Sword Muse",
+    "Wind Rider",
+    "Moonlight Sentinel"
+   ],
+   "notes": [
+    "Table 1.1 (shared base table of Eva's Templar, Sword Muse, Wind Rider and Moonlight Sentinel).",
+    "Pick the single-target skill by the equipped weapon: Power Strike = SWORD/BLUNT, Mortal Blow = DAGGER, Power Shot = BOW. A future tank or SWS uses a sword, a future WR a dagger, a future MS a bow.",
+    "Per line: Eva's Templar and Sword Muse play 1.1 with a sword (Power Strike), Wind Rider with a dagger (Mortal Blow), Moonlight Sentinel with a bow (Power Shot)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "On reuse while the mob HP > 30 %. Power Strike = the SWORD/BLUNT pick (future tank / SWS).",
+     "when": {
+      "onCooldown": true,
+      "targetHpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "5-15",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "On reuse while the mob HP > 30 %. Mortal Blow = the DAGGER pick (future WR).",
+     "when": {
+      "onCooldown": true,
+      "targetHpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "5-15",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "On reuse while the mob HP > 30 %. Power Shot = the BOW pick (future MS); 700 range, 6 s reuse.",
+     "when": {
+      "onCooldown": true,
+      "targetHpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": null,
+     "name": "none",
+     "learn": "",
+     "weapon": [],
+     "trigger": "AoE: none. Fight one mob at a time.",
+     "when": {},
+     "auto": false,
+     "why": "guide: no AoE skill in this band",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 77,
+     "name": "Attack Aura",
+     "learn": "10-10",
+     "weapon": [],
+     "trigger": "Only when board buffs are missing (Attack Aura collides with the board Might, see 0.2).",
+     "when": {
+      "boardMissing": "Might"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 91,
+     "name": "Defense Aura",
+     "learn": "5-5",
+     "weapon": [],
+     "trigger": "Only when board buffs are missing (Defense Aura collides with the board Shield, see 0.2).",
+     "when": {
+      "boardMissing": "Shield"
+     },
+     "auto": false,
+     "why": "owner rule 2026-10-02: never Defense Aura (beats the guide)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-15",
+     "weapon": [],
+     "trigger": "Self heal from lvl 15: HP < 50 % between mobs. 5 s cast, also cures poison.",
+     "when": {
+      "hpBelow": 50,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": null,
+     "name": "none",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Never: the guide lists no skill here (-).",
+     "when": {},
+     "auto": false,
+     "why": "guide: empty never row",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "19": {
+   "name": "Elven Knight",
+   "band": "20-39",
+   "line": "Eva's Templar",
+   "lines": [
+    "Eva's Templar",
+    "Sword Muse"
+   ],
+   "notes": [
+    "Table 1.3 (shared base table of Eva's Templar and Sword Muse). Weapon: sword + shield.",
+    "Sword Muse line: Aggression only if the SWS is the party's tank."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Auto-attack + Power Strike (stays at lvl 9) on reuse. The Knight gets no new damage skill at 20-39 [DP]. Weapon: sword + shield.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cc",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "From lvl 24, party only: a mob attacks a party member other than me. Single-target taunt, 6 s reuse [DP].",
+     "when": {
+      "partyOnly": true,
+      "text": "a mob attacks a party member other than me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": null,
+     "name": "none",
+     "learn": "",
+     "weapon": [],
+     "trigger": "AoE: none.",
+     "when": {},
+     "auto": false,
+     "why": "guide: no AoE skill in this band",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "From lvl 24: hunting archer mobs. Bow/crossbow damage resistance, 20 min.",
+     "when": {
+      "mobType": "archer"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "HP < 25 % with 2+ mobs on me and no healer. Roots self for 30 s, 15 min reuse [DP].",
+     "when": {
+      "hpBelow": 25,
+      "mobsOnMe": 2,
+      "text": "no healer in the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cure",
+     "skill": 21,
+     "name": "Poison Recovery",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "When poisoned.",
+     "when": {
+      "targetHas": "poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cure",
+     "skill": 61,
+     "name": "Cure Bleeding",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "When bleeding.",
+     "when": {
+      "targetHas": "bleed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 102,
+     "name": "Entangle",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "From lvl 36: a mob runs away at low HP.",
+     "when": {
+      "text": "a mob runs away at low HP"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "HP < 50 % between mobs, no healer.",
+     "when": {
+      "hpBelow": 50,
+      "outOfCombat": true,
+      "text": "no healer in the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 15,
+     "name": "Charm",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Never. It removes hate from me (AddHate is negative) [DP], the opposite of tanking. A guide calls it nearly useless [G linedia].",
+     "when": {},
+     "auto": false,
+     "why": "removes my own hate; nearly useless",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 230,
+     "name": "Sprint",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Skip: covered by board buffs (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Wind Walk)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 91,
+     "name": "Defense Aura",
+     "learn": "5-20",
+     "weapon": [],
+     "trigger": "Skip: covered by board buffs (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Shield)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 77,
+     "name": "Attack Aura",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Skip: covered by board buffs (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Might)",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "20": {
+   "name": "Temple Knight",
+   "band": "40-75",
+   "line": "Eva's Templar",
+   "lines": [
+    "Eva's Templar"
+   ],
+   "notes": [
+    "Role: shield tank. Weapon: one-handed SWORD + SHIELD. Many skills need the shield; Vanguard and Tribunal need a sword or blunt [DP].",
+    "1-19: table 1.1 with a sword (Power Strike). 20-39: table 1.3.",
+    "Cubics: solo Storm + Life; party tank Life + Attractive."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 984,
+     "name": "Shield Strike",
+     "learn": "40-74",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Shield Strike (H5) on every reuse (6 s) on the current mob. Damage + aggro [DP]. First in the order Shield Strike -> Tribunal -> auto-attack.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 400,
+     "name": "Tribunal",
+     "learn": "55-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "From 55: Tribunal on reuse (4 s). Damage + lowers the mob's crit rate.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Aggro, single: a mob is hitting anyone but me. Target lock for 3 s, 6 s reuse.",
+     "when": {
+      "text": "a mob is hitting a party member other than me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 18,
+     "name": "Aura of Hate",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro, AoE: 3+ mobs nearby, or right after a pull, or adds aggro on the healer. Point-blank taunt, 40 s reuse [DP].",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cc",
+     "skill": 402,
+     "name": "Arrest",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "Pull / hold, from 55: the mob runs, or a caster mob stays at range. Root for 10 s.",
+     "when": {
+      "text": "the mob runs, or a caster mob stays at range"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 107,
+     "name": "Divine Aura",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "AoE damage: none (the TK has no real AoE damage). Divine Aura (from 58) is a point-blank magical root around me, 10 s [DP]; one guide says undead only [G linedia, ?]. Use it only to hold a big pack, never as a damage skill.",
+     "when": {
+      "text": "only to hold a big pack"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 288,
+     "name": "Guard Stance",
+     "learn": "43-70",
+     "weapon": [],
+     "trigger": "From 43: on while tanking a pack or a raid; off when solo or MP < 30 %. Drains MP heavily [G linedia].",
+     "when": {
+      "partyOnly": true,
+      "mpAbove": 30,
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 322,
+     "name": "Shield Fortress",
+     "learn": "64-74",
+     "weapon": [],
+     "trigger": "From 64: on while tanking a pack or a raid; off when solo or MP < 30 %.",
+     "when": {
+      "partyOnly": true,
+      "mpAbove": 30,
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 197,
+     "name": "Divine Armor",
+     "learn": "40-46",
+     "weapon": [],
+     "trigger": "Dark resistance, costs almost no MP: on vs dark/undead mobs.",
+     "when": {
+      "mobType": "undead"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 982,
+     "name": "Combat Aura",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "From 52: keep Combat Aura up (party P.Atk/Spd, 20 min; not a board buff).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "24-49",
+     "weapon": [],
+     "trigger": "Vs archer mobs.",
+     "when": {
+      "mobType": "archer"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 123,
+     "name": "Spirit Barrier",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Skip: Spirit Barrier collides with the board Magic Barrier (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "collides with the board Magic Barrier",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 10,
+     "name": "Summon Storm Cubic",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Solo: Storm + Life. Resummon when one is missing. Cubics last 15 min [DP] and vanish on death [G]. Cost Spirit Ore (3031). Cubic count from Cubic Mastery: 2 at 40 [G], 3 later [?].",
+     "when": {
+      "soloOnly": true,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 67,
+     "name": "Summon Life Cubic",
+     "learn": "43-72",
+     "weapon": [],
+     "trigger": "From 43: Solo: Storm + Life. Party tank: Life + Attractive. Resummon when missing. Spirit Ore (3031).",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 449,
+     "name": "Summon Attractive Cubic",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "From 62: party tank: Life + Attractive (Attractive helps hold aggro; hate + root). Resummon when missing. Spirit Ore (3031).",
+     "when": {
+      "partyOnly": true,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "20-46",
+     "weapon": [],
+     "trigger": "HP < 25 % and the healer is dead, out of MP or absent. Roots self, 15 min reuse.",
+     "when": {
+      "hpBelow": 25,
+      "text": "the healer is dead, out of MP or absent"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 916,
+     "name": "Shield Deflect Magic",
+     "learn": "60-72",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "From 60: a caster pack or a raid boss starts casting at me. 8 s reflect, 45 s reuse [DP].",
+     "when": {
+      "text": "a caster pack or a raid boss starts casting at me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-74",
+     "weapon": [],
+     "trigger": "No healer and HP < 40 % between pulls. 5 s cast, high MP cost.",
+     "when": {
+      "hpBelow": 40,
+      "outOfCombat": true,
+      "text": "no healer in the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 812,
+     "name": "Vanguard",
+     "learn": "40-40",
+     "weapon": [
+      "SWORD"
+     ],
+     "trigger": "Never auto: 6 h transformation that halves shield defense (sDef x0.5) [DP]. A solo XP option at most [G estranky].",
+     "when": {},
+     "auto": false,
+     "why": "transformation; halves shield defense",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 15,
+     "name": "Charm",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Never auto: removes my own hate.",
+     "when": {},
+     "auto": false,
+     "why": "removes my own hate",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Obsolete: replaced by Shield Strike / Tribunal.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Shield Strike / Tribunal",
+     "replacedBy": [
+      984,
+      400
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 230,
+     "name": "Sprint",
+     "learn": "32-52",
+     "weapon": [],
+     "trigger": "Obsolete: covered by board buffs.",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Wind Walk)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 91,
+     "name": "Defense Aura",
+     "learn": "5-20",
+     "weapon": [],
+     "trigger": "Obsolete: covered by board buffs.",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Shield)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 77,
+     "name": "Attack Aura",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Obsolete: covered by board buffs.",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Might)",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "21": {
+   "name": "Swordsinger",
+   "band": "40-75",
+   "line": "Sword Muse",
+   "lines": [
+    "Sword Muse"
+   ],
+   "notes": [
+    "Role: light tank or melee damage that also carries songs. On L2Toggle the board gives the songs, so the SWS fights and does not sing.",
+    "Weapon: sword (one-handed + shield, or a duals or two-handed sword build [G]). Deadly Strike accepts SWORD/BLUNT/DAGGER/POLE/DUAL [DP].",
+    "1-19: table 1.1 with a sword. 20-39: table 1.3; Aggression only if the SWS is the party's tank.",
+    "Song rows are ordered by the guide's fallback priority (Earth > Hunter > Warding > Wind > Life), then the other songs.",
+    "Guide gap note: no H5 PvE rotation guide was found for the Swordsinger; untagged rows are [?]."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 986,
+     "name": "Deadly Strike",
+     "learn": "40-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DAGGER",
+      "POLE",
+      "DUAL"
+     ],
+     "trigger": "Deadly Strike (H5) on reuse (5 s). First in the order Deadly Strike -> Sword Symphony -> auto-attack.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 98,
+     "name": "Sword Symphony",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "From 55: Sword Symphony on reuse (15 s), first on caster mobs (silence 10 s).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 407,
+     "name": "Psycho Symphony",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "From 55: 3+ mobs within melee range. Point-blank damage + attack/cast/run speed slow for 10 s, 15 s reuse [DP]. (Slot heading says 2+ in melee.)",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 988,
+     "name": "Battle Whisper",
+     "learn": "46-60",
+     "weapon": [],
+     "trigger": "From 46: keep up Battle Whisper (2 min). Not on the board.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 196,
+     "name": "Divine Blade",
+     "learn": "43-43",
+     "weapon": [],
+     "trigger": "Always on (holy damage, no upkeep drain).",
+     "when": {
+      "always": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 402,
+     "name": "Arrest",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "From 55: runner, or the SWS is kiting.",
+     "when": {
+      "text": "a runner, or I am kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 102,
+     "name": "Entangle",
+     "learn": "36-74",
+     "weapon": [],
+     "trigger": "Runner, or the SWS is kiting.",
+     "when": {
+      "text": "a runner, or I am kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 264,
+     "name": "Song of Earth",
+     "learn": "55-55",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min.",
+     "when": {
+      "boardMissing": "Song of Earth",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 269,
+     "name": "Song of Hunter",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min.",
+     "when": {
+      "boardMissing": "Song of Hunter",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 267,
+     "name": "Song of Warding",
+     "learn": "43-43",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min.",
+     "when": {
+      "boardMissing": "Song of Warding",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 268,
+     "name": "Song of Wind",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min.",
+     "when": {
+      "boardMissing": "Song of Wind",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 265,
+     "name": "Song of Life",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min.",
+     "when": {
+      "boardMissing": "Song of Life",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 266,
+     "name": "Song of Water",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min. Not in the fallback list.",
+     "when": {
+      "boardMissing": "Song of Water",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "never while board songs are up; not in the guide's fallback list",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 270,
+     "name": "Song of Invocation",
+     "learn": "49-49",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min. Not in the fallback list.",
+     "when": {
+      "boardMissing": "Song of Invocation",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "never while board songs are up; not in the guide's fallback list",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 306,
+     "name": "Song of Flame Guard",
+     "learn": "62-62",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min. Not in the fallback list.",
+     "when": {
+      "boardMissing": "Song of Flame Guard",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "never while board songs are up; not in the guide's fallback list",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 304,
+     "name": "Song of Vitality",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min. Not in the fallback list.",
+     "when": {
+      "boardMissing": "Song of Vitality",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "never while board songs are up; not in the guide's fallback list",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 308,
+     "name": "Song of Storm Guard",
+     "learn": "70-70",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min. Not in the fallback list.",
+     "when": {
+      "boardMissing": "Song of Storm Guard",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "never while board songs are up; not in the guide's fallback list",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 305,
+     "name": "Song of Vengeance",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Never while board songs are up: songs last only 120 s [DP], so a recast swaps the 12 h board song for a 2 min one. Fallback if the board isn't bought: party, out of combat, Earth > Hunter > Warding > Wind > Life, recast every 2 min. Not in the fallback list.",
+     "when": {
+      "boardMissing": "Song of Vengeance",
+      "partyOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "never while board songs are up; not in the guide's fallback list",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "HP < 25 %, no healer. Guides call it the main emergency button [G estranky].",
+     "when": {
+      "hpBelow": 25,
+      "text": "no healer in the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-74",
+     "weapon": [],
+     "trigger": "HP < 40 % between mobs.",
+     "when": {
+      "hpBelow": 40,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 15,
+     "name": "Charm",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Never unless tanking (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "guide: never unless the SWS is tanking",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 123,
+     "name": "Spirit Barrier",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Never: collides with the board Magic Barrier (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "collides with the board Magic Barrier",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 230,
+     "name": "Sprint",
+     "learn": "32-52",
+     "weapon": [],
+     "trigger": "Never: collides with the board Wind Walk (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "collides with the board Wind Walk",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Obsolete: replaced by Deadly Strike.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Deadly Strike",
+     "replacedBy": [
+      986
+     ],
+     "src": "?"
+    }
+   ]
+  },
+  "22": {
+   "name": "Elven Scout",
+   "band": "20-39",
+   "line": "Wind Rider",
+   "lines": [
+    "Wind Rider",
+    "Moonlight Sentinel"
+   ],
+   "notes": [
+    "Table 1.4 (shared base table of Wind Rider and Moonlight Sentinel).",
+    "Wind Rider line: the dagger rows. Moonlight Sentinel line: the bow rows (Rapid Shot from 32, Stun Shot from 36)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "5-36",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Dagger (future WR): on reuse. Blow skill; lands more often from the side or back (x1.5 / x2) [DP, positional_skills.md].",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "5-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Bow (future MS): Power Shot on reuse.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 101,
+     "name": "Stun Shot",
+     "learn": "36-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Bow, from lvl 36: when a mob reaches melee range (stun, then step back). Stun Shot also cancels the mob's target [DP].",
+     "when": {
+      "distMax": 100,
+      "text": "stun, then step back"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "20-36",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "For daggers: on while MP > 40 %. Drains MP.",
+     "when": {
+      "mpAbove": 40
+     },
+     "auto": true,
+     "why": "guide: for daggers (the skill itself needs no weapon)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 256,
+     "name": "Accuracy",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "On vs high-evasion mobs. Drains MP.",
+     "when": {
+      "text": "high-evasion mobs"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 99,
+     "name": "Rapid Shot",
+     "learn": "32-32",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "From lvl 32 (bow only): keep up, 20 min. Not covered by the board.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 96,
+     "name": "Bleed",
+     "learn": "24-32",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Dagger: only on long fights. 89 MP, low value [?].",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "From lvl 28: HP < 30 % with a melee mob on me. 30 s, 15 min reuse.",
+     "when": {
+      "hpBelow": 30,
+      "mobsOnMe": 1,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 102,
+     "name": "Entangle",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "From lvl 36: a mob runs away or chases me while I kite with a bow.",
+     "when": {
+      "text": "a mob runs away or chases me while I kite"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cure",
+     "skill": 21,
+     "name": "Poison Recovery",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "As needed (poisoned).",
+     "when": {
+      "targetHas": "poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cure",
+     "skill": 61,
+     "name": "Cure Bleeding",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "As needed (bleeding).",
+     "when": {
+      "targetHas": "bleed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "As needed.",
+     "when": {
+      "text": "as needed (the guide gives no HP threshold)"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 15,
+     "name": "Charm",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Situational: a mob switches onto me in a party. Reduces my hate.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 27,
+     "name": "Unlock",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Never: consumes keys.",
+     "when": {},
+     "auto": false,
+     "why": "consumes keys",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "23": {
+   "name": "Plainswalker",
+   "band": "40-75",
+   "line": "Wind Rider",
+   "lines": [
+    "Wind Rider"
+   ],
+   "notes": [
+    "Role: dagger blow DPS. Weapon: DAGGER (DUALDAGGER for Dual Blow at 83). All blows need a dagger; positional bonus side x1.5, behind x2; Backstab only from behind [DP, positional_skills.md].",
+    "1-19: table 1.1 with a dagger (Mortal Blow). 20-39: table 1.4, dagger rows.",
+    "Guide gap note: no H5 PvE rotation guide was found for the Plainswalker; untagged rows are [?]."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 263,
+     "name": "Deadly Blow",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Deadly Blow on reuse (3 s). Can half-kill. First in the order Deadly Blow -> Backstab when behind -> Blinding Blow.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 30,
+     "name": "Backstab",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Backstab whenever I'm behind the mob (usually when the mob is fighting the tank).",
+     "when": {
+      "behind": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 321,
+     "name": "Blinding Blow",
+     "learn": "66-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "From 66: Blinding Blow on reuse (30 s): it turns the mob's back to me, so follow with Backstab [DP]. Can half-kill.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 821,
+     "name": "Shadow Step",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Fresh target that isn't attacking me: teleport behind it, then Backstab. Also a gap-closer for runners. 75 s reuse; it cancels the mob's target.",
+     "when": {
+      "text": "a fresh target that is not attacking me (or a runner)"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "On while MP > 30 %. Crit damage +.",
+     "when": {
+      "mpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 410,
+     "name": "Mortal Strike",
+     "learn": "58-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "From 58: turn on at the start of each fight, or keep up (2 min, 150 s reuse). Blow rate + [DP].",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 412,
+     "name": "Sand Bomb",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "From 55: hard-hitting single mob or a raid boss on me. Lowers the mob's accuracy for 30 s.",
+     "when": {
+      "bigTarget": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 12,
+     "name": "Switch",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "Aggro control (party): a mob switches onto me while a tank is present. Randomizes hate + cancels target. Never solo.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "opener",
+     "skill": 51,
+     "name": "Lure",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Pull: pulling single mobs to the party. Adds hate from range.",
+     "when": {
+      "partyOnly": true,
+      "text": "pulling single mobs to the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "28-55",
+     "weapon": [],
+     "trigger": "HP < 35 %.",
+     "when": {
+      "hpBelow": 35
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 60,
+     "name": "Fake Death",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "HP < 15 % with 2+ mobs. Fake Death makes mobs drop aggro. Toggle it off again after they leave.",
+     "when": {
+      "hpBelow": 15,
+      "mobsOnMe": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cure",
+     "skill": 453,
+     "name": "Escape Shackle",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "From 60: when physically rooted.",
+     "when": {
+      "targetHas": "root"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 221,
+     "name": "Silent Move",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Never (0.3).",
+     "when": {},
+     "auto": false,
+     "why": "travel skill (0.3)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 296,
+     "name": "Chameleon Rest",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Never (0.3).",
+     "when": {},
+     "auto": false,
+     "why": "travel skill (0.3)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 27,
+     "name": "Unlock",
+     "learn": "20-72",
+     "weapon": [],
+     "trigger": "Never (0.3).",
+     "when": {},
+     "auto": false,
+     "why": "costs items (0.3)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 419,
+     "name": "Summon Treasure Key",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Never (0.3).",
+     "when": {},
+     "auto": false,
+     "why": "costs items (0.3)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 623,
+     "name": "Find Trap",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Never (0.3).",
+     "when": {},
+     "auto": false,
+     "why": "utility skill (0.3)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 624,
+     "name": "Remove Trap",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Never (0.3).",
+     "when": {},
+     "auto": false,
+     "why": "utility skill (0.3)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "5-36",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Obsolete: replaced by Deadly Blow at 40.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Deadly Blow",
+     "replacedBy": [
+      263
+     ],
+     "src": "?"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 96,
+     "name": "Bleed",
+     "learn": "24-70",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Low value: Bleed only on long single fights.",
+     "when": {
+      "bigTarget": true,
+      "mobsMax": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 15,
+     "name": "Charm",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 102,
+     "name": "Entangle",
+     "learn": "36-74",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "?"
+    }
+   ]
+  },
+  "24": {
+   "name": "Silver Ranger",
+   "band": "40-75",
+   "line": "Moonlight Sentinel",
+   "lines": [
+    "Moonlight Sentinel"
+   ],
+   "notes": [
+    "Role: bow DPS that kites solo. Weapon: BOW (all shots need it). Keep arrows stocked. Weak in melee, keep distance [G estranky].",
+    "1-19: table 1.1 with a bow (Power Shot). 20-39: table 1.4, bow rows (Rapid Shot from 32, Stun Shot from 36).",
+    "Stun Shot is split into a solo row and a party row (the guide gives one rule for each).",
+    "Guide gap note: no H5 PvE rotation guide was found for the Silver Ranger; untagged rows are [?]."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 19,
+     "name": "Double Shot",
+     "learn": "40-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Double Shot on reuse (3 s, 900 range). Main damage skill. Order: Double Shot -> auto-attack.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "5-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Power Shot stops at lvl 15, so it is obsolete.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Double Shot",
+     "replacedBy": [
+      19
+     ],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 101,
+     "name": "Stun Shot",
+     "learn": "36-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Solo: when a melee mob gets within ~200, stun it and step back. Stun 9 s + target cancel [DP].",
+     "when": {
+      "soloOnly": true,
+      "mobType": "melee",
+      "distMax": 200
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cc",
+     "skill": 101,
+     "name": "Stun Shot",
+     "learn": "36-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "In party: only on a mob that is hitting me. Stun 9 s + target cancel [DP].",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 24,
+     "name": "Burst Shot",
+     "learn": "46-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "From 46: 3+ mobs within 150 of the target (party AoE farm). 224 MP at max level, 6 s reuse. Expensive, so not for solo.",
+     "when": {
+      "mobsMin": 3,
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 99,
+     "name": "Rapid Shot",
+     "learn": "32-55",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Keep up: recast when missing (20 min). Not on the board.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 303,
+     "name": "Soul of Sagittarius",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Keep up (max MP): recast when missing (20 min). Not on the board.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 415,
+     "name": "Spirit of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "From 58, keep up (skill MP cost down): recast when missing (20 min). Not on the board.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 416,
+     "name": "Blessing of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "From 58, keep up (reuse down): recast when missing (20 min). Not on the board.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "burst",
+     "skill": 413,
+     "name": "Rapid Fire",
+     "learn": "60-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "From 60: party fights, or when the mob is already close / a big single mob. P.Atk + attack speed x1.2 for 2 min, but halves attack range [DP]. Don't use while kiting solo.",
+     "when": {
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "On while MP > 40 %.",
+     "when": {
+      "mpAbove": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "cc",
+     "skill": 102,
+     "name": "Entangle",
+     "learn": "36-74",
+     "weapon": [],
+     "trigger": "Runner or chaser.",
+     "when": {
+      "text": "a runner or a chaser"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "HP < 35 %.",
+     "when": {
+      "hpBelow": 35
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-74",
+     "weapon": [],
+     "trigger": "Between mobs.",
+     "when": {
+      "outOfCombat": true,
+      "text": "when hurt (the guide gives no HP threshold)"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 323,
+     "name": "Quiver of Arrow: A Grade",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Never unless out of arrows. Quivers cost crystals.",
+     "when": {},
+     "auto": false,
+     "why": "only when out of arrows; costs crystals",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 324,
+     "name": "Quiver of Arrow: S Grade",
+     "learn": "72-72",
+     "weapon": [],
+     "trigger": "Never unless out of arrows. Quivers cost crystals.",
+     "when": {},
+     "auto": false,
+     "why": "only when out of arrows; costs crystals",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 933,
+     "name": "Detection",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Never: PvP.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only",
+     "replacedBy": [],
+     "src": "?"
+    }
+   ]
+  },
+  "25": {
+   "name": "Elven Mystic",
+   "band": "1-19",
+   "line": "Mystic Muse",
+   "lines": [
+    "Mystic Muse",
+    "Elemental Master",
+    "Eva's Saint"
+   ],
+   "notes": [
+    "Table 1.2 (shared base table of Mystic Muse, Elemental Master and Eva's Saint).",
+    "Owner rule note: at 1-19 a future healer has nothing to kill with except Wind Strike. Solo she must nuke. In a party with damage dealers she should only heal [?].",
+    "Self heals ordered by urgency: Battle Heal at HP < 30 %, Heal at HP < 50 %, Self Heal only at 1-6 (before Heal is learned)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 1177,
+     "name": "Wind Strike",
+     "learn": "1-14",
+     "weapon": [],
+     "trigger": "Spam, from lvl 1. 600 range, 4 s cast.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1184,
+     "name": "Ice Bolt",
+     "learn": "7-14",
+     "weapon": [],
+     "trigger": "From lvl 7: the mob is running at you from range. Slow for 60 s.",
+     "when": {
+      "text": "the mob is running at me from range"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1015,
+     "name": "Battle Heal",
+     "learn": "14-14",
+     "weapon": [],
+     "trigger": "From lvl 14: HP < 30 %: Battle Heal (2 s cast).",
+     "when": {
+      "hpBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1011,
+     "name": "Heal",
+     "learn": "7-14",
+     "weapon": [],
+     "trigger": "From lvl 7: HP < 50 %: Heal.",
+     "when": {
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1216,
+     "name": "Self Heal",
+     "learn": "1-1",
+     "weapon": [],
+     "trigger": "Self Heal at lvl 1-6 (before Heal): HP < 50 %.",
+     "when": {
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1027,
+     "name": "Group Heal",
+     "learn": "14-14",
+     "weapon": [],
+     "trigger": "From lvl 14: only in a party and only if this is a future Oracle.",
+     "when": {
+      "partyOnly": true,
+      "text": "only if this character becomes an Elven Oracle"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1164,
+     "name": "Curse Weakness",
+     "learn": "14-14",
+     "weapon": [],
+     "trigger": "Not worth casting on farm mobs.",
+     "when": {},
+     "auto": false,
+     "why": "guide: not worth casting on farm mobs",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1206,
+     "name": "Wind Shackle",
+     "learn": "14-14",
+     "weapon": [],
+     "trigger": "Not worth casting on farm mobs.",
+     "when": {},
+     "auto": false,
+     "why": "guide: not worth casting on farm mobs",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1068,
+     "name": "Might",
+     "learn": "7-7",
+     "weapon": [],
+     "trigger": "Board covers it. Never while board buffs are on.",
+     "when": {
+      "boardMissing": "Might"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1040,
+     "name": "Shield",
+     "learn": "7-7",
+     "weapon": [],
+     "trigger": "Board covers it. Never while board buffs are on.",
+     "when": {
+      "boardMissing": "Shield"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cure",
+     "skill": 1012,
+     "name": "Cure Poison",
+     "learn": "7-7",
+     "weapon": [],
+     "trigger": "Never, unless poisoned.",
+     "when": {
+      "targetHas": "poison"
+     },
+     "auto": true,
+     "why": "guide: never unless poisoned (on myself)",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "26": {
+   "name": "Elven Wizard",
+   "band": "20-39",
+   "line": "Mystic Muse",
+   "lines": [
+    "Mystic Muse",
+    "Elemental Master"
+   ],
+   "notes": [
+    "Table 1.5 (shared base table of Mystic Muse and Elemental Master).",
+    "Mystic Muse line: table 1.5 without the summoner rows. Elemental Master line: with the summoner rows; guides say summons are weak before 40 [G ES thread], so nuke with Aqua Swirl and keep Boxer out for MP."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 1175,
+     "name": "Aqua Swirl",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Main nuke: spam. Water, 750 range, 4 s cast [DP].",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1264,
+     "name": "Solar Spark",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Second nuke, from lvl 25: on reuse (8 s), especially vs undead. Holy.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1274,
+     "name": "Energy Bolt",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Close-range filler (400 range): only when the mob is already in melee range. Short range breaks kiting.",
+     "when": {
+      "distMax": 100
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1172,
+     "name": "Aura Burn",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Close-range filler (150 range, 1.5 s cast): only when the mob is already in melee range. Short range breaks kiting.",
+     "when": {
+      "distMax": 100
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1181,
+     "name": "Flame Strike",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "3+ mobs within 200 of the target. 500 cast range.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1069,
+     "name": "Sleep",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "From lvl 25: a second mob joins (add).",
+     "when": {
+      "mobsOnMe": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 1226,
+     "name": "Summon Boxer the Unicorn",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Summoner only: Boxer as the leveling pet. Boxer restores the owner's MP [G ES thread].",
+     "when": {
+      "text": "Elemental Summoner line only"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1127,
+     "name": "Servitor Heal",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Summoner only: Servitor Heal at pet HP < 60 %.",
+     "when": {
+      "summonOut": true,
+      "text": "pet HP < 60 %; Elemental Summoner line only"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1126,
+     "name": "Servitor Recharge",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Summoner only: Servitor Recharge at pet MP < 30 %.",
+     "when": {
+      "summonOut": true,
+      "text": "pet MP < 30 %; Elemental Summoner line only"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1227,
+     "name": "Summon Mirage the Unicorn",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Never. XP penalty: the datapack has expMultiplier=0.1 and guides say \"absorbs 90 % XP\" [DP+G].",
+     "when": {},
+     "auto": false,
+     "why": "XP penalty (absorbs 90 % XP)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 1078,
+     "name": "Concentration",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "Skip: board / low value.",
+     "when": {},
+     "auto": false,
+     "why": "board / low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1182,
+     "name": "Resist Aqua",
+     "learn": "25-25",
+     "weapon": [],
+     "trigger": "Skip: board / low value.",
+     "when": {},
+     "auto": false,
+     "why": "board / low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1145,
+     "name": "Bright Servitor",
+     "learn": "35-35",
+     "weapon": [],
+     "trigger": "Skip: board / low value.",
+     "when": {},
+     "auto": false,
+     "why": "board / low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1177,
+     "name": "Wind Strike",
+     "learn": "1-14",
+     "weapon": [],
+     "trigger": "Obsolete: replaced by Aqua Swirl.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Aqua Swirl",
+     "replacedBy": [
+      1175
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1184,
+     "name": "Ice Bolt",
+     "learn": "7-20",
+     "weapon": [],
+     "trigger": "Obsolete: replaced by Aqua Swirl.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Aqua Swirl",
+     "replacedBy": [
+      1175
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "27": {
+   "name": "Spellsinger",
+   "band": "40-75",
+   "line": "Mystic Muse",
+   "lines": [
+    "Mystic Muse"
+   ],
+   "notes": [
+    "Role: water nuker. Weapon: a magic weapon (blunt or staff). Hydro Blast 4 s / 900 range, Ice Vortex 6 s, Aqua Splash 5 s [DP].",
+    "1-19: table 1.2. 20-39: table 1.5 (no summons)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 1235,
+     "name": "Hydro Blast",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Main nuke: spam Hydro Blast. Water, 1.2 s reuse. The core skill [G hopzone snippet, asterios].",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1071,
+     "name": "Surrender To Water",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Before Hydro Blast on mobs that take 3+ nukes (party mobs, elites, raids). -20 water res for 30 s, 1.5 s cast.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1071
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1237,
+     "name": "Ice Dagger",
+     "learn": "44-74",
+     "weapon": [],
+     "trigger": "From 44: once per high-HP mob, then go back to Hydro Blast. Water DoT, 20 s.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1237
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1265,
+     "name": "Solar Flare",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Holy option: on reuse (8 s) vs undead/dark mobs. 5 s cast.",
+     "when": {
+      "onCooldown": true,
+      "mobType": "undead"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1231,
+     "name": "Aura Flare",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Melee-range filler (150 range): only when the mob is already on me.",
+     "when": {
+      "mobsOnMe": 1,
+      "distMax": 150
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1275,
+     "name": "Aura Bolt",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Melee-range filler (400 range): only when the mob is already on me.",
+     "when": {
+      "mobsOnMe": 1,
+      "distMax": 400
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1236,
+     "name": "Frost Bolt",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Slow / kite: mob approaching from range, or a runner. Slow 20 % for 60 s.",
+     "when": {
+      "text": "a mob approaching from range, or a runner"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1295,
+     "name": "Aqua Splash",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "From 58: 3+ mobs packed: Aqua Splash (target-centered, radius 200). Hits up to 5-12 targets [DP].",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1174,
+     "name": "Frost Wall",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "From 52: mobs in front of me and close: Frost Wall (frontal fan, cast at melee range 40). Hits up to 5-12 targets [DP].",
+     "when": {
+      "distMax": 40,
+      "text": "several mobs in front of me and close"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1069,
+     "name": "Sleep",
+     "learn": "25-74",
+     "weapon": [],
+     "trigger": "An add joins while I'm on another mob (solo). Don't sleep mobs that the party AoEs.",
+     "when": {
+      "soloOnly": true,
+      "mobsOnMe": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1286,
+     "name": "Seed of Water",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "From 66: keep up Seed of Water (+water power, 10 min).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1047,
+     "name": "Mana Regeneration",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Keep up Mana Regeneration; check the board for an MP_REGEN_UP buff [?].",
+     "when": {
+      "boardMissing": "MP_REGEN_UP"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "burst",
+     "skill": 1288,
+     "name": "Aura Symphony",
+     "learn": "68-68",
+     "weapon": [],
+     "trigger": "Boss/elite: elite or raid only. 200 MP, 5 min reuse [DP].",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "burst",
+     "skill": 1290,
+     "name": "Blizzard",
+     "learn": "70-70",
+     "weapon": [],
+     "trigger": "Boss/elite: elite or raid only. 200 MP, 5 min reuse [DP].",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "burst",
+     "skill": 1293,
+     "name": "Elemental Symphony",
+     "learn": "72-72",
+     "weapon": [],
+     "trigger": "Boss/elite: elite or raid only. 200 MP, 5 min reuse [DP].",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1417,
+     "name": "Aura Flash",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "From 58: surrounded solo with HP < 40 %: drop targets and step away. Point-blank + target cancel, costs Spirit Ore. Never as DPS in a party.",
+     "when": {
+      "soloOnly": true,
+      "hpBelow": 40,
+      "mobsOnMe": 2,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1169,
+     "name": "Curse Fear",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Never: fleeing mobs pull adds.",
+     "when": {},
+     "auto": false,
+     "why": "fleeing mobs pull adds",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1056,
+     "name": "Cancellation",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Never: PvP only.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1072,
+     "name": "Sleeping Cloud",
+     "learn": "44-70",
+     "weapon": [],
+     "trigger": "Never: 15 s cast [DP].",
+     "when": {},
+     "auto": false,
+     "why": "15 s cast",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1183,
+     "name": "Freezing Shackle",
+     "learn": "44-74",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1164,
+     "name": "Curse Weakness",
+     "learn": "14-74",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1223,
+     "name": "Surrender To Earth",
+     "learn": "35-74",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1238,
+     "name": "Freezing Skin",
+     "learn": "40-56",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1182,
+     "name": "Resist Aqua",
+     "learn": "25-44",
+     "weapon": [],
+     "trigger": "Low value.",
+     "when": {},
+     "auto": false,
+     "why": "guide: low value",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1175,
+     "name": "Aqua Swirl",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Hydro Blast is the main nuke",
+     "replacedBy": [
+      1235
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1274,
+     "name": "Energy Bolt",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Aura Bolt is the 400-range filler",
+     "replacedBy": [
+      1275
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1172,
+     "name": "Aura Burn",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Aura Flare is the 150-range filler",
+     "replacedBy": [
+      1231
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1264,
+     "name": "Solar Spark",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Solar Flare is the holy option",
+     "replacedBy": [
+      1265
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1181,
+     "name": "Flame Strike",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Aqua Splash is the AoE",
+     "replacedBy": [
+      1295
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1184,
+     "name": "Ice Bolt",
+     "learn": "7-20",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Frost Bolt is the slow",
+     "replacedBy": [
+      1236
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1177,
+     "name": "Wind Strike",
+     "learn": "1-14",
+     "weapon": [],
+     "trigger": "Obsolete: Elven Wizard skill that stops at lvl 35.",
+     "when": {},
+     "auto": false,
+     "why": "stops at lvl 35; Hydro Blast is the main nuke",
+     "replacedBy": [
+      1235
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "28": {
+   "name": "Elemental Summoner",
+   "band": "40-75",
+   "line": "Elemental Master",
+   "lines": [
+    "Elemental Master"
+   ],
+   "notes": [
+    "Role: summoner. The servitor does the damage. The owner keeps it alive and buffed, adds cubics, and nukes with Dimension Spiral.",
+    "Owner rule: the summoner heals only its own servitor.",
+    "1-19: table 1.2. 20-39: table 1.5 (summoner rows); summons are weak before 40 [G ES thread]: nuke with Aqua Swirl and keep Boxer out for MP.",
+    "Cubics: Life + Aqua at all times; the mass version only in a party."
+   ],
+   "rows": [
+    {
+     "aspect": "summon",
+     "skill": 1277,
+     "name": "Summon Merrow the Unicorn",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Main leveling and party pet from 40 to 79 [G ES thread, scryde/linedia]. 1 h lifetime [DP]. Resummon on death or expiry.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 1332,
+     "name": "Summon Seraphim the Unicorn",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Alt. servitor, from 56: only in a mage party when the owner wants its buffs (MP regen, reuse) rather than damage [G estranky, ES thread].",
+     "when": {
+      "partyOnly": true,
+      "text": "the owner wants a buff pet in a mage party"
+     },
+     "auto": false,
+     "why": "alternative servitor: the owner's pick",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 1226,
+     "name": "Summon Boxer the Unicorn",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Alt. servitor: owner MP is the bottleneck. Restores the owner's MP.",
+     "when": {
+      "text": "owner MP is the bottleneck"
+     },
+     "auto": false,
+     "why": "alternative servitor: the owner's pick",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1227,
+     "name": "Summon Mirage the Unicorn",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Never: XP penalty (see 1.5).",
+     "when": {},
+     "auto": false,
+     "why": "XP penalty (absorbs 90 % XP)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1558,
+     "name": "Dimension Spiral",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Owner nuke: Dimension Spiral (H5) on reuse (15 s) at the servitor's target. 900 range.",
+     "when": {
+      "onCooldown": true,
+      "summonOut": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1206,
+     "name": "Wind Shackle",
+     "learn": "14-74",
+     "weapon": [],
+     "trigger": "Owner debuff: on a melee mob attacking me. Attack speed slow.",
+     "when": {
+      "mobsOnMe": 1,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1384,
+     "name": "Mass Surrender to Water",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "AoE support, from 58: party AoE with water nukers, 3+ mobs around the pet. Point-blank on the pet: -30 water res. Costs Spirit Ore.",
+     "when": {
+      "partyOnly": true,
+      "mobsMin": 3,
+      "summonOut": true,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 1280,
+     "name": "Summon Aqua Cubic",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Cubics: Life + Aqua at all times (damage/DoT). 15 min. Costs Spirit Ore.",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 1329,
+     "name": "Mass Summon Aqua Cubic",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Cubics: Mass Summon Aqua Cubic only in party. 15 min. Costs Spirit Ore.",
+     "when": {
+      "partyOnly": true,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 67,
+     "name": "Summon Life Cubic",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Cubics: Life + Aqua at all times (heals). 15 min. Costs Spirit Ore.",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1127,
+     "name": "Servitor Heal",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Pet HP < 60 % (2 casts at < 35 %). 4 s cast.",
+     "when": {
+      "summonOut": true,
+      "text": "pet HP < 60 % (two casts below 35 %)"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1126,
+     "name": "Servitor Recharge",
+     "learn": "25-74",
+     "weapon": [],
+     "trigger": "Pet MP < 30 %.",
+     "when": {
+      "summonOut": true,
+      "text": "pet MP < 30 %"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1300,
+     "name": "Servitor Cure",
+     "learn": "40-60",
+     "weapon": [],
+     "trigger": "Pet poisoned or bleeding.",
+     "when": {
+      "summonOut": true,
+      "text": "pet poisoned or bleeding"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1301,
+     "name": "Servitor Blessing",
+     "learn": "62-62",
+     "weapon": [],
+     "trigger": "At 62: pet rooted, paralyzed or slowed.",
+     "when": {
+      "summonOut": true,
+      "text": "pet rooted, paralyzed or slowed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1140,
+     "name": "Servitor Physical Shield",
+     "learn": "40-56",
+     "weapon": [],
+     "trigger": "Keep up on the pet (20 min) only if the board doesn't buff the pet [?].",
+     "when": {
+      "summonOut": true,
+      "text": "only if the board does not buff the pet"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1139,
+     "name": "Servitor Magic Shield",
+     "learn": "44-52",
+     "weapon": [],
+     "trigger": "Keep up on the pet (20 min) only if the board doesn't buff the pet [?].",
+     "when": {
+      "summonOut": true,
+      "text": "only if the board does not buff the pet"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1141,
+     "name": "Servitor Haste",
+     "learn": "44-52",
+     "weapon": [],
+     "trigger": "Keep up on the pet (20 min) only if the board doesn't buff the pet [?].",
+     "when": {
+      "summonOut": true,
+      "text": "only if the board does not buff the pet"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1145,
+     "name": "Bright Servitor",
+     "learn": "35-56",
+     "weapon": [],
+     "trigger": "Keep up on the pet (20 min) only if the board doesn't buff the pet [?].",
+     "when": {
+      "summonOut": true,
+      "text": "only if the board does not buff the pet"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 1262,
+     "name": "Transfer Pain",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Transfer Pain always on while the pet is out (moves part of my damage to the pet) [G estranky, ES thread].",
+     "when": {
+      "always": true,
+      "summonOut": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1547,
+     "name": "Spirit Sharing",
+     "learn": "44-70",
+     "weapon": [],
+     "trigger": "From 44: keep Spirit Sharing up (20 min).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1299,
+     "name": "Servitor Empowerment",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "Pet emergency, from 52: pet HP < 30 % with several mobs on it. Huge defense, but roots the pet for 30 s, 15 min reuse [DP].",
+     "when": {
+      "summonOut": true,
+      "text": "pet HP < 30 % with several mobs on it"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 1380,
+     "name": "Betray",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Never: PvP / summoner targets.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1175,
+     "name": "Aqua Swirl",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1172,
+     "name": "Aura Burn",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1274,
+     "name": "Energy Bolt",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1264,
+     "name": "Solar Spark",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1181,
+     "name": "Flame Strike",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1069,
+     "name": "Sleep",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1223,
+     "name": "Surrender To Earth",
+     "learn": "35-35",
+     "weapon": [],
+     "trigger": "Obsolete: no ES upgrades. Use Dimension Spiral instead.",
+     "when": {},
+     "auto": false,
+     "why": "use Dimension Spiral instead",
+     "replacedBy": [
+      1558
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "29": {
+   "name": "Elven Oracle",
+   "band": "20-39",
+   "line": "Eva's Saint",
+   "lines": [
+    "Eva's Saint"
+   ],
+   "notes": [
+    "Role: healer and recharger. Owner rule: heals only. No nukes, no CC, no transformations, and no board-duplicate buffs.",
+    "Recharge (1013) cannot target any class that also has Recharge (EE/SE/Bishop/Prophet...), and that includes the caster herself [DP cond].",
+    "1-19: table 1.2 (solo she has to nuke; in a party she heals).",
+    "Heal rows ordered by urgency: Battle Heal (< 40 %) before Heal (< 70 %, \"nothing urgent\")."
+   ],
+   "rows": [
+    {
+     "aspect": "heal",
+     "skill": 1015,
+     "name": "Battle Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Fast heal: member HP < 40 %. 2 s cast, 1 s reuse, costly MP.",
+     "when": {
+      "allyBelow": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1011,
+     "name": "Heal",
+     "learn": "7-35",
+     "weapon": [],
+     "trigger": "Single heal: member HP < 70 %, nothing urgent. 5 s cast, cheap.",
+     "when": {
+      "allyBelow": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1027,
+     "name": "Group Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Group heal: 3+ members < 70 %. 7 s cast.",
+     "when": {
+      "alliesBelow": {
+       "pct": 70,
+       "n": 3
+      }
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "recharge",
+     "skill": 1013,
+     "name": "Recharge",
+     "learn": "30-35",
+     "weapon": [],
+     "trigger": "From 30: a mage or fighter with MP < 50 % (not a healer class), my MP > 40 %. 6 s cast.",
+     "when": {
+      "mpAbove": 40,
+      "text": "target: a non-healer member with MP < 50 %"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "res",
+     "skill": 1016,
+     "name": "Resurrection",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "Dead member, no mob aggro on me. 6 s cast.",
+     "when": {
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cure",
+     "skill": 1012,
+     "name": "Cure Poison",
+     "learn": "7-35",
+     "weapon": [],
+     "trigger": "Member poisoned.",
+     "when": {
+      "targetHas": "poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1031,
+     "name": "Disrupt Undead",
+     "learn": "20-35",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1206,
+     "name": "Wind Shackle",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1201,
+     "name": "Dryad Root",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1069,
+     "name": "Sleep",
+     "learn": "25-35",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1068,
+     "name": "Might",
+     "learn": "7-20",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Might"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1040,
+     "name": "Shield",
+     "learn": "7-25",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Shield"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1204,
+     "name": "Wind Walk",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Wind Walk"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1087,
+     "name": "Agility",
+     "learn": "25-25",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Agility"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1035,
+     "name": "Mental Shield",
+     "learn": "25-25",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Mental Shield"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1043,
+     "name": "Holy Weapon",
+     "learn": "25-25",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Holy Weapon"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1044,
+     "name": "Regeneration",
+     "learn": "35-35",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Regeneration"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1078,
+     "name": "Concentration",
+     "learn": "20-30",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Concentration"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1033,
+     "name": "Resist Poison",
+     "learn": "35-35",
+     "weapon": [],
+     "trigger": "Never (board): only if board buffs are missing.",
+     "when": {
+      "boardMissing": "Resist Poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1073,
+     "name": "Kiss of Eva",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Never: nearly useless [G l2vika].",
+     "when": {},
+     "auto": false,
+     "why": "nearly useless",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1257,
+     "name": "Decrease Weight",
+     "learn": "35-35",
+     "weapon": [],
+     "trigger": "Never: nearly useless [G l2vika].",
+     "when": {},
+     "auto": false,
+     "why": "nearly useless",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "30": {
+   "name": "Elven Elder",
+   "band": "40-75",
+   "line": "Eva's Saint",
+   "lines": [
+    "Eva's Saint"
+   ],
+   "notes": [
+    "Role: healer and recharger. Owner rule: heals only. No nukes, no CC, no transformations, and no board-duplicate buffs.",
+    "Recharge (1013) cannot target any class that also has Recharge (EE/SE/Bishop/Prophet...), and that includes the caster herself [DP cond].",
+    "Heal priority: check every tick, lowest HP % first, tank first when tied. Rows marked \"Priority N\" follow the guide's priority table.",
+    "Battle Heal and Group Heal appear twice: as the before-48 fallback in the priority table and as obsolete rows (blocked once Vitalize / Greater Group Heal are learned)."
+   ],
+   "rows": [
+    {
+     "aspect": "heal",
+     "skill": 1020,
+     "name": "Vitalize",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Priority 1: anyone < 30 %: Vitalize (from 48). 3 s cast, power 780 [DP].",
+     "when": {
+      "allyBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1015,
+     "name": "Battle Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Priority 1, before 48 (no Vitalize yet): anyone < 30 %: Battle Heal.",
+     "when": {
+      "allyBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1219,
+     "name": "Greater Group Heal",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Priority 2: 3+ members < 65 %: Greater Group Heal (from 48). 378 + HoT for 15 s, 7 s cast [DP].",
+     "when": {
+      "alliesBelow": {
+       "pct": 65,
+       "n": 3
+      }
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1027,
+     "name": "Group Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Priority 2, before 48: 3+ members < 65 %: Group Heal.",
+     "when": {
+      "alliesBelow": {
+       "pct": 65,
+       "n": 3
+      }
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1401,
+     "name": "Major Heal",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Priority 3: tank or member < 60 % and Spirit Ore in the bag: Major Heal (from 56). Power 946, 5 s cast, 1 Spirit Ore per cast [DP]. Guides call it the best heal per MP [G l2vika].",
+     "when": {
+      "allyBelow": 60,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1217,
+     "name": "Greater Heal",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Priority 4: member < 75 %: Greater Heal. 472 + HoT for 15 s [DP]. Don't recast on the same target while its HoT is running [G l2vika].",
+     "when": {
+      "allyBelow": 75,
+      "targetLacks": 1217
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cure",
+     "skill": 1020,
+     "name": "Vitalize",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Priority 5: member poisoned or bleeding: Vitalize if HP is also low.",
+     "when": {
+      "targetHas": "poison",
+      "text": "the poisoned / bleeding member's HP is also low"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cure",
+     "skill": 1012,
+     "name": "Cure Poison",
+     "learn": "7-58",
+     "weapon": [],
+     "trigger": "Priority 5: member poisoned or bleeding (HP not low): Cure Poison.",
+     "when": {
+      "targetHas": "poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "recharge",
+     "skill": 1013,
+     "name": "Recharge",
+     "learn": "30-74",
+     "weapon": [],
+     "trigger": "Priority 6: nobody < 80 %, a non-healer has MP < 50 %: Recharge.",
+     "when": {
+      "text": "nobody below 80 % HP and a non-healer member has MP < 50 %"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "res",
+     "skill": 1016,
+     "name": "Resurrection",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Priority 7: out of combat: Resurrection on dead members.",
+     "when": {
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1273,
+     "name": "Serenade of Eva",
+     "learn": "44-74",
+     "weapon": [],
+     "trigger": "Self emergency, from 44: 2+ mobs hitting me and the tank can't take them back. Point-blank hate wipe, 15 min reuse. Defensive, so it fits \"only heal\" [?].",
+     "when": {
+      "mobsOnMe": 2,
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "mp",
+     "skill": 1430,
+     "name": "Invocation",
+     "learn": "56-72",
+     "weapon": [],
+     "trigger": "Self MP, from 56: only out of combat, no mobs near, MP < 30 %. Stuns self for 30 s and cuts P.Def to x0.1 [DP]. Never in combat.",
+     "when": {
+      "outOfCombat": true,
+      "mobsMax": 0,
+      "mpBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1397,
+     "name": "Clarity",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Optional party buff: only if the board doesn't give it. Cast out of combat. Owner decides; default off.",
+     "when": {
+      "boardMissing": "Clarity",
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "optional buff: owner decides, default off",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1304,
+     "name": "Advanced Block",
+     "learn": "58-72",
+     "weapon": [],
+     "trigger": "Optional party buff: only if the board doesn't give it (only on a shield tank). Cast out of combat. Owner decides; default off.",
+     "when": {
+      "boardMissing": "Advanced Block",
+      "outOfCombat": true,
+      "onTank": true
+     },
+     "auto": false,
+     "why": "optional buff: owner decides, default off",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1243,
+     "name": "Bless Shield",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Optional party buff: only if the board doesn't give it (only on a shield tank). Cast out of combat. Owner decides; default off.",
+     "when": {
+      "boardMissing": "Bless Shield",
+      "outOfCombat": true,
+      "onTank": true
+     },
+     "auto": false,
+     "why": "optional buff: owner decides, default off",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1393,
+     "name": "Resist Dark",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Optional party buff: only if the board doesn't give it. Cast out of combat. Owner decides; default off.",
+     "when": {
+      "boardMissing": "Resist Dark",
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "optional buff: owner decides, default off",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1303,
+     "name": "Wild Magic",
+     "learn": "62-70",
+     "weapon": [],
+     "trigger": "Optional party buff: only if the board doesn't give it. Cast out of combat. Owner decides; default off.",
+     "when": {
+      "boardMissing": "Wild Magic",
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "optional buff: owner decides, default off",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1259,
+     "name": "Resist Shock",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Optional party buff: only if the board doesn't give it. Cast out of combat. Owner decides; default off.",
+     "when": {
+      "boardMissing": "Resist Shock",
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "optional buff: owner decides, default off",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1028,
+     "name": "Might of Heaven",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1398,
+     "name": "Mana Burn",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1400,
+     "name": "Turn Undead",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1394,
+     "name": "Trance",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1069,
+     "name": "Sleep",
+     "learn": "25-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1206,
+     "name": "Wind Shackle",
+     "learn": "14-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1395,
+     "name": "Erase",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Never (owner rule).",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1521,
+     "name": "Inquisitor",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Never (owner rule): Inquisitor is a 6 h combat transformation.",
+     "when": {},
+     "auto": false,
+     "why": "owner rule: healers only heal (6 h combat transformation)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1050,
+     "name": "Return",
+     "learn": "44-56",
+     "weapon": [],
+     "trigger": "Never: escape skill.",
+     "when": {},
+     "auto": false,
+     "why": "escape skill",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1255,
+     "name": "Party Recall",
+     "learn": "48-56",
+     "weapon": [],
+     "trigger": "Never: escape skill.",
+     "when": {},
+     "auto": false,
+     "why": "escape skill",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1011,
+     "name": "Heal",
+     "learn": "7-35",
+     "weapon": [],
+     "trigger": "Obsolete: replaced by Greater Heal at 40.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Greater Heal",
+     "replacedBy": [
+      1217
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1027,
+     "name": "Group Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Obsolete: replaced by Greater Group Heal at 48.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Greater Group Heal",
+     "replacedBy": [
+      1219
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1015,
+     "name": "Battle Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Obsolete: replaced by Vitalize at 48. Battle Heal only as a fallback when out of Spirit Ore and MP is plentiful.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Vitalize; fallback only when out of Spirit Ore and MP is plentiful",
+     "replacedBy": [
+      1020
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "99": {
+   "name": "Eva's Templar",
+   "band": "76-85",
+   "line": "Eva's Templar",
+   "lines": [
+    "Eva's Templar"
+   ],
+   "notes": [
+    "Role: shield tank. Weapon: one-handed SWORD + SHIELD. Many skills need the shield; Vanguard and Tribunal need a sword or blunt [DP].",
+    "1-19: table 1.1 with a sword (Power Strike). 20-39: table 1.3.",
+    "All of the Temple Knight table still applies at 76-85 (its rows are included here); the Eva's Templar rows are added.",
+    "Cubics from 80: Life + Smart (+ Attractive if a 3rd slot)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 984,
+     "name": "Shield Strike",
+     "learn": "40-85",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Shield Strike lv 16-25 as at 40-75: on every reuse (6 s) on the current mob, first in the order Shield Strike -> Tribunal.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 400,
+     "name": "Tribunal",
+     "learn": "55-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Tribunal as at 40-75: on reuse (4 s).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Aggro, single: a mob is hitting anyone but me. Target lock for 3 s, 6 s reuse.",
+     "when": {
+      "text": "a mob is hitting a party member other than me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 18,
+     "name": "Aura of Hate",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro, AoE: pull or 3+ loose mobs (Temple Knight table: also right after a pull or when adds aggro on the healer).",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cc",
+     "skill": 985,
+     "name": "Challenge for Fate",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "At 83: pull or 3+ loose mobs. Challenge for Fate covers a frontal fan (taunt + target lock), 45 s reuse.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 402,
+     "name": "Arrest",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Pull / hold, from 55: the mob runs, or a caster mob stays at range. Root for 10 s.",
+     "when": {
+      "text": "the mob runs, or a caster mob stays at range"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 107,
+     "name": "Divine Aura",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): AoE damage: none (the TK has no real AoE damage). Divine Aura (from 58) is a point-blank magical root around me, 10 s [DP]; one guide says undead only [G linedia, ?]. Use it only to hold a big pack, never as a damage skill.",
+     "when": {
+      "text": "only to hold a big pack"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 288,
+     "name": "Guard Stance",
+     "learn": "43-70",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): From 43: on while tanking a pack or a raid; off when solo or MP < 30 %. Drains MP heavily [G linedia].",
+     "when": {
+      "partyOnly": true,
+      "mpAbove": 30,
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 322,
+     "name": "Shield Fortress",
+     "learn": "64-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): From 64: on while tanking a pack or a raid; off when solo or MP < 30 %.",
+     "when": {
+      "partyOnly": true,
+      "mpAbove": 30,
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 197,
+     "name": "Divine Armor",
+     "learn": "40-46",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Dark resistance, costs almost no MP: on vs dark/undead mobs.",
+     "when": {
+      "mobType": "undead"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 982,
+     "name": "Combat Aura",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): From 52: keep Combat Aura up (party P.Atk/Spd, 20 min; not a board buff).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "24-49",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Vs archer mobs.",
+     "when": {
+      "mobType": "archer"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 123,
+     "name": "Spirit Barrier",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Skip: Spirit Barrier collides with the board Magic Barrier (0.2).",
+     "when": {},
+     "auto": false,
+     "why": "collides with the board Magic Barrier",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 10,
+     "name": "Summon Storm Cubic",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Solo: Storm + Life. Resummon when one is missing. Cubics last 15 min [DP] and vanish on death [G]. Cost Spirit Ore (3031). Cubic count from Cubic Mastery: 2 at 40 [G], 3 later [?].",
+     "when": {
+      "soloOnly": true,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 67,
+     "name": "Summon Life Cubic",
+     "learn": "43-72",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): From 43: Solo: Storm + Life. Party tank: Life + Attractive. Resummon when missing. Spirit Ore (3031).",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 449,
+     "name": "Summon Attractive Cubic",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): From 62: party tank: Life + Attractive (Attractive helps hold aggro; hate + root). Resummon when missing. Spirit Ore (3031).",
+     "when": {
+      "partyOnly": true,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "20-46",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): HP < 25 % and the healer is dead, out of MP or absent. Roots self, 15 min reuse.",
+     "when": {
+      "hpBelow": 25,
+      "text": "the healer is dead, out of MP or absent"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 916,
+     "name": "Shield Deflect Magic",
+     "learn": "60-72",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Temple Knight table (still applies): From 60: a caster pack or a raid boss starts casting at me. 8 s reflect, 45 s reuse [DP].",
+     "when": {
+      "text": "a caster pack or a raid boss starts casting at me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 58,
+     "name": "Elemental Heal",
+     "learn": "15-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): No healer and HP < 40 % between pulls. 5 s cast, high MP cost.",
+     "when": {
+      "hpBelow": 40,
+      "outOfCombat": true,
+      "text": "no healer in the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 812,
+     "name": "Vanguard",
+     "learn": "40-40",
+     "weapon": [
+      "SWORD"
+     ],
+     "trigger": "Temple Knight table (still applies): Never auto: 6 h transformation that halves shield defense (sDef x0.5) [DP]. A solo XP option at most [G estranky].",
+     "when": {},
+     "auto": false,
+     "why": "transformation; halves shield defense",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 15,
+     "name": "Charm",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Never auto: removes my own hate.",
+     "when": {},
+     "auto": false,
+     "why": "removes my own hate",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Temple Knight table (still applies): Obsolete: replaced by Shield Strike / Tribunal.",
+     "when": {},
+     "auto": false,
+     "why": "replaced by Shield Strike / Tribunal",
+     "replacedBy": [
+      984,
+      400
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 230,
+     "name": "Sprint",
+     "learn": "32-52",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Obsolete: covered by board buffs.",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Wind Walk)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 91,
+     "name": "Defense Aura",
+     "learn": "5-20",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Obsolete: covered by board buffs.",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Shield)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 77,
+     "name": "Attack Aura",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Temple Knight table (still applies): Obsolete: covered by board buffs.",
+     "when": {},
+     "auto": false,
+     "why": "covered by board buffs (Might)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 335,
+     "name": "Fortitude",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "On in party and raid (resists stun/paralyze); off when solo and MP < 30 %. MP drain.",
+     "when": {
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 527,
+     "name": "Iron Shield",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Keep up while tanking (20 min, 150 s reuse). Triggers on damage taken.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 351,
+     "name": "Magical Mirror",
+     "learn": "78-78",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Debuff defense: raid or mobs that debuff. Reflects debuffs for 5 min, 150 s reuse, needs a shield.",
+     "when": {
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 528,
+     "name": "Shield of Faith",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Party emergency: party AoE damage, several members < 50 %, my HP > 70 %. For 15 s, 90 % of the party's damage goes to me. 15 min reuse [DP].",
+     "when": {
+      "partyOnly": true,
+      "alliesBelow": {
+       "pct": 50,
+       "n": 2
+      },
+      "hpAbove": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 341,
+     "name": "Touch of Life",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Ally emergency: a party member < 25 % and the healer can't keep up. Heals the target for 50 % HP, 5 min reuse. Guides say it costs my own HP [G estranky].",
+     "when": {
+      "allyBelow": 25,
+      "text": "the healer can't keep up"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 368,
+     "name": "Vengeance",
+     "learn": "77-77",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Self emergency: big pull, HP < 40 %, many mobs on the party. Point-blank taunt (40 %) + P.Def +5400, roots self for 30 s, 15 min reuse.",
+     "when": {
+      "hpBelow": 40,
+      "text": "big pull, many mobs on the party"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 779,
+     "name": "Summon Smart Cubic",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "From 80: Life + Smart (+ Attractive if a 3rd slot). Smart Cubic removes debuffs from me [G], costs 38 Spirit Ore.",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 352,
+     "name": "Shield Bash",
+     "learn": "77-77",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Never auto: stun + TargetCancel [DP]: the mob drops me as a target, the opposite of tanking. Only to interrupt a deadly cast (manual).",
+     "when": {},
+     "auto": false,
+     "why": "target cancel breaks tanking; manual interrupt only",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 454,
+     "name": "Symbol of Defense",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never auto: Battle Symbol.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Battle Symbol (8875), 30 min reuse",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "100": {
+   "name": "Sword Muse",
+   "band": "76-85",
+   "line": "Sword Muse",
+   "lines": [
+    "Sword Muse"
+   ],
+   "notes": [
+    "Role: light tank or melee damage that also carries songs; the board gives the songs.",
+    "The guide's 76-85 table lists only the rows below; the other Swordsinger rows (Battle Whisper, Divine Blade, CC, emergency, heal, never) are not restated for 76-85."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 986,
+     "name": "Deadly Strike",
+     "learn": "40-85",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DAGGER",
+      "POLE",
+      "DUAL"
+     ],
+     "trigger": "As at 40-75: Deadly Strike (lv 16-25) on reuse (5 s).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 98,
+     "name": "Sword Symphony",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "As at 40-75: Sword Symphony on reuse (15 s), first on caster mobs.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 407,
+     "name": "Psycho Symphony",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "As at 40-75: Psycho Symphony when 3+ mobs are within melee range.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 349,
+     "name": "Song of Renewal",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Party song not usually on a board. Check the L2Toggle board list first: if the board has it, never cast; if not, keep up in party (2 min). Renewal lowers reuse and MP cost [DP].",
+     "when": {
+      "boardMissing": "Song of Renewal",
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 363,
+     "name": "Song of Meditation",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Party song not usually on a board. Check the board list first: if the board has it, never cast; if not, keep up in party (2 min). Meditation adds mage MP regen [DP].",
+     "when": {
+      "boardMissing": "Song of Meditation",
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 364,
+     "name": "Song of Champion",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Party song not usually on a board. Check the board list first: if the board has it, never cast; if not, keep up in party (2 min). Champion lowers reuse and MP cost [DP].",
+     "when": {
+      "boardMissing": "Song of Champion",
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 529,
+     "name": "Song of Elemental",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Situational: raid or elemental mobs. +30 all-element resistance, 2 min, 150 s reuse.",
+     "when": {
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 437,
+     "name": "Song of Silence",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Never auto: point-blank silence on all mobs, 150 s reuse. A mass-PvP tool [G estranky]. Manual vs caster raid adds.",
+     "when": {},
+     "auto": false,
+     "why": "mass-PvP tool; manual only vs caster raid adds",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 455,
+     "name": "Symbol of Noise",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never auto: Battle Symbol.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Battle Symbol (8875), 30 min reuse",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "101": {
+   "name": "Wind Rider",
+   "band": "76-85",
+   "line": "Wind Rider",
+   "lines": [
+    "Wind Rider"
+   ],
+   "notes": [
+    "Role: dagger blow DPS. Weapon: DAGGER (DUALDAGGER for Dual Blow at 83). Backstab only from behind [DP].",
+    "The guide's 76-85 table lists only the rows below; the other Plainswalker rows (Shadow Step, Vicious Stance, Sand Bomb, Switch, Lure, Ultimate Evasion, Fake Death, cleanses, never list) are not restated for 76-85."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 344,
+     "name": "Lethal Blow",
+     "learn": "76-76",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Lethal Blow on every reuse (4 s, power 5773). Half-kill 15 % [DP]. First in the order Lethal Blow -> Deadly Blow -> Backstab when behind -> Blinding Blow.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 263,
+     "name": "Deadly Blow",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Fill the gaps with Deadly Blow.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 30,
+     "name": "Backstab",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Backstab when behind.",
+     "when": {
+      "behind": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 321,
+     "name": "Blinding Blow",
+     "learn": "66-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Blinding Blow last in the single-target order.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 531,
+     "name": "Critical Wound",
+     "learn": "79-79",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Pre-fight / boss: mobs with high HP, party targets and raids [G estranky]. +30 % crit damage taken by the target for 30 s, 8 s reuse.",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 355,
+     "name": "Focus Death",
+     "learn": "78-78",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Keep Focus Death up (2 min, 30 s reuse). Blow rate x1.6, rear crit damage x1.9, frontal x0.7 [DP]. Death is the better pick for blow PvE [G estranky].",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 356,
+     "name": "Focus Chance",
+     "learn": "78-78",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Focus Chance (same slot as Focus Death) raises rear/side crit rate. Focus Death is the better pick for blow PvE [G estranky].",
+     "when": {},
+     "auto": false,
+     "why": "same slot as Focus Death; the guide picks Focus Death",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 410,
+     "name": "Mortal Strike",
+     "learn": "58-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "As at 40-75: turn on at the start of each fight, or keep up.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 334,
+     "name": "Focus Skill Mastery",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "On only when MP > 50 % (raids, long fights). Raises Skill Mastery procs (reuse reset). MP drain.",
+     "when": {
+      "mpAbove": 50,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 358,
+     "name": "Bluff",
+     "learn": "77-77",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Single strong mob, or a mob that turned onto me in a party: Bluff (it turns its back and stuns 9 s), then Backstab. Also deletes my hate [DP], so the mob goes back to the tank. Good in party.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 446,
+     "name": "Dodge",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Mob or raid casting physical skills on me, HP < 50 %. 10 s skill evasion, 75 s reuse.",
+     "when": {
+      "hpBelow": 50,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 991,
+     "name": "Throwing Dagger",
+     "learn": "80-80",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "At 80: a low-HP mob running away. Slow, 45 s reuse.",
+     "when": {
+      "text": "a low-HP mob is running away"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 928,
+     "name": "Dual Blow",
+     "learn": "83-83",
+     "weapon": [
+      "DUALDAGGER"
+     ],
+     "trigger": "83+: Dual Blow only with a DUALDAGGER.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 460,
+     "name": "Symbol of the Assassin",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never: Battle Symbol.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Battle Symbol (8875), 30 min reuse",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "102": {
+   "name": "Moonlight Sentinel",
+   "band": "76-85",
+   "line": "Moonlight Sentinel",
+   "lines": [
+    "Moonlight Sentinel"
+   ],
+   "notes": [
+    "Role: bow DPS that kites solo. Weapon: BOW. Keep arrows stocked.",
+    "The guide's 76-85 table lists only the rows below; the other Silver Ranger rows (Stun Shot, self buffs Rapid Shot / Sagittarius, Rapid Fire, Vicious Stance, Entangle, emergency, never list) are not restated for 76-85."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 343,
+     "name": "Lethal Shot",
+     "learn": "76-76",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Lethal Shot on every reuse (8 s, power 7698, half-kill). Order: Lethal Shot -> Double Shot -> auto-attack.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 19,
+     "name": "Double Shot",
+     "learn": "40-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Double Shot after Lethal Shot.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 354,
+     "name": "Hamstring Shot",
+     "learn": "77-77",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Kite: melee mob approaching, or a runner. 30 % slow for 60 s, 15 s reuse.",
+     "when": {
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 369,
+     "name": "Evade Shot",
+     "learn": "78-78",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Defensive damage: I'm being hit (HP < 70 %), or in a raid. Damage + self Evasion +6 for 30 s, 75 s reuse.",
+     "when": {
+      "hpBelow": 70,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 24,
+     "name": "Burst Shot",
+     "learn": "46-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "3+ mobs.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 987,
+     "name": "Multiple Shot",
+     "learn": "82-82",
+     "weapon": [
+      "BOW",
+      "CROSSBOW"
+     ],
+     "trigger": "At 82: 3+ mobs. Multiple Shot is a 900-range 60 deg fan.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 990,
+     "name": "Death Shot",
+     "learn": "83-83",
+     "weapon": [
+      "BOW",
+      "CROSSBOW"
+     ],
+     "trigger": "83+: Death Shot on reuse (12 s).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 334,
+     "name": "Focus Skill Mastery",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "MP > 50 % only. MP drain.",
+     "when": {
+      "mpAbove": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 459,
+     "name": "Symbol of the Sniper",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never: Battle Symbol.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Battle Symbol (8875), 30 min reuse",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "103": {
+   "name": "Mystic Muse",
+   "band": "76-85",
+   "line": "Mystic Muse",
+   "lines": [
+    "Mystic Muse"
+   ],
+   "notes": [
+    "Role: water nuker. Weapon: a magic weapon (blunt or staff).",
+    "Arcane Chaos is first among the debuffs because the guide says \"before other debuffs\".",
+    "The guide's 76-85 table lists only the rows below; the other Spellsinger rows (Surrender To Water, Ice Dagger, fillers, Frost Bolt, Sleep, Seed of Water, bursts, Aura Flash, never / obsolete lists) are not restated for 76-85."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 1235,
+     "name": "Hydro Blast",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Main nuke: spam Hydro Blast.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1338,
+     "name": "Arcane Chaos",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Boss: raid or boss, before other debuffs. +30 debuff vulnerability.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1338
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1340,
+     "name": "Ice Vortex",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Opener debuff: first cast on any mob that will take 3+ nukes. -20 water res + slows, 30 s, 15 s reuse, 6 s cast. Own abnormalType, so it stacks with Surrender To Water [DP].",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1340
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1453,
+     "name": "Ice Vortex Crusher",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Finisher: on reuse, after Ice Vortex has done its work (target < 40 %), or on mobs without a vortex. In this datapack it dispels the target's Ice Vortex when it hits [DP]: don't cast it right after the vortex. A guide uses Vortex -> Crusher as a PvP burst combo [G estranky].",
+     "when": {
+      "onCooldown": true,
+      "targetHpBelow": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1342,
+     "name": "Light Vortex",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Holy: undead / dark mobs. Light Vortex = -30 holy res.",
+     "when": {
+      "mobType": "undead",
+      "targetLacks": 1342
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1265,
+     "name": "Solar Flare",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Holy: with Light Vortex vs undead / dark mobs.",
+     "when": {
+      "mobType": "undead",
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1295,
+     "name": "Aqua Splash",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "3+ packed mobs: Aqua Splash.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 1454,
+     "name": "Diamond Dust",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Mobs on me (radius 200): Diamond Dust, which also slows 40 %.",
+     "when": {
+      "mobsOnMe": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1455,
+     "name": "Throne of Ice",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "DoT: single high-HP mob. 75 s reuse.",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 337,
+     "name": "Arcane Power",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "On while HP > 60 % and a healer is present (or HP regen is enough). Off when HP < 50 %. M.Atk x1.3, MP cost x1.1, drains HP [DP]. Guides say use it sparingly [G estranky].",
+     "when": {
+      "hpAbove": 60,
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1554,
+     "name": "Aura Blast",
+     "learn": "81-81",
+     "weapon": [],
+     "trigger": "81: Aura Blast (target AoE, 15 s reuse). The guide gives no trigger.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1555,
+     "name": "Aura Cannon",
+     "learn": "82-82",
+     "weapon": [],
+     "trigger": "82: Aura Cannon (150 range, 10 s reuse). The guide gives no trigger.",
+     "when": {
+      "distMax": 150
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1556,
+     "name": "Arcane Shield",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "83: Arcane Shield when HP < 30 % and MP is high. 70 % of damage taken from MP for 10 s, 5 min reuse.",
+     "when": {
+      "hpBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1421,
+     "name": "Raging Waves",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never: Magic Symbol, 30 min reuse.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Magic Symbol (8876), 30 min reuse",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "104": {
+   "name": "Elemental Master",
+   "band": "76-85",
+   "line": "Elemental Master",
+   "lines": [
+    "Elemental Master"
+   ],
+   "notes": [
+    "Role: summoner. Owner rule: the summoner heals only its own servitor.",
+    "Cubics from 80: Life + Smart.",
+    "The guide's 76-85 table lists only the rows below; the other Elemental Summoner rows (pet heal / recharge / cure / buffs, Life and Aqua cubics, Transfer Pain, Spirit Sharing, Mass Surrender to Water, Servitor Empowerment, never / obsolete lists) are not restated for 76-85."
+   ],
+   "rows": [
+    {
+     "aspect": "summon",
+     "skill": 1407,
+     "name": "Summon Magnus the Unicorn",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "At 79: Summon Magnus the Unicorn replaces Merrow. The strongest damage pet [G estranky, ES thread]. Costs Spirit Ore over time.",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1349,
+     "name": "Final Servitor",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Pet burst buff: boss, elite or raid only. Final Servitor for a melee/hybrid pet, 20 Spirit Ore. 5 min, 60 s reuse. MULTI_BUFF: collides with Chant of Victory if the pet has it (0.2).",
+     "when": {
+      "bigTarget": true,
+      "summonOut": true,
+      "item": 3031,
+      "targetLacks": 1363
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "pet",
+     "skill": 1347,
+     "name": "Wizard Servitor",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Pet burst buff: boss, elite or raid only. Wizard Servitor, 10 Spirit Ore. 5 min, 60 s reuse. MULTI_BUFF: collides with Chant of Victory if the pet has it (0.2).",
+     "when": {
+      "bigTarget": true,
+      "summonOut": true,
+      "item": 3031,
+      "targetLacks": 1363
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 338,
+     "name": "Arcane Agility",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "On while HP > 60 %; off below 50 %. Cast speed x1.2, reuse x0.9, MP x1.1, drains HP.",
+     "when": {
+      "hpAbove": 60
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 782,
+     "name": "Summon Smart Cubic",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "At 80: Life + Smart (debuff removal) [G]. 38 Spirit Ore.",
+     "when": {
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1558,
+     "name": "Dimension Spiral",
+     "learn": "40-85",
+     "weapon": [],
+     "trigger": "Owner nuke: Dimension Spiral lv 15-24 on reuse.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1557,
+     "name": "Servitor Share",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "83: keep Servitor Share up (20 min).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1350,
+     "name": "Warrior Bane",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Never: strips enemy speed/haste buffs, PvP only.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1424,
+     "name": "Anti-Summoning Field",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never: Magic Symbol.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Magic Symbol (8876), 30 min reuse",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "105": {
+   "name": "Eva's Saint",
+   "band": "76-85",
+   "line": "Eva's Saint",
+   "lines": [
+    "Eva's Saint"
+   ],
+   "notes": [
+    "Role: healer and recharger. Owner rule: heals only. No nukes, no CC, no transformations, and no board-duplicate buffs.",
+    "Recharge (1013) cannot target any class that also has Recharge (EE/SE/Bishop/Prophet...), and that includes the caster herself [DP cond].",
+    "All of the Elder heal priority still applies (its rows are included); Mass Vitalize goes first and Chain Heal second among the group heals, Greater Group Heal after them.",
+    "Only the Elder heal priority table carries over; the Elder slot table (Serenade of Eva, Invocation, optional buffs, never / obsolete lists) is not restated for 76-85."
+   ],
+   "rows": [
+    {
+     "aspect": "heal",
+     "skill": 1020,
+     "name": "Vitalize",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 1: anyone < 30 %: Vitalize (from 48). 3 s cast, power 780 [DP].",
+     "when": {
+      "allyBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1015,
+     "name": "Battle Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 1, before 48 (no Vitalize yet): anyone < 30 %: Battle Heal.",
+     "when": {
+      "allyBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1552,
+     "name": "Mass Vitalize",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "At 76: 3+ members < 70 %, or the party is poisoned/bleeding. 3 s cast, 9 s reuse. Faster than Greater Group Heal: use it first, GGH second.",
+     "when": {
+      "alliesBelow": {
+       "pct": 70,
+       "n": 3
+      }
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1553,
+     "name": "Chain Heal",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "At 83: 3+ members < 50 % in a cluster. 30 % max HP to the lowest members. 4 Spirit Ore, 5 s reuse.",
+     "when": {
+      "alliesBelow": {
+       "pct": 50,
+       "n": 3
+      },
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1219,
+     "name": "Greater Group Heal",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 2: 3+ members < 65 %: Greater Group Heal (from 48). 378 + HoT for 15 s, 7 s cast [DP].",
+     "when": {
+      "alliesBelow": {
+       "pct": 65,
+       "n": 3
+      }
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "groupheal",
+     "skill": 1027,
+     "name": "Group Heal",
+     "learn": "14-35",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 2, before 48: 3+ members < 65 %: Group Heal.",
+     "when": {
+      "alliesBelow": {
+       "pct": 65,
+       "n": 3
+      }
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1401,
+     "name": "Major Heal",
+     "learn": "56-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 3: tank or member < 60 % and Spirit Ore in the bag: Major Heal (from 56). Power 946, 5 s cast, 1 Spirit Ore per cast [DP]. Guides call it the best heal per MP [G l2vika].",
+     "when": {
+      "allyBelow": 60,
+      "item": 3031
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1217,
+     "name": "Greater Heal",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 4: member < 75 %: Greater Heal. 472 + HoT for 15 s [DP]. Don't recast on the same target while its HoT is running [G l2vika].",
+     "when": {
+      "allyBelow": 75,
+      "targetLacks": 1217
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cure",
+     "skill": 1020,
+     "name": "Vitalize",
+     "learn": "48-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 5: member poisoned or bleeding: Vitalize if HP is also low.",
+     "when": {
+      "targetHas": "poison",
+      "text": "the poisoned / bleeding member's HP is also low"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cure",
+     "skill": 1012,
+     "name": "Cure Poison",
+     "learn": "7-58",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 5: member poisoned or bleeding (HP not low): Cure Poison.",
+     "when": {
+      "targetHas": "poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "recharge",
+     "skill": 1013,
+     "name": "Recharge",
+     "learn": "30-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 6: nobody < 80 %, a non-healer has MP < 50 %: Recharge.",
+     "when": {
+      "text": "nobody below 80 % HP and a non-healer member has MP < 50 %"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "res",
+     "skill": 1016,
+     "name": "Resurrection",
+     "learn": "20-74",
+     "weapon": [],
+     "trigger": "Elder heal priority (still applies): Priority 7: out of combat: Resurrection on dead members.",
+     "when": {
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 336,
+     "name": "Arcane Wisdom",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "On while recharging or MP is tight and own HP > 70 %. Off when own HP < 50 %. MP cost x0.7, cast speed x0.9, drains HP [DP]. Guides recommend it for recharging [G estranky, l2vika].",
+     "when": {
+      "hpAbove": 70,
+      "text": "while recharging or MP is tight"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1460,
+     "name": "Mana Gain",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "MP support: cast once on the main recharge targets (mages) before recharging. +85 to Recharge received, 20 min, 150 s reuse.",
+     "when": {
+      "partyOnly": true,
+      "text": "on the main recharge targets (mages), before recharging"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1354,
+     "name": "Arcane Protection",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Optional: raids with debuffs or dark/holy damage, out of combat. Default off (owner rule).",
+     "when": {
+      "raidOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "optional buff: default off (owner rule)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1353,
+     "name": "Divine Protection",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Optional: raids with debuffs or dark/holy damage, out of combat. Default off (owner rule).",
+     "when": {
+      "raidOnly": true,
+      "outOfCombat": true
+     },
+     "auto": false,
+     "why": "optional buff: default off (owner rule)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1355,
+     "name": "Prophecy of Water",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Never: 5 min, 10 Spirit Ore, and it overwrites the board's Chant of Victory (MULTI_BUFF).",
+     "when": {},
+     "auto": false,
+     "why": "overwrites the board Chant of Victory",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1428,
+     "name": "Mass Recharge",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Never: Magic Symbol, 1 h reuse.",
+     "when": {},
+     "auto": false,
+     "why": "consumes a Magic Symbol (8876)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1359,
+     "name": "Block Wind Walk",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Never: PvP.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  }
+ }
+}

@@ -83,7 +83,7 @@ function writeStatus(ctx, id, o, line) {
 }
 async function sendJob(ctx, J, why) {
   const lines = (J.upgrade && J.upgrade.lines) || [], cl = J.clanLeader;
-  const usesClan = lines.some(l => l.item.src === 'clan' || (l.needs || []).some(n => n.from && Number(n.from.clan) > 0));
+  const usesClan = lines.some(l => l.item.src === 'clan' || (l.needs || []).some(n => n.from && Number(n.from.clan) > 0)) || ((J.unseal && J.unseal.pieces) || []).some(p => p.src === 'clan');   // KITGET / UNSEALPICK
   const r = await ctx.commandRun({ cmd: '!itemjob ' + J.id, targets: ['chars:' + [J.doer].concat(usesClan && cl && cl !== J.doer ? [cl] : []).join(',')] });
   const body = r && r.body ? r.body : r;
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), isoNow() + '\tupgrade\t' + J.id + ' (' + why + '): ' + lines.map(l => l.item.name + (l.enchant ? ' +' + l.enchant.to : '') + (l.sa ? ' SA' : '')).join(', ').slice(0, 400) + '\t' + J.by + '\r\n'); } catch (e) { }
@@ -140,7 +140,7 @@ async function dispatchTick(ctx) {
     const c = st.find(x => x.name === J.doer); if (!c) continue;
     if (!(Number(c.ageSec) < 60 && !c.dead && !c.combat && !/raid|mission|kamaloka/i.test(String(c.mode || '')) && inGiran(c))) continue;
     J.queued = null; J.sentAt = isoNow(); fs.writeFileSync(path.join(dir, fn), JSON.stringify(J, null, 1));
-    writeStatus(ctx, J.id, { state: 'sent' }, J.doer + ' is in Giran: starting the upgrade');
+    writeStatus(ctx, J.id, { state: 'sent' }, J.doer + ' is in Giran: starting ' + (J.kind === 'kitget' ? 'the Frenzy kit job' : 'the upgrade'));
     await sendJob(ctx, J, 'next town visit'); sent.push(J.id);
   }
   return sent;
@@ -239,6 +239,71 @@ async function makeStart(ctx, b) {
   const r = await ctx.commandRun({ cmd: `!itemjob ${id}`, targets: ['chars:' + [p.name].concat(usesClan && cl && cl !== p.name ? [cl] : []).join(',')] });
   const body = r && r.body ? r.body : r;
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\tmake\t${id}: ${p.steps.join(' / ').slice(0, 400)}\tdashboard\r\n`); } catch (e) { }
+  return body && body.error ? { code: 500, error: body.error } : { ok: true, id, name: p.name };
+}
+// UNSEALPICK-2026-10-25 (owner: "why cant i select items in clan warehouse and unseal them????"): GET /api/upgrade/unseal?name= -> every sealed piece
+// in the character's bag / warehouse / the clan warehouse with what it becomes and the price at Pushkin; POST unseal/plan + unseal/start
+// { name, items: [{ src, id, enchant, count }] } -> one item job (J.unseal). Nothing is taken or paid without the owner's pick + confirm.
+let UNS = null, UNS_AT = 0;
+function unsealData(ctx) {
+  const f = path.join(ctx.ROOT || path.join(__dirname, '..'), 'Scripts', 'data', 'unseal_h5.json');
+  try { const t = fs.statSync(f).mtimeMs; if (!UNS || t !== UNS_AT) { UNS = JSON.parse(fs.readFileSync(f, 'utf8').replace(/^\uFEFF/, '')); UNS_AT = t; } } catch (e) { UNS = UNS || {}; }
+  return UNS;
+}
+function unsealRow(ctx, sealedId) {
+  const r = (unsealData(ctx).bySealed || {})[sealedId]; if (!r) return null;
+  const sgrade = r.list === 311262504 || r.list === 311262505, acc = r.list === 311262505 || r.list === 311262507;
+  return { id: Number(r.id), pay: Number(r.pay) || (sgrade ? 5575 : 57), aa: Number(r.aa) || 0, label: `Release the ${sgrade ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal` };
+}
+async function unsealList(ctx, name) {
+  if (!NAME_RE.test(String(name || ''))) return { code: 400, error: 'Choose who unseals.' };
+  const C = await IP.charInfo(ctx, name, false); if (C.error) return C;
+  const out = [], by = {};
+  const add = (src, r) => { const u = unsealRow(ctx, Number(r.id)); if (!u) return; const ench = Number(r.enchant) || 0, k = `${src}:${r.id}:${ench}`;
+    if (by[k]) { by[k].count += Math.max(1, Number(r.count) || 1); return; }
+    const F = IP.facts(ctx, u.id) || {};
+    out.push(by[k] = { key: k, src, id: Number(r.id), name: String(r.name || ''), enchant: ench, count: Math.max(1, Number(r.count) || 1), objId: src === 'bag' ? Number(r.objId) || 0 : 0,
+      to: { id: u.id, name: F.name || ('item ' + u.id), grade: F.grade || '', kind: F.kind || '' }, pay: u.pay, payName: u.pay === 57 ? 'adena' : 'Ancient Adena', price: u.aa }); };
+  (C.bag || []).filter(r => !r.eq).forEach(r => add('bag', r)); (C.wh || []).forEach(r => add('wh', r)); (C.clan || []).forEach(r => add('clan', r));
+  const aaHave = (C.bag || []).filter(r => Number(r.id) === 5575).reduce((t, r) => t + (Number(r.count) || 0), 0);
+  return { ok: true, name, pieces: out, adena: C.adena || 0, ancient: aaHave, clanLeader: IP.clanLeader(ctx) };
+}
+async function unsealPlan(ctx, b) {
+  const L = await unsealList(ctx, b.name); if (L.error) return L;
+  const picks = (Array.isArray(b.items) ? b.items : []).map(x => ({ src: String(x.src || ''), id: Number(x.id) || 0, enchant: Number(x.enchant) || 0, count: Math.max(1, Math.min(50, Number(x.count) || 1)) }));
+  if (!picks.length) return { code: 400, error: 'Tap the sealed pieces first.' };
+  const pieces = [], warn = [], steps = []; let adena = 0, ancient = 0;
+  for (const p of picks) {
+    const row = L.pieces.find(r => r.src === p.src && r.id === p.id && r.enchant === p.enchant);
+    if (!row) { warn.push(`item ${p.id} is not in the ${p.src === 'clan' ? 'clan warehouse' : p.src === 'wh' ? 'warehouse' : 'bag'} any more`); continue; }
+    if (p.src !== 'bag' && row.enchant >= 10 && !b.plus10Ok) { warn.push(`${row.name} +${row.enchant}: +10 and higher only with the +10 tick`); continue; }
+    const n = Math.min(p.count, row.count); if (n < p.count) warn.push(`${row.name}: only ${row.count} there`);
+    const u = unsealRow(ctx, row.id);
+    for (let k = 0; k < n; k++) pieces.push({ src: row.src, id: row.id, name: row.name, enchant: row.enchant, objId: row.src === 'bag' ? row.objId : 0, toId: u.id, toName: row.to.name, label: u.label, pay: u.pay, price: u.aa, plus10: row.src !== 'bag' && row.enchant >= 10 });
+    if (u.pay === 57) adena += u.aa * n; else ancient += u.aa * n;
+  }
+  if (!pieces.length) return { code: 400, error: warn.join('; ') || 'nothing to unseal' };
+  const fromWh = pieces.filter(x => x.src !== 'bag');
+  if (fromWh.length) steps.push(`${b.name} takes ${fromWh.length} sealed piece(s) out of the ${fromWh.some(x => x.src === 'clan') ? 'clan ' : ''}warehouse (in Giran)`);
+  steps.push(`unseals ${pieces.length} piece(s) at Pushkin: ${[...new Set(pieces.map(x => x.toName))].join(', ').slice(0, 200)}`);
+  steps.push(`cost: ${adena ? IL.kmb(adena) + ' adena' : ''}${adena && ancient ? ' + ' : ''}${ancient ? IL.kmb(ancient) + ' Ancient Adena' : ''}`);
+  if (fromWh.length) steps.push('the unsealed pieces go back into the clan warehouse'); else steps.push(`they stay in ${b.name}'s bag`);
+  if (adena > L.adena) warn.push(`not enough adena: needs ${IL.kmb(adena)}, has ${IL.kmb(L.adena)}`);
+  if (ancient > L.ancient) warn.push(`not enough Ancient Adena in the bag: needs ${IL.kmb(ancient)}, has ${IL.kmb(L.ancient)}`);
+  return { ok: adena <= L.adena && ancient <= L.ancient, name: b.name, pieces, adena, ancient, steps, warn, clanLeader: L.clanLeader };
+}
+async function unsealStart(ctx, b) {
+  if (!ctx.commandRun) return { code: 500, error: 'the dashboard server needs a restart' };
+  const p = await unsealPlan(ctx, b); if (p.error) return p;
+  if (!p.ok) return { code: 409, error: p.warn.join('; ') || 'not possible', plan: p };
+  const id = `ij_${p.name.toLowerCase()}_us${Date.now().toString(36)}`;
+  const J = { id, doer: p.name, kind: 'unseal', item: { name: `unseal ${p.pieces.length} piece(s)`, id: p.pieces[0].toId }, unseal: { pieces: p.pieces }, give: null,
+    clanLeader: p.clanLeader, steps: p.steps, created: isoNow(), by: 'dashboard unseal' };
+  const dir = path.join(ctx.LOGS, 'itemjobs'); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify(J, null, 1));
+  const cl = p.clanLeader, usesClan = p.pieces.some(x => x.src === 'clan');
+  const r = await ctx.commandRun({ cmd: `!itemjob ${id}`, targets: ['chars:' + [p.name].concat(usesClan && cl && cl !== p.name ? [cl] : []).join(',')] });
+  const body = r && r.body ? r.body : r;
+  try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\tunseal\t${id}: ${p.steps.join(' / ').slice(0, 400)}\tdashboard\r\n`); } catch (e) { }
   return body && body.error ? { code: 500, error: body.error } : { ok: true, id, name: p.name };
 }
 // PRESET-2026-10-25 (owner: "an entire raid waiting to get upgrades to top C-grade gear"): GET /api/upgrade/preset?names=a,b&grade=C ->
@@ -385,6 +450,9 @@ async function handle(req, res, url, ctx) {
     if (sub === 'start' && req.method === 'POST') { out(await start(ctx, b)); return true; }
     if (sub === 'make/plan' && req.method === 'POST') { out(await makePlan(ctx, b)); return true; }   // MAKEX
     if (sub === 'make/start' && req.method === 'POST') { out(await makeStart(ctx, b)); return true; }
+    if (sub === 'unseal') { out(await unsealList(ctx, String(url.searchParams.get('name') || ''))); return true; }   // UNSEALPICK: the sealed pieces
+    if (sub === 'unseal/plan' && req.method === 'POST') { out(await unsealPlan(ctx, b)); return true; }   // UNSEALPICK
+    if (sub === 'unseal/start' && req.method === 'POST') { out(await unsealStart(ctx, b)); return true; }
     if (sub === 'preset') { out(preset(ctx, url.searchParams.get('names'), url.searchParams.get('grade'))); return true; }   // PRESET
     if (sub === 'doll') { out(await doll(ctx, String(url.searchParams.get('name') || ''))); return true; }   // PAPERDOLL
     if (sub === 'slot') { out(await slotCands(ctx, String(url.searchParams.get('name') || ''), String(url.searchParams.get('slot') || ''))); return true; }
@@ -396,4 +464,4 @@ async function handle(req, res, url, ctx) {
     out({ code: 404, error: 'unknown upgrade API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran };
+module.exports = { unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran };

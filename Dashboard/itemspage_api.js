@@ -342,7 +342,8 @@ async function enchantMany(ctx, b) {
       const rows = C[p.src].filter(x => Number(x.id) === p.id && (Number(x.enchant) || 0) === p.enchant), have = rows.reduce((s, x) => s + (Number(x.count) || 1), 0);
       if (have < n) { skip.push(`${(rows[0] && rows[0].name) || 'item ' + p.id} +${p.enchant} is not in the ${p.src === 'clan' ? 'clan ' : ''}warehouse (any more)`); continue; }
       used[p.src][k] = n; r = rows[0];
-      if (p.enchant >= PROTECT_ENCH) { skip.push(`${r.name} +${p.enchant}: +${PROTECT_ENCH} and higher leaves the warehouse only by its own single pick`); continue; }
+      // PLUS10PICK-2026-10-25 (owner: "Offcause you should be allowed to do it, but NEVER automatically"): +10 and higher only with the owner's extra tick
+      if (p.enchant >= PROTECT_ENCH && !b.plus10Ok) { skip.push(`${r.name} +${p.enchant}: +${PROTECT_ENCH} and higher leaves the warehouse only when you tick the +${PROTECT_ENCH} warning`); continue; }
       if (p.enchant > safe) whOver.push(`${r.name} +${p.enchant}`);
     }
     if (r.common) { skip.push(`${r.name}: Common items cannot be enchanted`); continue; }
@@ -350,7 +351,7 @@ async function enchantMany(ctx, b) {
     const cur = Number(r.enchant) || 0; if (cur >= to) { skip.push(`${r.name} is already +${cur}`); continue; }
     const scroll = IL.scrollFor(r.kind, r.grade, blessed); if (!scroll) { skip.push(`${r.name}: no scroll for it`); continue; }
     need[scroll] = (need[scroll] || 0) + (to - cur);
-    list.push({ src: p.src, objId: p.src === 'bag' ? p.objId : 0, id: r.id, name: r.name, from: cur, to, scroll, kind: r.kind, grade: r.grade, chance: IL.chanceTo(cur, to, r.kind, !!r.full, R) });
+    list.push({ src: p.src, objId: p.src === 'bag' ? p.objId : 0, id: r.id, name: r.name, from: cur, to, scroll, kind: r.kind, grade: r.grade, chance: IL.chanceTo(cur, to, r.kind, !!r.full, R), plus10: p.src !== 'bag' && cur >= PROTECT_ENCH && !!b.plus10Ok });   // PLUS10PICK: the owner's own pick
   }
   const fromClan = list.some(x => x.src === 'clan'), CL = clanLeader(ctx);
   if (fromClan && !CL) return { code: 409, error: 'No clan leader known: nobody can take things out of the clan warehouse.' };
@@ -381,7 +382,7 @@ async function enchantMany(ctx, b) {
   const steps = scrollNeeds.map(n => `take ${n.need - n.from.bag}× ${n.what} out of the ${n.from.clan ? (n.from.wh ? 'warehouse + clan warehouse' : 'clan warehouse') : 'warehouse'}${n.from.clan && CL && CL !== name ? ` (${CL} hands them over)` : ''}`)
     .concat(list.map(x => `${takeTxt(x)}enchant ${x.name} +${x.from} → +${to} (chance ${IL.pct(x.chance)})`)).concat(short.length ? [`scrolls may run out: ${short.join(', ')}`] : []).concat(skip.map(s => `skipped: ${s}`));
   const J = { id, doer: name, item: { src: list[0].src, id: list[0].id, objId: list[0].objId, enchant: list[0].from, name: `${list.length} item(s) to +${to}`, kind: list[0].kind, grade: list[0].grade },
-    enchantMany: list.map(x => ({ src: x.src, objId: x.objId, id: x.id, from: x.from, name: x.name, to, scroll: x.scroll })), overSafeOk: !!b.overSafeOk, clanLeader: CL, needs: scrollNeeds, steps, created: isoNow(), by: String(b.by || 'dashboard').slice(0, 40) };
+    enchantMany: list.map(x => Object.assign({ src: x.src, objId: x.objId, id: x.id, from: x.from, name: x.name, to, scroll: x.scroll }, x.plus10 ? { plus10: true } : {})),   /* PLUS10PICK */ overSafeOk: !!b.overSafeOk, clanLeader: CL, needs: scrollNeeds, steps, created: isoNow(), by: String(b.by || 'dashboard').slice(0, 40) };
   fs.mkdirSync(JOBDIR(ctx), { recursive: true });
   fs.writeFileSync(path.join(JOBDIR(ctx), id + '.json'), JSON.stringify(J, null, 1));
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}	items	job ${id}: ${steps.join(' / ').slice(0, 400)}	${J.by}

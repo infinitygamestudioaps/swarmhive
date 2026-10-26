@@ -57,7 +57,7 @@ check(/const SEE_FAR = 3000, SEE_BUDGET = 40;/.test(src) && /if \(typeof GeoSigh
 // round the corner); firing does: srvAttack and castOn refuse a monster behind a wall
 check(!/function assistView\(m\)[^\n]*\n[^\n]*\n[^\n]*canSee\(m\)/.test(src) && /async function castOn\([\s\S]{0,400}mobById\(creature\.objId\); if \(m && !canSee\(m\)\)/.test(src) && /function srvAttack\(id\)[^\n]*!canSee\(m\)/.test(src), 'C6 assist: the leader\'s target may be chosen behind a corner, but no hit or cast goes through a wall');
 check(/bossMinions\(boss, 2500\)\.filter\(m => canSee\(m\)\)/.test(src), 'C7 the raid tank only goes for minions in sight');
-check(/async function raidDealer\([\s\S]{0,4500}if \(!canSee\(tgt\)\) \{/.test(src), 'C8 raid dealers never attack the focus through a wall');
+check(/async function raidDealer\([\s\S]{0,7000}if \(!canSee\(tgt\)\) \{/.test(src), 'C8 raid dealers never attack the focus through a wall');   // 4500 -> 7000: LEADPULL-2026-10-25 added the leader's Frenzy wait above it
 check(/function healTargets\(\)[\s\S]{0,1600}canSee\(\{ x: t\.x, y: t\.y/.test(src), 'C9 healers never heal through a wall');
 check(/async function openNpcInner\([\s\S]{0,1200}Distance\(npc\) > 250 && !canSee\(npc\)/.test(src), 'C10 NPC talk: behind a wall -> walk round first');
 check(/function mtHelpTarget\([\s\S]{0,600}!canSee\(m\)/.test(src) && /function mtLeashFight\([\s\S]{0,700}canSee\(m\)\)/.test(src), 'C11 the team walk\'s fights only take monsters in sight');

@@ -19,6 +19,13 @@
   const iText = (e) => { try { return intentText(e); } catch (e2) { return e.action + ': ' + (e.detail || ''); } };
   /** "1m05s" / "45 s" / "2h10" */
   const dur = (ms) => { const s = secs(ms); return s < 60 ? s + ' s' : s < 3600 ? Math.floor(s / 60) + 'm' + String(s % 60).padStart(2, '0') + 's' : Math.floor(s / 3600) + 'h' + String(Math.floor(s % 3600 / 60)).padStart(2, '0'); };
+  // AGETICK-2026-10-25 (owner: "fix the parties page lag too"): a running age in a card's HTML ("≥ 16 s") made all 23 cards new every refresh,
+  // so the whole page was parsed + morphed every second. ageHtml writes the START time (rounded to 2 s) and no text; one ticker fills the text
+  // every second, and patch() keeps a ticking span whose start did not change
+  const ageHtml = (ms, pre, post) => { if (ms == null || !isFinite(+ms)) return ''; const at = Math.round((srvNow() - Number(ms)) / 2000) * 2000;
+    return `<span class="lvat" data-lvat="${at}"${pre ? ` data-lvpre="${String(pre).replace(/"/g, '&quot;')}"` : ''}${post ? ` data-lvpost="${String(post).replace(/"/g, '&quot;')}"` : ''}></span>`; };
+  const tickAges = () => { try { const t = srvNow(); document.querySelectorAll('[data-lvat]').forEach(e => { const v = (e.dataset.lvpre || '') + dur(Math.max(0, t - Number(e.dataset.lvat))) + (e.dataset.lvpost || ''); if (e.textContent !== v) e.textContent = v; }); } catch (e) { } };
+  setInterval(() => { if (!document.hidden) tickAges(); }, 1000);
   const fmtAge = (s) => { s = Math.max(0, s | 0); return s < 90 ? s + ' s' : s < 5400 ? Math.round(s / 60) + ' min' : Math.round(s / 3600) + ' h'; };
   const ord = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
 
@@ -115,7 +122,7 @@
     const head = tr.done || tr.failed ? (tr.role === 'give' ? `Traded with <b>${esc(tr.other)}</b>: gave` : `Traded with <b>${esc(tr.other)}</b>: received`)
       : (tr.role === 'give' ? `Trading with <b>${esc(tr.other)}</b>: giving` : `Trading with <b>${esc(tr.other)}</b>: receiving`);
     const age = !tr.done && !tr.failed && tr.stageAt ? srvNow() - tr.stageAt : 0;
-    return `${head}${w}${tr.fund ? ' (fund round)' : ''} <span class="${tr.failed ? 'bad' : tr.done ? 'ok' : ''}">(${tr.text}${age > 10000 ? ' · ' + dur(age) : ''})</span>`;
+    return `${head}${w}${tr.fund ? ' (fund round)' : ''} <span class="${tr.failed ? 'bad' : tr.done ? 'ok' : ''}">(${tr.text}${age > 10000 ? ageHtml(age, ' · ') : ''})</span>`;
   }
 
   // ------------------------------------------------------------------ team steps (the leader's step as a member runs it) -------------
@@ -231,7 +238,7 @@
   }
 
   window.Activity = {
-    member, tradeOf, tradeLine, stageText, STAGES, teamStepOf, stepLabel, route, walkIntent, track, stuck, stillSec, live, dur, whoList, srvNow, T,
+    member, tradeOf, tradeLine, stageText, STAGES, teamStepOf, stepLabel, route, walkIntent, track, stuck, stillSec, live, dur, whoList, srvNow, T, ageHtml, tickAges,
     setSkew(ms) { if (isFinite(ms)) A.skew = ms; }, get skew() { return A.skew; }, _A: A,
   };
 })();

@@ -411,6 +411,14 @@ function splitNpcTarget(s) {
 // the 2100 files of Logs + read ~70 state files: the list is built at most once per second now (file names at most every 3 s), each caller
 // gets its own shallow copies (handlers add / change top-level fields) with a fresh ageSec
 let RS_CACHE = { at: 0, list: null }, RS_DIR = { at: 0, names: [] };
+// CLASSROT-2026-10-26: the Combat page API reloads itself when its files change (no dashboard restart = no 79-context reboot for a page fix)
+let CLASSROT_HOT = { sig: '', mod: null };
+function classrotApi() {
+  const files = ['classrot_api.js', 'classrot_logic.js'].map(f => path.join(__dirname, f));
+  let sig = ''; try { sig = files.map(f => fs.statSync(f).mtimeMs).join('|'); } catch (e) { }
+  if (!CLASSROT_HOT.mod || sig !== CLASSROT_HOT.sig) { files.forEach(f => { try { delete require.cache[require.resolve(f)]; } catch (e) { } }); CLASSROT_HOT = { sig, mod: require('./classrot_api') }; }
+  return CLASSROT_HOT.mod;
+}
 function readStates() {
   if (!RS_CACHE.list || Date.now() - RS_CACHE.at > 1000) RS_CACHE = { at: Date.now(), list: readStatesFresh() };
   const now = Date.now();
@@ -2557,7 +2565,9 @@ http.createServer(async (req, res) => {
     // MARKET 2026-10-14 (Dashboard/marketpage_api.js): /marketpage.js|css (public) + GET /api/market (key checked inside)
     if (await require('./marketpage_api').handle(req, res, url, { DIR: __dirname, LOGS, readJson, allowed, json, send })) return;
     // FRENZY KIT 2026-10-14 (Dashboard/frenzykit_api.js): GET /api/frenzykit?name= — what a destroyer has / lacks for the HP-swap Frenzy (key checked inside)
-    if (await require('./frenzykit_api').handle(req, res, url, { DATA, LOGS, readJson, readStates, teamMap, allowed, json, send })) return;
+    if (await require('./frenzykit_api').handle(req, res, url, { DATA, LOGS, readJson, readStates, teamMap, allowed, json, send, commandRun })) return;   // KITGET: + commandRun
+    // CLASSROT-2026-10-26 (Dashboard/classrot_api.js): GET /api/classrot, /api/classrot/line?name=, POST /api/classrot/set — the class guide rows under #/combat
+    if (await classrotApi().handle(req, res, url, { DATA, LOGS, readStates, allowed, json, send })) return;   // hot: a changed classrot_api.js / classrot_logic.js loads without a dashboard restart
     // OUR CRAFTER 2026-10-15 (Dashboard/crafter_api.js): /crafterpanel.js|css (public) + GET/POST /api/crafter (key checked inside): the Dwarf crafter that
     // keeps shots in stock and supplies parties first in their supply runs (Scripts/data/crafter_rules.json, read live by swarm.js CRAFT-PURE)
     if (await require('./crafter_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;   // CRAFTITEMS-2026-10-15: + body / mcpCallChar / commandRun (hand-ins, crystallize)

@@ -120,10 +120,17 @@
   }
   /** a preset on the givers' bags -> { sel, adena } */
   function trApplyPreset(p, bags) {
-    const sel = {}, adena = {};
+    const sel = {}, adena = {}, lim = {};   // PRESETQTY-2026-10-26: a preset with items [{id, count}] ticks at most that many per giver
+    (p.items || []).forEach(x => { const id = num(x && x.id), c = num(x && x.count); if (id && c > 0) lim[id] = c; });
     Object.keys(bags || {}).forEach(n => {
-      const m = sel[n] = {};
-      ((bags[n] && bags[n].rows) || []).forEach(r => { if (trPresetPick(p, r)) m[r.objId] = r.count; });
+      const m = sel[n] = {}, left = Object.assign({}, lim);
+      ((bags[n] && bags[n].rows) || []).forEach(r => {
+        if (left[r.id] !== undefined && r.ok && !(p.exclude || []).some(x => num(x) === r.id) && !(p.cats || []).includes(r.cat)) {
+          if (left[r.id] > 0) { const c = Math.min(num(r.count) || 1, left[r.id]); m[r.objId] = c; left[r.id] -= c; }
+          return;
+        }
+        if (trPresetPick(p, r)) m[r.objId] = r.count;
+      });
       const a = Math.min(num(p.adena), num(bags[n] && bags[n].adena));
       if (a > 0) adena[n] = a;
     });

@@ -293,7 +293,8 @@ check(ha > 0 && hb > ha, 'host slice found (castEvt ... castNow)');
 function mockHost(server) {
   const T0 = Date.now();
   const env = {
-    now: () => Date.now(), sleep: (ms) => new Promise(res => setTimeout(res, Math.max(1, ms))), num: (v) => Number(v) || 0,
+    now: () => Date.now(), crBlocked: () => false, // CLASSROT: the castNow never-guard (no guide plan here)
+    sleep: (ms) => new Promise(res => setTimeout(res, Math.max(1, ms))), num: (v) => Number(v) || 0,
     Me: { get IsCasting() { return server.casting && Date.now() < server.castUntil; }, get MP() { return server.mp; }, MAtkSpd: 333, PAtkSpd: 333 },
     SkillsList: { GetItemByID: (id) => ({ Id: id }) }, skillPlan: { attacks: [{ id: 1178, name: 'Twister' }, { id: 1266, name: 'Shadow Spark' }] },
     Send: { RequestMagicSkillUse: (id) => server.request(id) },

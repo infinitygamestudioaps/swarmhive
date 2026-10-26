@@ -138,6 +138,11 @@ const ctxQ = { name: 'Dagger1', crafter: false, createLvl: 0, commonLvl: 0, keep
   // modes
   const it = (id, name, o) => Object.assign({ id, objId: 1000 + id, name, count: 1, stackable: true }, o || {});
   const cAll = Object.assign({}, ctxQ, { mode: 'all' }), cOff = Object.assign({}, ctxQ, { mode: 'off' });
+  // ENCHSTORE-2026-10-25 (owner: "things that we enchant should be put back in clan warehouse"): the JOBKEEP keep rules are gone - a +10 piece is stored like any other
+  { const sw = it(84, "Homunkulus's Sword", { stackable: false, gear: true, enchant: 10, objId: 275605849 });
+    check(M.stashClassify(sw, cAll).act === 'deposit', 'ENCHSTORE: a +10 piece goes into the warehouse (mode all)');
+    check(M.stashClassify(sw, Object.assign({}, cAll, { jobKeep: new Set([275605849]) })).act === 'deposit', 'ENCHSTORE: an item job mark no longer keeps it in the bag'); }
+  check(src.includes('async function ijStoreClan(objIds, id)') && src.includes('const st = await ijStoreClan(kept, id)') && src.includes('const st = await ijStoreClan(back, id)'), 'ENCHSTORE: buy/craft + enchant and Enchant several put the pieces into the clan warehouse at the end');
   check(M.stashClassify(it(999999, 'Strange Thing'), cAll).act === 'deposit' && M.stashClassify(it(1661, 'Thief Key'), cAll).act === 'keep', 'mode all: unknown kinds go in, the rule keep list still wins (Thief Key)');
   check(['Scroll of Escape', 'Greater Healing Potion', 'Soulshot: D-grade', 'Steel Arrow', 'Antidote'].every((n, i) => M.stashClassify(it(70000 + i, n), cAll).act === 'keep') && M.stashClassify(it(736, 'Scroll of Escape'), cAll).act === 'keep', 'mode all: my consumables stay');
   check(M.stashClassify(it(1, 'Sword', { equipped: true }), cAll).act === 'keep' && M.stashClassify(it(2, 'Quest Thing', { quest: true }), cAll).act === 'keep' && M.stashClassify(it(57, 'Adena'), cAll).act === 'keep', 'mode all: equipped / quest / adena stay');

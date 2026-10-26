@@ -384,7 +384,12 @@
   const E = { open: false, who: '', jobs: [], idsAt: 0, ids: [], db: null, timer: 0, busy: false, err: '', openOld: {},
     // NEW ENCHANT builder (owner 2026-10-20: "SUPER easy to select multiple items and then select what ++ you want them to ... extremely easy"):
     // who -> tap items (bag + warehouse + clan warehouse in ONE grid) -> +N -> one button
-    chars: null, pick: '', d: null, sel: {}, to: 0, bl: false, ok: false, kind: 'all', grade: 'all', q: '', sending: false };
+    chars: null, pick: '', d: null, sel: {}, to: 0, bl: false, ok: false, kind: 'all', grade: 'all', q: '', sending: false,
+    // ENCHBUY-2026-10-25 (owner: "Under /enchanting it should be possible to ask it to purchase x amount of something from a store and enchant it"):
+    // step 2 'Buy in a shop' = every adena item of the Giran shops as tiles -> how many -> +N -> the same make job as Upgrade (/api/upgrade/make/*)
+    src: 'have', shops: null, buy: null, cnt: 10, buyRows: [],
+    // UNSEALPICK-2026-10-25 (owner: "why cant i select items in clan warehouse and unseal them????"): step 2 '🔓 Unseal' = the sealed pieces
+    us: null, usFor: '', usSel: {} };
   const $id = (i) => document.getElementById(i);
   const h = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const ico = (p) => typeof iconUrl === 'function' ? iconUrl(p) : '/icons/' + p + '.png';
@@ -423,7 +428,7 @@
         const old = E.jobs.find(j => j.id === id);
         if (old && old.final && Date.now() - old.at < 600000) { out.push(old); continue; }   // a finished job does not change
         let r = null; try { r = await api('/api/items/job?id=' + encodeURIComponent(id)); } catch (e) { }
-        if (!r || r.error || !r.job || !(r.job.enchantMany || r.job.enchant)) continue;
+        if (!r || r.error || !r.job || !(r.job.enchantMany || r.job.enchant || (r.job.make && Number(r.job.make.enchantTo) > 0))) continue;   // ENCHBUY: + buy / craft and enchant jobs
         const v = model(r.job, r.status || {}, (E.hist || {})[id]); v.at = Date.now(); out.push(v);
       }
       // ENCHSYNC-2026-10-22 (owner: "/enchanting is not updating the enchantment process with clan warehouse status and items ... it does not match up with the
@@ -433,12 +438,16 @@
       for (const v of out) {
         if (!(v.interrupted || !v.final) || !v.items.some(x => x.st === 'waiting' || x.st === 'stopped')) continue;
         const C = await doerNow(v.doer); if (!C) continue;
-        const avail = {}; const add = (r, where) => { const k = r.name.replace(/^\+\d+\s+/, '') + '|' + (Number(r.enchant) || 0); (avail[k] = avail[k] || []).push(where); };
-        (C.bag || []).forEach(r => add(r, 'bag')); (C.wh || []).forEach(r => add(r, 'warehouse')); (C.clan || []).forEach(r => { for (let k = 0; k < Math.max(1, Number(r.count) || 1); k++) add(r, 'clan warehouse'); });
+        // ENCHPERF-2026-10-25: one { where, n } per stack (was one array entry PER PIECE: the clan warehouse's 100k-piece material stacks = millions of
+        // pushes every 3 s while a job ran -> the page froze ~5 s at a time); only the rows whose name a waiting item has are counted at all
+        const want = new Set(v.items.map(x => x.name)), avail = {};
+        const add = (r, where, n) => { const nm = String(r.name || '').replace(/^\+\d+\s+/, ''); if (!want.has(nm)) return; const k = nm + '|' + (Number(r.enchant) || 0); (avail[k] = avail[k] || []).push({ where, n }); };
+        (C.bag || []).forEach(r => add(r, 'bag', 1)); (C.wh || []).forEach(r => add(r, 'warehouse', 1)); (C.clan || []).forEach(r => add(r, 'clan warehouse', Math.max(1, Number(r.count) || 1)));
+        const take = (L) => { while (L && L.length && !(L[0].n > 0)) L.shift(); if (!L || !L.length) return ''; L[0].n--; return L[0].where; };
         v.items.forEach(x => {
           if (x.st !== 'waiting' && x.st !== 'stopped') return;
-          const lv = x.st === 'stopped' ? x.lvl : x.from, L = avail[x.name + '|' + lv];
-          if (L && L.length) { const where = L.shift(); x.here = where; x.why = (x.why ? x.why + ' · ' : '') + 'in the ' + (where === 'bag' ? v.doer + "'s bag" : where) + ' now' + (lv ? ' at +' + lv : ''); }
+          const lv = x.st === 'stopped' ? x.lvl : x.from, where = take(avail[x.name + '|' + lv]);
+          if (where) { x.here = where; x.why = (x.why ? x.why + ' · ' : '') + 'in the ' + (where === 'bag' ? v.doer + "'s bag" : where) + ' now' + (lv ? ' at +' + lv : ''); }
           else { x.st = 'gone'; x.why = 'not in the ' + (x.src === 'clan' ? 'clan warehouse' : x.src === 'bag' ? v.doer + "'s bag" : 'warehouse') + ' any more (used, sold or lost after this job)'; }
         });
         v.c.wait = v.items.filter(x => x.st === 'waiting').length; v.c.gone = v.items.filter(x => x.st === 'gone').length;
@@ -464,7 +473,8 @@
   /** the job file + its step list -> { id, doer, to, items: [{ name, id, src, from, to, st, lvl, brokeAt, why }], scrolls, counts, ... } */
   function model(J, ST, logSteps) {
     const many = Array.isArray(J.enchantMany) && J.enchantMany.length;
-    const items = (many ? J.enchantMany : [{ name: J.item.name, id: J.item.id, src: J.item.src, from: J.item.enchant || 0, to: J.enchant ? J.enchant.to : 0 }])
+    const made = !many && J.make && Number(J.make.enchantTo) > 0;   // ENCHBUY: a buy / craft + enchant job: one row per piece
+    const items = (made ? Array.from({ length: Math.max(1, Number(J.make.count) || 1) }, () => ({ name: J.make.name, id: J.make.id, src: 'bag', from: 0, to: Number(J.make.enchantTo) })) : many ? J.enchantMany : [{ name: J.item.name, id: J.item.id, src: J.item.src, from: J.item.enchant || 0, to: J.enchant ? J.enchant.to : 0 }])
       .map(x => ({ name: x.name, id: x.id, src: x.src || 'bag', from: Number(x.from) || 0, to: Number(x.to) || 0, st: 'waiting', lvl: Number(x.from) || 0, brokeAt: 0, why: '', t0: '', t1: '' }));
     const names = new Set(items.map(x => x.name));
     const steps = [], seen = [];
@@ -518,6 +528,10 @@
   const gKey = (g) => /^S\d*$/.test(String(g || '')) ? 'S' : String(g || 'NONE');
   const GCOL = { D: '#5aa0ff', C: '#55c271', B: '#d6b64a', A: '#e2873c', S: '#e24c4c' };
   const canE = (r) => r && r.kind && gKey(r.grade) !== 'NONE' && !r.common && !(r.src !== 'bag' && (Number(r.enchant) || 0) >= 10);
+  // ENCHSHOW-2026-10-25 (owner: "Why cant i see them under /enchanting?" - Dagger1's two +10 Homunkulus's Swords in the clan warehouse): a warehouse
+  // piece at +10 or higher is SHOWN (locked: the hive never takes +10 or higher out of a warehouse), it only cannot be picked
+  const lockedE = () => false;   // PLUS10PICK-2026-10-25 (owner: "Offcause you should be allowed to do it, but NEVER automatically"): pickable, with the extra +10 tick
+  const plus10 = (r) => r && r.src !== 'bag' && (Number(r.enchant) || 0) >= 10;
   async function loadChars() { try { const d = await api('/api/items/chars'); if (d && !d.error) { E.chars = d; if (!E.pick) { const cl = (d.chars || []).find(c => c.clanLeader); E.pick = E.who || (cl && cl.name) || ''; if (E.pick) loadPick(); } } } catch (e) { } render(); }
   async function loadPick() {
     if (!E.pick) return; const nm = E.pick;
@@ -529,28 +543,34 @@
     const d = E.d; if (!d) return [];
     const out = [], by = {};
     (d.bag || []).filter(r => canE(Object.assign({ src: 'bag' }, r))).forEach(r => out.push({ key: 'o' + r.objId, src: 'bag', id: r.id, objId: r.objId, name: r.name, enchant: Number(r.enchant) || 0, grade: gKey(r.grade), kind: r.kind, max: 1, eq: !!r.eq }));
-    ['wh', 'clan'].forEach(src => (d[src] || []).forEach(r => { const x = Object.assign({ src }, r); if (!canE(x)) return; const k = `${src}:${r.id}:${Number(r.enchant) || 0}`;
-      if (by[k]) by[k].max += Number(r.count) || 1; else out.push(by[k] = { key: k, src, id: r.id, objId: 0, name: r.name, enchant: Number(r.enchant) || 0, grade: gKey(r.grade), kind: r.kind, max: Number(r.count) || 1 }); }));
+    ['wh', 'clan'].forEach(src => (d[src] || []).forEach(r => { const x = Object.assign({ src }, r); const lk = lockedE(x); if (!canE(x) && !lk && !(plus10(x) && r.kind && gKey(r.grade) !== 'NONE' && !r.common)) return; const k = `${src}:${r.id}:${Number(r.enchant) || 0}`;
+      if (by[k]) by[k].max += Number(r.count) || 1; else out.push(by[k] = { key: k, src, id: r.id, objId: 0, name: r.name, enchant: Number(r.enchant) || 0, grade: gKey(r.grade), kind: r.kind, max: Number(r.count) || 1, locked: lk }); }));
     const KO = { weapon: 0, armor: 1, jewel: 2 };
     return out.sort((a, b) => (KO[a.kind] ?? 3) - (KO[b.kind] ?? 3) || GRADES.indexOf(b.grade) - GRADES.indexOf(a.grade) || a.name.localeCompare(b.name) || a.enchant - b.enchant || a.src.localeCompare(b.src));
   }
   const shown = () => stock().filter(r => (E.kind === 'all' || r.kind === E.kind) && (E.grade === 'all' || r.grade === E.grade) && (!E.q || r.name.toLowerCase().includes(E.q.toLowerCase())));
-  const selRows = () => stock().filter(r => E.sel[r.key] > 0);
+  const selRows = () => stock().filter(r => E.sel[r.key] > 0 && !r.locked);
   const selCount = () => selRows().reduce((n, r) => n + Math.min(E.sel[r.key], r.max), 0);
   function builder() {
     const C = (E.chars && E.chars.chars) || [];
     const who = `<div class="itp-step"><span class="itp-num">1</span> Who enchants?</div><div class="enp-who">${C.filter(c => c.online || c.name === E.pick || c.clanLeader).map(c => `<button type="button" class="itp-chip${c.name === E.pick ? ' on' : ''}" data-enpwho="${h(c.name)}">${h(c.name)}${c.clanLeader ? ' ' + gim('icon/accessory_pledge_cap1_i00') : ''}</button>`).join('') || '<span class="muted">Loading…</span>'}</div>`;
     if (!E.pick) return who;
-    if (!E.d) return who + '<div class="muted">Loading the items…</div>';
+    const modes = `<div class="itp-filters">${[['have', 'Items we have'], ['buy', '🛒 Buy in a shop'], ['unseal', '🔓 Unseal']].map(([k, t]) => `<button type="button" class="itp-chip${E.src === k ? ' on' : ''}" data-enpsrc="${k}">${t}</button>`).join('')}</div>`;
+    if (E.src === 'buy') return who + modes + buyBuilder();
+    if (E.src === 'unseal') return who + modes + unsealBuilder();
+    if (!E.d) return who + modes + '<div class="muted">Loading the items…</div>';
     const rows = shown(), n = selCount(), sel = selRows();
     const minCur = sel.length ? Math.min(...sel.map(r => r.enchant)) : 0;
     const whOver = sel.filter(r => r.src !== 'bag' && r.enchant > SAFE);
     const danger = E.to > SAFE || whOver.length > 0;
-    const tile = (r) => { const k = E.sel[r.key] || 0;
+    const p10 = sel.filter(plus10);   // PLUS10PICK: the owner's own +10 picks need their own tick
+    const tile = (r) => { const k = r.locked ? 0 : (E.sel[r.key] || 0);
+      if (r.locked) return `<div class="enp-tile enp-locked" title="${h(r.name)} +${r.enchant} — in the ${r.src === 'clan' ? 'clan ' : ''}warehouse. The hive never takes +10 or higher out of a warehouse: take it out by hand to enchant it further."><span class="itp-ic"><img src="${ico(iconOf(r.id))}" alt="" loading="lazy"><b class="itp-en">+${r.enchant}</b>${r.max > 1 ? `<b class="itp-n">×${r.max}</b>` : ''}</span>
+        <span class="itp-nm">${h(r.name)}</span><span class="itp-sub"><span class="itp-g" style="background:${GCOL[r.grade] || '#777'}">${h(r.grade)}</span><span class="enp-src">🔒 ${r.src === 'clan' ? 'clan wh' : 'warehouse'}</span></span></div>`;
       return `<button type="button" class="enp-tile${k ? ' on' : ''}" data-enpsel="${h(r.key)}" title="${h(r.name)}"><span class="itp-ic"><img src="${ico(iconOf(r.id))}" alt="" loading="lazy">${r.enchant ? `<b class="itp-en">+${r.enchant}</b>` : ''}${r.max > 1 ? `<b class="itp-n">×${r.max}</b>` : ''}</span>
         <span class="itp-nm">${h(r.name)}</span><span class="itp-sub"><span class="itp-g" style="background:${GCOL[r.grade] || '#777'}">${h(r.grade)}</span><span class="enp-src">${r.src === 'bag' ? (r.eq ? 'worn' : 'bag') : r.src === 'clan' ? 'clan wh' : 'warehouse'}</span></span>
         ${k ? `<span class="enp-ck">✓${r.max > 1 ? ' ' + k + '/' + r.max : ''}</span>` : ''}</button>${k && r.max > 1 ? `<span class="enp-step"><button type="button" data-enpless="${h(r.key)}">−</button><button type="button" data-enpmore="${h(r.key)}">+</button></span>` : ''}`; };
-    return who + `
+    return who + modes + `
       <div class="itp-step"><span class="itp-num">2</span> Tap the items <span class="enp-cnt">${n} picked</span></div>
       <div class="itp-filters">${[['all', 'All'], ['armor', 'Armor'], ['weapon', 'Weapons'], ['jewel', 'Jewels']].map(([k, t]) => `<button type="button" class="itp-chip${E.kind === k ? ' on' : ''}" data-enpkind="${k}">${t}</button>`).join('')}
         ${['all', 'D', 'C', 'B', 'A', 'S'].map(g => `<button type="button" class="itp-chip${E.grade === g ? ' on' : ''}" data-enpgrade="${g}">${g === 'all' ? 'Every grade' : g}</button>`).join('')}</div>
@@ -561,8 +581,98 @@
       <div class="itp-plus">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16].filter(v => v > minCur).map(v => `<button type="button" class="itp-pl${E.to === v ? ' on' : ''}${v > SAFE ? ' risky' : ''}" data-enpto="${v}">+${v}</button>`).join('')}</div>
       <label class="itp-check"><input type="checkbox" data-enpbl="1"${E.bl ? ' checked' : ''}> Blessed scrolls (a fail drops it to +0 instead of destroying it)</label>
       ${danger ? `<div class="itp-danger" style="padding:8px;margin:6px 0">${E.to > SAFE ? `Above the safe +${SAFE}: ${E.bl ? 'every fail drops the item to +0' : 'every fail DESTROYS the item'}.` : ''}${whOver.length ? ` ${whOver.map(r => h(r.name) + ' +' + r.enchant).join(', ')} ${whOver.length === 1 ? 'is' : 'are'} above +${SAFE} and leave${whOver.length === 1 ? 's' : ''} the warehouse only because you pick ${whOver.length === 1 ? 'it' : 'them'}.` : ''}<label class="itp-check"><input type="checkbox" data-enpok="1"${E.ok ? ' checked' : ''}> I understand the risk and want this anyway</label></div>` : ''}
-      <button type="button" class="itp-go enp-go" data-enpgo="1"${!n || !E.to || (danger && !E.ok) || E.sending ? ' disabled' : ''}>${E.sending ? 'Starting…' : n && E.to ? `Enchant ${n} item${n === 1 ? '' : 's'} to +${E.to}` : !n ? 'Tap the items first' : 'Pick the + level'}</button>
+      ${p10.length ? `<div class="itp-danger" style="padding:8px;margin:6px 0">${p10.map(r => h(r.name) + ' +' + r.enchant).join(', ')}: +10 and higher are never taken out automatically — only because you pick ${p10.length === 1 ? 'it' : 'them'} here. A fail DESTROYS ${p10.length === 1 ? 'it' : 'them'}${E.bl ? ' (blessed: back to +0)' : ''}.
+        <label class="itp-check"><input type="checkbox" data-enpok10="1"${E.ok10 ? ' checked' : ''}> Yes, take my +10 pick${p10.length === 1 ? '' : 's'} out of the warehouse</label></div>` : ''}
+      <button type="button" class="itp-go enp-go" data-enpgo="1"${!n || !E.to || (danger && !E.ok) || (p10.length && !E.ok10) || E.sending ? ' disabled' : ''}>${E.sending ? 'Starting…' : n && E.to ? `Enchant ${n} item${n === 1 ? '' : 's'} to +${E.to}` : !n ? 'Tap the items first' : 'Pick the + level'}</button>
       <div class="itp-note">Items in a warehouse are taken out first (in Giran); missing scrolls can come from the warehouses too — you are asked before anything is taken. Up to +${SAFE} is safe.</div>`;
+  }
+  async function loadShops() {
+    if (E.shops) return; E.shops = 'loading';
+    try { const d = await api('/api/items/shops'); E.shops = [].concat(...((d && d.shops) || []).map(x => x.rows)).filter(r => !r.cost && r.kind && r.offer && gKey(r.grade) !== 'NONE' && !r.common); } catch (e) { E.shops = []; E.err = e.message; }
+    render();
+  }
+  const kmb = (n) => n >= 1e9 ? (n / 1e9).toFixed(1) + 'b' : n >= 1e6 ? (n / 1e6).toFixed(1) + 'm' : n >= 1e3 ? Math.round(n / 1e3) + 'k' : String(n);
+  function buyBuilder() {
+    if (!Array.isArray(E.shops)) { loadShops(); return '<div class="muted">Loading the Giran shops…</div>'; }
+    const seen = new Set();
+    const rows = E.shops.filter(r => (E.kind === 'all' || r.kind === E.kind) && (E.grade === 'all' || gKey(r.grade) === E.grade) && (!E.q || r.name.toLowerCase().includes(E.q.toLowerCase())))
+      .filter(r => { const k = r.id + '|' + r.npc; if (seen.has(k)) return false; seen.add(k); return true; })
+      .sort((a, b) => GRADES.indexOf(gKey(b.grade)) - GRADES.indexOf(gKey(a.grade)) || a.price - b.price || a.name.localeCompare(b.name));
+    E.buyRows = rows;
+    const B = E.buy, isB = (r) => !!(B && B.id === r.id && B.npc === r.npc), cost = B ? Math.ceil(B.price * E.cnt * 1.2) : 0, danger = E.to > SAFE;
+    const tile = (r, k) => `<button type="button" class="enp-tile${isB(r) ? ' on' : ''}" data-enpbuy="${k}" title="${h(r.name)} — ${h(r.npc)}"><span class="itp-ic"><img src="${ico(r.icon || iconOf(r.id))}" alt="" loading="lazy"></span>
+        <span class="itp-nm">${h(r.name)}</span><span class="itp-sub"><span class="itp-g" style="background:${GCOL[gKey(r.grade)] || '#777'}">${h(gKey(r.grade))}</span><span class="enp-src">${kmb(r.price)} · ${h(r.npc)}</span></span>${isB(r) ? '<span class="enp-ck">✓</span>' : ''}</button>`;
+    return `
+      <div class="itp-step"><span class="itp-num">2</span> Tap what to buy <span class="enp-cnt">${rows.length} in the Giran shops</span></div>
+      <div class="itp-filters">${[['all', 'All'], ['armor', 'Armor'], ['weapon', 'Weapons'], ['jewel', 'Jewels']].map(([k, t]) => `<button type="button" class="itp-chip${E.kind === k ? ' on' : ''}" data-enpkind="${k}">${t}</button>`).join('')}
+        ${['all', 'D', 'C', 'B', 'A', 'S'].map(g => `<button type="button" class="itp-chip${E.grade === g ? ' on' : ''}" data-enpgrade="${g}">${g === 'all' ? 'Every grade' : g}</button>`).join('')}</div>
+      <div class="itp-filters"><input type="search" class="itp-search" id="enpQ" placeholder="Search, e.g. Homunkulus…" value="${h(E.q)}"></div>
+      <div class="enp-grid">${rows.slice(0, 200).map((r, k) => `<div class="enp-cell">${tile(r, k)}</div>`).join('') || '<div class="muted">Nothing found.</div>'}</div>
+      <div class="itp-step"><span class="itp-num">3</span> How many?</div>
+      <div class="itp-plus">${[1, 2, 3, 5, 10, 20, 50].map(v => `<button type="button" class="itp-pl${E.cnt === v ? ' on' : ''}" data-enpcnt="${v}">${v}×</button>`).join('')}</div>
+      <div class="itp-step"><span class="itp-num">4</span> Enchant to what +?</div>
+      <div class="itp-plus">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16].map(v => `<button type="button" class="itp-pl${E.to === v ? ' on' : ''}${v > SAFE ? ' risky' : ''}" data-enpto="${v}">+${v}</button>`).join('')}</div>
+      ${danger ? `<div class="itp-danger" style="padding:8px;margin:6px 0">Above the safe +${SAFE}: every fail DESTROYS the piece (one try per level).
+        <label class="itp-check"><input type="checkbox" data-enpok="1"${E.ok ? ' checked' : ''}> I know — pieces can break</label></div>` : ''}
+      <button type="button" class="itp-go enp-go" data-enpbuygo="1"${!B || !E.to || (danger && !E.ok) || E.sending ? ' disabled' : ''}>${E.sending ? 'Checking…' : !B ? 'Tap what to buy first' : !E.to ? 'Pick the + level' : `Buy ${E.cnt}× ${h(B.name)} (about ${kmb(cost)}) and enchant to +${E.to}`}</button>
+      <div class="itp-note">${h(E.pick)} walks to the shop in Giran, buys them, then enchants each piece (one try per level; a fail stops that piece). Missing scrolls can come from the warehouses — you see the plan and confirm before anything starts. They stay in ${h(E.pick)}'s bag.</div>`;
+  }
+  async function loadUnseal() {
+    const nm = E.pick; if (!nm || E.usFor === nm) return; E.usFor = nm; E.us = null;
+    let d = null; try { d = await api('/api/upgrade/unseal?name=' + encodeURIComponent(nm)); } catch (e) { d = { error: e.message }; }
+    if (nm !== E.pick) return; E.us = d || { error: 'no answer' }; render();
+  }
+  function unsealBuilder() {
+    if (E.usFor !== E.pick || !E.us) { loadUnseal(); return '<div class="muted">Looking for sealed pieces in the bag, the warehouse and the clan warehouse…</div>'; }
+    if (E.us.error) return `<div class="itp-bad">${h(E.us.error)}</div>`;
+    const L = E.us.pieces || [], sel = L.filter(r => E.usSel[r.key] > 0);
+    let adena = 0, anc = 0; sel.forEach(r => { const c = r.price * Math.min(E.usSel[r.key], r.count); if (r.pay === 57) adena += c; else anc += c; });
+    const n = sel.reduce((t, r) => t + Math.min(E.usSel[r.key], r.count), 0), p10 = sel.filter(r => r.src !== 'bag' && r.enchant >= 10);
+    const short = adena > (E.us.adena || 0) || anc > (E.us.ancient || 0);
+    const where = (r) => r.src === 'clan' ? 'clan wh' : r.src === 'wh' ? 'warehouse' : 'bag';
+    const tile = (r) => { const k = E.usSel[r.key] || 0;
+      return `<button type="button" class="enp-tile${k ? ' on' : ''}" data-ensel="${h(r.key)}" title="${h(r.name)} -> ${h(r.to.name)}"><span class="itp-ic"><img src="${ico(iconOf(r.to.id))}" alt="" loading="lazy">${r.enchant ? `<b class="itp-en">+${r.enchant}</b>` : ''}${r.count > 1 ? `<b class="itp-n">×${r.count}</b>` : ''}</span>
+        <span class="itp-nm">${h(r.to.name)}</span><span class="itp-sub"><span class="itp-g" style="background:${GCOL[gKey(r.to.grade)] || '#777'}">${h(gKey(r.to.grade))}</span><span class="enp-src">${where(r)} · ${kmb(r.price)} ${r.pay === 57 ? '' : 'AA'}</span></span>
+        ${k ? `<span class="enp-ck">✓${r.count > 1 ? ' ' + k + '/' + r.count : ''}</span>` : ''}</button>${k && r.count > 1 ? `<span class="enp-step"><button type="button" data-enless="${h(r.key)}">−</button><button type="button" data-enmore="${h(r.key)}">+</button></span>` : ''}`; };
+    return `
+      <div class="itp-step"><span class="itp-num">2</span> Tap the sealed pieces <span class="enp-cnt">${n} picked · ${L.length} kinds found</span></div>
+      <div class="enp-grid">${L.map(r => `<div class="enp-cell">${tile(r)}</div>`).join('') || '<div class="muted">No sealed pieces in the bag, the warehouse or the clan warehouse.</div>'}</div>
+      <div class="itp-note">Price at Pushkin (Giran): ${adena ? kmb(adena) + ' adena' : ''}${adena && anc ? ' + ' : ''}${anc ? kmb(anc) + ' Ancient Adena' : ''}${!adena && !anc ? 'pick pieces to see the price' : ''} · ${h(E.pick)} has ${kmb(E.us.adena || 0)} adena${anc ? ', ' + kmb(E.us.ancient || 0) + ' Ancient Adena' : ''}.</div>
+      ${short ? '<div class="itp-danger" style="padding:8px;margin:6px 0">Not enough to pay for all of them.</div>' : ''}
+      ${p10.length ? `<div class="itp-danger" style="padding:8px;margin:6px 0">${p10.map(r => h(r.name) + ' +' + r.enchant).join(', ')}: +10 and higher are never taken out automatically — only because you pick them here.
+        <label class="itp-check"><input type="checkbox" data-enpok10="1"${E.ok10 ? ' checked' : ''}> Yes, take my +10 pick out of the warehouse</label></div>` : ''}
+      <button type="button" class="itp-go enp-go" data-enunseal="1"${!n || short || (p10.length && !E.ok10) || E.sending ? ' disabled' : ''}>${E.sending ? 'Checking…' : n ? `Unseal ${n} piece${n === 1 ? '' : 's'}` : 'Tap the sealed pieces first'}</button>
+      <div class="itp-note">${h(E.pick)} goes to Giran, takes the picked pieces out (the clan leader hands out clan warehouse pieces), unseals each at Pushkin, and puts the unsealed pieces of warehouse picks back into the clan warehouse. You see the plan and confirm first.</div>`;
+  }
+  async function unsealGo() {
+    const L = (E.us && E.us.pieces) || [], items = L.filter(r => E.usSel[r.key] > 0).map(r => ({ src: r.src, id: r.id, enchant: r.enchant, count: Math.min(E.usSel[r.key], r.count) }));
+    if (!items.length) return;
+    const body = { name: E.pick, items, plus10Ok: !!E.ok10 };
+    E.sending = true; render();
+    let p = null; try { p = await api('/api/upgrade/unseal/plan', { method: 'POST', body: JSON.stringify(body) }); } catch (e) { p = { error: e.message }; }
+    E.sending = false; render();
+    if (!p || p.error) { uiError((p && p.error) || 'no plan', 'Not started'); return; }
+    const yes = await uiConfirm({ title: `${E.pick}: unseal ${p.pieces.length} piece${p.pieces.length === 1 ? '' : 's'}`, body: [uiP([].concat(p.steps || [], p.warn || []).join('\n'))], confirmText: 'Start' });
+    if (!yes) return;
+    let r = null; try { r = await api('/api/upgrade/unseal/start', { method: 'POST', body: JSON.stringify(body) }); } catch (e) { r = { error: e.message }; }
+    if (!r || r.error) { uiError((r && r.error) || 'not sent', 'Not started'); return; }
+    if (window.UIKit) UIKit.toast(`${E.pick}: unsealing ${p.pieces.length} piece${p.pieces.length === 1 ? '' : 's'}`, { kind: 'ok' });
+    E.usSel = {}; E.ok10 = false; E.usFor = ''; E.us = null; render();
+  }
+  async function buyGo() {
+    const B = E.buy; if (!B || !E.to) return;
+    const body = { name: E.pick, item: { id: B.id, src: 'shop', offer: B.offer, recipe: 0 }, count: E.cnt, enchantTo: E.to, give: [], use: { wh: true, clan: true, buy: false }, overSafeOk: !!E.ok };
+    E.sending = true; render();
+    let p = null; try { p = await api('/api/upgrade/make/plan', { method: 'POST', body: JSON.stringify(body) }); } catch (e) { p = { error: e.message }; }
+    E.sending = false; render();
+    if (!p || p.error) { uiError((p && p.error) || 'no plan', 'Not started'); return; }
+    const lines = [].concat(p.steps || [], p.warn || [], p.overSafe || []);
+    const yes = await uiConfirm({ title: `${E.pick}: buy ${E.cnt}× ${B.name} and enchant to +${E.to}`, body: [uiP(lines.join('\n'))].concat(E.to > SAFE ? [uiNote(`Above +${SAFE} a fail DESTROYS that piece.`)] : []), confirmText: 'Start' });
+    if (!yes) return;
+    let r = null; try { r = await api('/api/upgrade/make/start', { method: 'POST', body: JSON.stringify(body) }); } catch (e) { r = { error: e.message }; }
+    if (!r || r.error) { uiError((r && r.error) || 'not sent', 'Not started'); return; }
+    if (window.UIKit) UIKit.toast(`${E.pick}: buying ${E.cnt}× ${B.name}, then enchanting to +${E.to}`, { kind: 'ok' });
+    E.buy = null; E.ok = false; E.ids = []; E.jobs = []; render(); setTimeout(load, 4000);
   }
   async function go() {
     const rows = selRows(); const n = selCount(); if (!n || !E.to) return;
@@ -571,7 +681,7 @@
     const yes = await uiConfirm({ title: `${E.pick}: enchant ${n} item${n === 1 ? '' : 's'} to +${E.to}`, body: [uiP(list), uiNote(E.to > SAFE ? (E.bl ? `Above +${SAFE} a fail drops an item to +0.` : `Above +${SAFE} a fail DESTROYS that item.`) : `Up to +${SAFE} is safe.`)], confirmText: 'Enchant now' });
     if (!yes) return;
     E.sending = true; render();
-    const send = async (extra) => { try { return await api('/api/items/enchantmany', { method: 'POST', body: JSON.stringify(Object.assign({ name: E.pick, items, to: E.to, blessed: E.bl, overSafeOk: E.ok }, extra || {})) }); } catch (e) { return { error: e.message }; } };
+    const send = async (extra) => { try { return await api('/api/items/enchantmany', { method: 'POST', body: JSON.stringify(Object.assign({ name: E.pick, items, to: E.to, blessed: E.bl, overSafeOk: E.ok, plus10Ok: !!E.ok10 && rows.some(plus10) }, extra || {})) }); } catch (e) { return { error: e.message }; } };
     let r = await send();
     if (r && Array.isArray(r.scrollOptions) && r.scrollOptions.length) {
       const lines = r.scrollOptions.map(o => `${o.name}: needs up to ${o.need} — bag ${o.bag}${o.wh ? ', warehouse ' + o.wh : ''}${o.clan ? ', clan warehouse ' + o.clan : ''}`);
@@ -582,23 +692,31 @@
     if (!r) { render(); return; }
     if (r.error) { uiError(r.error, 'Not started'); render(); return; }
     if (window.UIKit) UIKit.toast(`${E.pick}: enchanting ${n} item${n === 1 ? '' : 's'} to +${E.to}`, { kind: 'ok' });
-    E.sel = {}; E.ok = false; E.ids = []; E.jobs = []; render(); load(); setTimeout(loadPick, 5000);
+    E.sel = {}; E.ok = false; E.ok10 = false; E.ids = []; E.jobs = []; render(); load(); setTimeout(loadPick, 5000);
     setTimeout(() => { try { document.querySelector('.enp-live') && document.querySelector('.enp-live').scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { } }, 1500);
   }
   function onClick(e) {
     const t = e.target; let b;
     if ((b = t.closest('[data-enpresume]'))) { resume(b.dataset.enpresume, b.dataset.enpdoer); return; }
     if ((b = t.closest('[data-enpold]'))) { const id = b.dataset.enpold; E.openOld[id] = !E.openOld[id]; render(); return; }
-    if ((b = t.closest('[data-enpwho]'))) { if (E.pick !== b.dataset.enpwho) { E.pick = b.dataset.enpwho; E.d = null; E.sel = {}; E.to = 0; E.ok = false; render(); loadPick(); } return; }
+    if ((b = t.closest('[data-enpwho]'))) { if (E.pick !== b.dataset.enpwho) { E.pick = b.dataset.enpwho; E.d = null; E.sel = {}; E.to = 0; E.ok = false; E.usSel = {}; E.usFor = ''; E.us = null; render(); loadPick(); } return; }
     if ((b = t.closest('[data-enpless]'))) { const k = b.dataset.enpless; E.sel[k] = Math.max(0, (E.sel[k] || 0) - 1); if (!E.sel[k]) delete E.sel[k]; render(); return; }
     if ((b = t.closest('[data-enpmore]'))) { const k = b.dataset.enpmore, r = stock().find(x => x.key === k); if (r) E.sel[k] = Math.min(r.max, (E.sel[k] || 0) + 1); render(); return; }
     if ((b = t.closest('[data-enpsel]'))) { const k = b.dataset.enpsel, r = stock().find(x => x.key === k); if (!r) return; if (E.sel[k]) delete E.sel[k]; else E.sel[k] = r.max; render(); return; }   // tap = all copies of it; − / + fine-tune
-    if ((b = t.closest('[data-enpall]'))) { shown().forEach(r => { E.sel[r.key] = r.max; }); render(); return; }
+    if ((b = t.closest('[data-enpall]'))) { shown().forEach(r => { if (!r.locked) E.sel[r.key] = r.max; }); render(); return; }
     if (t.closest('[data-enpclear]')) { E.sel = {}; render(); return; }
     if ((b = t.closest('[data-enpkind]'))) { E.kind = b.dataset.enpkind; render(); return; }
     if ((b = t.closest('[data-enpgrade]'))) { E.grade = b.dataset.enpgrade; render(); return; }
     if ((b = t.closest('[data-enpto]'))) { E.to = Number(b.dataset.enpto); render(); return; }
     if (t.closest('[data-enpgo]')) { go(); return; }
+    if ((b = t.closest('[data-enpsrc]'))) { E.src = b.dataset.enpsrc; E.to = 0; E.ok = false; render(); return; }
+    if ((b = t.closest('[data-enpbuy]'))) { const r = E.buyRows[Number(b.dataset.enpbuy)]; if (r) E.buy = (E.buy && E.buy.id === r.id && E.buy.npc === r.npc) ? null : r; render(); return; }
+    if ((b = t.closest('[data-enpcnt]'))) { E.cnt = Number(b.dataset.enpcnt) || 1; render(); return; }
+    if (t.closest('[data-enpbuygo]')) { buyGo(); return; }
+    if ((b = t.closest('[data-ensel]'))) { const k = b.dataset.ensel, r = ((E.us && E.us.pieces) || []).find(x => x.key === k); if (!r) return; if (E.usSel[k]) delete E.usSel[k]; else E.usSel[k] = r.count; render(); return; }   // UNSEALPICK
+    if ((b = t.closest('[data-enless]'))) { const k = b.dataset.enless; E.usSel[k] = Math.max(0, (E.usSel[k] || 0) - 1); if (!E.usSel[k]) delete E.usSel[k]; render(); return; }
+    if ((b = t.closest('[data-enmore]'))) { const k = b.dataset.enmore, r = ((E.us && E.us.pieces) || []).find(x => x.key === k); if (r) E.usSel[k] = Math.min(r.count, (E.usSel[k] || 0) + 1); render(); return; }
+    if (t.closest('[data-enunseal]')) { unsealGo(); return; }
   }
   async function resume(id, doer) {
     const j = E.jobs.find(x => x.id === id); const left = j ? j.items.filter(x => x.st === 'waiting' || x.st === 'stopped').length : 0;
@@ -614,6 +732,7 @@
     if (t.id === 'enpQ') { E.q = t.value; const pos = t.selectionStart; render(); const q = $id('enpQ'); if (q) { q.focus(); try { q.setSelectionRange(pos, pos); } catch (er) { } } return; }
     if (t.dataset.enpbl) { E.bl = t.checked; render(); return; }
     if (t.dataset.enpok) { E.ok = t.checked; render(); return; }
+    if (t.dataset.enpok10) { E.ok10 = t.checked; render(); return; }
   }
 
   // ---------------------------------------------------------------------------------------------------------------- render
@@ -653,14 +772,27 @@
     const op = !!E.openOld[j.id];
     return `<div class="itp-sec enp-job"><button type="button" class="enp-oldhead" data-enpold="${h(j.id)}"><span>${h(day(j.created))} ${h(clock(j.created))} · ${head}</span><span class="enp-oldsum">${j.c.done} ✓${j.c.broke ? ' · ' + j.c.broke + ' ✗' : ''}${j.c.skip ? ' · ' + j.c.skip + ' not done' : ''} ${op ? '▲' : '▼'}</span></button>${op ? body : ''}</div>`;
   }
-  function render() { if (!E.open) return; section(); $id('enpNew').innerHTML = `<div class="itp-sec enp-new"><div class="enp-title">${gim('icon/etc_scroll_of_enchant_weapon_i02', 'big')} New enchant</div>${builder()}</div>`; renderJobs(); }
+  // ENCHPERF-2026-10-25 (owner: "why does it always lag so much when you scroll and looking at /enchanting"): while a job runs the page reloads every
+  // 3 s and rebuilt the whole list (every icon, every pip) even when nothing changed -> scroll jank. Now each block is redrawn only when its HTML changed.
+  function setHtml(el, html) { if (el && el.__enpH !== html) { el.__enpH = html; el.innerHTML = html; } }
+  function setBlocks(box, parts) {   // parts: [{ k, h }] -> one <div data-enpk> per block, reused while its HTML is the same
+    if (!box) return; const have = {}; Array.from(box.children).forEach(c => { if (c.dataset && c.dataset.enpk) have[c.dataset.enpk] = c; else c.remove(); });
+    let prev = null;
+    parts.forEach(p => { let el = have[p.k]; delete have[p.k]; if (!el) { el = document.createElement('div'); el.dataset.enpk = p.k; }
+      setHtml(el, p.h); const want = prev ? prev.nextSibling : box.firstChild; if (want !== el) box.insertBefore(el, want); prev = el; });
+    Object.values(have).forEach(c => c.remove());
+  }
+  function render() { if (!E.open) return; section(); setHtml($id('enpNew'), `<div class="itp-sec enp-new"><div class="enp-title">${gim('icon/etc_scroll_of_enchant_weapon_i02', 'big')} New enchant</div>${builder()}</div>`); renderJobs(); }
   function renderJobs() {
     if (!E.open) return; const s = section();
     const live = E.jobs.filter(j => !j.final || j.interrupted), old = E.jobs.filter(j => j.final && !j.interrupted);
-    $id('enpBody').innerHTML = (E.err ? `<div class="itp-bad">${h(E.err)}</div>` : '')
-      + (live.length ? live.map(j => jobCard(j, true)).join('') : `<div class="itp-note">No enchanting running${E.who ? ' for ' + h(E.who) : ''} right now. Start one on the <a href="#/items${E.who ? '/' + encodeURIComponent(E.who) : ''}">Items</a> page (Enchant several, or tap an item).</div>`)
-      + (old.length ? `<div class="itp-step">Earlier</div>${old.map(j => jobCard(j, false)).join('')}` : (E.ids.length || !E.jobs.length ? '' : ''))
-      + (!E.jobs.length && !E.busy && !E.err ? '<div class="muted">No enchant jobs in the log yet.</div>' : '');
+    const parts = [];
+    if (E.err) parts.push({ k: 'err', h: `<div class="itp-bad">${h(E.err)}</div>` });
+    if (live.length) live.forEach(j => parts.push({ k: 'live:' + j.id, h: jobCard(j, true) }));
+    else parts.push({ k: 'none', h: `<div class="itp-note">No enchanting running${E.who ? ' for ' + h(E.who) : ''} right now. Start one on the <a href="#/items${E.who ? '/' + encodeURIComponent(E.who) : ''}">Items</a> page (Enchant several, or tap an item).</div>` });
+    if (old.length) { parts.push({ k: 'earlier', h: '<div class="itp-step">Earlier</div>' }); old.forEach(j => parts.push({ k: 'old:' + j.id, h: jobCard(j, false) })); }
+    if (!E.jobs.length && !E.busy && !E.err) parts.push({ k: 'empty', h: '<div class="muted">No enchant jobs in the log yet.</div>' });
+    setBlocks($id('enpBody'), parts);
     void s;
   }
 

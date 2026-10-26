@@ -313,12 +313,15 @@
   async function savePreset(btn) {
     const cats = Object.keys(TP.quick).filter(k => TP.quick[k]).reduce((a, k) => a.concat(L().QUICK[k].cats), []);
     const ids = []; TP.givers.forEach(n => Object.keys(TP.sel[n] || {}).forEach(o => { const r = rowOf(n, o); if (r && !cats.includes(r.cat) && !ids.includes(r.id)) ids.push(r.id); }));
+    // PRESETQTY-2026-10-26 (tester Raltru: 2 rings saved, loading ticked every ring): store how many of each id were ticked (most for one giver)
+    const qty = {}; TP.givers.forEach(n => { const per = {}; Object.keys(TP.sel[n] || {}).forEach(o => { const r = rowOf(n, o); if (r && !cats.includes(r.cat)) per[r.id] = (per[r.id] || 0) + (Number(TP.sel[n][o]) || Number(r.count) || 1); }); Object.keys(per).forEach(id => { qty[id] = Math.max(qty[id] || 0, per[id]); }); });
+    const items = Object.keys(qty).map(id => ({ id: Number(id), count: qty[id] }));
     const adena = Math.max(0, ...Object.values(TP.adena).map(Number), 0);
     if (!cats.length && !ids.length && !adena) { flash('Tick a quick button, some items or adena first — the preset stores those.', true); return; }
     const name = await uiPrompt({ title: 'Save as preset', body: [uiP(`Receiver: ${TP.receiver === '@clanleader' ? 'the clan leader' : TP.receiver}`), uiP(`Categories: ${cats.length ? [...new Set(cats)].join(', ') : '—'} · single items: ${ids.length}${adena ? ' · adena ' + fmt(adena) + ' per giver' : ''}`)],
       label: 'Preset name', value: TP.presetName || '', placeholder: 'Raid loot to clan leader', validate: (v) => String(v || '').trim() ? '' : 'a name', confirmText: 'Save' });
     if (!name) return;
-    const r = await api('/api/trade/presets', { method: 'POST', body: JSON.stringify({ action: 'save', preset: { name: name.trim(), receiver: TP.receiver, cats: [...new Set(cats)], ids, adena } }) });
+    const r = await api('/api/trade/presets', { method: 'POST', body: JSON.stringify({ action: 'save', preset: { name: name.trim(), receiver: TP.receiver, cats: [...new Set(cats)], ids, items, adena } }) });
     if (!r || r.error) { await uiAlert({ title: 'Not saved', body: (r && r.error) || '?', kind: 'error' }); return; }
     TP.info.presets = r.presets; TP.presetName = name.trim(); renderPresets(); flash(`Preset "${name.trim()}" saved.`);
   }

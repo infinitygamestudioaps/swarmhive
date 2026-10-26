@@ -1,0 +1,5748 @@
+{
+ "group": "human_fighters",
+ "source": "docs/plan/class_skills/research/human_fighters.md",
+ "generated": "2026-10-26",
+ "rules": [
+  {
+   "text": "R1: Check the weapon before every skill; skip a skill whose weapon does not match the equipped weapon (Power Smash = SWORD/BLUNT, Whirlwind = POLE, Triple Slash = DUAL: a dual sword is NOT \"SWORD\", Backstab = DAGGER/DUALDAGGER, Double Shot = BOW).",
+   "skills": [
+    255,
+    36,
+    1,
+    30,
+    19
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R2: Toggles only in fights (owner rule 2026-10-10): every stance drains MP per tick (ConsumeMpByLevel).",
+   "skills": [],
+   "src": "DP"
+  },
+  {
+   "text": "R3: Monsters never hit CP; CP-only skills are PvP-only (Braveheart 440 +1000 CP, Wrath 320 CP drain).",
+   "skills": [
+    440,
+    320
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R4: Skills that eat a corpse (ConsumeBody: Life Scavenge 46, Corpse Plague 103) never run in a party with a spoiler: they destroy the corpse before Sweeper.",
+   "skills": [
+    46,
+    103
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R5: Target-cancel skills never on the tank's own monster (the tank never uses them on what it tanks; damage dealers may): Shield Slam 353, Shock Blast 361, Earthquake 347, Shock Stomp 452, Stun Shot 101, Bluff 358, Shadow Step 821.",
+   "skills": [
+    353,
+    361,
+    347,
+    452,
+    101,
+    358,
+    821
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R6: Item-cost skills only when the item is in the bag, never \"just because it's ready\": Sonic Buster 9 / Sonic Storm 7 = 3 Energy Stones (5589); Symbols 454/457/458/459/460 = 1 Battle Symbol (8875); Soul of the Phoenix 438 = Phoenix Blood (8873); Dark Panther 283 = Crystal D (1459); Quiver 323/324 and Summon Treasure Key 419 need crystals and free bag room.",
+   "skills": [
+    9,
+    7,
+    454,
+    457,
+    458,
+    459,
+    460,
+    438,
+    283,
+    323,
+    324,
+    419
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R7: Watch the HP cost; do not cast below ~40 % HP (except emergency skills): Earthquake 347 = 340 HP, Shock Blast 361 = 507, Sonic Rage 345 = 50, Sonic Focus 8 = 25, Soul of Sagittarius 303 = 364, Pain of Sagittarius 417 = 407, Touch of Life 341 = 1215, Touch of Death 342 = 669, Sacrifice 69 = 1560.",
+   "skills": [
+    347,
+    361,
+    345,
+    8,
+    303,
+    417,
+    341,
+    342,
+    69
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R8: Same-slot buffs replace each other; keep only one. DETECT_WEAKNESS: Detect Insect/Animal/Plant/Beast/Dragon Weakness 75/87/104/80/88, Eye of Hunter 359, Eye of Slayer 360. FOCUS_DAGGER: Focus Chance 356, Focus Power 357. MD_UP: Iron Will 72 and the board's Magic Barrier.",
+   "skills": [
+    75,
+    87,
+    104,
+    80,
+    88,
+    359,
+    360,
+    356,
+    357,
+    72
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R9: Transformation = never: Vanguard 810 (Paladin) / 811 (Dark Avenger) is a 6 h transformation that swaps the whole skill bar and halves shield defence.",
+   "skills": [
+    810,
+    811
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R10: Self-root skills (Ultimate Defense 110, Vengeance 368, Snipe 313) only while the character is meant to stand still; never while the team walks or the archer kites.",
+   "skills": [
+    110,
+    368,
+    313
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "R11: PvP-only skills = never in PvE: Mirage 445 (only vs L2Playable), Detection 933 (removes Hide), Touch of Death 342, Wrath 320, Braveheart 440.",
+   "skills": [
+    445,
+    933,
+    342,
+    320,
+    440
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Board buffs last 12 h: self-buffs the board already gives are left out; party buffs such as Haste, Might, Shield and dances are ignored. Self-buffs in the same abnormal slot as a board buff are marked \"skip with board buffs\".",
+   "skills": [],
+   "src": "G"
+  },
+  {
+   "text": "H5 tree file (highFiveNewClassSkillTree.xml) adds: Sonic Mastery 992 (Gladiator/Duelist passive, not in the class .md files), Weapon Blockade 775 (Duelist 80), Shield Strike 984 (Paladin + Dark Avenger 40-74, Phoenix + Hell Knight 76-85), Challenge for Fate 985 (Phoenix + Hell Knight 83), Multiple Shot 987 (Sagittarius 82), Death Shot 990 (Sagittarius 83), Throwing Dagger 991 (Adventurer 80), Dual Blow 928 (Adventurer 83). Dreadnought gets nothing new. Triple Sonic Slash 261 is in the main tree (Gladiator 55-74).",
+   "skills": [
+    992,
+    775,
+    984,
+    985,
+    987,
+    990,
+    991,
+    928,
+    261
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Rush Impact (793 ancient sword / 995; lineage2wiki: Duelist 83, Dreadnought 83) and Rush 994 (la2era: Warlord) are in neither tree file: use them only if the live get_account_data type=skills shows them; left out of the rotations.",
+   "skills": [
+    793,
+    995,
+    994
+   ],
+   "src": "?"
+  },
+  {
+   "text": "Forgotten-scroll skills (Final Secret, Hide, Dread Pool, Shield Bash ...) are in no class tree: out of scope.",
+   "skills": [],
+   "src": "G"
+  },
+  {
+   "text": "Uncertain / check live: Rush / Rush Impact on L2Toggle; whether Focus Skill Mastery 334 and Vicious Stance 312 run together; Weapon Blockade 775 on raid bosses; Touch of Death 342 value on bosses; Veil 106 breaking on damage; whether the board's \"All Buffs\" scheme carries a MAX_HP_UP buff (Bless the Body) that would block Battle Roar 121.",
+   "skills": [
+    995,
+    994,
+    334,
+    312,
+    775,
+    342,
+    106,
+    121
+   ],
+   "src": "?"
+  }
+ ],
+ "classes": {
+  "0": {
+   "name": "Human Fighter",
+   "band": "1-19",
+   "line": "Duelist",
+   "lines": [
+    "Duelist",
+    "Dreadnought",
+    "Phoenix Knight",
+    "Hell Knight",
+    "Sagittarius",
+    "Adventurer"
+   ],
+   "notes": [
+    "Base table §1, the same for all six lines.",
+    "Levels 1-4: auto-attack only (no attack skill yet), any weapon.",
+    "AoE / toggles / buffs: none in this band.",
+    "Weapon choice by future line: Duelist / Dreadnought / knights: sword (knights + shield) → Power Strike. Adventurer: dagger → Mortal Blow. Sagittarius: bow → Power Shot. Pick the skill from the EQUIPPED weapon (R1).",
+    "Party role: everyone is a melee/ranged DD. The future knight can already hold monsters with its sword + shield, but has no aggro skill until 24."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Spam on cooldown (3 s, 17 MP).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "5-15",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Spam (3 s, 30 MP). It's a blow (blowChance 20): it lands more often from the side or behind.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "5-15",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Opener from range, then on cooldown (6 s, 67 MP: heavy MP for level 5-19, keep it as the opener only).",
+     "when": {},
+     "auto": true,
+     "why": "Guide aspect: single target; its rule makes it the opener only (MP cost).",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "1": {
+   "name": "Warrior",
+   "band": "20-39",
+   "line": "Duelist",
+   "lines": [
+    "Duelist",
+    "Dreadnought"
+   ],
+   "notes": [
+    "Shared 1st class: §2.1 (Duelist path, sword) and §3.1 (Warlord path, polearm from 20). Rows of both tables are merged per skill; the weapon check (R1) picks the path.",
+    "§3.1 \"Toggles / self-buffs: Vicious Stance, Accuracy, War Cry, Battle Roar, Lionheart, Detect Insect Weakness: same triggers as the Warrior in §2.1\" = the same rows below.",
+    "Never auto: none in this band.",
+    "Party role (Duelist path): melee DD, assist the leader's target.",
+    "Party role (Warlord path): melee DD with splash. Only swing at monsters the tank holds (the fan pulls monsters that are not pulled yet)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 255,
+     "name": "Power Smash",
+     "learn": "20-36",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Duelist path: main skill, spam (3 s, 34 MP). Warlord path: needs sword/blunt → not with a polearm.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 100,
+     "name": "Stun Attack",
+     "learn": "20-36",
+     "weapon": [
+      "BLUNT"
+     ],
+     "trigger": "Only with a blunt. A Duelist-to-be uses a sword → skip. Warlord path: needs a blunt → not with a polearm.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 245,
+     "name": "Wild Sweep",
+     "learn": "20-36",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Warlord path: single target = auto-attack + Wild Sweep.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 245,
+     "name": "Wild Sweep",
+     "learn": "20-36",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Duelist path: fan attack, polearm only; not for the Gladiator path (sword). Warlord path (main AoE): fan attack (4 s, 34 MP), spam whenever 2+ monsters are in front; also fine on a single target. Only on monsters the tank holds.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Fight only (crit damage +).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 256,
+     "name": "Accuracy",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "From 24, fight only, when misses are visible (cheap).",
+     "when": {
+      "fightOnly": true,
+      "text": "misses are visible"
+     },
+     "auto": false,
+     "why": "Hive has no miss check; switch on by hand when misses show.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 78,
+     "name": "War Cry",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "P.Atk +, 60 s, reuse 45 s → cast at fight start and whenever it has dropped.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 121,
+     "name": "Battle Roar",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "Max HP + heals the added HP (10 min, reuse 150 s). 🎯 HP < 50 % in a fight.",
+     "when": {
+      "fightOnly": true,
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 287,
+     "name": "Lionheart",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Stun/sleep/hold/paralyze resist 60 s (reuse 150 s). 🎯 After being stunned/slept, or vs bosses that stun.",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "\"after being stunned/slept\" has no when key: only the boss part is machine-checked.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 75,
+     "name": "Detect Insect Weakness",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "🎯 Only when the hunting ground's monsters are insects (R8 slot).",
+     "when": {
+      "mobType": "insect"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Replaced by Power Smash at 20 (Duelist path). Warlord path: no polearm skill.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      255,
+      245
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "2": {
+   "name": "Gladiator",
+   "band": "40-75",
+   "line": "Duelist",
+   "lines": [
+    "Duelist"
+   ],
+   "notes": [
+    "Switch to a dual sword at 40.",
+    "Charges (datapack): Sonic Focus (8) = +1 charge (max 7 as Gladiator). Hits also add charges (passive Sonic Mastery 992 [H5-file]). Charge costs: Sonic Blaster (6) 2 · Sonic Buster (9) 2 · Sonic Storm (7) 2 · Double Sonic Slash (5) 3 · Triple Sonic Slash (261) 4 · Sonic Move (451) 3.",
+    "No Energy Stones (5589) in the bag: single-target rotation only.",
+    "Never auto: nothing dangerous in this band.",
+    "Party role: top single-target melee DD. Attacks the leader/tank's target. Sonic Buster only on monsters the tank already holds (it is a front fan, it can hit monsters that are not pulled yet).",
+    "Party summary (§8): assist the tank's target only after the tank has it (CLAUDE.md raid order). Stand behind it. Sonic Buster only on held monsters."
+   ],
+   "rows": [
+    {
+     "aspect": "selfbuff",
+     "skill": 8,
+     "name": "Sonic Focus",
+     "learn": "40-70",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Before the fight: out of combat, charge to max (5 MP, 0.9 s cast each).",
+     "when": {
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 6,
+     "name": "Sonic Blaster",
+     "learn": "43-74",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Ranged (600) single hit, 2 charges, on the way in.",
+     "when": {
+      "charges": 2,
+      "distMax": 600
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 261,
+     "name": "Triple Sonic Slash",
+     "learn": "55-74",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "1. (55+) Charges ≥ 4 and ready (5 s reuse). Strongest hit. Guides: \"the most important skill\".",
+     "when": {
+      "charges": 4,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 5,
+     "name": "Double Sonic Slash",
+     "learn": "49-74",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "2. (49+) Charges ≥ 3.",
+     "when": {
+      "charges": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1,
+     "name": "Triple Slash",
+     "learn": "40-74",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "3. Filler, no charges (3 s).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 8,
+     "name": "Sonic Focus",
+     "learn": "40-70",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "4. When charges < 3 and nothing else is ready.",
+     "when": {
+      "text": "charges < 3"
+     },
+     "auto": true,
+     "why": "no when key for \"fewer than n charges\": Hive must check the charge count itself.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 190,
+     "name": "Fatal Strike",
+     "learn": "40-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Needs SWORD/BLUNT. Not usable with duals → skip (R1).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 260,
+     "name": "Hammer Crush",
+     "learn": "40-74",
+     "weapon": [
+      "BLUNT"
+     ],
+     "trigger": "Needs SWORD/BLUNT (datapack: BLUNT). Not usable with duals → skip (R1).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 9,
+     "name": "Sonic Buster",
+     "learn": "43-74",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "3+ monsters in the front fan in melee. 2 charges + 3 Energy Stones. Guide: \"the most important skill\" for groups. Only on monsters the tank already holds.",
+     "when": {
+      "mobsMin": 3,
+      "charges": 2,
+      "item": 5589
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 7,
+     "name": "Sonic Storm",
+     "learn": "49-74",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "(49+) 3+ monsters clumped around the target (radius 150, cast range 500). 2 charges + 3 Energy Stones.",
+     "when": {
+      "mobsMin": 3,
+      "charges": 2,
+      "item": 5589,
+      "distMax": 500
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 424,
+     "name": "War Frenzy",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) Stun/sleep resist. 🎯 Raids / bosses with stun or sleep. Otherwise off (MP drain).",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 297,
+     "name": "Duelist Spirit",
+     "learn": "64-72",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "(64+) Atk speed + (60 s, reuse 30 s): keep it up in every fight.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 78,
+     "name": "War Cry",
+     "learn": "43-43",
+     "weapon": [],
+     "trigger": "As at 20-39: every fight.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 121,
+     "name": "Battle Roar",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "Same trigger as 20-39: HP < 50 % in a fight.",
+     "when": {
+      "fightOnly": true,
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 287,
+     "name": "Lionheart",
+     "learn": "49-62",
+     "weapon": [],
+     "trigger": "Same trigger as 20-39: after being stunned/slept, or vs bosses that stun.",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 87,
+     "name": "Detect Animal Weakness",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "🎯 Only the one that matches the monster race of the hunting ground (one slot, R8).",
+     "when": {
+      "mobType": "animal"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 104,
+     "name": "Detect Plant Weakness",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "🎯 Only the one that matches the monster race of the hunting ground (one slot, R8).",
+     "when": {
+      "mobType": "plant"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 80,
+     "name": "Detect Beast Weakness",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "🎯 Only the one that matches the monster race of the hunting ground (one slot, R8).",
+     "when": {
+      "mobType": "beast"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 88,
+     "name": "Detect Dragon Weakness",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "🎯 Only the one that matches the monster race of the hunting ground (one slot, R8).",
+     "when": {
+      "mobType": "dragon"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 75,
+     "name": "Detect Insect Weakness",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Keeps working, but its slot is shared (R8): only vs insects.",
+     "when": {
+      "mobType": "insect"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 451,
+     "name": "Sonic Move",
+     "learn": "62-68",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "🎯 (62+) +run speed 15 s, 3 charges: only to catch a fleeing monster / leave. Guide: not worth it before level 2.",
+     "when": {
+      "charges": 3,
+      "text": "catch a fleeing monster / leave"
+     },
+     "auto": false,
+     "why": "situational chase / escape only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 992,
+     "name": "Sonic Mastery",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Passive (40-70 L7): hits give charges. Nothing to cast.",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server. [H5-file] passive",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 255,
+     "name": "Power Smash",
+     "learn": "20-36",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Needs sword/blunt: replaced by Triple Slash / sonic skills on duals.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1,
+      5,
+      261
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 100,
+     "name": "Stun Attack",
+     "learn": "20-36",
+     "weapon": [
+      "BLUNT"
+     ],
+     "trigger": "Needs a blunt: replaced by Triple Slash / sonic skills on duals.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1,
+      5,
+      261
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 245,
+     "name": "Wild Sweep",
+     "learn": "20-36",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Needs a polearm: replaced by the sonic skills on duals.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      9,
+      7
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "3": {
+   "name": "Warlord",
+   "band": "40-75",
+   "line": "Dreadnought",
+   "lines": [
+    "Dreadnought"
+   ],
+   "notes": [
+    "Polearm basics: a polearm auto-attack already hits several monsters in front. Guide (la2era): 3 targets by default, the passive raises it to 8 / 13, Fell Swoop +5 → 18.",
+    "Every Warlord/Dreadnought attack skill needs POLE.",
+    "Party role: mass-mob DD. Best when the tank gathers packs. Weak on bosses (lineage2.fandom: \"single target damage is not that great\").",
+    "Party summary (§8): AoE only on packs the tank holds. Focus Attack OFF when AoE farming, ON on bosses. Never Provoke. Parry Stance off."
+   ],
+   "rows": [
+    {
+     "aspect": "aoe-self",
+     "skill": 36,
+     "name": "Whirlwind",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "1. 2+ monsters within 150 of me (point blank), 4 s, 75 MP. Ignores shields.",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 48,
+     "name": "Thunder Storm",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "2. Point-blank damage + stun 9 s, 5 s, 107 MP. 2+ monsters within 150.",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 421,
+     "name": "Fell Swoop",
+     "learn": "58-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "(58+) +5 polearm targets for 120 s, reuse 75 s. 🎯 3+ monsters engaged.",
+     "when": {
+      "fightOnly": true,
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "Guide aspect: AoE; it is a self-buff.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 116,
+     "name": "Howl",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "(43+) Enemies around (200) P.Atk −23 % for 30 s. 🎯 3+ monsters hitting me / the party around me.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "Guide aspect: AoE; \"hitting the party around me\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 920,
+     "name": "Power Crush",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Spam on single targets (3 s). la2era calls it weak, but it is the only polearm single-target skill before 76.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 317,
+     "name": "Focus Attack",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "⚠ Effect SingleTarget: your attacks hit ONE target only, with crit damage + accuracy +. ON only vs a boss / single elite, OFF while AoE farming (it removes the polearm splash).",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true,
+      "mobsMax": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 424,
+     "name": "War Frenzy",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) 🎯 Raids (stun/sleep resist).",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 422,
+     "name": "Polearm Accuracy",
+     "learn": "58-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "(58+) Guide: \"expensive and useless\". Only on when misses are visible.",
+     "when": {
+      "fightOnly": true,
+      "text": "misses are visible"
+     },
+     "auto": false,
+     "why": "Hive has no miss check; \"expensive and useless\".",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 78,
+     "name": "War Cry",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "As before: cast at fight start and whenever it has dropped.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 121,
+     "name": "Battle Roar",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "As before: HP < 50 % in a fight.",
+     "when": {
+      "fightOnly": true,
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 287,
+     "name": "Lionheart",
+     "learn": "49-62",
+     "weapon": [],
+     "trigger": "As before: after being stunned/slept, or vs bosses that stun.",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 75,
+     "name": "Detect Insect Weakness",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Detect … Weakness as before: only the one matching the monster race (one slot, R8).",
+     "when": {
+      "mobType": "insect"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 87,
+     "name": "Detect Animal Weakness",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Detect … Weakness as before: only the one matching the monster race (one slot, R8).",
+     "when": {
+      "mobType": "animal"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 104,
+     "name": "Detect Plant Weakness",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Detect … Weakness as before: only the one matching the monster race (one slot, R8).",
+     "when": {
+      "mobType": "plant"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 80,
+     "name": "Detect Beast Weakness",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Detect … Weakness as before: only the one matching the monster race (one slot, R8).",
+     "when": {
+      "mobType": "beast"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 88,
+     "name": "Detect Dragon Weakness",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Detect … Weakness as before: only the one matching the monster race (one slot, R8).",
+     "when": {
+      "mobType": "dragon"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 130,
+     "name": "Thrill Fight",
+     "learn": "46-55",
+     "weapon": [],
+     "trigger": "(46+) Atk speed + but run speed −20 %, 5 min. Cast at fight start only. ⚠ It slows the team walk, so never while travelling.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 181,
+     "name": "Revival",
+     "learn": "55-55",
+     "weapon": [],
+     "trigger": "(55) Heals 100 % HP, condition HP ≤ 10 %, 15 min reuse.",
+     "when": {
+      "hpBelow": 10
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 452,
+     "name": "Shock Stomp",
+     "learn": "55-72",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "(55+) Point-blank stun + target cancel. 🎯 3+ monsters on me and HP < 40 % (buys time for the healer).",
+     "when": {
+      "mobsOnMe": 3,
+      "hpBelow": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 286,
+     "name": "Provoke",
+     "learn": "43-60",
+     "weapon": [],
+     "trigger": "Aggro on EVERY monster within 900. A party/train-pull disaster. Only by an explicit user order for solo train farming.",
+     "when": {},
+     "auto": false,
+     "why": "party / train-pull disaster; user order only",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 320,
+     "name": "Wrath",
+     "learn": "66-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Fan CP drain: PvP only (R3).",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R3)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 994,
+     "name": "Rush",
+     "learn": "",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DAGGER",
+      "POLE",
+      "FIST",
+      "DUAL",
+      "DUALDAGGER"
+     ],
+     "trigger": "la2era: Warlord. In neither tree file; use it only if the live get_account_data type=skills shows it. Left out of the guide's rotation.",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 245,
+     "name": "Wild Sweep",
+     "learn": "20-36",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Wild Sweep → Whirlwind / Thunder Storm.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      36,
+      48
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 255,
+     "name": "Power Smash",
+     "learn": "20-36",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Needs sword/blunt (not with a polearm).",
+     "when": {},
+     "auto": false,
+     "why": "no replacement named in the guide",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 100,
+     "name": "Stun Attack",
+     "learn": "20-36",
+     "weapon": [
+      "BLUNT"
+     ],
+     "trigger": "Needs a blunt (not with a polearm).",
+     "when": {},
+     "auto": false,
+     "why": "no replacement named in the guide",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "4": {
+   "name": "Human Knight",
+   "band": "20-39",
+   "line": "Phoenix Knight",
+   "lines": [
+    "Phoenix Knight",
+    "Hell Knight"
+   ],
+   "notes": [
+    "Sword + shield. §5.1 (Hell Knight line) = same as §4.1.",
+    "Party role: tank from 24 (Aggression). Before 24: melee with the party."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Aggro (24+): single taunt, range 800, 6 s reuse (TargetMe + GetAgro). The pull, plus any monster hitting a non-tank member.",
+     "when": {},
+     "auto": true,
+     "why": "Guide aspect: aggro. \"any monster hitting a non-tank member\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Damage: melee filler (stays L9).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 70,
+     "name": "Drain Health",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Range 600 hit that heals 20 % of the damage. Sustain filler when MP allows.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 92,
+     "name": "Shield Stun",
+     "learn": "20-36",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Stun 9 s. 🎯 A loose monster on the healer / a fleeing monster.",
+     "when": {
+      "text": "a loose monster on the healer / a fleeing monster"
+     },
+     "auto": false,
+     "why": "no when key for \"monster on the healer\" / \"fleeing\"",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 82,
+     "name": "Majesty",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "P.Def + / evasion − (5 min). Keep it up while hunting.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "(24+) 20 min, cheap. Keep it up (vs archer monsters).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 45,
+     "name": "Divine Heal",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "(28+) Self heal, 85 MP. 🎯 HP < 50 % and no healer in the party / healer dead.",
+     "when": {
+      "hpBelow": 50,
+      "text": "no healer in the party / healer dead"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Root + huge P/M.Def 30 s, 15 min reuse. HP < 25 % (raids: < 40 %, CLAUDE.md). Never while walking (R10).",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "raid threshold 40 % and \"never while walking\" stay in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "5-15",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Dagger skill.",
+     "when": {},
+     "auto": false,
+     "why": "dagger; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "5-15",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Bow skill.",
+     "when": {},
+     "auto": false,
+     "why": "bow; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "5": {
+   "name": "Paladin",
+   "band": "40-75",
+   "line": "Phoenix Knight",
+   "lines": [
+    "Phoenix Knight"
+   ],
+   "notes": [
+    "Party role: main tank: holds everything on himself, pulls with Aggression, uses Aura of Hate on packs, no target cancel on his own target (R5).",
+    "Party summary (§8): Aggression pull + re-taunt every add not on him · Shield Strike spam · Aura of Hate / Challenge for Fate on packs · no target cancel on his own target · Ultimate Defense / Vengeance on HP triggers · Shield of Faith / Touch of Life to save members · Combat Aura always up."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro rotation 1. Pull + re-taunt any monster not targeting me (6 s).",
+     "when": {},
+     "auto": true,
+     "why": "Guide aspect: aggro rotation.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 984,
+     "name": "Shield Strike",
+     "learn": "40-74",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Aggro rotation 2. [H5-file] Melee hit + aggro (6 s). Spam on the current target. Guide: \"use without icons or vs high-evasion targets, eats a lot of MP\".",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 18,
+     "name": "Aura of Hate",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro rotation 3. Point-blank aggro radius 200, 40 s reuse, 102 MP. 🎯 2+ monsters on the party. Guides: \"rarely but on point\".",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 400,
+     "name": "Tribunal",
+     "learn": "55-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "(55+) Hit + target crit rate −50 % for 30 s. Use it on the tanked target (boss / hard hitter) when Shield Strike is on cooldown.",
+     "when": {
+      "bigTarget": true,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 97,
+     "name": "Sanctuary",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "(52+) Point blank 200: enemies P.Atk −23 % 30 s + small damage. 🎯 3+ monsters on me.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 322,
+     "name": "Shield Fortress",
+     "learn": "64-74",
+     "weapon": [],
+     "trigger": "(64+) Shield defence +. Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 318,
+     "name": "Aegis Stance",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "(46+) 360° shield block, sDef −30 %. 🎯 ON with 2+ monsters around me (attacks from the side/back), off on single bosses.",
+     "when": {
+      "fightOnly": true,
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 197,
+     "name": "Divine Armor",
+     "learn": "40-46",
+     "weapon": [],
+     "trigger": "Dark resist. 🎯 Vs dark-magic monsters only.",
+     "when": {
+      "fightOnly": true,
+      "text": "dark-magic monsters"
+     },
+     "auto": false,
+     "why": "no when key for dark-magic monsters",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 196,
+     "name": "Divine Blade",
+     "learn": "43-43",
+     "weapon": [],
+     "trigger": "Holy attack +10. Low value. ⚠ Optional.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": false,
+     "why": "optional, low value",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 82,
+     "name": "Majesty",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Keep up (as before).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "43-49",
+     "weapon": [],
+     "trigger": "Keep up (as before).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 982,
+     "name": "Combat Aura",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "(52+) Party (500 radius) atk speed + P.Atk, 20 min: a real party buff, keep it up (not given by the board).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 72,
+     "name": "Iron Will",
+     "learn": "43-55",
+     "weapon": [],
+     "trigger": "M.Def. Skip with board buffs (same MD_UP slot as Magic Barrier, R8).",
+     "when": {
+      "boardMissing": "Magic Barrier"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 916,
+     "name": "Shield Deflect Magic",
+     "learn": "60-72",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "(60+) Reflects magic damage 8 s, 45 s reuse. 🎯 Vs a casting boss / caster mobs.",
+     "when": {
+      "fightOnly": true,
+      "mobType": "caster"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 262,
+     "name": "Divine Blessing",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Heal ally (191 MP) + removes poison/bleed. 🎯 Ally < 40 % and healer dead/out of MP.",
+     "when": {
+      "allyBelow": 40,
+      "text": "healer dead / out of MP"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 69,
+     "name": "Sacrifice",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "(52+) Heals an ally with MY HP (1560 HP). 🎯 Ally < 25 % and my HP > 70 %.",
+     "when": {
+      "allyBelow": 25,
+      "hpAbove": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "cure",
+     "skill": 44,
+     "name": "Remedy",
+     "learn": "40-62",
+     "weapon": [],
+     "trigger": "Removes bleed/poison from me. 🎯 When bleeding/poisoned and no healer cure.",
+     "when": {
+      "text": "I am bleeding / poisoned and no healer cure"
+     },
+     "auto": false,
+     "why": "no when key for my own bleed / poison",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 92,
+     "name": "Shield Stun",
+     "learn": "40-74",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "🎯 Adds on the healer.",
+     "when": {
+      "text": "an add on the healer"
+     },
+     "auto": false,
+     "why": "no when key for \"add on the healer\"",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 403,
+     "name": "Shackle",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "(55+) Root 10 s single (600). 🎯 A runner, or adds while the pack is gathered.",
+     "when": {
+      "text": "a runner, or adds while the pack is gathered"
+     },
+     "auto": false,
+     "why": "situational CC",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 404,
+     "name": "Mass Shackling",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) Root 10 s point blank 150. 🎯 A runner, or adds while the pack is gathered.",
+     "when": {
+      "text": "a runner, or adds while the pack is gathered"
+     },
+     "auto": false,
+     "why": "situational CC",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "L2. HP < 25 % (raid < 40 %).",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "raid threshold 40 % stays in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 406,
+     "name": "Angelic Icon",
+     "learn": "58-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "(58+) Only at HP ≤ 30 %. Big stats, but heals received −80 % → ⛔ never in a party with a living healer. Solo only.",
+     "when": {
+      "hpBelow": 30,
+      "soloOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 810,
+     "name": "Vanguard",
+     "learn": "40-40",
+     "weapon": [
+      "2H_SWORD"
+     ],
+     "trigger": "Transformation (R9).",
+     "when": {},
+     "auto": false,
+     "why": "transformation (R9)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 405,
+     "name": "Banish Undead",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "Undead only + fear (RunAway): scattered undead pull more monsters. Never in a party.",
+     "when": {},
+     "auto": false,
+     "why": "fear scatters monsters",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 49,
+     "name": "Divine Strike",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Magic hit, undead only. 🎯 Solo vs undead only.",
+     "when": {
+      "soloOnly": true,
+      "mobType": "undead"
+     },
+     "auto": false,
+     "why": "in the guide's never table; solo vs undead only by hand",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 45,
+     "name": "Divine Heal",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Divine Heal → Divine Blessing.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      262
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 70,
+     "name": "Drain Health",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Stops at L13 (Paladin gets no higher levels) → use Shield Strike / Tribunal.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      984,
+      400
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Power Strike → Shield Strike.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      984
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "6": {
+   "name": "Dark Avenger",
+   "band": "40-75",
+   "line": "Hell Knight",
+   "lines": [
+    "Hell Knight"
+   ],
+   "notes": [
+    "Party role: second tank / off-tank: takes the adds while the main tank holds the boss. With no other knight he is the main tank (same rotation).",
+    "Party summary (§8): same aggro kit on the adds. Never the panther, Horror, corpse skills in a party."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro rotation: Aggression > Shield Strike > Aura of Hate, as the Paladin.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 984,
+     "name": "Shield Strike",
+     "learn": "40-74",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "[H5-file] As the Paladin: spam on the current target.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 18,
+     "name": "Aura of Hate",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "As the Paladin: 2+ monsters on the party.",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 401,
+     "name": "Judgment",
+     "learn": "55-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DUAL"
+     ],
+     "trigger": "(55+) Hit + GetAgro + target crit damage −35 % 30 s. Spam on the tanked target (second aggro tool).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 70,
+     "name": "Drain Health",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Damage / sustain: range 600 drain. The DA keeps it to 74: filler when MP allows.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 322,
+     "name": "Shield Fortress",
+     "learn": "64-74",
+     "weapon": [],
+     "trigger": "(64+) Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 86,
+     "name": "Reflect Damage",
+     "learn": "40-52",
+     "weapon": [],
+     "trigger": "20 min reflect melee. Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 82,
+     "name": "Majesty",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "43-49",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 982,
+     "name": "Combat Aura",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "(52+) Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 72,
+     "name": "Iron Will",
+     "learn": "43-55",
+     "weapon": [],
+     "trigger": "Skip with board buffs (R8).",
+     "when": {
+      "boardMissing": "Magic Barrier"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 916,
+     "name": "Shield Deflect Magic",
+     "learn": "60-72",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "🎯 Vs casters.",
+     "when": {
+      "fightOnly": true,
+      "mobType": "caster"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 92,
+     "name": "Shield Stun",
+     "learn": "40-74",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "🎯 Adds on the healer.",
+     "when": {
+      "text": "an add on the healer"
+     },
+     "auto": false,
+     "why": "no when key for \"add on the healer\"",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 403,
+     "name": "Shackle",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "🎯 Adds on the healer.",
+     "when": {
+      "text": "an add on the healer"
+     },
+     "auto": false,
+     "why": "no when key for \"add on the healer\"",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 127,
+     "name": "Hamstring",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "Run speed −30 %: 🎯 a runner.",
+     "when": {
+      "text": "a runner"
+     },
+     "auto": false,
+     "why": "no when key for a fleeing monster",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "HP < 25 % (raid < 40 %).",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "raid threshold 40 % stays in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "summon",
+     "skill": 283,
+     "name": "Summon Dark Panther",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Solo only ⛔ in a party. Costs Crystal D (1459), and the panther takes 15 % of the exp (expMultiplier 0.85). Solo leveling only. Old guides call it \"the main weapon\" solo. Never in the 9-man party.",
+     "when": {
+      "soloOnly": true,
+      "item": 1459
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 46,
+     "name": "Life Scavenge",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Solo only ⛔ in a party. HP from a corpse: destroys it (ConsumeBody) → never with a spoiler (R4). Solo: 🎯 HP < 60 % with a corpse near.",
+     "when": {
+      "soloOnly": true,
+      "hpBelow": 60,
+      "corpse": true,
+      "noSpoiler": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 103,
+     "name": "Corpse Plague",
+     "learn": "46-70",
+     "weapon": [],
+     "trigger": "Corpse AoE poison: corpse eaten (R4), low damage. Never.",
+     "when": {},
+     "auto": false,
+     "why": "eats the corpse (R4), low damage",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 65,
+     "name": "Horror",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Fear: the monster runs and pulls others.",
+     "when": {},
+     "auto": false,
+     "why": "fear pulls more monsters",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 811,
+     "name": "Vanguard",
+     "learn": "40-40",
+     "weapon": [
+      "2H_SWORD"
+     ],
+     "trigger": "Transformation (R9).",
+     "when": {},
+     "auto": false,
+     "why": "transformation (R9)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 450,
+     "name": "Banish Seraph",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "Divine race only + fear.",
+     "when": {},
+     "auto": false,
+     "why": "fear; divine race only",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 45,
+     "name": "Divine Heal",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "DA gets no higher levels.",
+     "when": {},
+     "auto": false,
+     "why": "no replacement named in the guide",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 3,
+     "name": "Power Strike",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Old filler.",
+     "when": {},
+     "auto": false,
+     "why": "no replacement named in the guide",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "7": {
+   "name": "Rogue",
+   "band": "20-39",
+   "line": "Sagittarius",
+   "lines": [
+    "Sagittarius",
+    "Adventurer"
+   ],
+   "notes": [
+    "Shared 1st class: §6.1 (Sagittarius path, bow) and §7.1 (Adventurer path, dagger). Rows of both tables are merged per skill; the weapon check (R1) picks the path.",
+    "§6.1 \"Never auto: Mortal Blow (16), Bleed (96): dagger only → skip with a bow\" and §7.1 \"Never auto: Rapid Shot (99), Stun Shot (101) with a dagger\" are weapon skips (R1), written into those rows, not blocks: the other path uses them.",
+    "§7.1 \"Toggles / buffs / emergency: Vicious Stance, Accuracy, Dash 🎯, Ultimate Evasion 🎯 HP < 40 %: as §6.1\" = the same rows below.",
+    "Party role (Sagittarius path): ranged DD. Stands 600-900 behind the tank and shoots the tank's target. Never pulls in a party.",
+    "Party role (Adventurer path): melee DD behind the tank's target. Blow skills land more often from the side/back (Scripts/data/positional_skills.json, POSBEHIND)."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "20-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Sagittarius path: main skill (to L24), 6 s, 67 MP. Spam while MP > 30 %, otherwise auto-shots. Adventurer path: only if a bow is equipped (some players level the Rogue with a bow); otherwise skip.",
+     "when": {
+      "onCooldown": true,
+      "mpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 101,
+     "name": "Stun Shot",
+     "learn": "36-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "(36) Damage + stun 9 s (40 % chance), 3 s. 🎯 A monster on me / on the healer, or a runner. Adventurer path: never with a dagger.",
+     "when": {
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "\"on the healer / a runner\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "20-36",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Adventurer path (to L24): spam (3 s, 30 MP), from the side/back. Sagittarius path: dagger only → skip with a bow.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 96,
+     "name": "Bleed",
+     "learn": "24-32",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Adventurer path (24+): bleed DoT 20 s + slow. 🎯 Long-lived targets (elites, raid minions); not on trash that dies in 3 hits. Sagittarius path: dagger only → skip with a bow.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 96
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 256,
+     "name": "Accuracy",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 99,
+     "name": "Rapid Shot",
+     "learn": "32-32",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "(32) Bow atk speed +, 20 min: keep it up. Adventurer path: never with a dagger.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 4,
+     "name": "Dash",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "+speed 15 s: 🎯 to escape / reposition, never as a routine buff.",
+     "when": {
+      "text": "escape / reposition"
+     },
+     "auto": false,
+     "why": "situational: escape / reposition only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "(28) Evasion + 30 s, 15 min reuse. HP < 40 % with a monster on me.",
+     "when": {
+      "hpBelow": 40,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 27,
+     "name": "Unlock",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Chests/doors only (the bot ignores Treasure Chests).",
+     "when": {},
+     "auto": false,
+     "why": "chests / doors only",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "8": {
+   "name": "Treasure Hunter",
+   "band": "40-75",
+   "line": "Adventurer",
+   "lines": [
+    "Adventurer"
+   ],
+   "notes": [
+    "Positioning: blow skills land more often from the side/back. Backstab works only from behind. In a party the tank holds the monster, so the dagger stands behind it (Scripts/data/positional_skills.json, POSBEHIND, CLAUDE.md §6f).",
+    "AoE: none (daggers have no AoE).",
+    "Party role: burst DD behind the boss/tank target. Fragile: never tanks. Trick / Ultimate Evasion when aggro slips.",
+    "Party summary (§8): assist the tank's target only after the tank has it. Stand behind it. Trick / Ultimate Evasion when aggro slips."
+   ],
+   "rows": [
+    {
+     "aspect": "opener",
+     "skill": 409,
+     "name": "Critical Blow",
+     "learn": "55-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Opener (behind) (55+): blow + 15 s blow-rate buff (MIGHT_MORTAL), 30 s reuse. First hit of each fight / on cooldown.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "\"(behind)\" is a positioning preference (POSBEHIND), not a hard condition.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 30,
+     "name": "Backstab",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "1. Only from behind (POSBEHIND). 3 s, 112 MP.",
+     "when": {
+      "behind": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 263,
+     "name": "Deadly Blow",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "2. Any side (better from the side/back), 3 s, 68 MP. The main spam skill.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 96,
+     "name": "Bleed",
+     "learn": "49-70",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "🎯 Long fights (as before): long-lived targets, not on trash.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 96
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 821,
+     "name": "Shadow Step",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Situational 🎯: teleport behind the target (600 range) + target cancel, 75 s reuse. Gap closer when the target is > 200 away, or to get behind a monster that faces me.",
+     "when": {
+      "distMin": 200,
+      "distMax": 600
+     },
+     "auto": true,
+     "why": "\"get behind a monster that faces me\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 11,
+     "name": "Trick",
+     "learn": "49-74",
+     "weapon": [],
+     "trigger": "Situational 🎯 (49+): removes MY hate (80 %). In a party with a tank: when a monster turns to me and HP < 60 %.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1,
+      "hpBelow": 60
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 412,
+     "name": "Sand Bomb",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "(55+) Accuracy down 30 s. 🎯 A monster hitting me.",
+     "when": {
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 106,
+     "name": "Veil",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "(43+) The monster turns passive 120 s. 🎯 An extra add on me while the party is busy (let it sit). ⚠ It stops when damaged.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 2
+     },
+     "auto": false,
+     "why": "⚠ breaks on damage; needs \"nobody hits that add\"",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 453,
+     "name": "Escape Shackle",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "(60) Removes root. 🎯 When rooted.",
+     "when": {
+      "text": "I am rooted"
+     },
+     "auto": false,
+     "why": "no when key for my own root",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 4,
+     "name": "Dash",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "L2 (46). 🎯 Catch up / escape.",
+     "when": {
+      "text": "catch up / escape"
+     },
+     "auto": false,
+     "why": "situational: catch up / escape only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 51,
+     "name": "Lure",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "(52) Adds 500 hate to one target from 400. 🎯 Only if the dagger is the chosen puller (not with a tank).",
+     "when": {
+      "text": "the dagger is the chosen puller (no tank)"
+     },
+     "auto": false,
+     "why": "puller role only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "55-55",
+     "weapon": [],
+     "trigger": "L2 (55). HP < 40 % with monsters on me.",
+     "when": {
+      "hpBelow": 40,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 12,
+     "name": "Switch",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "Randomizes the monster's hate: it may jump onto the healer.",
+     "when": {},
+     "auto": false,
+     "why": "hate may jump onto the healer",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 60,
+     "name": "Fake Death",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Toggle, 200 MP: the character lies down \"dead\". Manual escape only.",
+     "when": {},
+     "auto": false,
+     "why": "manual escape only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 221,
+     "name": "Silent Move",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Speed −40 %: manual sneaking only.",
+     "when": {},
+     "auto": false,
+     "why": "manual only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 411,
+     "name": "Stealth",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) P.Atk ×0.55, accuracy −12: never in a fight (guides: travel/PvP).",
+     "when": {},
+     "auto": false,
+     "why": "travel / PvP only",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 419,
+     "name": "Summon Treasure Key",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Crystals + bag room (R6).",
+     "when": {},
+     "auto": false,
+     "why": "item cost (R6)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 27,
+     "name": "Unlock",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Chests/doors/traps only.",
+     "when": {},
+     "auto": false,
+     "why": "chests / doors only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 623,
+     "name": "Find Trap",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Chests/doors/traps only.",
+     "when": {},
+     "auto": false,
+     "why": "traps only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 624,
+     "name": "Remove Trap",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Chests/doors/traps only.",
+     "when": {},
+     "auto": false,
+     "why": "traps only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "20-36",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Mortal Blow → Deadly Blow / Backstab.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      263,
+      30
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "20-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Bow skill.",
+     "when": {},
+     "auto": false,
+     "why": "bow; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 101,
+     "name": "Stun Shot",
+     "learn": "36-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Bow skill.",
+     "when": {},
+     "auto": false,
+     "why": "bow; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 99,
+     "name": "Rapid Shot",
+     "learn": "32-32",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Bow skill.",
+     "when": {},
+     "auto": false,
+     "why": "bow; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "9": {
+   "name": "Hawkeye",
+   "band": "40-75",
+   "line": "Sagittarius",
+   "lines": [
+    "Sagittarius"
+   ],
+   "notes": [
+    "Party role: ranged DD. With Snipe on he outranges everything: stand still at the edge of the fight.",
+    "Party summary (§8): 600-900 behind the tank. Snipe only standing still. Stun Shot / Hamstring Shot to peel monsters off the healer. Never pull."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 19,
+     "name": "Double Shot",
+     "learn": "40-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Main skill, 3 s, 150 MP. Spam.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 101,
+     "name": "Stun Shot",
+     "learn": "40-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "🎯 As before (CC on an add, peel for the healer). Also a filler when MP is fine.",
+     "when": {},
+     "auto": true,
+     "why": "as a filler it has no condition; \"MP is fine\" has no number in the guide.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 24,
+     "name": "Burst Shot",
+     "learn": "46-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "(46+) AoE at the target (radius 150), 6 s, 224 MP. 🎯 3+ monsters clumped on the tank.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 99,
+     "name": "Rapid Shot",
+     "learn": "55-55",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Self-buffs (20 min, keep up).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 415,
+     "name": "Spirit of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) Physical MP cost −30 %, 20 min. Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 416,
+     "name": "Blessing of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) Physical reuse −20 %, 20 min. Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 303,
+     "name": "Soul of Sagittarius",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Max MP +, costs 364 HP. Cast when HP > 80 % (out of combat).",
+     "when": {
+      "hpAbove": 80,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 131,
+     "name": "Hawk Eye",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Accuracy +, own P.Def −10 %, 5 min. Fight only. ⚠ Skip while tanking adds.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "\"skip while tanking adds\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "mp",
+     "skill": 417,
+     "name": "Pain of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "(58+) MP from HP (407 HP). MP < 30 % and HP > 70 %.",
+     "when": {
+      "mpBelow": 30,
+      "hpAbove": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 313,
+     "name": "Snipe",
+     "learn": "60-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Raid / party 🎯 (60+): +range 200, P.Atk, crit +20 %, 120 s, 75 s reuse, roots you. ON only standing in place behind a tank (party spot, raid). Never when a monster is on me, while kiting or while the team moves (R10).",
+     "when": {
+      "partyOnly": true,
+      "text": "standing still behind a tank; no monster on me; team not moving"
+     },
+     "auto": false,
+     "why": "self-root (R10): Hive has no stand-still key",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "L2. As before: HP < 40 % with a monster on me.",
+     "when": {
+      "hpBelow": 40,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 4,
+     "name": "Dash",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "As before: to escape / reposition only.",
+     "when": {
+      "text": "escape / reposition"
+     },
+     "auto": false,
+     "why": "situational: escape / reposition only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 323,
+     "name": "Quiver of Arrow: A Grade",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Makes arrows from crystals, needs bag room: supply logic only, never in a fight.",
+     "when": {},
+     "auto": false,
+     "why": "supply logic only (R6)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 324,
+     "name": "Quiver of Arrow: S Grade",
+     "learn": "72-72",
+     "weapon": [],
+     "trigger": "Makes arrows from crystals, needs bag room: supply logic only, never in a fight.",
+     "when": {},
+     "auto": false,
+     "why": "supply logic only (R6)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 933,
+     "name": "Detection",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "(74) Removes Hide: PvP only.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R11)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 56,
+     "name": "Power Shot",
+     "learn": "20-36",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Power Shot → Double Shot.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      19
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 16,
+     "name": "Mortal Blow",
+     "learn": "20-36",
+     "weapon": [
+      "DAGGER"
+     ],
+     "trigger": "Dagger skill.",
+     "when": {},
+     "auto": false,
+     "why": "dagger; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 96,
+     "name": "Bleed",
+     "learn": "24-32",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Dagger skill.",
+     "when": {},
+     "auto": false,
+     "why": "dagger; no replacement named",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "88": {
+   "name": "Duelist",
+   "band": "76-85",
+   "line": "Duelist",
+   "lines": [
+    "Duelist"
+   ],
+   "notes": [
+    "Party role: best single-target melee DD of the humans (raids). Stands behind the boss (CLAUDE.md \"melee DDs stand behind the boss\").",
+    "Party summary (§8): assist the tank's target only after the tank has it. Stand behind it. Sonic Buster only on held monsters."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 345,
+     "name": "Sonic Rage",
+     "learn": "78-78",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "Charging (78): ranged (600) hit that also charges up to 8 (5 MP + 50 HP). Use it when charges < 4 in a fight (replaces mid-fight Sonic Focus).",
+     "when": {
+      "fightOnly": true,
+      "text": "charges < 4"
+     },
+     "auto": true,
+     "why": "no when key for \"fewer than n charges\": Hive must check the charge count itself.",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 8,
+     "name": "Sonic Focus",
+     "learn": "79-79",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Sonic Focus (8) L8 (79) stays the out-of-combat charger.",
+     "when": {
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 6,
+     "name": "Sonic Blaster",
+     "learn": "43-74",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Opener (same as the Gladiator): ranged (600) single hit, 2 charges.",
+     "when": {
+      "charges": 2,
+      "distMax": 600
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 261,
+     "name": "Triple Sonic Slash",
+     "learn": "55-74",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "Triple Sonic Slash > Double Sonic Slash > Triple Slash > Sonic Rage: same order as the Gladiator (charges ≥ 4).",
+     "when": {
+      "charges": 4,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 5,
+     "name": "Double Sonic Slash",
+     "learn": "49-74",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "Same order as the Gladiator (charges ≥ 3).",
+     "when": {
+      "charges": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1,
+     "name": "Triple Slash",
+     "learn": "40-74",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "Same order as the Gladiator (filler).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 345,
+     "name": "Sonic Rage",
+     "learn": "78-78",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "Last in the single-target order.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 9,
+     "name": "Sonic Buster",
+     "learn": "43-74",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Same as the Gladiator (needs Energy Stones): 3+ in the front fan, 2 charges.",
+     "when": {
+      "mobsMin": 3,
+      "charges": 2,
+      "item": 5589
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 7,
+     "name": "Sonic Storm",
+     "learn": "49-74",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Same as the Gladiator (needs Energy Stones): 3+ clumped around the target, 2 charges.",
+     "when": {
+      "mobsMin": 3,
+      "charges": 2,
+      "item": 5589,
+      "distMax": 500
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 424,
+     "name": "War Frenzy",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "🎯 Raids.",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 297,
+     "name": "Duelist Spirit",
+     "learn": "64-72",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "Every fight.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 78,
+     "name": "War Cry",
+     "learn": "43-43",
+     "weapon": [],
+     "trigger": "Every fight.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 359,
+     "name": "Eye of Hunter",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "(77) 10 min, one slot (R8). Hunter = insects/plants/animals. Pick by the target's race. Replaces every Detect … Weakness.",
+     "when": {
+      "mobType": [
+       "insect",
+       "plant",
+       "animal"
+      ]
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 360,
+     "name": "Eye of Slayer",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "(78) 10 min, one slot (R8). Slayer = beasts/constructs/giants/dragons. Pick by the target's race. Replaces every Detect … Weakness.",
+     "when": {
+      "mobType": [
+       "beast",
+       "construct",
+       "giant",
+       "dragon"
+      ]
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 442,
+     "name": "Sonic Barrier",
+     "learn": "79-79",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "(79) 10 s invincible + debuff immune, 5 charges, 15 min reuse. HP < 25 % with charges ≥ 5, or a raid boss AoE. Keep ≥ 5 charges once HP < 40 %.",
+     "when": {
+      "hpBelow": 25,
+      "charges": 5
+     },
+     "auto": true,
+     "why": "\"raid boss AoE\" and \"keep ≥ 5 charges below 40 %\" stay in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 287,
+     "name": "Lionheart",
+     "learn": "49-62",
+     "weapon": [],
+     "trigger": "Boss stun/sleep (as before).",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 775,
+     "name": "Weapon Blockade",
+     "learn": "80-80",
+     "weapon": [
+      "DUAL"
+     ],
+     "trigger": "[H5-file] (80) Disarm 5 s + P.Atk −40 %, 2 charges. ⚠ Raid bosses usually resist disarm. Use on hard-hitting melee elites only, never as a rotation skill.",
+     "when": {
+      "charges": 2,
+      "bigTarget": true,
+      "mobType": "melee"
+     },
+     "auto": false,
+     "why": "never as a rotation skill; hard-hitting melee elites only (⚠ raid bosses resist disarm)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 458,
+     "name": "Symbol of Energy",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "(80) Seal that buffs allies around it (P.Atk), 1 Battle Symbol, 30 min reuse. Raids only, once the party stands still.",
+     "when": {
+      "raidOnly": true,
+      "item": 8875
+     },
+     "auto": true,
+     "why": "\"once the party stands still\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 340,
+     "name": "Riposte Stance",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Reflect 30 %, but atk speed −20 %, speed −10 %, accuracy −4: a DPS loss in PvE. PvP/Olympiad only.",
+     "when": {},
+     "auto": false,
+     "why": "PvP/Olympiad only",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 440,
+     "name": "Braveheart",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "+1000 CP: PvP only (R3).",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R3)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 995,
+     "name": "Rush Impact",
+     "learn": "83",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DAGGER",
+      "POLE",
+      "FIST",
+      "DUAL",
+      "DUALDAGGER"
+     ],
+     "trigger": "lineage2wiki: Duelist 83. In neither tree file; use it only if the live get_account_data type=skills shows it. Left out of the guide's rotation.",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server. Definitions: 995 (this weapon list) and 793 (ancient sword only).",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 992,
+     "name": "Sonic Mastery",
+     "learn": "79",
+     "weapon": [],
+     "trigger": "Passive (79 L8): hits give charges. Nothing to cast.",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server. [H5-file] passive",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 75,
+     "name": "Detect Insect Weakness",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye of Hunter / Eye of Slayer (same slot, R8).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 87,
+     "name": "Detect Animal Weakness",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye of Hunter / Eye of Slayer (same slot, R8).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 104,
+     "name": "Detect Plant Weakness",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye of Hunter / Eye of Slayer (same slot, R8).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 80,
+     "name": "Detect Beast Weakness",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye of Hunter / Eye of Slayer (same slot, R8).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 88,
+     "name": "Detect Dragon Weakness",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye of Hunter / Eye of Slayer (same slot, R8).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 8,
+     "name": "Sonic Focus",
+     "learn": "79-79",
+     "weapon": [
+      "DUAL",
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "Sonic Focus as the in-fight charger → Sonic Rage. It stays the out-of-combat charger (selfbuff row above).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": false,
+     "why": "only the in-fight use is replaced; the out-of-combat row stays",
+     "replacedBy": [
+      345
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "89": {
+   "name": "Dreadnought",
+   "band": "76-85",
+   "line": "Dreadnought",
+   "lines": [
+    "Dreadnought"
+   ],
+   "notes": [
+    "Every Dreadnought attack skill needs POLE.",
+    "Party role: AoE DD on packs the tank holds; his stuns protect the healer. On bosses: Cursed Pierce + auto-attack with Focus Attack on.",
+    "Party summary (§8): AoE only on packs the tank holds. Focus Attack OFF when AoE farming, ON on bosses. Never Provoke. Parry Stance off."
+   ],
+   "rows": [
+    {
+     "aspect": "aoe",
+     "skill": 361,
+     "name": "Shock Blast",
+     "learn": "77-77",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "AoE opener (77): ranged (500) AoE at the target (radius 150): stun 9 s + P.Def/M.Def −30 %, 8 s reuse, 507 HP. Opener on a clumped pack (3+). R7: not below ~40 % HP.",
+     "when": {
+      "mobsMin": 3,
+      "distMax": 500,
+      "hpAbove": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 347,
+     "name": "Earthquake",
+     "learn": "78-78",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "1. (78) Point blank power 4848, 8 s reuse, 340 HP, 60 % target cancel. 2+ monsters within 150. R7: not below ~40 % HP.",
+     "when": {
+      "mobsMin": 2,
+      "hpAbove": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 36,
+     "name": "Whirlwind",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "2. After Earthquake: 2+ monsters within 150.",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 48,
+     "name": "Thunder Storm",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "3. After Whirlwind: 2+ monsters within 150.",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 921,
+     "name": "Cursed Pierce",
+     "learn": "76-76",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "(76) Power 3849, 3 s, crit 30 %. Replaces Power Crush as the top single-target skill.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 920,
+     "name": "Power Crush",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Filler behind Cursed Pierce.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 421,
+     "name": "Fell Swoop",
+     "learn": "58-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "Same as the Warlord: 3+ monsters engaged.",
+     "when": {
+      "fightOnly": true,
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 116,
+     "name": "Howl",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "Same as the Warlord: 3+ monsters hitting me / the party around me.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 78,
+     "name": "War Cry",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Same as the Warlord.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Same as the Warlord: fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 317,
+     "name": "Focus Attack",
+     "learn": "40-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "On bosses only (same as the Warlord: OFF while AoE farming).",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true,
+      "mobsMax": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 359,
+     "name": "Eye of Hunter",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Replaces Detect … Weakness (one slot, R8). Hunter = insects/plants/animals.",
+     "when": {
+      "mobType": [
+       "insect",
+       "plant",
+       "animal"
+      ]
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 360,
+     "name": "Eye of Slayer",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Replaces Detect … Weakness (one slot, R8). Slayer = beasts/constructs/giants/dragons.",
+     "when": {
+      "mobType": [
+       "beast",
+       "construct",
+       "giant",
+       "dragon"
+      ]
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 181,
+     "name": "Revival",
+     "learn": "55-55",
+     "weapon": [],
+     "trigger": "As before: HP ≤ 10 %.",
+     "when": {
+      "hpBelow": 10
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 452,
+     "name": "Shock Stomp",
+     "learn": "55-72",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "As before: 3+ monsters on me and HP < 40 %.",
+     "when": {
+      "mobsOnMe": 3,
+      "hpBelow": 40
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 424,
+     "name": "War Frenzy",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Raid 🎯.",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 287,
+     "name": "Lionheart",
+     "learn": "49-62",
+     "weapon": [],
+     "trigger": "Raid 🎯.",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 457,
+     "name": "Symbol of Honor",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "(80) Area HP/CP regen seal, 1 Battle Symbol, 30 min. la2era: \"least useful class skill\". Raids only.",
+     "when": {
+      "raidOnly": true,
+      "item": 8875
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 339,
+     "name": "Parry Stance",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "(78) P.Def/M.Def +25 % but atk speed −20 %, speed −10 %, accuracy −4. Only for solo train tanking by user order, off in a party.",
+     "when": {},
+     "auto": false,
+     "why": "user order only (solo train tanking)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 286,
+     "name": "Provoke",
+     "learn": "43-60",
+     "weapon": [],
+     "trigger": "See the Warlord: aggro on every monster within 900.",
+     "when": {},
+     "auto": false,
+     "why": "party / train-pull disaster",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 320,
+     "name": "Wrath",
+     "learn": "66-74",
+     "weapon": [
+      "POLE"
+     ],
+     "trigger": "PvP only (R3).",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R3)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 440,
+     "name": "Braveheart",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "PvP only (R3).",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R3)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 995,
+     "name": "Rush Impact",
+     "learn": "83",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DAGGER",
+      "POLE",
+      "FIST",
+      "DUAL",
+      "DUALDAGGER"
+     ],
+     "trigger": "lineage2wiki: Dreadnought 83. In neither tree file; use it only if the live get_account_data type=skills shows it. Left out of the guide's rotation.",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server. Definitions: 995 (this weapon list) and 793 (ancient sword only).",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 75,
+     "name": "Detect Insect Weakness",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye skills.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 87,
+     "name": "Detect Animal Weakness",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye skills.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 104,
+     "name": "Detect Plant Weakness",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye skills.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 80,
+     "name": "Detect Beast Weakness",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye skills.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 88,
+     "name": "Detect Dragon Weakness",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Detect … Weakness → Eye skills.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      359,
+      360
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "90": {
+   "name": "Phoenix Knight",
+   "band": "76-85",
+   "line": "Phoenix Knight",
+   "lines": [
+    "Phoenix Knight"
+   ],
+   "notes": [
+    "Party role: raid/party main tank. \"Every instance and raid wants one\" (l2calendar). The defensive knight.",
+    "Obsolete: Aura of Hate is complemented (not replaced) by Challenge for Fate. Nothing else replaced.",
+    "Party summary (§8): Aggression pull + re-taunt every add not on him · Shield Strike spam · Aura of Hate / Challenge for Fate on packs · no target cancel on his own target · Ultimate Defense / Vengeance on HP triggers · Shield of Faith / Touch of Life to save members · Combat Aura always up."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro rotation: Aggression > Shield Strike > Tribunal > Aura of Hate, as the Paladin (pull + re-taunt any monster not targeting me).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 984,
+     "name": "Shield Strike",
+     "learn": "76-85",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "[H5-file] As the Paladin: spam on the current target.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 400,
+     "name": "Tribunal",
+     "learn": "55-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "As the Paladin: on the tanked target (boss / hard hitter) when Shield Strike is on cooldown.",
+     "when": {
+      "bigTarget": true,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 18,
+     "name": "Aura of Hate",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "As the Paladin: 2+ monsters on the party. Alternate with Challenge for Fate.",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 985,
+     "name": "Challenge for Fate",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "[H5-file] (83) Fan aggro (400), TARGET_LOCK 5 s, 45 s reuse, plus a P/M.Def self-buff 15 s (linedia). 🎯 3+ monsters in front. Alternate with Aura of Hate.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 322,
+     "name": "Shield Fortress",
+     "learn": "64-74",
+     "weapon": [],
+     "trigger": "As before: fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 318,
+     "name": "Aegis Stance",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "As before: ON with 2+ monsters around me, off on single bosses.",
+     "when": {
+      "fightOnly": true,
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 335,
+     "name": "Fortitude",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "(76) Shock/paralyze resist. 🎯 Raids / stunning bosses.",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 527,
+     "name": "Iron Shield",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "(79) 20 min, proc on hits ≥ 100 damage. Keep it up while hunting.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 982,
+     "name": "Combat Aura",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 82,
+     "name": "Majesty",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 112,
+     "name": "Deflect Arrow",
+     "learn": "43-49",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 350,
+     "name": "Physical Mirror",
+     "learn": "78-78",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "(78) Reflects debuffs 5 min, 150 s reuse. 🎯 Raids vs debuffing bosses.",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 368,
+     "name": "Vengeance",
+     "learn": "77-77",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "(77) Root + P.Def +5400 / M.Def +4050 30 s, 40 % taunt chance around (200), 15 min reuse. Big pull / raid boss spike, HP < 50 %.",
+     "when": {
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "\"big pull / raid boss spike\" stays in the trigger text; self-root (R10).",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "HP < 25 % (raid < 40 %). Not at the same time as Vengeance (stagger them).",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "raid threshold 40 % and \"not together with Vengeance\" stay in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 528,
+     "name": "Shield of Faith",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "(79) Party (1000): +P/M.Def and 90 % of their damage goes to me, 15 s, 15 min reuse. 🎯 Raid AoE: 3+ members < 50 % while my HP > 70 %. Never when I'm low.",
+     "when": {
+      "raidOnly": true,
+      "alliesBelow": {
+       "pct": 50,
+       "n": 3
+      },
+      "hpAbove": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 341,
+     "name": "Touch of Life",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "(78) Heals a FRIEND 50 % max HP + heal received +30 % 2 min, costs 1215 HP, 5 min reuse. 🎯 An ally < 25 % with no heal coming / healer dead.",
+     "when": {
+      "allyBelow": 25,
+      "text": "no heal coming / healer dead"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 262,
+     "name": "Divine Blessing",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "As the Paladin: ally < 40 % and healer dead/out of MP.",
+     "when": {
+      "allyBelow": 40,
+      "text": "healer dead / out of MP"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 69,
+     "name": "Sacrifice",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "As the Paladin: ally < 25 % and my HP > 70 %.",
+     "when": {
+      "allyBelow": 25,
+      "hpAbove": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 438,
+     "name": "Soul of the Phoenix",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "(79) 30 min buff: you rise after death (100 %). 1 Phoenix Blood (8873), 1 h reuse. Raids only, before the pull, only if the item is in the bag.",
+     "when": {
+      "raidOnly": true,
+      "outOfCombat": true,
+      "item": 8873
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 454,
+     "name": "Symbol of Defense",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "(80) Defence seal, 1 Battle Symbol. Raid only, when the party stands still.",
+     "when": {
+      "raidOnly": true,
+      "item": 8875
+     },
+     "auto": true,
+     "why": "\"when the party stands still\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 353,
+     "name": "Shield Slam",
+     "learn": "77-77",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Physical silence 60 s but 80 % target cancel. Never on my own tanked target (R5). ⚠ OK on an add that is hitting the healer.",
+     "when": {},
+     "auto": false,
+     "why": "target cancel on the tank's own target (R5)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 406,
+     "name": "Angelic Icon",
+     "learn": "58-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT"
+     ],
+     "trigger": "As the Paladin (never in a party with a living healer).",
+     "when": {},
+     "auto": false,
+     "why": "heals received −80 %",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 810,
+     "name": "Vanguard",
+     "learn": "40-40",
+     "weapon": [
+      "2H_SWORD"
+     ],
+     "trigger": "As the Paladin: transformation (R9).",
+     "when": {},
+     "auto": false,
+     "why": "transformation (R9)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 405,
+     "name": "Banish Undead",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "As the Paladin: fear scatters undead.",
+     "when": {},
+     "auto": false,
+     "why": "fear scatters monsters",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "91": {
+   "name": "Hell Knight",
+   "band": "76-85",
+   "line": "Hell Knight",
+   "lines": [
+    "Hell Knight"
+   ],
+   "notes": [
+    "Party role: off-tank / second raid tank, more damage than the PK, fewer party saves (no Touch of Life / Soul of the Phoenix).",
+    "Obsolete: none (Drain Health becomes minor next to Judgment / Shield Strike).",
+    "Party summary (§8): same aggro kit on the adds. Never the panther, Horror, corpse skills in a party."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 28,
+     "name": "Aggression",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Aggro rotation: Aggression > Shield Strike > Judgment > Aura of Hate > Challenge for Fate.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 984,
+     "name": "Shield Strike",
+     "learn": "76-85",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "[H5-file] 2nd in the aggro rotation.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 401,
+     "name": "Judgment",
+     "learn": "55-74",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "DUAL"
+     ],
+     "trigger": "3rd in the aggro rotation.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 18,
+     "name": "Aura of Hate",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "4th in the aggro rotation (2+ monsters on the party, as the Paladin).",
+     "when": {
+      "mobsMin": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 985,
+     "name": "Challenge for Fate",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "[H5-file] (83) 5th: 3+ monsters in front.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 322,
+     "name": "Shield Fortress",
+     "learn": "64-74",
+     "weapon": [],
+     "trigger": "Fight only.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 335,
+     "name": "Fortitude",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Raids.",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 527,
+     "name": "Iron Shield",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "(79) Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 86,
+     "name": "Reflect Damage",
+     "learn": "40-52",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 982,
+     "name": "Combat Aura",
+     "learn": "52-70",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 82,
+     "name": "Majesty",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 439,
+     "name": "Shield of Revenge",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "(79) 5 min: reflects melee physical skills 20 %, 150 s reuse. 🎯 In fights vs melee bosses / elites.",
+     "when": {
+      "fightOnly": true,
+      "bigTarget": true,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 350,
+     "name": "Physical Mirror",
+     "learn": "78-78",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "(78) 🎯 Raids vs debuffers.",
+     "when": {
+      "fightOnly": true,
+      "raidOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 368,
+     "name": "Vengeance",
+     "learn": "77-77",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Same trigger as the Phoenix Knight: big pull / raid boss spike, HP < 50 %.",
+     "when": {
+      "hpBelow": 50
+     },
+     "auto": true,
+     "why": "\"big pull / raid boss spike\" stays in the trigger text; self-root (R10).",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 110,
+     "name": "Ultimate Defense",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Same trigger as the Phoenix Knight: HP < 25 % (raid < 40 %), not at the same time as Vengeance.",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "raid threshold 40 % and \"not together with Vengeance\" stay in the trigger text.",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 528,
+     "name": "Shield of Faith",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Same trigger as the Phoenix Knight: raid AoE, 3+ members < 50 % while my HP > 70 %.",
+     "when": {
+      "raidOnly": true,
+      "alliesBelow": {
+       "pct": 50,
+       "n": 3
+      },
+      "hpAbove": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 454,
+     "name": "Symbol of Defense",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Raid 🎯: Battle Symbol, raids.",
+     "when": {
+      "raidOnly": true,
+      "item": 8875
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 342,
+     "name": "Touch of Death",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "PvP skill: CP −90 %, removes up to 5 buffs, costs 669 HP. ⚠ On a boss only the debuff part works (debuff vulnerability +30 %, heal received −30 % for 2 min). Use it only if the raid plan asks for it, never in the rotation.",
+     "when": {},
+     "auto": false,
+     "why": "PvP skill (R11); only when a raid plan asks for it",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 353,
+     "name": "Shield Slam",
+     "learn": "77-77",
+     "weapon": [
+      "SHIELD"
+     ],
+     "trigger": "Target cancel (R5).",
+     "when": {},
+     "auto": false,
+     "why": "target cancel on the tank's own target (R5)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 65,
+     "name": "Horror",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Fear: the monster runs and pulls others.",
+     "when": {},
+     "auto": false,
+     "why": "fear pulls more monsters",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 283,
+     "name": "Summon Dark Panther",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Never in a party.",
+     "when": {},
+     "auto": false,
+     "why": "exp −15 %, Crystal D; never in a party",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 811,
+     "name": "Vanguard",
+     "learn": "40-40",
+     "weapon": [
+      "2H_SWORD"
+     ],
+     "trigger": "Transformation (R9).",
+     "when": {},
+     "auto": false,
+     "why": "transformation (R9)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 46,
+     "name": "Life Scavenge",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Corpse skill (R4).",
+     "when": {},
+     "auto": false,
+     "why": "eats the corpse (R4)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 103,
+     "name": "Corpse Plague",
+     "learn": "46-70",
+     "weapon": [],
+     "trigger": "Corpse skill (R4).",
+     "when": {},
+     "auto": false,
+     "why": "eats the corpse (R4)",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  },
+  "92": {
+   "name": "Sagittarius",
+   "band": "76-85",
+   "line": "Sagittarius",
+   "lines": [
+    "Sagittarius"
+   ],
+   "notes": [
+    "Party role: ranged DD. Best in archer parties and mass fights (l2calendar).",
+    "Party summary (§8): 600-900 behind the tank. Snipe only standing still. Stun Shot / Hamstring Shot to peel monsters off the healer. Never pull."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 990,
+     "name": "Death Shot",
+     "learn": "83-83",
+     "weapon": [
+      "BOW",
+      "CROSSBOW"
+     ],
+     "trigger": "1. [H5-file] (83) Power 24306, 12 s.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 343,
+     "name": "Lethal Shot",
+     "learn": "76-76",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "2. (76) Power 7698 + half-kill chance, 8 s.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 19,
+     "name": "Double Shot",
+     "learn": "40-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "3. Filler (behind Death / Lethal Shot).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 354,
+     "name": "Hamstring Shot",
+     "learn": "77-77",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "(77) Damage + slow −30 % 60 s, 15 s reuse. 🎯 Runners / kiting solo.",
+     "when": {
+      "text": "runners / kiting solo"
+     },
+     "auto": false,
+     "why": "no when key for a fleeing monster / kiting",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 987,
+     "name": "Multiple Shot",
+     "learn": "82-82",
+     "weapon": [
+      "BOW",
+      "CROSSBOW"
+     ],
+     "trigger": "[H5-file] (82) Fan (900), power 16667, 12 s. 🎯 3+ monsters in front of me (on the tank).",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 24,
+     "name": "Burst Shot",
+     "learn": "46-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Before 82: Burst Shot (24) instead of Multiple Shot (3+ monsters).",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 334,
+     "name": "Focus Skill Mastery",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "(78) Skill-mastery chance ×11, fight only. ⚠ Together with Vicious Stance? Both are toggles; the datapack shows no shared slot, so keep both on in fights (check live MP drain).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "⚠ Kept on in fights together with Focus Skill Mastery (no shared slot in the datapack; check live MP drain).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 99,
+     "name": "Rapid Shot",
+     "learn": "55-55",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "As the Hawkeye: keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 415,
+     "name": "Spirit of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "As the Hawkeye: keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 416,
+     "name": "Blessing of Sagittarius",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "As the Hawkeye: keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 303,
+     "name": "Soul of Sagittarius",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "As the Hawkeye: HP > 80 %, out of combat (costs 364 HP).",
+     "when": {
+      "hpAbove": 80,
+      "outOfCombat": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 131,
+     "name": "Hawk Eye",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "As the Hawkeye: fight only, skip while tanking adds.",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 313,
+     "name": "Snipe",
+     "learn": "60-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "As the Hawkeye: ON only standing in place behind a tank; never with a monster on me, kiting or the team moving (R10).",
+     "when": {
+      "partyOnly": true,
+      "text": "standing still behind a tank; no monster on me; team not moving"
+     },
+     "auto": false,
+     "why": "self-root (R10): Hive has no stand-still key",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 459,
+     "name": "Symbol of the Sniper",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "(80) Bow/crossbow seal for allies, 1 Battle Symbol. Raids, archer-heavy parties.",
+     "when": {
+      "raidOnly": true,
+      "item": 8875
+     },
+     "auto": true,
+     "why": "\"archer-heavy parties\" stays in the trigger text.",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "🎯 As before: HP < 40 % with a monster on me.",
+     "when": {
+      "hpBelow": 40,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 4,
+     "name": "Dash",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "🎯 Escape / reposition.",
+     "when": {
+      "text": "escape / reposition"
+     },
+     "auto": false,
+     "why": "situational: escape / reposition only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 323,
+     "name": "Quiver of Arrow: A Grade",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "⛔ Supply logic only.",
+     "when": {},
+     "auto": false,
+     "why": "supply logic only (R6)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 324,
+     "name": "Quiver of Arrow: S Grade",
+     "learn": "72-72",
+     "weapon": [],
+     "trigger": "⛔ Supply logic only.",
+     "when": {},
+     "auto": false,
+     "why": "supply logic only (R6)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 933,
+     "name": "Detection",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "⛔ PvP only.",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R11)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 24,
+     "name": "Burst Shot",
+     "learn": "46-74",
+     "weapon": [
+      "BOW"
+     ],
+     "trigger": "Burst Shot → Multiple Shot (82).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      987
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "93": {
+   "name": "Adventurer",
+   "band": "76-85",
+   "line": "Adventurer",
+   "lines": [
+    "Adventurer"
+   ],
+   "notes": [
+    "Positioning: blow skills land more often from the side/back; Backstab only from behind (POSBEHIND).",
+    "Party role: highest burst DD on single targets (raids, elites). Always behind the target.",
+    "Party summary (§8): assist the tank's target only after the tank has it. Stand behind it. Trick / Ultimate Evasion when aggro slips."
+   ],
+   "rows": [
+    {
+     "aspect": "selfbuff",
+     "skill": 357,
+     "name": "Focus Power",
+     "learn": "78-78",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Fight setup (78): crit damage side +30 % / back +60 % (front −30 %), 2 min, 30 s reuse. Keep it up in fights. Focus Chance (356) shares the slot: use Focus Power (the TH guide says tune it for back crit power).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 531,
+     "name": "Critical Wound",
+     "learn": "79-79",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Fight setup (79): target takes crit damage +30 % for 30 s, 8 s reuse. 🎯 Bosses / elites / anything that lives > 10 s.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 531
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 928,
+     "name": "Dual Blow",
+     "learn": "83-83",
+     "weapon": [
+      "DUALDAGGER"
+     ],
+     "trigger": "1. [H5-file] (83) Dual daggers only: power 11234, 8 s.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 409,
+     "name": "Critical Blow",
+     "learn": "55-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "2. Opener / cooldown.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 344,
+     "name": "Lethal Blow",
+     "learn": "76-76",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "3. (76) Power 5773, 4 s, half-kill chance.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 30,
+     "name": "Backstab",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "4. Filler, from behind.",
+     "when": {
+      "behind": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 263,
+     "name": "Deadly Blow",
+     "learn": "40-74",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "4. Filler (behind Lethal / Dual Blow).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 358,
+     "name": "Bluff",
+     "learn": "77-77",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Positioning 🎯 (77): stun 9 s + the target turns its back + loses hate on me (80 %), 8 s reuse. Use it when the target faces me (it's hitting me), then Backstab. ⚠ On the tank's target it can move aggro (R5); with a tank holding it, I'm already behind it, so skip.",
+     "when": {
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "\"the target faces me\" ≈ it is hitting me; skip when a tank holds it.",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "opener",
+     "skill": 821,
+     "name": "Shadow Step",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "Positioning 🎯 (listed with Throwing Dagger): gap closer / get behind, as the Treasure Hunter.",
+     "when": {
+      "distMin": 200,
+      "distMax": 600
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 991,
+     "name": "Throwing Dagger",
+     "learn": "80-80",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "[H5-file] (80) 300 range, −80 % speed 10 s, 45 s. 🎯 A runner / a monster running to the healer.",
+     "when": {
+      "distMax": 300,
+      "text": "a runner / a monster running to the healer"
+     },
+     "auto": false,
+     "why": "no when key for a fleeing monster",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 334,
+     "name": "Focus Skill Mastery",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "(78) Fight only (see the ⚠ in §6.3: kept on together with Vicious Stance, check live MP drain).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 312,
+     "name": "Vicious Stance",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Fight only (see the ⚠ in §6.3).",
+     "when": {
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 460,
+     "name": "Symbol of the Assassin",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "(80) Evasion/crit seal, 1 Battle Symbol. Raids.",
+     "when": {
+      "raidOnly": true,
+      "item": 8875
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 111,
+     "name": "Ultimate Evasion",
+     "learn": "55-55",
+     "weapon": [],
+     "trigger": "As the TH: HP < 40 % with monsters on me.",
+     "when": {
+      "hpBelow": 40,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 11,
+     "name": "Trick",
+     "learn": "49-74",
+     "weapon": [],
+     "trigger": "As the TH: in a party with a tank, when a monster turns to me and HP < 60 %.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1,
+      "hpBelow": 60
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 412,
+     "name": "Sand Bomb",
+     "learn": "55-74",
+     "weapon": [],
+     "trigger": "As the TH: a monster hitting me.",
+     "when": {
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 453,
+     "name": "Escape Shackle",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "As the TH: when rooted.",
+     "when": {
+      "text": "I am rooted"
+     },
+     "auto": false,
+     "why": "no when key for my own root",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 445,
+     "name": "Mirage",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Works only vs players (L2Playable).",
+     "when": {},
+     "auto": false,
+     "why": "PvP only (R11)",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 12,
+     "name": "Switch",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "As the TH: hate may jump onto the healer.",
+     "when": {},
+     "auto": false,
+     "why": "hate may jump onto the healer",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 60,
+     "name": "Fake Death",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "As the TH: manual escape only.",
+     "when": {},
+     "auto": false,
+     "why": "manual escape only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 221,
+     "name": "Silent Move",
+     "learn": "40-40",
+     "weapon": [],
+     "trigger": "As the TH: manual sneaking only.",
+     "when": {},
+     "auto": false,
+     "why": "manual only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 411,
+     "name": "Stealth",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "As the TH: never in a fight.",
+     "when": {},
+     "auto": false,
+     "why": "travel / PvP only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 419,
+     "name": "Summon Treasure Key",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "As the TH: crystals + bag room (R6).",
+     "when": {},
+     "auto": false,
+     "why": "item cost (R6)",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 27,
+     "name": "Unlock",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "As the TH: chests/doors only.",
+     "when": {},
+     "auto": false,
+     "why": "chests / doors only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 623,
+     "name": "Find Trap",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "As the TH: traps only.",
+     "when": {},
+     "auto": false,
+     "why": "traps only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 624,
+     "name": "Remove Trap",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "As the TH: traps only.",
+     "when": {},
+     "auto": false,
+     "why": "traps only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 356,
+     "name": "Focus Chance",
+     "learn": "78-78",
+     "weapon": [
+      "DAGGER",
+      "DUALDAGGER"
+     ],
+     "trigger": "Never needed (same slot as Focus Power).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      357
+     ],
+     "src": "G"
+    }
+   ]
+  }
+ }
+}

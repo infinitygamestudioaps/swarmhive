@@ -68,7 +68,7 @@
     const A = AC(), age = tr.stageAt ? A.srvNow() - tr.stageAt : 0;
     if (tr.legacy) return `${GI(UI.trade, 'sm')} Trade: <b>${esc(tr.giver || '?')}</b> → <b>${esc(tr.receiver || '?')}</b>`;
     return `${GI(UI.trade, 'sm')} Trade: <b>${esc(tr.giver)}</b> → <b>${esc(tr.receiver)}</b>${tr.what ? ' · ' + esc(tr.what) : ''}${tr.fund ? ' (fund round)' : ''} · ` +
-      `<span class="${tr.failed ? 'bad' : tr.done ? 'ok' : ''}">${A.stageText(tr, 'give', tr.receiver)}</span>${!tr.done && !tr.failed && age > 10000 ? ' <span class="muted">· ' + A.dur(age) + '</span>' : ''}` + stageDots(tr);
+      `<span class="${tr.failed ? 'bad' : tr.done ? 'ok' : ''}">${A.stageText(tr, 'give', tr.receiver)}</span>${!tr.done && !tr.failed && age > 10000 ? ' <span class="muted">· ' + (A.ageHtml ? A.ageHtml(age) : A.dur(age)) + '</span>' : ''}` + stageDots(tr);
   }
   function stageDots(tr) {
     if (tr.legacy) return '';
@@ -248,13 +248,13 @@
       const meta = [];
       if (o.steps) meta.push(`step ${o.i + 1}/${o.of}`);
       if (o.next) meta.push('next: ' + esc(o.next));
-      if (o.since && o.since !== o.stepAt) meta.push('started ' + A.dur(A.srvNow() - o.since) + ' ago');
-      const ageTxt = o.offline || o.age == null || !isFinite(+o.age) ? '' : (o.estimated ? '≥ ' : '') + A.dur(o.age);   // PCOVERVIEW: never 'NaNhNaN'
+      if (o.since && o.since !== o.stepAt) meta.push(A.ageHtml ? A.ageHtml(A.srvNow() - o.since, 'started ', ' ago') : 'started ' + A.dur(A.srvNow() - o.since) + ' ago');   // AGETICK
+      const ageTxt = o.offline || o.age == null || !isFinite(+o.age) ? '' : A.ageHtml ? A.ageHtml(o.age, o.estimated ? '≥ ' : '') : (o.estimated ? '≥ ' : '') + A.dur(o.age);   // PCOVERVIEW: never 'NaNhNaN'; AGETICK
       return `<div class="psb ${o.cls || ''}${o.warn ? ' warn' : ''}" data-psb="${esc(leader)}">
         <div class="psb-h">${GI(o.ic || UI.party, 'sm')}<div class="psb-t">${o.h}</div><span class="psb-age" title="${o.estimated ? 'seen by the dashboard for at least this long' : 'this step has taken'}">${ageTxt}</span></div>
         ${bar}${meta.length ? `<div class="psb-meta">${meta.join(' · ')}</div>` : ''}${routeLine(leader)}
         ${o.subs.map(s => `<div class="psb-sub">${s}</div>`).join('')}${saleLine(leader, list)}${warnLine(leader, list)}
-        ${o.warn ? `<div class="psb-why">${GI(UI.warn, 'sm')} <span>${o.why} — for ${A.dur(o.age)}</span></div>` : ''}
+        ${o.warn ? `<div class="psb-why">${GI(UI.warn, 'sm')} <span>${o.why} — for ${A.ageHtml ? A.ageHtml(o.age) : A.dur(o.age)}</span></div>` : ''}
       </div>`;
     } catch (e) { return ''; }
   }

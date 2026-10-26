@@ -381,17 +381,20 @@
     if (!sk.length) { /* the live skill list is not loaded (offline / no game data) */ }
     const skills = !sk.length ? '<span class="muted">skill list not loaded (character offline?)</span>' : (K.skills || []).map(n => { const k = skHave(n); return `<span class="fk-chip ${k ? 'ok' : 'no'}" title="${k ? esc(n + ' Lv ' + k.level) : esc(n) + ' not learned yet'}">${k ? `<img class="fk-sic" src="${skillIcon(k.skill_id)}" alt="">` : ''}${k ? '✓' : '✗'} ${esc(n)}</span>`; }).join('');
     const WH = { worn: ['ok', 'worn'], bag: ['ok', 'in the bag'], clan: ['warn', 'in the clan warehouse'] };
+    const sealTxt = (hv) => hv && hv.sealed ? ` — sealed: unsealed at Pushkin next time in town (${price(hv.price)} ${hv.pay === 57 ? 'adena' : 'Ancient Adena'})` : '';   // KITGET
     const price = (p) => p >= 1e6 ? (Math.round(p / 1e5) / 10) + 'M' : p >= 1e3 ? Math.round(p / 1e3) + 'k' : String(p || '?');
     const row = (x) => { const st = x.have ? WH[x.have.where] : ['no', 'missing'];
       const iid = x.have ? x.have.id : x.cheapest ? x.cheapest.id : 0;   // FRENZY KIT icons (owner 2026-10-14): what it has, else the cheapest option (dimmed)
-      return `<div class="fk-row"><span class="fk-st ${st[0]}">${x.have ? (x.have.where === 'clan' ? '▣' : '✓') : '✗'}</span>${iid ? `<img class="fk-ic ${x.have ? '' : 'miss'}" src="${itemIcon(iid)}" alt="">` : ''}<span class="fk-what"><b>${esc(x.label)}</b><small>${x.have ? esc(st[1] + ': ' + x.have.name) : esc(x.why)}${!x.have && x.cheapest ? ` — cheapest: ${esc(x.cheapest.name)} (${esc(x.cheapest.grade)}, ~${price(x.cheapest.price)} adena, ${x.options} options)` : ''}</small></span></div>`; };
+      return `<div class="fk-row"><span class="fk-st ${st[0]}">${x.have ? (x.have.where === 'clan' ? '▣' : '✓') : '✗'}</span>${iid ? `<img class="fk-ic ${x.have ? '' : 'miss'}" src="${itemIcon(iid)}" alt="">` : ''}<span class="fk-what"><b>${esc(x.label)}</b><small>${x.have ? esc(st[1] + ': ' + x.have.name) + esc(sealTxt(x.have)) : esc(x.why)}${!x.have && x.cheapest ? ` — cheapest: ${esc(x.cheapest.name)} (${esc(x.cheapest.grade)}, ~${price(x.cheapest.price)} adena, ${x.options} options)` : ''}</small></span></div>`; };
     const set = (k) => (K.slots || []).filter(x => x.set === k);
-    const miss = (k) => set(k).filter(x => !x.have || x.have.where === 'clan').length;
+    const miss = (k) => set(k).filter(x => !x.have || x.have.where === 'clan' || x.have.sealed).length;
+    const toGet = (K.slots || []).filter(x => x.have && (x.have.where === 'clan' || x.have.sealed));   // KITGET
     const lowM = miss('low'), highM = miss('high'), skM = sk.length ? (K.skills || []).filter(n => !skHave(n)).length : 0;
     const sum = !K.ready.swap ? `<b class="bad">The gear swap does nothing yet</b>: no high-HP piece in the bag, so it drains by ${K.partners.length ? 'hitting ' + esc(K.partners.join(' / ')) : 'nothing (no other destroyer in the party!)'} only.`
       : lowM || highM ? `<b class="warn">Gear swap partly possible</b>: ${lowM} low-HP and ${highM} high-HP piece(s) missing.` : '<b class="ok">Everything for the gear swap is there.</b>';
     const roleW = K.roleOk === false ? `<div class="fk-sum"><b class="bad">This character's role is "${esc(K.role || '?')}", not destroyer: the bots never drain or cast Frenzy with it.</b></div>` : '';
-    const buyBtn = lowM || highM ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkbuy="1">Buy what is missing…</button><small>Never automatic: the destroyer only goes shopping when you press this and confirm.</small></div>` : '';   // KITBUY 2026-10-15
+    const buyBtn = (toGet.length ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkget="1">Get ${toGet.length} piece${toGet.length === 1 ? '' : 's'} from the clan warehouse${toGet.some(x => x.have.sealed) ? ' + unseal' : ''}…</button><small>Next time ${esc(name)} is in Giran (or now): takes them out${toGet.some(x => x.have.sealed) ? ', unseals the sealed ones at Pushkin' : ''}, keeps them in the bag for the swap.</small></div>` : '')
+      + (lowM || highM ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkbuy="1">Buy what is missing…</button><small>Never automatic: the destroyer only goes shopping when you press this and confirm.</small></div>` : '');   // KITBUY 2026-10-15
     patch($id('cp_frenzy'), `${roleW}<div class="fk-sum">${sum}</div>${buyBtn}
       <div class="fk-sub">Skills ${skM ? '<small>(' + skM + ' not learned yet)</small>' : ''}</div><div class="fk-chips">${skills}</div>
       <div class="fk-sub">Drain partner (they lower each other's HP)</div><div class="fk-row"><span class="fk-st ${K.partners.length ? 'ok' : 'no'}">${K.partners.length ? '✓' : '✗'}</span><span class="fk-what"><b>${K.partners.length ? esc(K.partners.join(', ')) : 'No other destroyer in the party'}</b><small>${K.partners.length ? 'they hit each other carefully until both are low enough' : 'without one (and without the gear swap) it cannot get its HP low for Frenzy'}${(K.otherDestroyers || []).length > 1 ? ' · pairs in name order: ' + esc(K.otherDestroyers.length + 1) + ' destroyers in the party' : ''}</small></span></div>
@@ -405,6 +408,21 @@
   // purchase what is needed"): /api/frenzykit?buy=1 -> one styled dialog (uidialog uiForm, a checkbox per piece) -> the order '!kitbuy <Name> <ids>'
   // (swarm.js KITBUY block: only that character, .giran first by the order rules, buys exactly the ticked pieces, puts nothing on). Pieces in the
   // clan warehouse: the clan leader may take them out instead ('!whtake <id>:1 clan <Name>'), anyone else gets a note.
+  // KITGET-2026-10-25 (owner: "why cant i ask it to get all the items from clan warehouse? ... sealed ... should just say that it needs to unseal it upon
+  // reaching town"): one confirm -> POST /api/frenzykit/get (queued for the next Giran visit, or now)
+  async function frenzyGet() {
+    const name = CP.name, K = CP.fk; if (!K) return;
+    const L = (K.slots || []).filter(x => x.have && (x.have.where === 'clan' || x.have.sealed));
+    if (!L.length) return;
+    const lines = L.map(x => `${x.label}: ${x.have.name}${x.have.where === 'clan' ? ' (clan warehouse)' : ''}${x.have.sealed ? ' — sealed, unsealed at Pushkin into ' + x.have.toName : ''}`).join('\n');
+    const v = await uiChoice({ title: name + ': get the Frenzy kit pieces', body: [uiP(lines)],
+      buttons: [{ value: 'town', label: 'Next time in Giran', primary: true }, { value: 'now', label: 'Go to Giran now' }] }).catch(() => null);
+    if (v !== 'town' && v !== 'now') return;
+    let r = null; try { r = await api('/api/frenzykit/get', { method: 'POST', body: JSON.stringify({ name, now: v === 'now' }) }); } catch (e) { r = { error: e.message }; }
+    if (!r || r.error) { uiError((r && r.error) || 'not sent', 'Frenzy kit'); return; }
+    toast(name + ': Frenzy kit — ' + (r.queued ? 'waits for the next Giran visit' : 'going to Giran now'), true);
+    CP.fk = null; CP.fkAt = 0; renderFrenzy();
+  }
   async function frenzyBuy() {
     const name = CP.name;
     let d = null; try { d = await api('/api/frenzykit?name=' + encodeURIComponent(name) + '&buy=1'); } catch (e) { return uiError('Could not read the Frenzy kit: ' + e.message); }
@@ -1051,6 +1069,7 @@
       const jb = t.closest('[data-cpjunk]'); if (jb) { e.stopPropagation(); CP.junk = !CP.junk; if (CP.junk && CP.cry && CP.cry.on) { CP.cry.on = false; CP.cry.sel.clear(); } jb.textContent = CP.junk ? 'Done' : 'Mark junk'; jb.classList.toggle('on', CP.junk); jb.setAttribute('aria-pressed', String(!!CP.junk)); const hn = $id('cpJunkHint'); if (hn) hn.hidden = !CP.junk; renderInv(); return; }   // JUNKMARK-2026-10-23
       const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); if (CP.junk && it.classList.contains('cp-it')) { junkPick(it).catch(er => toast(er.message, false)); return; } if (CP.cry.on) { cryPick(it); return; } itemPop(it); return; }
       const fb = t.closest('[data-fkbuy]'); if (fb) { e.stopPropagation(); frenzyBuy().catch(er => toast(er.message, false)); return; }   // KITBUY 2026-10-15
+      const fg = t.closest('[data-fkget]'); if (fg) { e.stopPropagation(); frenzyGet().catch(er => toast(er.message, false)); return; }   // KITGET 2026-10-25
       const cm = t.closest('[data-cpclient]'); if (cm) { e.stopPropagation(); try { setClientMode(CP.name, cm.dataset.cpclient); } catch (er) { toast(er.message, false); } return; }
       const ov = t.closest('[data-cpovmenu]'); if (ov && window.Override) { e.stopPropagation(); Override.open(CP.name, ov, { context: 'char', title: CP.name }); return; }
     });

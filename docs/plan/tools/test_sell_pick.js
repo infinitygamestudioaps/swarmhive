@@ -174,5 +174,10 @@ const ids = (r) => r.list.map(x => x.id).sort((a, b) => a - b);
     ok(newN >= oldN, 'the new rule never offers less than the old one on the real bags (with no teammate levels known)');
   } else console.log('(no real bags / data here: replay skipped)');
 }
+// SAJUNK-2026-10-25 (tester Mr.P: "new gearup is selling SA weapon in grocery shop if i bought the new one"): the client shows "Tarbar"
+// (no SA in the name) but item 158 is "Tarbar - Health" -> never junk; the plain Tarbar (id 159 here) of the same grade still is
+{ GEAR[159] = { n: 'Tarbar', s: 'weapon', g: 'D' };
+  const r = M.spPick([row(158, 'Tarbar'), row(159, 'Tarbar')], base({ junkGrades: ['d'] }));
+  ok(ids(r).join() === '159', 'SAJUNK: an SA weapon (id says "- Health", client name plain) is never sold as junk; the plain one is'); }
 console.log(`test_sell_pick: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

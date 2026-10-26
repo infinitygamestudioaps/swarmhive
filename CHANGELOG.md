@@ -2,6 +2,18 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.11.0 (2026-10-26)
+
+- Combat tab = the class guide: all 36 class lines / 103 classes with each skill's type, learn levels, weapon, when it is cast and an On/Off switch, plus your characters live (attacks, buffs, toggles, last casts with the monster hit), readable on phones
+- Hive casts the guide's skills per class and level: area attacks around the character are used, weapon skills only with that weapon, old-class skills give way to newer ones, every rule checked before casting, an opener once per monster, a debuff only after it wore off, never-skills blocked
+- Destroyer raids: Rage + Battle Roar before the drain, then Zealot, Frenzy, Lionheart, never Guts over Frenzy, a non-tank leader waits for the destroyers before pulling
+- area skills count only monsters that fight
+- Stop really stops, and with Hive combat off a character no longer runs away from its fight
+- trade presets remember amounts
+- gear-up never sells SA or enchanted weapons and says when the adena did not cover every piece
+- Enchanting: buy N items in a Giran shop and enchant them, enchanted pieces go back to the clan warehouse, +10 pieces only by your own pick, Enchanting and Parties pages no longer lag
+- Frenzy kit: get the pieces from the clan warehouse, sealed pieces shown and unsealed at Pushkin
+
 ## v1.10.3 (2026-10-25)
 
 - Archers: a shot that hangs (no hit for 3 s) is fired again, after 6 s the character unfreezes, after 9 s the next target is taken (no more 40 s standing still)

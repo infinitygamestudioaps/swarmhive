@@ -215,7 +215,7 @@ function makeAgent(o) {
     const run = async (agentLag, withAck, never) => {
       const sv = { started: 0 }; let hooks = null;
       const exec = (id) => { if (never) return; setTimeout(() => { sv.started++; hooks.started(id); }, 60); };
-      const env = { now: () => Date.now(), sleep: (ms) => new Promise(r => setTimeout(r, Math.max(1, ms))), num: (v) => Number(v) || 0,
+      const env = { now: () => Date.now(), crBlocked: () => false, sleep: (ms) => new Promise(r => setTimeout(r, Math.max(1, ms))), num: (v) => Number(v) || 0,
         Me: { IsCasting: false, MP: 500, MAtkSpd: 333, PAtkSpd: 333 }, SkillsList: { GetItemByID: (id) => ({ Id: id }) }, skillPlan: { attacks: [{ id: 1239, name: 'Hurricane' }] },
         Send: { RequestMagicSkillUse: (id) => setTimeout(() => exec(id), agentLag) }, File: {}, Options: {}, state: {}, log() { }, note() { }, logError() { }, appendShared() { }, __useAck: !!withAck, hiveSkillsOn: () => true };   // HIVESW-2026-10-15: Hive picks the skills (the default)   // v1.6.6 hotfix: the ack path is behind CASTLOOP.useAck (off live)
       if (withAck) env.__sendAck = (fn, args, ms) => new Promise((res, rej) => { if (never) { setTimeout(() => rej(new Error('no ack')), Math.min(ms, 3000)); return; } const sent = Date.now(); setTimeout(() => { exec(args[0]); res({ sent, xt: Date.now(), got: Date.now() + 1 }); }, agentLag); });

@@ -200,8 +200,9 @@ check(/data-psopensec="loot"/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 
 const live = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'loot_rules.json'), 'utf8')); } catch (e) { return null; } })();
 if (live && fs.existsSync(path.join(ROOT, 'Dashboard', 'circuitpage.js'))) {   // the owner's install
   const P = live.parties || {}, sp5 = ['Spoiler2', 'Spoiler3', 'Spoiler4', 'Spoiler5', 'Spoiler6'];
-  check(sp5.every(p => P[p] && P[p].on === true && P[p].mode === 'grade' && eq(P[p].keepGrades, ['S', 'S80', 'S84']) && P[p].to === 'clanleader'), 'owner file: the 5 spoil parties hand everything to the clan leader except S-grade+ gear (kept by the finder)');
-  check(sp5.every(p => LL.lootKeepWhy(P[p], HELM, 'loot') === 'S80 gear — party rule: keep S-grade' && LL.lootKeepWhy(P[p], STEM, 'loot') === ''), 'owner file: the helmet stays, a material still goes');
+  // owner 2026-10-25: 'Why would any of the toons keep the gear? They should deliver it to the collector when in town' -> mode all, nothing kept by the finder
+  check(sp5.every(p => P[p] && P[p].on === true && P[p].mode === 'all' && P[p].to === 'clanleader'), 'owner file: the 5 spoil parties hand EVERYTHING to the clan leader (collector), S-grade gear included');
+  check(sp5.every(p => LL.lootKeepWhy(P[p], HELM, 'loot') === '' && LL.lootKeepWhy(P[p], STEM, 'loot') === ''), 'owner file: the S80 helmet goes to the collector too, a material too');
 } else check(true, 'public install: no owner file to check');
 if (fs.existsSync(path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'))) check(/'loot_rules\.json'/.test(fs.readFileSync(path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'), 'utf8')), 'release_build.js never ships loot_rules.json (public = no file = OFF)');
 

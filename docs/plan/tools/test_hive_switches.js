@@ -95,7 +95,7 @@ check(!T.toggleWanted({ name: '' }, {}), 'no name: no');
   check(T.toggleDecide({ name: 'Vicious Stance', running: false, wanted: TW('Vicious Stance'), lastCastAt: 0 }, Object.assign({}, c, { fight: true })) === 'on', 'a whitelisted one is switched ON in a fight'); }
 check(JSON.stringify(T.FIGHT_TOGGLES) === JSON.stringify(API.FIGHT_TOGGLES), 'the dashboard shows the same fight whitelist as swarm.js');
 { const kp = src.slice(src.indexOf('function toggleCtx()'), src.indexOf('async function autoSkillTick'));
-  check(/wanted: KEEP_TOGGLES\.includes\(name\) \|\| toggleWanted\(\{ name, role: state\.role \|\| '' \}, \{ tankRe: ROLEKIND\.tankStances, picked: picked, notInFight: TOGGLE_NOT_IN_FIGHT \}\)/.test(kp), 'keeper: wanted = KEEP_TOGGLES + toggleWanted (whitelist + tank stances + the player\'s ticks)');
+  check(/: KEEP_TOGGLES\.includes\(name\) \|\| toggleWanted\(\{ name, role: state\.role \|\| '' \}, \{ tankRe: ROLEKIND\.tankStances, picked: picked, notInFight: TOGGLE_NOT_IN_FIGHT \}\)/.test(kp), 'keeper: wanted = KEEP_TOGGLES + toggleWanted (whitelist + tank stances + the player\'s ticks)');
   check(!/!TOGGLE_NOT_IN_FIGHT\.test\(name\) && !\(CONFIG\.autoSkills/.test(kp), 'keeper: the old "ALL toggles" rule is gone');
   check(/const picked = hiveToggles\(\);/.test(kp), 'keeper: reads the ticked toggles of this character');
   check(/if \(!hiveSkillsOn\(\)\) return;\s+\/\/ HIVESW/.test(kp), 'keeper: Hive skills OFF = toggles / cubics / fight buffs never touched');
@@ -143,7 +143,7 @@ has(/if \(state\.role !== 'summoner'[^\n]*\n\s+if \(!hiveSkillsOn\(\)\) return;/
 has(/if \(state\.role !== 'crafter'[^\n]*\n\s+if \(!hiveSkillsOn\(\)\) return;/, 'crafter: golem summon');
 has(/if \(k && k\.IsReady && hiveSkillsOn\(\)\) Send\.RequestMagicSkillUse\(plan\.lock\.id\); else Send\.Attack/, 'pull cycle: a plain hit instead of the lock skill');
 has(/if \(hiveSkillsOn\(\)\) for \(const sk of plan\.attacks\)/, 'instance melee: no skill after the hit');
-has(/if \(Me\.HpPercent < 30 && hiveSkillsOn\(\)\) for \(const n of \['Frenzy'/, 'raid dealer: no Frenzy / Zealot / Rage / Guts');
+has(/if \(Me\.HpPercent < 30 && hiveSkillsOn\(\)\) for \(const n of \['Zealot', 'Frenzy'/, 'raid dealer: no Frenzy / Zealot / Rage / Guts');
 has(/if \(skillNamed\('Frenzy'\) && hiveSkillsOn\(\)\) \{/, 'raid destroyer: no drain before the pull (ready at once)');
 has(/const da = hiveSkillsOn\(\) \? readySkill\(\['Deflect Arrow'\]\) : null;/, 'raid tank: no Deflect Arrow');
 has(/if \(st && due && hiveSkillsOn\(\) && st\.IsReady/, 'raid saint: no Stigma');

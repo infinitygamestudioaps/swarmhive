@@ -72,5 +72,10 @@ t(IL.craftCan({ ing: [{ id: 1, count: 2 }, { id: 2, count: 1 }] }, { bag: [{ id:
   t(['!itemjob ij_dagger1_abc12', '!whlook Dagger1', '!craftmake 2330 3 Crafter1'].every(x => CMD.classify(x)), 'the command catalog knows the three orders');
   const IDX = fs.readFileSync(path.join(ROOT, 'Dashboard', 'index.html'), 'utf8'), SRV = fs.readFileSync(path.join(ROOT, 'Dashboard', 'server.js'), 'utf8');
   t(/ItemsPage\.route\(kind, arg\)/.test(IDX) && /CraftPage\.route\(kind, arg\)/.test(IDX) && /data-tab="items"/.test(IDX) && /data-tab="crafting"/.test(IDX) && /require\('\.\/itemspage_api'\)\.handle\(/.test(SRV), 'pages, tabs and the API are hooked in');
+  // PLUS10PICK-2026-10-25 (owner: "Offcause you should be allowed to do it, but NEVER automatically" / "You should NEVER enchant unless explicit told so")
+  { const API = fs.readFileSync(path.join(ROOT, 'Dashboard', 'itemspage_api.js'), 'utf8'), SW = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8'), PG = fs.readFileSync(path.join(ROOT, 'Dashboard', 'itemspage.js'), 'utf8');
+    t(API.includes("if (p.enchant >= PROTECT_ENCH && !b.plus10Ok) {"), 'PLUS10PICK: the API takes a +10 warehouse pick only with plus10Ok');
+    t(API.includes('x.plus10 ? { plus10: true } : {}') && SW.includes("num(e.from) >= WH_PROTECT_ENCH && e.plus10 !== true"), 'PLUS10PICK: the job carries the mark and the script needs it');
+    t(PG.includes('data-enpok10') && PG.includes("(p10.length && !E.ok10)"), 'PLUS10PICK: the page shows +10 pieces and needs its own tick'); }
   console.log(`\n${ok} passed, ${bad} failed`); process.exit(bad ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });

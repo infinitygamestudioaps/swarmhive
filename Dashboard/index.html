@@ -431,7 +431,8 @@ main { grid-template-columns: minmax(0, 1fr); } main > section { min-width: 0; }
 /* PARTY LAYOUT 2026-10-13: the party cards share the width (2 columns from ~1420 px, 3 from ~2130 px); inside a card the map sits beside the rows
    when the card is >= 680 px wide (container 'pcard'), else above them (shorter); the party buttons form a grid, the task picker its own line */
 #tab-parties { display: grid; gap: 10px; align-items: stretch; grid-template-columns: repeat(auto-fill, minmax(min(100%, 700px), 1fr)); }
-#tab-parties > :not(.win) { grid-column: 1 / -1; min-width: 0; }
+#tab-parties > :not(.win), #tab-parties > .pp-top > :not(.win), #tab-parties > .pp-k > :not(.win) { grid-column: 1 / -1; min-width: 0; }
+#tab-parties > .pp-top, #tab-parties > .pp-k { display: contents; }   /* PARTIESPERF: one wrapper per card, the grid sees the cards */
 #tab-parties .win.pcard { container: pcard / inline-size; }
 .partybar { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding: 4px 2px; } .partybar a { color: var(--gold, #d8b45a); text-decoration: none; padding: 2px 6px; border-radius: 4px; } .partybar a.on { background: rgba(216,180,90,.18); font-weight: bold; } .phead a.plink { color: inherit; text-decoration: none; } .phead a.plink:hover { text-decoration: underline; }
 .pwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; align-items: start; }
@@ -692,6 +693,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="spots"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Spots</button>
       <button data-tab="rooms"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Quest.png" alt=""> Rooms</button>
       <button data-tab="gear"><img class="gi" src="/icons/icon/armor_t53_u_i00.png" alt=""> Gear</button>
+      <button data-tab="combat" title="Every class line and level band: which skills Hive uses, when, with which weapon - and what each character is casting now"><img class="gi" src="/icons/icon/skill0036.png" alt=""> Combat</button>
       <button data-tab="classes"><img class="gi" src="/icons/class/class_106.png" alt=""> Classes</button>
       <button data-tab="buffs"><img class="gi" src="/icons/class/class_115.png" alt=""> Buffs</button>
       <button data-tab="dispatch" title="Send a party or a character anywhere: epics, raid bosses, NPCs, areas — one stop or a whole tour"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Dispatch</button>
@@ -987,6 +989,13 @@ function patch(el, html) {
     childrenOnly: true,
     onBeforeElUpdated(fromEl, toEl) {
       if (fromEl === document.activeElement && /^(INPUT|SELECT|TEXTAREA)$/.test(fromEl.tagName)) return false;
+      // PARTIESPERF-2026-10-25: a map label the label fixer scaled keeps its scaled size while its code still draws the same size (was: reset by every
+      // refresh, scaled again by the fixer = two writes per label per map per refresh)
+      if (fromEl.tagName === 'text' && fromEl.dataset.fsSet && toEl.getAttribute('font-size') === fromEl.dataset.fs0 && fromEl.getAttribute('font-size') === fromEl.dataset.fsSet) {
+        ['font-size', 'stroke-width', 'style'].forEach(a => { const v = fromEl.getAttribute(a); if (v == null) toEl.removeAttribute(a); else toEl.setAttribute(a, v); });
+        ['fs0', 'fsSet', 'sw0', 'csw0'].forEach(k => { if (fromEl.dataset[k] != null) toEl.dataset[k] = fromEl.dataset[k]; });
+      }
+      if (fromEl.dataset && fromEl.dataset.lvat && fromEl.dataset.lvat === toEl.getAttribute('data-lvat') && fromEl.dataset.lvpre === (toEl.getAttribute('data-lvpre') || undefined)) return false;   // AGETICK: the ticker owns its text
       if (fromEl.tagName === 'DETAILS') { if (fromEl.open) toEl.setAttribute('open', ''); else toEl.removeAttribute('open'); }
       const same = !/^(INPUT|SELECT|TEXTAREA)$/.test(fromEl.tagName) || toEl.tagName !== fromEl.tagName || ctlKey(fromEl) === ctlKey(toEl);
       if (same && fromEl.tagName === 'INPUT' && fromEl.type !== 'checkbox') toEl.value = fromEl.value;
@@ -1241,6 +1250,7 @@ function route() {
   if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
   if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
   if (window.CraftPage && CraftPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/crafting[/<name>] crafters: recipes + materials from bag / warehouse / clan (Dashboard/craftpage.js)
+  if (window.CombatClassPage && CombatClassPage.route(kind, arg)) return;   // CLASSROT 2026-10-26: #/combat + #/combat/line/<Line> the class guide (Dashboard/combatclass.js)
   if (window.CombatProfilePage && CombatProfilePage.route(kind, arg)) return;   // COMBATPROFILE 2026-10-17: #/combat/<name> the character's L2Swarm combat profile (Dashboard/combatprofile.js)
   if (window.SkillEnchantPage && SkillEnchantPage.route(kind, arg)) return;   // SKILL ENCHANT 2026-10-12: #/skillenchant[/<name>] (Dashboard/skillenchantpage.js); closes itself on other pages
   if (window.QuestPage && QuestPage.route(kind, arg)) return;   // QUESTS 2026-10-12: #/quests[/<id>] (Dashboard/questpage.js); closes itself on other pages
@@ -2441,14 +2451,15 @@ function renderParties() {
   const parties = {};
   STATE.chars.forEach(c => { (parties[c.party] = parties[c.party] || []).push(c); });
   if (PARTY_ONE) {
-    if (!parties[PARTY_ONE]) { patch($('tab-parties'), partyPageBar(parties) + `<div class="win muted">No party led by ${esc(PARTY_ONE)} is reporting right now.</div>`); return; }
+    if (!parties[PARTY_ONE]) { partiesPatch(partyPageBar(parties), [{ k: '(none)', h: `<div class="win muted">No party led by ${esc(PARTY_ONE)} is reporting right now.</div>` }]); return; }
     const one = { [PARTY_ONE]: parties[PARTY_ONE] };
     return renderPartyCards(one, partyPageBar(parties));
   }
   return renderPartyCards(parties, '');
 }
 function renderPartyCards(parties, bar) {
-  patch($('tab-parties'), bar + (window.ClassPlans ? ClassPlans.topBanner() : '') + (bar ? '' : huntStrip()) + /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).sort((a, b) => (b[0] === mainLeader()) - (a[0] === mainLeader()) || a[0].localeCompare(b[0])).map(([leader, list]) => {   /* NOJUMP: fixed order */
+  const top = bar + (window.ClassPlans ? ClassPlans.topBanner() : '') + (bar ? '' : huntStrip());
+  const cards = /* 2026-10-12 (user: "kamaloka pushes the content, impossible to navigate"): no inline live view here; the one-line banner on top opens it */ Object.entries(parties).sort((a, b) => (b[0] === mainLeader()) - (a[0] === mainLeader()) || a[0].localeCompare(b[0])).map(([leader, list]) => ({ k: leader, h: (() => {   /* NOJUMP: fixed order */
     list.sort((a, b) => (b.name === leader) - (a.name === leader) || a.name.localeCompare(b.name));
     const lv = list.map(c => c.level);
     const live = list.filter(c => c.ageSec <= 30).length;
@@ -2482,7 +2493,23 @@ function renderPartyCards(parties, bar) {
       <div class="pmeta">${tacticsHtml(leader, list)}<div class="pmeta-spot">${spotPickHtml(leader, list)}</div></div><!-- PCOVERVIEW-2026-10-22: one row on a PC -->
       ${window.StateCtl ? StateCtl.partyHtml(leader, list) : ''}<!-- STATECTL-2026-10-22: the State of every member + whole-party reset -->
       <div class="pwrap">${partyMap(leader, list)}<div class="members">${list.map(memberRow).join('')}${ghostRows(leader, list)}</div></div></div>`;
-  }).join('') || '<div class="win muted">No characters are reporting yet. Is L2Swarm running with swarm.js loaded?</div>');
+  })() }));
+  partiesPatch(top, cards.length ? cards : [{ k: '(none)', h: '<div class="win muted">No characters are reporting yet. Is L2Swarm running with swarm.js loaded?</div>' }]);
+}
+// PARTIESPERF-2026-10-25 (owner: "fix the parties page lag too"): the page was ONE patch of all 23 cards (~10,000 elements) up to 3x a second
+// (pollLive 1 s, pollHunt 2 s, refresh 4 s): the whole page was parsed again and morphed every time (CPU profile: 7 s of 25 s). Now every card has
+// its own wrapper (display: contents - the grid sees the cards as before) and is patched alone: an unchanged card is skipped without parsing
+function partiesPatch(topHtml, cards) {
+  const box = $('tab-parties'); if (!box) return;
+  let topEl = box.firstElementChild;
+  if (!topEl || !topEl.classList.contains('pp-top')) { box.innerHTML = ''; box._last = null; topEl = document.createElement('div'); topEl.className = 'pp-top'; box.appendChild(topEl); }
+  patch(topEl, topHtml);
+  const have = {}; Array.from(box.children).forEach(c => { if (c.classList.contains('pp-k')) have[c.dataset.pk] = c; });
+  let prev = topEl;
+  cards.forEach(c => { let el = have[c.k]; delete have[c.k]; if (!el) { el = document.createElement('div'); el.className = 'pp-k'; el.dataset.pk = c.k; }
+    if (prev.nextSibling !== el) box.insertBefore(el, prev.nextSibling); patch(el, c.h); prev = el; });
+  Object.values(have).forEach(el => el.remove());
+  if (window.Activity && Activity.tickAges) Activity.tickAges();   // AGETICK: new age spans get their text at once
 }
 
 function fillTargets() {
@@ -2898,11 +2925,14 @@ function huntOne(hh) {
 }
 function renderHunt() {
   if (TAB === 'raids' && $('huntBox')) patch($('huntBox'), huntHtml());
-  if (TAB === 'parties' && STATE) renderParties();
+  // PARTIESPERF-2026-10-25: only the strip on top reads HUNT - the 23 cards are not rebuilt for it (the 4 s refresh does that)
+  if (TAB === 'parties' && STATE) { const box = $('tab-parties'), top = box && box.firstElementChild; if (top && top.classList.contains('pp-top') && !PARTY_ONE) patch(top, (window.ClassPlans ? ClassPlans.topBanner() : '') + huntStrip()); else renderParties(); }
 }
 async function pollHunt() {
   if (document.hidden || !['raids', 'parties'].includes(TAB)) return;
-  try { HUNT = await api('/api/raidhunt'); } catch (e) { return; }
+  let next; try { next = await api('/api/raidhunt'); } catch (e) { return; }
+  const sig = JSON.stringify(next || null); if (sig === pollHunt._sig && TAB === 'parties') { HUNT = next; return; }   // PARTIESPERF: nothing new
+  pollHunt._sig = sig; HUNT = next;
   renderHunt();
 }
 setInterval(pollHunt, 2000);
@@ -3051,7 +3081,7 @@ async function pollLive() {
   if (TAB === 'raids') patch($('raidLive'), LIVE && LIVE.running ? liveHtml() : huntingNow ? '<div class="hunt off"><span class="muted">No party is fighting a boss right now (the raid hunt is travelling or looking for the next boss). The live raid map appears here as soon as a party is on its boss.</span></div>' : liveHtml());
   if (TAB === 'raids' && HUNT && HUNT.active && !HUNT.stale && $('huntBox')) patch($('huntBox'), huntHtml());
   if (TAB === 'raid' && $('raidLiveB')) patch($('raidLiveB'), liveHtml());
-  if (TAB === 'parties' && STATE) renderParties();
+  // PARTIESPERF-2026-10-25: no party card reads LIVE (the raid banner above is patched on its own) - the 1 s raid poll no longer redraws the 23 cards
 }
 setInterval(pollLive, 1000);
 
@@ -5135,7 +5165,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 // scaled with it. Opt out: <svg data-fsfix="off">. Runs after DOM changes (only the changed maps), on resize and every 2 s for maps that
 // became visible.
 (function () {
-  const base = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs-map')) || 11;
+  let baseV = 0, baseAt = 0;   // PARTIESPERF-2026-10-25: read once per 5 s, not per map per flush (a forced style read each time)
+  const base = () => { const t = Date.now(); if (!baseV || t - baseAt > 5000) { baseV = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs-map')) || 11; baseAt = t; } return baseV; };
   function fix(svg) {
     if (!svg || !svg.isConnected || svg.getAttribute('data-fsfix') === 'off') return;
     const vb = svg.viewBox && svg.viewBox.baseVal; if (!vb || !vb.width || !vb.height) return;
@@ -5269,6 +5300,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/raidheallogic.js"></script>
 <script src="/combatxml.js"></script>
 <script src="/combatprofile.js"></script>
+<script src="/combatclass.js"></script>
 <script src="/itemslogic.js"></script>
 <script src="/itemspage.js"></script>
 <script src="/augmentpage.js"></script>

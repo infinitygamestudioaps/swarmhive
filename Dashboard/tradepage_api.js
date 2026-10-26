@@ -193,6 +193,7 @@ async function handle(req, res, url, ctx) {
         if (!ck.ok) { ctx.json(res, 400, { error: 'preset: ' + ck.errors.join('; ') }); return true; }
         const clean = { name: String(pr.name).trim().slice(0, 60), receiver: String(pr.receiver || '@clanleader').slice(0, 40), cats: (pr.cats || []).filter(c => TL.CAT_KEYS.includes(c)),
           ids: (pr.ids || []).map(Number).filter(Number.isFinite).slice(0, 300), names: (pr.names || []).map(String).slice(0, 20), exclude: (pr.exclude || []).map(Number).filter(Number.isFinite).slice(0, 300),
+          items: (pr.items || []).map(x => ({ id: Number(x && x.id), count: Math.max(1, Math.round(Number(x && x.count) || 1)) })).filter(x => Number.isFinite(x.id) && x.id > 0).slice(0, 300),   // PRESETQTY
           adena: Math.max(0, Math.round(Number(pr.adena) || 0)), savedAt: new Date().toISOString() };
         const next = list.filter(x => x.name !== clean.name).concat([clean]);
         presetsWrite(ctx, next); logLine(ctx, `trade page: preset saved "${clean.name}"`);

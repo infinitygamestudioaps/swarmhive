@@ -1,0 +1,6812 @@
+{
+ "group": "kamael",
+ "source": "docs/plan/class_skills/research/kamael.md",
+ "rules": [
+  {
+   "text": "Every Kamael AoE has affectLimit 5-12: it hits at most about 5 to 12 targets. \"Mobs\" in the rows means the minimum cluster size that makes the AoE worth more than single-target.",
+   "skills": [],
+   "src": "DP"
+  },
+  {
+   "text": "Board buffs are assumed (Might, Haste, Empower, Shield, Focus, Death Whisper, Wind Walk ...). Several Kamael self-buffs share an abnormal slot with board buffs and must not be auto-cast.",
+   "skills": [
+    1432,
+    469,
+    1441
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Souls: Soul Mastery is a passive that gains souls automatically from EXP and on crits. The soul cap grows with level: 5 at 5, 10 at 15, 20 at 36, 24 at 49, 30 at 62, 40 at 74. Souls expire 10 min after the last one is absorbed.",
+   "skills": [],
+   "src": "DP"
+  },
+  {
+   "text": "Almost every Kamael attack has soulMaxConsumeCount 5: it uses up to 5 souls per cast for bonus power and still works with 0 souls, just weaker. Never block an attack because souls are low.",
+   "skills": [],
+   "src": "DP"
+  },
+  {
+   "text": "Life to Soul 502 (40+): costs 193 to 328 HP and gives 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. Auto-use when souls < 5 && HP > 70% && (not in combat || target HP high).",
+   "skills": [
+    502
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Soul Gathering 625 (46+): gives +50 souls (capped), costs 10 Spirit Ore (3031) and 200 HP, 30 min reuse. Auto-use before a pull or a raid when souls < 10 and Spirit Ore >= 10.",
+   "skills": [
+    625
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Soul Rage 939 (78+): +1 soul per cast and a 0-power hit for 25 HP and 5 MP. Only a filler while the main skills are on cooldown and souls < 5. Never spam it at 40 souls.",
+   "skills": [
+    939
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Final Form 538 (79+): needs and uses 20 souls plus 200 HP; a 5 min transform that doubles P.Atk, P.Def, M.Atk and M.Def, 1 hour reuse. The normal skill bar is replaced by transform skills. Never auto-use it unless the bot has a transform skill set; manual for raids and PvP (unc: which normal skills stay usable while transformed).",
+   "skills": [
+    538
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Increase Power 1432 (PA_UP) shares a slot with Might and Chant of Battle: never cast it while board Might is up (it is weaker, +8/12% vs +15%).",
+   "skills": [
+    1432
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Rapid Attack 469 (ATTACK_TIME_DOWN) shares a slot with Haste and Chant of Fury: never cast it while Haste is up.",
+   "skills": [
+    469
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Soul to Empower 1441 (MA_UP) shares a slot with Empower: never cast it while Empower is up.",
+   "skills": [
+    1441
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Furious Soul 482 (PA_UP_SPECIAL) shares a slot with Rage: fine unless a Rage buff is present.",
+   "skills": [
+    482
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Sword Shield 483 and Prahnah 1470 (PD_UP_SPECIAL) share a slot with Ultimate Defense, Vengeance, Harmony/Symphony of Noblesse and each other: emergency only; do not overwrite each other.",
+   "skills": [
+    483,
+    1470
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Dark Weapon 1443 (HOLY_ATTACK) shares a slot with Holy Weapon and Fire/Ice/Wind/Earth Weapon: only cast it if no other weapon-element buff is on the target.",
+   "skills": [
+    1443
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Courage 499 (RESIST_SPIRITLESS) shares a slot with Lionheart: situational.",
+   "skills": [
+    499
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Soul Barrier 1514 (PD_UP_BOW) shares a slot with Deflect Arrow: emergency.",
+   "skills": [
+    1514
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Appetite for Destruction 1476, Protection Instinct 1478, Vampiric Impulse 1477, Magic Impulse 1479 and Soul Harmony 1480 share the INSTINCT slot: only one Inspector \"instinct\" is active at a time.",
+   "skills": [
+    1476,
+    1478,
+    1477,
+    1479,
+    1480
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Weapons: Ancient Sword (2H) for Trooper/Berserker/Doombringer; Rapier (1H) for Soul Breaker/Soul Hound/Inspector/Judicator melee; Crossbow for Warder/Arbalester/Trickster. The Soul Breaker/Soul Hound magic skills (Abyssal Blaze 1433, Soul of Pain 1436, Dark Flame 1437, Annihilation Circle 1438, Soul Strike 1516, Soul Vortex 1512, Leopold 1469) have no weapon requirement.",
+   "skills": [
+    1433,
+    1436,
+    1437,
+    1438,
+    1516,
+    1512,
+    1469
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Change Weapon 1473 converts the equipped D-grade or higher weapon (2H sword <-> Ancient Sword, 1H sword <-> Rapier, Bow <-> Crossbow; enchant, SA and attribute carry over; augmented weapons cannot be converted; 15 s reuse). It is a one-time setup action, never a combat skill: never auto-use it.",
+   "skills": [
+    1473
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Charge skills cannot be used in melee: Shoulder Charge 494, Blade Rush 495, Storm Assault 493 and Rush Impact 793 have target mindistance 200. Only cast them when the target is >= 200 units away (gap-closers / openers).",
+   "skills": [
+    494,
+    495,
+    493,
+    793
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Checkmate 506 needs a rapier and Death Mark 1435 on the target.",
+   "skills": [
+    506,
+    1435
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Contagion 498 needs an ancient sword and a bleed on the target (from Blade Rush 495).",
+   "skills": [
+    498,
+    495
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Soul Vortex Extinction 1513 needs Soul Vortex 1512 on the target and removes it.",
+   "skills": [
+    1513,
+    1512
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Restoration Impact 1488 needs Restoration 1487 on the target.",
+   "skills": [
+    1488,
+    1487
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Deadly Roulette 510 needs your own HP <= 10%.",
+   "skills": [
+    510
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Owner rule (2026-10-10): all toggles run ONLY in fights. \"Always on\" in the tables means \"on whenever fighting\", including Dark Armor 481 and Dark Blade 480 (no MP drain).",
+   "skills": [
+    481,
+    480
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Owner rule (2026-10-02 a): no self-buffs while board buffs are on. Exceptions the board does not give: Dark Weapon 1443 and Pride of Kamael 1444 (swarm.js partyBuffs.inspector keeps these up), Furious Soul 482, Blood Pact 834, Fast Shot 490 and Lightning Barrier 1515 share no slot with board buffs; whether those exceptions are allowed is the owner's call (unc).",
+   "skills": [
+    1443,
+    1444,
+    482,
+    834,
+    490,
+    1515
+   ],
+   "src": "?"
+  },
+  {
+   "text": "Always-never: Detect Trap 470 and Defuse Trap 471 are only for player traps or chests.",
+   "skills": [
+    470,
+    471
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Always-never: Erase Mark 1475 removes Death Mark from a target; its only use is cleansing an ally hit by an enemy Kamael. Never auto-cast it on a mob (it would remove your own Death Mark).",
+   "skills": [
+    1475
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Always-never: Change Weapon 1473 (see the weapon rule).",
+   "skills": [
+    1473
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Always-never: Hard March 479 (+20 run speed, MP drain) is a travel toggle only: on when moving with no target, off in combat (or ignore it if Wind Walk is up).",
+   "skills": [
+    479
+   ],
+   "src": "G"
+  },
+  {
+   "text": "Always-never: Soul Harmony 1480 is a party-wide Stun + P.Def x0.1 + 200 MP restore. NEVER auto-use it: it stuns and strips your own party.",
+   "skills": [
+    1480
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Filter by the equipped weapon: Fallen Attack 468 fails with an ancient sword, rapier skills fail on a Doombringer, crossbow skills fail on a rapier user.",
+   "skills": [
+    468
+   ],
+   "src": "DP"
+  },
+  {
+   "text": "Sharpshooting 521 roots you: never use it while kiting. Temptation 511 and Scorn 503 pull aggro.",
+   "skills": [
+    521,
+    511,
+    503
+   ],
+   "src": "G"
+  }
+ ],
+ "classes": {
+  "123": {
+   "name": "Kamael Soldier (male)",
+   "band": "1-19",
+   "line": "Doombringer",
+   "lines": [
+    "Doombringer",
+    "Soul Hound"
+   ],
+   "notes": [
+    "Guide 1-19 Kamael Soldier (male) table, used by both male lines.",
+    "AoE: none. Never: none. Souls: passive only (cap 5 to 10); nothing to manage.",
+    "Soul Hound line (guide section 2): same as the Doombringer line, but use a rapier or sword so Fallen Attack 468 works. Open with Fallen Arrow 1431, then use Fallen Attack. Increase Power 1432 only without board Might."
+   ],
+   "rows": [
+    {
+     "aspect": "opener",
+     "skill": 1431,
+     "name": "Fallen Arrow",
+     "learn": "5-15",
+     "weapon": [],
+     "trigger": "Core single: open with Fallen Arrow (wind magic, 600 range, 2 s). If you wield an ancient sword, Fallen Attack fails, so use Fallen Arrow as the opener and filler and auto-attack otherwise. With a sword, open with Fallen Arrow and then spam Fallen Attack.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 468,
+     "name": "Fallen Attack",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "RAPIER"
+     ],
+     "trigger": "Core single: with a sword / blunt / rapier, open with Fallen Arrow and then spam Fallen Attack (melee, 3 s). Requires sword/blunt/rapier, not an ancient sword (it fails with one).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1431,
+     "name": "Fallen Arrow",
+     "learn": "5-15",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: with an ancient sword Fallen Attack fails, so Fallen Arrow is the filler (auto-attack otherwise).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1432,
+     "name": "Increase Power",
+     "learn": "10-10",
+     "weapon": [],
+     "trigger": "Self-buff (10+): only if there is no board Might (slot conflict PA_UP).",
+     "when": {
+      "boardMissing": "Might"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  },
+  "124": {
+   "name": "Kamael Soldier (female)",
+   "band": "1-19",
+   "line": "Soul Hound",
+   "lines": [
+    "Soul Hound",
+    "Trickster",
+    "Judicator"
+   ],
+   "notes": [
+    "Guide 1-19 Kamael Soldier (female) table (section 3).",
+    "Trickster line (guide section 4): same as the female Soldier. Use Fallen Arrow 1431 as the main ranged attack, Fallen Attack 468 in melee, and Rapid Attack 469 only without Haste.",
+    "Judicator line: Inspector is subclass-only and starts at 40; the 1-39 bands do not apply."
+   ],
+   "rows": [
+    {
+     "aspect": "opener",
+     "skill": 1431,
+     "name": "Fallen Arrow",
+     "learn": "5-15",
+     "weapon": [],
+     "trigger": "Core: Fallen Arrow opener.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 468,
+     "name": "Fallen Attack",
+     "learn": "5-15",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "RAPIER"
+     ],
+     "trigger": "Core: Fallen Attack (rapier or sword).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 469,
+     "name": "Rapid Attack",
+     "learn": "10-10",
+     "weapon": [],
+     "trigger": "Self-buff Rapid Attack (10+, +15% Atk.Spd): only without board Haste (slot conflict ATTACK_TIME_DOWN).",
+     "when": {
+      "boardMissing": "Haste"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "learn": "15-15",
+     "weapon": [],
+     "trigger": "Never: Detect Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "learn": "15-15",
+     "weapon": [],
+     "trigger": "Never: Defuse Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "125": {
+   "name": "Trooper",
+   "band": "20-39",
+   "line": "Doombringer",
+   "lines": [
+    "Doombringer",
+    "Soul Hound"
+   ],
+   "notes": [
+    "Two guide tables for this class: \"20-39 Trooper\" (Doombringer path, Ancient Sword) and \"20-39 Trooper (Soul Breaker-bound)\" (rapier / dark magic). Each row carries \"line\": use only the rows of the character's planned line.",
+    "Weapon: Ancient Sword on the Doombringer path; rapier on the Soul Breaker path."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 476,
+     "name": "Dark Strike",
+     "line": "Doombringer",
+     "learn": "20-36",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "ANCIENT"
+     ],
+     "trigger": "Core single (AS): Dark Strike (3 s, sword/blunt/AS). Main spam on cooldown.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 478,
+     "name": "Double Thrust",
+     "line": "Doombringer",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single (rapier, SB-bound only): Double Thrust. Only if the character holds a rapier. A Doombringer-bound character uses Dark Strike.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "line": "Doombringer",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Ranged / pull: Abyssal Blaze (dark magic, 750 range, 2 s). Pull or opener from range, and when the target is out of melee range.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "line": "Doombringer",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "AoE: Dark Explosion (24+, magic AoE around the target, 500 cast range). Use at 3+ mobs clustered.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "line": "Doombringer",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "Debuff: Death Mark (24+, 30 s DoT plus P.Def/M.Def −23%). On tougher mobs or bosses only. Skip it on trash.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "line": "Doombringer",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor (32+, dark resist, no MP drain). Keep on at all times (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 480,
+     "name": "Dark Blade",
+     "line": "Doombringer",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Toggle: Dark Blade (36+, +10 dark attack, no MP drain). Keep on at all times (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 475,
+     "name": "Strike Back",
+     "line": "Doombringer",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Toggle (optional): Strike Back (small P-damage reflect, MP drain). Optional. Off is fine.",
+     "when": {},
+     "auto": false,
+     "why": "optional; off is fine",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 482,
+     "name": "Furious Soul",
+     "line": "Doombringer",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Self-buff: Furious Soul (24+, 90 s, crit rate/dmg up, P.Def −5%, 75 s reuse). Recast on cooldown while in combat.",
+     "when": {
+      "onCooldown": true,
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1432,
+     "name": "Increase Power",
+     "line": "Doombringer",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Self-buff: Increase Power lvl 2. Only if there is no board Might.",
+     "when": {
+      "boardMissing": "Might"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 499,
+     "name": "Courage",
+     "line": "Doombringer",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Emergency: Courage (36+, fear/confusion resist 60 s). When feared or facing fear mobs.",
+     "when": {
+      "text": "I am feared, or facing fear mobs"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 483,
+     "name": "Sword Shield",
+     "line": "Doombringer",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Emergency: Sword Shield (36+, 30 s huge P.Def, −40% speed, 15 min reuse). When HP < 30% and in melee.",
+     "when": {
+      "hpBelow": 30,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 484,
+     "name": "Rush",
+     "line": "Doombringer",
+     "learn": "32-32",
+     "weapon": [
+      "ANCIENT",
+      "RAPIER"
+     ],
+     "trigger": "Gap-closer: Rush (32+, AS/rapier, 400 range, no damage). Only as a gap-closer when the target is > 200 away. Low value.",
+     "when": {
+      "distMin": 200
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 485,
+     "name": "Disarm",
+     "line": "Doombringer",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Never auto: Disarm (PvP).",
+     "when": {},
+     "auto": false,
+     "why": "PvP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "line": "Doombringer",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Never auto: Surrender to Dark (a dark-resist debuff that does little for Ancient Sword damage; unc).",
+     "when": {},
+     "auto": false,
+     "why": "little value for Ancient Sword damage (unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "line": "Doombringer",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 479,
+     "name": "Hard March",
+     "line": "Doombringer",
+     "learn": "28-28",
+     "weapon": [],
+     "trigger": "Never auto: Hard March in combat (travel toggle only: on when moving with no target, off in combat; ignore it if Wind Walk is up).",
+     "when": {},
+     "auto": false,
+     "why": "travel toggle only, never in combat",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "line": "Soul Hound",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Core single: Abyssal Blaze (dark magic, 750 range, 2 s) as the main nuke. Kite-cast Abyssal Blaze and finish in melee with Double Thrust.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 478,
+     "name": "Double Thrust",
+     "line": "Soul Hound",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single: Double Thrust (rapier, 3 s) when the mob reaches melee. Kite-cast Abyssal Blaze and finish in melee with Double Thrust.",
+     "when": {
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "line": "Soul Hound",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "AoE: Dark Explosion (24+, around the target). Use at 3+ clustered.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "line": "Soul Hound",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Debuff: Surrender to Dark (28+, 900 range, 30 s, 80%). On mobs that take more than about 3 nukes: Surrender, then Death Mark, then nukes. Skip both on trash.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "line": "Soul Hound",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "Debuff: Death Mark (24+). On mobs that take more than about 3 nukes: Surrender, then Death Mark, then nukes. Skip both on trash.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "line": "Soul Hound",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 480,
+     "name": "Dark Blade",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Toggle: Dark Blade. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 482,
+     "name": "Furious Soul",
+     "line": "Soul Hound",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Self-buff: Furious Soul. Only while meleeing. It is a physical crit buff and does nothing for nukes.",
+     "when": {
+      "fightOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1432,
+     "name": "Increase Power",
+     "line": "Soul Hound",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Self-buff: Increase Power. Only if there is no board Might.",
+     "when": {
+      "boardMissing": "Might"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 499,
+     "name": "Courage",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Emergency: Courage. When HP < 30%.",
+     "when": {
+      "hpBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 483,
+     "name": "Sword Shield",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Emergency: Sword Shield. When HP < 30%.",
+     "when": {
+      "hpBelow": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 476,
+     "name": "Dark Strike",
+     "line": "Soul Hound",
+     "learn": "20-36",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "ANCIENT"
+     ],
+     "trigger": "Never auto: Dark Strike (no ancient sword on this path).",
+     "when": {},
+     "auto": false,
+     "why": "no ancient sword on the Soul Breaker path",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 484,
+     "name": "Rush",
+     "line": "Soul Hound",
+     "learn": "32-32",
+     "weapon": [
+      "ANCIENT",
+      "RAPIER"
+     ],
+     "trigger": "Never auto: Rush.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 485,
+     "name": "Disarm",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Never auto: Disarm.",
+     "when": {},
+     "auto": false,
+     "why": "PvP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 475,
+     "name": "Strike Back",
+     "line": "Soul Hound",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Never auto: Strike Back (optional).",
+     "when": {},
+     "auto": false,
+     "why": "optional toggle",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "line": "Soul Hound",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  },
+  "126": {
+   "name": "Warder",
+   "band": "20-39",
+   "line": "Soul Hound",
+   "lines": [
+    "Soul Hound",
+    "Trickster",
+    "Judicator"
+   ],
+   "notes": [
+    "Two guide tables for this class: \"20-39 Warder (Soul Breaker-bound)\" (rapier / dark magic) and \"20-39 Warder (crossbow)\" (Trickster path). Each row carries \"line\": use only the rows of the character's planned line.",
+    "Trickster path: Crossbow from 20 (Change Weapon from a bow). Core single also includes auto-attacks.",
+    "Judicator line: Inspector is subclass-only (parent Warder) and a subclass starts at 40, so this band does not apply to it."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "line": "Soul Hound",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Core single: Abyssal Blaze (main).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 478,
+     "name": "Double Thrust",
+     "line": "Soul Hound",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single: Double Thrust (rapier, melee finish).",
+     "when": {
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "line": "Soul Hound",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "AoE: Dark Explosion. Use at 3+ clustered.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "line": "Soul Hound",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Debuffs: Surrender to Dark (28+). Non-trash only.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "line": "Soul Hound",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "Debuffs: Death Mark (24+). Non-trash only.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "line": "Soul Hound",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 480,
+     "name": "Dark Blade",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Toggle: Dark Blade. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 482,
+     "name": "Furious Soul",
+     "line": "Soul Hound",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Self-buff: Furious Soul. Melee only.",
+     "when": {
+      "fightOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 622,
+     "name": "Ultimate Escape",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Emergency: Ultimate Escape (36+, evasion plus speed 20 s, 15 min). When HP < 25%, to flee.",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 628,
+     "name": "Warp",
+     "line": "Soul Hound",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Emergency: Warp (32+, blink 500 forward). Never auto (it blinks toward the facing direction).",
+     "when": {},
+     "auto": false,
+     "why": "blinks toward the facing direction",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 487,
+     "name": "Penetrating Shot",
+     "line": "Soul Hound",
+     "learn": "20-36",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Never auto: Penetrating Shot (crossbow-only; this path uses a rapier).",
+     "when": {},
+     "auto": false,
+     "why": "crossbow-only; this path uses a rapier",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 490,
+     "name": "Fast Shot",
+     "line": "Soul Hound",
+     "learn": "32-32",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Never auto: Fast Shot (crossbow-only; this path uses a rapier).",
+     "when": {},
+     "auto": false,
+     "why": "crossbow-only; this path uses a rapier",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 627,
+     "name": "Soul Shock",
+     "line": "Soul Hound",
+     "learn": "36-36",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Never auto: Soul Shock (crossbow-only; this path uses a rapier).",
+     "when": {},
+     "auto": false,
+     "why": "crossbow-only; this path uses a rapier",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 514,
+     "name": "Fire Trap",
+     "line": "Soul Hound",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Never auto: Fire Trap.",
+     "when": {},
+     "auto": false,
+     "why": "trap",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "line": "Soul Hound",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Never auto: traps (Detect Trap).",
+     "when": {},
+     "auto": false,
+     "why": "guide \"traps\"; always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "line": "Soul Hound",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Never auto: traps (Defuse Trap).",
+     "when": {},
+     "auto": false,
+     "why": "guide \"traps\"; always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "line": "Soul Hound",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 487,
+     "name": "Penetrating Shot",
+     "line": "Trickster",
+     "learn": "20-36",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Core single: Penetrating Shot (crossbow, 500 range, 6 s, 120 MP), auto-attacks, Abyssal Blaze (magic filler, 750 range).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "line": "Trickster",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Core single: Abyssal Blaze (magic filler, 750 range) after Penetrating Shot and auto-attacks.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "line": "Trickster",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "AoE: Dark Explosion (magic). Use at 3+ clustered. Kamael archers have no other AoE before 46.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 490,
+     "name": "Fast Shot",
+     "line": "Trickster",
+     "learn": "32-32",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Self-buff: Fast Shot (32+, crossbow Atk.Spd; does not conflict with Haste). Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "line": "Trickster",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor (32+). Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 480,
+     "name": "Dark Blade",
+     "line": "Trickster",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Toggle: Dark Blade (36+). Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 627,
+     "name": "Soul Shock",
+     "line": "Trickster",
+     "learn": "36-36",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Emergency: Soul Shock (36+, crossbow, 200 range, fear). When a mob reaches melee range (solo), to make it flee and get free shots.",
+     "when": {
+      "soloOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 622,
+     "name": "Ultimate Escape",
+     "line": "Trickster",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Emergency: Ultimate Escape. When HP < 25%.",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "line": "Trickster",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "Debuffs: Death Mark. On tough mobs (optional).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 478,
+     "name": "Double Thrust",
+     "line": "Trickster",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Never auto: Double Thrust (rapier).",
+     "when": {},
+     "auto": false,
+     "why": "rapier skill; this path uses a crossbow",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "line": "Trickster",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Never auto: Surrender to Dark (the crossbow is not dark element; unc).",
+     "when": {},
+     "auto": false,
+     "why": "crossbow is not dark element (unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 514,
+     "name": "Fire Trap",
+     "line": "Trickster",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Never auto: Fire Trap.",
+     "when": {},
+     "auto": false,
+     "why": "trap",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 628,
+     "name": "Warp",
+     "line": "Trickster",
+     "learn": "32-32",
+     "weapon": [],
+     "trigger": "Never auto: Warp.",
+     "when": {},
+     "auto": false,
+     "why": "blinks toward the facing direction",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "line": "Trickster",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "line": "Trickster",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Never auto: traps (Detect Trap).",
+     "when": {},
+     "auto": false,
+     "why": "guide \"traps\"; always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "line": "Trickster",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Never auto: traps (Defuse Trap).",
+     "when": {},
+     "auto": false,
+     "why": "guide \"traps\"; always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "127": {
+   "name": "Berserker",
+   "band": "40-75",
+   "line": "Doombringer",
+   "lines": [
+    "Doombringer"
+   ],
+   "notes": [
+    "Weapon: Ancient Sword. Physical melee with strong point-blank and charge AoE. Doombringer1 plays this line.",
+    "Charge skills (Shoulder Charge 494, Blade Rush 495, Storm Assault 493) have target mindistance 200: only cast at distance >= 200."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 498,
+     "name": "Contagion",
+     "learn": "64-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: Contagion (64+, 7 s, power 7635, AS, needs a bleed on the target) right after Blade Rush. Priority: Contagion (if bleeding) > Crush of Pain > Dark Smash.",
+     "when": {
+      "targetHas": "bleed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 497,
+     "name": "Crush of Pain",
+     "learn": "60-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: Crush of Pain (60+, 7 s, power 7635, AS) on cooldown. Priority: Contagion (if bleeding) > Crush of Pain > Dark Smash.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 477,
+     "name": "Dark Smash",
+     "learn": "40-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: Dark Smash (40+, 3 s, AS) as the spam filler. Priority: Contagion (if bleeding) > Crush of Pain > Dark Smash.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 494,
+     "name": "Shoulder Charge",
+     "learn": "40-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Opener from range (≥ 200): Shoulder Charge (40+, charge plus 9 s stun at 70%, AS). Pick by mob count: 1 mob → Shoulder Charge. Only cast at distance ≥ 200.",
+     "when": {
+      "distMin": 200,
+      "mobsMax": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 495,
+     "name": "Blade Rush",
+     "learn": "55-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Opener from range (≥ 200): Blade Rush (55+, charge fan 300, bleed at 50%, AS). Pick by mob count: 2+ → Blade Rush (enables Contagion); 3+ clustered → Storm Assault. Only cast at distance ≥ 200.",
+     "when": {
+      "distMin": 200,
+      "mobsMin": 2,
+      "mobsMax": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 493,
+     "name": "Storm Assault",
+     "learn": "49-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Opener from range (≥ 200): Storm Assault (49+, charge plus AoE r150 at the target, AS). Pick by mob count: 3+ clustered → Storm Assault. Only cast at distance ≥ 200.",
+     "when": {
+      "distMin": 200,
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 496,
+     "name": "Slashing Blade",
+     "learn": "46-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "AoE point-blank: Slashing Blade (46+, r150 around self, 4 s, AS). Use at 3+ mobs in melee range. Alternate with Spread Wing, since each has a 4 s reuse.",
+     "when": {
+      "mobsMin": 3,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "AoE point-blank: Spread Wing (52+, r150 around self, 4 s). Use at 3+ mobs in melee range. Alternate with Slashing Blade, since each has a 4 s reuse.",
+     "when": {
+      "mobsMin": 3,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls.",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. (46+)",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 500,
+     "name": "True Berserker",
+     "learn": "40-52",
+     "weapon": [],
+     "trigger": "Toggle: True Berserker (40+, P.Atk/Atk.Spd +5 to 8%, P.Def −10%, MP drain). Keep it on while hunting (turn it off if MP < 15%).",
+     "when": {
+      "mpAbove": 15
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. Stays on always (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 480,
+     "name": "Dark Blade",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Toggle: Dark Blade. Stays on always (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 482,
+     "name": "Furious Soul",
+     "learn": "24-55",
+     "weapon": [],
+     "trigger": "Self-buff: Furious Soul lvl 2 on cooldown, in combat.",
+     "when": {
+      "onCooldown": true,
+      "fightOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 834,
+     "name": "Blood Pact",
+     "learn": "55-55",
+     "weapon": [],
+     "trigger": "Self-buff: Blood Pact (55+, party +10% Max HP and regen, 120 s, 75 s reuse). On cooldown when in a party.",
+     "when": {
+      "onCooldown": true,
+      "partyOnly": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 501,
+     "name": "Violent Temper",
+     "learn": "49-74",
+     "weapon": [],
+     "trigger": "Debuff: Violent Temper (49+, target P.Def −23% and Cast Spd −15%, 30 s, 600 range). On bosses, raids and long fights. Skip it on trash.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 501
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 833,
+     "name": "Body Reconstruction",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Emergency: Body Reconstruction (52+, heals 100% HP, 15 min). When HP < 25%.",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 483,
+     "name": "Sword Shield",
+     "learn": "36-52",
+     "weapon": [],
+     "trigger": "Emergency: Sword Shield lvl 2. When HP < 30% and Body Reconstruction is on cooldown.",
+     "when": {
+      "hpBelow": 30,
+      "text": "Body Reconstruction 833 is on cooldown"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1514,
+     "name": "Soul Barrier",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Soul Barrier (58+, 10 s M.Def ×2 plus bow/crossbow resist, 45 s). When hit by mages or archers.",
+     "when": {
+      "text": "I am hit by mages or archers"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse (66+, removes up to 3 debuffs). When rooted, slowed, poisoned, bleeding or silenced.",
+     "when": {
+      "text": "I am rooted, slowed, poisoned, bleeding or silenced"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 499,
+     "name": "Courage",
+     "learn": "36-62",
+     "weapon": [],
+     "trigger": "Emergency: Courage. When feared.",
+     "when": {
+      "text": "I am feared"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 503,
+     "name": "Scorn",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "Never auto: Scorn (frontal aggro fan; it would pull aggro off the tank in a party).",
+     "when": {},
+     "auto": false,
+     "why": "pulls aggro",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 485,
+     "name": "Disarm",
+     "learn": "36-74",
+     "weapon": [],
+     "trigger": "Never auto: Disarm (PvP).",
+     "when": {},
+     "auto": false,
+     "why": "PvP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 484,
+     "name": "Rush",
+     "learn": "32-32",
+     "weapon": [
+      "ANCIENT",
+      "RAPIER"
+     ],
+     "trigger": "Never auto: Rush.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 476,
+     "name": "Dark Strike",
+     "learn": "20-36",
+     "weapon": [
+      "SWORD",
+      "BLUNT",
+      "ANCIENT"
+     ],
+     "trigger": "Obsolete from 40: Dark Strike (→ Dark Smash).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      477
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 478,
+     "name": "Double Thrust",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Obsolete from 40: Double Thrust.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Dark Explosion (→ Slashing Blade/Storm Assault).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      496,
+      493
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Abyssal Blaze (keep only as a ranged pull).",
+     "when": {},
+     "auto": true,
+     "why": "listed under \"Obsolete from 40\", but the guide keeps it as a ranged pull",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Death Mark lvl 2 (→ Violent Temper).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      501
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Surrender to Dark.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1432,
+     "name": "Increase Power",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Increase Power.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 475,
+     "name": "Strike Back",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Strike Back.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    }
+   ]
+  },
+  "128": {
+   "name": "Soul Breaker",
+   "band": "40-75",
+   "line": "Soul Hound",
+   "lines": [
+    "Soul Hound"
+   ],
+   "notes": [
+    "Male Soul Breaker (Kamael Soldier male -> Trooper -> Soul Breaker). The skill list is identical to the female one (class 129); the guide table is the same.",
+    "Playstyle: dark magic nuker and debuffer with a rapier melee backup. Surrender to Dark (−30 dark resist) stacks with the dark (UNHOLY) nukes: Abyssal Blaze, Dark Explosion, Soul of Pain, Dark Flame, Annihilation Circle. Dark Weapon adds +20 dark attack power (attacker element power also boosts same-element skills: unc).",
+    "The magic skills have no weapon requirement; melee skills need a rapier."
+   ],
+   "rows": [
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-74",
+     "weapon": [],
+     "trigger": "Debuff opener (non-trash): Surrender to Dark (900 range), then Death Mark. Recast when they expire (30 s each).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Debuff opener (non-trash): after Surrender to Dark, Death Mark (600 range, DoT plus P.Def/M.Def −23%, 70%). Recast when it expires (30 s). Death Mark also enables Checkmate.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1439,
+     "name": "Curse of Divinity",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Core single magic: Curse of Divinity (66+, damage scales with the number of debuffs on the target, 4 s). Cast Curse of Divinity after the debuffs are up.",
+     "when": {
+      "targetHas": "death_mark",
+      "text": "after the debuffs (Surrender to Dark, Death Mark) are up"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1436,
+     "name": "Soul of Pain",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Core single magic: Soul of Pain (dark magic, 700 range, 3 s) as filler spam.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 506,
+     "name": "Checkmate",
+     "learn": "52-72",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single melee (rapier): Checkmate (52+, needs Death Mark) → Shining Edge → Triple Thrust. When a mob is in melee or the bot plays melee (\"Death Mark + Checkmate + Shining Edge\" combo).",
+     "when": {
+      "targetHas": "death_mark",
+      "text": "a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 505,
+     "name": "Shining Edge",
+     "learn": "49-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single melee (rapier): Checkmate → Shining Edge (49+, blow) → Triple Thrust. When a mob is in melee or the bot plays melee.",
+     "when": {
+      "text": "a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 504,
+     "name": "Triple Thrust",
+     "learn": "40-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single melee (rapier): Checkmate → Shining Edge → Triple Thrust. When a mob is in melee or the bot plays melee.",
+     "when": {
+      "text": "a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1438,
+     "name": "Annihilation Circle",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "AoE: Annihilation Circle (58+, r150 around the target, 500 range, 5 s). Use at 3+ clustered. This is the main ranged AoE.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1437,
+     "name": "Dark Flame",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "AoE: Dark Flame (46+, frontal fan r200×180°, 40% slow, 4 s). Use at 3+ mobs in front at close range.",
+     "when": {
+      "mobsMin": 3,
+      "text": "mobs in front of me at close range"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "AoE: Spread Wing (52+, point-blank r150, physical). Use at 3+ mobs on you.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1443,
+     "name": "Dark Weapon",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Party/self buff: Dark Weapon (46+, +20 dark attack, 20 min, 400 range, target). Self plus party melee, if no other weapon-element buff is on them.",
+     "when": {
+      "text": "no other weapon-element buff (Holy / Fire / Ice / Wind / Earth Weapon) on the target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1444,
+     "name": "Pride of Kamael",
+     "learn": "49-49",
+     "weapon": [
+      "ANCIENT",
+      "CROSSBOW",
+      "RAPIER"
+     ],
+     "trigger": "Party/self buff: Pride of Kamael (49+, +10% P.Atk/M.Atk/blow rate only with ancient sword, crossbow or rapier, 3 min, 30 s reuse). Self plus Kamael party members, recast every 3 min. Useless on non-Kamael.",
+     "when": {
+      "text": "only on myself and Kamael party members; recast every 3 min"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1441,
+     "name": "Soul to Empower",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "Self-buff: Soul to Empower (MA_UP). Only if there is no board Empower.",
+     "when": {
+      "boardMissing": "Empower"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1446,
+     "name": "Shadow Bind",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Control: Shadow Bind (52+, root 15 s, 400 range). Root a melee mob to kite it (solo).",
+     "when": {
+      "soloOnly": true,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1447,
+     "name": "Voice Bind",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Control: Voice Bind (58+, silence 20 s). On caster mobs.",
+     "when": {
+      "mobType": "caster"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1529,
+     "name": "Soul Web",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Control: Soul Web (62+, AoE slow r200, 60 s). When kiting several mobs.",
+     "when": {
+      "mobsMin": 2,
+      "text": "while kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1511,
+     "name": "Curse of Life Flow",
+     "learn": "60-74",
+     "weapon": [],
+     "trigger": "Party debuff: Curse of Life Flow (60+, party members heal when they hit the target, 30 s). On a boss or raid target in a party.",
+     "when": {
+      "bigTarget": true,
+      "partyOnly": true,
+      "targetLacks": 1511
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 837,
+     "name": "Painkiller",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Painkiller (58+, 8 s damage and debuff immunity, 5 min). When HP < 20%.",
+     "when": {
+      "hpBelow": 20
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1448,
+     "name": "Blink",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Emergency: Blink (60+, point-blank stun r150 plus blink 400 backwards). When 2+ mobs are on you and you are low. (unc: the blink can land in walls; risky for pathing)",
+     "when": {
+      "mobsOnMe": 2,
+      "text": "and my HP is low"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse (66+). When debuffed by root, slow, silence or poison.",
+     "when": {
+      "text": "I carry root, slow, silence or poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1440,
+     "name": "Steal Divinity",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "Never auto: Steal Divinity (steals buffs; PvP or buffed raids only).",
+     "when": {},
+     "auto": false,
+     "why": "PvP or buffed raids only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1442,
+     "name": "Protection from Darkness",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Never auto: Protection from Darkness (only vs dark-damage bosses; it shares a slot with Surrender to Dark).",
+     "when": {},
+     "auto": false,
+     "why": "only vs dark-damage bosses; slot shared with Surrender to Dark",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-66",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Never auto: Detect Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list; not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Never auto: Defuse Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list; not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Abyssal Blaze (→ Soul of Pain).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1436
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Dark Explosion (→ Annihilation Circle).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1438
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 478,
+     "name": "Double Thrust",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Obsolete from 40: Double Thrust (→ Triple Thrust).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      504
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 482,
+     "name": "Furious Soul",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Furious Soul (male only; not in the SB tree).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1432,
+     "name": "Increase Power",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Increase Power (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 475,
+     "name": "Strike Back",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Strike Back (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 499,
+     "name": "Courage",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Courage (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 483,
+     "name": "Sword Shield",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Sword Shield (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "129": {
+   "name": "Soul Breaker",
+   "band": "40-75",
+   "line": "Soul Hound",
+   "lines": [
+    "Soul Hound"
+   ],
+   "notes": [
+    "Female Soul Breaker (Kamael Soldier female -> Warder -> Soul Breaker). Guide section 3: 40-85 is the same as section 2 (male); the table is written out in full.",
+    "Playstyle: dark magic nuker and debuffer with a rapier melee backup. Surrender to Dark (−30 dark resist) stacks with the dark (UNHOLY) nukes.",
+    "Increase Power 1432, Strike Back 475, Courage 499 and Sword Shield 483 (obsolete rows) are male Trooper skills: not in the female tree."
+   ],
+   "rows": [
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-74",
+     "weapon": [],
+     "trigger": "Debuff opener (non-trash): Surrender to Dark (900 range), then Death Mark. Recast when they expire (30 s each).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Debuff opener (non-trash): after Surrender to Dark, Death Mark (600 range, DoT plus P.Def/M.Def −23%, 70%). Recast when it expires (30 s). Death Mark also enables Checkmate.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1439,
+     "name": "Curse of Divinity",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Core single magic: Curse of Divinity (66+, damage scales with the number of debuffs on the target, 4 s). Cast Curse of Divinity after the debuffs are up.",
+     "when": {
+      "targetHas": "death_mark",
+      "text": "after the debuffs (Surrender to Dark, Death Mark) are up"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1436,
+     "name": "Soul of Pain",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Core single magic: Soul of Pain (dark magic, 700 range, 3 s) as filler spam.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 506,
+     "name": "Checkmate",
+     "learn": "52-72",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single melee (rapier): Checkmate (52+, needs Death Mark) → Shining Edge → Triple Thrust. When a mob is in melee or the bot plays melee (\"Death Mark + Checkmate + Shining Edge\" combo).",
+     "when": {
+      "targetHas": "death_mark",
+      "text": "a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 505,
+     "name": "Shining Edge",
+     "learn": "49-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single melee (rapier): Checkmate → Shining Edge (49+, blow) → Triple Thrust. When a mob is in melee or the bot plays melee.",
+     "when": {
+      "text": "a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 504,
+     "name": "Triple Thrust",
+     "learn": "40-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single melee (rapier): Checkmate → Shining Edge → Triple Thrust. When a mob is in melee or the bot plays melee.",
+     "when": {
+      "text": "a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1438,
+     "name": "Annihilation Circle",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "AoE: Annihilation Circle (58+, r150 around the target, 500 range, 5 s). Use at 3+ clustered. This is the main ranged AoE.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1437,
+     "name": "Dark Flame",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "AoE: Dark Flame (46+, frontal fan r200×180°, 40% slow, 4 s). Use at 3+ mobs in front at close range.",
+     "when": {
+      "mobsMin": 3,
+      "text": "mobs in front of me at close range"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "AoE: Spread Wing (52+, point-blank r150, physical). Use at 3+ mobs on you.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1443,
+     "name": "Dark Weapon",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Party/self buff: Dark Weapon (46+, +20 dark attack, 20 min, 400 range, target). Self plus party melee, if no other weapon-element buff is on them.",
+     "when": {
+      "text": "no other weapon-element buff (Holy / Fire / Ice / Wind / Earth Weapon) on the target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1444,
+     "name": "Pride of Kamael",
+     "learn": "49-49",
+     "weapon": [
+      "ANCIENT",
+      "CROSSBOW",
+      "RAPIER"
+     ],
+     "trigger": "Party/self buff: Pride of Kamael (49+, +10% P.Atk/M.Atk/blow rate only with ancient sword, crossbow or rapier, 3 min, 30 s reuse). Self plus Kamael party members, recast every 3 min. Useless on non-Kamael.",
+     "when": {
+      "text": "only on myself and Kamael party members; recast every 3 min"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1441,
+     "name": "Soul to Empower",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "Self-buff: Soul to Empower (MA_UP). Only if there is no board Empower.",
+     "when": {
+      "boardMissing": "Empower"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1446,
+     "name": "Shadow Bind",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Control: Shadow Bind (52+, root 15 s, 400 range). Root a melee mob to kite it (solo).",
+     "when": {
+      "soloOnly": true,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1447,
+     "name": "Voice Bind",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Control: Voice Bind (58+, silence 20 s). On caster mobs.",
+     "when": {
+      "mobType": "caster"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1529,
+     "name": "Soul Web",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Control: Soul Web (62+, AoE slow r200, 60 s). When kiting several mobs.",
+     "when": {
+      "mobsMin": 2,
+      "text": "while kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1511,
+     "name": "Curse of Life Flow",
+     "learn": "60-74",
+     "weapon": [],
+     "trigger": "Party debuff: Curse of Life Flow (60+, party members heal when they hit the target, 30 s). On a boss or raid target in a party.",
+     "when": {
+      "bigTarget": true,
+      "partyOnly": true,
+      "targetLacks": 1511
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 837,
+     "name": "Painkiller",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Painkiller (58+, 8 s damage and debuff immunity, 5 min). When HP < 20%.",
+     "when": {
+      "hpBelow": 20
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1448,
+     "name": "Blink",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Emergency: Blink (60+, point-blank stun r150 plus blink 400 backwards). When 2+ mobs are on you and you are low. (unc: the blink can land in walls; risky for pathing)",
+     "when": {
+      "mobsOnMe": 2,
+      "text": "and my HP is low"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse (66+). When debuffed by root, slow, silence or poison.",
+     "when": {
+      "text": "I carry root, slow, silence or poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1440,
+     "name": "Steal Divinity",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "Never auto: Steal Divinity (steals buffs; PvP or buffed raids only).",
+     "when": {},
+     "auto": false,
+     "why": "PvP or buffed raids only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1442,
+     "name": "Protection from Darkness",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Never auto: Protection from Darkness (only vs dark-damage bosses; it shares a slot with Surrender to Dark).",
+     "when": {},
+     "auto": false,
+     "why": "only vs dark-damage bosses; slot shared with Surrender to Dark",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-66",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Never auto: Detect Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Never auto: Defuse Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Abyssal Blaze (→ Soul of Pain).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1436
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Dark Explosion (→ Annihilation Circle).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1438
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 478,
+     "name": "Double Thrust",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Obsolete from 40: Double Thrust (→ Triple Thrust).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      504
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 482,
+     "name": "Furious Soul",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Furious Soul (male only; not in the SB tree).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1432,
+     "name": "Increase Power",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Increase Power (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 475,
+     "name": "Strike Back",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Strike Back (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 499,
+     "name": "Courage",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Courage (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 483,
+     "name": "Sword Shield",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Sword Shield (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "130": {
+   "name": "Arbalester",
+   "band": "40-75",
+   "line": "Trickster",
+   "lines": [
+    "Trickster"
+   ],
+   "notes": [
+    "Weapon: Crossbow. Ranged physical: weaker raw damage than bow archers, strong debuffs and tricks."
+   ],
+   "rows": [
+    {
+     "aspect": "debuff",
+     "skill": 522,
+     "name": "Real Target",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Debuff opener: Real Target (900 range, bow/crossbow resist down, 30 s, 3 s reuse). On every non-trash target. Recast when it expires. Priority: Real Target (if missing) > Bleeding Shot (if no bleed) > Twin Shot > auto-attack.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 522
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 509,
+     "name": "Bleeding Shot",
+     "learn": "43-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Core single: Bleeding Shot (43+, 8 s, bleed DoT) if no bleed. Priority: Real Target (if missing) > Bleeding Shot (if no bleed) > Twin Shot > auto-attack.",
+     "when": {
+      "targetLacks": 509
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 507,
+     "name": "Twin Shot",
+     "learn": "40-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Core single: Twin Shot (3 s, power 4870, main nuke). Priority: Real Target (if missing) > Bleeding Shot (if no bleed) > Twin Shot > auto-attack.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 508,
+     "name": "Rising Shot",
+     "learn": "46-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "AoE: Rising Shot (46+, AoE around the target, 6 s, 202 MP). Use at 3+ clustered. It is MP heavy, so keep MP > 30%.",
+     "when": {
+      "mobsMin": 3,
+      "mpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 490,
+     "name": "Fast Shot",
+     "learn": "32-55",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Self-buff: Fast Shot lvl 2. Always.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 521,
+     "name": "Sharpshooting",
+     "learn": "60-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Self-buff: Sharpshooting (60+, P.Atk/crit/accuracy/range up for 120 s, roots you). Only when stationary (party, boss, static pulls). Never while kiting.",
+     "when": {
+      "text": "only when stationary (party, boss, static pulls); never while kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. (Arbalester self-buffs row: \"Life to Soul / Soul Gathering: use the global rules\")",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. (Arbalester self-buffs row: \"Life to Soul / Soul Gathering: use the global rules\")",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 627,
+     "name": "Soul Shock",
+     "learn": "36-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Emergency: Soul Shock (fear). When a mob is in melee range (solo only; in a party fear scatters mobs).",
+     "when": {
+      "soloOnly": true,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 622,
+     "name": "Ultimate Escape",
+     "learn": "36-52",
+     "weapon": [],
+     "trigger": "Emergency: Ultimate Escape. When HP < 25%.",
+     "when": {
+      "hpBelow": 25
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 525,
+     "name": "Decoy",
+     "learn": "43-74",
+     "weapon": [],
+     "trigger": "Emergency: Decoy (43+, summons a decoy, 10 min). When HP < 30% and a mob is on you.",
+     "when": {
+      "hpBelow": 30,
+      "mobsOnMe": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1514,
+     "name": "Soul Barrier",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Soul Barrier (58+). Vs archers or mages.",
+     "when": {
+      "text": "I am hit by archers or mages"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse (66+). When debuffed.",
+     "when": {
+      "text": "I am debuffed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 489,
+     "name": "Shift Target",
+     "learn": "40-40",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Emergency: Shift Target (40+, moves aggro to a party member). Only in a party, when a mob targets you and the tank is next to you.",
+     "when": {
+      "partyOnly": true,
+      "mobsOnMe": 1,
+      "text": "the tank is next to me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 621,
+     "name": "Create Special Bolt",
+     "learn": "43-43",
+     "weapon": [],
+     "trigger": "Upkeep (out of combat): Create Special Bolt (43+). Use when bolt count is low, with no target and MP > 60%.",
+     "when": {
+      "outOfCombat": true,
+      "mpAbove": 60,
+      "text": "bolt count is low and I have no target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 620,
+     "name": "Quiver of Bolts: B Grade",
+     "learn": "52-52",
+     "weapon": [],
+     "trigger": "Upkeep (out of combat): Quiver of Bolts B (52, 366 to 398 MP, 10 min). Use when bolt count is low, with no target and MP > 60%.",
+     "when": {
+      "outOfCombat": true,
+      "mpAbove": 60,
+      "text": "bolt count is low and I have no target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 519,
+     "name": "Quiver of Bolts: A Grade",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Upkeep (out of combat): Quiver of Bolts A (60, 366 to 398 MP, 10 min). Use when bolt count is low, with no target and MP > 60%.",
+     "when": {
+      "outOfCombat": true,
+      "mpAbove": 60,
+      "text": "bolt count is low and I have no target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 520,
+     "name": "Quiver of Bolts: S Grade",
+     "learn": "74-74",
+     "weapon": [],
+     "trigger": "Upkeep (out of combat): Quiver of Bolts S (74, 366 to 398 MP, 10 min). Use when bolt count is low, with no target and MP > 60%.",
+     "when": {
+      "outOfCombat": true,
+      "mpAbove": 60,
+      "text": "bolt count is low and I have no target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 510,
+     "name": "Deadly Roulette",
+     "learn": "66-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Never auto: Deadly Roulette (needs own HP ≤ 10%; desperation only).",
+     "when": {
+      "hpBelow": 10
+     },
+     "auto": false,
+     "why": "desperation only; needs own HP ≤ 10%",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 511,
+     "name": "Temptation",
+     "learn": "49-49",
+     "weapon": [],
+     "trigger": "Never auto: Temptation (adds 500 aggro; never in a party).",
+     "when": {},
+     "auto": false,
+     "why": "pulls aggro",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 514,
+     "name": "Fire Trap",
+     "learn": "28-72",
+     "weapon": [],
+     "trigger": "Never auto: Fire Trap (traps are cast at your own feet; the maxcheaters and pmfun forums say \"traps are useless\" in L2J; unc).",
+     "when": {},
+     "auto": false,
+     "why": "traps are cast at your own feet; \"traps are useless\" in L2J (forums, unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 515,
+     "name": "Poison Trap",
+     "learn": "49-72",
+     "weapon": [],
+     "trigger": "Never auto: Poison Trap (traps are cast at your own feet; \"traps are useless\" in L2J; unc).",
+     "when": {},
+     "auto": false,
+     "why": "traps are cast at your own feet; \"traps are useless\" in L2J (forums, unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 516,
+     "name": "Slow Trap",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Never auto: Slow Trap (traps are cast at your own feet; \"traps are useless\" in L2J; unc).",
+     "when": {},
+     "auto": false,
+     "why": "traps are cast at your own feet; \"traps are useless\" in L2J (forums, unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 517,
+     "name": "Flash Trap",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "Never auto: Flash Trap (traps are cast at your own feet; \"traps are useless\" in L2J; unc).",
+     "when": {},
+     "auto": false,
+     "why": "traps are cast at your own feet; \"traps are useless\" in L2J (forums, unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 518,
+     "name": "Binding Trap",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Never auto: Binding Trap (traps are cast at your own feet; \"traps are useless\" in L2J; unc).",
+     "when": {},
+     "auto": false,
+     "why": "traps are cast at your own feet; \"traps are useless\" in L2J (forums, unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 836,
+     "name": "Oblivion Trap",
+     "learn": "64-72",
+     "weapon": [],
+     "trigger": "Never auto: Oblivion Trap (traps are cast at your own feet; \"traps are useless\" in L2J; unc).",
+     "when": {},
+     "auto": false,
+     "why": "traps are cast at your own feet; \"traps are useless\" in L2J (forums, unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 513,
+     "name": "Create Dark Seed",
+     "learn": "62-62",
+     "weapon": [],
+     "trigger": "Never auto: Create Dark Seed (melee range 40, item upkeep; PvP gimmick).",
+     "when": {},
+     "auto": false,
+     "why": "PvP gimmick",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 523,
+     "name": "Imbue Dark Seed",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Never auto: Imbue Dark Seed (melee range 40, item upkeep; PvP gimmick).",
+     "when": {},
+     "auto": false,
+     "why": "PvP gimmick",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 835,
+     "name": "Imbue Seed of Destruction",
+     "learn": "68-74",
+     "weapon": [],
+     "trigger": "Never auto: Imbue Seed of Destruction (melee range 40, item upkeep; PvP gimmick).",
+     "when": {},
+     "auto": false,
+     "why": "PvP gimmick",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 524,
+     "name": "Cure Dark Seed",
+     "learn": "64-64",
+     "weapon": [],
+     "trigger": "Never auto: Cure Dark Seed (melee range 40, item upkeep; PvP gimmick).",
+     "when": {},
+     "auto": false,
+     "why": "PvP gimmick",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "learn": "15-74",
+     "weapon": [],
+     "trigger": "Never auto: Detect Trap.",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "learn": "15-74",
+     "weapon": [],
+     "trigger": "Never auto: Defuse Trap.",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: only for player traps or chests",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 487,
+     "name": "Penetrating Shot",
+     "learn": "20-36",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Obsolete from 40: Penetrating Shot (→ Twin Shot).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      507
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Abyssal Blaze.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Dark Explosion (→ Rising Shot).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      508
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-32",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Death Mark.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Surrender to Dark.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 514,
+     "name": "Fire Trap",
+     "learn": "28-72",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Fire Trap lvl 2.",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 482,
+     "name": "Furious Soul",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Furious Soul (not in the Arbalester tree).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 480,
+     "name": "Dark Blade",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Obsolete from 40: Dark Blade (it gives a dark attack attribute that a crossbow user rarely benefits from; keep it on only if nothing better; unc).",
+     "when": {},
+     "auto": false,
+     "why": "keep it on only if nothing better (unc)",
+     "replacedBy": [],
+     "src": "?"
+    }
+   ]
+  },
+  "131": {
+   "name": "Doombringer",
+   "band": "76-85",
+   "line": "Doombringer",
+   "lines": [
+    "Doombringer"
+   ],
+   "notes": [
+    "Older skills (guide): all Berserker damage skills stay useful (they max at 74). Nothing new is obsolete. Shoulder Charge 494 and Blade Rush 495 are written out as rows (the other Berserker damage skills are already in this table).",
+    "The Doombringer table does not repeat the Berserker toggles (True Berserker 500, Dark Armor 481, Dark Blade 480), buffs (Furious Soul 482, Blood Pact 834), debuff (Violent Temper 501), emergencies (Body Reconstruction 833, Sword Shield 483, Soul Barrier 1514, Soul Cleanse 1510, Courage 499) or never / obsolete rows; they are not written here (guide gap; the class 127 rows are the guide's rules for them).",
+    "Rush Impact 793 has target mindistance 200: only cast at distance >= 200."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 498,
+     "name": "Contagion",
+     "learn": "64-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: same as Berserker: Contagion > Crush of Pain > Dark Smash. Contagion needs a bleed on the target (from Blade Rush).",
+     "when": {
+      "targetHas": "bleed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 497,
+     "name": "Crush of Pain",
+     "learn": "60-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: same as Berserker: Contagion > Crush of Pain > Dark Smash. Crush of Pain on cooldown.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 477,
+     "name": "Dark Smash",
+     "learn": "40-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Core single: same as Berserker: Contagion > Crush of Pain > Dark Smash. Dark Smash is the spam filler.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 793,
+     "name": "Rush Impact",
+     "learn": "78-78",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Charge AoE (≥ 200): Rush Impact (78+, charge fan 600×60°, 9 s stun at 60%, AS). Use as the main group opener: charge into a pack of 3+, then switch to point-blank AoE.",
+     "when": {
+      "distMin": 200,
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 526,
+     "name": "Enuma Elish",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Burst AoE: Enuma Elish (78+, front fan 400×90°, power 6060, 75 s reuse). When 3+ mobs are in front and HP > 50%.",
+     "when": {
+      "mobsMin": 3,
+      "hpAbove": 50
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 496,
+     "name": "Slashing Blade",
+     "learn": "46-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "AoE point-blank: Slashing Blade. Use at 3+ mobs around.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "AoE point-blank: Spread Wing. Use at 3+ mobs around.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 793,
+     "name": "Rush Impact",
+     "learn": "78-78",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Example AoE loop: Rush Impact → Enuma Elish → Slashing Blade → Spread Wing → Storm Assault (when a target is ≥ 200 away). Step 1: Rush Impact (needs distance ≥ 200). Post-GoD source, unc for H5.",
+     "when": {
+      "distMin": 200
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 526,
+     "name": "Enuma Elish",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Example AoE loop: Rush Impact → Enuma Elish → Slashing Blade → Spread Wing → Storm Assault. Step 2: Enuma Elish after Rush Impact. Post-GoD source, unc for H5.",
+     "when": {
+      "afterSkill": 793
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 496,
+     "name": "Slashing Blade",
+     "learn": "46-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Example AoE loop: Rush Impact → Enuma Elish → Slashing Blade → Spread Wing → Storm Assault. Step 3: Slashing Blade after Enuma Elish. Post-GoD source, unc for H5.",
+     "when": {
+      "afterSkill": 526
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Example AoE loop: Rush Impact → Enuma Elish → Slashing Blade → Spread Wing → Storm Assault. Step 4: Spread Wing after Slashing Blade. Post-GoD source, unc for H5.",
+     "when": {
+      "afterSkill": 496
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "opener",
+     "skill": 493,
+     "name": "Storm Assault",
+     "learn": "49-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Example AoE loop: Rush Impact → Enuma Elish → Slashing Blade → Spread Wing → Storm Assault. Step 5: Storm Assault after Spread Wing, when a target is ≥ 200 away. Post-GoD source, unc for H5.",
+     "when": {
+      "afterSkill": 492,
+      "distMin": 200
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 939,
+     "name": "Soul Rage",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Souls: Soul Rage filler when souls < 5 (plus the global rules): only while the main skills are on cooldown; never spam it at 40 souls.",
+     "when": {
+      "souls": 5,
+      "text": "only while the main skills are on cooldown"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. (Doombringer souls row: \"plus the global rules\")",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. (Doombringer souls row: \"plus the global rules\")",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 335,
+     "name": "Fortitude",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Toggle: Fortitude (76+, stun/paralyze resist, MP drain −1). Raids, PvP, and stun-heavy mobs only. Off for normal farming.",
+     "when": {
+      "raidOnly": true,
+      "text": "also PvP and stun-heavy mobs; off for normal farming"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "burst",
+     "skill": 538,
+     "name": "Final Form",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Manual only (transform, 1 h reuse). Needs and uses 20 souls plus 200 HP; 5 min transform that doubles P.Atk, P.Def, M.Atk and M.Def and replaces the skill bar.",
+     "when": {},
+     "auto": false,
+     "why": "manual only: transformation (raids and PvP by hand); do not auto-use unless the bot has a transform skill set",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 794,
+     "name": "Mass Disarm",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Never auto: Mass Disarm (PvP, 150 s).",
+     "when": {},
+     "auto": false,
+     "why": "PvP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 503,
+     "name": "Scorn",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "Never auto: Scorn (pulls aggro off the tank).",
+     "when": {},
+     "auto": false,
+     "why": "pulls aggro",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 485,
+     "name": "Disarm",
+     "learn": "36-74",
+     "weapon": [],
+     "trigger": "Never auto: Disarm (PvP).",
+     "when": {},
+     "auto": false,
+     "why": "PvP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "opener",
+     "skill": 494,
+     "name": "Shoulder Charge",
+     "learn": "40-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Older skills: all Berserker damage skills stay useful (they max at 74). Shoulder Charge as in Berserker: 1 mob → Shoulder Charge, only at distance ≥ 200.",
+     "when": {
+      "distMin": 200,
+      "mobsMax": 1
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "opener",
+     "skill": 495,
+     "name": "Blade Rush",
+     "learn": "55-74",
+     "weapon": [
+      "ANCIENT"
+     ],
+     "trigger": "Older skills: all Berserker damage skills stay useful (they max at 74). Blade Rush as in Berserker: 2+ → Blade Rush (enables Contagion), only at distance ≥ 200.",
+     "when": {
+      "distMin": 200,
+      "mobsMin": 2,
+      "mobsMax": 2
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  },
+  "132": {
+   "name": "Soul Hound",
+   "band": "76-85",
+   "line": "Soul Hound",
+   "lines": [
+    "Soul Hound"
+   ],
+   "notes": [
+    "Male Soul Hound. Same table as the female Soul Hound (class 133).",
+    "Older skills (guide): all Soul Breaker skills stay (max lvl 74). The Soul Breaker rows of every skill this table does not name are written out at the end (\"Older skills ... Soul Breaker rule\").",
+    "Triple Thrust / Shining Edge / Checkmate become backup only if the bot plays caster."
+   ],
+   "rows": [
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-74",
+     "weapon": [],
+     "trigger": "Opener (non-trash): Surrender to Dark → Death Mark → Soul Vortex.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Opener (non-trash): Surrender to Dark → Death Mark → Soul Vortex.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1512,
+     "name": "Soul Vortex",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Opener (non-trash): Surrender to Dark → Death Mark → Soul Vortex (77+, 900 range, Atk.Spd/Cast.Spd −30%, speed −20%, MP drain, 30 s, 15 s reuse).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1512
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1439,
+     "name": "Curse of Divinity",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Burst single: Curse of Divinity (while 3 debuffs are up) → Soul Strike → Soul Vortex Extinction.",
+     "when": {
+      "targetHas": "soul_vortex",
+      "text": "while 3 debuffs are up (Surrender to Dark, Death Mark, Soul Vortex)"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1516,
+     "name": "Soul Strike",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Burst single: Curse of Divinity → Soul Strike (76+, 750 range, 15 s) → Soul Vortex Extinction.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1513,
+     "name": "Soul Vortex Extinction",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Burst single: Soul Vortex Extinction (79+, needs Vortex, removes it, 15 s). Cast SVE after Curse of Divinity, because SVE removes a debuff.",
+     "when": {
+      "targetHas": "soul_vortex",
+      "text": "after Curse of Divinity 1439"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1436,
+     "name": "Soul of Pain",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Filler: Soul of Pain. Spam while the others are on cooldown.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-74",
+     "weapon": [],
+     "trigger": "Suggested single loop: (Surrender → Death Mark) → Soul Vortex → Curse of Divinity → Soul Strike → Soul Vortex Extinction → Soul of Pain ×N → repeat Vortex when off cooldown. Step 1: Surrender to Dark. unc: built from mechanics, not a published H5 rotation.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 2: Death Mark after Surrender to Dark. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1512,
+     "name": "Soul Vortex",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 3: Soul Vortex after Death Mark; repeat Vortex when off cooldown. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1439,
+     "name": "Curse of Divinity",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 4: Curse of Divinity after Soul Vortex. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1512
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1516,
+     "name": "Soul Strike",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 5: Soul Strike after Curse of Divinity. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1439
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1513,
+     "name": "Soul Vortex Extinction",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 6: Soul Vortex Extinction after Soul Strike (needs Soul Vortex on the target). unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1516,
+      "targetHas": "soul_vortex"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1436,
+     "name": "Soul of Pain",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 7: Soul of Pain ×N until Vortex is off cooldown again. unc: built from mechanics.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1469,
+     "name": "Leopold",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "AoE: Leopold (78+, fire AoE r100 around the target, 45 s, 4 s cast). Use at 3+ tightly clustered.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1438,
+     "name": "Annihilation Circle",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "AoE: Annihilation Circle. Use at 3+ clustered, on cooldown.",
+     "when": {
+      "mobsMin": 3,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1437,
+     "name": "Dark Flame",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "AoE: Dark Flame. Use at 3+ in front.",
+     "when": {
+      "mobsMin": 3,
+      "text": "mobs in front of me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 939,
+     "name": "Soul Rage",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Souls: Soul Rage filler when souls < 5 (plus the global rules): only while the main skills are on cooldown; never spam it at 40 souls.",
+     "when": {
+      "souls": 5,
+      "text": "only while the main skills are on cooldown"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1515,
+     "name": "Lightning Barrier",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Self-buff: Lightning Barrier (80+, 20 min, 20% chance to paralyze attackers). Keep it up at all times. It is cheap.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1443,
+     "name": "Dark Weapon",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Party buff: Dark Weapon, as in Soul Breaker: self plus party melee, if no other weapon-element buff is on them.",
+     "when": {
+      "text": "no other weapon-element buff (Holy / Fire / Ice / Wind / Earth Weapon) on the target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1444,
+     "name": "Pride of Kamael",
+     "learn": "49-49",
+     "weapon": [
+      "ANCIENT",
+      "CROSSBOW",
+      "RAPIER"
+     ],
+     "trigger": "Party buff: Pride of Kamael, as in Soul Breaker: self plus Kamael party members, recast every 3 min. Useless on non-Kamael.",
+     "when": {
+      "text": "only on myself and Kamael party members; recast every 3 min"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "burst",
+     "skill": 538,
+     "name": "Final Form",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Manual only (transform, 1 h reuse). Needs and uses 20 souls plus 200 HP; 5 min transform that doubles P.Atk, P.Def, M.Atk and M.Def and replaces the skill bar.",
+     "when": {},
+     "auto": false,
+     "why": "manual only: transformation (raids and PvP by hand); do not auto-use unless the bot has a transform skill set",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 837,
+     "name": "Painkiller",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Painkiller, as in Soul Breaker: when HP < 20%.",
+     "when": {
+      "hpBelow": 20
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1448,
+     "name": "Blink",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Emergency: Blink, as in Soul Breaker: when 2+ mobs are on you and you are low. (unc: the blink can land in walls)",
+     "when": {
+      "mobsOnMe": 2,
+      "text": "and my HP is low"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse, as in Soul Breaker: when debuffed by root, slow, silence or poison.",
+     "when": {
+      "text": "I carry root, slow, silence or poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1440,
+     "name": "Steal Divinity",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "Never auto: Steal Divinity (same as Soul Breaker: PvP or buffed raids only).",
+     "when": {},
+     "auto": false,
+     "why": "PvP or buffed raids only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-66",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (same as Soul Breaker: removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 1442,
+     "name": "Protection from Darkness",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Never auto: Protection from Darkness (same as Soul Breaker: only vs dark-damage bosses; shares a slot with Surrender to Dark).",
+     "when": {},
+     "auto": false,
+     "why": "only vs dark-damage bosses",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 506,
+     "name": "Checkmate",
+     "learn": "52-72",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills: all Soul Breaker skills stay (max lvl 74). Triple Thrust/Shining Edge/Checkmate become backup only if the bot plays caster. Checkmate needs Death Mark.",
+     "when": {
+      "targetHas": "death_mark",
+      "text": "backup: a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 505,
+     "name": "Shining Edge",
+     "learn": "49-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills: Triple Thrust/Shining Edge/Checkmate become backup only if the bot plays caster.",
+     "when": {
+      "text": "backup: a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 504,
+     "name": "Triple Thrust",
+     "learn": "40-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills: Triple Thrust/Shining Edge/Checkmate become backup only if the bot plays caster.",
+     "when": {
+      "text": "backup: a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1554,
+     "name": "Aura Blast",
+     "learn": "81-81",
+     "weapon": [],
+     "trigger": "H5 extra: Aura Blast (81). H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1555,
+     "name": "Aura Cannon",
+     "learn": "82-82",
+     "weapon": [],
+     "trigger": "H5 extra: Aura Cannon (82). H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1556,
+     "name": "Arcane Shield",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "H5 extra: Arcane Shield (83). H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "mp",
+     "skill": 1565,
+     "name": "Mana Pump",
+     "learn": "",
+     "weapon": [],
+     "trigger": "H5 extra: the male and female Soul Breaker trees also add Mana Pump. H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first; not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1441,
+     "name": "Soul to Empower",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "H5 extra: the Soul Breaker trees also add Soul to Empower lvl 3. H5-only extra (not in the md): verify it on the server before adding it to a profile. (Soul to Empower itself: only if there is no board Empower.)",
+     "when": {
+      "boardMissing": "Empower"
+     },
+     "auto": false,
+     "why": "H5 extra (lvl 3): verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: AoE: Spread Wing (52+, point-blank r150, physical). Use at 3+ mobs on you.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1441,
+     "name": "Soul to Empower",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Self-buff: Soul to Empower (MA_UP). Only if there is no board Empower.",
+     "when": {
+      "boardMissing": "Empower"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1446,
+     "name": "Shadow Bind",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Control: Shadow Bind (52+, root 15 s, 400 range). Root a melee mob to kite it (solo).",
+     "when": {
+      "soloOnly": true,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1447,
+     "name": "Voice Bind",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Control: Voice Bind (58+, silence 20 s). On caster mobs.",
+     "when": {
+      "mobType": "caster"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1529,
+     "name": "Soul Web",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Control: Soul Web (62+, AoE slow r200, 60 s). When kiting several mobs.",
+     "when": {
+      "mobsMin": 2,
+      "text": "while kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1511,
+     "name": "Curse of Life Flow",
+     "learn": "60-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Party debuff: Curse of Life Flow (60+, party members heal when they hit the target, 30 s). On a boss or raid target in a party.",
+     "when": {
+      "bigTarget": true,
+      "partyOnly": true,
+      "targetLacks": 1511
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Never auto: Detect Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list; not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Never auto: Defuse Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list; not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Abyssal Blaze (→ Soul of Pain).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1436
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Dark Explosion (→ Annihilation Circle).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1438
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 478,
+     "name": "Double Thrust",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Double Thrust (→ Triple Thrust).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      504
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 482,
+     "name": "Furious Soul",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Furious Soul (male only; not in the SB tree).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1432,
+     "name": "Increase Power",
+     "learn": "10-28",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Increase Power (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 475,
+     "name": "Strike Back",
+     "learn": "20-20",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Strike Back (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 499,
+     "name": "Courage",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Courage (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 483,
+     "name": "Sword Shield",
+     "learn": "36-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Sword Shield (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "133": {
+   "name": "Soul Hound",
+   "band": "76-85",
+   "line": "Soul Hound",
+   "lines": [
+    "Soul Hound"
+   ],
+   "notes": [
+    "Female Soul Hound. Guide section 3: 40-85 is the same as section 2 (male); the table is written out in full.",
+    "Older skills (guide): all Soul Breaker skills stay (max lvl 74). The Soul Breaker rows of every skill this table does not name are written out at the end.",
+    "Triple Thrust / Shining Edge / Checkmate become backup only if the bot plays caster."
+   ],
+   "rows": [
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-74",
+     "weapon": [],
+     "trigger": "Opener (non-trash): Surrender to Dark → Death Mark → Soul Vortex.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Opener (non-trash): Surrender to Dark → Death Mark → Soul Vortex.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1512,
+     "name": "Soul Vortex",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Opener (non-trash): Surrender to Dark → Death Mark → Soul Vortex (77+, 900 range, Atk.Spd/Cast.Spd −30%, speed −20%, MP drain, 30 s, 15 s reuse).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1512
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1439,
+     "name": "Curse of Divinity",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Burst single: Curse of Divinity (while 3 debuffs are up) → Soul Strike → Soul Vortex Extinction.",
+     "when": {
+      "targetHas": "soul_vortex",
+      "text": "while 3 debuffs are up (Surrender to Dark, Death Mark, Soul Vortex)"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1516,
+     "name": "Soul Strike",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Burst single: Curse of Divinity → Soul Strike (76+, 750 range, 15 s) → Soul Vortex Extinction.",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 1513,
+     "name": "Soul Vortex Extinction",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Burst single: Soul Vortex Extinction (79+, needs Vortex, removes it, 15 s). Cast SVE after Curse of Divinity, because SVE removes a debuff.",
+     "when": {
+      "targetHas": "soul_vortex",
+      "text": "after Curse of Divinity 1439"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1436,
+     "name": "Soul of Pain",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Filler: Soul of Pain. Spam while the others are on cooldown.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1445,
+     "name": "Surrender to Dark",
+     "learn": "28-74",
+     "weapon": [],
+     "trigger": "Suggested single loop: (Surrender → Death Mark) → Soul Vortex → Curse of Divinity → Soul Strike → Soul Vortex Extinction → Soul of Pain ×N → repeat Vortex when off cooldown. Step 1: Surrender to Dark. unc: built from mechanics, not a published H5 rotation.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1435,
+     "name": "Death Mark",
+     "learn": "24-74",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 2: Death Mark after Surrender to Dark. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1445
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1512,
+     "name": "Soul Vortex",
+     "learn": "77-77",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 3: Soul Vortex after Death Mark; repeat Vortex when off cooldown. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1435
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1439,
+     "name": "Curse of Divinity",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 4: Curse of Divinity after Soul Vortex. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1512
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1516,
+     "name": "Soul Strike",
+     "learn": "76-76",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 5: Soul Strike after Curse of Divinity. unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1439
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1513,
+     "name": "Soul Vortex Extinction",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 6: Soul Vortex Extinction after Soul Strike (needs Soul Vortex on the target). unc: built from mechanics.",
+     "when": {
+      "afterSkill": 1516,
+      "targetHas": "soul_vortex"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "single",
+     "skill": 1436,
+     "name": "Soul of Pain",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Suggested single loop, step 7: Soul of Pain ×N until Vortex is off cooldown again. unc: built from mechanics.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1469,
+     "name": "Leopold",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "AoE: Leopold (78+, fire AoE r100 around the target, 45 s, 4 s cast). Use at 3+ tightly clustered.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1438,
+     "name": "Annihilation Circle",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "AoE: Annihilation Circle. Use at 3+ clustered, on cooldown.",
+     "when": {
+      "mobsMin": 3,
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1437,
+     "name": "Dark Flame",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "AoE: Dark Flame. Use at 3+ in front.",
+     "when": {
+      "mobsMin": 3,
+      "text": "mobs in front of me"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 939,
+     "name": "Soul Rage",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Souls: Soul Rage filler when souls < 5 (plus the global rules): only while the main skills are on cooldown; never spam it at 40 souls.",
+     "when": {
+      "souls": 5,
+      "text": "only while the main skills are on cooldown"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1515,
+     "name": "Lightning Barrier",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Self-buff: Lightning Barrier (80+, 20 min, 20% chance to paralyze attackers). Keep it up at all times. It is cheap.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1443,
+     "name": "Dark Weapon",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Party buff: Dark Weapon, as in Soul Breaker: self plus party melee, if no other weapon-element buff is on them.",
+     "when": {
+      "text": "no other weapon-element buff (Holy / Fire / Ice / Wind / Earth Weapon) on the target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1444,
+     "name": "Pride of Kamael",
+     "learn": "49-49",
+     "weapon": [
+      "ANCIENT",
+      "CROSSBOW",
+      "RAPIER"
+     ],
+     "trigger": "Party buff: Pride of Kamael, as in Soul Breaker: self plus Kamael party members, recast every 3 min. Useless on non-Kamael.",
+     "when": {
+      "text": "only on myself and Kamael party members; recast every 3 min"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "burst",
+     "skill": 538,
+     "name": "Final Form",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Manual only (transform, 1 h reuse). Needs and uses 20 souls plus 200 HP; 5 min transform that doubles P.Atk, P.Def, M.Atk and M.Def and replaces the skill bar.",
+     "when": {},
+     "auto": false,
+     "why": "manual only: transformation (raids and PvP by hand); do not auto-use unless the bot has a transform skill set",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 837,
+     "name": "Painkiller",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Painkiller, as in Soul Breaker: when HP < 20%.",
+     "when": {
+      "hpBelow": 20
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1448,
+     "name": "Blink",
+     "learn": "60-60",
+     "weapon": [],
+     "trigger": "Emergency: Blink, as in Soul Breaker: when 2+ mobs are on you and you are low. (unc: the blink can land in walls)",
+     "when": {
+      "mobsOnMe": 2,
+      "text": "and my HP is low"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse, as in Soul Breaker: when debuffed by root, slow, silence or poison.",
+     "when": {
+      "text": "I carry root, slow, silence or poison"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1440,
+     "name": "Steal Divinity",
+     "learn": "55-72",
+     "weapon": [],
+     "trigger": "Never auto: Steal Divinity (same as Soul Breaker: PvP or buffed raids only).",
+     "when": {},
+     "auto": false,
+     "why": "PvP or buffed raids only",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-66",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (same as Soul Breaker: removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 1442,
+     "name": "Protection from Darkness",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Never auto: Protection from Darkness (same as Soul Breaker: only vs dark-damage bosses; shares a slot with Surrender to Dark).",
+     "when": {},
+     "auto": false,
+     "why": "only vs dark-damage bosses",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 506,
+     "name": "Checkmate",
+     "learn": "52-72",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills: all Soul Breaker skills stay (max lvl 74). Triple Thrust/Shining Edge/Checkmate become backup only if the bot plays caster. Checkmate needs Death Mark.",
+     "when": {
+      "targetHas": "death_mark",
+      "text": "backup: a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 505,
+     "name": "Shining Edge",
+     "learn": "49-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills: Triple Thrust/Shining Edge/Checkmate become backup only if the bot plays caster.",
+     "when": {
+      "text": "backup: a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 504,
+     "name": "Triple Thrust",
+     "learn": "40-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills: Triple Thrust/Shining Edge/Checkmate become backup only if the bot plays caster.",
+     "when": {
+      "text": "backup: a mob is in melee, or the bot plays melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 1554,
+     "name": "Aura Blast",
+     "learn": "81-81",
+     "weapon": [],
+     "trigger": "H5 extra: Aura Blast (81). H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 1555,
+     "name": "Aura Cannon",
+     "learn": "82-82",
+     "weapon": [],
+     "trigger": "H5 extra: Aura Cannon (82). H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1556,
+     "name": "Arcane Shield",
+     "learn": "83-83",
+     "weapon": [],
+     "trigger": "H5 extra: Arcane Shield (83). H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "mp",
+     "skill": 1565,
+     "name": "Mana Pump",
+     "learn": "",
+     "weapon": [],
+     "trigger": "H5 extra: the male and female Soul Breaker trees also add Mana Pump. H5-only extra (not in the md): verify it on the server before adding it to a profile.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first; not in the datapack tree — verify on the server",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1441,
+     "name": "Soul to Empower",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "H5 extra: the Soul Breaker trees also add Soul to Empower lvl 3. H5-only extra (not in the md): verify it on the server before adding it to a profile. (Soul to Empower itself: only if there is no board Empower.)",
+     "when": {
+      "boardMissing": "Empower"
+     },
+     "auto": false,
+     "why": "H5 extra (lvl 3): verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: AoE: Spread Wing (52+, point-blank r150, physical). Use at 3+ mobs on you.",
+     "when": {
+      "mobsOnMe": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. Keep ≥ 5 souls for full nuke power.",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1441,
+     "name": "Soul to Empower",
+     "learn": "43-64",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Self-buff: Soul to Empower (MA_UP). Only if there is no board Empower.",
+     "when": {
+      "boardMissing": "Empower"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Toggle: Dark Armor. Always on (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1446,
+     "name": "Shadow Bind",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Control: Shadow Bind (52+, root 15 s, 400 range). Root a melee mob to kite it (solo).",
+     "when": {
+      "soloOnly": true,
+      "mobType": "melee"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1447,
+     "name": "Voice Bind",
+     "learn": "58-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Control: Voice Bind (58+, silence 20 s). On caster mobs.",
+     "when": {
+      "mobType": "caster"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "cc",
+     "skill": 1529,
+     "name": "Soul Web",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Control: Soul Web (62+, AoE slow r200, 60 s). When kiting several mobs.",
+     "when": {
+      "mobsMin": 2,
+      "text": "while kiting"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1511,
+     "name": "Curse of Life Flow",
+     "learn": "60-74",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Party debuff: Curse of Life Flow (60+, party members heal when they hit the target, 30 s). On a boss or raid target in a party.",
+     "when": {
+      "bigTarget": true,
+      "partyOnly": true,
+      "targetLacks": 1511
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 470,
+     "name": "Detect Trap",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Never auto: Detect Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 471,
+     "name": "Defuse Trap",
+     "learn": "15-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Never auto: Defuse Trap (only for player traps or chests).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1433,
+     "name": "Abyssal Blaze",
+     "learn": "20-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Abyssal Blaze (→ Soul of Pain).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1436
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1434,
+     "name": "Dark Explosion",
+     "learn": "24-36",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Dark Explosion (→ Annihilation Circle).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      1438
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 478,
+     "name": "Double Thrust",
+     "learn": "20-36",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Double Thrust (→ Triple Thrust).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [
+      504
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 482,
+     "name": "Furious Soul",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Furious Soul (male only; not in the SB tree).",
+     "when": {},
+     "auto": false,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 1432,
+     "name": "Increase Power",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Increase Power (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 475,
+     "name": "Strike Back",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Strike Back (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 499,
+     "name": "Courage",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Courage (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    },
+    {
+     "aspect": "obsolete",
+     "skill": 483,
+     "name": "Sword Shield",
+     "learn": "",
+     "weapon": [],
+     "trigger": "Older skills (all Soul Breaker skills stay, max lvl 74); Soul Breaker rule: Obsolete from 40: Sword Shield (they stay at low level and are replaced by Painkiller).",
+     "when": {},
+     "auto": false,
+     "why": "not in the datapack tree — verify on the server",
+     "replacedBy": [
+      837
+     ],
+     "src": "G"
+    }
+   ]
+  },
+  "134": {
+   "name": "Trickster",
+   "band": "76-85",
+   "line": "Trickster",
+   "lines": [
+    "Trickster"
+   ],
+   "notes": [
+    "Core: same as Arbalester (Real Target -> Bleeding Shot -> Twin Shot, Rising Shot at 3+).",
+    "The Trickster table has no \"older skills\" row; the other Arbalester rows (Fast Shot, Sharpshooting, souls, Dark Armor, emergencies, upkeep, never, obsolete) are not repeated here (guide gap; the class 130 rows are the guide's rules for them)."
+   ],
+   "rows": [
+    {
+     "aspect": "debuff",
+     "skill": 522,
+     "name": "Real Target",
+     "learn": "40-70",
+     "weapon": [],
+     "trigger": "Core: same as Arbalester: Real Target → Bleeding Shot → Twin Shot. Rising Shot at 3+. Real Target (900 range, bow/crossbow resist down, 30 s, 3 s reuse). On every non-trash target. Recast when it expires. Priority: Real Target (if missing) > Bleeding Shot (if no bleed) > Twin Shot > auto-attack.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 522
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 509,
+     "name": "Bleeding Shot",
+     "learn": "43-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Core: same as Arbalester: Real Target → Bleeding Shot → Twin Shot. Rising Shot at 3+. Bleeding Shot (43+, 8 s, bleed DoT) if no bleed. Priority: Real Target (if missing) > Bleeding Shot (if no bleed) > Twin Shot > auto-attack.",
+     "when": {
+      "targetLacks": 509
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 507,
+     "name": "Twin Shot",
+     "learn": "40-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Core: same as Arbalester: Real Target → Bleeding Shot → Twin Shot. Rising Shot at 3+. Twin Shot (3 s, power 4870, main nuke). Priority: Real Target (if missing) > Bleeding Shot (if no bleed) > Twin Shot > auto-attack.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 508,
+     "name": "Rising Shot",
+     "learn": "46-74",
+     "weapon": [
+      "CROSSBOW"
+     ],
+     "trigger": "Core: same as Arbalester: Real Target → Bleeding Shot → Twin Shot. Rising Shot at 3+. Rising Shot (46+, AoE around the target, 6 s, 202 MP). Use at 3+ clustered. It is MP heavy, so keep MP > 30%.",
+     "when": {
+      "mobsMin": 3,
+      "mpAbove": 30
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 939,
+     "name": "Soul Rage",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Souls: Soul Rage filler when souls < 5: only while the main skills are on cooldown; never spam it at 40 souls.",
+     "when": {
+      "souls": 5,
+      "text": "only while the main skills are on cooldown"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1470,
+     "name": "Prahnah",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Party buff: Prahnah (78+, party +3000 M.Def for 30 s, 5 min). Vs magic bursts or raid AoE, or when the party HP drops fast from magic.",
+     "when": {
+      "partyOnly": true,
+      "text": "magic burst / raid AoE incoming, or the party HP drops fast from magic"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 334,
+     "name": "Focus Skill Mastery",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Toggle: Focus Skill Mastery (78+, raises the Skill Mastery proc chance, MP drain −2). Boss or raid only. Off for farming. (unc)",
+     "when": {
+      "bigTarget": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "burst",
+     "skill": 538,
+     "name": "Final Form",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Manual only (transform, 1 h reuse). Needs and uses 20 souls plus 200 HP; 5 min transform that doubles P.Atk, P.Def, M.Atk and M.Def and replaces the skill bar.",
+     "when": {},
+     "auto": false,
+     "why": "manual only: transformation (raids and PvP by hand); do not auto-use unless the bot has a transform skill set",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 792,
+     "name": "Betrayal Mark",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Never auto: Betrayal Mark (a PvP trigger debuff).",
+     "when": {},
+     "auto": false,
+     "why": "PvP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe",
+     "skill": 987,
+     "name": "Multiple Shot",
+     "learn": "82-82",
+     "weapon": [
+      "BOW",
+      "CROSSBOW"
+     ],
+     "trigger": "H5 extra (not in md): Multiple Shot (82), from highFiveNewClassSkillTree.xml. Verify on the server.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "single",
+     "skill": 990,
+     "name": "Death Shot",
+     "learn": "83-83",
+     "weapon": [
+      "BOW",
+      "CROSSBOW"
+     ],
+     "trigger": "H5 extra (not in md): Death Shot (83), from highFiveNewClassSkillTree.xml. Verify on the server.",
+     "when": {},
+     "auto": false,
+     "why": "H5 extra: verify on the server first",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  },
+  "135": {
+   "name": "Inspector",
+   "band": "40-75",
+   "line": "Judicator",
+   "lines": [
+    "Judicator"
+   ],
+   "notes": [
+    "Subclass only (parent Warder): unlocks after two other subclasses reach 75 (forums); a subclass starts at 40, so the 1-39 bands do not apply. Role: rapier melee support with party \"instinct\" burst buffs and curse debuffs.",
+    "Only one Inspector \"instinct\" (Appetite 1476 / Protection Instinct 1478 / Vampiric Impulse 1477 / Magic Impulse 1479 / Soul Harmony 1480) is active at a time (shared INSTINCT slot).",
+    "pmfun lists soul costs (instincts 5 souls, curses 2 to 3, Restoration 1). The datapack has no soul cost on these. Trust the datapack: they are MP-only."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 505,
+     "name": "Shining Edge",
+     "learn": "49-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single (rapier): Shining Edge (49+, blow). Alternate with Triple Thrust on cooldown (3 s each).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 504,
+     "name": "Triple Thrust",
+     "learn": "40-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core single (rapier): Triple Thrust. Alternate with Shining Edge on cooldown (3 s each).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "AoE: Spread Wing (52+, point-blank r150). Use at 3+ around you.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1476,
+     "name": "Appetite for Destruction",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Party \"instinct\" (one at a time, 15 s, 5 min reuse): Appetite for Destruction: party P.Atk/crit rate/crit dmg +30 to 50%. At boss or raid engage, or at the start of a big pull in a melee party.",
+     "when": {
+      "partyOnly": true,
+      "bigTarget": true,
+      "text": "or at the start of a big pull in a melee party; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1478,
+     "name": "Protection Instinct",
+     "learn": "46-60",
+     "weapon": [],
+     "trigger": "Party \"instinct\": Protection Instinct: party P.Def/M.Def up. When party HP drops sharply or a raid AoE is coming. Use it instead of Appetite.",
+     "when": {
+      "partyOnly": true,
+      "text": "party HP drops sharply or a raid AoE is coming; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1477,
+     "name": "Vampiric Impulse",
+     "learn": "52-72",
+     "weapon": [],
+     "trigger": "Party \"instinct\": Vampiric Impulse: melee absorb HP. Melee party with low HP and no healer.",
+     "when": {
+      "partyOnly": true,
+      "text": "melee party with low HP and no healer; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1479,
+     "name": "Magic Impulse",
+     "learn": "55-68",
+     "weapon": [],
+     "trigger": "Party \"instinct\": Magic Impulse: party M.Atk/Cast Spd/M.Crit. Mage-heavy party at burst time.",
+     "when": {
+      "partyOnly": true,
+      "text": "mage-heavy party at burst time; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1487,
+     "name": "Restoration",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Heal: Restoration: 15 s HoT on an ally or self. When an ally has HP < 70%.",
+     "when": {
+      "allyBelow": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1488,
+     "name": "Restoration Impact",
+     "learn": "49-68",
+     "weapon": [],
+     "trigger": "Heal: Restoration Impact: requires Restoration on the target, consumes it for a % Max HP heal. When an ally has HP < 40% and Restoration is on them.",
+     "when": {
+      "allyBelow": 40,
+      "targetHas": "restoration"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1485,
+     "name": "Spite",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Spite: more crit damage taken.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1485
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1483,
+     "name": "Thin Skin",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Thin Skin: wound/bleed proc.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1483
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1482,
+     "name": "Weak Constitution",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Weak Constitution: stun proc (if stuns are useful).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1482,
+      "text": "stuns are useful on this target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1484,
+     "name": "Enervation",
+     "learn": "60-72",
+     "weapon": [],
+     "trigger": "Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Enervation: slow proc.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1484
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1481,
+     "name": "Oblivion",
+     "learn": "43-72",
+     "weapon": [],
+     "trigger": "Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Oblivion: lose-target proc (never in a party, see the never row).",
+     "when": {
+      "bigTarget": true,
+      "soloOnly": true,
+      "targetLacks": 1481
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1486,
+     "name": "Mental Impoverish",
+     "learn": "68-74",
+     "weapon": [],
+     "trigger": "Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Mental Impoverish: MP burn (never on mobs without MP, see the never row).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1486,
+      "text": "the target has MP"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. (Inspector souls row: \"global rules\")",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. (Inspector souls row: \"global rules\")",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Toggle: Dark Armor. On (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 837,
+     "name": "Painkiller",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Emergency: Painkiller (58+). When HP < 20%.",
+     "when": {
+      "hpBelow": 20
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Emergency: Soul Cleanse (66+). When debuffed.",
+     "when": {
+      "text": "I am debuffed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1480,
+     "name": "Soul Harmony",
+     "learn": "70-70",
+     "weapon": [],
+     "trigger": "Never auto: Soul Harmony (party-wide Stun + P.Def ×0.1 + 200 MP restore: it stuns your party; see global).",
+     "when": {},
+     "auto": false,
+     "why": "stuns and strips your own party",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 1486,
+     "name": "Mental Impoverish",
+     "learn": "68-74",
+     "weapon": [],
+     "trigger": "Never auto: Mental Impoverish on mobs without MP.",
+     "when": {},
+     "auto": false,
+     "why": "useless on mobs without MP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1481,
+     "name": "Oblivion",
+     "learn": "43-72",
+     "weapon": [],
+     "trigger": "Never auto: Oblivion in a party (the target loses aggro or target randomly; unc).",
+     "when": {},
+     "auto": false,
+     "why": "in a party the target loses aggro / target randomly (unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  },
+  "136": {
+   "name": "Judicator",
+   "band": "76-85",
+   "line": "Judicator",
+   "lines": [
+    "Judicator"
+   ],
+   "notes": [
+    "Core: same as Inspector (all Inspector rows written out, trigger \"Core: same as Inspector\").",
+    "Older skills: all Inspector skills stay (max lvl 74). Thin Skin 1483 lvl 7 at 74 comes from the H5 supplement file."
+   ],
+   "rows": [
+    {
+     "aspect": "single",
+     "skill": 505,
+     "name": "Shining Edge",
+     "learn": "49-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core: same as Inspector. Core single (rapier): Shining Edge (49+, blow). Alternate with Triple Thrust on cooldown (3 s each).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 504,
+     "name": "Triple Thrust",
+     "learn": "40-74",
+     "weapon": [
+      "RAPIER"
+     ],
+     "trigger": "Core: same as Inspector. Core single (rapier): Triple Thrust. Alternate with Shining Edge on cooldown (3 s each).",
+     "when": {
+      "onCooldown": true
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "aoe-self",
+     "skill": 492,
+     "name": "Spread Wing",
+     "learn": "52-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. AoE: Spread Wing (52+, point-blank r150). Use at 3+ around you.",
+     "when": {
+      "mobsMin": 3
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1476,
+     "name": "Appetite for Destruction",
+     "learn": "40-58",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Party \"instinct\" (one at a time, 15 s, 5 min reuse): Appetite for Destruction: party P.Atk/crit rate/crit dmg +30 to 50%. At boss or raid engage, or at the start of a big pull in a melee party.",
+     "when": {
+      "partyOnly": true,
+      "bigTarget": true,
+      "text": "or at the start of a big pull in a melee party; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1478,
+     "name": "Protection Instinct",
+     "learn": "46-60",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Party \"instinct\": Protection Instinct: party P.Def/M.Def up. When party HP drops sharply or a raid AoE is coming. Use it instead of Appetite.",
+     "when": {
+      "partyOnly": true,
+      "text": "party HP drops sharply or a raid AoE is coming; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1477,
+     "name": "Vampiric Impulse",
+     "learn": "52-72",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Party \"instinct\": Vampiric Impulse: melee absorb HP. Melee party with low HP and no healer.",
+     "when": {
+      "partyOnly": true,
+      "text": "melee party with low HP and no healer; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "partybuff",
+     "skill": 1479,
+     "name": "Magic Impulse",
+     "learn": "55-68",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Party \"instinct\": Magic Impulse: party M.Atk/Cast Spd/M.Crit. Mage-heavy party at burst time.",
+     "when": {
+      "partyOnly": true,
+      "text": "mage-heavy party at burst time; only one instinct at a time"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1487,
+     "name": "Restoration",
+     "learn": "40-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Heal: Restoration: 15 s HoT on an ally or self. When an ally has HP < 70%.",
+     "when": {
+      "allyBelow": 70
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "heal",
+     "skill": 1488,
+     "name": "Restoration Impact",
+     "learn": "49-68",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Heal: Restoration Impact: requires Restoration on the target, consumes it for a % Max HP heal. When an ally has HP < 40% and Restoration is on them.",
+     "when": {
+      "allyBelow": 40,
+      "targetHas": "restoration"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1485,
+     "name": "Spite",
+     "learn": "66-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Spite: more crit damage taken.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1485
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1483,
+     "name": "Thin Skin",
+     "learn": "46-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Thin Skin: wound/bleed proc.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1483
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1482,
+     "name": "Weak Constitution",
+     "learn": "62-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Weak Constitution: stun proc (if stuns are useful).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1482,
+      "text": "stuns are useful on this target"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1484,
+     "name": "Enervation",
+     "learn": "60-72",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Enervation: slow proc.",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1484
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1481,
+     "name": "Oblivion",
+     "learn": "43-72",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Oblivion: lose-target proc (never in a party, see the never row).",
+     "when": {
+      "bigTarget": true,
+      "soloOnly": true,
+      "targetLacks": 1481
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "debuff",
+     "skill": 1486,
+     "name": "Mental Impoverish",
+     "learn": "68-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Curse debuffs (60 s, 70%, proc on damage): bosses and long fights only: Spite + Thin Skin first, Weak Constitution if stuns are useful. Skip on trash. Mental Impoverish: MP burn (never on mobs without MP, see the never row).",
+     "when": {
+      "bigTarget": true,
+      "targetLacks": 1486,
+      "text": "the target has MP"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 502,
+     "name": "Life to Soul",
+     "learn": "40-72",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Use the global rules: auto-use when souls < 5 && HP > 70% && (not in combat || target HP high). Costs 193 to 328 HP for 1 to 5 souls, 11 s reuse, cannot be cast at 40 souls. (Inspector souls row: \"global rules\")",
+     "when": {
+      "souls": 5,
+      "hpAbove": 70,
+      "text": "not in combat, or the target HP is high"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 625,
+     "name": "Soul Gathering",
+     "learn": "46-46",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Use the global rules: before a pull or a raid when souls < 10 and Spirit Ore (3031) >= 10. Gives +50 souls (capped), costs 10 Spirit Ore and 200 HP, 30 min reuse. (Inspector souls row: \"global rules\")",
+     "when": {
+      "souls": 10,
+      "item": 3031,
+      "text": "before a pull or a raid; needs 10 Spirit Ore"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "toggle",
+     "skill": 481,
+     "name": "Dark Armor",
+     "learn": "32-43",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Toggle: Dark Armor. On (owner rule: toggles only in fights).",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 837,
+     "name": "Painkiller",
+     "learn": "58-58",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Emergency: Painkiller (58+). When HP < 20%.",
+     "when": {
+      "hpBelow": 20
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "emergency",
+     "skill": 1510,
+     "name": "Soul Cleanse",
+     "learn": "66-66",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Emergency: Soul Cleanse (66+). When debuffed.",
+     "when": {
+      "text": "I am debuffed"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1480,
+     "name": "Soul Harmony",
+     "learn": "70-70",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Never auto: Soul Harmony (party-wide Stun + P.Def ×0.1 + 200 MP restore: it stuns your party; see global).",
+     "when": {},
+     "auto": false,
+     "why": "stuns and strips your own party",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "never",
+     "skill": 1486,
+     "name": "Mental Impoverish",
+     "learn": "68-74",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Never auto: Mental Impoverish on mobs without MP.",
+     "when": {},
+     "auto": false,
+     "why": "useless on mobs without MP",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "never",
+     "skill": 1481,
+     "name": "Oblivion",
+     "learn": "43-72",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Never auto: Oblivion in a party (the target loses aggro or target randomly; unc).",
+     "when": {},
+     "auto": false,
+     "why": "in a party the target loses aggro / target randomly (unc)",
+     "replacedBy": [],
+     "src": "?"
+    },
+    {
+     "aspect": "never",
+     "skill": 1475,
+     "name": "Erase Mark",
+     "learn": "24-24",
+     "weapon": [],
+     "trigger": "Core: same as Inspector. Never auto: Erase Mark (removes your own Death Mark).",
+     "when": {},
+     "auto": false,
+     "why": "always-never list: removes Death Mark",
+     "replacedBy": [],
+     "src": "DP"
+    },
+    {
+     "aspect": "selfbuff",
+     "skill": 1515,
+     "name": "Lightning Barrier",
+     "learn": "80-80",
+     "weapon": [],
+     "trigger": "Self-buff: Lightning Barrier (80+, 20 min). Keep it up.",
+     "when": {},
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "single",
+     "skill": 939,
+     "name": "Soul Rage",
+     "learn": "78-78",
+     "weapon": [],
+     "trigger": "Souls: Soul Rage filler when souls < 5: only while the main skills are on cooldown; never spam it at 40 souls.",
+     "when": {
+      "souls": 5,
+      "text": "only while the main skills are on cooldown"
+     },
+     "auto": true,
+     "why": "",
+     "replacedBy": [],
+     "src": "G"
+    },
+    {
+     "aspect": "burst",
+     "skill": 538,
+     "name": "Final Form",
+     "learn": "79-79",
+     "weapon": [],
+     "trigger": "Manual only (transform, 1 h reuse). Needs and uses 20 souls plus 200 HP; 5 min transform that doubles P.Atk, P.Def, M.Atk and M.Def and replaces the skill bar.",
+     "when": {},
+     "auto": false,
+     "why": "manual only: transformation (raids and PvP by hand); do not auto-use unless the bot has a transform skill set",
+     "replacedBy": [],
+     "src": "DP"
+    }
+   ]
+  }
+ }
+}

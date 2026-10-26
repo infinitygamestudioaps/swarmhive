@@ -14,18 +14,22 @@ const NAME_RE = /^[A-Za-z0-9_\-]{1,40}$/;
 const DESTROYER_RE = /Destroyer|Titan|Orc Raider/i;
 
 /** pure: kit + bag rows + clan warehouse rows -> slots with status (exported for the test) */
-function kitStatus(kit, bag, clanItems) {
+function kitStatus(kit, bag, clanItems, uns) {
+  const byU = (uns && uns.byUnsealed) || {};   // KITGET-2026-10-25: a SEALED copy of a kit piece counts too (unsealed at Pushkin in town)
   const slots = ((kit && kit.slots) || []).map(s => {
     const ids = new Map((s.ids || []).map(x => [Number(x.id), x]));
+    const sealedOf = new Map(); (s.ids || []).forEach(x => { const u = byU[x.id]; if (u && u.sealed) sealedOf.set(Number(u.sealed), x); });
     const inBag = (bag || []).filter(i => ids.has(Number(i.id)));
     const worn = inBag.find(i => i.eq), held = inBag.find(i => !i.eq), wh = (clanItems || []).find(i => ids.has(Number(i.id)));
+    const sBag = (bag || []).find(i => !i.eq && sealedOf.has(Number(i.id))), sWh = (clanItems || []).find(i => sealedOf.has(Number(i.id)));
+    const sealedHave = (r, where) => { const x = sealedOf.get(Number(r.id)), u = byU[x.id]; return { where, id: Number(r.id), name: String(r.name || ''), sealed: true, toId: Number(x.id), toName: x.name, pay: Number(u.pay) || 57, price: Number(u.aa) || 0, list: Number(u.list) || 0 }; };
     const have = worn ? { where: 'worn', id: worn.id, name: ids.get(Number(worn.id)).name } : held ? { where: 'bag', id: held.id, name: ids.get(Number(held.id)).name }
-      : wh ? { where: 'clan', id: wh.id, name: ids.get(Number(wh.id)).name } : null;
+      : wh ? { where: 'clan', id: wh.id, name: ids.get(Number(wh.id)).name } : sBag ? sealedHave(sBag, 'bag') : sWh ? sealedHave(sWh, 'clan') : null;
     const c = (s.ids || [])[0] || null;
     return { key: s.key, set: s.set, slot: s.slot, label: s.label, why: s.why, have, cheapest: c ? { id: c.id, name: c.name, grade: c.grade, price: c.price } : null, options: (s.ids || []).length };
   });
-  const setOk = (set) => slots.filter(s => s.set === set).every(s => s.have && s.have.where !== 'clan');
-  const highAny = slots.some(s => s.set === 'high' && s.have && s.have.where !== 'clan');
+  const setOk = (set) => slots.filter(s => s.set === set).every(s => s.have && s.have.where !== 'clan' && !s.have.sealed);
+  const highAny = slots.some(s => s.set === 'high' && s.have && s.have.where !== 'clan' && !s.have.sealed);
   return { slots, ready: { low: setOk('low'), high: setOk('high'), swap: highAny } };   // the bot swaps with whatever it has; without a high piece nothing changes
 }
 /** pure: the Giran shop index of shopscan_giran.json — id -> offers [{ npc, alt, route, path, price, common, est }], cheapest first. Merchants
@@ -82,7 +86,7 @@ function info(ctx, name, wantBuy) {
   const list = states.filter(s => (s.name === name || (team[s.name] || s.leader) === party) && s.role === 'destroyer').map(s => s.name).filter((v, i, a) => a.indexOf(v) === i).sort();
   const i = list.indexOf(name), pair = i < 0 || list.length < 2 ? null : (i % 2 === 0 ? (list[i + 1] || list[i - 1]) : list[i - 1]);
   const partners = pair ? [pair] : [];
-  const st = kitStatus(kit, bag, clanItems);
+  const st = kitStatus(kit, bag, clanItems, ctx.readJson(path.join(ctx.DATA, 'unseal_h5.json'), null));
   let buy;
   if (wantBuy) {
     const scan = ctx.readJson(path.join(ctx.DATA, 'shopscan_giran.json'), null), rows = buyPlan(kit, st.slots, shopIndex(scan));
@@ -101,10 +105,45 @@ function info(ctx, name, wantBuy) {
     partners, slots: st.slots, ready: Object.assign(st.ready, { partner: partners.length > 0 }), skills: kit.skills || [], bagAt: (ctx.readJson(path.join(ctx.LOGS, 'bag_' + name + '.json'), null) || {}).at || null,
     clanSeenAt: cs && cs.warehouse ? cs.warehouse.seenAt || null : null, generated: kit.generated, buy };
 }
+/** KITGET: the item job that fetches every clan-warehouse kit piece + unseals every sealed one, queued for the next Giran visit (or sent now) */
+async function kitGet(ctx, b) {
+  const fs = require('fs');
+  if (!ctx.commandRun) return { code: 500, error: 'the dashboard server needs a restart' };
+  const name = String(b.name || ''); const I = info(ctx, name, false); if (I.error) return I;
+  const want = I.slots.filter(s => s.have && (s.have.where === 'clan' || s.have.sealed));
+  if (!want.length) return { code: 409, error: 'Nothing to get: no kit piece is in the clan warehouse or sealed.' };
+  const cs = ctx.readJson(path.join(ctx.LOGS, 'clan_state.json'), null) || {}, me = (ctx.readStates() || []).find(s => s.name === name) || {};
+  const ci = me.clanInfo || cs.clanInfo || null, clanLeader = ci && ci.leader ? String(ci.leader) : '';
+  const label = (h) => { const sg = h.list === 311262504 || h.list === 311262505, acc = h.list === 311262505 || h.list === 311262507; return `Release the ${sg ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal`; };
+  const pieces = want.map(s => Object.assign({ src: s.have.where === 'clan' ? 'clan' : 'bag', id: Number(s.have.id), name: s.have.name, enchant: 0, objId: 0, slot: s.label, sealed: !!s.have.sealed },
+    s.have.sealed ? { toId: s.have.toId, toName: s.have.toName, label: label(s.have), pay: s.have.pay, price: s.have.price } : { toId: Number(s.have.id), toName: s.have.name }));
+  const id = `ij_${name.toLowerCase()}_kg${Date.now().toString(36)}`, now = !!b.now;
+  const steps = [];
+  const fromClan = pieces.filter(p => p.src === 'clan'); if (fromClan.length) steps.push(`${name} takes ${fromClan.length} kit piece(s) out of the clan warehouse: ${fromClan.map(p => p.name).join(', ').slice(0, 200)}`);
+  const sealed = pieces.filter(p => p.sealed); if (sealed.length) steps.push(`unseals ${sealed.length} at Pushkin: ${sealed.map(p => p.toName + ' (' + p.price + (p.pay === 57 ? ' adena' : ' Ancient Adena') + ')').join(', ').slice(0, 240)}`);
+  steps.push(`everything stays in ${name}'s bag (the Frenzy swap kit)`);
+  const J = { id, doer: name, kind: 'kitget', item: { name: `Frenzy kit: ${pieces.length} piece(s)`, id: pieces[0].toId }, unseal: { pieces, keep: true }, give: null, clanLeader, steps,
+    created: new Date().toISOString(), by: 'dashboard frenzy kit', queued: now ? null : { since: new Date().toISOString() } };
+  const dir = path.join(ctx.LOGS, 'itemjobs'); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify(J, null, 1));
+  const stF = path.join(dir, id + '_status.json');
+  if (!now) { fs.writeFileSync(stF, JSON.stringify({ id, state: 'queued', doer: name, at: new Date().toISOString(), step: `waits until ${name} is in Giran next time`, steps: [{ t: new Date().toISOString(), who: 'dashboard', msg: `queued: ${steps.join(' / ')}` }] }, null, 1));
+    try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\tkitget\t${id} (next town visit): ${steps.join(' / ').slice(0, 400)}\tdashboard\r\n`); } catch (e) { }
+    return { ok: true, id, queued: true, steps }; }
+  const r = await ctx.commandRun({ cmd: '!itemjob ' + id, targets: ['chars:' + [name].concat(fromClan.length && clanLeader && clanLeader !== name ? [clanLeader] : []).join(',')] });
+  const body = r && r.body ? r.body : r;
+  try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\tkitget\t${id} (now): ${steps.join(' / ').slice(0, 400)}\tdashboard\r\n`); } catch (e) { }
+  return body && body.error ? { code: 500, error: body.error } : { ok: true, id, queued: false, steps };
+}
 async function handle(req, res, url, ctx) {
+  if (url.pathname === '/api/frenzykit/get' && req.method === 'POST') {   // KITGET
+    if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
+    let b = {}; try { let t = ''; for await (const c of req) t += c; b = JSON.parse(t || '{}'); } catch (e) { ctx.json(res, 400, { error: 'bad JSON' }); return true; }
+    try { const r = await kitGet(ctx, b); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
+    return true;
+  }
   if (url.pathname !== '/api/frenzykit') return false;
   if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
   try { const r = info(ctx, url.searchParams.get('name'), url.searchParams.get('buy') === '1'); const code = r.code; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, kitStatus, buyPlan, shopIndex, townNear, DESTROYER_RE };
+module.exports = { handle, info, kitGet, kitStatus, buyPlan, shopIndex, townNear, DESTROYER_RE };
