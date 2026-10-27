@@ -1,0 +1,7152 @@
+{
+ "generated": "2026-10-27T09:13:49.033Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "total": 522,
+ "counts": {
+  "ready": 142,
+  "fixable": 340,
+  "not-for-bots": 40
+ },
+ "byReason": {
+  "kill-parse": 37,
+  "engine-manual": 78,
+  "memo-state": 22,
+  "route-unverified": 59,
+  "runtime-cond": 17,
+  "npc-quest-spawned": 15,
+  "aggro-on-way": 82,
+  "npc-no-spawn": 37,
+  "mob-no-spawn": 109,
+  "item-from-elsewhere": 11,
+  "item-from-quest-mob": 21,
+  "saga-template": 34,
+  "unresolved-ids": 39,
+  "timer": 38,
+  "no-route": 44,
+  "drop-unresolved": 22,
+  "route-swim": 18,
+  "route-conditional": 23,
+  "needs-party": 12,
+  "no-start-npc": 5,
+  "area-danger": 8,
+  "spawn-script": 4,
+  "steps-unknown": 3,
+  "npc-instance": 3,
+  "route-blocked": 1
+ },
+ "notForBots": {
+  "clan": 9,
+  "dummy-script": 10,
+  "olympiad": 2,
+  "territory-war": 19
+ },
+ "restrictions": {
+  "race-only": 62,
+  "prereq-quest": 76,
+  "class-only": 40,
+  "needs-item": 29,
+  "level-unknown": 40,
+  "type-unknown": 32,
+  "subclass": 2
+ },
+ "legsPending": 0,
+ "reasonText": {
+  "territory-war": {
+   "status": "not-for-bots",
+   "text": "Territory War quest (only during territory wars, PvP)"
+  },
+  "clan": {
+   "status": "not-for-bots",
+   "text": "clan / clan leader quest (clan level-up, siege, mercenary)"
+  },
+  "olympiad": {
+   "status": "not-for-bots",
+   "text": "Olympiad / PvP condition"
+  },
+  "dummy-script": {
+   "status": "not-for-bots",
+   "text": "tutorial / coupon placeholder script (the server runs it by itself)"
+  },
+  "owner-skip": {
+   "status": "not-for-bots",
+   "text": "skipped on the dashboard (plan override)"
+  },
+  "steps-unknown": {
+   "status": "fixable",
+   "text": "the quest script has no readable state machine (no transitions / no script): steps must be written by hand"
+  },
+  "saga-template": {
+   "status": "fixable",
+   "text": "saga template quest (AbstractSagaQuest arrays): steps / items not resolved"
+  },
+  "memo-state": {
+   "status": "fixable",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  "runtime-cond": {
+   "status": "fixable",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  "unresolved-ids": {
+   "status": "fixable",
+   "text": "NPC / monster ids from arrays the extractor could not resolve"
+  },
+  "drop-unresolved": {
+   "status": "fixable",
+   "text": "a quest drop (item / chance) was not resolved"
+  },
+  "no-start-npc": {
+   "status": "fixable",
+   "text": "no start NPC registered"
+  },
+  "kill-parse": {
+   "status": "fixable",
+   "text": "kill NPCs registered but no drop / kill step parsed"
+  },
+  "npc-no-spawn": {
+   "status": "fixable",
+   "text": "an NPC of a step has no spawn in the datapack"
+  },
+  "npc-quest-spawned": {
+   "status": "fixable",
+   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)"
+  },
+  "npc-instance": {
+   "status": "fixable",
+   "text": "an NPC of a step stands inside an instance / closed zone"
+  },
+  "mob-no-spawn": {
+   "status": "fixable",
+   "text": "a monster of a step has no spawn and no known trigger"
+  },
+  "item-from-quest-mob": {
+   "status": "fixable",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)"
+  },
+  "spawn-script": {
+   "status": "fixable",
+   "text": "a monster / NPC is spawned by a timer / event / other script hook the engine does not do"
+  },
+  "no-route": {
+   "status": "fixable",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)"
+  },
+  "route-pending": {
+   "status": "fixable",
+   "text": "the geodata leg to a step place is not searched yet (run the tool again with walks)"
+  },
+  "route-blocked": {
+   "status": "fixable",
+   "text": "a closed door on the way the party cannot open"
+  },
+  "route-conditional": {
+   "status": "fixable",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)"
+  },
+  "route-unverified": {
+   "status": "fixable",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu"
+  },
+  "route-swim": {
+   "status": "fixable",
+   "text": "the way has a swim longer than one breath"
+  },
+  "aggro-on-way": {
+   "status": "fixable",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route"
+  },
+  "area-danger": {
+   "status": "fixable",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level"
+  },
+  "no-hunt-place": {
+   "status": "fixable",
+   "text": "no hunting place (field area / room / spawn cluster) for the monsters of a step"
+  },
+  "item-from-elsewhere": {
+   "status": "fixable",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)"
+  },
+  "needs-party": {
+   "status": "fixable",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team"
+  },
+  "engine-manual": {
+   "status": "fixable",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)"
+  },
+  "timer": {
+   "status": "fixable",
+   "text": "the quest uses timers (despawns / waits) the engine does not watch"
+  },
+  "owner-manual": {
+   "status": "fixable",
+   "text": "marked \"manual\" on the dashboard (plan override)"
+  }
+ },
+ "quests": {
+  "1": {
+   "n": "Letters of Love",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 2,
+   "steps": 5,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "2": {
+   "n": "What Women Want",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 2,
+   "steps": 5,
+   "expectedMin": 10,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "3": {
+   "n": "Will the Seal be Broken?",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Dark Elf Village",
+   "level": 16,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "4": {
+   "n": "Long Live the Pa'agrio Lord",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Orc Village",
+   "level": 2,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "5": {
+   "n": "Miner's Favor",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Dwarven Village",
+   "level": 2,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "6": {
+   "n": "Step Into the Future",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 3,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "7": {
+   "n": "A Trip Begins",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 3,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "8": {
+   "n": "An Adventure Begins",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 3,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "9": {
+   "n": "Into the City of Humans",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 3,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "10": {
+   "n": "Into the World",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 3,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "11": {
+   "n": "Secret Meeting With Ketra Orcs",
+   "status": "ready",
+   "reasons": [],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": []
+  },
+  "12": {
+   "n": "Secret Meeting With Varka Silenos",
+   "status": "ready",
+   "reasons": [],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "13": {
+   "n": "Parcel Delivery",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "route-unverified"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "14": {
+   "n": "Whereabouts of the Archaeologist",
+   "status": "ready",
+   "reasons": [],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 2,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "15": {
+   "n": "Sweet Whispers",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Rune",
+   "level": 60,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": []
+  },
+  "16": {
+   "n": "The Coming Darkness",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "route-unverified"
+   ],
+   "region": "Schuttgart",
+   "level": 62,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "17": {
+   "n": "Light and Darkness",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "route-unverified"
+   ],
+   "region": "Schuttgart",
+   "level": 61,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "18": {
+   "n": "Meeting With The Golden Ram",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 66,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "19": {
+   "n": "Go to the Pastureland",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "20": {
+   "n": "Bring Up With Love",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "21": {
+   "n": "Hidden Truth",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned",
+    "route-unverified"
+   ],
+   "region": "Rune",
+   "level": 63,
+   "steps": 8,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "22": {
+   "n": "Tragedy in Von Hellmann Forest",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "region": "Rune",
+   "level": 63,
+   "steps": 13,
+   "expectedMin": 38,
+   "restrictions": []
+  },
+  "23": {
+   "n": "Lidia's Heart",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "aggro-on-way",
+    "npc-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 64,
+   "steps": 9,
+   "expectedMin": 15,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "24": {
+   "n": "Inhabitants of the Forest of the Dead",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 65,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "25": {
+   "n": "Hiding Behind the Truth",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way",
+    "npc-quest-spawned"
+   ],
+   "region": "Rune",
+   "level": 66,
+   "steps": 10,
+   "expectedMin": 30,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "26": {
+   "n": "Tired of Waiting",
+   "status": "ready",
+   "reasons": [],
+   "region": "Hunters Village",
+   "level": 80,
+   "steps": 2,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "27": {
+   "n": "Chest Caught With A Bait Of Wind",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 27,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "28": {
+   "n": "Chest Caught With A Bait Of Icy Air",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 36,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "29": {
+   "n": "Chest Caught With A Bait Of Earth",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 48,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "30": {
+   "n": "Chest Caught With A Bait Of Fire",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 61,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "31": {
+   "n": "Secret Buried in the Swamp",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "aggro-on-way"
+   ],
+   "region": "Rune",
+   "level": 66,
+   "steps": 4,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "32": {
+   "n": "An Obvious Lie",
+   "status": "fixable",
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "region": "Giran",
+   "level": 45,
+   "steps": 7,
+   "expectedMin": 21,
+   "restrictions": []
+  },
+  "33": {
+   "n": "Make a Pair of Dress Shoes",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 60,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "34": {
+   "n": "In Search of Cloth",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 60,
+   "steps": 3,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "35": {
+   "n": "Find Glittering Jewelry",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 60,
+   "steps": 3,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "36": {
+   "n": "Make a Sewing Kit",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 60,
+   "steps": 3,
+   "expectedMin": 11,
+   "restrictions": []
+  },
+  "37": {
+   "n": "Make Formal Wear",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 60,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "38": {
+   "n": "Dragon Fangs",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Gludin",
+   "level": 19,
+   "steps": 8,
+   "expectedMin": 96,
+   "restrictions": []
+  },
+  "39": {
+   "n": "Red-eyed Invaders",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludio",
+   "level": 20,
+   "steps": 6,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "40": {
+   "n": "A Special Order",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 40,
+   "steps": 6,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "42": {
+   "n": "Help The Uncle!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion / Floran Fortress",
+   "level": 25,
+   "steps": 4,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "43": {
+   "n": "Help The Sister!",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 26,
+   "steps": 4,
+   "expectedMin": 21,
+   "restrictions": []
+  },
+  "44": {
+   "n": "Help The Son!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludio",
+   "level": 24,
+   "steps": 4,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "45": {
+   "n": "To Talking Island",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "46": {
+   "n": "Once More In the Arms of the Mother Tree",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "47": {
+   "n": "Into the Dark Elven Forest",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "48": {
+   "n": "To The Immortal Plateau",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "49": {
+   "n": "The Road Home",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "50": {
+   "n": "Lanosco's Special Bait",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 27,
+   "steps": 3,
+   "expectedMin": 131,
+   "restrictions": []
+  },
+  "51": {
+   "n": "O'Fulle's Special Bait",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 36,
+   "steps": 3,
+   "expectedMin": 132,
+   "restrictions": []
+  },
+  "52": {
+   "n": "Willie's Special Bait",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 48,
+   "steps": 3,
+   "expectedMin": 133,
+   "restrictions": []
+  },
+  "53": {
+   "n": "Linnaeus Special Bait",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 60,
+   "steps": 3,
+   "expectedMin": 131,
+   "restrictions": []
+  },
+  "60": {
+   "n": "Good Work's Reward",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 39,
+   "steps": 6,
+   "expectedMin": 19,
+   "restrictions": [
+    "race-only",
+    "class-only",
+    "prereq-quest"
+   ]
+  },
+  "61": {
+   "n": "Law Enforcement",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 76,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "62": {
+   "n": "Path Of The Trooper",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 7,
+   "expectedMin": 23,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "63": {
+   "n": "Path Of The Warder",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "region": "Gludin",
+   "level": 18,
+   "steps": 7,
+   "expectedMin": 21,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "64": {
+   "n": "Certified Berserker",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "region": "Oren",
+   "level": 39,
+   "steps": 9,
+   "expectedMin": 26,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "65": {
+   "n": "Certified Soul Breaker",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 39,
+   "steps": 15,
+   "expectedMin": 47,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "66": {
+   "n": "Certified Arbalester",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "region": "Dion",
+   "level": 39,
+   "steps": 12,
+   "expectedMin": 38,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "67": {
+   "n": "Saga of the Doombringer",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "68": {
+   "n": "Saga of the Soul Hound",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "69": {
+   "n": "Saga of the Trickster",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "70": {
+   "n": "Saga of the Phoenix Knight",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "71": {
+   "n": "Saga of Eva's Templar",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "72": {
+   "n": "Saga of the Sword Muse",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "73": {
+   "n": "Saga of the Duelist",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "74": {
+   "n": "Saga of the Dreadnought",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "75": {
+   "n": "Saga of the Titan",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "76": {
+   "n": "Saga of the Grand Khavatari",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "77": {
+   "n": "Saga of the Dominator",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "78": {
+   "n": "Saga of the Doomcryer",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "79": {
+   "n": "Saga of the Adventurer",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "80": {
+   "n": "Saga of the Wind Rider",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "81": {
+   "n": "Saga of the Ghost Hunter",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "82": {
+   "n": "Saga of the Sagittarius",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "83": {
+   "n": "Saga of the Moonlight Sentinel",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "84": {
+   "n": "Saga of the Ghost Sentinel",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "85": {
+   "n": "Saga of the Cardinal",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "86": {
+   "n": "Saga of the Hierophant",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "87": {
+   "n": "Saga of Eva's Saint",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "88": {
+   "n": "Saga of the Archmage",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "89": {
+   "n": "Saga of the Mystic Muse",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "90": {
+   "n": "Saga of the Storm Screamer",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "91": {
+   "n": "Saga of the Arcana Lord",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "92": {
+   "n": "Saga of the Elemental Master",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "93": {
+   "n": "Saga of the Spectral Master",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 16,
+   "restrictions": []
+  },
+  "94": {
+   "n": "Saga of the Soultaker",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "route-unverified",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "95": {
+   "n": "Saga of the Hell Knight",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "route-unverified",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "96": {
+   "n": "Saga of the Spectral Dancer",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "route-unverified",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "97": {
+   "n": "Saga of the Shillien Templar",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 26,
+   "restrictions": []
+  },
+  "98": {
+   "n": "Saga of the Shillien Saint",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 26,
+   "restrictions": []
+  },
+  "99": {
+   "n": "Saga of the Fortune Seeker",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "100": {
+   "n": "Saga of the Maestro",
+   "status": "fixable",
+   "reasons": [
+    "saga-template",
+    "unresolved-ids",
+    "timer",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 76,
+   "steps": 5,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "101": {
+   "n": "Sword of Solidarity",
+   "status": "fixable",
+   "reasons": [
+    "no-route",
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "region": "Talking Island",
+   "level": 9,
+   "steps": 5,
+   "expectedMin": 11,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "102": {
+   "n": "Sea of Spores Fever",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 12,
+   "steps": 6,
+   "expectedMin": 28,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "103": {
+   "n": "Spirit of Craftsman",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Dark Elf Village",
+   "level": 10,
+   "steps": 7,
+   "expectedMin": 25,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "104": {
+   "n": "Spirit of Mirrors",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "route-unverified",
+    "engine-manual",
+    "item-from-elsewhere"
+   ],
+   "region": "Talking Island",
+   "level": 10,
+   "steps": 5,
+   "expectedMin": 10,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "105": {
+   "n": "Skirmish with Orcs",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Elven Village",
+   "level": 10,
+   "steps": 4,
+   "expectedMin": 5,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "106": {
+   "n": "Forgotten Truth",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dark Elf Village",
+   "level": 10,
+   "steps": 4,
+   "expectedMin": 12,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "107": {
+   "n": "Merciless Punishment",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Orc Village",
+   "level": 10,
+   "steps": 6,
+   "expectedMin": 11,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "108": {
+   "n": "Jumble, Tumble, Diamond Fuss",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 10,
+   "steps": 10,
+   "expectedMin": 32,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "109": {
+   "n": "In Search of the Nest",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 81,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "110": {
+   "n": "To the Primeval Isle",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 75,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "111": {
+   "n": "Elrokian Hunter's Proof",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "no-route"
+   ],
+   "region": "Dark Elf Village",
+   "level": 75,
+   "steps": 11,
+   "expectedMin": 163,
+   "restrictions": []
+  },
+  "112": {
+   "n": "Walk of Fate",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 20,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "113": {
+   "n": "Status of the Beacon Tower",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 80,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "114": {
+   "n": "Resurrection of an Old Manager",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Schuttgart",
+   "level": 70,
+   "steps": 5,
+   "expectedMin": 15,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "115": {
+   "n": "The Other Side of Truth",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Schuttgart",
+   "level": 53,
+   "steps": 8,
+   "expectedMin": 29,
+   "restrictions": []
+  },
+  "116": {
+   "n": "Beyond the Hills of Winter",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 30,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "117": {
+   "n": "The Ocean of Distant Stars",
+   "status": "fixable",
+   "reasons": [
+    "route-swim"
+   ],
+   "region": "Dwarven Village",
+   "level": 39,
+   "steps": 10,
+   "expectedMin": 24,
+   "restrictions": []
+  },
+  "118": {
+   "n": "To Lead And Be Led",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludio",
+   "level": 19,
+   "steps": 3,
+   "expectedMin": 66,
+   "restrictions": []
+  },
+  "119": {
+   "n": "Last Imperial Prince",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "route-unverified"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "120": {
+   "n": "Pavel's Last Research",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "no-route"
+   ],
+   "region": "Schuttgart",
+   "level": 70,
+   "steps": 9,
+   "expectedMin": 21,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "121": {
+   "n": "Pavel the Giant",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 70,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "122": {
+   "n": "Ominous News",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 20,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "123": {
+   "n": "The Leader And The Follower",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 19,
+   "steps": 3,
+   "expectedMin": 67,
+   "restrictions": []
+  },
+  "124": {
+   "n": "Meeting the Elroki",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Dark Elf Village",
+   "level": 75,
+   "steps": 6,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "125": {
+   "n": "The Name of Evil - 1",
+   "status": "fixable",
+   "reasons": [
+    "no-route",
+    "mob-no-spawn"
+   ],
+   "region": "Dark Elf Village",
+   "level": 76,
+   "steps": 8,
+   "expectedMin": 33,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "126": {
+   "n": "The Name of Evil - 2",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Dark Elf Village",
+   "level": 77,
+   "steps": 8,
+   "expectedMin": 31,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "128": {
+   "n": "Pailaka - Song of Ice and Fire",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned",
+    "npc-no-spawn",
+    "mob-no-spawn"
+   ],
+   "region": "Gludin",
+   "level": 36,
+   "steps": 9,
+   "expectedMin": 28,
+   "restrictions": []
+  },
+  "129": {
+   "n": "Pailaka - Devil's Legacy",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "npc-no-spawn"
+   ],
+   "region": "Giran",
+   "level": 61,
+   "steps": 5,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "130": {
+   "n": "Path To Hellbound",
+   "status": "ready",
+   "reasons": [],
+   "region": "Floran",
+   "level": 78,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "131": {
+   "n": "Bird in a Cage",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "Heine",
+   "level": 78,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "132": {
+   "n": "Matras' Curiosity",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "region": "",
+   "level": 76,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "133": {
+   "n": "That's Bloody Hot!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 78,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "134": {
+   "n": "Temple Missionary",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "region": "Dion",
+   "level": 35,
+   "steps": 4,
+   "expectedMin": 18,
+   "restrictions": []
+  },
+  "135": {
+   "n": "Temple Executor",
+   "status": "fixable",
+   "reasons": [
+    "route-swim"
+   ],
+   "region": "Dion",
+   "level": 35,
+   "steps": 4,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "136": {
+   "n": "More Than Meets the Eye",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "route-unverified",
+    "route-swim",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 50,
+   "steps": 6,
+   "expectedMin": 47,
+   "restrictions": []
+  },
+  "137": {
+   "n": "Temple Champion - 1",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dion",
+   "level": 41,
+   "steps": 3,
+   "expectedMin": 18,
+   "restrictions": []
+  },
+  "138": {
+   "n": "Temple Champion - 2",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 42,
+   "steps": 4,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "139": {
+   "n": "Shadow Fox - 1",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "route-swim"
+   ],
+   "region": "Heine",
+   "level": 37,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "140": {
+   "n": "Shadow Fox - 2",
+   "status": "fixable",
+   "reasons": [
+    "route-swim"
+   ],
+   "region": "Heine",
+   "level": 37,
+   "steps": 4,
+   "expectedMin": 12,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "141": {
+   "n": "Shadow Fox - 3",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 37,
+   "steps": 3,
+   "expectedMin": 28,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "142": {
+   "n": "Fallen Angel - Request of Dawn",
+   "status": "fixable",
+   "reasons": [
+    "no-start-npc",
+    "engine-manual",
+    "aggro-on-way",
+    "item-from-quest-mob"
+   ],
+   "region": "Heine",
+   "level": null,
+   "steps": 6,
+   "expectedMin": 61,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "143": {
+   "n": "Fallen Angel - Request of Dusk",
+   "status": "fixable",
+   "reasons": [
+    "no-start-npc",
+    "engine-manual"
+   ],
+   "region": "Heine",
+   "level": null,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "146": {
+   "n": "The Zero Hour",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "region": "Rune",
+   "level": 81,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "147": {
+   "n": "Path to Becoming an Elite Mercenary",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "npc-no-spawn",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "148": {
+   "n": "Path to Becoming an Exalted Mercenary",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "npc-no-spawn",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": [
+    "prereq-quest",
+    "level-unknown"
+   ]
+  },
+  "151": {
+   "n": "Cure for Fever",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 15,
+   "steps": 4,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "152": {
+   "n": "Shards of Golem",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 10,
+   "steps": 5,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "153": {
+   "n": "Deliver Goods",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 2,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "154": {
+   "n": "Sacrifice to the Sea",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 2,
+   "steps": 5,
+   "expectedMin": 26,
+   "restrictions": []
+  },
+  "155": {
+   "n": "Find Sir Windawood",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 3,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "156": {
+   "n": "Millennium Love",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "157": {
+   "n": "Recover Smuggled Goods",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 5,
+   "steps": 3,
+   "expectedMin": 27,
+   "restrictions": []
+  },
+  "158": {
+   "n": "Seed of Evil",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Talking Island",
+   "level": 21,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "159": {
+   "n": "Protect the Water Source",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 12,
+   "steps": 4,
+   "expectedMin": 16,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "160": {
+   "n": "Nerupa's Request",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 14,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "161": {
+   "n": "Fruit of the Mother Tree",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Elven Village",
+   "level": 3,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "162": {
+   "n": "Curse of the Underground Fortress",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 12,
+   "steps": 3,
+   "expectedMin": 24,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "163": {
+   "n": "Legacy of the Poet",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 11,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "164": {
+   "n": "Blood Fiend",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Elven Village",
+   "level": 21,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "165": {
+   "n": "Shilen's Hunt",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 3,
+   "steps": 3,
+   "expectedMin": 14,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "166": {
+   "n": "Mass of Darkness",
+   "status": "fixable",
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "region": "Dark Elf Village",
+   "level": 2,
+   "steps": 3,
+   "expectedMin": 11,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "167": {
+   "n": "Dwarven Kinship",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": []
+  },
+  "168": {
+   "n": "Deliver Supplies",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 3,
+   "steps": 5,
+   "expectedMin": 12,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "169": {
+   "n": "Offspring of Nightmares",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dark Elf Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "170": {
+   "n": "Dangerous Seduction",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Dark Elf Village",
+   "level": 21,
+   "steps": 3,
+   "expectedMin": 9,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "171": {
+   "n": "Acts Of Evil",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Gludin",
+   "level": 27,
+   "steps": 11,
+   "expectedMin": 76,
+   "restrictions": []
+  },
+  "172": {
+   "n": "New Horizons",
+   "status": "ready",
+   "reasons": [],
+   "region": "Kamael Village",
+   "level": 3,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "173": {
+   "n": "To the Isle of Souls",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": null,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": [
+    "race-only",
+    "prereq-quest",
+    "level-unknown"
+   ]
+  },
+  "174": {
+   "n": "Supply Check",
+   "status": "ready",
+   "reasons": [],
+   "region": "Kamael Village",
+   "level": 2,
+   "steps": 4,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "175": {
+   "n": "The Way of the Warrior",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 10,
+   "steps": 6,
+   "expectedMin": 23,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "176": {
+   "n": "Steps for Honor",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Aden",
+   "level": 80,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "178": {
+   "n": "Iconic Trinity",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Kamael Village",
+   "level": 17,
+   "steps": 5,
+   "expectedMin": 5,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "179": {
+   "n": "Into The Large Cavern",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 17,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": [
+    "race-only",
+    "prereq-quest"
+   ]
+  },
+  "182": {
+   "n": "New Recruits",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "npc-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 17,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "183": {
+   "n": "Relic Exploration",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 40,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "184": {
+   "n": "Art Of Persuasion",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Gludio",
+   "level": 40,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "185": {
+   "n": "Nikola's Cooperation",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Gludio",
+   "level": 40,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "186": {
+   "n": "Contract Execution",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dion",
+   "level": 41,
+   "steps": 4,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest",
+    "needs-item"
+   ]
+  },
+  "187": {
+   "n": "Nikola's Heart",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 41,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest",
+    "needs-item"
+   ]
+  },
+  "188": {
+   "n": "Seal Removal",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 41,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest",
+    "needs-item"
+   ]
+  },
+  "189": {
+   "n": "Contract Completion",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 42,
+   "steps": 4,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "190": {
+   "n": "Lost Dream",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 42,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "191": {
+   "n": "Vain Conclusion",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 42,
+   "steps": 4,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "192": {
+   "n": "Seven Signs, Series of Doubt",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 79,
+   "steps": 6,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "193": {
+   "n": "Seven Signs, Dying Message",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 79,
+   "steps": 5,
+   "expectedMin": 13,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "194": {
+   "n": "Seven Signs, Mammon's Contract",
+   "status": "fixable",
+   "reasons": [
+    "route-swim"
+   ],
+   "region": "Oren",
+   "level": 79,
+   "steps": 7,
+   "expectedMin": 17,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "195": {
+   "n": "Seven Signs, Secret Ritual of the Priests",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 79,
+   "steps": 4,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "196": {
+   "n": "Seven Signs, Seal of the Emperor",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned",
+    "npc-no-spawn"
+   ],
+   "region": "Heine",
+   "level": 79,
+   "steps": 6,
+   "expectedMin": 5,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "197": {
+   "n": "Seven Signs, the Sacred Book of Seal",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 79,
+   "steps": 7,
+   "expectedMin": 15,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "198": {
+   "n": "Seven Signs, Embryo",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 79,
+   "steps": 4,
+   "expectedMin": 8,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "201": {
+   "n": "Human Fighter Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "202": {
+   "n": "Human Mage Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "203": {
+   "n": "Elf Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "204": {
+   "n": "Dark Elf Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "205": {
+   "n": "Orc Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "206": {
+   "n": "Dwarf Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "207": {
+   "n": "Newbie Weapon Coupon",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "208": {
+   "n": "Newbie Accessory Coupon",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "209": {
+   "n": "Kamael Tutorial",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "211": {
+   "n": "Trial of the Challenger",
+   "status": "fixable",
+   "reasons": [
+    "no-route",
+    "npc-quest-spawned"
+   ],
+   "region": "Dion",
+   "level": 35,
+   "steps": 11,
+   "expectedMin": 39,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "212": {
+   "n": "Trial of Duty",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "item-from-quest-mob",
+    "npc-quest-spawned"
+   ],
+   "region": "Giran",
+   "level": 35,
+   "steps": 14,
+   "expectedMin": 35,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "213": {
+   "n": "Trial Of The Seeker",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Giran",
+   "level": 35,
+   "steps": 9,
+   "expectedMin": 21,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "214": {
+   "n": "Trial Of The Scholar",
+   "status": "fixable",
+   "reasons": [
+    "area-danger",
+    "aggro-on-way",
+    "mob-no-spawn",
+    "route-swim"
+   ],
+   "region": "Dion",
+   "level": 35,
+   "steps": 22,
+   "expectedMin": 51,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "215": {
+   "n": "Trial Of The Pilgrim",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "route-swim"
+   ],
+   "region": "Gludin",
+   "level": 35,
+   "steps": 17,
+   "expectedMin": 55,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "216": {
+   "n": "Trial Of The Guildsman",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 35,
+   "steps": 7,
+   "expectedMin": 42,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "217": {
+   "n": "Testimony Of Trust",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "item-from-quest-mob"
+   ],
+   "region": "Oren",
+   "level": 37,
+   "steps": 21,
+   "expectedMin": 46,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "218": {
+   "n": "Testimony Of Life",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "region": "Dion",
+   "level": 37,
+   "steps": 15,
+   "expectedMin": 42,
+   "restrictions": [
+    "race-only",
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "219": {
+   "n": "Testimony Of Fate",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "route-unverified"
+   ],
+   "region": "Giran",
+   "level": 37,
+   "steps": 13,
+   "expectedMin": 29,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "220": {
+   "n": "Testimony Of Glory",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "item-from-quest-mob"
+   ],
+   "region": "Giran",
+   "level": 37,
+   "steps": 14,
+   "expectedMin": 57,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "221": {
+   "n": "Testimony Of Prosperity",
+   "status": "fixable",
+   "reasons": [
+    "item-from-elsewhere",
+    "route-conditional"
+   ],
+   "region": "Giran",
+   "level": 37,
+   "steps": 11,
+   "expectedMin": 31,
+   "restrictions": [
+    "race-only",
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "222": {
+   "n": "Test Of The Duelist",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "route-conditional",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 39,
+   "steps": 4,
+   "expectedMin": 11,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "223": {
+   "n": "Test Of The Champion",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "item-from-quest-mob"
+   ],
+   "region": "Giran",
+   "level": 39,
+   "steps": 10,
+   "expectedMin": 37,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "224": {
+   "n": "Test Of Sagittarius",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "region": "Hunters Village",
+   "level": 39,
+   "steps": 9,
+   "expectedMin": 82,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "225": {
+   "n": "Test Of The Searcher",
+   "status": "fixable",
+   "reasons": [
+    "route-swim",
+    "npc-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 39,
+   "steps": 15,
+   "expectedMin": 41,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "226": {
+   "n": "Test Of The Healer",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Giran",
+   "level": 39,
+   "steps": 19,
+   "expectedMin": 49,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "227": {
+   "n": "Test Of The Reformer",
+   "status": "fixable",
+   "reasons": [
+    "no-route",
+    "item-from-quest-mob",
+    "aggro-on-way",
+    "npc-quest-spawned"
+   ],
+   "region": "Giran",
+   "level": 39,
+   "steps": 14,
+   "expectedMin": 50,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "228": {
+   "n": "Test Of Magus",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "route-swim"
+   ],
+   "region": "Dion",
+   "level": 39,
+   "steps": 9,
+   "expectedMin": 33,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "229": {
+   "n": "Test Of Witchcraft",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob",
+    "route-swim"
+   ],
+   "region": "Giran",
+   "level": 39,
+   "steps": 10,
+   "expectedMin": 43,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "230": {
+   "n": "Test Of The Summoner",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "timer",
+    "no-route",
+    "item-from-elsewhere"
+   ],
+   "region": "Gludin",
+   "level": 39,
+   "steps": 11,
+   "expectedMin": 37,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "231": {
+   "n": "Test Of The Maestro",
+   "status": "fixable",
+   "reasons": [
+    "spawn-script"
+   ],
+   "region": "Dwarven Village",
+   "level": 39,
+   "steps": 9,
+   "expectedMin": 17,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "232": {
+   "n": "Test Of The Lord",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "route-unverified"
+   ],
+   "region": "Orc Village",
+   "level": 39,
+   "steps": 11,
+   "expectedMin": 33,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "233": {
+   "n": "Test Of The War Spirit",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "route-unverified"
+   ],
+   "region": "Dion",
+   "level": 39,
+   "steps": 9,
+   "expectedMin": 24,
+   "restrictions": [
+    "race-only",
+    "class-only"
+   ]
+  },
+  "234": {
+   "n": "Fate's Whisper",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 75,
+   "steps": 8,
+   "expectedMin": 44,
+   "restrictions": []
+  },
+  "235": {
+   "n": "Mimir's Elixir",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "memo-state",
+    "item-from-elsewhere",
+    "no-route"
+   ],
+   "region": "Oren",
+   "level": 75,
+   "steps": 6,
+   "expectedMin": 12,
+   "restrictions": [
+    "race-only",
+    "needs-item"
+   ]
+  },
+  "236": {
+   "n": "Seeds Of Chaos",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "no-route",
+    "route-unverified",
+    "npc-quest-spawned"
+   ],
+   "region": "Kamael Village",
+   "level": 75,
+   "steps": 13,
+   "expectedMin": 62,
+   "restrictions": [
+    "race-only",
+    "prereq-quest",
+    "needs-item"
+   ]
+  },
+  "237": {
+   "n": "Winds of Change",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 82,
+   "steps": 5,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "238": {
+   "n": "Success/Failure Of Business",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "Field of Whispers",
+   "level": 82,
+   "steps": 5,
+   "expectedMin": 21,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "239": {
+   "n": "Won't You Join Us?",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 82,
+   "steps": 5,
+   "expectedMin": 24,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "240": {
+   "n": "I'm the Only One You Can Trust",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 81,
+   "steps": 4,
+   "expectedMin": 21,
+   "restrictions": []
+  },
+  "241": {
+   "n": "Possessor Of A Precious Soul 1",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn",
+    "route-unverified"
+   ],
+   "region": "Aden",
+   "level": 50,
+   "steps": 17,
+   "expectedMin": 54,
+   "restrictions": [
+    "subclass"
+   ]
+  },
+  "242": {
+   "n": "Possessor Of A Precious Soul 2",
+   "status": "fixable",
+   "reasons": [
+    "timer",
+    "route-unverified",
+    "aggro-on-way",
+    "npc-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 60,
+   "steps": 11,
+   "expectedMin": 44,
+   "restrictions": [
+    "prereq-quest",
+    "subclass"
+   ]
+  },
+  "246": {
+   "n": "Possessor Of A Precious Soul 3",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 65,
+   "steps": 7,
+   "expectedMin": 90,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "247": {
+   "n": "Possessor Of A Precious Soul 4",
+   "status": "ready",
+   "reasons": [],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "249": {
+   "n": "Poisoned Plains of the Lizardmen",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "250": {
+   "n": "Watch What You Eat",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "unresolved-ids"
+   ],
+   "region": "Hunters Village",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "251": {
+   "n": "No Secrets",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "252": {
+   "n": "It Smells Delicious!",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "254": {
+   "n": "Legendary Tales",
+   "status": "fixable",
+   "reasons": [
+    "unresolved-ids",
+    "engine-manual"
+   ],
+   "region": "Giran",
+   "level": 80,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "255": {
+   "n": "Tutorial",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "steps-unknown",
+    "kill-parse",
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 6,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "257": {
+   "n": "The Guard is Busy",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "region": "Talking Island",
+   "level": 6,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "258": {
+   "n": "Bring Wolf Pelts",
+   "status": "ready",
+   "reasons": [],
+   "region": "Talking Island",
+   "level": 3,
+   "steps": 3,
+   "expectedMin": 23,
+   "restrictions": []
+  },
+  "259": {
+   "n": "Request from the Farm Owner",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 15,
+   "steps": 2,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "260": {
+   "n": "Orc Hunting",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "region": "Elven Village",
+   "level": 6,
+   "steps": 2,
+   "expectedMin": 5,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "261": {
+   "n": "Collector's Dream",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "262": {
+   "n": "Trade With The Ivory Tower",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 8,
+   "steps": 3,
+   "expectedMin": 21,
+   "restrictions": []
+  },
+  "263": {
+   "n": "Orc Subjugation",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "engine-manual"
+   ],
+   "region": "Dark Elf Village",
+   "level": 8,
+   "steps": 2,
+   "expectedMin": 5,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "264": {
+   "n": "Keen Claws",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 3,
+   "steps": 3,
+   "expectedMin": 49,
+   "restrictions": []
+  },
+  "265": {
+   "n": "Bonds of Slavery",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 6,
+   "steps": 2,
+   "expectedMin": 22,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "266": {
+   "n": "Pleas of Pixies",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Elven Village",
+   "level": 3,
+   "steps": 3,
+   "expectedMin": 49,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "267": {
+   "n": "Wrath of Verdure",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Elf",
+   "level": 4,
+   "steps": 2,
+   "expectedMin": 23,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "268": {
+   "n": "Traces of Evil",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "269": {
+   "n": "Invention Ambition",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 18,
+   "steps": 2,
+   "expectedMin": 24,
+   "restrictions": []
+  },
+  "270": {
+   "n": "The One Who Ends Silence",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Goddard",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 13,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "271": {
+   "n": "Proof of Valor",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 4,
+   "steps": 3,
+   "expectedMin": 26,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "272": {
+   "n": "Wrath of Ancestors",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 5,
+   "steps": 3,
+   "expectedMin": 28,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "273": {
+   "n": "Invaders of the Holy Land",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 6,
+   "steps": 3,
+   "expectedMin": 24,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "274": {
+   "n": "Skirmish with the Werewolves",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 9,
+   "steps": 3,
+   "expectedMin": 24,
+   "restrictions": [
+    "race-only",
+    "needs-item"
+   ]
+  },
+  "275": {
+   "n": "Dark Winged Spies",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Orc Village",
+   "level": 11,
+   "steps": 4,
+   "expectedMin": 41,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "276": {
+   "n": "Totem of the Hestui",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Orc Village",
+   "level": 15,
+   "steps": 4,
+   "expectedMin": 14,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "277": {
+   "n": "Gatekeeper's Offering",
+   "status": "ready",
+   "reasons": [],
+   "region": "Orc Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "278": {
+   "n": "Home Security",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 82,
+   "steps": 4,
+   "expectedMin": 135,
+   "restrictions": []
+  },
+  "279": {
+   "n": "Target of Opportunity",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "280": {
+   "n": "The Food Chain",
+   "status": "ready",
+   "reasons": [],
+   "region": "Kamael Village",
+   "level": 3,
+   "steps": 2,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "281": {
+   "n": "Head for the Hills!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Kamael Village",
+   "level": 6,
+   "steps": 3,
+   "expectedMin": 23,
+   "restrictions": []
+  },
+  "283": {
+   "n": "The Few, The Proud, The Brave",
+   "status": "ready",
+   "reasons": [],
+   "region": "Kamael Village",
+   "level": 15,
+   "steps": 2,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "284": {
+   "n": "Muertos Feather",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Kamael Village",
+   "level": 11,
+   "steps": 3,
+   "expectedMin": 25,
+   "restrictions": []
+  },
+  "286": {
+   "n": "Fabulous Feathers",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Kamael Village",
+   "level": 17,
+   "steps": 3,
+   "expectedMin": 48,
+   "restrictions": []
+  },
+  "287": {
+   "n": "Figuring It Out!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Hunters Village",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 414,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "288": {
+   "n": "Handle With Care",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "289": {
+   "n": "No More Soup For You",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "290": {
+   "n": "Threat Removal",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "291": {
+   "n": "Revenge of the Redbonnet",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 4,
+   "steps": 3,
+   "expectedMin": 24,
+   "restrictions": []
+  },
+  "292": {
+   "n": "Brigands Sweep",
+   "status": "fixable",
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "region": "Dwarven Village",
+   "level": 5,
+   "steps": 3,
+   "expectedMin": 12,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "293": {
+   "n": "The Hidden Veins",
+   "status": "fixable",
+   "reasons": [
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "region": "Dwarven Village",
+   "level": 6,
+   "steps": 2,
+   "expectedMin": 43,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "294": {
+   "n": "Covert Business",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 10,
+   "steps": 3,
+   "expectedMin": 47,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "295": {
+   "n": "Dreaming of the Skies",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 11,
+   "steps": 3,
+   "expectedMin": 28,
+   "restrictions": []
+  },
+  "296": {
+   "n": "Tarantula's Spider Silk",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Dwarven Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "297": {
+   "n": "Gatekeeper's Favor",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 15,
+   "steps": 3,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "298": {
+   "n": "Lizardmen's Conspiracy",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludio",
+   "level": 25,
+   "steps": 4,
+   "expectedMin": 46,
+   "restrictions": []
+  },
+  "299": {
+   "n": "Gather Ingredients for Pie",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Dion",
+   "level": 34,
+   "steps": 8,
+   "expectedMin": 76,
+   "restrictions": []
+  },
+  "300": {
+   "n": "Hunting Leto Lizardman",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 34,
+   "steps": 3,
+   "expectedMin": 76,
+   "restrictions": []
+  },
+  "303": {
+   "n": "Collect Arrowheads",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "region": "Talking Island",
+   "level": 10,
+   "steps": 3,
+   "expectedMin": 21,
+   "restrictions": []
+  },
+  "306": {
+   "n": "Crystals of Fire and Ice",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Talking Island",
+   "level": 17,
+   "steps": 3,
+   "expectedMin": 21,
+   "restrictions": []
+  },
+  "307": {
+   "n": "Control Device of the Giants",
+   "status": "fixable",
+   "reasons": [
+    "needs-party"
+   ],
+   "region": "Aden",
+   "level": 79,
+   "steps": 3,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "308": {
+   "n": "Reed Field Maintenance",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "309": {
+   "n": "For A Good Cause",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "310": {
+   "n": "Only What Remains",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 81,
+   "steps": 4,
+   "expectedMin": 24,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "311": {
+   "n": "Expulsion of Evil Spirits",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 80,
+   "steps": 2,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "312": {
+   "n": "Take Advantage of the Crisis!",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "mob-no-spawn"
+   ],
+   "region": "Dwarven Village",
+   "level": 80,
+   "steps": 4,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "313": {
+   "n": "Collect Spores",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 8,
+   "steps": 3,
+   "expectedMin": 18,
+   "restrictions": []
+  },
+  "316": {
+   "n": "Destroy Plague Carriers",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Elven Village",
+   "level": 18,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "317": {
+   "n": "Catch The Wind",
+   "status": "ready",
+   "reasons": [],
+   "region": "Elven Village",
+   "level": 18,
+   "steps": 3,
+   "expectedMin": 24,
+   "restrictions": []
+  },
+  "319": {
+   "n": "Scent of Death",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 11,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "320": {
+   "n": "Bones Tell The Future",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dark Elf Village",
+   "level": 10,
+   "steps": 3,
+   "expectedMin": 32,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "324": {
+   "n": "Sweetest Venom",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 18,
+   "steps": 3,
+   "expectedMin": 7,
+   "restrictions": []
+  },
+  "325": {
+   "n": "Grim Collector",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "region": "Gludio",
+   "level": 15,
+   "steps": 2,
+   "expectedMin": 170,
+   "restrictions": []
+  },
+  "326": {
+   "n": "Vanquish Remnants",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "region": "Gludin",
+   "level": 21,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "327": {
+   "n": "Recover the Farmland",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Gludin",
+   "level": 25,
+   "steps": 5,
+   "expectedMin": 14,
+   "restrictions": []
+  },
+  "328": {
+   "n": "Sense for Business",
+   "status": "ready",
+   "reasons": [],
+   "region": "Floran",
+   "level": 21,
+   "steps": 2,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "329": {
+   "n": "Curiosity Of A Dwarf",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Floran",
+   "level": 33,
+   "steps": 2,
+   "expectedMin": 282,
+   "restrictions": []
+  },
+  "330": {
+   "n": "Adept Of Taste",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 24,
+   "steps": 3,
+   "expectedMin": 31,
+   "restrictions": []
+  },
+  "331": {
+   "n": "Arrow for Vengeance",
+   "status": "ready",
+   "reasons": [],
+   "region": "Giran",
+   "level": 32,
+   "steps": 3,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "333": {
+   "n": "Hunt Of The Black Lion",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "area-danger",
+    "aggro-on-way",
+    "item-from-quest-mob",
+    "item-from-elsewhere"
+   ],
+   "region": "Dion",
+   "level": 25,
+   "steps": 5,
+   "expectedMin": 108,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "334": {
+   "n": "The Wishing Potion",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "route-unverified",
+    "item-from-quest-mob"
+   ],
+   "region": "Oren",
+   "level": 30,
+   "steps": 5,
+   "expectedMin": 326,
+   "restrictions": []
+  },
+  "335": {
+   "n": "The Song of the Hunter",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "memo-state",
+    "aggro-on-way",
+    "item-from-quest-mob",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 35,
+   "steps": 6,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "336": {
+   "n": "Coins of Magic",
+   "status": "fixable",
+   "reasons": [
+    "area-danger",
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 40,
+   "steps": 5,
+   "expectedMin": 18,
+   "restrictions": []
+  },
+  "337": {
+   "n": "Audience With The Land Dragon",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "area-danger",
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 50,
+   "steps": 12,
+   "expectedMin": 23,
+   "restrictions": []
+  },
+  "338": {
+   "n": "Alligator Hunter",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 40,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "340": {
+   "n": "Subjugation Of Lizardmen",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "region": "Gludin",
+   "level": 17,
+   "steps": 7,
+   "expectedMin": 33,
+   "restrictions": []
+  },
+  "341": {
+   "n": "Hunting for Wild Beasts",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Floran",
+   "level": 20,
+   "steps": 3,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "343": {
+   "n": "Under The Shadow Of The Ivory Tower",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "route-unverified"
+   ],
+   "region": "Hunters Village",
+   "level": 40,
+   "steps": 3,
+   "expectedMin": 19,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "344": {
+   "n": "1000 years, the End of Lamentation",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Giran",
+   "level": 48,
+   "steps": 8,
+   "expectedMin": 33,
+   "restrictions": []
+  },
+  "345": {
+   "n": "Method to Raise the Dead",
+   "status": "fixable",
+   "reasons": [
+    "route-swim"
+   ],
+   "region": "Heine",
+   "level": 35,
+   "steps": 5,
+   "expectedMin": 151,
+   "restrictions": []
+  },
+  "347": {
+   "n": "Go Get the Calculator",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 12,
+   "steps": 7,
+   "expectedMin": 24,
+   "restrictions": []
+  },
+  "348": {
+   "n": "An Arrogant Search",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "item-from-quest-mob",
+    "no-route"
+   ],
+   "region": "Aden",
+   "level": 60,
+   "steps": 14,
+   "expectedMin": 59,
+   "restrictions": []
+  },
+  "350": {
+   "n": "Enhance Your Weapon",
+   "status": "fixable",
+   "reasons": [
+    "unresolved-ids",
+    "engine-manual"
+   ],
+   "region": "Giran",
+   "level": null,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "351": {
+   "n": "Black Swan",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "region": "Heine",
+   "level": 32,
+   "steps": 3,
+   "expectedMin": 23,
+   "restrictions": []
+  },
+  "352": {
+   "n": "Help Rood Raise A New Pet!",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "engine-manual"
+   ],
+   "region": "Heine / White Sands Fortress",
+   "level": 39,
+   "steps": 2,
+   "expectedMin": 420,
+   "restrictions": []
+  },
+  "354": {
+   "n": "Conquest of Alligator Island",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Heine",
+   "level": 38,
+   "steps": 4,
+   "expectedMin": 93,
+   "restrictions": []
+  },
+  "355": {
+   "n": "Family Honor",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 36,
+   "steps": 3,
+   "expectedMin": 75,
+   "restrictions": []
+  },
+  "356": {
+   "n": "Dig Up the Sea of Spores!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Oren",
+   "level": 43,
+   "steps": 3,
+   "expectedMin": 18,
+   "restrictions": []
+  },
+  "357": {
+   "n": "Warehouse Keeper's Ambition",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Hunters Village",
+   "level": 47,
+   "steps": 2,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "358": {
+   "n": "Illegitimate Child of the Goddess",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 63,
+   "steps": 3,
+   "expectedMin": 69,
+   "restrictions": []
+  },
+  "359": {
+   "n": "For a Sleepless Deadman",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 60,
+   "steps": 3,
+   "expectedMin": 73,
+   "restrictions": []
+  },
+  "360": {
+   "n": "Plunder Their Supplies",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Aden",
+   "level": 52,
+   "steps": 2,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "362": {
+   "n": "Bard's Mandolin",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 15,
+   "steps": 5,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "363": {
+   "n": "Sorrowful Sound of Flute",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 15,
+   "steps": 8,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "364": {
+   "n": "Jovial Accordion",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dion",
+   "level": 15,
+   "steps": 5,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "365": {
+   "n": "Devil's Legacy",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "mob-no-spawn"
+   ],
+   "region": "Giran",
+   "level": 39,
+   "steps": 4,
+   "expectedMin": 11,
+   "restrictions": []
+  },
+  "366": {
+   "n": "Silver Haired Shaman",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Giran",
+   "level": 48,
+   "steps": 3,
+   "expectedMin": 24,
+   "restrictions": []
+  },
+  "367": {
+   "n": "Electrifying Recharge!",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional"
+   ],
+   "region": "Dion",
+   "level": 37,
+   "steps": 2,
+   "expectedMin": 5,
+   "restrictions": []
+  },
+  "368": {
+   "n": "Trespassing into the Holy Ground",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Heine",
+   "level": 36,
+   "steps": 3,
+   "expectedMin": 18,
+   "restrictions": []
+  },
+  "369": {
+   "n": "Collector of Jewels",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "aggro-on-way"
+   ],
+   "region": "Gludin",
+   "level": 25,
+   "steps": 3,
+   "expectedMin": 117,
+   "restrictions": []
+  },
+  "370": {
+   "n": "An Elder Sows Seeds",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "engine-manual"
+   ],
+   "region": "Floran",
+   "level": 28,
+   "steps": 2,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "371": {
+   "n": "Shrieks of Ghosts",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Aden",
+   "level": 59,
+   "steps": 2,
+   "expectedMin": 175,
+   "restrictions": []
+  },
+  "372": {
+   "n": "Legacy Of Insolence",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Aden",
+   "level": 59,
+   "steps": 3,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "373": {
+   "n": "Supplier of Reagents",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "aggro-on-way",
+    "no-route"
+   ],
+   "region": "Oren",
+   "level": 57,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "376": {
+   "n": "Exploration of the Giants' Cave - Part 1",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 79,
+   "steps": 4,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "377": {
+   "n": "Exploration of the Giants' Cave - Part 2",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 79,
+   "steps": 4,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "378": {
+   "n": "Grand Feast",
+   "status": "fixable",
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "region": "Dion",
+   "level": 20,
+   "steps": 3,
+   "expectedMin": 5,
+   "restrictions": []
+  },
+  "379": {
+   "n": "Fantasy Wine",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 20,
+   "steps": 3,
+   "expectedMin": 46,
+   "restrictions": []
+  },
+  "380": {
+   "n": "Bring Out the Flavor of Ingredients!",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond"
+   ],
+   "region": "Dion",
+   "level": 24,
+   "steps": 4,
+   "expectedMin": 23,
+   "restrictions": []
+  },
+  "381": {
+   "n": "Let's Become a Royal Member!",
+   "status": "fixable",
+   "reasons": [
+    "memo-state"
+   ],
+   "region": "Hunters Village",
+   "level": 55,
+   "steps": 4,
+   "expectedMin": 15,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "382": {
+   "n": "Kail's Magic Coin",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 55,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "383": {
+   "n": "Treasure Hunt",
+   "status": "fixable",
+   "reasons": [
+    "item-from-elsewhere",
+    "route-swim"
+   ],
+   "region": "Heine",
+   "level": 42,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "384": {
+   "n": "Warehouse Keeper's Pastime",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "mob-no-spawn"
+   ],
+   "region": "Oren",
+   "level": 40,
+   "steps": 5,
+   "expectedMin": 138,
+   "restrictions": []
+  },
+  "385": {
+   "n": "Yoke of the Past",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional"
+   ],
+   "region": "Talking Island",
+   "level": 20,
+   "steps": 2,
+   "expectedMin": 30,
+   "restrictions": []
+  },
+  "386": {
+   "n": "Stolen Dignity",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 58,
+   "steps": 4,
+   "expectedMin": 216,
+   "restrictions": []
+  },
+  "401": {
+   "n": "Path Of The Warrior",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludin",
+   "level": 18,
+   "steps": 5,
+   "expectedMin": 19,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "402": {
+   "n": "Path Of The Human Knight",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Gludin",
+   "level": 18,
+   "steps": 3,
+   "expectedMin": 30,
+   "restrictions": []
+  },
+  "403": {
+   "n": "Path Of The Rogue",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "item-from-elsewhere"
+   ],
+   "region": "Gludin",
+   "level": 18,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "404": {
+   "n": "Path Of The Human Wizard",
+   "status": "fixable",
+   "reasons": [
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "region": "Gludin",
+   "level": 18,
+   "steps": 12,
+   "expectedMin": 41,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "405": {
+   "n": "Path Of The Cleric",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "route-unverified"
+   ],
+   "region": "Gludin",
+   "level": 18,
+   "steps": 9,
+   "expectedMin": 18,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "406": {
+   "n": "Path Of The Elven Knight",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "runtime-cond"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "407": {
+   "n": "Path of the Elven Scout",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual",
+    "no-route"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 8,
+   "expectedMin": 11,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "408": {
+   "n": "Path Of The Elven Wizard",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Elven Village",
+   "level": 18,
+   "steps": 3,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "409": {
+   "n": "Path of the Elven Oracle",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 6,
+   "expectedMin": 17,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "410": {
+   "n": "Path Of The Palus Knight",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 5,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "411": {
+   "n": "Path Of The Assassin",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 7,
+   "expectedMin": 25,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "412": {
+   "n": "Path Of The Dark Wizard",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": [
+    "class-only",
+    "needs-item"
+   ]
+  },
+  "413": {
+   "n": "Path of the Shillien Oracle",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 7,
+   "expectedMin": 15,
+   "restrictions": []
+  },
+  "414": {
+   "n": "Path Of The Orc Raider",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "region": "Orc Village",
+   "level": 18,
+   "steps": 6,
+   "expectedMin": 23,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "415": {
+   "n": "Path Of The Orc Monk",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Orc Village",
+   "level": 18,
+   "steps": 11,
+   "expectedMin": 25,
+   "restrictions": []
+  },
+  "416": {
+   "n": "Path of the Orc Shaman",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "region": "Orc Village",
+   "level": 18,
+   "steps": 13,
+   "expectedMin": 41,
+   "restrictions": []
+  },
+  "417": {
+   "n": "Path Of The Scavenger",
+   "status": "fixable",
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "region": "Dwarven Village",
+   "level": 18,
+   "steps": 12,
+   "expectedMin": 39,
+   "restrictions": [
+    "class-only"
+   ]
+  },
+  "418": {
+   "n": "Path Of The Artisan",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 18,
+   "steps": 10,
+   "expectedMin": 25,
+   "restrictions": []
+  },
+  "419": {
+   "n": "Get A Pet",
+   "status": "fixable",
+   "reasons": [
+    "memo-state"
+   ],
+   "region": "Gludin",
+   "level": 15,
+   "steps": 6,
+   "expectedMin": 44,
+   "restrictions": [
+    "race-only"
+   ]
+  },
+  "420": {
+   "n": "Little Wing",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 35,
+   "steps": 17,
+   "expectedMin": 72,
+   "restrictions": []
+  },
+  "421": {
+   "n": "Little Wing's Big Adventure",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "kill-parse",
+    "aggro-on-way"
+   ],
+   "region": "Hunters Village",
+   "level": 45,
+   "steps": 2,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "422": {
+   "n": "Repent Your Sins",
+   "status": "fixable",
+   "reasons": [
+    "area-danger",
+    "mob-no-spawn",
+    "aggro-on-way"
+   ],
+   "region": "Hunters Village",
+   "level": 31,
+   "steps": 10,
+   "expectedMin": 27,
+   "restrictions": []
+  },
+  "423": {
+   "n": "Take Your Best Shot!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Hunters Village",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": [
+    "prereq-quest",
+    "needs-item"
+   ]
+  },
+  "426": {
+   "n": "Quest for Fishing Shot",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Talking Island",
+   "level": null,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "431": {
+   "n": "Wedding March",
+   "status": "ready",
+   "reasons": [],
+   "region": "Heine",
+   "level": 38,
+   "steps": 3,
+   "expectedMin": 48,
+   "restrictions": []
+  },
+  "432": {
+   "n": "Birthday Party Song",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dion",
+   "level": 31,
+   "steps": 3,
+   "expectedMin": 49,
+   "restrictions": []
+  },
+  "450": {
+   "n": "Grave Robber Rescue",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Dwarven Village",
+   "level": 80,
+   "steps": 2,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "451": {
+   "n": "Lucien's Altar",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dwarven Village",
+   "level": 80,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "452": {
+   "n": "Finding the Lost Soldiers",
+   "status": "fixable",
+   "reasons": [
+    "npc-instance",
+    "no-route"
+   ],
+   "region": "Gludin",
+   "level": 84,
+   "steps": 2,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "453": {
+   "n": "Not Strong Enought Alone",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-conditional",
+    "engine-manual"
+   ],
+   "region": "Gludin",
+   "level": 84,
+   "steps": 3,
+   "expectedMin": 22,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "454": {
+   "n": "Completely Lost",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "timer",
+    "npc-no-spawn",
+    "npc-instance",
+    "route-conditional",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": 84,
+   "steps": 4,
+   "expectedMin": 13,
+   "restrictions": []
+  },
+  "455": {
+   "n": "Wings of Sand",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 80,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "456": {
+   "n": "Don't Know, Don't Care",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "npc-no-spawn"
+   ],
+   "region": "Hunters Village",
+   "level": 80,
+   "steps": 3,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "457": {
+   "n": "Lost and Found",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "timer",
+    "npc-quest-spawned",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": 82,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "458": {
+   "n": "Perfect Form",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "461": {
+   "n": "Rumble in the Base",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Oren",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "463": {
+   "n": "I Must Be a Genius",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 70,
+   "steps": 4,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "464": {
+   "n": "Oath",
+   "status": "fixable",
+   "reasons": [
+    "no-start-npc",
+    "runtime-cond",
+    "kill-parse",
+    "unresolved-ids",
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 82,
+   "steps": 1,
+   "expectedMin": 0,
+   "restrictions": []
+  },
+  "501": {
+   "n": "Proof of Clan Alliance",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "area-danger",
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "region": "Giran",
+   "level": 3,
+   "steps": 6,
+   "expectedMin": 26,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "503": {
+   "n": "Pursuit Of Clan Ambition",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "memo-state",
+    "spawn-script",
+    "area-danger",
+    "aggro-on-way",
+    "item-from-quest-mob",
+    "npc-quest-spawned"
+   ],
+   "region": "Oren",
+   "level": 5,
+   "steps": 12,
+   "expectedMin": 71,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "504": {
+   "n": "Competition for the Bandit Stronghold",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "area-danger"
+   ],
+   "region": "Rune",
+   "level": 4,
+   "steps": 3,
+   "expectedMin": 30,
+   "restrictions": []
+  },
+  "508": {
+   "n": "A Clan's Reputation",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "drop-unresolved"
+   ],
+   "region": "Aden",
+   "level": 5,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "509": {
+   "n": "A Clan's Fame",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "drop-unresolved"
+   ],
+   "region": "Rune",
+   "level": 6,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "510": {
+   "n": "A Clan's Prestige",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan"
+   ],
+   "region": "Rune",
+   "level": 5,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "511": {
+   "n": "instances",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "npc-no-spawn",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": 60,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "512": {
+   "n": "Blade Under Foot",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "route-unverified",
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "region": "Gludio",
+   "level": 70,
+   "steps": 2,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "551": {
+   "n": "Olympiad Starter",
+   "status": "not-for-bots",
+   "reasons": [
+    "olympiad",
+    "engine-manual"
+   ],
+   "region": "Aden",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "552": {
+   "n": "Olympiad Veteran",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 75,
+   "steps": 2,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "553": {
+   "n": "Olympiad Undefeated",
+   "status": "not-for-bots",
+   "reasons": [
+    "olympiad",
+    "engine-manual"
+   ],
+   "region": "Aden",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "601": {
+   "n": "Watching Eyes",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Goddard",
+   "level": 71,
+   "steps": 3,
+   "expectedMin": 69,
+   "restrictions": []
+  },
+  "602": {
+   "n": "Shadow of Light",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "region": "Goddard",
+   "level": 68,
+   "steps": 3,
+   "expectedMin": 99,
+   "restrictions": []
+  },
+  "603": {
+   "n": "Daimon the White-Eyed - Part 1",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "route-unverified"
+   ],
+   "region": "Goddard",
+   "level": 73,
+   "steps": 5,
+   "expectedMin": 191,
+   "restrictions": []
+  },
+  "604": {
+   "n": "Daimon the White-Eyed - Part 2",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 73,
+   "steps": 4,
+   "expectedMin": 24,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "605": {
+   "n": "Alliance with Ketra Orcs",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "runtime-cond",
+    "mob-no-spawn"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 4,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "606": {
+   "n": "Battle against Varka Silenos",
+   "status": "ready",
+   "reasons": [],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 93,
+   "restrictions": []
+  },
+  "607": {
+   "n": "Prove Your Courage! (Ketra)",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "608": {
+   "n": "Slay the Enemy Commander! (Ketra)",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "609": {
+   "n": "Magical Power of Water - Part 1",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 4,
+   "expectedMin": 11,
+   "restrictions": []
+  },
+  "610": {
+   "n": "Magical Power of Water - Part 2",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "spawn-script",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "611": {
+   "n": "Alliance with Varka Silenos",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "runtime-cond",
+    "mob-no-spawn"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 4,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "612": {
+   "n": "Battle against Ketra Orcs",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 94,
+   "restrictions": []
+  },
+  "613": {
+   "n": "Prove Your Courage! (Varka)",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "614": {
+   "n": "Slay the Enemy Commander! (Varka)",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "615": {
+   "n": "Magical Power of Fire - Part 1",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 4,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "616": {
+   "n": "Magical Power of Fire - Part 2",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "spawn-script",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "617": {
+   "n": "Gather the Flames",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 794,
+   "restrictions": []
+  },
+  "618": {
+   "n": "Into the Flame",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "region": "Goddard",
+   "level": 60,
+   "steps": 5,
+   "expectedMin": 45,
+   "restrictions": []
+  },
+  "619": {
+   "n": "Relics of the Old Empire",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 4,
+   "expectedMin": 854,
+   "restrictions": []
+  },
+  "620": {
+   "n": "Four Goblets",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "mob-no-spawn"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "621": {
+   "n": "Egg Delivery",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "aggro-on-way"
+   ],
+   "region": "Goddard",
+   "level": 68,
+   "steps": 5,
+   "expectedMin": 11,
+   "restrictions": []
+  },
+  "622": {
+   "n": "Specialty Liquor Delivery",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "aggro-on-way"
+   ],
+   "region": "Goddard",
+   "level": 68,
+   "steps": 5,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "623": {
+   "n": "The Finest Food",
+   "status": "ready",
+   "reasons": [],
+   "region": "Goddard",
+   "level": 71,
+   "steps": 3,
+   "expectedMin": 47,
+   "restrictions": []
+  },
+  "624": {
+   "n": "The Finest Ingredients - Part 1",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved"
+   ],
+   "region": "Goddard",
+   "level": 73,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "625": {
+   "n": "The Finest Ingredients - Part 2",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 73,
+   "steps": 5,
+   "expectedMin": 10,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "626": {
+   "n": "A Dark Twilight",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "mob-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 60,
+   "steps": 4,
+   "expectedMin": 206,
+   "restrictions": []
+  },
+  "627": {
+   "n": "Heart in Search of Power",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 60,
+   "steps": 5,
+   "expectedMin": 203,
+   "restrictions": []
+  },
+  "628": {
+   "n": "Hunt of the Golden Ram Mercenary Force",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 66,
+   "steps": 4,
+   "expectedMin": 173,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "629": {
+   "n": "Clean Up The Swamp Of Screams",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 66,
+   "steps": 2,
+   "expectedMin": 73,
+   "restrictions": []
+  },
+  "631": {
+   "n": "Delicious Top Choice Meat",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "632": {
+   "n": "Necromancer's Request",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Rune",
+   "level": 63,
+   "steps": 3,
+   "expectedMin": 189,
+   "restrictions": []
+  },
+  "633": {
+   "n": "In The Forgotten Village",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 65,
+   "steps": 4,
+   "expectedMin": 225,
+   "restrictions": []
+  },
+  "634": {
+   "n": "In Search of Fragments of Dimension",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "mob-no-spawn"
+   ],
+   "region": "Talking Island",
+   "level": 20,
+   "steps": 4,
+   "expectedMin": 10,
+   "restrictions": []
+  },
+  "635": {
+   "n": "Into the Dimensional Rift",
+   "status": "fixable",
+   "reasons": [
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "636": {
+   "n": "The Truth Beyond the Gate",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 73,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "637": {
+   "n": "Through the Gate Once More",
+   "status": "ready",
+   "reasons": [],
+   "region": "Rune",
+   "level": 73,
+   "steps": 3,
+   "expectedMin": 11,
+   "restrictions": []
+  },
+  "638": {
+   "n": "Seekers Of The Holy Grail",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 73,
+   "steps": 3,
+   "expectedMin": 94,
+   "restrictions": []
+  },
+  "639": {
+   "n": "Guardians of the Holy Grail",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Rune",
+   "level": null,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "641": {
+   "n": "Attack Sailren!",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Dark Elf Village",
+   "level": 77,
+   "steps": 4,
+   "expectedMin": 30,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "642": {
+   "n": "A Powerful Primeval Creature",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Dark Elf Village",
+   "level": 75,
+   "steps": 4,
+   "expectedMin": 20,
+   "restrictions": []
+  },
+  "643": {
+   "n": "Rise and Fall of the Elroki Tribe",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Rune",
+   "level": 75,
+   "steps": 4,
+   "expectedMin": 17,
+   "restrictions": []
+  },
+  "644": {
+   "n": "Grave Robber Annihilation",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way",
+    "mob-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 20,
+   "steps": 4,
+   "expectedMin": 80,
+   "restrictions": []
+  },
+  "645": {
+   "n": "Ghosts of Batur",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 80,
+   "steps": 3,
+   "expectedMin": 421,
+   "restrictions": []
+  },
+  "646": {
+   "n": "Signs of Revolt",
+   "status": "ready",
+   "reasons": [],
+   "region": "Schuttgart",
+   "level": 80,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "647": {
+   "n": "Influx of Machines",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 70,
+   "steps": 4,
+   "expectedMin": 753,
+   "restrictions": []
+  },
+  "648": {
+   "n": "An Ice Merchants Dream",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "mob-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 53,
+   "steps": 4,
+   "expectedMin": 184,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "649": {
+   "n": "A Looter and a Railroad Man",
+   "status": "fixable",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "region": "Dwarven Village",
+   "level": 30,
+   "steps": 3,
+   "expectedMin": 162,
+   "restrictions": []
+  },
+  "650": {
+   "n": "A Broken Dream",
+   "status": "fixable",
+   "reasons": [
+    "route-swim",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Schuttgart",
+   "level": 39,
+   "steps": 3,
+   "expectedMin": 17,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "651": {
+   "n": "Runaway Youth",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 26,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "652": {
+   "n": "An Aged Ex-Adventurer",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 46,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "653": {
+   "n": "Wild Maiden",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 36,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "654": {
+   "n": "Journey to a Settlement",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional"
+   ],
+   "region": "Goddard",
+   "level": 74,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "655": {
+   "n": "A Grand Plan for Taming Wild Beasts",
+   "status": "not-for-bots",
+   "reasons": [
+    "clan",
+    "aggro-on-way",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 4,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "659": {
+   "n": "I'd Rather Be Collecting Fairy Breath",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludin",
+   "level": 26,
+   "steps": 2,
+   "expectedMin": 11,
+   "restrictions": []
+  },
+  "660": {
+   "n": "Aiding the Floran Village",
+   "status": "fixable",
+   "reasons": [
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "region": "Dion",
+   "level": 30,
+   "steps": 3,
+   "expectedMin": 28,
+   "restrictions": []
+  },
+  "661": {
+   "n": "Making the Harvest Grounds Safe",
+   "status": "ready",
+   "reasons": [],
+   "region": "Gludin",
+   "level": 21,
+   "steps": 2,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "662": {
+   "n": "A Game of Cards",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Aden",
+   "level": 61,
+   "steps": 3,
+   "expectedMin": 32,
+   "restrictions": []
+  },
+  "663": {
+   "n": "Seductive Whispers",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "mob-no-spawn"
+   ],
+   "region": "Aden",
+   "level": 50,
+   "steps": 4,
+   "expectedMin": 217,
+   "restrictions": []
+  },
+  "688": {
+   "n": "Defeat the Elrokian Raiders!",
+   "status": "ready",
+   "reasons": [],
+   "region": "Dark Elf Village",
+   "level": 75,
+   "steps": 2,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "690": {
+   "n": "Jude's Request",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": 78,
+   "steps": 3,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "691": {
+   "n": "Matras' Suspicious Request",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "no-route",
+    "mob-no-spawn"
+   ],
+   "region": "",
+   "level": 76,
+   "steps": 4,
+   "expectedMin": 6,
+   "restrictions": []
+  },
+  "692": {
+   "n": "How to Oppose Evil",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route",
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 5,
+   "expectedMin": 26,
+   "restrictions": []
+  },
+  "693": {
+   "n": "Defeating Dragonkin Remnants",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 75,
+   "steps": 2,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "695": {
+   "n": "Defend the Hall of Suffering",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "no-route",
+    "engine-manual"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "699": {
+   "n": "Guardian of the Skies",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route",
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 4,
+   "expectedMin": 33,
+   "restrictions": []
+  },
+  "700": {
+   "n": "Cursed Life",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route",
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 23,
+   "restrictions": []
+  },
+  "701": {
+   "n": "Proof of Existence",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route",
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "region": "Talking Island",
+   "level": 78,
+   "steps": 4,
+   "expectedMin": 39,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "702": {
+   "n": "A Trap for Revenge",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route",
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "region": "Talking Island",
+   "level": 78,
+   "steps": 4,
+   "expectedMin": 35,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "708": {
+   "n": "Path To Becoming A Lord - Gludio",
+   "status": "fixable",
+   "reasons": [
+    "memo-state",
+    "route-blocked",
+    "aggro-on-way"
+   ],
+   "region": "Gludio",
+   "level": null,
+   "steps": 5,
+   "expectedMin": 18,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "717": {
+   "n": "For the Sake of the Territory - Gludio",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "718": {
+   "n": "For the Sake of the Territory - Dion",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "719": {
+   "n": "For the Sake of the Territory - Giran",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "720": {
+   "n": "For the Sake of the Territory - Oren",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "721": {
+   "n": "For the Sake of the Territory - Aden",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "722": {
+   "n": "For the Sake of the Territory - Innadril",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "723": {
+   "n": "For the Sake of the Territory - Goddard",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "724": {
+   "n": "For the Sake of the Territory - Rune",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "725": {
+   "n": "For the Sake of the Territory - Schuttgart",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "728": {
+   "n": "Territory War",
+   "status": "not-for-bots",
+   "reasons": [
+    "dummy-script",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "729": {
+   "n": "Protect the Territory Catapult",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown",
+    "unresolved-ids"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "730": {
+   "n": "Protect the Supplies Safe",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown",
+    "unresolved-ids"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "731": {
+   "n": "Protect the Military Association Leader",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown",
+    "unresolved-ids"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "732": {
+   "n": "Protect the Religious Association Leader",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown",
+    "unresolved-ids"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "733": {
+   "n": "Protect the Economic Association Leader",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown",
+    "unresolved-ids"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "734": {
+   "n": "Pierce through a Shield",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "735": {
+   "n": "Make Spears Dull",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "736": {
+   "n": "Weaken the magic",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "737": {
+   "n": "Deny Blessings",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "738": {
+   "n": "Destroy Key Targets",
+   "status": "not-for-bots",
+   "reasons": [
+    "territory-war",
+    "no-start-npc",
+    "steps-unknown"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown",
+    "type-unknown"
+   ]
+  },
+  "901": {
+   "n": "How Lavasauruses Are Made",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "npc-no-spawn",
+    "engine-manual"
+   ],
+   "region": "",
+   "level": 76,
+   "steps": 3,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "902": {
+   "n": "Reclaim Our Era",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 80,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "903": {
+   "n": "The Call of Antharas",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 83,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "904": {
+   "n": "Dragon Trophy - Antharas",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 84,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": []
+  },
+  "905": {
+   "n": "Refined Dragon Blood",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 83,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "906": {
+   "n": "The Call of Valakas",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 83,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "907": {
+   "n": "Dragon Trophy - Valakas",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 84,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "998": {
+   "n": "Fallen Angel - Select",
+   "status": "fixable",
+   "reasons": [
+    "engine-manual"
+   ],
+   "region": "Heine",
+   "level": 38,
+   "steps": 2,
+   "expectedMin": 2,
+   "restrictions": [
+    "type-unknown"
+   ]
+  },
+  "10267": {
+   "n": "Journey to Gracia",
+   "status": "ready",
+   "reasons": [],
+   "region": "Aden",
+   "level": 75,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10268": {
+   "n": "To the Seed of Infinity",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 2,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10269": {
+   "n": "To the Seed of Destruction",
+   "status": "fixable",
+   "reasons": [
+    "no-route",
+    "npc-instance"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 2,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10270": {
+   "n": "Birth of the Seed",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-conditional",
+    "npc-no-spawn",
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 4,
+   "expectedMin": 19,
+   "restrictions": []
+  },
+  "10271": {
+   "n": "The Enveloping Darkness",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route",
+    "npc-no-spawn"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 4,
+   "expectedMin": 19,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10272": {
+   "n": "Light Fragment",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "npc-no-spawn",
+    "engine-manual",
+    "mob-no-spawn"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 5,
+   "expectedMin": 34,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10273": {
+   "n": "Good Day to Fly",
+   "status": "fixable",
+   "reasons": [
+    "route-conditional",
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 22,
+   "restrictions": []
+  },
+  "10274": {
+   "n": "Collecting in the Air",
+   "status": "fixable",
+   "reasons": [
+    "unresolved-ids",
+    "route-conditional",
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 75,
+   "steps": 3,
+   "expectedMin": 20,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10275": {
+   "n": "Containing the Attribute Power",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond"
+   ],
+   "region": "Aden",
+   "level": 76,
+   "steps": 3,
+   "expectedMin": 26,
+   "restrictions": []
+  },
+  "10276": {
+   "n": "Mutated Kaneus - Gludio",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Gludio",
+   "level": 18,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10277": {
+   "n": "Mutated Kaneus - Dion",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Dion",
+   "level": 28,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10278": {
+   "n": "Mutated Kaneus - Heine",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Heine",
+   "level": 38,
+   "steps": 1,
+   "expectedMin": 2,
+   "restrictions": []
+  },
+  "10279": {
+   "n": "Mutated Kaneus - Oren",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Oren",
+   "level": 48,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10280": {
+   "n": "Mutated Kaneus - Schuttgart",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Schuttgart",
+   "level": 58,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10281": {
+   "n": "Mutated Kaneus - Rune",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse"
+   ],
+   "region": "Rune",
+   "level": 68,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10282": {
+   "n": "To the Seed of Annihilation",
+   "status": "fixable",
+   "reasons": [
+    "no-route"
+   ],
+   "region": "Talking Island",
+   "level": 84,
+   "steps": 1,
+   "expectedMin": 1,
+   "restrictions": []
+  },
+  "10283": {
+   "n": "Request of Ice Merchant",
+   "status": "fixable",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "region": "Schuttgart",
+   "level": 82,
+   "steps": 4,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10284": {
+   "n": "Acquisition of Divine Sword",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "npc-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 82,
+   "steps": 4,
+   "expectedMin": 7,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10285": {
+   "n": "Meeting Sirra",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "npc-quest-spawned"
+   ],
+   "region": "Schuttgart",
+   "level": 82,
+   "steps": 6,
+   "expectedMin": 17,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10286": {
+   "n": "Reunion with Sirra",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "npc-quest-spawned"
+   ],
+   "region": "Schuttgart",
+   "level": 82,
+   "steps": 4,
+   "expectedMin": 11,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10287": {
+   "n": "Story of Those Left",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "Schuttgart",
+   "level": 82,
+   "steps": 4,
+   "expectedMin": 12,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10288": {
+   "n": "Secret Mission",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified"
+   ],
+   "region": "Rune",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 9,
+   "restrictions": []
+  },
+  "10289": {
+   "n": "Fade to Black",
+   "status": "fixable",
+   "reasons": [
+    "runtime-cond",
+    "kill-parse",
+    "engine-manual",
+    "item-from-elsewhere"
+   ],
+   "region": "Goddard",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 14,
+   "restrictions": []
+  },
+  "10290": {
+   "n": "Land Dragon Conqueror",
+   "status": "fixable",
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 83,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": []
+  },
+  "10291": {
+   "n": "Fire Dragon Destroyer",
+   "status": "fixable",
+   "reasons": [
+    "route-unverified",
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 83,
+   "steps": 3,
+   "expectedMin": 12,
+   "restrictions": []
+  },
+  "10292": {
+   "n": "Seven Signs, Girl of Doubt",
+   "status": "fixable",
+   "reasons": [
+    "drop-unresolved",
+    "item-from-quest-mob",
+    "npc-no-spawn",
+    "route-unverified"
+   ],
+   "region": "Aden",
+   "level": 81,
+   "steps": 6,
+   "expectedMin": 19,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10293": {
+   "n": "Seven Signs Forbidden Book Of The Elmore Aden Kingdom",
+   "status": "fixable",
+   "reasons": [
+    "steps-unknown",
+    "no-start-npc"
+   ],
+   "region": "",
+   "level": null,
+   "steps": 0,
+   "expectedMin": 0,
+   "restrictions": [
+    "level-unknown"
+   ]
+  },
+  "10294": {
+   "n": "Seven Signs, To the Monastery of Silence",
+   "status": "fixable",
+   "reasons": [
+    "spawn-script",
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 81,
+   "steps": 3,
+   "expectedMin": 1,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10295": {
+   "n": "Seven Signs, Solina's Tomb",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "region": "",
+   "level": 81,
+   "steps": 3,
+   "expectedMin": 1,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10296": {
+   "n": "Seven Signs, One Who Seeks the Power of the Seal",
+   "status": "fixable",
+   "reasons": [
+    "npc-no-spawn",
+    "route-unverified"
+   ],
+   "region": "",
+   "level": 81,
+   "steps": 6,
+   "expectedMin": 6,
+   "restrictions": [
+    "prereq-quest"
+   ]
+  },
+  "10501": {
+   "n": "Zaken Embroidered Soul Cloak",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 78,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "10502": {
+   "n": "Freya Embroidered Soul Cloak",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 82,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "10503": {
+   "n": "Frintezza Embroidered Soul Cloak",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Rune",
+   "level": 80,
+   "steps": 3,
+   "expectedMin": 3,
+   "restrictions": []
+  },
+  "10504": {
+   "n": "Jewel of Antharas",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "engine-manual"
+   ],
+   "region": "Hunters Village",
+   "level": 84,
+   "steps": 3,
+   "expectedMin": 4,
+   "restrictions": [
+    "needs-item"
+   ]
+  },
+  "10505": {
+   "n": "Jewel of Valakas",
+   "status": "fixable",
+   "reasons": [
+    "kill-parse",
+    "route-unverified",
+    "engine-manual"
+   ],
+   "region": "Goddard",
+   "level": 83,
+   "steps": 3,
+   "expectedMin": 8,
+   "restrictions": [
+    "needs-item"
+   ]
+  }
+ }
+}

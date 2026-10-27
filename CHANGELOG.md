@@ -2,6 +2,15 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.1 (2026-10-27)
+
+- Quest walks: a character that meets an aggressive monster on the way stops walking, fights it to the end and then walks on (it used to walk away, get pulled back and drag the next pack along)
+- routes plan around aggressive monsters in sight
+- Kamael Village walking uses the wall-aware path finder outside the streets (no straight steps up the plateau cliff)
+- 3rd (and every) class change: reads the price from the Professions page, asks the party leader and the adena givers for what is missing and tries again, and shows the real refusal reason instead of an unrelated skill message
+- new order !safespot (Move sheet: Park at the safe spot): the party walks to its safe spot out of every aggressive monster's range and stands still, e.g. before closing the client
+- update.cmd: download retries with resume (6 tries), size + SHA-256 check against the release
+
 ## v1.12.0 (2026-10-27)
 
 - Automatic selling is OFF by default for every party and character: only your own order (!sell, dashboard-picked items) or a party sell switch you turn on sells, and every sale path checks it

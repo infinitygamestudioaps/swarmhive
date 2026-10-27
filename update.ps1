@@ -140,18 +140,61 @@ if ($useGit) {
         $url = if ($asset) { $asset.browser_download_url } else { "https://api.github.com/repos/$Repo/zipball/$ref" }
         $Zip = Join-Path $env:TEMP "swarm_package_$stamp.zip"
         Say ("downloading $(if ($asset) { $asset.name + ' (' + [Math]::Round($asset.size / 1MB) + ' MB)' } else { $ref + ' (source zip)' }) ...")
-        $ok = $false
+        # DLRETRY-2026-10-27 (tester log, Windows curl: "curl: (56) schannel: failed to read data from server: SEC_E_DECRYPT_FAILURE (0x80090330)"
+        # twice, then "Resuming transfer from byte position ..." finished): a TLS read error mid-download is not one curl's own --retry repeats
+        # (only --retry-all-errors does, curl 7.71+). Now: a bounded loop of 6 tries with back-off (2, 4, 8, 16, 30 s), each RESUMING the partial
+        # file (-C -), a stalled transfer is broken off (--speed-limit / --speed-time) and resumed, and the finished zip is checked against the
+        # release asset's size and its SHA-256 digest (GitHub "digest": "sha256:...") when the release lists one; a wrong file is deleted and
+        # downloaded again from byte 0. TLS is never weakened (no -k / --insecure; --ssl-no-revoke only when schannel cannot reach the revocation server).
+        $wantSize = if ($asset -and $asset.size) { [int64]$asset.size } else { 0 }
+        $wantSha = if ($asset -and $asset.digest -and ([string]$asset.digest) -match '^sha256:([0-9a-fA-F]{64})$') { $Matches[1].ToUpper() } else { '' }
+        function ZipCheck {
+            if (-not (Test-Path -LiteralPath $Zip)) { return 'missing' }
+            $len = (Get-Item -LiteralPath $Zip).Length
+            if ($wantSize -gt 0 -and $len -lt $wantSize) { return 'short' }
+            if ($wantSize -gt 0 -and $len -gt $wantSize) { return "too big ($len bytes, the release says $wantSize)" }
+            if ($wantSha -and ((Get-FileHash -LiteralPath $Zip -Algorithm SHA256).Hash -ne $wantSha)) { return 'sha256 differs from the release digest' }
+            return ''
+        }
+        $ok = $false; $why = ''
         $curl = Get-Command curl.exe -ErrorAction SilentlyContinue                # Windows 10+: resumes and retries a broken download
         if ($curl) {
-            $cargs = @('-L', '--fail', '--retry', '5', '--retry-delay', '3', '-C', '-', '-A', 'swarm-update', '-o', $Zip)
+            $cver = [version]'0.0'; try { if (((& $curl.Source --version 2>$null) | Select-Object -First 1) -match '^curl (\d+\.\d+)') { $cver = [version]$Matches[1] } } catch { }
+            $cargs = @('-L', '--fail', '--retry', '5', '--retry-delay', '3', '--connect-timeout', '30', '--speed-limit', '1024', '--speed-time', '60', '-C', '-', '-A', 'swarm-update', '-o', $Zip)
+            if ($cver -ge [version]'7.71') { $cargs = @('--retry-all-errors') + $cargs }
             if ($tok -and -not $asset) { $cargs += @('-H', "Authorization: Bearer $tok") }
-            for ($try = 1; $try -le 3 -and -not $ok; $try++) { & $curl.Source @cargs $url; $ok = ($LASTEXITCODE -eq 0) -and (Test-Path $Zip) }
+            $noRevoke = $false
+            $waits = @(2, 4, 8, 16, 30)
+            for ($try = 1; $try -le 6 -and -not $ok; $try++) {
+                $a = if ($noRevoke) { @('--ssl-no-revoke') + $cargs } else { $cargs }
+                & $curl.Source @a $url; $rc = $LASTEXITCODE                       # its progress bar + errors go straight to the window
+                # CRYPT_E_NO_REVOCATION_CHECK / REVOCATION_OFFLINE: schannel could not reach the certificate revocation server (offline CRL / proxy).
+                # Only that error (read from a tiny header probe, stderr captured with 'Continue': PowerShell 5.1 + 'Stop' would throw on curl's
+                # stderr) lets the next try skip the revocation lookup; the certificate itself is still checked
+                if ($rc -eq 35 -and -not $noRevoke) {
+                    $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+                    $probe = (@(& $curl.Source -sS -I -L --max-time 30 -A 'swarm-update' $url 2>&1 | ForEach-Object { [string]$_ }) -join ' ')
+                    $ErrorActionPreference = $eap
+                    if ($probe -match 'REVOCATION|0x80092012|0x80092013') { $noRevoke = $true; Say '  the certificate revocation server cannot be reached - next try without the revocation lookup' Yellow }
+                }
+                $chk = ZipCheck
+                if ($chk -eq '' -and ($rc -eq 0 -or $wantSize -gt 0)) { $ok = $true; break }   # without a known size only curl's own "complete" counts
+                if ($rc -eq 33 -or $rc -eq 36) { Remove-Item -LiteralPath $Zip -Force -ErrorAction SilentlyContinue; $chk = 'missing' }   # the server cannot resume: start over
+                if ($rc -eq 0 -and $chk -ne 'short') { $why = $chk; Say "  downloaded file is wrong: $chk - deleting it and downloading again" Yellow; Remove-Item -LiteralPath $Zip -Force -ErrorAction SilentlyContinue }
+                elseif ($rc -ne 0) { $why = "curl exit $rc" }
+                if ($try -lt 6) { $w = $waits[[Math]::Min($try - 1, $waits.Count - 1)]; Say "  download try $try/6 did not finish ($(if ($why) { $why } else { 'incomplete' })) - resuming in $w s ..." Yellow; Start-Sleep -Seconds $w }
+            }
         }
         if (-not $ok) {
             $ProgressPreference = 'SilentlyContinue'                                # the progress bar makes Invoke-WebRequest many times slower
-            try { Invoke-WebRequest -UseBasicParsing -Headers $hdr -Uri $url -OutFile $Zip; $ok = Test-Path $Zip } catch { $ok = $false; Say "download error: $($_.Exception.Message)" Red }
+            for ($try = 1; $try -le 2 -and -not $ok; $try++) {
+                Remove-Item -LiteralPath $Zip -Force -ErrorAction SilentlyContinue  # no resume here: always a whole file
+                try { Invoke-WebRequest -UseBasicParsing -Headers $hdr -Uri $url -OutFile $Zip; $chk = ZipCheck; $ok = ($chk -eq ''); if (-not $ok) { $why = $chk; Say "  downloaded file is wrong: $chk" Yellow } }
+                catch { $ok = $false; $why = $_.Exception.Message; Say "download error: $why" Red; Start-Sleep -Seconds 5 }
+            }
         }
-        if (-not $ok) { Say "download of $Repo $ref failed - download the SwarmKit zip from its GitHub releases page yourself and run  update.cmd -Zip <file.zip>" Red; exit 1 }
+        if (-not $ok) { Remove-Item -LiteralPath $Zip -Force -ErrorAction SilentlyContinue; Say "download of $Repo $ref failed$(if ($why) { " ($why)" }) - download the SwarmKit zip from its GitHub releases page yourself and run  update.cmd -Zip <file.zip>" Red; exit 1 }
+        Say ("  download complete and checked: $([Math]::Round((Get-Item -LiteralPath $Zip).Length / 1MB)) MB" + $(if ($wantSha) { ', SHA-256 matches the release' } elseif ($wantSize) { ', size matches the release' } else { '' })) Green
     }
     $tmp = Join-Path $env:TEMP "swarm_package_$stamp"
     # FASTUNZIP-2026-10-25 (tester: "1.10.0 download was fast but unpacking has been 20+ minutes"): PowerShell 5's Expand-Archive is very slow on a

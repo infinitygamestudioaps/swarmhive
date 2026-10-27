@@ -155,7 +155,12 @@ section('4) swarm.js classChange() (host part, mocked host calls)');
       state: {}, tradeState: null, lastSysMsg: null, teamOf: () => 'P', lastState: () => null,
       boardPath: async () => { calls.board++; return 'PAGE'; },
       pageActions: (p) => p === 'PAGE' ? sc.buttons.map((l, i) => ({ label: l, cmd: 'c' + i })) : [],
-      pageRequest: async (cmd) => { calls.clicks.push(cmd); const i = +cmd.slice(1); if (sc.result !== undefined) env.Me.ClassId = sc.result; else if (sc.changes) env.Me.ClassId = sc.changes[sc.buttons[i]]; return 'AFTER'; },
+      pageRequest: async (cmd) => { calls.clicks.push(cmd); const i = +cmd.slice(1); if (sc.result !== undefined) env.Me.ClassId = sc.result; else if (sc.changes) env.Me.ClassId = sc.changes[sc.buttons[i]]; if (sc.sysAfter) env.sysMsgRing.push({ at: Date.now(), id: sc.sysAfter[0], text: sc.sysAfter[1] }); return 'AFTER'; },
+      // CCFUND-2026-10-27: adena (the price check), the refusal ring, the ask for adena (a giver pays at once when sc.payOnAsk)
+      itemCount: (id) => id === 57 ? (sc.adena === undefined ? 1e9 : sc.adena) : 0, sysMsgRing: (sc.sysBefore || []).map(x => ({ at: Date.now() - 60000, id: x[0], text: x[1] })),
+      dlgRefusal: (id, text) => Number(id) === 279 || /not enough adena/i.test(text) ? { key: 'adena', why: 'not enough adena', id, text } : null,
+      CONFIG: { leader: 'L' }, isLeader: () => false, teamNames: () => [], fundRules: () => ({}), fundGiversFor: () => ({ mode: 'collector', list: [] }), fundCollectorName: () => '',
+      App: { on: () => { }, emit: (ev, d) => { calls.emits = (calls.emits || []).concat([[ev, d]]); if (ev === 'swarm.ccfund' && sc.payOnAsk) sc.adena = (sc.adena || 0) + sc.payOnAsk; } },
     };
     const names = Object.keys(env);
     const f = new Function(...names, SB + HOST + '\nreturn { classChange, classPlanOf, classPlanPublic, classGateAllows };');
@@ -187,6 +192,17 @@ section('4) swarm.js classChange() (host part, mocked host calls)');
     ok('a half-written plans file: nobody changes (no board)', t.calls.board === 0);
     const g = (await run({ classId: 10, level: 25, plans: { parties: { P: { members: { X: { plan: [15, 16, 97], approved: true } } } } }, buttons: [], changes: {} })).api;
     ok('class-master / quest turn-in gate: allowed only for the approved next class', g.classGateAllows('').ok && g.classGateAllows('Cleric').ok && !g.classGateAllows('Human Wizard').ok);
+    // CCFUND-2026-10-27 (tester Vykaax, YellowNine -> Titan)
+    const AP = { parties: { P: { members: { X: { plan: [125, 128, 132], approved: true } } } } };
+    t = await run({ classId: 125, level: 45, plans: AP, buttons: BTN, changes: CH, adena: 50000, payOnAsk: 200000 });
+    ok('short of the 2nd-profession price (200,000): no click, asks L for adena, then changes', t.r.ok && t.me.ClassId === 128 && t.calls.clicks.join() === 'c3' && t.calls.board === 2
+      && (t.calls.emits || []).some(e => e[0] === 'swarm.ccfund' && e[1].amount === 200000 && e[1].short === 150000) && t.calls.notes.some(n => /Soul Breaker needs 200,000 adena \(I have 50,000, 150,000 short\) — asked L \(party leader\)/.test(n)), [t.r, t.calls.notes]);
+    t = await run({ classId: 125, level: 45, plans: AP, buttons: BTN, changes: CH, adena: 50000 });
+    ok('nobody pays: no click at all, the result says "needs 200,000 adena ... asked L"', !t.r.ok && !t.calls.clicks.length && /needs 200,000 adena .*asked L \(party leader\)/.test(t.r.msg), t.r);
+    t = await run({ classId: 125, level: 45, plans: AP, buttons: BTN, result: 125, sysBefore: [[46, '#46 You use Crush of Doom']] });
+    ok('class did not change: an unrelated "#46 You use Crush of Doom" is NOT shown as the server\'s answer', !t.r.ok && !/Crush of Doom/.test(t.r.msg) && /no reason from the server/.test(t.r.msg), t.r);
+    t = await run({ classId: 125, level: 45, plans: AP, buttons: BTN, result: 125, sysAfter: [279, '#279 You do not have enough adena.'], adena: 1e9 });
+    ok('refused with #279 after the click although I hold the known price: "not enough adena", one click, says where to set the price', !t.r.ok && t.calls.clicks.length === 1 && /not enough adena/.test(t.r.msg) && /classChangeCost/.test(t.r.msg), [t.r, t.calls.clicks]);
     const pub = g.classPlanPublic();
     ok('swarm_state.classPlan text + info', pub.text === 'ready Cleric' && pub.info.next === 15 && pub.info.approved === true, pub);
     finish();

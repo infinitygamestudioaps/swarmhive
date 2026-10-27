@@ -32,6 +32,7 @@
     buff: ['Rebuff', 'Get the free buffs from the Community Board again.', 'buffs'],
     classchange: ['Class change', 'Change class now (only characters with an approved class plan).', 'profession job'],
     park: ['Back to town', 'Everyone stops, goes to Giran and waits there for your next order.', 'stuck frozen not moving home town giran help wait'],
+    safespot: ['Park at the safe spot', 'The party walks out of every monster\'s reach and stands still until your next order (before closing the client).', 'safe spot stand still close client update aggro'],
     town: ['Free teleport to a town', 'The whole party teleports to a town with the server\'s free town command.', 'stuck teleport travel port gludio dion aden'],
     soe: ['Get out of here', 'Run out of the fight and go to town (use it when a fight goes badly).', 'escape flee retreat danger dying stuck'],
     goto: ['Walk to…', 'Walk to a place or an NPC.', 'go move travel'],
@@ -58,7 +59,7 @@
   const visible = (c) => !isSimple() || !!SIMPLE[c.id];
   const SIMPLE_GROUPS = [
     ['s_day', 'Everyday', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Action', ['start', 'stop', 'level', 'autostop', 'hunthere', 'supply', 'sell', 'buff', 'status']],
-    ['s_move', 'Move', 'icon/etc_scroll_of_return_i00', ['park', 'town', 'goto', 'soe', 'assist']],
+    ['s_move', 'Move', 'icon/etc_scroll_of_return_i00', ['park', 'safespot', 'town', 'goto', 'soe', 'assist']],
     ['s_gear', 'Gear and money', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Inventory', ['gearup', 'classchange', 'stash', 'collect']],
     ['s_adv', 'Adventures', 'icon/accessory_raid_master_i00', ['raid', 'raidhunt', 'kamaloka', 'missionstop', 'quest', 'queststop', 'dawn']],
     ['s_fix', 'Account and problems', 'L2UI_CT1/crop/Icon_DF_MenuWnd_Character', ['a_login', 'a_logout', 'b_unstuck']],

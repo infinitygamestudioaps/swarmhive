@@ -13,10 +13,10 @@ How a command travels (server.js `commandPlan`):
 - **@login / @logout**: MCP open_account (the character's config) / close_account.
 - Passwords are never read or set (any / command naming a password is refused); `/config save` never takes a file name (it would re-point the account).
 
-Counts: 194 catalog entries — 152 swarm (104 distinct !words = every !command swarm.js handles except the internal !ready),
+Counts: 195 catalog entries — 153 swarm (105 distinct !words = every !command swarm.js handles except the internal !ready),
 34 L2Swarm chat-box (32 distinct /words), 8 dashboard actions.
 Hidden (not offered in the command center, still typed by hand): return, clancreate, b_runmacro, farm, camp, go, raidold, career, escort, queststop_old, gear, shop, kamaold.
-Safety: 28 safe, 144 confirm, 19 destructive.
+Safety: 28 safe, 145 confirm, 19 destructive.
 
 ## Move / Travel
 
@@ -28,6 +28,7 @@ Safety: 28 safe, 144 confirm, 19 destructive.
 | `!goto {place}` | <place>: text | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Walk to…: Walk to an NPC, a saved place (!mark) or "x y". Party target = every member walks. A party leader stops leveling for it and waits at the place for the next order. |
 | `!goto npc {npc}` | <npc>: text | party leader acts, party follows | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Go to an NPC (anywhere)…: NPC atlas (Scripts/data/npc_atlas.json): the leader takes the party to the best matching NPC — .town to its town, the dungeon way in + room by room (floor teleporters on the way), or teleport near + walk — and opens its dialog. By id (#30487), name (Penelope), role (grocer, gatekeeper, warehouse, priest of dawn, class master, blacksmith … + optional town: "grocer dion") or what it offers ("teleport:Cruma Tower 2nd floor"). Add a character name at the end for that character alone (any case); a character target that is not the leader = that character alone. |
 | `!park[ {place}]` | <place>: park | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Park in Giran: Everyone stops, goes to Giran, walks the recorded route to the place and waits for orders (leveling stays paused). |
+| `!safespot` | — | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Park at the safe spot: The leader stops leveling; the team walks to the hunting spot's safe-spot route (spot editor) or, without one, to the nearest point out of every aggressive monster's range, and stands still (defend only, no new pulls) until your next order. Use it before closing the client for an update. Not inside a raid / instance (use Retreat there). |
 | `!soe` | — | every window that hears it | party, one character, all parties, clan, several characters | needs confirm | palette · party sheet + character sheet | Retreat (escape to town): Everyone (leader too) runs out of the fight and uses .townname (never a scroll). Inside a raid / Kamaloka it still retreats (your order wins) but warns in party chat first: raids are normally fought to the end. |
 | `!regroup` | — | party leader acts, party follows | party, all parties, clan | needs confirm | palette · party sheet | Regroup (home, restock, back): Old regroup: everyone home, restock, back together. In leader mode !level / !supply are the normal way. |
 | `!return` | — | party leader acts, party follows | party, all parties, clan | needs confirm | **hidden** in the command center (duplicate of Regroup in leader mode); typing it still works | Return (= Regroup in leader mode): In leader mode exactly the same as Regroup: the supply run in Giran, then back to leveling (the old "without going home first" only works with CONFIG.lead off). |

@@ -9274,6 +9274,20 @@ function safeRetreatStart(why) {
     return true;
   } catch (e) { logError('saferoute start', e); return false; }
 }
+// SAFESPOT-PURE-BEGIN (public tester Vykaax 2026-10-27: "An order to manually trigger the 'safe spot' routes. I've been parking them in town before
+// closing to update client but this would be more efficient"): !safespot = the leader stops leveling, the team walks to the spot's own safe-spot
+// route (custom_zones.json safeWaypoints) or, without one, to the nearest point out of every aggressive monster's aggro range (safeSpot()), and
+// everyone stands still, defend only (SAFER hold + lead pause), until the next order. No host calls in here: test_safespot_order.js.
+/** o = { inTown, raid, inst, route: [pts] | null, spot: { x, y } | null, danger: n } -> { act: 'refuse' | 'stay' | 'route' | 'walk', why } */
+function safeSpotPlan(o) {
+  const x = o || {};
+  if (x.raid || x.inst) return { act: 'refuse', why: 'inside a raid / instance — a raid is fought to the end (use !soe to retreat)' };
+  if (x.inTown) return { act: 'stay', why: 'already in a town (safe)' };
+  if (Array.isArray(x.route) && x.route.length) return { act: 'route', why: `the spot's safe-spot route (${x.route.length} point${x.route.length === 1 ? '' : 's'})` };
+  if (x.spot && isFinite(x.spot.x) && isFinite(x.spot.y)) return { act: 'walk', why: `the nearest point out of every aggressive monster's range (${Number(x.danger) || 0} near)` };
+  return { act: 'stay', why: Number(x.danger) > 0 ? 'no better point nearby — staying here' : 'no aggressive monster in range here — staying' };
+}
+// SAFESPOT-PURE-END
 App.on('swarm.saferoute', (e) => { try { if (e.source.characterName !== CONFIG.leader || isLeader()) return; const d = e.data || {}; if (d.why === 'shutdown') { SAFER.on = true; SAFER.why = 'shutdown'; SAFER.since = now(); } } catch (er) { } });
 const TRAP = { minMs: 480000, fails: 3, near: 200, gapMs: 900000 };
 const trapState = { x: 0, y: 0, since: 0, fails: 0, lastAt: 0 };
@@ -11043,15 +11057,26 @@ async function geoWalk(x, y, z, dist, timeoutMs, abort, onLeg) {
     r = { ok: true, points: h.points.concat([{ x: Math.round(x), y: Math.round(y), z: Math.round(z || Me.Z) }]), lengthUnits: h.length, recorded: true };
     note(`navigation: using the SAVED walk to ${h.boss} (${h.points.length} points, used ${h.uses || 0}x before)`);
   }
-  if (!r) r = await geoRoute(x, y, z, 20000);
+  // WALKFIGHT-2026-10-27 (b): a quest / own-combat walk goes around the live aggressive monsters (aggro_h5.json ranges, dangerMobs); no way
+  // around them = the plain route
+  const wfOn = typeof walkFightOn === 'function' && walkFightOn(), aggroAvoid = () => wfOn ? walkAvoidNow(x, y) : [];
+  if (!r) { const av = aggroAvoid(); r = await geoRoute(x, y, z, 20000, av.length ? av : undefined); if (av.length && r && !r.ok) { r = await geoRoute(x, y, z, 20000); } else if (av.length && r && r.ok) note(`navigation: route planned around ${av.length} aggressive monster(s)`); }
   if (!r) return null;
   if (!r.ok || !r.points || !r.points.length) { note(`navigation: no wall-free route to ${P(x, y)} (${r.reason || '?'})`); return 'noroute'; }   // the path finder ANSWERED: there is no way (not: service down)
   if (!r.recorded) note(`navigation: wall-aware route to ${P(x, y)} — ${r.points.length} waypoints, ~${r.lengthUnits} units`);
-  const until = now() + timeoutMs;
-  let walked = 0, replans = 0;
+  const wfTot = () => (typeof WFP !== 'undefined' ? WFP.total : 0), wfp0 = wfTot(), until = now() + timeoutMs, wfLeft = () => now() < until + (wfTot() - wfp0);   // WALKFIGHT: fight pauses do not eat the walk time
+  let walked = 0, replans = 0, fightReplans = 0;
   const avoid = [];
-  for (let i = 0; i < r.points.length && now() < until; i++) {
+  for (let i = 0; i < r.points.length && wfLeft(); i++) {
     if ((abort && abort()) || Me.IsDead) return false;
+    // WALKFIGHT (b): a fight moved me off the route: plan again from here (around the aggressive monsters still in sight), not back to the old line
+    if (wfOn && i > 0 && WFP.fights !== (r.wfFights === undefined ? WFP.fights : r.wfFights) && fightReplans < WALKFIGHT.replanMax) {
+      fightReplans++; geoCache.key = '';
+      const av = aggroAvoid().concat(avoid);
+      let r2 = await geoRoute(x, y, z, 20000, av.length ? av : undefined); if (av.length && r2 && !r2.ok) r2 = await geoRoute(x, y, z, 20000, avoid.length ? avoid : undefined);
+      if (r2 && r2.ok && r2.points && r2.points.length) { note(`navigation: fought on the way — new route from here (${r2.points.length} waypoints${av.length ? ', around ' + av.length + ' aggressive monster(s)' : ''})`); r = r2; r.wfFights = WFP.fights; i = -1; continue; }
+    }
+    if (wfOn && (r.wfFights === undefined || i === 0)) r.wfFights = WFP.fights;
     const p = r.points[i], last = i === r.points.length - 1, leg = Math.hypot(p.x - Me.X, p.y - Me.Y);
     // SWIM-2026-10-13: a waypoint the path finder marked swim (water zone, no geodata check on the server) at the swim speed (~50, not 110)
     const legMs = () => Math.max(6000, Math.min(until - now(), Math.hypot(p.x - Me.X, p.y - Me.Y) / (p.swim ? SWIM_SPEED : 110) * 1000 + 6000));
@@ -11253,6 +11278,98 @@ function navUserMove(x, y, z, tag) {
 }
 // MOVEOWN-HOST-END
 function standUp() { try { if (Me.IsSitting || rest.sitting) { RunCommand('/stand'); rest.sitting = false; } } catch (e) { } }
+// WALKFIGHT-PURE-BEGIN (no host calls in here: docs/plan/tools/test_quest_walk_fight.js runs this block in node)
+// WALK + FIGHT (WALKFIGHT-2026-10-27, tester Hero: solo Human Fighter Rakata lvl 8, quest "Head for the Hills!" around Kamael Village: "still runs away
+// from mob in combat and then returns and then runs away, it happens when character meets aggressive mob on the way and it is trying to fight back"
+// + "ran into whole bunch of aggressive mobs with that tactic and got himself killed"). Cause: a quest walk (walkTo -> street graph / geoWalk ->
+// walkDirect) never looked at fights. An aggressive monster hit him, self-defence started L2Swarm combat in a 1200 square around him (that square
+// picks every other monster in it too) while the walker kept re-issuing its leg every 4-10 s (and "side-stepped" because he stood still fighting):
+// walk away -> the combat drags him back -> walk away ..., each turn pulling the next aggressive pack. OWNFIGHT (2026-10-26) fixed the same for the
+// autolevel loop only. Now, during a quest walk (and a solo own-combat autolevel walk): a fight PAUSES the walk (no move orders) until it is over,
+// self-defence fights ONLY the monster on me (no combat square), and the route goes around the live aggressive monsters and is planned again from
+// where the fight left me. The escape rules stay first: escapes / flee / pull-back / raids / instances / team walk legs (RUNON) / healers keep
+// their own behaviour; a walk never stands longer than maxMs in fights (then it walks on and the solo escape rules decide).
+var WALKFIGHT = { hitMs: 5000, maxMs: 180000, near: 1200, comeR: 700, comeMaxMs: 8000, stepMs: 400, avoidMax: 16, avoidFar: 4500, replanMax: 4 };
+/** o = { ctx, escaping, fleeing, raid, inst, teamLeg, healer, swim, userRoute, hitAgo, atk: { alive, dist, skip } | null, ownFight, comes, comeMs, pausedMs }
+ *  -> { act: 'walk' | 'pause', kind, why } */
+function walkFightDecide(o, cfg) {
+  const c = cfg || WALKFIGHT, s = o || {}, W = (why) => ({ act: 'walk', kind: '', why }), Pz = (kind, why) => ({ act: 'pause', kind, why });
+  if (!s.ctx) return W('not a quest / own-combat walk');
+  if (s.escaping) return W('escaping (the escape rules come first)');
+  if (s.fleeing) return W('running away / pulling back');
+  if (s.raid || s.inst) return W('raid / instance: their own fight code');
+  if (s.teamLeg) return W('team walk leg: the team fights at the waypoint');
+  if (s.healer) return W('healer: never fights back, keeps walking');
+  if (s.swim) return W('swimming');
+  if (s.userRoute) return W('the user route hop');
+  if (Number(s.pausedMs) >= c.maxMs) return W('fought ' + Math.round(c.maxMs / 1000) + ' s on this walk: walking on');
+  const a = s.atk;
+  if (Number(s.hitAgo) < c.hitMs && a && a.alive && !a.skip && Number(a.dist) <= c.near) return Pz('hit', 'a monster hits me');
+  if (s.ownFight) return Pz('fight', 'I am fighting a monster');
+  if (s.comes && Number(s.comeMs || 0) < c.comeMaxMs) return Pz('comes', 'a monster comes at me');
+  return W('no fight');
+}
+/** the live aggressive monsters a walk should go around. dangers [{ x, y, z, r, id }] -> avoid circles [{ x, y, r }] (nearest first) without the
+ *  ones that hold me or the target (a hard block there = no route at all), skip = the one I fight (ids) */
+function walkAvoidPick(dangers, me, tgt, skip, cfg) {
+  const c = cfg || WALKFIGHT, sk = skip || [];
+  return (dangers || []).filter(d => d && isFinite(d.x) && isFinite(d.y) && !(sk.indexOf(d.id) >= 0))
+    .map(d => ({ d, dm: Math.hypot(d.x - me.x, d.y - me.y) }))
+    .filter(q => q.dm <= c.avoidFar && q.dm > q.d.r + 50 && !(tgt && Math.hypot(q.d.x - tgt.x, q.d.y - tgt.y) <= q.d.r + 150))
+    .sort((p, q) => p.dm - q.dm).slice(0, c.avoidMax).map(q => ({ x: Math.round(q.d.x), y: Math.round(q.d.y), r: Math.round(q.d.r) }));
+}
+/** hold a walk while a fight lasts. H = { now(), sleep(ms), sense() -> walkFightDecide input, stop(kind) (once, at the start of a pause), say(why),
+ *  abort(), pausedBefore } -> the ms paused (0 = no fight: walk on) */
+async function walkFightHold(H, cfg) {
+  const c = cfg || WALKFIGHT, t0 = H.now(); let paused = false, comeSince = 0;
+  for (;;) {
+    if (H.abort && H.abort()) break;
+    const s = H.sense() || {};
+    s.pausedMs = (Number(H.pausedBefore) || 0) + (H.now() - t0);
+    if (s.comes) { if (!comeSince) comeSince = H.now(); s.comeMs = H.now() - comeSince; } else comeSince = 0;
+    const d = walkFightDecide(s, c);
+    if (d.act !== 'pause') break;
+    if (!paused) { paused = true; try { H.stop(d.kind); } catch (e) { } try { H.say(d.why); } catch (e) { } }
+    await H.sleep(c.stepMs);
+  }
+  return paused ? Math.max(1, H.now() - t0) : 0;
+}
+// WALKFIGHT-PURE-END
+// WALKFIGHT host: WFP.live = walks that pause for fights right now, WFP.total = all ms paused (outer walks add it to their time limits), fights = count
+var WFP = { live: 0, total: 0, fights: 0, saidAt: 0, last: null };
+/** this walk pauses for fights: a quest walk (the quest engine / the old runner, not a party member) or a solo own-combat autolevel walk */
+function walkFightOn(forceDirect) {
+  try {
+    if (forceDirect === 'route') return false;
+    if (typeof questRun !== 'undefined' && questRun.active) return true;
+    return !!(soloChar() && state.mode === 'autolevel' && hiveOwnCombat());
+  } catch (e) { return false; }
+}
+function walkFightWalking() { return WFP.live > 0; }
+function walkFightSense() {
+  const t = now(), forMe = !lastAttackerOnMe.for, m = forMe ? mobById(lastAttackerOnMe.id) : null;
+  const dist = (q) => Math.hypot(num(q.X) - Me.X, num(q.Y) - Me.Y);
+  const skipMob = (q) => { try { return ignoredMobHard(q) || huntBlacklisted(q.objId) || isMarkedForOther(q); } catch (e) { return false; } };
+  let ownFight = false, comes = false;
+  try { const tg = Target; if (tg && tg.objId && !tg.IsDead && (Me.IsAttacking || Me.IsCasting)) { const tm = mobById(tg.objId); ownFight = !!(tm && !tm.IsDead && dist(tm) <= WALKFIGHT.near && !skipMob(tm)); } } catch (e) { }
+  try { const myId = num(Me.objId); snapMobs().forEach(q => { if (comes || q.IsDead || num(q.TargetObjId) !== myId || Math.abs(num(q.Z) - Me.Z) > 400 || skipMob(q)) return; if (Math.hypot(num(q.X) - Me.X, num(q.Y) - Me.Y) <= WALKFIGHT.comeR) comes = true; }); } catch (e) { }
+  let teamLeg = false; try { teamLeg = !!((typeof MTL !== 'undefined' && MTL && MTL.pts) || (memberRoute && memberRoute.mt) || routeHopActive || (typeof onRouteWalk === 'function' && onRouteWalk())); } catch (e) { }
+  return { ctx: true, escaping: !!(state.escaping || (typeof ESC !== 'undefined' && ESC.on)), fleeing: t < (state.fleeUntil || 0) || t < (state.disengageUntil || 0) || !!state.portPrep,
+    raid: inRaid() || !!(typeof raidSeq !== 'undefined' && raidSeq && raidSeq.running), inst: !!(inst.on || inKamaInstance()), teamLeg, healer: !!(isHealerRole() || healerMode || noMelee()),
+    swim: t < (state.swimPlanUntil || 0), hitAgo: forMe ? t - (lastAttackerOnMe.at || 0) : 1e9, atk: m ? { alive: !m.IsDead, dist: dist(m), skip: skipMob(m) } : null, ownFight, comes };
+}
+/** walkDirect's fight check: pause my walk g while a fight lasts -> ms paused (0 = walk on) */
+async function walkFightHoldH(g, abort, pausedBefore) {
+  const ms = await walkFightHold({ now, sleep, abort: () => !!((abort && abort()) || Me.IsDead), pausedBefore, sense: walkFightSense,
+    stop: (kind) => { navStop(g, true); try { if (!(Me.IsAttacking || Me.IsCasting)) Send.StopMove(); } catch (e) { } WFP.fights++; WFP.last = { kind, at: now(), x: Math.round(Me.X), y: Math.round(Me.Y) }; },
+    say: (why) => { if (now() - WFP.saidAt > 20000) { WFP.saidAt = now(); note(`walking: ${why} — the walk waits until the fight is over, then goes on from here`); } } });
+  if (ms > 0) WFP.total += ms;
+  return ms;
+}
+/** live aggressive monsters around me as avoid circles for the path finder (quest / own-combat walks only) */
+function walkAvoidNow(x, y) {
+  try { const skip = [num(lastAttackerOnMe.id)]; try { if (Target && Target.objId) skip.push(num(Target.objId)); } catch (e) { } return walkAvoidPick(dangerMobs().map(d => ({ id: num(d.id), x: num(d.x), y: num(d.y), z: num(d.z), r: num(d.r) })), { x: Me.X, y: Me.Y }, { x, y }, skip); } catch (e) { return []; }
+}
 async function walkDirect(x, y, z, dist, timeoutMs, abort, forceDirect) {
   if (forceDirect !== 'route' && typeof onRouteWalk === 'function' && onRouteWalk()) return false;   // walking the user's route: only its own hops move me
   // L2SWARM 3.8.17 MOVEMENT OWNER (2026-10-12): this walk owns the legs while it is the newest. A returned walk leaves no native walker
@@ -11260,13 +11377,15 @@ async function walkDirect(x, y, z, dist, timeoutMs, abort, forceDirect) {
   // timeout, cancel, death) - a left-over walker would stop me up to 15 s later in the middle of the caller's next action (attack walk,
   // NPC click). So it is stopped right here, before the caller acts. 3.8.14: no handle, a no-op (the walker walks on as before).
   const myMove = moveBeginH(forceDirect === 'route' ? 'route' : forceDirect ? 'direct' : 'walk', timeoutMs);
-  try { return await walkDirectRun(x, y, z, dist, timeoutMs, abort, forceDirect, myMove); }
-  finally { navStop(myMove, true); moveEnd(MOVE, myMove); }
+  const wf = typeof walkFightOn === 'function' && walkFightOn(forceDirect);   // WALKFIGHT-2026-10-27: a quest / own-combat walk pauses while I fight
+  if (wf) WFP.live++;
+  try { return await walkDirectRun(x, y, z, dist, timeoutMs, abort, forceDirect, myMove, wf); }
+  finally { if (wf) WFP.live = Math.max(0, WFP.live - 1); navStop(myMove, true); moveEnd(MOVE, myMove); }
 }
-async function walkDirectRun(x, y, z, dist, timeoutMs, abort, forceDirect, myMove) {
+async function walkDirectRun(x, y, z, dist, timeoutMs, abort, forceDirect, myMove, wf) {
   if (forceDirect !== 'route' && typeof onRouteWalk === 'function' && onRouteWalk()) return false;   // walking the user's route: only its own hops (marked 'route') move me
   if (Me.IsSitting || rest.sitting) { standUp(); await sleep(1200); }
-  const until = now() + timeoutMs;
+  let until = now() + timeoutMs, wfPaused = 0;          // WALKFIGHT: the time a fight paused this walk is added to its limit
   x = Math.round(x); y = Math.round(y); z = Math.round(z || Me.Z);
   const N = CONFIG.nav;
   dist = Math.max(dist || 0, (forceDirect || state.preciseWalk) ? 0 : N.arriveMin);   // præcis gang kun når vi skal helt hen til en NPC   // aldrig kræve perfekt position (pathfinderen stopper ofte lidt før)
@@ -11338,6 +11457,8 @@ async function walkDirectRun(x, y, z, dist, timeoutMs, abort, forceDirect, myMov
     if (state.pauseWalk && !mine) { await sleep(500); lastIssue = 0; stillSince = now(); continue; }   // !sell o.l. har karakteren
     // MOVEMENT OWNER (3.8.17, 2026-10-12): a newer walk (follow nudge, walk out of aggro, user move, ...) owns the legs: pause, then go on
     if (moveNewer(MOVE, myMove, now())) { await sleep(400); lastIssue = 0; stillSince = now(); lastPos = { x: Me.X, y: Me.Y }; continue; }
+    // WALKFIGHT-2026-10-27: a fight on a quest / own-combat walk = no move orders until it is over (self-defence fights it), then on from here
+    if (wf) { const pm = await walkFightHoldH(myMove, abort, wfPaused); if (pm > 0) { wfPaused += pm; until += pm; lastIssue = 0; stuckCount = 0; stillSince = now(); lastPos = { x: Me.X, y: Me.Y }; continue; } }
     if (!lastIssue || (now() - lastIssue > 10000 && !Me.IsMoving) || (hop && Math.hypot(hop.x - Me.X, hop.y - Me.Y) < N.hopReached)) issue();
     if (Math.hypot(Me.X - lastPos.x, Me.Y - lastPos.y) > 40) { lastPos = { x: Me.X, y: Me.Y }; stillSince = now(); }
     else if (now() - stillSince > 3000 && !Me.IsMoving && !state.preciseWalk && distTo(x, y) <= N.arriveSoft) {
@@ -15800,7 +15921,9 @@ function fundMayGive(name, to) { const r = Object.assign({}, fundRules(), { _col
 /** may this character receive? (its party switched on, its own target not 0) */
 function fundMayReceive(name) { const r = fundRules(), p = (r.parties || {})[teamOf(name)], c = (r.chars || {})[name]; if (p && p.receive === false) return false; if (c && Number(c.target) === 0 && c.target !== null && c.target !== '') return false; return true; }
 const fundInTown = (n) => { const lp = livePos[n]; if (!lp || now() - lp.at > 20000 || lp.IsDead) return false; try { return townKeyAt(lp.X, lp.Y) === FUND.town; } catch (e) { return false; } };
-const fundTarget = (n) => {
+// CCFUND-2026-10-27: an open class-change adena ask (ccAskOpen) raises that character's target while it lasts (a target of 0 = never stays 0)
+const fundTarget = (n) => { const b = fundTargetBase(n), a = typeof ccAskOpen === 'function' ? ccAskOpen(n) : 0; return a > 0 && b > 0 ? Math.max(b, a + FUND.slack) : b; };
+const fundTargetBase = (n) => {
   const r = fundRules(), c = (r.chars || {})[n], p = (r.parties || {})[teamOf(n)] || {}, d = r.defaults || {}, ok = (v) => v !== undefined && v !== null && v !== '' && isFinite(Number(v));
   if (c && ok(c.target)) return Number(c.target);                              // the character's own target (0 = never)
   if (typeof isAcademy === 'function' && isAcademy(n)) { try { return acadCfg().funds.target; } catch (e) { } }   // ACADEMY-2026-10-21: the kit money
@@ -15821,7 +15944,7 @@ function fundNeedy() {
     && now() - fundAdena[n].at < 20000 && fundAdena[n].a < fundTarget(n) - FUND.slack
     // a character that is (almost) broke is ALWAYS helped (user 2026-10-07 11:45: "Dagger1 has NO gear, no adena — why is this not done
     // automatically": the old 6 h per-character pause kept him at 100 adena after a round broken off by a restart); others every 30 min
-    && (fundAdena[n].a < FUND.brokeBelow || !(log[n] && now() - log[n] < FUND.everyMs)));
+    && (fundAdena[n].a < FUND.brokeBelow || ccAskOpen(n) > 0 /* CCFUND: a class change waits for it */ || !(log[n] && now() - log[n] < FUND.everyMs)));
 }
 // 2026-10-07 00:30: the first round took control from Tank1's own supply run (same priority) and he walked off to Helvetia mid-trade
 // ("trade closed" x2). Now: fundRound() runs at the END of the Giran regroup (after the supply run), and the 30 s fallback only when idle.
@@ -28020,7 +28143,8 @@ async function rgRecordedFloorHop(d, target, o, abort) {
 }
 async function rgWalk(d, target, o) {
   o = o || {};
-  const until = now() + (o.timeoutMs || 900000), abort = () => !!((o.abort && o.abort()) || Me.IsDead || now() > until);
+  const wfTot = () => (typeof WFP !== 'undefined' ? WFP.total : 0), wfp0 = wfTot();   // WALKFIGHT: fight pauses do not eat the walk time
+  const until = now() + (o.timeoutMs || 900000), abort = () => !!((o.abort && o.abort()) || Me.IsDead || now() > until + (wfTot() - wfp0));
   const here = () => ({ x: Me.X, y: Me.Y, z: Me.Z });
   const inside = () => { try { const w = dzFloor(dungeonRooms(), Me.X, Me.Y, Me.Z); return !!(w && w.d && w.d.name === d.name && w.fi >= 0); } catch (e) { return false; } };
   // RECFLOOR-2026-10-18 (owner: "to go from floor to floor use the recorded route, combined with the computed route: when you are at the floor
@@ -28130,6 +28254,9 @@ async function rgWalkInside(x, y, z, dist, until, abort) {
     const ta = townGraphAt(Me.X, Me.Y, Me.Z), tb = townGraphAt(x, y, isFinite(z) && z ? z : Me.Z);
     if (!ta || !tb || ta.key !== tb.key || ta.key === 'giran') return null;
     const TD = townGraphD(ta.key); if (!TD) return null;
+    // TOWNNEAR-2026-10-27 (tester Hero: "pathing in Kamael Village is super weird, be it inside the village or outside"): the street graph only
+    // when BOTH ends lie on it (a street point within 600 and 250 high); else the wall-aware path finder (outskirts, the lower level under a cliff)
+    if (!tgOnStreets(TD, { x: Me.X, y: Me.Y, z: Me.Z }) || !tgOnStreets(TD, { x, y, z: isFinite(z) && z ? z : Me.Z })) return null;
     const rt = await rgWalk(TD, { x, y, z: isFinite(z) && z ? z : Me.Z }, { abort, timeoutMs: Math.max(20000, until - now()), maxReplans: 2, label: 'street walk' });
     if (!rt.ok && /no walkable way|on no floor|no target/.test(String(rt.why || ''))) return null;
     return rt.ok || Math.hypot(x - Me.X, y - Me.Y) <= Math.max(dist || 0, 250);
@@ -28263,6 +28390,32 @@ async function rgRoomTrip(d, target, r, label) {
 // one-floor pseudo dungeon (isTown) and walked with the same rgPlan / rgWalk as the dungeons. Giran: the user's recorded routes (giranGo) stay
 // the preference for the places they cover; walkToInner inside Giran is NOT redirected (the Giran walking rule).
 const TGW = { idx: null, idxAt: 0, cache: {} };
+// TOWNNEAR-PURE-BEGIN (no host calls in here: docs/plan/tools/test_quest_walk_fight.js runs this block in node against the real town graphs)
+// TOWNNEAR-2026-10-27 (tester Hero, Kamael Village): a town graph's box reaches far beyond its streets (Kamael: the outskirts below the plateau
+// cliff, guards at z -744 / 48 while the village stands at ~400-800). rgLocate attached ANY point in the box to the nearest street (height check
+// 500, the cliff is ~400) with one straight "onto the hallway" step -> 41 % of the walkable Kamael box (gludio 14 %, dion 8 %) was walked as a
+// straight line up to 2500 long across cliffs / slopes, then along street curves. Now the street graph is used only for points ON it.
+var TOWNNEAR = { r: 600, dz: 250 };
+/** a town graph file ({ v: [[id,x,y,z,..]], e: [[a,b,len,cost,[x,y,z,...]]] }) -> the flat [x,y,z,...] list of every street centreline point */
+function tgCentrePts(o) { const out = []; ((o && o.v) || []).forEach(v => out.push(v[1], v[2], v[3])); ((o && o.e) || []).forEach(e => { const m = e[4] || []; for (let i = 0; i + 2 < m.length; i += 3) out.push(m[i], m[i + 1], m[i + 2]); }); return out; }
+/** true when a street centreline point lies within r (flat) and dz (height) of p */
+function tgNearPts(pts, p, cfg) {
+  const c = cfg || TOWNNEAR;
+  for (let i = 0; i + 2 < pts.length; i += 3) {
+    if (Math.abs(pts[i + 2] - p.z) > c.dz || Math.abs(pts[i] - p.x) > c.r || Math.abs(pts[i + 1] - p.y) > c.r) continue;
+    if (Math.hypot(pts[i] - p.x, pts[i + 1] - p.y) <= c.r) return true;
+  }
+  return false;
+}
+// TOWNNEAR-PURE-END
+/** host: is p on the street graph of town pseudo-dungeon TD (townGraphD)? true when unknown (no graph data / an error = the old rule) */
+function tgOnStreets(TD, p) {
+  try {
+    const g = TD && TD.floors && TD.floors[0] && TD.floors[0].graph; if (!g || !g.v || !g.v.length) return true;
+    if (!TD._tgPts) TD._tgPts = tgCentrePts(g);
+    return tgNearPts(TD._tgPts, { x: num(p.x), y: num(p.y), z: num(p.z) });
+  } catch (e) { return true; }
+}
 function townGraphIndex() {
   if (TGW.idx && now() - TGW.idxAt < 300000) return TGW.idx;
   TGW.idxAt = now();
@@ -28307,6 +28460,12 @@ async function townWalkToNpc(npc, opts) {
   if (!o.atlasFirst && (await giranRoute())) return true;
   const TD = townGraphD(town), f = townNpcFront(TD, npc);
   if (TD && f) {
+    // TOWNNEAR-2026-10-27: off the streets (the Kamael outskirts below the cliff, a hunting ground inside the town box) = the wall-aware path
+    // finder to the NPC's front (the street graph's straight "onto the hallway" step crossed cliffs); alone only, a team keeps the street walk
+    if (!(isLeader() && !o.solo && teamNames().length > 1) && !tgOnStreets(TD, { x: Me.X, y: Me.Y, z: Me.Z }) && Math.hypot(f.x - Me.X, f.y - Me.Y) > 400) {
+      try { if (await walkToInner(f.x, f.y, f.z, 120, 300000, o.abort)) return true; } catch (e) { logError('town walk off the streets', e); }
+      if (o.abort && o.abort()) return false;
+    }
     const r = await rgWalk(TD, { x: f.x, y: f.y, z: f.z }, { team: isLeader() && !o.solo, label: `${npc.name} (${town})`, abort: o.abort, maxReplans: 3, timeoutMs: 600000 });
     if (!r.ok) dungeonLog(`town walk to ${npc.name}: ${r.why}`);
     if (r.ok || Math.hypot(f.x - Me.X, f.y - Me.Y) < 300) return true;
@@ -34402,7 +34561,8 @@ setInterval(() => {
   else if (!memberScriptFight(mob)) {
     // STOPCALM-2026-10-23: no hunt runs = fight back ONLY this monster (L2Swarm combat in a 1200 square picked every other monster too and a
     // stopped party kept pulling for 5-10 min); a party that is ON and the monster close by keeps the old square
-    const how = defendHow({ stopped: stopCalmStopped(), ownCombat: hiveOwnCombat(), recHold: false, dist: Math.hypot(num(mob.X) - Me.X, num(mob.Y) - Me.Y) });
+    // WALKFIGHT-2026-10-27: on a quest / own-combat walk fight ONLY this monster (the 1200 combat square pulled every aggressive one around: Hero, Kamael)
+    const how = defendHow({ stopped: stopCalmStopped() || walkFightWalking(), ownCombat: hiveOwnCombat(), recHold: false, dist: Math.hypot(num(mob.X) - Me.X, num(mob.Y) - Me.Y) });
     if (how === 'script') {
       if (IsInCombat) stopCombatG();
       if (casterOwnsAttacks()) { try { if (!Target || num(Target.objId) !== num(mob.objId)) Send.Action(mob.objId); } catch (e) { } } else srvAttack(mob.objId);
@@ -34422,7 +34582,7 @@ setInterval(() => {
 const selfDef = { started: 0, idleSince: 0 };   // idleSince: STOPCALM stall watch
 setInterval(() => {
   if (!selfDef.started || inRaid() || state.mode === 'autolevel' || state.mode === 'raidclear') { selfDef.started = 0; return; }
-  if (now() - lastAttackerOnMe.at > 8000 && now() - selfDef.started > 5000) { try { if (IsInCombat) stopCombatG(); } catch (e) { } selfDef.started = 0; try { Send.StopMove(); } catch (e) { } note('self-defence: nothing hits me any more — standing still'); }
+  if (now() - lastAttackerOnMe.at > 8000 && now() - selfDef.started > 5000) { try { if (IsInCombat) stopCombatG(); } catch (e) { } selfDef.started = 0; const wk = walkFightWalking(); try { if (!wk) Send.StopMove(); } catch (e) { } note(wk ? 'self-defence: nothing hits me any more — the walk goes on' : 'self-defence: nothing hits me any more — standing still'); }   // WALKFIGHT: never stop the walk that resumed after the fight
 }, 2000);
 
 // Async-hjerteslag: en ren await-løkke. Stopper den, er scriptets async-kæder døde (supervisoren i Dashboard/server.js genstarter scriptet).
@@ -38799,7 +38959,7 @@ async function drainAndFrenzy(reengageBoss, opts) {
 // ORDERSTICK-PURE-BEGIN (no host calls in here: docs/plan/tools/test_order_stick.js runs this block in node)
 const ORDER_STICK = { tries: 5, maxMs: 600000, gapMs: [4000, 8000, 12000, 20000], waitMs: 5000, resumeMaxAgeMs: 1800000 };
 // commands that are a NEW order from the user / the leader: each one ends the order before it (its retry loop stops at once)
-const ORDER_CMDS = /^!(stop|start|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;   // ORDERQ (2026-10-13): + dawn (a user order: it supersedes the older one; = ORDER_RE in Dashboard/orderqueue.js)
+const ORDER_CMDS = /^!(stop|start|park|safespot|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;   // ORDERQ (2026-10-13): + dawn (a user order: it supersedes the older one; = ORDER_RE in Dashboard/orderqueue.js)
 function orderCmdIs(cmd) { return ORDER_CMDS.test(String(cmd || '').toLowerCase()); }
 /** does this command start a new order in MY window? '!goto npc <query> <character>' for another character does not replace my order */
 function orderNewFor(parts, me, roster) {
@@ -40733,9 +40893,120 @@ function classPlanRefusal(d) {
   return `no class change (${d.why || d.status})`;
 }
 
+// CCFUND-PURE-BEGIN (public tester Vykaax 2026-10-27, Destroyer "YellowNine" 76 -> Titan: "classchange: FAIL — class did not change — server:
+// #46 You use Crush of Doom" + "the bots don't carry enough adena and don't request it from leader"). Two faults: (1) the LAST system message of
+// any kind (his own skill cast) was shown as the server's answer; (2) the Professions page states the price ("The cost of changing the
+// profession: 200 000 <adena icon>": every saved 2nd-profession page, Logs/career_*.html) and nobody looked at it. Now: price from the page (else
+// fund_rules.json classChangeCost { "1"|"2"|"3": adena } / CC_COST_DEF), short = ask the party leader (party purse: the !purse give path) and
+// the party's adena givers (fund round: the receiver's target is raised while the ask is open), wait, then click; a failed click is explained
+// ONLY by the answer page and the refusal messages (dlgRefusal) that came AFTER my click. No host calls in here: test_classchange_fund.js.
+const CC_COST_DEF = { 1: null, 2: 200000, 3: null };   // null = unknown: the page says it (the 3rd-profession price was never seen on our server)
+const CC_FUND = { waitMs: 300000, asks: 2, pollMs: 3000 };
+function ccFmt(n) { return String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+/** a board page -> its visible text (tags, entities and the adena icon glyph dropped) */
+function ccText(html) { return String(html || '').replace(/<br\d?>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/&#\d+;/g, ' ').replace(/\s+/g, ' ').trim(); }
+/** the price the Career -> Professions page states -> { adena, items, raw } (items = a non-adena price in words) | null when it names none */
+function ccCostFromPage(html) {
+  const m = String(html || '').match(/cost of (?:changing )?(?:the )?profession[^:<]*:\s*((?:<[^>]*>|\s)*)([^<]*)/i);
+  if (!m) return null;
+  const raw = m[2].replace(/&#\d+;/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim();
+  if (!raw) return null;
+  if (/^(free|none|-|0)$/i.test(raw)) return { adena: 0, items: '', raw };
+  const n = raw.match(/^(\d{1,3}(?:[ .,]\d{3})+|\d+)\s*(adena)?$/i);
+  if (n) return { adena: Number(n[1].replace(/[ .,]/g, '')), items: '', raw };
+  return { adena: 0, items: raw, raw };
+}
+/** the configured price of a class change of this tier (1st/2nd/3rd profession): fund_rules.json classChangeCost wins; null = unknown */
+function ccKnownCost(rules, tier) {
+  const c = rules && rules.classChangeCost && typeof rules.classChangeCost === 'object' ? rules.classChangeCost[String(tier)] : undefined;
+  if (c !== undefined && c !== null && c !== '' && isFinite(Number(c)) && Number(c) >= 0) return Number(c);
+  const d = CC_COST_DEF[Number(tier)]; return d === undefined ? null : d;
+}
+const CC_PAGE_REFUSALS = [
+  { key: 'adena', re: /not (?:have )?enough adena|insufficient adena|lack of adena|need(?:s)? (?:more )?adena|not enough money/i, why: 'not enough adena' },
+  { key: 'items', re: /not (?:have )?enough (?:items|materials)|required items?|necessary items?/i, why: 'a required item is missing' },
+  { key: 'level', re: /level (?:is )?too low|must (?:obtain|reach|be(?: at least)?) (?:level )?\d+|\d+ level|level \d+ (?:is )?required/i, why: 'my level does not fit' },
+];
+/** why a click on a profession button did not change my class: refusal messages that came AFTER the click (refFn = dlgRefusal), then the answer
+ *  page. -> { key, why, from: 'server'|'page', text } | null (no reason given: NEVER an unrelated message such as "#46 You use <skill>") */
+function ccRefusal(html, msgs, since, refFn) {
+  for (const m of (Array.isArray(msgs) ? msgs : [])) {
+    if (!m || !(Number(m.at) >= Number(since || 0))) continue;
+    const r = typeof refFn === 'function' ? refFn(m.id, String(m.text || '').replace(/^#\d+\s*/, ''), { open: false }) : null;
+    if (r && r.key !== 'target') return { key: r.key, why: r.why, from: 'server', text: String(m.text || '') };
+  }
+  const t = ccText(html);
+  for (const R of CC_PAGE_REFUSALS) { const x = t.match(R.re); if (x) { const i = Math.max(0, x.index - 60); return { key: R.key, why: R.why, from: 'page', text: t.slice(i, x.index + x[0].length + 60).trim() }; } }
+  return null;
+}
+/** who was asked for adena, in words: my party leader (party purse) and the party's adena givers (fund_rules.json givers, collector) */
+function ccGiverLabel(o) {
+  o = o || {}; const out = [], me = String(o.me || '');
+  if (!o.isLeader && o.leader && o.leader !== me) out.push(String(o.leader) + ' (party leader)');
+  const g = o.givers || {}, mode = g.mode || 'collector';
+  if (mode === 'list') (g.list || []).filter(n => n && n !== me && n !== o.leader).forEach(n => out.push(String(n)));
+  else if (mode === 'collector' && o.collector && o.collector !== me && o.collector !== o.leader) out.push(String(o.collector) + ' (collector)');
+  else if (mode === 'auto') out.push('any rich party leader');
+  return out.length ? out.join(', ') : 'nobody (no party leader, and the party\'s adena givers are switched off: Adena page)';
+}
+/** the dashboard / party chat line: "Titan needs 5,000,000 adena (I have 1,200,000) — asked Tank1 (party leader)" */
+function ccNeedLine(cls, cost, have, asked) { return `${cls} needs ${ccFmt(cost)} adena (I have ${ccFmt(have)}, ${ccFmt(Math.max(0, cost - have))} short) — asked ${asked}`; }
+// CCFUND-PURE-END
+// CCFUND host: CCASK[name] = an open adena ask of a class changer (every window keeps it: a giver's fundTarget raises that character's target)
+const CCASK = {};
+function ccAskOpen(n) { const a = CCASK[n]; return a && a.until > now() ? Number(a.amount) || 0 : 0; }
+function ccCostRules() { try { return fundRules() || {}; } catch (e) { return {}; } }
+function ccAskedLabel() {
+  let givers = {}, col = ''; try { givers = fundGiversFor(fundRules(), teamOf(Me.Name)); } catch (e) { } try { col = fundCollectorName(); } catch (e) { }
+  return ccGiverLabel({ me: Me.Name, leader: CONFIG.leader, isLeader: isLeader(), givers, collector: col });
+}
+App.on('swarm.ccfund', (event) => {
+  try {
+    const d = event.data || {}; if (!d.name || !(Number(d.amount) > 0)) return;
+    CCASK[d.name] = { amount: Number(d.amount), until: Number(d.until) || now() + CC_FUND.waitMs, cls: String(d.cls || '') };
+    // my party member needs it: the leader pays through the party purse (the !purse give path; his keep-at-least stays)
+    if (!isLeader() || d.name === Me.Name || !teamNames().includes(d.name)) return;
+    (async () => {
+      const t0 = now(); while (PURSE.busy && now() - t0 < 60000) await sleep(2000);
+      note(`class change: ${d.name} needs ${ccFmt(d.short)} more adena for ${d.cls} — paying it from the party purse`, true);
+      const r = await purseRun(`class change ${d.name} -> ${d.cls}`, { only: [d.name], manual: true, amount: Number(d.short) || 0 });
+      note(`class change: ${d.name}: ${r.paid ? `paid ${ccFmt(r.total)} adena` : `not paid (${r.text || 'nothing to spare'})`}`.slice(0, 300), true);
+    })().catch(e => logError('ccfund pay', e));
+  } catch (e) { logError('ccfund', e); }
+});
+/** short of adena for a class change: ask (leader + givers), wait until I have `cost` -> { ok, msg } */
+async function ccWaitFunds(cls, cost, why) {
+  const asked = ccAskedLabel();
+  for (let ask = 1; ask <= CC_FUND.asks; ask++) {
+    const have = itemCount(57); if (have >= cost) return { ok: true, msg: '' };
+    const until = now() + CC_FUND.waitMs;
+    CCASK[Me.Name] = { amount: cost, until, cls };
+    const line = ccNeedLine(cls, cost, have, asked);
+    note(`class change: ${line}${ask > 1 ? ' (asked again)' : ''}`, true);
+    intent('class change', `waiting for adena: ${line}`);
+    App.emit('swarm.ccfund', { name: Me.Name, amount: cost, short: cost - have, cls, until, why: String(why || '') });
+    while (now() < until && state.running && itemCount(57) < cost) await sleep(CC_FUND.pollMs);
+    if (itemCount(57) >= cost) { delete CCASK[Me.Name]; note(`class change: got the adena (${ccFmt(itemCount(57))}) — changing to ${cls} now`, true); return { ok: true, msg: '' }; }
+  }
+  delete CCASK[Me.Name];
+  return { ok: false, msg: `${ccNeedLine(cls, cost, itemCount(57), asked)}; nothing came within ${Math.round(CC_FUND.waitMs * CC_FUND.asks / 60000)} min — give me the adena (party card: !purse give ${Me.Name} ${cost - itemCount(57)}) and order !classchange again` };
+}
 /** Community Board Career -> Professions: ONLY the next step of my APPROVED plan (cpDecide 'ready'), the button found by its exact
- *  name (cpPickButton, never a guess), and afterwards the new class id must be exactly that class. */
+ *  name (cpPickButton, never a guess), and afterwards the new class id must be exactly that class.
+ *  CCFUND-2026-10-27: short of the stated price (or refused for adena) = ask the leader / givers, wait, try again. */
 async function classChange(why) {
+  let r = await classChangeOnce(why);
+  for (let i = 0; i < 2 && r && r.needAdena; i++) {
+    const n = r.needAdena;
+    if (!(n.cost > 0)) return { ok: false, adena: true, msg: `${r.msg} — the price is not on the page (or more than I hold): set it in Scripts/data/fund_rules.json "classChangeCost": { "${n.tier}": <adena> } or give me adena, then !classchange again` };
+    const f = await ccWaitFunds(n.cls, n.cost, why);
+    if (!f.ok) return { ok: false, msg: f.msg, adena: true };
+    r = await classChangeOnce(`${why} (after the adena top-up)`);
+  }
+  if (r && r.needAdena) return { ok: false, msg: r.msg, adena: true };
+  return r;
+}
+async function classChangeOnce(why) {
   const tree = classTree();
   const d = classPlanOf(Me.Name);
   const cur = String(Me.ClassName || '');
@@ -40757,7 +41028,17 @@ async function classChange(why) {
     const acts = pageActions(page);
     const pick = cpPickButton(tree, nextId, acts.map(a => a.label));
     if (pick.idx < 0) { const msg = `${pick.why} — no click (saved Logs/career_${Me.Name}.html)`; intentDone('class change', false, msg); return { ok: false, msg }; }
+    // CCFUND-2026-10-27: the price the page states (else the configured one for this tier); short = no click, the caller asks for adena
+    const tier = (cpClass(tree, nextId) || {}).tier || 0, pc = ccCostFromPage(page);
+    const cost = pc && !pc.items ? pc.adena : ccKnownCost(ccCostRules(), tier);
+    if (pc && pc.items) note(`class change: the price of ${next} is "${pc.raw}" (not adena only) — trying the click; the server says what is missing`, true);
+    if (cost > 0 && itemCount(57) < cost) {
+      const msg = ccNeedLine(next, cost, itemCount(57), ccAskedLabel());
+      intentDone('class change', false, msg);
+      return { ok: false, msg, needAdena: { cls: next, cost, tier } };
+    }
     const hit = acts[pick.idx];
+    const tClick = now();
     let res = await pageRequest(hit.cmd, null, page);
     if (res) savePage('career_after', res);
     // a confirm step ("Yes"/"Confirm"/"Change") if the server asks
@@ -40766,12 +41047,16 @@ async function classChange(why) {
     await sleep(2000);
     const after = num(Me.ClassId);
     const ok = after === Number(nextId);
+    // CCFUND-2026-10-27: the reason ONLY from the answer page + refusal messages after my click (was: the last message of any kind, "#46 You use Crush of Doom")
+    const ref = ok || after !== before ? null : ccRefusal(res, sysMsgRing, tClick, dlgRefusal);
     const msg = ok ? `now ${Me.ClassName}` : after !== before
       ? `CLASS CHANGED TO THE WRONG CLASS: ${cpName(tree, after)} (${after}), the plan said ${next} (${nextId}) — tell the user (pages in Logs/career*_${Me.Name}.html)`
-      : `class did not change${lastSysMsg && now() - lastSysMsg.at < 10000 ? ' — server: ' + lastSysMsg.text : ''} (pages in Logs/career*_${Me.Name}.html)`;
+      : `class did not change — ${ref ? `${ref.why} (${ref.from === 'server' ? 'server: ' : 'page: '}${String(ref.text).slice(0, 140)})` : `no reason from the server${res ? ` (answer page: "${ccText(res).slice(0, 120)}")` : ' (no answer page)'}`} (pages in Logs/career*_${Me.Name}.html)`;
     intentDone('class change', ok, msg);
     note(`class change: ${cur} -> ${next}: ${msg}`, true);
     cpPubAt = 0;
+    // refused for adena although I hold the price we knew = that price is wrong / unknown (cost 0: the caller says where to set it, no blind retry)
+    if (ref && ref.key === 'adena') return { ok, msg, needAdena: { cls: next, cost: cost > 0 && cost > itemCount(57) ? cost : 0, tier } };
     return { ok, msg };
   } catch (e) { intentDone('class change', false, e.message); return { ok: false, msg: e.message }; }
   finally { state.bbsBusy = false; closeClientBoard(); }
@@ -42989,6 +43274,41 @@ function handleSay(charName, text, messageType) {
         const ord = parts[1] ? 0 : Math.max(0, [CONFIG.leader].concat(teamNames()).indexOf(Me.Name));   // at the shops (like !gearup / !stash: ten at once = "did not answer")
         (async () => { if (ord > 0) await sleep(ord * 7000); const r = await gearUpgrade('!upgrade'); note(`[gear] !upgrade: ${r.msg}`.slice(0, 400), true); })().catch(e => logError('!upgrade', e));
       }
+      break;
+    }
+    case '!safespot': {                          // SAFESPOT-2026-10-27 (tester Vykaax): the team walks to its safe spot and stands still (defend only) until the next order
+      if (parts[1] && String(parts[1]).toLowerCase() !== String(Me.Name).toLowerCase()) break;
+      const seq = orderState.seq, solo = !isLeader() && !!parts[1];
+      const plan = safeSpotPlan({ inTown: !!currentTownKey(), raid: inRaid(), inst: inst.on || kamaLive.on, route: safeRoutePts(), spot: safeSpot(), danger: dangerMobs().length });
+      if (plan.act === 'refuse') { note(`!safespot: not now — ${plan.why}`, isLeader() || solo); break; }
+      if (isLeader()) { abortRegroup('!safespot'); setLeadPaused(true, orderPauseTag('safespot')); }
+      autoLvl.stop = true; raidHunt.stop = true; state.mode = 'idle'; state.goPending = false;
+      Object.assign(SAFER, { on: true, since: now(), why: 'order', lastAt: now() });   // STOPCALM: defend only, no new pulls (healers keep healing)
+      if (isLeader() || solo) note(`!safespot: ${plan.why} — ${plan.act === 'stay' ? 'standing still here' : 'walking there, then standing still'} (defend only) until your next order; safe to close the client once everyone stands`, true);
+      (async () => {
+        const abort = () => Me.IsDead || orderState.seq !== seq;
+        if (isLeader() || solo) {
+          if (!(await orderWaitControl('!safespot', seq))) { if (SAFER.why === 'order' && orderState.seq === seq) SAFER.on = false; return; }
+          try {
+            for (let i = 0; i < 3 && !abort(); i++) {
+              let pts = null;
+              if (plan.act === 'route' && i === 0) { const r = safeRoutePts() || []; pts = r.slice(Math.max(0, nearestRouteIdx(r))); }
+              else if (plan.act !== 'stay' || i > 0) { const s = safeSpot(); if (s) pts = [{ x: s.x, y: s.y, z: Me.Z }]; }
+              if (!pts || !pts.length) break;                                   // out of every aggro range: done
+              setTask(`!safespot: walking to the safe spot (${pts.length} point${pts.length === 1 ? '' : 's'})`);
+              if (isLeader() && teamNames().length) await leadRouteWalk(pts, 'safe spot', abort, '', null, null);
+              else for (const p of pts) { if (abort()) break; await routeHop(p, abort); }
+              if (plan.act === 'stay') break;
+            }
+            try { Send.StopMove(); } catch (e) { }
+            if (!abort()) { setTask('at the safe spot — standing still, defend only (waiting for orders)'); note(`!safespot: standing at ${P(Me.X, Me.Y)}${dangerMobs().length ? ` (${dangerMobs().length} aggressive monster(s) still near: defending only)` : ''} — waiting for your next order`, true); }
+          } catch (e) { logError('!safespot', e); }
+          finally { orderRelease('!safespot', seq); }
+        }
+        // the hold: defend only until a newer order (members too: the leader's walk takes them along)
+        while (state.running && orderState.seq === seq) await sleep(2000);
+        if (SAFER.why === 'order') SAFER.on = false;
+      })().catch(e => logError('!safespot', e));
       break;
     }
     case '!park': {                              // !park [grocer|warehouse|weapons|start]: everyone stops, goes to Giran, walks the recorded route there and waits (user 2026-10-04 20:15)

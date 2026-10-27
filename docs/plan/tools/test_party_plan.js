@@ -64,7 +64,7 @@ check(RSP({ plan: Object.assign({}, si, { on: false }) }).act === 'level' && RSP
 
 // ---- 2) host part -----------------------------------------------------------------------------------------------------------------
 const HOST = blk('// ===== PARTY PLAN (PLAN-2026-10-13', '// ===== QUEST ENGINE (QENGINE-2026-10-12');
-const ORDER_RE = /^!(stop|start|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
+const ORDER_RE = /^!(stop|start|park|safespot|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
 function world(o) {
   const W = Object.assign({ t: Date.parse('2026-10-13T12:00:00Z'), files: {}, said: [], notes: [], sent: [], ev: [], intervals: [], timeouts: [], on: true, lvl: 10, town: '', paused: null, quests: {}, qeRuns: [], cls: {}, levels: {}, team: ['Bishop1', 'Necro1'], spotSeen: [], leadCalls: 0, runSets: [] }, o || {});
   const ROOTW = 'C:\\SW';

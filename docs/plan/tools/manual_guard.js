@@ -19,6 +19,7 @@ const USER_FIELDS = {
   zone: ['name', 'x', 'y', 'z', 'radius', 'poly', 'zmap', 'levelMin', 'levelMax', 'enabled', 'note', 'edited', 'manual'],
   area: ['name', 'poly', 'center', 'x', 'y', 'z', 'radius', 'zRange', 'levelRange', 'levelMin', 'levelMax', 'suitsPartyLevel', 'polyInfo', 'enabled', 'notes', 'note', 'area', 'edited', 'manual'],
   subarea: ['areas', 'center', 'radius', 'edited', 'manual'],
+  questplan: ['override', 'edited', 'manual'],   // QUESTPLAN-2026-10-27: Scripts/data/quest_plans/<id>.json (docs/plan/tools/quest_plan_build.js)
 };
 const isManual = (o) => !!(o && (o.manual === true || (o.edited && o.edited.by === 'dashboard')));
 
@@ -140,7 +141,13 @@ function mergeAreas(data, disk) {
   }));
   return n;
 }
-const MERGE = { room: mergeRooms, spot: mergeSpots, subarea: mergeSubareas, area: mergeAreas };
+/** QUESTPLAN-2026-10-27: one quest plan { ..., override, manual, edited }: the override section on disk (dashboard / phase-2 fixers) always wins */
+function mergeQuestPlan(data, disk) {
+  if (!data || !disk || typeof disk !== 'object') return 0;
+  let n = 0; USER_FIELDS.questplan.forEach(k => { if (disk[k] !== undefined) { data[k] = JSON.parse(JSON.stringify(disk[k])); n++; } });
+  return disk.override && Object.keys((disk.override && disk.override.steps) || {}).length + (disk.override.skip || disk.override.manual ? 1 : 0) ? 1 : 0;
+}
+const MERGE = { room: mergeRooms, spot: mergeSpots, subarea: mergeSubareas, area: mergeAreas, questplan: mergeQuestPlan };
 
 /**
  * For the generator tools: write `data` to `file` (format of the file on disk kept: BOM, indent, compact) under the lock, after copying
@@ -162,4 +169,4 @@ function writeGuarded(file, data, kind, opt = {}) {
 }
 
 module.exports = { USER_FIELDS, isManual, readText, formatOf, stringifyLike, readJson, atomicWrite, withLock, saveHistory, copyFields,
-  mergeRooms, mergeSpots, mergeSubareas, mergeAreas, writeGuarded, sleepSync };
+  mergeRooms, mergeSpots, mergeSubareas, mergeAreas, mergeQuestPlan, writeGuarded, sleepSync };

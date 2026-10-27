@@ -100,7 +100,7 @@ Each picture shows one category unfolded. The [command reference](../05-commands
 
 | Category | Typical commands | Picture |
 |---|---|---|
-| **Move / Travel** | Town teleport, Gatekeeper teleport, Walk to..., Park in Giran, Retreat, Regroup / Return, saved places, L2Swarm move / run / walk, `/unstuck` | ![Move](../img/cmd_cat_move_phone.png) |
+| **Move / Travel** | Town teleport, Gatekeeper teleport, Walk to..., Park in Giran, Park at the safe spot, Retreat, Regroup / Return, saved places, L2Swarm move / run / walk, `/unstuck` | ![Move](../img/cmd_cat_move_phone.png) |
 | **Fight** | STOP everything, Kill a monster, Help a character / stop helping, Rebuff, Auto-rebuff, Fight in a .zmap zone, L2Swarm attack / target / combat / sit / stand | ![Fight](../img/cmd_cat_fight_phone.png) |
 | **Party** | Status report, Collect adena, Cabinet setting, party info, invite, leave, social actions, ignore, trade | ![Party](../img/cmd_cat_party_phone.png) |
 | **Supply / Items** | Supply run, Restock, Sell, Better gear, Gear plan, Upgrade, Enchant, Dyes, Shop scan, soul crystals, L2Swarm buy / sell / click link | ![Supply](../img/cmd_cat_supply_phone.png) |
@@ -323,3 +323,7 @@ plans) an order; `GET /api/commands` returns the catalog, the parties and the cl
 - If the dashboard server is older than the page (it does not answer `/api/commands`), the command center still sends `!` commands one
   target at a time; `/` and `@` commands then fail with "the dashboard server runs the old code: restart Dashboard/server.js ...".
 - Recent orders, open categories and the last target are kept in this browser only.
+- **Park at the safe spot** (`!safespot`, Move sheet): the leader stops leveling, the party walks to the hunting spot's safe-spot route
+  (drawn in the spot editor) or, without one, to the nearest point out of every aggressive monster's range, and everyone stands still
+  (defend only, no new pulls) until your next order. Use it instead of parking in town before you close the client for an update. It is
+  refused inside a raid or an instance (use Retreat there); Start or any other order ends the hold.

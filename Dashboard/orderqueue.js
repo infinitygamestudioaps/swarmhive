@@ -27,7 +27,7 @@ const fs = require('fs'), path = require('path');
 const OQD = { ttlMs: 600000, safeTtlMs: 120000, stopTtlMs: 300000, freshMs: 45000, backoff: [5000, 15000, 45000, 135000, 405000],
   keepDoneMs: 2 * 3600e3, keepMaxMs: 24 * 3600e3, maxPerFile: 60, maxIndex: 300, scanMs: 30000 };
 // = ORDER_CMDS in Scripts_dev/swarm.js (docs/plan/tools/test_order_queue.js checks they are the same)
-const ORDER_RE = /^!(stop|start|park|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
+const ORDER_RE = /^!(stop|start|park|safespot|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;
 const TERMINAL = new Set(['done', 'failed', 'superseded', 'expired', 'cancelled']);
 const TAKEN = new Set(['acknowledged', 'running', 'done', 'failed', 'superseded', 'expired', 'cancelled']);
 const lc = (s) => String(s == null ? '' : s).trim().toLowerCase();
